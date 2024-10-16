@@ -1,3 +1,4 @@
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
@@ -5,7 +6,6 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
   const { Id } = useParams();
@@ -77,20 +77,20 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
 
             }
           }} />
-          <Tooltip title={'Enter the reason for exam unpublish.'}>
+        <Tooltip title={'Enter the reason for exam unpublish.'}>
 
-            <QuestionMarkIcon
-              sx={{
-                color: 'white',
-                // background:'white',
-                borderRadius: '7px',
-                position: 'absolute',
-                top: '4px',
-                right: '35px',
-                cursor: 'pointer',
-                '&:hover': { backgroundColor: grey[600] }
-              }} />
-          </Tooltip> 
+          <QuestionMarkIcon
+            sx={{
+              color: 'white',
+              // background:'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '4px',
+              right: '35px',
+              cursor: 'pointer',
+              '&:hover': { backgroundColor: grey[600] }
+            }} />
+        </Tooltip>
       </DialogTitle>
       <DialogContent>
 
@@ -100,23 +100,26 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
           </h1>
           <Grid container spacing={0} alignItems="center">
             <Grid item xs={6}>
-              <TextField fullWidth label={'Exam'}
-                sx={{ width: '95%', bgcolor: '#f0f0f0' }}
-                value={ExamName}
-              />
+              <Tooltip title={ExamName || 'No Exam Name Available'}>
+                <TextField fullWidth label={'Exam'}
+                  sx={{ width: '95%', bgcolor: '#f0f0f0' }}
+                  value={ExamName}
+                /></Tooltip>
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Class Teacher '}
-                sx={{ width: '100%', bgcolor: '#f0f0f0' }}
-                value={TeacherName} />
+              <Tooltip title={TeacherName || 'No Teacher Name Available'}>
+                <TextField fullWidth label={'Class Teacher '}
+                  sx={{ width: '100%', bgcolor: '#f0f0f0' }}
+                  value={TeacherName} />
+              </Tooltip>
             </Grid>
             <br></br>
             <Grid item xs={12} marginTop={2}>
-              <ResizableTextField fullWidth 
-              // label={'Reason For Unpublish  :'}
-              label={<>
-                Reason for Unpublish  <span style={{ color: 'red' }}>*</span>
-            </>}
+              <ResizableTextField fullWidth
+                // label={'Reason For Unpublish  :'}
+                label={<>
+                  Reason for Unpublish  <span style={{ color: 'red' }}>*</span>
+                </>}
                 multiline
                 // rows={3}
                 value={Reason}
