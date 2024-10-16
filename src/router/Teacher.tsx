@@ -271,6 +271,9 @@ const ExamScheduleBasescreen = Loader(
 const ReceivedSMSOwn = Loader(
   lazy(() => import('src/components/Student/SMSCenter/RecievedSms'))
 );
+const StudentRegistrationForms = Loader(
+  lazy(() => import('src/components/Students/StudentRegistrationForms'))
+);
 
 const teacherRoutes = [
   {
@@ -281,6 +284,10 @@ const teacherRoutes = [
   {
     path: 'LeaveDetails',
     element: <LeaveDetailsBaseScreen />
+  },
+  {
+    path: 'StudentRegistrationForms',
+    element: <StudentRegistrationForms />
   },
   {
     path: 'AddLeaveDetails/:LeaveDId/:ParamsUserId',
