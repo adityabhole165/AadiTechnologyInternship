@@ -243,24 +243,24 @@ const PrePrimaryResult = () => {
     return className;
   };
   const [selectedTeachers, setSelectedTeachers] = useState({});
-  
+
 
   const getClassName1 = () => {
     let className = '';
-  
-   
+
+
     for (const item of PrePrimaryClassTeacher) {
       const comparisonValue = PreprimaryFullAccess === 'Y' ? Number(SelectTeacher) : asStandardDivisionId;
       if (item.Value === String(comparisonValue)) {
         className = item.Name;
-        break; 
+        break;
       }
     }
-  
+
     return className;
   };
-  
-  console.log(selectedTeachers,"selectedTeachers",SelectTeacher,"__",PrePrimaryClassTeacher);
+
+  console.log(selectedTeachers, "selectedTeachers", SelectTeacher, "__", PrePrimaryClassTeacher);
 
   const ClickOk = () => {
     if (Reason === '') {
@@ -497,6 +497,7 @@ const PrePrimaryResult = () => {
             </h1>
             <Grid container spacing={0} alignItems="center">
               <Grid item xs={6}>
+              <Tooltip title={getClassName()} >
                 <TextField fullWidth label={'Assessment'}
                   sx={{ width: '95%', bgcolor: '#f0f0f0' }}
                   InputLabelProps={{ shrink: true }}
@@ -505,16 +506,22 @@ const PrePrimaryResult = () => {
                   }}
                   value={getClassName()}
                 />
+                </Tooltip>
               </Grid>
+
+
               <Grid item xs={6}>
-                <TextField fullWidth label={'Class Teacher '}
-                  sx={{ width: '100%', bgcolor: '#f0f0f0' }}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  InputLabelProps={{ shrink: true }}
-                  value={getClassName1()} />
+                <Tooltip title={getClassName1()} >
+                  <TextField fullWidth label={'Class Teacher '}
+                    sx={{ width: '100%', bgcolor: '#f0f0f0' }}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    InputLabelProps={{ shrink: true }}
+                    value={getClassName1()} />
+                </Tooltip>
               </Grid>
+
               <br></br>
               <Grid item xs={12} marginTop={2}>
                 {/* <Typography variant={"h4"} sx={{ mb: 1 }}>
