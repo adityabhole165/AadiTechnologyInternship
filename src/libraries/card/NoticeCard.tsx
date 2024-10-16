@@ -35,7 +35,7 @@ const NoticeCard = ({ itemList, downloadNotice, clickSingle }) => {
                     />
                 </Grid>
             </Grid> */}
-            <Box sx={{backgroundColor:'white'}}>
+            <Box sx={{ backgroundColor: 'white' }}>
                 <TableContainer component={Box} >
                     <Table aria-label="simple table" sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                         <TableHead>
@@ -55,7 +55,7 @@ const NoticeCard = ({ itemList, downloadNotice, clickSingle }) => {
                         <TableBody >
                             {itemList.map((item, index) => {
                                 return (
-                                    <TableRow onClick={() => { clickCard(item.linkPath) }}>
+                                    <TableRow key={index} onClick={() => { clickCard(item.linkPath) }}>
                                         <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>
                                             {item.header}
                                         </TableCell>
