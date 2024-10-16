@@ -262,16 +262,16 @@ function SelectSchool() {
     localStorage.setItem('RoleName', result.RoleName);
 
     const url = localStorage.getItem('url');
-
-    if (url != null && url !== '/') {
-      // navigate(url);
-    } else if (
-      result.RoleName == 'Student' ||
-      result.RoleName == 'Teacher' ||
-      result.RoleName == 'Admin Staff'
-    ) {
-      navigate('/extended-sidebar/landing/landing');
-    }
+    navigate('/extended-sidebar/landing/landing');
+    // if (url != null && url !== '/') {
+    //   // navigate(url);
+    // } else if (
+    //   result.RoleName == 'Student' ||
+    //   result.RoleName == 'Teacher' ||
+    //   result.RoleName == 'Admin Staff'
+    // ) {
+    //   navigate('/extended-sidebar/landing/landing');
+    // }
     //  deviceRegistrationFCM(result.Id)
   };
 
