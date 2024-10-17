@@ -26,11 +26,11 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
                     <ListStyle color={item.IsImageNotice ? 'secondary' : 'primary'}
                         sx={{ display: 'flex', alignItems: 'center' }}>
                         <Typography sx={{ textDecoration: item.isActive ? "line-through" : "" }}
-                            onClick={() => { downloadNotice(item.FileName, item.IsImageNotice) }}
+                            onClick={() => { downloadNotice(item.FileName, item.IsText, item.Content) }}
                         >{item.header}</Typography>
                         <div style={{ flex: '1' }}></div>
                         {item.FileName != "" ?
-                            <FileDownloadOutlinedIcon onClick={() => { downloadNotice(item.FileName, item.IsImageNotice) }} /> :
+                            <FileDownloadOutlinedIcon onClick={() => { downloadNotice(item.FileName, item.IsText, item.Content) }} /> :
                             <FileDownloadOutlinedIcon sx={{ color: 'white' }} />
 
                         }

@@ -6,6 +6,7 @@ import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoo
 import { RootState } from 'src/store';
 import CardNotice from './CardNotice';
 
+
 const ActiveSchoolNotice = ({ clickOpen }) => {
   const dispatch = useDispatch();
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -33,6 +34,7 @@ const ActiveSchoolNotice = ({ clickOpen }) => {
           linkPath: '/Common/ViewActiveNotice/' + item.Id,
           FileName: item.FileName,
           IsText: item.IsText,
+          Content: item.Content,
           IsImageNotice: item.IsImageNotice,
           isActive: false
         };
@@ -46,8 +48,8 @@ const ActiveSchoolNotice = ({ clickOpen }) => {
     };
     dispatch(getAllActiveNotices(ActiveNoticesBody));
   }, []);
-  const downloadNotice = (FileName, IsImageNotice) => {
-    clickOpen({ FileName: FileName, IsImageNotice: IsImageNotice })
+  const downloadNotice = (FileName, IsText, Content) => {
+    clickOpen({ FileName: FileName, IsText: IsText, Content: Content })
     // if (!IsImageNotice) {
     //   window.open(localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/School Notices/' + FileName)
     // } else {

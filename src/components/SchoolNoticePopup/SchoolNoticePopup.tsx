@@ -36,7 +36,9 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
 
     const [openDetailDialog, setOpenDetailDialog] = useState(false);
     const [selectedLink, setSelectedLink] = useState('');
-    const [contentType, setContentType] = useState('');  // New state for content type
+    // const [contentType, setContentType] = useState('');  // New state for content type
+    const [selectedContent, setSelectedContent] = useState(''); // Stores either URL or text content
+    const [contentType, setContentType] = useState('');  // Tracks if it's 'text' or 'image'
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const RoleId = sessionStorage.getItem('RoleId');
@@ -70,7 +72,20 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
         console.log(Value, "value");
         (Value)
         setOpenDetailDialog(true);
+        handleLinkClick1(Value);
     }
+
+    const handleLinkClick1 = (item: any) => {
+        const link = item.FileName ? url + item.FileName : item.Content;
+
+        if (link) {
+
+            setSelectedLink(link);
+            const isImage = /\.(pdf|jpg|jpeg|png|gif|bmp)$/i.test(link);
+            setContentType(isImage ? 'image' : 'text');
+            setOpenDetailDialog(true);
+        }
+    };
     const handleLinkClick = (item: any) => {
         const link = item.Text6 ? url + item.Text6 : item.Text7;
 
