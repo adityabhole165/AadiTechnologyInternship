@@ -126,7 +126,7 @@ const MCForm = ({
           /> */}
             <SearchableDropdown
               ItemList={MonthYearList}
-              onChange={clickAY}
+              onChange={clickMY}
               label={'Month'}
               defaultValue={monthYear}
               size={"medium"}
@@ -143,7 +143,7 @@ const MCForm = ({
             /> */}
               <SearchableDropdown
                 ItemList={operatorArray}
-                onChange={clickAY}
+                onChange={clickOperator}
                 label={'Operator'}
                 defaultValue={operator}
                 size={"medium"}
