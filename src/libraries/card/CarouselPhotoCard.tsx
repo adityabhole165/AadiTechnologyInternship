@@ -7,49 +7,55 @@ const CarouselPhotoCard = ({ item, IsPath, onImageClick, largeImage = false, cur
             onImageClick(IsPath ? item.AlbumID : item.AlbumID);
         }
     };
-    const avatarSize = largeImage ? { height: '450px', width: 'Auto' } : { height: '220px', width: '250px' };
+
+    // Dynamic avatar size based on `largeImage` prop
+    const avatarSize = largeImage ? { height: '450px', width: '440px' } : { height: '220px', width: '260px' };
 
     return (
         <>
             <Box sx={{ p: 0 }}>
-                <Typography sx={{
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    padding: '4px 8px',
-                }} variant="h4" textAlign={'center'} >{item.Header}</Typography>
-                <Box>
+                <Typography
+                    sx={{
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                         padding: '4px 8px ',
+                    }}
+                    variant="h4"
+                    textAlign="center"
+                >
+                    {item.Header}
+                </Typography>
+                <Box display="flex" justifyContent="center" alignItems="center">
                     <Avatar
-                        alt="user.name"
-                        src={IsPath ? item.Text2 :
-                            item.Text2 != 0
-                                ? `data:image/png;base64,${item.Text2}`
-                                : '/imges/defualtUser.jpg'
+                        alt="Image"
+                        src={
+                            IsPath ? item.Text2 :
+                                item.Text2 !== 0
+                                    ? `data:image/png;base64,${item.Text2}`
+                                    : '/imges/defaultUser.jpg'
                         }
                         sx={{
+                            ml:1,
                             mt: '10px',
                             backgroundColor: '#90caf9',
-                            width: '100%',
-                            height: 'auto',
+                            width: avatarSize.width,
+                            height: avatarSize.height,
                             border: (theme) => `1px solid ${theme.palette.grey[600]}`,
-                            ...avatarSize
                         }}
                         variant="rounded"
-                        aria-label="add"
                         onClick={handleClick}
                     />
+                </Box>
 
-                    <Typography variant="body2" textAlign={'center'} sx={{ m: 1 }}>
-                        {item.Text1}
+                <Typography variant="body2" textAlign="center" sx={{ m: 1 }}>
+                    {item.Text1}
+                </Typography>
+
+                {largeImage && (
+                    <Typography variant="body2" sx={{ textAlign: 'center', mt: 1 }}>
+                        {`${currentIndex + 1} of ${totalImages}`}
                     </Typography>
-
-                </Box>
-                <Box >
-                    {largeImage && (
-                        <Typography variant="body2" sx={{ mt: 0 }}>
-                            {`${currentIndex + 1} of ${totalImages}`}
-                        </Typography>
-                    )}
-                </Box>
+                )}
             </Box>
         </>
     );

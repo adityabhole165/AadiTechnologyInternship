@@ -1,31 +1,23 @@
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
-import { Grid } from '@mui/material';
+import { Grid, IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import CarouselPhotoCard from './CarouselPhotoCard';
+
 const CarouselPhoto = ({ itemlist, IsPath = false, onImageClick, largeImage = false, isSlideshowRunning = true }) => {
   const [index, setIndex] = useState(0);
 
   const arrowClick = (value) => {
     const maxlength = itemlist.length - 1;
-    const min = 0;
     if (value === -1 && index === 0) {
       setIndex(maxlength);
     } else if (value === 1 && index === maxlength) {
-      setIndex(min);
+      setIndex(0);
     } else {
       setIndex(index + value);
     }
   };
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIndex((prevIndex) =>
-  //       prevIndex === itemlist.length - 1 ? 0 : prevIndex + 1
-  //     );
-  //   }, 2000);
-  //   return () => clearTimeout(timer);
-  // }, [index]);
-  
+
   useEffect(() => {
     let timer;
     if (isSlideshowRunning) {
@@ -33,7 +25,7 @@ const CarouselPhoto = ({ itemlist, IsPath = false, onImageClick, largeImage = fa
         setIndex((prevIndex) =>
           prevIndex === itemlist.length - 1 ? 0 : prevIndex + 1
         );
-      }, 2000);
+      }, 1000);
     }
 
     return () => {
@@ -44,17 +36,28 @@ const CarouselPhoto = ({ itemlist, IsPath = false, onImageClick, largeImage = fa
   return (
     <div>
       <Grid container alignItems="center">
-        <Grid item xs={1}>
-          <ArrowLeft onClick={() => arrowClick(-1)} />
+        <Grid item xs={1} sx={{mr:0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+          <IconButton  onClick={() => arrowClick(-1)}>
+            <ArrowLeft />
+          </IconButton>
+
         </Grid>
         <Grid item xs={10}>
-          <CarouselPhotoCard item={itemlist[index]} 
-          IsPath={IsPath} onImageClick={onImageClick} largeImage={largeImage}
+          <CarouselPhotoCard
+            item={itemlist[index]}
+            IsPath={IsPath}
+            onImageClick={onImageClick}
+            largeImage={largeImage}
             currentIndex={index}
-            totalImages={itemlist.length} />
+            totalImages={itemlist.length}
+          />
         </Grid>
-        <Grid item xs={1} pl={0.4}> 
-          <ArrowRight onClick={() => arrowClick(1)} />
+        <Grid item xs={1}>
+
+          <IconButton sx={{ml:1, display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+            <ArrowRight  onClick={() => arrowClick(1)} />
+          </IconButton>
         </Grid>
       </Grid>
     </div>

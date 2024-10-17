@@ -210,7 +210,7 @@ function PhotoCardDash() {
   };
 
   return (
-    <Box sx={{ height: '382px', backgroundColor: 'white', p: 1 }}>
+    <Box sx={{ height: '382px', backgroundColor: 'white' }}>
       <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
         <Grid item xs={12}>
           <Header Title="Photo Albums" />
@@ -232,9 +232,14 @@ function PhotoCardDash() {
 
       {/* Photo Album Display */}
       <div>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', }}>
           {PhotoAlbum.length > 0 ? (
-            <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false} isSlideshowRunning={undefined} />
+            <CarouselPhoto 
+            itemlist={PhotoAlbum1}
+             IsPath={true}
+              onImageClick={handleImageClick} 
+              largeImage={false} 
+              isSlideshowRunning={undefined} />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
             <b>No record found.</b>
@@ -272,9 +277,9 @@ function PhotoCardDash() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            flexDirection: 'column',
+            // flexDirection: 'column',
             mt: '20px',
-            overflow: 'hidden'
+            // overflow: 'hidden'
           }}>
 
             <CarouselPhoto
