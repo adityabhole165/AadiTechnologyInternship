@@ -15,6 +15,7 @@ function CardMessage({
   header,
   text1,
   text2,
+  text3,
   DetailsId,
   ActiveTab,
   IsRead,
@@ -97,6 +98,16 @@ function CardMessage({
               whiteSpace: 'nowrap'
             }}
           >
+            {text3}
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}
+          >
             {text1}
           </Typography>
         </Grid>
@@ -152,6 +163,7 @@ function CardMessage({
                             <Card15
                               text1={item.ReadingDateTime}
                               text2={item.UserName}
+                              text3={item.CcUserName}
                             />
                           </div>
                         ))}
@@ -169,7 +181,7 @@ function CardMessage({
             </>
           </Typography>
         </Grid>
-      </Grid>
+      </Grid >
     </>
   );
 }

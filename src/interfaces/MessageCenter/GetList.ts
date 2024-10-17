@@ -51,6 +51,7 @@ export interface GetMessagesResult {
       Id: number;
       PageLabel: string;
       RequestReadReceipt: string;
+      CcUserName: string;
     }
   ];
   UnreadMessageTotalCount: number;
@@ -65,6 +66,7 @@ export interface GetScheduledSMSResult {
       ReceiverDetailsId: string;
       DisplayText: string;
       Subject: string;
+      FullDate: String;
       IsAttachment: string;
       Attachment: string;
       Body: string;

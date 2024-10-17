@@ -1,12 +1,12 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Grid, Grow } from '@mui/material';
+import { red } from '@mui/material/colors';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import CardMessage from '../mainCard/CardMessage';
 import { ListStyle } from '../styled/CardStyle';
 import CheckboxImg from './CheckboxImg';
-import { red } from '@mui/material/colors';
 // import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 const ListCard4ColSel = ({ Item, onChange, ActiveTab, DeleteDraft }) => {
   const navigate = useNavigate();
@@ -33,13 +33,14 @@ const ListCard4ColSel = ({ Item, onChange, ActiveTab, DeleteDraft }) => {
                 <DeleteForeverIcon
                   onClick={() => DeleteDraft(Item.Id)}
                   sx={{
-                    color:'#38548A',
-                    cursor:'pointer',
-                     //  backgroundColor: grey[500],
-                      '&:hover': {
-                         color:'red',
-                     backgroundColor: red[100]
-                      }}}
+                    color: '#38548A',
+                    cursor: 'pointer',
+                    //  backgroundColor: grey[500],
+                    '&:hover': {
+                      color: 'red',
+                      backgroundColor: red[100]
+                    }
+                  }}
                 />
               )}
             </Grid>
@@ -48,6 +49,7 @@ const ListCard4ColSel = ({ Item, onChange, ActiveTab, DeleteDraft }) => {
                 header={Item.text1}
                 text1={Item.text2}
                 text2={Item.text3}
+                text3={Item.text4}
                 ActiveTab={ActiveTab}
                 IsRead={Item.IsRead}
                 IsSchedule={Item.IsSchedule}
