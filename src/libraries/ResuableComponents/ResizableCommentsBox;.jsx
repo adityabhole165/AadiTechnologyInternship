@@ -33,7 +33,6 @@
 //   };
 //   let TermId = useContext(ProgressRemarkTerm)
 
-
 //   return (
 //     <div
 //       style={{
@@ -80,7 +79,7 @@
 //                 {item.Remarks.map((RemarksItem,i)=>{
 //                   return (<TableCell align="center" key={i}>
 
-//                     <TextareaAutosize 
+//                     <TextareaAutosize
 //                       id={`outlined-basic-${i}`}
 //                       value={RemarksItem.Text3}
 //                       variant="outlined"
@@ -111,8 +110,6 @@
 
 // export default ResizableCommentsBox;
 
-
-
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Card, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -133,9 +130,8 @@ function ResizableCommentsBox({
   setTextValues,
   IsPublishedStatus
 }) {
-
   let TermId = useContext(ProgressRemarkTerm);
-
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
 
   const TextChange = (value) => {
     // Remove character filtering
@@ -148,7 +144,10 @@ function ResizableCommentsBox({
           Remarks: item.Remarks.map((RemarksItem, i) => {
             return {
               ...RemarksItem,
-              Text3: (value.Id === item.Id && value.Index === i) ? filteredValue : RemarksItem.Text3
+              Text3:
+                value.Id === item.Id && value.Index === i
+                  ? filteredValue
+                  : RemarksItem.Text3
             };
           })
         };
@@ -157,63 +156,84 @@ function ResizableCommentsBox({
     }
   };
 
-
-
   return (
     <div
       style={{
         maxHeight: '800px',
         overflowY: 'auto',
-         scrollBehavior: 'smooth',
-         border: '2px'
+        scrollBehavior: 'smooth',
+        border: '2px'
       }}
     >
       <TableContainer component={Card}>
         <Table aria-label="simple table">
-          <TableHead >
+          <TableHead>
             <TableRow>
               {HeaderArray.map((item, i) => (
-                <TableCell align={item.Header.includes('Name') ? 'left' : 'left'}
+                <TableCell
+                  align={item.Header.includes('Name') ? 'left' : 'left'}
                   key={i}
                   sx={{
                     textTransform: 'capitalize',
                     backgroundColor: (theme) => theme.palette.secondary.main,
-                    color: 'white',
+                    color: 'white'
                   }}
-
                 >
                   <b>{item.Header}</b>
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
-          <TableBody >
+          <TableBody>
             {ItemList.map((item, i) => (
               <TableRow
                 key={i}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 }, }}
-
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell align="left" sx={{
-                  color: item.IsLeftStudent == 1 ? 'red' : 'inherit', py:0.5}}>{item.Text1}</TableCell>
-                <TableCell align="left" sx={{
-                  color: item.IsLeftStudent == 1 ? 'red' : 'inherit', py:0.5,  minWidth:'300px'}}>{item.Text2}</TableCell>
-                {TermId.SelectTerm == 2 && (
-                  <TableCell align="left" sx={{py:0.5}} >
-                    <TextareaAutosize value={item.Text4}  minRows={2}  />
+                <TableCell
+                  align="left"
+                  sx={{
+                    color: item.IsLeftStudent == 1 ? 'red' : 'inherit',
+                    py: 0.5
+                  }}
+                >
+                  {item.Text1}
+                </TableCell>
+                <TableCell
+                  align="left"
+                  sx={{
+                    color: item.IsLeftStudent == 1 ? 'red' : 'inherit',
+                    py: 0.5,
+                    minWidth: '300px'
+                  }}
+                >
+                  {item.Text2}
+                </TableCell>
+                {TermId.SelectTerm === 2 && asSchoolId === 18 && (
+                  <TableCell align="left" sx={{ py: 0.5 }}>
+                    <TextareaAutosize value={item.Text4} minRows={2} />
                   </TableCell>
                 )}
+
                 {item.Remarks.map((RemarksItem, j) => (
-                  <TableCell align="left " key={j} sx={{ py:0.5, minWidth:'280px'}} >
-                    <TextareaAutosize                    
+                  <TableCell
+                    align="left "
+                    key={j}
+                    sx={{ py: 0.5, minWidth: '280px' }}
+                  >
+                    <TextareaAutosize
                       id={`outlined-basic-${i}-${j}`}
                       value={RemarksItem.Text3}
                       variant="caption"
                       onChange={(e) => {
-                        TextChange({ Id: item.Id, Index: j, Value: e.target.value });
+                        TextChange({
+                          Id: item.Id,
+                          Index: j,
+                          Value: e.target.value
+                        });
                       }}
                       disabled={IsPublishedStatus == 1}
-                       minRows={2}
+                      minRows={2}
                       maxLength={TermId.maxRemarkLength}
 
                       // sx={{ width: '200px', }}
@@ -221,18 +241,18 @@ function ResizableCommentsBox({
                     <IconButton
                       onClick={() => NoteClick(item.Id, j)}
                       variant="caption"
-                      sx={{mt:0, ml:0}}
+                      sx={{ mt: 0, ml: 0 }}
                       disabled={IsPublishedStatus == 1}
-                      >
-                      <MoreVertIcon 
-                      
-                      />
+                    >
+                      <MoreVertIcon />
                     </IconButton>
 
                     <Typography
-                    variant="caption"
-                    sx={{mt:10}}
-                     color="textSecondary" alignItems={'center'} >
+                      variant="caption"
+                      sx={{ mt: 10 }}
+                      color="textSecondary"
+                      alignItems={'center'}
+                    >
                       ({TermId.maxRemarkLength - RemarksItem.Text3.length})
                     </Typography>
                   </TableCell>
