@@ -71,27 +71,43 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
     setIsChecked(EmailSettings?.CanReceiveMail === 'Y');
   }, [EmailSettings]);
 
+  // useEffect(() => {
+  //   if (UpdationMessage !== '')
+  //     toast.success("Email setting saved successfully.");
+  //   dispatch(ResetUpdateUserEmailSetting());
+  // }, [UpdationMessage]);
   useEffect(() => {
-    if (UpdationMessage !== '')
+    if (UpdationMessage !== '') {
       toast.success("Email setting saved successfully.");
-    dispatch(ResetUpdateUserEmailSetting());
-  }, [UpdationMessage]);
+      setOpen(false);
+      dispatch(ResetUpdateUserEmailSetting());
+    }
+  }, [UpdationMessage, dispatch, setOpen]);
 
   const clickReset = () => {
     inputFiledBlur(EmailSettings?.EmailAddress);
     setIsChecked(EmailSettings?.CanReceiveMail === 'Y');
   };
 
+  // const clickSubmit = () => {
+  //   if (emailAddress === '') {
+  //     setemailAddressErrorFlag(true);
+  //     return;
+  //   }
+  //   if (emailAddressErrorFlag == false) {
+  //     dispatch(UpdateUserEmailSetting(UpdateUserEmailSettingbody));
+  //   }
+  // };
   const clickSubmit = () => {
     if (emailAddress === '') {
       setemailAddressErrorFlag(true);
       return;
     }
-    if (emailAddressErrorFlag == false) {
+
+    if (!emailAddressErrorFlag) {
       dispatch(UpdateUserEmailSetting(UpdateUserEmailSettingbody));
     }
   };
-
   const checkBoxHandler = (e) => {
     if (e.target.checked) {
       setsubmitButtonDisabled(false);
