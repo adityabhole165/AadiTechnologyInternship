@@ -133,23 +133,28 @@ export const getListOfMessages =
       }
       if (ActiveTab === 'Trash') {
         const response = await MessageCenterApi.GetTrashList(body);
-        const data = response.data.GetTrashMessagesResult.map((item) => {
-          return {
-            Id: item.DetailsId,
-            text1: item.Subject,
-            text2: item.UserName,
-            text3: item.FullDate,
-            text4: item.CcUserName,
-            NavPath: item.DetailsId + '/Trash',
-            isActive: false,
-            IsRead: item.IsRead,
-            DetailsId: item.DetailsId,
-            ReceiverDetailsId:
-              item.ReceiverDetailsId === '0'
-                ? item.DetailsId
-                : item.ReceiverDetailsId
-          };
-        });
+        let data = []
+        if (response.data.GetTrashMessagesResult !== null) {
+          data = response.data.GetTrashMessagesResult?.map((item) => {
+            return {
+              Id: item.DetailsId,
+              text1: item.Subject,
+              text2: item.UserName,
+              text3: item.FullDate,
+              text4: item.CcUserName,
+              NavPath: item.DetailsId + '/Trash',
+              isActive: false,
+              IsRead: item.IsRead,
+              DetailsId: item.DetailsId,
+              ReceiverDetailsId:
+                item.ReceiverDetailsId === '0'
+                  ? item.DetailsId
+                  : item.ReceiverDetailsId
+            };
+          });
+        }
+        console.log(data, 'data');
+
         if (Pagination == true) {
           dispatch(InboxMessageSlice.actions.NextMessages(data));
         }
