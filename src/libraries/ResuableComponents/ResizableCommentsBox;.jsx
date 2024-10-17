@@ -130,7 +130,8 @@ function ResizableCommentsBox({
   ItemList,
   HeaderArray,
   NoteClick,
-  setTextValues
+  setTextValues,
+  IsPublishedStatus
 }) {
 
   let TermId = useContext(ProgressRemarkTerm);
@@ -211,16 +212,21 @@ function ResizableCommentsBox({
                       onChange={(e) => {
                         TextChange({ Id: item.Id, Index: j, Value: e.target.value });
                       }}
+                      disabled={IsPublishedStatus == 1}
                        minRows={2}
                       maxLength={TermId.maxRemarkLength}
+
                       // sx={{ width: '200px', }}
                     />
                     <IconButton
                       onClick={() => NoteClick(item.Id, j)}
                       variant="caption"
                       sx={{mt:0, ml:0}}
+                      disabled={IsPublishedStatus == 1}
                       >
-                      <MoreVertIcon />
+                      <MoreVertIcon 
+                      
+                      />
                     </IconButton>
 
                     <Typography

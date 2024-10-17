@@ -964,6 +964,7 @@ const ProgressRemarks = () => {
                     ItemList={Itemlist}
                     NoteClick={ClickAppropriate}
                     setTextValues={TextValues}
+                    IsPublishedStatus={USGetFinalPublishedExamStatus.IsPublishedStatus}
                   />
                 </ProgressRemarkTerm.Provider>
               ) : (
