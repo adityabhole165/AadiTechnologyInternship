@@ -118,7 +118,21 @@ export interface IStudentProgressReportResult {
         }
     ],
 
-    Listtestid2Details: [],
+    Listtestid2Details: [{
+      Grade: string
+      Parent_Subject_Id: string
+      TestTypeSort_Order: string
+      TestType_Id:string
+      TestType_Total_Marks: string
+      TestType_Total_Marks_Scored: string
+      Test_Id: string
+    }
+
+
+
+    ],
+
+
     ListSubjectidDetails: [
         {
             Subject_Id: string

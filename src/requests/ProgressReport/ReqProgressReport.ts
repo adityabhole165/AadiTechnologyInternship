@@ -337,6 +337,49 @@ export const CDAStudentProgressReport =
               })
             }
           })
+
+          const matchingTestId = response.data.Listtestid2Details.find(testDetail =>
+            testDetail.Test_Id
+          )?.Test_Id;
+
+          // Find the matching test in listTestDetails
+          const matchingTest = response.data.listTestDetails.find(item =>
+            Number(item.Test_Id) === Number(matchingTestId)
+          );
+
+          // Find the matching TestType_Id from Listtestid2Details
+          const matchingTestType_Id = response.data.Listtestid2Details.find(testDetail =>
+            testDetail.TestType_Id
+          )?.TestType_Id;
+
+          // Find the matching test type in ListTestTypeIdDetails
+          const matchingTestType = response.data.ListTestTypeIdDetails.find(item =>
+            Number(item.TestType_Id) === Number(matchingTestType_Id)
+          );
+
+          // Ensure matchingTest and matchingTestType exist before using them
+          if (matchingTest && matchingTestType) {
+            // Add the TestTypeName to SubHeaderArray
+            SubHeaderArray.push({ TestTypeName: matchingTestType.ShortenTestType_Name });
+
+            // Find the matching test detail from Listtestid2Details
+            const matchingTestDetail = response.data.Listtestid2Details.find(testDetail =>
+              Number(testDetail.Test_Id) === Number(matchingTestId)
+            );
+
+            if (matchingTestDetail) {
+              // Push columns data for the matching test detail
+              columns.push({
+                MarksScored: `${matchingTestDetail.TestType_Total_Marks_Scored}/${matchingTestDetail.TestType_Total_Marks}`,
+                TotalMarks: "-",
+                IsAbsent: "N"
+              });
+            }
+          }
+
+
+
+
           //show grade column
           if (data.IsTotalConsiderForProgressReport == "True") {
             response.data.ListSchoolWiseTestNameDetail.map((Item) => {
