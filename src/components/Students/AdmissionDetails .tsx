@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField, Typography, Checkbox, FormControlLabel, Alert } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, Grid, TextField } from '@mui/material';
 import React, { useState } from 'react';
 
 const AdmissionDetails = ({ onSave }) => {
@@ -205,7 +205,7 @@ const AdmissionDetails = ({ onSave }) => {
 
             <Box p={2}>
                 <Button onClick={saveDraft} variant="contained" color="secondary">
-                    Save as Draft
+                    Save as Draft & Next
                 </Button>
             </Box>
         </Box>
