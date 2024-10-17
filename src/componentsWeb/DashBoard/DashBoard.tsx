@@ -20,16 +20,22 @@ import UpcomingEvent from 'src/librariesWeb/UpcomingEvent';
 // ... other imports
 
 function DashBoard() {
+  const IsClassTeacher = sessionStorage.getItem('IsClassTeacher');
   const initialTiles = [
     { id: 'profile', label: 'Profile', SortOrder: 1 },
-    { id: 'attendance', label: 'Attendance', SortOrder: 2 },
+    // { id: 'attendance', label: 'Attendance', SortOrder: 2 },
     { id: 'unreadMessages', label: 'Unread Messages', SortOrder: 3 },
     { id: 'birthday', label: 'Birthday Dashboard', SortOrder: 4 },
     { id: 'photoCardDash', label: 'Photo Card Dashboard', SortOrder: 5 },
     { id: 'feedbackCard', label: 'Feedback Card', SortOrder: 6 },
     { id: 'upcomingEvent', label: 'Upcoming Events', SortOrder: 7 },
     { id: 'annualplanner', label: 'Annual Planner DashBoard', SortOrder: 8 },
+
   ];
+
+  if (IsClassTeacher === 'Y') {
+    initialTiles.push({ id: 'attendance', label: 'Attendance', SortOrder: 2 });
+  }
 
   const getComponent = (id: string) => {
     switch (id) {
@@ -121,7 +127,7 @@ function DashBoard() {
         <Droppable droppableId="dashboard" direction="horizontal">
           {(provided) => (
             <Grid
-            
+
               container
               spacing={1}
               // mt={-1}
@@ -132,12 +138,12 @@ function DashBoard() {
                 <Draggable isDragDisabled={tile.id === 'profile' ? true : false} key={tile.id} draggableId={tile.id} index={index}>
                   {(provided) => (
                     <Grid
-                     
+
                       item
                       sm={tile.id === 'attendance' ? 8 : 4}
                       key={resetKey} // Use the resetKey to force re-render
                       ref={provided.innerRef}
-                    
+
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
@@ -148,13 +154,13 @@ function DashBoard() {
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 1 }}
                       >
-                        <Card elevation={3} sx={{ position: 'relative', borderRadius:'10px' }}>
+                        <Card elevation={3} sx={{ position: 'relative', borderRadius: '10px' }}>
                           {/* Unpin Button */}
                           {tile.id !== 'profile' &&
                             <IconButton
                               // size="medium"
                               sx={{
-                                
+
                                 position: 'absolute', top: 10, right: 2, '&:hover': {
                                   color: 'red', backgroundColor: red[100]
                                 }
