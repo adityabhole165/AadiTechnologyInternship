@@ -6,7 +6,9 @@ import AddchartIcon from '@mui/icons-material/Addchart'; //Performance Grade Ass
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined'; //Progress Report
 import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone'; //School Notices
 import AssuredWorkloadTwoToneIcon from '@mui/icons-material/AssuredWorkloadTwoTone'; //Investment Declaration
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone'; //Assign Homework
+import CakeIcon from '@mui/icons-material/Cake';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Dataset from '@mui/icons-material/CalendarViewMonth';
 import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
@@ -19,6 +21,7 @@ import EventOutlinedIcon from '@mui/icons-material/EventOutlined'; //Annual Plan
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FactCheck from '@mui/icons-material/FactCheck';
 import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone'; // Pre Primary Progress Report
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 import FolderCopyOutlinedIcon from '@mui/icons-material/FolderCopyOutlined';
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone'; // message center 
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
@@ -240,7 +243,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   };
   const buttonStyle = {};
   // #region Prototype Code
-  const tblTeacher = [
+  const SideLisrForSubTeacher = [
     {
       id: 'Calendar',
       title: 'Annual Planner', // getPageName(62),
@@ -293,16 +296,16 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     {
       id: 'Other Utilities',
       title: 'Library',
-      icon: <LockResetTwoToneIcon />,
-      link: 'null',
+      icon: <AutoStoriesIcon />,
+      link: '/extended-sidebar/Teacher/LibraryBaseScreen',
       screenId: 0,
       visible: true
     },
     {
       id: 'Other Utilities',
       title: 'Reports',
-      icon: <LockResetTwoToneIcon />,
-      link: 'null',
+      icon: <FileCopyIcon />,
+      link: null,
       screenId: 0,
       visible: true
     },
@@ -317,8 +320,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     {
       id: 'Other Utilities',
       title: 'Staff Birthdays',
-      icon: <AddShoppingCartTwoToneIcon />,
-      link: 'null',
+      icon: <CakeIcon />,
+      link: null,
       screenId: 0,
       visible: true
     },
@@ -458,6 +461,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   // --- ArrayName > sideList
   let sideList = [
     {
+      id: 'Extra Screens',
+      title: getPageName(266),
+      icon: <InsertCommentTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/ProgressRemarks',
+      screenId: 266
+    },
+    {
       id: 'Dashboard',
       title: ' Dashboard',
       icon: <DashboardCustomizeOutlinedIcon />,
@@ -492,14 +502,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/common/changePassword',
       screenId: 0
     },
-    {
-      id: 'Extra Screens',
-      title: getPageName(266),
-      icon: <InsertCommentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/ProgressRemarks',
-      screenId: 266
-    },
-
     {
       id: 'Exam',
       title: 'Progress Report',  //getPageName(79),
@@ -594,7 +596,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     return false;
   }
   if (!IsMiniSite) {
-    sideList.push(
+    const communicationItems = [
       {
         id: 'Communication',
         title: 'SMS Center',
@@ -608,27 +610,19 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         icon: <ForwardToInboxTwoToneIcon />,
         link: '/extended-sidebar/MessageCenter/msgCenter',
         screenId: 0
-      },
-    )
-    tblTeacher.push(
-      {
-        id: 'Communication',
-        title: 'SMS Center',
-        icon: <SmsTwoToneIcon />,
-        link: '/extended-sidebar/Teacher/SmsCenter',
-        screenId: 0, // 81
+      }
+    ];
+
+    sideList.push(...communicationItems);
+
+    SideLisrForSubTeacher.push(
+      ...communicationItems.map(item => ({
+        ...item,
         visible: true
-      },
-      {
-        id: 'Communication',
-        title: 'Message Center',
-        icon: <ForwardToInboxTwoToneIcon />,
-        link: '/extended-sidebar/MessageCenter/msgCenter',
-        screenId: 0,
-        visible: true
-      },
-    )
+      }))
+    );
   }
+
 
   if (showHomeworkMenu()) {
     sideList.push(
@@ -640,7 +634,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         screenId: 0 //201
       },
     )
-    tblTeacher.push(
+    SideLisrForSubTeacher.push(
       {
         id: 'Daily Activities',
         title: 'Assign Homework', //getPageName(201),
@@ -662,7 +656,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         screenId: 0
       }
     )
-    tblTeacher.push(
+    SideLisrForSubTeacher.push(
       {
         id: 'Daily Activities',
         title: 'Weekly Timetable',
@@ -956,10 +950,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }, [hasMissingDays]);
 
   function filt() {
-    // console.log('tblTeacher List ✨', tblTeacher);
+    // console.log('SideLisrForSubTeacher List ✨', SideLisrForSubTeacher);
     // console.log('tblExtraScreens List ✨', tblExtraScreensForTeacher);
     // console.log('allowedScreensList ✨', AllowedPagesListForUser);
-    const teacherTitles = new Set(tblTeacher.map(item => item.title));
+    const teacherTitles = new Set(SideLisrForSubTeacher.map(item => item.title));
     const filteredList = AllowedPagesListForUser.filter(item => !teacherTitles.has(item.Configure_Name));
     const filteredList2 = new Set(filteredList.map(item => item.Screen_Id));
     const matchingExtraScreens: any = tblExtraScreensForTeacher.filter(item =>
@@ -1004,9 +998,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         finalArr.push(updatedItem)
       }
     })
-    // console.log('final list --->>>', finalArr)
+    // console.log('final list --->>>', finalArr);
+    let FinalListForSubTeacher = SideLisrForSubTeacher?.filter((item) => item.visible === true)
 
-    return isClassTeacher === 'Y' ? finalArr : tblTeacher.concat(matchingExtraScreens);
+    return isClassTeacher === 'Y' ? finalArr : FinalListForSubTeacher.concat(matchingExtraScreens);
   }
 
 
