@@ -94,6 +94,7 @@ export interface GetScheduledSMSResult {
       IsLockedUser: Boolean;
       Id: number;
       PageLabel: string;
+      CcUserName: string;
     }
   ];
 }

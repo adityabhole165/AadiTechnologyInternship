@@ -28,10 +28,15 @@ const SelectList3Col = ({
       return true;
     }
     else if (columnName === 'Cc') {
-      if (ActiveTab === 'Sent' || ActiveTab === 'Trash') {
+      if (ActiveTab === 'Sent') {
         return true;
       }
-    } else if (columnName === 'Attachment' && ActiveTab === 'Inbox') {
+    } else if (columnName === 'Cc1') {
+      if (ActiveTab === 'Trash') {
+        return true;
+      }
+    }
+    else if (columnName === 'Attachment' && ActiveTab === 'Inbox') {
       return true;
     } else if (columnName === 'Date') {
       return true;
@@ -104,6 +109,7 @@ const SelectList3Col = ({
         {showcolumn('Message Body') && <Box sx={{ color: 'white', ml: 44 }}>  Message Body</Box>}
         {showcolumn('From') && <Box sx={{ color: 'white', ml: 54 }}>From</Box>}
         {showcolumn('From1') && <Box sx={{ color: 'white', ml: 26 }}>From</Box>}
+        {showcolumn('Cc1') && <Box sx={{ color: 'white', ml: 26 }}>Cc</Box>}
         {showcolumn('Attachment') && <Box sx={{ color: 'white', ml: 20 }}>Attachment</Box>}
         {showcolumn('Received Date1') && <Box sx={{ color: 'white', ml: 46, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>

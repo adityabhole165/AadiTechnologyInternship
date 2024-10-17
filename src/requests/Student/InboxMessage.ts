@@ -112,6 +112,7 @@ export const getListOfMessages =
             text1: item.Subject,
             text2: item.UserName,
             text3: item.FullDate,
+            text4: item.CcUserName,
             NavPath: item.DetailsId + '/Sent',
             isActive: false,
             DetailsId: item.DetailsId,
