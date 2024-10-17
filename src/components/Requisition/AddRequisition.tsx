@@ -88,7 +88,9 @@ const AddRequisition = () => {
     // console.log(result1,"result1");
 
     const imageUrls: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage.ImageUrls);
-  
+
+console.log(imageUrls,"imageUrls");
+
 
 
     const itemNames = [...new Set(USSaveRequisition.map(item => item.ItemName))];
@@ -412,12 +414,12 @@ const AddRequisition = () => {
             renderCell: row => (
                 row.ImageCount > 0 ? (
                     <Tooltip title="View">
-                    <IconButton onClick={() => Setimageid((row.ItemID))} sx={{ padding: '3px 8px', margin: '0px 15px' }} >
-                        <VisibilityIcon onClick={Openimage} sx={{
-                            color: "#223354", display: 'flex',
-                            alignItems: 'Center'
-                        }} />
-                    </IconButton>
+                        <IconButton onClick={() => Setimageid((row.ItemID))} sx={{ padding: '3px 8px', margin: '0px 15px' }} >
+                            <VisibilityIcon onClick={Openimage} sx={{
+                                color: "#223354", display: 'flex',
+                                alignItems: 'Center'
+                            }} />
+                        </IconButton>
                     </Tooltip>
 
                 ) : <div> </div>
@@ -617,7 +619,17 @@ const AddRequisition = () => {
     const endRecord = Math.min(page * rowsPerPage, CountAddReq.TotalCount);
     const pagecount = Math.ceil(CountAddReq.TotalCount / rowsPerPage);
 
+    const [selectedImage, setSelectedImage] = useState(null);
 
+   
+    const handleImageClick = (url) => {
+        setSelectedImage(url); 
+    };
+
+   
+    const handleClose1 = () => {
+        setSelectedImage(null); 
+    };
 
     return (
         <Box sx={{ px: 2 }}>
@@ -919,9 +931,28 @@ const AddRequisition = () => {
 
                     <DialogContent>
                         {imageUrls.map((url, index) => (
-                            <img key={index} src={url.ImageUrl} alt={`Image ${index + 1}`} />
+                            <img
+                                key={index}
+                                src={url.ImageUrl}
+                                alt={`Image ${index + 1}`}
+                                style={{ width: '100px', margin: '5px', cursor: 'pointer' }} // Thumbnail size and style
+                                onClick={() => handleImageClick(url.ImageUrl)} // Handle image click
+                            />
                         ))}
                     </DialogContent>
+
+                    {/* Enlarged image dialog */}
+                    <Dialog open={!!selectedImage} onClose={handleClose1}>
+                        <DialogContent>
+                            {selectedImage && (
+                                <img
+                                    src={selectedImage}
+                                    alt="Enlarged view"
+                                    style={{ width: '100%', height: 'auto' }} // Full size
+                                />
+                            )}
+                        </DialogContent>
+                    </Dialog>
 
 
                 </Dialog>

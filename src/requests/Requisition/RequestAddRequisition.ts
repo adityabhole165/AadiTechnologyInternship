@@ -185,8 +185,8 @@ export const CDAGetItemCategory =
     const response = await ApiAddRequisition.GetItemImage(data);
     let GetImageUrl = response.data.map((item, i) => {
       return {
-      ImageUrl: localStorage.getItem('SiteURL') + 'RITeSchool/' + item.ImageUrl,
-       ImageUrl1: "http://web.aaditechnology.com/RITeSchool/Images/Gallery/8442683130_e438016713_b123857.jpg"
+      ImageUrl: 'http://web.aaditechnology.com/' + 'RITeSchool/' + 'DOWNLOADS/' + 'Inventory%20Items/' +item.ImageUrl,
+       
       };
     });
 
