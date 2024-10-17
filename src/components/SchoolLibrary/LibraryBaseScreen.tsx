@@ -6,9 +6,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, ITotalBooksCountsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
+import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetReserveBooksCountperpersonBody, ITotalBooksCountsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { CDABookClimedMsg, CDAClearBookClimedMsg, CDAGetAllBooksDetails, CDAGetLibraryBookIssue, CDAGetReserveBookDetails, CDAGetTotalBooksCount } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
+import { CDABookClimedMsg, CDAClearBookClimedMsg, CDAGetAllBooksDetails, CDAGetLibraryBookIssue, CDAGetReserveBookDetails, CDAGetTotalBooksCount, CDAReserveBooksperpersonCount } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import LibrarySearch from './LibrarySearch';
@@ -29,34 +29,19 @@ const LibraryBaseScreen = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const ascliambook = Number(cliambook);
+
+    console.log(ascliambook, "&&&&&34343&&&&&&")
 
     const USBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetails);
     const USGetLibraryBookIssueDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetLibraryBookIssueDetails);
     const USBookCliamMsg: any = useSelector((state: RootState) => state.SchoolLibrary.IBookClimedMsg);
     const USTotalBookCount: any = useSelector((state: RootState) => state.SchoolLibrary.IlistGetTotalBooksCounts);
-    const USReserveTotalBookCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetailsCount);
+    // const USReserveTotalBookCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetailsCount);
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
-    console.log(USTotalBookCount, "@@!!*******");
-
-    // const TotalCount = USTotalBookCount.map((item) => item.TotalCount);  // Array of record counts
-    // const singleTotalCount = TotalCount.reduce((acc, curr) => acc + curr);  // Total count of books
-    // console.log(TotalCount, "singleTotalCount>>>>>>>>>>>.");
-
-    const singleTotalCount: number = useMemo(() => {
-        if (!Array.isArray(USTotalBookCount)) {
-            console.error("IGetAllBooksDetails is not defined or is not an array.");
-            return 0;
-        }
-
-        return USTotalBookCount.reduce((acc: number, item: any) => {
-            const count = Number(item.TotalCount);
-            if (isNaN(count)) {
-                console.warn(`Invalid TotalCount value for item:`, item);
-                return acc;
-            }
-            return acc + count;
-        }, 0);
-    }, [USTotalBookCount]);
+    const USReserveBookCountPerPerson: any = useSelector((state: RootState) => state.SchoolLibrary.IreserveBooksCountperperson);
+    //console.log(USReserveBookCountPerPerson[0].Text1, "@$$$&&")
+    console.log(cliambook, "&&&&&&&&&&&")
 
 
 
@@ -80,7 +65,6 @@ const LibraryBaseScreen = () => {
         asBook_Issued_To: asUserId,
         asAcademic_Year_Id: asAcademicYearId,
     };
-
     useEffect(() => {
         dispatch(CDAGetLibraryBookIssue(BookIssueDetails));
     }, []);
@@ -93,7 +77,17 @@ const LibraryBaseScreen = () => {
     };
     useEffect(() => {
         dispatch(CDAGetTotalBooksCount(Totalbookcount))
-    }, [])
+    }, []);
+    const ReserveBooksCountperperson: IGetReserveBooksCountperpersonBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asBookId: ascliambook,
+        asUserId: asUserId,
+        asFlag: 0
+    }
+    useEffect(() => {
+        dispatch(CDAReserveBooksperpersonCount(ReserveBooksCountperperson))
+    }, []);
 
     const bookReserveDetails: IGetReserveBookDetailsBody = {
         asSchoolId: asSchoolId,
@@ -111,25 +105,26 @@ const LibraryBaseScreen = () => {
         dispatch(CDAGetReserveBookDetails(bookReserveDetails))
     }, [])
 
-
+    //console.log(number(cliambook),'cliambook')
     const ClickCliam = (Book_Id: number) => {
         setcliambook(Book_Id.toString())
-        const isAlreadyClaimed = USReserveBookDetails.some(book => book.BookId === cliambook);
 
-        const cliambookBody: IBookclaimedBody = {
-            asBookId: Book_Id,
-            asUserId: asUserId,
-            asReservedByParent: 0,
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
-            asInsertedById: asUserId,
-        };
-        if (isAlreadyClaimed) {
+        if (USReserveBookCountPerPerson === "4") {
+            toast.error("Can not claim more than 4 book");
+        } else if (USReserveBookCountPerPerson === "999") {
             toast.error("Could not claim the same book.");
-        } else {
+        }
+        else {
+            const cliambookBody: IBookclaimedBody = {
+                asBookId: ascliambook,
+                asUserId: asUserId,
+                asReservedByParent: 0,
+                asSchoolId: asSchoolId,
+                asAcademicYearId: asAcademicYearId,
+                asInsertedById: asUserId,
+            };
             dispatch(CDABookClimedMsg(cliambookBody));
         }
-
 
     };
     useEffect(() => {
@@ -139,16 +134,27 @@ const LibraryBaseScreen = () => {
         }
     }, [USBookCliamMsg])
 
+
+    const singleTotalCount: number = useMemo(() => {
+        if (!Array.isArray(USTotalBookCount)) {
+            return 0;
+        }
+        return USTotalBookCount.reduce((acc: number, item: any) => {
+            const count = Number(item.TotalCount);
+            if (isNaN(count)) {
+                return acc;
+            }
+            return acc + count;
+        }, 0);
+    }, [USTotalBookCount]);
+
     const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        //const newRowsPerPage = parseInt(event.target.value, 10);  // Parse the new value correctly
         setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(1);  // Reset to page 1 when rows per page is changed
+        setPage(1);
     };
-
     const PageChange = (pageNumber: number) => {
-        setPage(pageNumber);  // Change to selected page number
+        setPage(pageNumber);
     };
-
     // Calculate total page count
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);

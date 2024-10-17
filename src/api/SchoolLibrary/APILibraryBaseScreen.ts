@@ -7,6 +7,8 @@ import {
     IGetLibraryBookIssueDetailsResult,
     IGetReserveBookDetailsBody,
     IGetReserveBookDetailsResult,
+    IGetReserveBooksCountperpersonBody,
+    IGetReserveBooksCountperpersonResult,
     IGetTotalBooksCountsBody,
     IGetTotalBooksCountsResult,
     ITotalBooksCountsBody,
@@ -33,14 +35,17 @@ const GetReserveBookDetails = (data: IGetReserveBookDetailsBody) => {
 const GetTotalLibraryBooksCounts = (data: ITotalBooksCountsBody) => {
     return http.post<ITotalBooksCountsResult>('Teacher/GetTotalBooksCounts', data)
 }
-
+const GetReserveBooksCountperperson = (data: IGetReserveBooksCountperpersonBody) => {
+    return http.post<IGetReserveBooksCountperpersonResult[]>('Teacher/GetReserveBooksCountperperson', data)
+}
 const ApiLibraryBaseScreen = {
     GetAllBooksDetails,
     GetLibraryBookIssueDetails,
     BookClimedMsg,
     GetTotalBooksCounts,
     GetReserveBookDetails,
-    GetTotalLibraryBooksCounts
+    GetTotalLibraryBooksCounts,
+    GetReserveBooksCountperperson
 };
 
 export default ApiLibraryBaseScreen;
