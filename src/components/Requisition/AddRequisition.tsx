@@ -411,12 +411,14 @@ const AddRequisition = () => {
             selector: row => row.ImageCount,
             renderCell: row => (
                 row.ImageCount > 0 ? (
+                    <Tooltip title="View">
                     <IconButton onClick={() => Setimageid((row.ItemID))} sx={{ padding: '3px 8px', margin: '0px 15px' }} >
                         <VisibilityIcon onClick={Openimage} sx={{
                             color: "#223354", display: 'flex',
                             alignItems: 'Center'
                         }} />
                     </IconButton>
+                    </Tooltip>
 
                 ) : <div> </div>
             )
