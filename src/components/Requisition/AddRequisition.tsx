@@ -21,10 +21,10 @@ import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupCo
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDAGetRequisitionDetails, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
 import Requisioneditlist from './Requisioneditlist';
-import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 
 
 const AddRequisition = () => {
@@ -50,6 +50,7 @@ const AddRequisition = () => {
     const [Error1, setError1] = useState('');
     const [Error2, setError2] = useState('');
     const [imageid, Setimageid] = useState('');
+
     const [AddItemlistNew, setAddItemlistNew] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [ValidateItemQuantity, setValidateItemQuantity] = useState('');
@@ -69,9 +70,9 @@ const AddRequisition = () => {
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
-    const RequisitionID = UsSlistGetRequisitionName?.length > 0 ? UsSlistGetRequisitionName.map(req => req.RequisitionID) : 0;  
-    console.log(RequisitionID,"RequisitionID");
-      
+    const RequisitionID = UsSlistGetRequisitionName?.length > 0 ? UsSlistGetRequisitionName.map(req => req.RequisitionID) : 0;
+    console.log(RequisitionID, "RequisitionID");
+
     const USGetNewRequisitionValidateItemQuantity: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetNewRequisitionValidateItemQuantity);
     const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
     const USCanSendRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanSendRequisition);
@@ -85,7 +86,11 @@ const AddRequisition = () => {
     // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
     // const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
     // console.log(result1,"result1");
-    const imageUrls: string[] = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage.ImageUrls);
+
+    const imageUrls: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage.ImageUrls);
+  
+
+
     const itemNames = [...new Set(USSaveRequisition.map(item => item.ItemName))];
 
     const ItemQty = USGetRequisitionDetails.map(item => item.Text3)
@@ -561,7 +566,7 @@ const AddRequisition = () => {
                 setTextall1(firstDetail.RequisitionDescription);
             }
         }
-    }, [USGetRequisitionDetails,asRequisitionId]);
+    }, [USGetRequisitionDetails, asRequisitionId]);
 
 
     useEffect(() => {
@@ -609,6 +614,9 @@ const AddRequisition = () => {
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, CountAddReq.TotalCount);
     const pagecount = Math.ceil(CountAddReq.TotalCount / rowsPerPage);
+
+
+
     return (
         <Box sx={{ px: 2 }}>
 
@@ -688,7 +696,7 @@ const AddRequisition = () => {
                                 sx={{
                                     color: 'white',
                                     backgroundColor: grey[500],
-                                    mr:-1,
+                                    mr: -1,
                                     height: '36px !important',
                                     ':hover': { backgroundColor: grey[600] }
                                 }}
@@ -706,7 +714,7 @@ const AddRequisition = () => {
                                         sx={{
                                             color: 'white',
                                             backgroundColor: blue[500],
-                                            ml:1,
+                                            ml: 1,
                                             '&:hover': {
                                                 backgroundColor: blue[600]
                                             }
@@ -726,13 +734,13 @@ const AddRequisition = () => {
                                     backgroundColor: green[500],
                                     height: '36px !important',
                                     ':hover': { backgroundColor: green[600] },
-                                    
+
                                 }}
                             >
                                 <Save />
                             </IconButton>
                         </Tooltip> : <span> </span>}
-                        
+
                         {AddItemlistNew.length > 0 ? <Tooltip title={'Send Requisition'}>
                             <IconButton
                                 onClick={clickSend}
@@ -750,8 +758,8 @@ const AddRequisition = () => {
 
 
 
-                    </>  
-                    }
+                    </>
+                }
             />
 
 
@@ -882,7 +890,7 @@ const AddRequisition = () => {
                 </Box> : null}
 
 
-            {listGetRequisitionTeacherDetails != ''&& asRequisitionId !== undefined ?
+            {listGetRequisitionTeacherDetails != '' && asRequisitionId !== undefined ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <Requisioneditlist
                         ItemList={listGetRequisitionTeacherDetails}
@@ -909,9 +917,11 @@ const AddRequisition = () => {
 
                     <DialogContent>
                         {imageUrls.map((url, index) => (
-                            <img key={index} src={url} alt={`Item ${index + 1}`} />
+                            <img key={index} src={url.ImageUrl} alt={`Image ${index + 1}`} />
                         ))}
                     </DialogContent>
+
+
                 </Dialog>
             </Box>
 
