@@ -209,9 +209,11 @@ function ResizableCommentsBox({
                 >
                   {item.Text2}
                 </TableCell>
-                {TermId.SelectTerm === 2 && asSchoolId === 18 && (
+                {TermId.SelectTerm == 2 && asSchoolId == 18 && (
                   <TableCell align="left" sx={{ py: 0.5 }}>
-                    <TextareaAutosize value={item.Text4} minRows={2} />
+                    <TextareaAutosize value={item.Text4} minRows={2} 
+                      disabled
+                    />
                   </TableCell>
                 )}
 
