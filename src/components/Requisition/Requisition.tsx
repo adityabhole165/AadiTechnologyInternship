@@ -112,19 +112,37 @@ const StatusRequisition = () => {
 
 
   const clickcancel = () => {
+    // Prepare the cancellation body
     const CancelRequisitionBody: IGetCancelRequisitionBody = {
       asRequisitionId: RequisitionId,
       asReasonText: textall,
       asSchoolId: asSchoolId,
       asUpdatedById: Number(asUserId),
-      asCanceledById: Number(asUserId)
+      asCanceledById: Number(asUserId),
     };
-    if (textall == '') {
-      alert('Reason Should not be blank.');
-      return;
+  
+   
+    if (textall.trim() == '') {
+      showAlert({
+        title: 'Please Confirm',
+        message: 'Reason should not be blank.',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          closeAlert();
+        },
+      });
+      return; 
     }
+  
+   
     dispatch(CDACancelRequisition(CancelRequisitionBody));
   };
+  
 
   const RequisitionCode = () => {
     let classStudentName = '';
