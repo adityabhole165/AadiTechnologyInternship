@@ -127,5 +127,14 @@ export interface ITotalBooksCountsResult {
 
         }
     ]
-
+}
+export interface IGetReserveBooksCountperpersonBody {
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asBookId: number,
+    asUserId: number,
+    asFlag: number
+}
+export interface IGetReserveBooksCountperpersonResult {
+    Count: string
 }
