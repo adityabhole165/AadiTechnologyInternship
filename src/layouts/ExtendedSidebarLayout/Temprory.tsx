@@ -242,7 +242,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     color: 'white'
   };
   const buttonStyle = {};
-  // #region Prototype Code
+  // #region Sub - Teacher Ar..
+  // Pri / pre pri.. >> 1st , nursery
   const SideLisrForSubTeacher = [
     {
       id: 'Calendar',
@@ -351,6 +352,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     }
   ];
 
+  // #region Extra Screen for Sub Teacher
   const tblExtraScreensForTeacher = [
     {
       id: 'Extra Screens',
@@ -361,7 +363,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Extra Screens',
-      title: 'Add Aadhar Card Details',
+      title: getPageName(267),
       icon: <AddCardTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AadharCard',
       screenId: 267
@@ -452,11 +454,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     }
   ];
 
-
-
   // #endregion
 
-  // #region SideList Array
+  // #region Class Teacher Ar.
   // Sidebar List Array - [ {}, {}, {}, .... etc. ]
   // --- ArrayName > sideList
   let sideList = [
@@ -646,6 +646,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     )
   }
 
+  // #region  Extra Condition
   if (showWeeklyTimetable) {
     sideList.push(
       {
@@ -702,7 +703,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }
 
   if (IsPrePrimaryFlag) {
-    if (!PrePrimaryExamConfigFlag) {
+    if (PrePrimaryExamConfigFlag) {
       sideList.push(
         {
           id: 'Exam',
@@ -712,6 +713,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           screenId: 0
         });
     }
+    sideList.push(
+      {
+        id: 'Exam',
+        title: 'Exam Results', // getPageName(78),
+        icon: <TableChart />,
+        link: '/extended-sidebar/Teacher/PrePrimaryResult',
+        screenId: 0 // 78
+      });
     if (schoolSettingList?.IsExamScheduleForPrePrimaryClassTeacher) {
       sideList.push(
         {
