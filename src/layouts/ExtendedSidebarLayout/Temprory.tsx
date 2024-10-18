@@ -55,7 +55,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
-import { GetIsPrePrimaryTeacher, logoURL } from 'src/components/Common/Util';
+import { GetIsPrePrimaryTeacher, GetScreenAccessPermissionByPageID, logoURL } from 'src/components/Common/Util';
 import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDetails/AbsentStudentDetailsPopup';
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
@@ -601,7 +601,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Communication',
         title: 'SMS Center',
         icon: <SmsTwoToneIcon />,
-        link: '/extended-sidebar/Teacher/SmsCenter',
+        link: GetScreenAccessPermissionByPageID(81) === 'N' ? '/extended-sidebar/Teacher/ReceivedSMSOwn' : '/extended-sidebar/Teacher/SmsCenter',
         screenId: 0 // 81
       },
       {
