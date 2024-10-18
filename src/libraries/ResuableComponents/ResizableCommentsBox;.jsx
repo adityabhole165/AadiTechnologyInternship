@@ -210,7 +210,7 @@ function ResizableCommentsBox({
                 >
                   {item.Text2}
                 </TableCell>
-                {TermId.SelectTerm == 2 && SchoolScreensAccessPermission() == false  && (
+                {TermId.SelectTerm == 2 && !SchoolScreensAccessPermission()   && (
                   <TableCell align="left" sx={{ py: 0.5 }}>
                     <TextareaAutosize value={item.Text4} minRows={2} 
                       disabled
