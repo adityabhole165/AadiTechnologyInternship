@@ -1,6 +1,6 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Box, CircularProgress, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, CircularProgress, Grid, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey, yellow } from '@mui/material/colors';
 import format from 'date-fns/format';
 import { useEffect, useState } from 'react';
@@ -84,8 +84,7 @@ function ReceivedSMSOwn() {
     };
 
     const displayList = filtered ? sortedAndFilteredSmsList : NewSmsList; // Implement pagination
-
-
+    let url = "/extended-sidebar/Student/viewsms/"
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -136,7 +135,7 @@ function ReceivedSMSOwn() {
             <Box>
                 <Grid container >
 
-                    <Grid item sx={{ minWidth: '100%', p: 2, background: 'white'}}>
+                    <Grid item sx={{ minWidth: '100%', p: 2, background: 'white' }}>
                         <Typography variant={'h4'} fontWeight={800} textAlign={'center'} pt={1}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
                         <Box sx={{ mt: 2 }}>
                             {loading ? (
@@ -160,7 +159,9 @@ function ReceivedSMSOwn() {
                                         {displayList.map((row, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{row.UserName}</TableCell>
-                                                <TableCell>{row.Subject}</TableCell>
+                                                <TableCell>   <Link href={url + row.SMS_Id}>
+                                                    {row.Subject}
+                                                </Link></TableCell>
                                                 <TableCell>{format(new Date(row.Date), 'dd/MM/yyyy')}</TableCell>
                                             </TableRow>
                                         ))}

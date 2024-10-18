@@ -47,7 +47,7 @@ function ViewSms() {
         setViewSms(data);
       });
   };
-
+  console.log(viewSms, 'ViewDetail')
   useEffect(() => {
     GetViewMessageResult();
   }, []);
@@ -58,10 +58,10 @@ function ViewSms() {
         <CommonPageHeader
           navLinks={[
             {
-              title: 'Received SMS',
-              path: '/extended-sidebar/Teacher/SmsCenter'
+              title: 'SMS Center',
+              path: '/extended-sidebar/Teacher/ReceivedSMSOwn'
             },
-            { title: 'View SMS', path: '/extended-sidebar/Teacher/SmsCenter' },
+            { title: 'View SMS', path: '/extended-sidebar/Teacher/ReceivedSMSOwn' },
           ]}
           rightActions={
             <>
