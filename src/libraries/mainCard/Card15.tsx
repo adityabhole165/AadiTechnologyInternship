@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
-import { CardDetail, CardDetail2, CardDetail3, CardDetail4 } from '../styled/CardStyle';
+import { CardDetail, CardDetail2, CardDetail3 } from '../styled/CardStyle';
 
-const Card15 = ({ text1, text2, text3 }) => {
+const Card15 = ({ text1, text2 }) => {
   return (
     <Box p={1}>
       <CardDetail>
@@ -10,10 +10,6 @@ const Card15 = ({ text1, text2, text3 }) => {
           <b>User Name: </b>
           {text2}
         </CardDetail3>
-        <CardDetail4>
-          <b>Cc userName:</b>
-          {text3}{' '}
-        </CardDetail4>
       </CardDetail>
       <CardDetail2>
         <b>Read Date/Time: </b>

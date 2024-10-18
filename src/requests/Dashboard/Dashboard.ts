@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import DashboardApi from '../../api/dashboard/dashboard';
 
 import {
+  IApprovalProcessBody,
   IBirthdays,
   IFeedbackList,
   IMsgfrom,
@@ -28,8 +29,11 @@ const Dashboardlice = createSlice({
     Msgfrom: [],
     MessageCount: {},
     ISWeeklyAttendanceCount: [],
-    ISlistAttendanceCalender:[],
-    ISGetDayDates:[],
+    ISlistAttendanceCalender: [],
+    ISGetDayDates: [],
+    IsMyLeaveList: [],
+    IsMyRequisitionList: [],
+    IsMyAppraisal: [],
     Loading: true,
     UserLoginDetails: null
   },
@@ -83,11 +87,19 @@ const Dashboardlice = createSlice({
     RlistAttendanceCalender(state, action) {
       state.ISlistAttendanceCalender = action.payload;
     },
-    
+
     RGetDayDates(state, action) {
       state.ISGetDayDates = action.payload;
     },
-
+    RGetMyLeaveList(state, action) {
+      state.IsMyLeaveList = action.payload;
+    },
+    RGetMyRequisitionList(state, action) {
+      state.IsMyRequisitionList = action.payload;
+    },
+    RGetMyAppraisal(state, action) {
+      state.IsMyAppraisal = action.payload;
+    },
     Rresetphotolist(state) {
       state.PhotoAlbumList = [];
     },
@@ -193,14 +205,14 @@ export const CDAgetWeeklyAttendance =
       const GetDayDates = response.data.GetDayDates.map((item, index) => {
         return {
           DayName: item.DayName,
-          Attendance_Date:item.Attendance_Date,
-          
+          Attendance_Date: item.Attendance_Date,
+
         };
       });
       const listAttendanceCalender = response.data.listAttendanceCalender.map((item, index) => {
         return {
           Status_Desc: item.Status_Desc,
-          Att_date:item.Att_date
+          Att_date: item.Att_date
         };
       });
 
@@ -210,41 +222,41 @@ export const CDAgetWeeklyAttendance =
           TotalGirlsPercentage: item.TotalGirlsPercentage,
           TotalBoysPercentage: item.TotalBoysPercentage,
           TotalPresentPercentage: item.TotalPresentPercentage,
-          Attendance_Date:item.Attendance_Date,
+          Attendance_Date: item.Attendance_Date,
 
-          TotalBoysPresentPercentage:item.TotalBoysPresentPercentage,
-            TotalGirlsPresentPercentage: item.TotalGirlsPresentPercentage,
-            TotalBoysAbsentPercentage: item.TotalBoysAbsentPercentage,
-            TotalGirlsAbsentPercentage: item.TotalGirlsAbsentPercentage,
-            TotalPresent:item.TotalPresent,
-            TotalAbsent:item.TotalAbsent
+          TotalBoysPresentPercentage: item.TotalBoysPresentPercentage,
+          TotalGirlsPresentPercentage: item.TotalGirlsPresentPercentage,
+          TotalBoysAbsentPercentage: item.TotalBoysAbsentPercentage,
+          TotalGirlsAbsentPercentage: item.TotalGirlsAbsentPercentage,
+          TotalPresent: item.TotalPresent,
+          TotalAbsent: item.TotalAbsent
         };
       });
 
-       
+
       const statusDescriptions = GetDayDates.map(subjectSection => (
         listAttendanceCalender
           .filter(outcome => outcome.Att_date === subjectSection.Attendance_Date)
           .map(outcome => ({
             StatusDesc: outcome.Status_Desc,
             DayName: subjectSection.DayName,
-            Attendance_Date : outcome.Att_date
+            Attendance_Date: outcome.Att_date
           }))
       )).flat();
 
-     
+
       const filteredAttendance = statusDescriptions.map((desc) => {
         return WeeklyAttendanceDetailsdata.find((item) => item.Attendance_Date === desc.Attendance_Date) || {};
-    });
-    
+      });
+
 
       dispatch(Dashboardlice.actions.RgetWeeklyAttendance(filteredAttendance));
       dispatch(Dashboardlice.actions.RlistAttendanceCalender(statusDescriptions));
       dispatch(Dashboardlice.actions.RGetDayDates(GetDayDates));
-      
 
-      console.log(WeeklyAttendanceDetailsdata,"WeeklyAttendanceDetailsdata");
-      
+
+      console.log(WeeklyAttendanceDetailsdata, "WeeklyAttendanceDetailsdata");
+
     };
 
 
@@ -254,5 +266,34 @@ export const CDAresetphotolist = (): AppThunk => async (dispatch) => {
 export const CDAresetphotolist1 = (): AppThunk => async (dispatch) => {
   dispatch(Dashboardlice.actions.Rresetphotolist1());
 };
+
+
+export const GetLeaveRequisitionAppraisalDetails =
+  (data: IApprovalProcessBody): AppThunk =>
+    async (dispatch) => {
+      const response = await DashboardApi.ApiGetApprovalProcess(data);
+      const GetTopLeaveDetails = response.data.GetTopLeaveDetails.map((item, index) => {
+        return {
+          Description: item.Description,
+          Status: item.Status,
+          StartDate: item.StartDate,
+          EndDate: item.EndDate,
+          LeaveFullName: item.LeaveFullName,
+        };
+      });
+      const GetTopRequisitionDetails = response.data.GetTopRequisitionDetails.map((item, index) => {
+        return {
+          RequisitionDescription: item.RequisitionDescription,
+          RequisitionName: item.RequisitionName,
+          Created_Date: item.Created_Date,
+          ExpiryDate: item.ExpiryDate,
+          StatusName: item.StatusName,
+        };
+      });
+
+      dispatch(Dashboardlice.actions.RGetMyLeaveList(GetTopLeaveDetails));
+      dispatch(Dashboardlice.actions.RGetMyRequisitionList(GetTopRequisitionDetails));
+    };
+
 
 export default Dashboardlice.reducer;
