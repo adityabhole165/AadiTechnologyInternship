@@ -215,11 +215,11 @@ const ProgressRemarks = () => {
     let headerArray = [
       { Id: 1, Header: 'Roll No.' },
       { Id: 2, Header: 'Name' },
-      ...(SelectTerm == 2 && SchoolScreensAccessPermission() == true  ? [{ Id: 3, Header: 'Old Remarks' }] : []),
+      ...(SelectTerm == 2 && SchoolScreensAccessPermission() == false  ? [{ Id: 3, Header: 'Old Remarks' }] : []),
     ];
   
     USRemarkDetailsHeaderList.map((Item, i) => {
-      headerArray.push({ Id: i + (SelectTerm == 2 &&SchoolScreensAccessPermission() == true  ? 4 : 3), Header: Item.RemarkName });
+      headerArray.push({ Id: i + (SelectTerm == 2 &&SchoolScreensAccessPermission() == false  ? 4 : 3), Header: Item.RemarkName });
     });
   
     setHeaderArray(headerArray);
