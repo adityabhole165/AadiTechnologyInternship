@@ -103,15 +103,15 @@ const SelectList3Col = ({
           {SortExp === 'Subject' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
-        {showcolumn('To') && <Box sx={{ color: 'white', ml: 26 }}>To</Box>}
+        {showcolumn('To') && <Box sx={{ color: 'white', ml: 32 }}>To</Box>}
         {showcolumn('Cc') && <Box sx={{ color: 'white', ml: 26 }}>Cc</Box>}
-        {showcolumn('Read Receipt Information') && <Box sx={{ color: 'white', ml: 26 }}>Read Receipt Information</Box>}
+        {showcolumn('Read Receipt Information') && <Box sx={{ color: 'white', ml: 22 }}>Read Receipt Information</Box>}
         {showcolumn('Message Body') && <Box sx={{ color: 'white', ml: 44 }}>  Message Body</Box>}
-        {showcolumn('From') && <Box sx={{ color: 'white', ml: 54 }}>From</Box>}
-        {showcolumn('From1') && <Box sx={{ color: 'white', ml: 26 }}>From</Box>}
+        {showcolumn('From') && <Box sx={{ color: 'white', ml: 40 }}>From</Box>}
+        {showcolumn('From1') && <Box sx={{ color: 'white', ml: 40 }}>From</Box>}
         {showcolumn('Cc1') && <Box sx={{ color: 'white', ml: 26 }}>Cc</Box>}
-        {showcolumn('Attachment') && <Box sx={{ color: 'white', ml: 20 }}>Attachment</Box>}
-        {showcolumn('Received Date1') && <Box sx={{ color: 'white', ml: 46, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
+        {showcolumn('Attachment') && <Box sx={{ color: 'white', ml: 26 }}>Attachment</Box>}
+        {showcolumn('Received Date1') && <Box sx={{ color: 'white', ml: 28, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Received Date
           </Typography>
@@ -119,7 +119,7 @@ const SelectList3Col = ({
           {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white', }} /> :
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
-        {showcolumn('Received Date') && <Box sx={{ color: 'white', ml: 18, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
+        {showcolumn('Received Date') && <Box sx={{ color: 'white', ml: 20, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Received Date
           </Typography>
@@ -127,7 +127,7 @@ const SelectList3Col = ({
           {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white', }} /> :
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
-        {showcolumn('Sent Date') && <Box sx={{ color: 'white', ml: 18, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
+        {showcolumn('Sent Date') && <Box sx={{ color: 'white', ml: 5, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Sent Date
           </Typography>
