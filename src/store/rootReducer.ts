@@ -122,6 +122,8 @@ import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
 import SchoolLibraryslice from '../requests/SchoolLibrary/ReqLibraryBaseScreen';
 import SchoolNoticePopupslice from '../requests/SchoolNoticePopup/RequestSchoolNoticePopup';
+import SliceSentsms from '../requests/SentSms/ReqSentsms';
+import GetStandardwiseMinMaxDOBslice from '../requests/StudentDetails/RequestStudentDetails';
 import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudentRecords';
 import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
 import StudentsSlice from '../requests/Students/RequestStudents';
@@ -130,8 +132,6 @@ import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubje
 import UpcomingEventDashslice from '../requests/UpcomingEventDash/ReqUpcomingEventDash';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
-import SliceSentsms from '../requests/SentSms/ReqSentsms';
-
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Students: StudentsSlice,
@@ -266,7 +266,8 @@ const rootReducer = combineReducers({
   PerformanceGradeAssignment: PerformanceGradeAssignmentslice,
   UpcomingEventDash: UpcomingEventDashslice,
   SchoolLibrary: SchoolLibraryslice,
-  SentSms:SliceSentsms
+  SentSms: SliceSentsms,
+  GetStandardwiseMinMaxDOB: GetStandardwiseMinMaxDOBslice
 });
 
 export default rootReducer;
