@@ -182,10 +182,23 @@ function Card6() {
                   <ProfileComponent Name="Mobile Number :" Value={MobileNo} />
                 </TableCell>
                 <TableCell>
-                  <ProfileComponent Name="UDISE Number :" Value={UDISENumber} />
+                  <ProfileComponent Name="Email Id :" Value={null} />
                 </TableCell>
               </TableRow>
 
+              <TableRow>
+                <TableCell>
+                  <ProfileComponent Name="Joining Date :" Value={null} />
+                </TableCell>
+                <TableCell>
+                  <ProfileComponent Name="Subject Details :" Value={null} />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <ProfileComponent Name=" Standard Details:" Value={null} />
+                </TableCell>
+                </TableRow>
                 
              
             </>
