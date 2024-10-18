@@ -85,7 +85,7 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                         )}
                     <TableRow>
                         {SubHeaderArray.map((item) => (
-                            <><TableCell >
+                            <><TableCell ></TableCell ><TableCell >
                                 <Typography color="#38548A" textAlign={'center'} mr={9}  >
                                     <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
                                 </Typography>
