@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import { IMobileNumber, INewSmsList } from 'src/interfaces/Student/SMSCenter';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { getMobileNumber, getNewSmsList } from 'src/requests/Student/SMSCenter';
 import { RootState } from 'src/store';
 
@@ -33,7 +34,10 @@ function ReceivedSMSOwn() {
     const UserId = sessionStorage.getItem('Id');
     const RoleId = sessionStorage.getItem('RoleId');
     const [SortDirection, setSortDirection] = useState('DESC')
-
+    const filteredList = NewSmsList.filter((item) => item.TotalRows !== undefined);
+    const TotalCount = filteredList.map((item) => item.TotalRows);
+    const uniqueTotalCount = [...new Set(TotalCount)];
+    const singleTotalCount = uniqueTotalCount[0];
     useEffect(() => {
         const MobileNumber_body: IMobileNumber = {
             asSchoolId: asSchoolId,
@@ -73,7 +77,18 @@ function ReceivedSMSOwn() {
         asPageSize: page * rowsPerPage
     };
 
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+    const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1);
+    };
+
+    const PageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
     useEffect(() => {
         dispatch(getNewSmsList(SmsNewList_body))
     }, [page, rowsPerPage]);
@@ -183,9 +198,24 @@ function ReceivedSMSOwn() {
                                 </Typography>
                             )}
                         </Box>
+                        <Box mt={1}>
+                            {
+                                endRecord > 19 ? (
+                                    <ButtonGroupComponent
+                                        rowsPerPage={rowsPerPage}
+                                        ChangeRowsPerPage={ChangeRowsPerPage}
+                                        rowsPerPageOptions={rowsPerPageOptions}
+                                        PageChange={PageChange}
+                                        pagecount={pagecount}
+                                    />
+
+                                ) : (
+                                    <span></span>
+
+                                )
+                            }</Box>
                     </Grid>
                 </Grid>
-
             </Box>
         </Box>
     );
