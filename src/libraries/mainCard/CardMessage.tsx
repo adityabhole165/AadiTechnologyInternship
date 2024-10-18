@@ -70,7 +70,7 @@ function CardMessage({
   return (
     <>
       <Grid container alignItems={'center'} onClick={clickNav} pt={0.8}>
-        <Grid item xs={4} sm={6} md={ActiveTab == 'Inbox' ? 4 : ActiveTab == 'Sent' ? 3 : 4} >
+        <Grid item xs={2} sm={2} md={ActiveTab == 'Inbox' ? 4 : ActiveTab == 'Sent' ? 3 : 4} >
           <Typography
             variant="h6"
             sx={{
@@ -85,9 +85,11 @@ function CardMessage({
           </Typography>
         </Grid>
         {/* This attachment is used for Mobile view */}
-        <Grid item display={{ xs: 'block', sm: 'none' }} xs={1}>
+        <Grid item display={{ xs: 'block', sm: 'none' }} xs={2}>
           {IsAttachmentExist && <AttachmentIcon fontSize="small" />}
         </Grid>
+{/* 
+        Form data  */}
         <Grid item xs={2} sm={2} md={2}>
           <Typography
             variant="body1"
@@ -100,7 +102,8 @@ function CardMessage({
             {text1}
           </Typography>
         </Grid>
-        <Grid item xs={2} sm={2} md={2}>
+        {/* cc data  */}
+        <Grid item xs={2} sm={2} md={2} >
           <Typography
             variant="body1"
             sx={{
@@ -113,19 +116,22 @@ function CardMessage({
           </Typography>
         </Grid>
         {/* This attachment is used for web view */}
-        <Grid item display={{ xs: 'none', sm: 'block' }} sm={2} md={ActiveTab == 'Inbox' ? 2 : ActiveTab == 'Sent' ? 3 : 2}>
+        <Grid item  sm={2} md={ActiveTab == 'Inbox' ? 2 : ActiveTab == 'Sent' ? 3 : 2}>
           {IsAttachmentExist && (
-            <AttachmentIcon fontSize="small" sx={{ ml: '0px' }} />
+            <AttachmentIcon fontSize="small"  />
           )}
         </Grid>
         <>
           {HasReadReceipt && (
-            <Grid item xs={2} sm={2} md={2}>
+            <Grid item xs={1} sm={1} md={1} ml={-11}>
               {RequestReadReceipt ? (
                 <>
                   <Tooltip title={'Read Receipt Information'}>
                     <IconButton
                       sx={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
                         mb: '-5px', ml: '0px', color: '#38548A', '&:hover': {
                           color: 'green', backgroundColor: green[100]
                         }
@@ -164,7 +170,7 @@ function CardMessage({
             </Grid>
           )}
         </>
-        <Grid item xs={2} sm={2} md={2}>
+        <Grid item xs={2} sm={2} md={2} >
           <Typography variant="body1" sx={{ float: 'right' }}>
             <>
               {' '}
@@ -173,7 +179,7 @@ function CardMessage({
                 <ScheduleIcon
                   fontSize="small"
                   color="primary"
-                  sx={{ mb: '5px' }}
+                  // sx={{ mb: '5px' }}
                 />
               )}
             </>
