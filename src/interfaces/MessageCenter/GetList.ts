@@ -97,6 +97,12 @@ export interface GetScheduledSMSResult {
       CcUserName: string;
     }
   ];
+  UnreadMessagesCount: {
+    UnreadMessageTotalCount: number
+    IsBdayApplicable: boolean
+    CurrentYearDOB: string
+    IsLockedUser: boolean
+  }
 }
 export interface IUpdateReadReceiptStatusBody {
   asSchoolId: string;

@@ -107,6 +107,9 @@ const MessageList = () => {
   const MarkAsRead = useSelector(
     (state: RootState) => state.InboxMessage.UnReadMessage
   );
+  const TrashMarkAsUnRead = useSelector(
+    (state: RootState) => state.InboxMessage.trashUnReadMessage
+  )
 
   const StatusReadUnread = useSelector(
     (state: RootState) => state.MessageCenter.ReadUnReadStatus
@@ -574,7 +577,6 @@ const MessageList = () => {
   const ClickCloseDialogbox = () => {
     setOpen(false);
   };
-
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -687,6 +689,7 @@ const MessageList = () => {
                 <CardMessage
                   activeTab={activeTab}
                   MarkAsRead={MarkAsRead}
+                  TrashReadMessage={TrashMarkAsUnRead?.UnreadMessageTotalCount}
                   clickTab={clickTab}
                   clickSearchIcon={clickSearchIcon}
                 />

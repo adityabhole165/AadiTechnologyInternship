@@ -19,6 +19,7 @@ const InboxMessageSlice = createSlice({
     InboxList: [],
     NextPageList: [],
     UnReadMessage: null,
+    trashUnReadMessage: null,
     FilterData: false,
     Loading: true,
     ReadReceiptMessage: ''
@@ -38,6 +39,9 @@ const InboxMessageSlice = createSlice({
     },
     MarkReadMessage(state, action) {
       state.UnReadMessage = action.payload;
+    },
+    TrashMarkReadMessage(state, action) {
+      state.trashUnReadMessage = action.payload;
     },
     getFilterData(state, action) {
       state.FilterData = action.payload;
@@ -153,8 +157,9 @@ export const getListOfMessages =
             };
           });
         }
-        console.log(data, 'data');
-
+        console.log(response.data?.UnreadMessagesCount.UnreadMessageTotalCount, 'data-----');
+        let UnreadMessage = response.data.UnreadMessagesCount;
+        dispatch(InboxMessageSlice.actions.TrashMarkReadMessage(UnreadMessage));
         if (Pagination == true) {
           dispatch(InboxMessageSlice.actions.NextMessages(data));
         }

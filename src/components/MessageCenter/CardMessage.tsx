@@ -1,7 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid } from '@mui/material';
 import MCButtons from 'src/libraries/button/MCButtons';
-function CardMessage({ activeTab, clickSearchIcon, clickTab, MarkAsRead }) {
+function CardMessage({ activeTab, clickSearchIcon, clickTab, MarkAsRead, TrashReadMessage }) {
   return (
     <div>
       <Grid container>
@@ -10,6 +10,7 @@ function CardMessage({ activeTab, clickSearchIcon, clickTab, MarkAsRead }) {
             activeTab={activeTab}
             clickTab={clickTab}
             MarkAsRead={MarkAsRead}
+            TrashReadMessage={TrashReadMessage}
           ></MCButtons>
         </Grid>
         <Grid

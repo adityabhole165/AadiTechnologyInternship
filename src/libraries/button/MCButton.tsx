@@ -19,7 +19,7 @@ const Item = styled(Card)(({ theme }) => ({
   color: theme.palette.text.secondary
 }));
 
-const MCButton = ({ ButtonType, clickTab, activeTab, MarkAsRead }) => {
+const MCButton = ({ ButtonType, clickTab, activeTab, MarkAsRead, TrashReadMessage }) => {
   const pageLink = '/extended-sidebar/MessageCenter/msgCenter/' + ButtonType;
   const classes = Styles();
   const pathname = window.location.pathname;
@@ -43,7 +43,9 @@ const MCButton = ({ ButtonType, clickTab, activeTab, MarkAsRead }) => {
         ) : ButtonType === 'Sent' ? (
           <SendIcon className={classes.IconSize} />
         ) : ButtonType === 'Trash' ? (
-          <DeleteForeverIcon className={classes.IconSize} />
+          <Badge badgeContent={TrashReadMessage} color="error">
+            <DeleteForeverIcon className={classes.IconSize} />
+          </Badge>
         ) : ButtonType === 'Draft' ? (
           <DraftsIcon className={classes.IconSize} />
         ) : null}

@@ -88,7 +88,7 @@ function CardMessage({
         <Grid item display={{ xs: 'block', sm: 'none' }} xs={2}>
           {IsAttachmentExist && <AttachmentIcon fontSize="small" />}
         </Grid>
-{/* 
+        {/* 
         Form data  */}
         <Grid item xs={2} sm={2} md={2}>
           <Typography
@@ -116,15 +116,17 @@ function CardMessage({
           </Typography>
         </Grid>
         {/* This attachment is used for web view */}
-        <Grid item  sm={2} md={ActiveTab == 'Inbox' ? 2 : ActiveTab == 'Sent' ? 3 : 2}>
+        <Grid item sm={2} md={ActiveTab == 'Inbox' ? 2 : ActiveTab == 'Sent' ? 3 : 2}>
           {IsAttachmentExist && (
-            <AttachmentIcon fontSize="small"  />
+            <AttachmentIcon fontSize="small" />
           )}
         </Grid>
         <>
-          {HasReadReceipt && (
+          {/* {HasReadReceipt && ( */}
+          {ActiveTab === 'Sent' && (
             <Grid item xs={1} sm={1} md={1} ml={-11}>
-              {RequestReadReceipt ? (
+              {/* only RequestReadReceipt ? */}
+              {HasReadReceipt == true && RequestReadReceipt ? (
                 <>
                   <Tooltip title={'Read Receipt Information'}>
                     <IconButton
@@ -167,8 +169,8 @@ function CardMessage({
                 // sx={{ mt: '-2px', ml: '4px' }}
                 />
               )}
-            </Grid>
-          )}
+            </Grid>)}
+          {/* )} */}
         </>
         <Grid item xs={2} sm={2} md={2} >
           <Typography variant="body1" sx={{ float: 'right' }}>
@@ -179,7 +181,7 @@ function CardMessage({
                 <ScheduleIcon
                   fontSize="small"
                   color="primary"
-                  // sx={{ mb: '5px' }}
+                // sx={{ mb: '5px' }}
                 />
               )}
             </>

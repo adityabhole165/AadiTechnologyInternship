@@ -106,7 +106,7 @@ const SelectList3Col = ({
         {showcolumn('To') && <Box sx={{ color: 'white', ml: 32 }}>To</Box>}
         {showcolumn('Cc') && <Box sx={{ color: 'white', ml: 26 }}>Cc</Box>}
         {showcolumn('Read Receipt Information') && <Box sx={{ color: 'white', ml: 22 }}>Read Receipt Information</Box>}
-        {showcolumn('Message Body') && <Box sx={{ color: 'white', ml: 44 }}>  Message Body</Box>}
+        {showcolumn('Message Body') && <Box sx={{ color: 'white', ml: 32 }}>  Message Body</Box>}
         {showcolumn('From') && <Box sx={{ color: 'white', ml: 40 }}>From</Box>}
         {showcolumn('From1') && <Box sx={{ color: 'white', ml: 40 }}>From</Box>}
         {showcolumn('Cc1') && <Box sx={{ color: 'white', ml: 26 }}>Cc</Box>}
@@ -135,7 +135,7 @@ const SelectList3Col = ({
           {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
-        {showcolumn('Draft Date') && <Box sx={{ color: 'white', ml: 44, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
+        {showcolumn('Draft Date') && <Box sx={{ color: 'white', ml: 57, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Draft Date
           </Typography>
