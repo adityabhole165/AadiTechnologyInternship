@@ -89,7 +89,7 @@ const AddRequisition = () => {
 
     const imageUrls: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage.ImageUrls);
 
-console.log(imageUrls,"imageUrls");
+    console.log(imageUrls, "imageUrls");
 
 
 
@@ -621,14 +621,14 @@ console.log(imageUrls,"imageUrls");
 
     const [selectedImage, setSelectedImage] = useState(null);
 
-   
+
     const handleImageClick = (url) => {
-        setSelectedImage(url); 
+        setSelectedImage(url);
     };
 
-   
+
     const handleClose1 = () => {
-        setSelectedImage(null); 
+        setSelectedImage(null);
     };
 
     return (
@@ -920,7 +920,7 @@ console.log(imageUrls,"imageUrls");
 
 
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: 'auto', minWidth: '300px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: 'auto', minWidth: '300px' ,}}  >
                 <Dialog open={open1} onClose={handleClose} scroll="body" >
                     <Box sx={{ backgroundColor: "#ede7f6" }}>
                         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -944,6 +944,10 @@ console.log(imageUrls,"imageUrls");
                     {/* Enlarged image dialog */}
                     <Dialog open={!!selectedImage} onClose={handleClose1}>
                         <DialogContent>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <ClearIcon onClick={handleClose1} sx={{ color: 'red', cursor: 'pointer' }} />
+                            </Box>
+
                             {selectedImage && (
                                 <img
                                     src={selectedImage}
@@ -953,6 +957,7 @@ console.log(imageUrls,"imageUrls");
                             )}
                         </DialogContent>
                     </Dialog>
+
 
 
                 </Dialog>
