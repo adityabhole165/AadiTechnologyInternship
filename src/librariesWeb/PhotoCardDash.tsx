@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllAcademicYearsForSchoolEVBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import CarouselPhoto from 'src/libraries/card/CarouselPhoto';
 import { CDAAllAcademicYearsForSchool } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
-import { CDAresetphotolist, CDAresetphotolist1, CDAgetPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
+import { CDAgetPhotoAlbum, CDAresetphotolist, CDAresetphotolist1 } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
 import Actions from './Actions';
 import Header from './Header';
@@ -176,14 +176,14 @@ function PhotoCardDash() {
   const handleClearFilter = () => {
     setMonth('100');
     setYear(currentYear);
-   
+
     handleClose();
     setLastRefreshTime(new Date());
   };
 
 
   const handleApplyFilter = () => {
-    
+
     const filteredPicsBody = {
       ...picsBody,
       aiMonth: Number(month),
@@ -215,7 +215,7 @@ function PhotoCardDash() {
         <Grid item xs={12}>
           <Header Title="Photo Albums" />
         </Grid>
-        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
+        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', pr: 4, mt: 1 }}>
           <Actions IconType="Label" DiplayText={PhotoAlbum1.length !== 0 ? PhotoAlbum1.length : '0'} />
           <Actions Icon={RefreshIcon} ClickIcon={handleClearFilter}
             title={`You are viewing ${countdown} old data, click here to see the latest data.`}
@@ -234,16 +234,16 @@ function PhotoCardDash() {
       <div>
         <Box sx={{ display: 'flex', justifyContent: 'center', }}>
           {PhotoAlbum.length > 0 ? (
-            <CarouselPhoto 
-            itemlist={PhotoAlbum1}
-             IsPath={true}
-              onImageClick={handleImageClick} 
-              largeImage={false} 
+            <CarouselPhoto
+              itemlist={PhotoAlbum1}
+              IsPath={true}
+              onImageClick={handleImageClick}
+              largeImage={false}
               isSlideshowRunning={undefined} />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
-            <b>No record found.</b>
-          </Typography>
+              <b>No record found.</b>
+            </Typography>
           )}
         </Box>
 
@@ -308,11 +308,10 @@ function PhotoCardDash() {
 
           </DialogContent>
         </Dialog>
-
-        <Grid item xs={12} textAlign={'center'} >
-          <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
-        </Grid>
       </div>
+      <Grid item xs={12} textAlign={'center'} >
+        <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
+      </Grid>
     </Box>
   );
 }
