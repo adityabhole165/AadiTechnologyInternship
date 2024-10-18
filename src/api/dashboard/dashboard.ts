@@ -1,4 +1,6 @@
 import {
+  IApprovalProcessBody,
+  IApprovalProcessResult,
   IBirthdays,
   IFeedbackList,
   IMsgfrom,
@@ -56,6 +58,9 @@ const GetSaveUserLoginDetailsResult = (data: ISaveUserLoginDetailsBody) => {
 const ApiGetWeeklyAttendance = (data: IWeeklyAttendanceBody) => {
   return http.post<IWeeklyAttendanceResult>('Teacher/GetWeeklyAttendance', data);
 };
+const ApiGetApprovalProcess = (data: IApprovalProcessBody) => {
+  return http.post<IApprovalProcessResult>('Teacher/GetLeaveRequisitionAppraisalDetails', data);
+};
 const DashboardApi = {
   GetUnreadMessageList,
   GetUpcomingEventSList,
@@ -65,7 +70,8 @@ const DashboardApi = {
   GetMessageFromList,
   GetMessagesCount,
   GetSaveUserLoginDetailsResult,
-  ApiGetWeeklyAttendance
+  ApiGetWeeklyAttendance,
+  ApiGetApprovalProcess
 };
 
 export default DashboardApi;

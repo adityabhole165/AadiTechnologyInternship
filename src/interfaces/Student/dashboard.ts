@@ -166,20 +166,20 @@ export interface IWeeklyAttendanceBody {
 
 export interface IWeeklyAttendanceResult {
   GetDayDates: [
-      {
-        Attendance_Date: string;
-        DayName: string;
-      }
+    {
+      Attendance_Date: string;
+      DayName: string;
+    }
   ],
   listAttendanceCalender: [
-      {
-        Att_date: string;
-        Status: string;
-        Status_Desc: string;
-        Status_ForeColur: string;
-        Status_BackColur: string;
-         
-      }
+    {
+      Att_date: string;
+      Status: string;
+      Status_Desc: string;
+      Status_ForeColur: string;
+      Status_BackColur: string;
+
+    }
   ],
   WeeklyAttendanceDetails: [
     {
@@ -200,13 +200,59 @@ export interface IWeeklyAttendanceResult {
       TotalGirlsAbsentPercentage: string;
       TotalBoysPercentage: string;
       TotalGirlsPercentage: string;
-      TotalAbsentPercentage:string
+      TotalAbsentPercentage: string
     }
-],
+  ],
 
-
-      
-
-  
 }
+
+export interface IApprovalProcessBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asUserId: number;
+}
+
+export interface IApprovalProcessResult {
+  GetTopLeaveDetails: [
+    {
+      RowNo: number;
+      Id: number;
+      UserId: number;
+      LeaveId: number;
+      Status: string;
+      StartDate: string;
+      EndDate: string;
+      TotalDays: string;
+      Description: string;
+      StatusId: number;
+      UserName: string;
+      IsApprovedByApprover: boolean;
+      LeaveName: string;
+      LeaveFullName: string;
+      LeaveBalance: string;
+      IsLeaveUpdatedInPayroll: boolean;
+    }
+  ],
+  GetTopRequisitionDetails: [
+    {
+      RequisitionID: string;
+      RequisitionCode: string;
+      RequisitionName: string;
+      StatusName: string;
+      School_Id: number;
+      Created_Date: number;
+      StatusID: number;
+      CreatedId: number;
+      CreaterName: string;
+      NextDesignationId: number;
+      ExpiryDate: string;
+      Editable: boolean;
+      IsDelete: boolean;
+      IsFinalApproval: boolean;
+      RequisitionDescription: string;
+    }
+  ],
+  GetTopAppraisalDetails: [],
+}
+
 
