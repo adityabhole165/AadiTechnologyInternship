@@ -108,9 +108,9 @@ function Card6() {
 
       }}
     >
-      <Card sx={{backgroundColor: '#00acc1', borderRadius:'7px'}}>
+      <Card sx={{background: (theme) => theme.palette.secondary.main, borderRadius:'7px'}}>
       <Box
-        sx={{ backgroundColor: '#00acc1', p:2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        sx={{  p:2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
         <Box
           ml={
@@ -133,7 +133,7 @@ function Card6() {
           </Box>
         )}
       </Box>
-      <ProfileDetailHeader  style={{ marginRight: '12px', textAlign: 'center' }}>
+      <ProfileDetailHeader  style={{ marginRight: '12px', textAlign: 'center', color:'white', fontSize:'20px'}}>
         <b>{UserName}</b>
       </ProfileDetailHeader>
 
@@ -143,14 +143,14 @@ function Card6() {
         </ProfileDetail2>
       )}
 </Card>
-<ListStyle
+{/* <ListStyle
   sx={{
     marginBottom: '0px',
     height: '100%',
     width: '100%',
     borderRadius: '7px',
   }}
->
+> */}
   <Grid container>
     <Grid item xs={12}>
       <Table>
@@ -297,7 +297,7 @@ function Card6() {
       </Table>
     </Grid>
   </Grid>
-</ListStyle>
+{/* </ListStyle> */}
       </Card>
     </>
   );
