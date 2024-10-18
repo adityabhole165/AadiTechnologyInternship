@@ -716,3 +716,15 @@ export const encodeURL = (data) => {
 export const decodeURL = (data) => {
   return Buffer.from(data, 'base64').toString('utf-8');
 }
+
+
+//SchoolScreensAccessPermission
+
+export const SchoolScreensAccessPermission = () => {
+  let flag = true;
+  const schoolId = localStorage.getItem('SchoolId');
+  if (schoolId === '18') {
+    flag = false;
+  }
+  return flag;
+}
