@@ -7,6 +7,7 @@ import SmsOutlined from '@mui/icons-material/SmsOutlined';
 import { Box, Divider, Grid, IconButton, Tooltip, Typography, styled } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import {
@@ -14,6 +15,7 @@ import {
   IViewSms
 } from 'src/interfaces/Student/SMSCenter';
 import http from 'src/requests/SchoolService/schoolServices';
+import { RootState } from 'src/store';
 
 const FlexedTypography = styled(Typography)(({ theme }) => ({
   display: 'flex',
@@ -28,6 +30,11 @@ function ViewSms() {
     SMS_Text: 'SMS Text'
   };
   const [viewSms, setViewSms] = useState<GetSMSDetailsResult>();
+  const GetScreensAccessPermissions: any = useSelector(
+    (state: RootState) =>
+      state.getModulesPermissionsResult.ModulesPermissionsResult
+  );
+  const ScreensAccessPermission = GetScreensAccessPermissions;
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -52,17 +59,32 @@ function ViewSms() {
     GetViewMessageResult();
   }, []);
 
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission && ScreensAccessPermission.map((item) => {
+      if (item.ScreenName === 'SMS Center') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
+  const navLinks = [
+    {
+      title: 'SMS Center',
+      path: GetScreenPermission() === 'N'
+        ? '/extended-sidebar/Teacher/ReceivedSMSOwn'
+        : '/extended-sidebar/Teacher/SmsCenter',
+    },
+    {
+      title: 'View SMS',
+      path: GetScreenPermission() === 'N'
+        ? '/extended-sidebar/Teacher/ReceivedSMSOwn'
+        : '/extended-sidebar/Teacher/SmsCenter',
+    }
+  ];
   return (
     <>
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
-          navLinks={[
-            {
-              title: 'SMS Center',
-              path: '/extended-sidebar/Teacher/ReceivedSMSOwn'
-            },
-            { title: 'View SMS', path: '/extended-sidebar/Teacher/ReceivedSMSOwn' },
-          ]}
+          navLinks={navLinks}
           rightActions={
             <>
               <Box>
