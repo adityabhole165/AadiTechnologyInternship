@@ -70,7 +70,7 @@ function CardMessage({
   return (
     <>
       <Grid container alignItems={'center'} onClick={clickNav} pt={0.8}>
-        <Grid item xs={11} sm={6} md={4}>
+        <Grid item xs={4} sm={6} md={ActiveTab == 'Inbox' ? 4 : ActiveTab == 'Sent' ? 3 : 4} >
           <Typography
             variant="h6"
             sx={{
@@ -88,18 +88,7 @@ function CardMessage({
         <Grid item display={{ xs: 'block', sm: 'none' }} xs={1}>
           {IsAttachmentExist && <AttachmentIcon fontSize="small" />}
         </Grid>
-
-        <Grid item xs={6} sm={2} md={4.5}>
-          <Typography
-            variant="body1"
-            sx={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap'
-            }}
-          >
-            {text3}
-          </Typography>
+        <Grid item xs={2} sm={2} md={2}>
           <Typography
             variant="body1"
             sx={{
@@ -111,14 +100,71 @@ function CardMessage({
             {text1}
           </Typography>
         </Grid>
+        <Grid item xs={2} sm={2} md={2}>
+          <Typography
+            variant="body1"
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {text3}
+          </Typography>
+        </Grid>
         {/* This attachment is used for web view */}
-        <Grid item display={{ xs: 'none', sm: 'block' }} sm={1} md={0.5}>
+        <Grid item display={{ xs: 'none', sm: 'block' }} sm={2} md={ActiveTab == 'Inbox' ? 2 : ActiveTab == 'Sent' ? 3 : 2}>
           {IsAttachmentExist && (
-            <AttachmentIcon fontSize="small" sx={{ ml: '20px' }} />
+            <AttachmentIcon fontSize="small" sx={{ ml: '0px' }} />
           )}
         </Grid>
-
-        <Grid item xs={6} sm={4} md={3}>
+        <>
+          {HasReadReceipt && (
+            <Grid item xs={2} sm={2} md={2}>
+              {RequestReadReceipt ? (
+                <>
+                  <Tooltip title={'Read Receipt Information'}>
+                    <IconButton
+                      sx={{
+                        mb: '-5px', ml: '0px', color: '#38548A', '&:hover': {
+                          color: 'green', backgroundColor: green[100]
+                        }
+                      }}
+                      onClick={(e) => {
+                        handleClickToOpen(e);
+                      }}
+                    >
+                      <DraftsIcon
+                        fontSize="small"
+                      /></IconButton>
+                  </Tooltip>
+                  <Dialog
+                    open={popup}
+                    onClose={() => {
+                      setPopup(false);
+                    }}
+                  >
+                    {ReadReceipt.map((item, i) => (
+                      <div key={i}>
+                        <Card15
+                          text1={item.ReadingDateTime}
+                          text2={item.UserName}
+                        />
+                      </div>
+                    ))}
+                  </Dialog>
+                </>
+              ) : (
+                <EmailIcon
+                  fontSize="small"
+                  color="error"
+                // sx={{ mt: '-2px', ml: '4px' }}
+                />
+              )}
+            </Grid>
+          )}
+        </>
+        <Grid item xs={2} sm={2} md={2}>
           <Typography variant="body1" sx={{ float: 'right' }}>
             <>
               {' '}
@@ -129,54 +175,6 @@ function CardMessage({
                   color="primary"
                   sx={{ mb: '5px' }}
                 />
-              )}
-            </>
-
-            <>
-              {HasReadReceipt && (
-                <>
-                  {RequestReadReceipt ? (
-                    <>
-                      <Tooltip title={'Read Receipt Information'}>
-                        <IconButton
-                          sx={{
-                            mb: '-5px', ml: '4px', color: '#38548A', '&:hover': {
-                              color: 'green', backgroundColor: green[100]
-                            }
-                          }}
-                          onClick={(e) => {
-                            handleClickToOpen(e);
-                          }}
-                        >
-                          <DraftsIcon
-                            fontSize="small"
-                          /></IconButton>
-                      </Tooltip>
-                      <Dialog
-                        open={popup}
-                        onClose={() => {
-                          setPopup(false);
-                        }}
-                      >
-                        {ReadReceipt.map((item, i) => (
-                          <div key={i}>
-                            <Card15
-                              text1={item.ReadingDateTime}
-                              text2={item.UserName}
-                              text3={item.CcUserName}
-                            />
-                          </div>
-                        ))}
-                      </Dialog>
-                    </>
-                  ) : (
-                    <EmailIcon
-                      fontSize="small"
-                      color="error"
-                      sx={{ mt: '-2px', ml: '4px' }}
-                    />
-                  )}
-                </>
               )}
             </>
           </Typography>
