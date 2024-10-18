@@ -45,7 +45,7 @@ import CommonPageHeader from '../CommonPageHeader';
 import ProgressRemarkTerm from './ProgressRemarkTerm';
 import ProgressRemarksNotes from './ProgressRemarksNotes';
 import { getSchoolConfigurations } from '../Common/Util';
-
+import { SchoolScreensAccessPermission } from 'src/components/Common/Util';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { string } from 'prop-types';
 
@@ -215,15 +215,15 @@ const ProgressRemarks = () => {
     let headerArray = [
       { Id: 1, Header: 'Roll No.' },
       { Id: 2, Header: 'Name' },
-      ...(SelectTerm == 2 && asSchoolId == 18 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
+      ...(SelectTerm == 2 && SchoolScreensAccessPermission() == true  ? [{ Id: 3, Header: 'Old Remarks' }] : []),
     ];
   
     USRemarkDetailsHeaderList.map((Item, i) => {
-      headerArray.push({ Id: i + (SelectTerm == 2 && asSchoolId == 18 ? 4 : 3), Header: Item.RemarkName });
+      headerArray.push({ Id: i + (SelectTerm == 2 &&SchoolScreensAccessPermission() == true  ? 4 : 3), Header: Item.RemarkName });
     });
   
     setHeaderArray(headerArray);
-  }, [USRemarkDetailsHeaderList, SelectTerm, asSchoolId]);
+  }, [USRemarkDetailsHeaderList, SelectTerm, SchoolScreensAccessPermission()]);
   
   // useEffect(() => {
   //   let headerArray = [

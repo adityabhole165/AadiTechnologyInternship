@@ -721,10 +721,10 @@ export const decodeURL = (data) => {
 //SchoolScreensAccessPermission
 
 export const SchoolScreensAccessPermission = () => {
-  let flag = true;
+  let flag = false;
   const schoolId = localStorage.getItem('SchoolId');
   if (schoolId === '18') {
-    flag = false;
+    flag = true;
   }
   return flag;
 }

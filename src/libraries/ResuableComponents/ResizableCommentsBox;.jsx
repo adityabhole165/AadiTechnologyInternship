@@ -121,6 +121,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useContext } from 'react';
+import { SchoolScreensAccessPermission } from 'src/components/Common/Util';
 import ProgressRemarkTerm from 'src/components/ProgressRemarks/ProgressRemarkTerm';
 
 function ResizableCommentsBox({
@@ -209,7 +210,7 @@ function ResizableCommentsBox({
                 >
                   {item.Text2}
                 </TableCell>
-                {TermId.SelectTerm == 2 && asSchoolId == 18 && (
+                {TermId.SelectTerm == 2 && SchoolScreensAccessPermission() == true  && (
                   <TableCell align="left" sx={{ py: 0.5 }}>
                     <TextareaAutosize value={item.Text4} minRows={2} 
                       disabled
