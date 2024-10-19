@@ -185,7 +185,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: Number(sessionStorage.getItem('StandardDivisionId')),
-    asUserRole: sessionStorage.getItem('DesignationName'),
+    asUserRole: '2',
   }
 
   useEffect(() => {
@@ -518,7 +518,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Extra Screens',
-      title: 'Add Aadhar Card Details',
+      title: getPageName(267),
       icon: <AddCardTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AadharCard',
       screenId: 267
