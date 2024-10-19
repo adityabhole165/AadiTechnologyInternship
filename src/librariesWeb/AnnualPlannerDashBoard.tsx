@@ -11,7 +11,7 @@ import Header from './Header';
 
 function MyLeaveRequisitionAppraisal() {
     const dispatch = useDispatch();
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('My Leave');
     const [isRefresh, setIsRefresh] = useState(false);
     const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(new Date());
     const [countdown, setCountdown] = useState('');
@@ -45,7 +45,7 @@ function MyLeaveRequisitionAppraisal() {
                 return MyLeaveDetails;
             case 'My Requisition':
                 return RequisitionDetails;
-            case 'Appraisal':
+            case 'My Appraisal':
                 return AppraisalDetails;
             default:
                 return [...MyLeaveDetails, ...RequisitionDetails, ...AppraisalDetails];
@@ -76,7 +76,7 @@ function MyLeaveRequisitionAppraisal() {
     }, [lastRefreshTime]);
 
     const handleRefresh = () => {
-        setSelectedCategory('');
+        setSelectedCategory('My Leave');
         setLastRefreshTime(new Date());
     };
 
@@ -101,8 +101,9 @@ function MyLeaveRequisitionAppraisal() {
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'Approved': return 'success';
-            case 'Pending': return 'info';
+            case 'Pending': return 'warning';
             case 'Rejected': return 'error';
+            case 'Submitted': return 'secondary';
             default: return 'default';
         }
     };
@@ -149,13 +150,13 @@ function MyLeaveRequisitionAppraisal() {
                 </Grid>
             </Grid>
 
-            <Box sx={{ height: '198px', mt: 2, overflow: 'auto' }}>
+            <Box sx={{ height: '200px', mt: 2, overflow: 'auto' }}>
                 {filteredData().map((data: any, index: number) => (
                     <Grid item xs={12} key={index}>
                         <Grid container>
                             <Grid item xs={8}>
                                 <Typography variant="h4" p={1} sx={{ color: `${getButtonColor(selectedCategory)}` }}>
-                                    {data.Description || data.RequisitionName || 'No Title'}
+                                    {data.Description || data.RequisitionName || data.UserName}
                                 </Typography>
                             </Grid>
                             <Grid item xs={4} pt={0.5}>
@@ -167,22 +168,26 @@ function MyLeaveRequisitionAppraisal() {
                                         ` to ${data.EndDate.length > 4 ? data.EndDate.slice(0, -5) : data.EndDate}`
                                     )}
                                 </Typography> */}
-                                <Typography>
+                                <Typography sx={{ ml: 2.5 }}>
                                     {data.StartDate?.length > 4
                                         ? data.StartDate.slice(0, -5)
-                                        : data.StartDate || data.Created_Date}
-                                    {data.StartDate !== data.EndDate && (
-                                        ` to ${data.EndDate
-                                            ? data.EndDate.length > 4
-                                                ? data.EndDate.slice(0, -5)
-                                                : data.EndDate
-                                            : data.ExpiryDate
-                                                ? data.ExpiryDate.length > 4
-                                                    ? data.ExpiryDate.slice(0, -2)
-                                                    : data.ExpiryDate
-                                                : ''
-                                        }`
-                                    )}
+                                        : data.StartDate ||
+                                        (data.UpdateDate?.length > 4
+                                            ? data.UpdateDate.slice(0, -5)
+                                            : data.UpdateDate) ||
+                                        (data.Created_Date?.length > 4
+                                            ? data.Created_Date.slice(0, -5)
+                                            : data.Created_Date)
+                                    }
+                                    {/* For "My Requisition", use ExpiryDate instead of EndDate */}
+                                    {selectedCategory === 'My Requisition'
+                                        ? (data.StartDate !== data.ExpiryDate && data.ExpiryDate && (
+                                            ` to ${data.ExpiryDate.length > 4 ? data.ExpiryDate.slice(0, -12) : data.ExpiryDate}`
+                                        ))
+                                        : (data.StartDate !== data.EndDate && data.EndDate && (
+                                            ` to ${data.EndDate.length > 4 ? data.EndDate.slice(0, -5) : data.EndDate}`
+                                        ))
+                                    }
                                 </Typography>
 
                             </Grid>
@@ -203,9 +208,18 @@ function MyLeaveRequisitionAppraisal() {
                                             mr: 1,
                                         }}
                                     >
-                                        {data.LeaveFullName || data.RequisitionDescription || 'No Description'}
+                                        {data.LeaveFullName || data.RequisitionDescription || ''}
                                     </Typography>
-                                    <Chip label={data.Status || data.StatusName} color={getStatusColor(data.Status || data.StatusName)} size="small" />
+                                    {/* <Chip label={data.Status || data.StatusName} color={getStatusColor(data.Status || data.StatusName)} size="small" /> */}
+                                    <Chip
+                                        label={data.Status || data.StatusName}
+                                        color={getStatusColor(data.Status || data.StatusName)}
+                                        size="small"
+                                        sx={{
+                                            backgroundColor: data.Status === 'Submitted' ? '#00c853' : undefined,
+                                            color: data.Status === 'Submitted' ? 'white' : undefined,
+                                        }} // Custom pink color for submitted
+                                    />
                                 </Box>
                             </Grid>
                             <Grid item xs={12}>

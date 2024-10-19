@@ -252,7 +252,15 @@ export interface IApprovalProcessResult {
       RequisitionDescription: string;
     }
   ],
-  GetTopAppraisalDetails: [],
+  GetTopAppraisalDetails: [
+    {
+      UserId: number;
+      UserName: string;
+      IsSupervisor: boolean;
+      UpdateDate: string;
+      Status: string;
+    }
+  ],
 }
 
 

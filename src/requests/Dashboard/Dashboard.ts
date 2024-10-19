@@ -281,6 +281,7 @@ export const GetLeaveRequisitionAppraisalDetails =
           LeaveFullName: item.LeaveFullName,
         };
       });
+
       const GetTopRequisitionDetails = response.data.GetTopRequisitionDetails.map((item, index) => {
         return {
           RequisitionDescription: item.RequisitionDescription,
@@ -291,8 +292,19 @@ export const GetLeaveRequisitionAppraisalDetails =
         };
       });
 
+      const GetTopAppraisalDetails = response.data.GetTopAppraisalDetails.map((item, index) => {
+        return {
+          UserId: item.UserId,
+          UserName: item.UserName,
+          IsSupervisor: item.IsSupervisor,
+          UpdateDate: item.UpdateDate,
+          Status: item.Status,
+        };
+      });
+
       dispatch(Dashboardlice.actions.RGetMyLeaveList(GetTopLeaveDetails));
       dispatch(Dashboardlice.actions.RGetMyRequisitionList(GetTopRequisitionDetails));
+      dispatch(Dashboardlice.actions.RGetMyAppraisal(GetTopAppraisalDetails));
     };
 
 
