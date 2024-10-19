@@ -89,7 +89,7 @@ function CardMessage({
           {IsAttachmentExist && <AttachmentIcon fontSize="small" />}
         </Grid>
         {/* 
-        Form data  */}
+        Form data and Message Body */}
         <Grid item xs={2} sm={2} md={2}>
           <Typography
             variant="body1"
@@ -100,6 +100,9 @@ function CardMessage({
             }}
           >
             {text1}
+            {/* <span
+              dangerouslySetInnerHTML={{ __html: text1 }}  // Render HTML content inside span
+            /> */}
           </Typography>
         </Grid>
         {/* cc data  */}

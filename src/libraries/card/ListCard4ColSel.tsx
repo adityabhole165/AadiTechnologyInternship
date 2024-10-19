@@ -1,5 +1,5 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Grid, Grow } from '@mui/material';
+import { Grid, Grow, Tooltip } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -30,18 +30,21 @@ const ListCard4ColSel = ({ Item, onChange, ActiveTab, DeleteDraft }) => {
                   onChange={onChange}
                 />
               ) : (
-                <DeleteForeverIcon
-                  onClick={() => DeleteDraft(Item.Id)}
-                  sx={{
-                    color: '#38548A',
-                    cursor: 'pointer',
-                    //  backgroundColor: grey[500],
-                    '&:hover': {
-                      color: 'red',
-                      backgroundColor: red[100]
-                    }
-                  }}
-                />
+                <Tooltip
+                  title="Delete">
+                  <DeleteForeverIcon
+                    onClick={() => DeleteDraft(Item.Id)}
+                    sx={{
+                      color: '#38548A',
+                      cursor: 'pointer',
+                      //  backgroundColor: grey[500],
+                      '&:hover': {
+                        color: 'red',
+                        backgroundColor: red[100]
+                      }
+                    }}
+                  />
+                </Tooltip>
               )}
             </Grid>
             <Grid item xs={11} sm={11}>

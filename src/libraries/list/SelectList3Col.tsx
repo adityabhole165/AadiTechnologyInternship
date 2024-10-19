@@ -96,7 +96,7 @@ const SelectList3Col = ({
         border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden'
       }}>
         {showcolumn('Delete') && <Box sx={{ color: 'white', ml: 0 }}>Delete</Box>}
-        {showcolumn('Subject') && <Box onClick={() => { clickHeader('Subject') }} sx={{ color: 'white', ml: 6, display: 'flex' }}>
+        {showcolumn('Subject') && <Box onClick={() => { clickHeader('Subject') }} sx={{ color: 'white', ml: 7, display: 'flex' }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Subject
           </Typography>
