@@ -103,7 +103,7 @@ function CardMessage({
           </Typography>
         </Grid>
         {/* cc data  */}
-        <Grid item xs={2} sm={2} md={2} >
+        <Grid item xs={2} sm={2} md={2}  >
           <Typography
             variant="body1"
             sx={{
@@ -116,7 +116,7 @@ function CardMessage({
           </Typography>
         </Grid>
         {/* This attachment is used for web view */}
-        <Grid item sm={2} md={ActiveTab == 'Inbox' ? 2 : ActiveTab == 'Sent' ? 3 : 2}>
+        <Grid item sm={2} md={2} ml={-2}>
           {IsAttachmentExist && (
             <AttachmentIcon fontSize="small" />
           )}
@@ -124,7 +124,7 @@ function CardMessage({
         <>
           {/* {HasReadReceipt && ( */}
           {ActiveTab === 'Sent' && (
-            <Grid item xs={1} sm={1} md={1} ml={-11}>
+            <Grid item xs={1} sm={1} md={2} ml={-11}>
               {/* only RequestReadReceipt ? */}
               {HasReadReceipt == true && RequestReadReceipt ? (
                 <>
@@ -172,7 +172,7 @@ function CardMessage({
             </Grid>)}
           {/* )} */}
         </>
-        <Grid item xs={2} sm={2} md={2} >
+        <Grid item xs={2} sm={2} md={2}>
           <Typography variant="body1" sx={{ float: 'right' }}>
             <>
               {' '}
