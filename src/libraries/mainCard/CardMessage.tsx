@@ -1,6 +1,5 @@
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import DraftsIcon from '@mui/icons-material/Drafts';
-import EmailIcon from '@mui/icons-material/Email';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import { Dialog, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
@@ -106,13 +105,14 @@ function CardMessage({
           </Typography>
         </Grid>
         {/* cc data  */}
-        <Grid item xs={2} sm={2} md={2}  >
+        <Grid item xs={2} sm={2} md={2} ml={2} >
           <Typography
             variant="body1"
             sx={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              ml: 8
             }}
           >
             {text3}
@@ -121,7 +121,10 @@ function CardMessage({
         {/* This attachment is used for web view */}
         <Grid item sm={2} md={2} ml={-2}>
           {IsAttachmentExist && (
-            <AttachmentIcon fontSize="small" />
+            <IconButton
+              sx={{ ml: -13 }}>
+              <AttachmentIcon fontSize="small" />
+            </IconButton>
           )}
         </Grid>
         <>
@@ -166,11 +169,12 @@ function CardMessage({
                   </Dialog>
                 </>
               ) : (
-                <EmailIcon
-                  fontSize="small"
-                  color="error"
-                // sx={{ mt: '-2px', ml: '4px' }}
-                />
+                // <EmailIcon
+                //   fontSize="small"
+                //   color="error"
+                // // sx={{ mt: '-2px', ml: '4px' }}
+                // />
+                <Typography></Typography>
               )}
             </Grid>)}
           {/* )} */}
