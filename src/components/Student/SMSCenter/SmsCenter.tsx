@@ -4,9 +4,10 @@ import AllInboxIcon from '@mui/icons-material/AllInbox';
 import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SmsIcon from '@mui/icons-material/Sms';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
-import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
@@ -44,6 +45,8 @@ function SmsCenter() {
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
 
+  const [PagedSMS, setPagedSMS] = useState([]);
+  const [NameSubject, setNameSubject] = useState('');
   const [SortExp, setSortExp] = useState('Insert_Date')
   const [SortDirection, setSortDirection] = useState('DESC')
   const filteredList = NewSmsList.filter((item) => item.TotalRows !== undefined);
@@ -121,6 +124,12 @@ function SmsCenter() {
     dispatch(getNewSmsList(SmsNewList_body))
   }, [page, rowsPerPage]);
 
+  useEffect(() => {
+    if (NewSmsList) {
+      setPagedSMS(NewSmsList);
+    }
+  }, [NewSmsList]);
+
   const handleFilterClick = () => {
     setFiltered(!filtered); // Toggle the filtered state
     setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc')); // Toggle sort direction
@@ -131,8 +140,32 @@ function SmsCenter() {
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
+  useEffect(() => {
+    setPagedSMS(NewSmsList);
+  }, [NewSmsList]);
 
+  const clickSearch = () => {
+    if (NameSubject === '') {
+      setPagedSMS(NewSmsList);
+    } else {
+      setPagedSMS(
+        NewSmsList.filter((item) => {
+          const text1Match = item.UserName.toLowerCase().includes(
+            NameSubject.toLowerCase()
+          );
+          const text2Match = item.Subject.toLowerCase().includes(
+            NameSubject.toLowerCase()
+          );
+          return text1Match || text2Match;
+        })
+      );
+    }
+  };
 
+  const handleRegNoOrNameChange = (value) => {
+    setNameSubject(value);
+  };
+  let url = "/extended-sidebar/Student/viewsms/"
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -144,6 +177,35 @@ function SmsCenter() {
         ]}
         rightActions={
           <>
+
+            <TextField
+              sx={{ width: '15vw' }}
+              fullWidth
+              label="Name / Subject / Message Body"
+              value={NameSubject}
+              variant={'outlined'}
+              size={"small"}
+              onChange={(e) => {
+                handleRegNoOrNameChange(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === 'Tab') {
+                  clickSearch();
+                }
+              }}
+            />
+            <IconButton
+              onClick={undefined}
+              sx={{
+                background: (theme) => theme.palette.primary.main,
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.primary.dark
+                }
+              }}
+            >
+              <SearchTwoTone />
+            </IconButton>
             <Box>
               <Tooltip
                 title={
@@ -345,7 +407,7 @@ function SmsCenter() {
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <CircularProgress />
                 </Box>
-              ) : displayList.length > 0 ? (
+              ) : PagedSMS.length > 0 ? (
                 // displayList.map((item, index) => (
                 //   <Box
                 //     key={index}
@@ -384,10 +446,12 @@ function SmsCenter() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {displayList.map((row, index) => (
+                    {PagedSMS.map((row, index) => (
                       <TableRow key={index}>
                         <TableCell>{row.UserName}</TableCell>
-                        <TableCell>{row.Subject}</TableCell>
+                        <TableCell>   <Link href={url + row.SMS_Id}>
+                          {row.Subject}
+                        </Link></TableCell>
                         <TableCell>{format(new Date(row.Date), 'dd/MM/yyyy')}</TableCell>
                       </TableRow>
                     ))}
