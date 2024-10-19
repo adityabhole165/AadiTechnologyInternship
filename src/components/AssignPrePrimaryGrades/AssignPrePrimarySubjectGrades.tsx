@@ -9,6 +9,7 @@ import { IGetInsertStudentGradesBody, IGetLearningOutcomesForSubjectSectionBody,
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
 import { CDAClearInsertStudentGrades, CDAInsertStudentGrades, CDALearningOutcomesForSubjectSection, CDAXseedStudentsdata } from "src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades"
 import { RootState } from "src/store"
+import { SchoolScreensAccessPermission } from "../Common/Util"
 import CommonPageHeader from "../CommonPageHeader"
 
 // THIS PAGE IS FOR XSEEED SUBJECT GRADES
@@ -313,7 +314,7 @@ const AssignPrePrimarySubjectGrades = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {schoolId !== '18' &&
+                    {SchoolScreensAccessPermission() &&
                         <Grid container spacing={2} mt={0} alignItems="center">
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="h5" component="h3" sx={{ marginLeft: '18px' }}>

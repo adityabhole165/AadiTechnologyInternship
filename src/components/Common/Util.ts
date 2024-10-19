@@ -719,6 +719,7 @@ export const decodeURL = (data) => {
 
 
 //SchoolScreensAccessPermission
+// The following function is currently being used for setting Facilitator Observation Field
 export const SchoolScreensAccessPermission = () => {
   let flag = true;
   const schoolId = localStorage.getItem('SchoolId');
