@@ -221,7 +221,7 @@ function Form13() {
   const [contenterror, setContenterror] = useState('');
   let dataShow: any = [];
   const Note: string =
-    'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
+    'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 50 MB.';
   const NoteSchedule: string =
     'e.g. 07:00 AM. You can schedule message for next 7 days. For scheduled message, recipients wont get notification on mobile.';
 
@@ -329,7 +329,8 @@ function Form13() {
 
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
-        setFilerror('File does not support. Please check note');
+        setFilerror('Invalid file format.');
+        //setFilerror('File does not support. Please check note');
         return false;
       } else if (allowedFileTypes.includes(fileExtension)) {
         setFilerror(null);
@@ -648,8 +649,10 @@ function Form13() {
     }
   };
   const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
-  const MaxfileSize = 10000000;
-  const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
+  //const MaxfileSize = 10000000; 
+  const MaxfileSize = 50000000;
+  // const ValidFileTypes2 =  ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
+  const ValidFileTypes2 = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'PNG', 'PPS', 'PPSX', 'PPT', 'PPTX', 'XLS', 'XLSX'];
 
   const SaveDraft = () => {
     let isError = false;
@@ -958,7 +961,7 @@ function Form13() {
                   title={
                     'Supports only ' +
                     ValidFileTypes2.join(', ') +
-                    ' file type. File size should not exceed ' + (MaxfileSize / 1000000).toString() + 'MB.'
+                    ' files types with total size upto ' + (MaxfileSize / 1000000).toString() + 'MB.'
                   }
                 >
                   <Button
