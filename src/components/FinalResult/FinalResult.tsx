@@ -917,14 +917,14 @@ console.log(BlockExamPublish,"--",ShowTopppers);
               <span>
                 <IconButton
                   onClick={Toppers}
-                  disabled={!GetResultGenerated || buttonsDisabled && GetAtleastOneResultGenerated?.AllowPublish == false }
+                  disabled={GetResultGenerated || buttonsDisabled }
                   sx={{
                     color: 'white',
                     backgroundColor: blue[500],
                     '&:hover': {
                       backgroundColor: blue[600]
                     },
-                    ...(!GetResultGenerated || buttonsDisabled && GetAtleastOneResultGenerated?.AllowPublish == false ) && {
+                    ...(GetResultGenerated || buttonsDisabled  ) && {
                       pointerEvents: 'none'
                     }
                   }}
