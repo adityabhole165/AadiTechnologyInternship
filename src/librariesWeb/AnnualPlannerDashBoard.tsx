@@ -126,7 +126,7 @@ function MyLeaveRequisitionAppraisal() {
                 </Grid>
 
                 <Grid container spacing={1} sx={{ mt: 1 }}>
-                    {['My Leave', 'My Requisition', 'Appraisal'].map((category) => (
+                    {['My Leave', 'My Requisition', 'My Appraisal'].map((category) => (
                         <Grid item xs={4} key={category}>
                             <Button
                                 sx={{
