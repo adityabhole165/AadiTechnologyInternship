@@ -38,7 +38,6 @@ const PreprimaryProgressReport = () => {
     const PrePrimaryClassTeacher = USAllPrimaryClassTeacherssBody.filter((teacher: any) => teacher.Is_PrePrimary === 'Y');
     const USlistStudentNameDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistStudentNameDetails);
     const USlistAssessmentDetailss: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistAssessmentDetailss);
-    console.log(USlistAssessmentDetailss, "USlistAssessmentDetailss");
 
     const USAssessmentPublishStatus: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISAssessmentPublishStatus);
     const AssessmentPublishStatus = USAssessmentPublishStatus.map(item => item.AssessmentPublishStatus);
@@ -53,6 +52,7 @@ const PreprimaryProgressReport = () => {
     const USFillStudentAttendance: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentAttendance);
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
+    const USFillStudentsLearningOutcomeObservations: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomeObservations);
 
 
 
@@ -366,6 +366,11 @@ const PreprimaryProgressReport = () => {
                                                 (item) => item.YearwiseStudentId == detail.YearWiseStudentId
                                             )}
                                             USFillSubjectSections={USFillSubjectSections}
+
+                                            FillStudentsLearningOutcomeObservations={
+                                                USFillStudentsLearningOutcomeObservations}
+                                            
+                                           
                                         />
                                         <NonXseedSubjectGrades
                                             USFillNonXseedSubjectGrades={USFillNonXseedSubjectGrades.filter(
