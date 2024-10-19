@@ -96,9 +96,7 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                                     .filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId)
                                     .map((outcome, index) => {
                                         // Find the matching observation
-                                        const matchingObservation = FillStudentsLearningOutcomeObservations.find(
-                                            obs => obs.SubjectSectionConfigId === outcome.SubjectSectionConfigId
-                                        );
+                                        
                 
                                         return (
                                             <TableRow key={outcome.YearwiseStudentId}>
@@ -106,9 +104,14 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                                                 <TableCell sx={{ py: 1 }}>{outcome.LearningOutcome}</TableCell>
                                                 <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell>
                                                 {SchoolScreensAccessPermission() && (
-                                                    <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>
-                                                        {matchingObservation.Observation}
-                                                    </TableCell>
+                                                           FillStudentsLearningOutcomeObservations.map(Observation =>(
+                                                            Observation.SubjectSectionConfigId === outcome.SubjectSectionConfigId &&
+                                                            <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>
+                                                                {Observation.Observation}
+                                                            </TableCell>
+
+                                                           ))
+
                                                 )}
 
                                             </TableRow>
