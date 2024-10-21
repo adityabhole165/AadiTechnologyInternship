@@ -106,7 +106,7 @@ const ActiveSchoolNotice = ({ clickOpen }) => {
 
       {Data1.map((item, index) => {
         return (
-          <div key={index} style={{ display: 'flex', flexDirection: 'row' }}>
+          <div key={index} style={{ display: 'flex' }}>
             <CardNotice
               item={item}
               downloadNotice={downloadNotice}

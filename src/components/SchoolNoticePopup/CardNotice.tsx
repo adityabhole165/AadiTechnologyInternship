@@ -1,6 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { Grid, Typography } from '@mui/material';
+import { red } from '@mui/material/colors';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
@@ -41,7 +42,14 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
                     <Grid item xs={1} sx={{ mt: "10px", ml: "5px" }}
                     >
                         <DeleteIcon onClick={() => clickDelete(item.id)}
-                            sx={{ color: !item.isActive ? 'red' : 'grey' }}
+                            // sx={{ color: !item.isActive ? 'red' : 'grey' }}
+                            sx={{
+                                color: '#223354',
+                                '&:hover': {
+                                    color: 'red',
+                                    backgroundColor: red[100]
+                                }
+                            }}
                         />
                     </Grid>
                 }
