@@ -1,16 +1,16 @@
+import DocumentIcon from '@mui/icons-material/Description';
+import FamilyIcon from '@mui/icons-material/FamilyRestroom';
+import InfoIcon from '@mui/icons-material/Info';
+import PersonIcon from '@mui/icons-material/Person';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
+import SchoolIcon from '@mui/icons-material/School';
 import { Alert, Box, Grid, IconButton, LinearProgress, Tab, Tabs, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { blue, green, grey,  orange,  red } from '@mui/material/colors';
+import { green, grey, orange } from '@mui/material/colors';
 import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
-import PersonIcon from '@mui/icons-material/Person';
-import FamilyIcon from '@mui/icons-material/FamilyRestroom';
-import DocumentIcon from '@mui/icons-material/Description';
-import SchoolIcon from '@mui/icons-material/School';
-import InfoIcon from '@mui/icons-material/Info';
 import AdmissionDetails from './AdmissionDetails ';
-
+import PersonalDetails from './PersonalDetails';
 const StudentRegistrationForm = () => {
     const [currentTab, setCurrentTab] = useState(0);
     const [profileCompletion, setProfileCompletion] = useState(20); // Example initial percentage
@@ -24,12 +24,12 @@ const StudentRegistrationForm = () => {
         additionalDetails: null,
     });
     const [admissionDetailsField1, setAdmissionDetailsField1] = useState('');
-const [admissionDetailsField2, setAdmissionDetailsField2] = useState('');
-const [personalDetailsField1, setPersonalDetailsField1] = useState('');
-const [personalDetailsField2, setPersonalDetailsField2] = useState('');
-const [parentsDetailsField1, setParentsDetailsField1] = useState('');
-const [admissionDocumentField1, setAdmissionDocumentField1] = useState('');
-const [lastSchoolField1, setLastSchoolField1] = useState('');
+    const [admissionDetailsField2, setAdmissionDetailsField2] = useState('');
+    const [personalDetailsField1, setPersonalDetailsField1] = useState('');
+    const [personalDetailsField2, setPersonalDetailsField2] = useState('');
+    const [parentsDetailsField1, setParentsDetailsField1] = useState('');
+    const [admissionDocumentField1, setAdmissionDocumentField1] = useState('');
+    const [lastSchoolField1, setLastSchoolField1] = useState('');
 
     // Validity state for each tab
     const [tabValidity, setTabValidity] = useState({
@@ -40,7 +40,7 @@ const [lastSchoolField1, setLastSchoolField1] = useState('');
         admissionDocumentInformation: false,
         lastSchoolDetails: false,
         additionalDetails: false,
-    }); 
+    });
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setCurrentTab(newValue);
@@ -179,7 +179,10 @@ const [lastSchoolField1, setLastSchoolField1] = useState('');
                     {currentTab === 1 && (
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <Typography variant="h6">Personal Details Form Placeholder</Typography>
+                                {/* <Typography variant="h6">Personal Details Form Placeholder</Typography> */}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <PersonalDetails onSave={handleSave} />
                             </Grid>
                         </Grid>
                     )}

@@ -22,6 +22,7 @@ import {
 import { red } from "@mui/material/colors";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router';
 import { IGetStandardDivisionOfTeacherBody, IGetStudentsListBody } from "src/interfaces/Students/IStudents";
 import ButtonGroupComponent from "src/libraries/ResuableComponents/ButtonGroupComponent";
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
@@ -29,11 +30,10 @@ import { CDAGetStandardDivisionOfTeacher, CDAGetStudentsList } from "src/request
 import { RootState } from "src/store";
 import { formatDate1 } from "../Common/Util";
 import CommonPageHeader from "../CommonPageHeader";
-
 const StudentBaseScreen = () => {
     // Hooks Defining
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     // State Variables
     const [selectedClass, setSelectedClass] = useState<any>('0');
     const [divId, setDivId] = useState<any>('0');
@@ -146,7 +146,7 @@ const StudentBaseScreen = () => {
         setPage(pageNumber);
     };
     const SortableHeader = ({ column, label }) => {
-        const showSortIcon = sortHeader === column; 
+        const showSortIcon = sortHeader === column;
         return (
             <span
                 style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
@@ -303,7 +303,12 @@ const StudentBaseScreen = () => {
                                                                             cursor: 'pointer',
                                                                             '&:hover': { backgroundColor: '' }
                                                                         }}
-                                                                        onClick={() => { }} />
+                                                                        onClick={() => navigate(`/extended-sidebar/Teacher/StudentRegistrationForms`, {
+                                                                            state: {
+                                                                                Mode: 'edit'
+
+                                                                            }
+                                                                        })} />
                                                                 </Tooltip>
                                                             </IconButton>}
                                                     </TableCell>
