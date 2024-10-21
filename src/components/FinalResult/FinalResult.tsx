@@ -276,7 +276,7 @@ const FinalResult = () => {
   const BlockExamPublish = UsGetSchoolSettings?.GetSchoolSettingsResult?.BlockExamPublish || '';
   const ShowTopppers = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowTopppers || '';
 
-console.log(BlockExamPublish,"--",ShowTopppers);
+console.log(BlockExamPublish,"-Test-",ShowTopppers);
 
 
   const PublishResult = useSelector(
@@ -556,6 +556,8 @@ console.log(BlockExamPublish,"--",ShowTopppers);
 
  
 
+  console.log(GetResultGenerated ,"-t-" ,GetAtleastOneResultGenerated.AllowPublish );
+  
 
   const Toppers = (value) => {
     navigate('/extended-sidebar/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
@@ -917,14 +919,14 @@ console.log(BlockExamPublish,"--",ShowTopppers);
               <span>
                 <IconButton
                   onClick={Toppers}
-                  disabled={GetResultGenerated || buttonsDisabled }
+                  disabled={(GetResultGenerated == false && GetAtleastOneResultGenerated.AllowPublish == false) || buttonsDisabled }
                   sx={{
                     color: 'white',
                     backgroundColor: blue[500],
                     '&:hover': {
                       backgroundColor: blue[600]
                     },
-                    ...(GetResultGenerated || buttonsDisabled  ) && {
+                    ...((GetResultGenerated == false && GetAtleastOneResultGenerated.AllowPublish == false)|| buttonsDisabled  ) && {
                       pointerEvents: 'none'
                     }
                   }}
