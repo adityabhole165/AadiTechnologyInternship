@@ -1,3 +1,4 @@
+import { Email } from '@mui/icons-material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import ScheduleIcon from '@mui/icons-material/Schedule';
@@ -127,59 +128,59 @@ function CardMessage({
             </IconButton>
           )}
         </Grid>
-        <>
-          {/* {HasReadReceipt && ( */}
-          {ActiveTab === 'Sent' && (
-            <Grid item xs={1} sm={1} md={2} ml={-11}>
-              {/* only RequestReadReceipt ? */}
-              {HasReadReceipt == true && RequestReadReceipt ? (
-                <>
-                  <Tooltip title={'Read Receipt Information'}>
-                    <IconButton
-                      sx={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        mb: '-5px', ml: '0px', color: '#38548A', '&:hover': {
-                          color: 'green', backgroundColor: green[100]
-                        }
-                      }}
-                      onClick={(e) => {
-                        handleClickToOpen(e);
-                      }}
-                    >
-                      <DraftsIcon
-                        fontSize="small"
-                      /></IconButton>
-                  </Tooltip>
-                  <Dialog
-                    open={popup}
-                    onClose={() => {
-                      setPopup(false);
+        <Grid item xs={1} sm={1} md={2} ml={-12}>
+          <>
+            {RequestReadReceipt === 'True' && HasReadReceipt === true && (
+              <>
+                <Tooltip title={'Read Receipt Information'}>
+                  <IconButton
+                    sx={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      mb: '-5px',
+                      ml: '0px',
+                      color: '#38548A',
+                      '&:hover': {
+                        color: 'green',
+                        backgroundColor: green[100],
+                      },
+                    }}
+                    onClick={(e) => {
+                      handleClickToOpen(e);
                     }}
                   >
-                    {ReadReceipt.map((item, i) => (
-                      <div key={i}>
-                        <Card15
-                          text1={item.ReadingDateTime}
-                          text2={item.UserName}
-                        />
-                      </div>
-                    ))}
-                  </Dialog>
-                </>
-              ) : (
-                // <EmailIcon
-                //   fontSize="small"
-                //   color="error"
-                // // sx={{ mt: '-2px', ml: '4px' }}
-                // />
-                <Typography></Typography>
-              )}
-            </Grid>)}
-          {/* )} */}
-        </>
-        <Grid item xs={2} sm={2} md={2}>
+                    <DraftsIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+
+                <Dialog
+                  open={popup}
+                  onClose={() => {
+                    setPopup(false);
+                  }}
+                >
+                  {ReadReceipt.map((item, i) => (
+                    <div key={i}>
+                      <Card15
+                        text1={item.ReadingDateTime}
+                        text2={item.UserName}
+                      />
+                    </div>
+                  ))}
+                </Dialog>
+              </>
+            )}
+          </>
+          {RequestReadReceipt === 'True' && HasReadReceipt === false && (
+            <Email
+              fontSize="small"
+              color="error"
+            // sx={{ mt: '-2px', ml: '4px' }}
+            />
+          )}
+        </Grid>
+        <Grid item xs={2} sm={2} md={2} ml={ActiveTab == 'Inbox' ? -10 : ActiveTab == 'Sent' ? 0 : -10}>
           <Typography variant="body1" sx={{ float: 'right' }}>
             <>
               {' '}
