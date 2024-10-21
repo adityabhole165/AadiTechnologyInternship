@@ -1,5 +1,5 @@
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, Chip, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Chip, Divider, Grid, Tooltip, Typography } from '@mui/material';
 import { differenceInHours, differenceInMinutes, differenceInSeconds } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -194,23 +194,25 @@ function MyLeaveRequisitionAppraisal() {
                             </Grid>
                             <Grid item xs={12}>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 1 }}>
-                                    <Typography
-                                        variant="body2"
-                                        sx={{
-                                            overflow: 'hidden',
-                                            whiteSpace: 'normal',
-                                            textOverflow: 'ellipsis',
-                                            maxHeight: '1.25rem',
-                                            lineHeight: '1.25rem',
-                                            display: '-webkit-box',
-                                            WebkitLineClamp: 1,
-                                            WebkitBoxOrient: 'vertical',
-                                            flexGrow: 1,
-                                            mr: 1,
-                                        }}
-                                    >
-                                        {data.LeaveFullName || data.RequisitionDescription || ''}
-                                    </Typography>
+                                    <Tooltip title={data.LeaveFullName || data.RequisitionDescription || ''}>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                overflow: 'hidden',
+                                                whiteSpace: 'normal',
+                                                textOverflow: 'ellipsis',
+                                                maxHeight: '1.25rem',
+                                                lineHeight: '1.25rem',
+                                                display: '-webkit-box',
+                                                WebkitLineClamp: 1,
+                                                WebkitBoxOrient: 'vertical',
+                                                flexGrow: 1,
+                                                mr: 1,
+                                            }}
+                                        >
+                                            {data.LeaveFullName || data.RequisitionDescription || ''}
+                                        </Typography>
+                                    </Tooltip>
                                     {/* <Chip label={data.Status || data.StatusName} color={getStatusColor(data.Status || data.StatusName)} size="small" /> */}
                                     <Chip
                                         label={data.Status || data.StatusName}
