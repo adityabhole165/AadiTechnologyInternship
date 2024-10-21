@@ -77,6 +77,7 @@ function MyLeaveRequisitionAppraisal() {
 
     const handleRefresh = () => {
         setSelectedCategory('My Leave');
+        dispatch(GetLeaveRequisitionAppraisalDetails(ApprovalProcessDashBody));
         setLastRefreshTime(new Date());
     };
 
