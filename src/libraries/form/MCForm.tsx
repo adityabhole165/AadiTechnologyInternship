@@ -14,7 +14,8 @@ const MCForm = ({
   clickAcademicYear,
   clickMonthYear,
   isSearchClicked,
-  CloseSearchBar
+  CloseSearchBar,
+  activeTab
 }) => {
   const [searchText, setSearchText] = useState('');
   const [operator, setOperator] = useState('=');
@@ -61,9 +62,10 @@ const MCForm = ({
 
   return (
     <>
-      <Box sx={{ p: 2, backgroundColor: 'white', mb: 2 }}>
-        {/* <ListStyle> */}
-        {/* <Box display={{ xs: 'block', sm: 'none' }}>
+      {activeTab != 'Draft' && (
+        <Box sx={{ p: 2, backgroundColor: 'white', mb: 2 }}>
+          {/* <ListStyle> */}
+          {/* <Box display={{ xs: 'block', sm: 'none' }}>
         <Avatar
           onClick={CloseSearchBar}
           sx={{
@@ -83,112 +85,114 @@ const MCForm = ({
         </Avatar>
       </Box> */}
 
-        <Grid container spacing={2} >
-          <Grid item xs={12} md={12}>
-            <TextField
-              id="standard-basic"
-              label="Name / Subject / Message Body "
-              // variant="standard"
-              fullWidth
-              onChange={textOnChange}
-              size={"medium"}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === 'Tab') {
-                  onClick();
-                }
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            {/* <Dropdown
+          <Grid container spacing={2} >
+            <Grid item xs={12} md={12}>
+              <TextField
+                id="standard-basic"
+                label="Name / Subject / Message Body "
+                // variant="standard"
+                fullWidth
+                onChange={textOnChange}
+                size={"medium"}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === 'Tab') {
+                    onClick();
+                  }
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              {/* <Dropdown
             Array={AcademicYearList}
             handleChange={clickAY}
             label={'Year'}
             defaultValue={academicYear}
           /> */}
 
-            <SearchableDropdown
-              ItemList={AcademicYearList}
-              onChange={clickAY}
-              label={'Select Academic Year'}
-              defaultValue={academicYear}
-              // mandatory
-              size={"medium"}
-              sx={{ width: '100%' }}
-            /></Grid>
+              <SearchableDropdown
+                ItemList={AcademicYearList}
+                onChange={clickAY}
+                label={'Select Academic Year'}
+                defaultValue={academicYear}
+                // mandatory
+                size={"medium"}
+                sx={{ width: '100%' }}
+              /></Grid>
 
-          <Grid item xs={12} md={6} >
-            {/* <Dropdown
+            <Grid item xs={12} md={6} >
+              {/* <Dropdown
             Array={MonthYearList}
             handleChange={clickMY}
             label={'Month'}
             defaultValue={monthYear}
           /> */}
-            <SearchableDropdown
-              ItemList={MonthYearList}
-              onChange={clickMY}
-              label={'Month'}
-              defaultValue={monthYear}
-              size={"medium"}
-              sx={{ width: '100%' }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Box>
-              {/* <Dropdown
+              <SearchableDropdown
+                ItemList={MonthYearList}
+                onChange={clickMY}
+                label={'Month'}
+                defaultValue={monthYear}
+                size={"medium"}
+                sx={{ width: '100%' }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box>
+                {/* <Dropdown
               Array={operatorArray}
               handleChange={clickOperator}
               defaultValue={operator}
               size={"medium"}
             /> */}
-              <SearchableDropdown
-                ItemList={operatorArray}
-                onChange={clickOperator}
-                label={'Operator'}
-                defaultValue={operator}
-                size={"medium"}
-                sx={{ width: '100%' }}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={5.4}>
-            {/* <TextField
+                <SearchableDropdown
+                  ItemList={operatorArray}
+                  onChange={clickOperator}
+                  label={'Operator'}
+                  defaultValue={operator}
+                  size={"medium"}
+                  sx={{ width: '100%' }}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={5.4}>
+              {/* <TextField
             type="date"
             id="outlined-required"
             variant="standard"
             onChange={clickDate}
             fullWidth
           /> */}
-            <Datepicker
-              DateValue={searchDate}
-              onDateChange={clickDate}
-              label={''}
-              size={"medium"}
+              <Datepicker
+                DateValue={searchDate}
+                onDateChange={clickDate}
+                label={''}
+                size={"medium"}
 
-            />
-          </Grid>
-          <Grid item xs={0}>
-            <Tooltip
-              title={'Search'}
-            >
-              <IconButton
-                onClick={onClick}
-                sx={{
-                  background: (theme) => theme.palette.primary.main,
-                  color: 'white',
-                  mt: 1,
-                  '&:hover': {
-                    backgroundColor: (theme) => theme.palette.primary.dark
-                  }
-                }}
+              />
+            </Grid>
+            <Grid item xs={0}>
+              <Tooltip
+                title={'Search'}
               >
-                <SearchTwoTone />
-              </IconButton>
-            </Tooltip>
+                <IconButton
+                  onClick={onClick}
+                  sx={{
+                    background: (theme) => theme.palette.primary.main,
+                    color: 'white',
+                    mt: 1,
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.palette.primary.dark
+                    }
+                  }}
+                >
+                  <SearchTwoTone />
+                </IconButton>
+              </Tooltip>
+            </Grid>
           </Grid>
-        </Grid>
-        {/* </ListStyle> */}
-      </Box>
+
+          {/* </ListStyle> */}
+        </Box>
+      )}
     </>
   );
 };

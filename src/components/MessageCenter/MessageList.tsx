@@ -701,6 +701,7 @@ const MessageList = () => {
               <>
                 <Grid item xs={12} sm={12} md={12}>
                   <MCForm
+                    activeTab={activeTab}
                     AcademicYearList={AcademicYearList}
                     MonthYearList={MonthYearList}
                     clickSearch={clickSearch}
