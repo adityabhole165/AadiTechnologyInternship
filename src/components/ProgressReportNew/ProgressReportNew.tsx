@@ -98,8 +98,8 @@ const ProgressReportNew = () => {
   const HeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray1);
   const SubHeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray1);
 
-  console.log(MarkDetailsList1,"MarkDetailsList1");
-  
+  console.log(MarkDetailsList1, "MarkDetailsList1");
+
 
 
   useEffect(() => {
@@ -536,7 +536,6 @@ const ProgressReportNew = () => {
                       HeaderArray1={HeaderArray1}
                       SubHeaderArray1={SubHeaderArray1}
                       MarkDetailsList1={MarkDetailsList1}
-                     
                     />
                   </Box>
                 </>
@@ -647,6 +646,7 @@ const ProgressReportNew = () => {
                       IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
                       USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
                       USListMarkssDetails={USListMarkssDetails}
+                      ListTestTypeIdDetails={USListTestTypeIdDetails}
                     />
 
                   </Box>

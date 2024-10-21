@@ -1,6 +1,6 @@
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 
-const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
+const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
 
     const getListDisplayName = (ShortName) => {
         let returnVal = "";
@@ -39,8 +39,11 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
     function showParentColumns() {
 
     }
-    console.log('✨ HeaderParent', HeaderParent);
+    console.log('✨ HeaderArray', HeaderArray);
 
+    console.log('✨ HeaderParent', HeaderParent);
+    console.log('✨ SubHeaderArray', SubHeaderArray);
+    console.log('✨ MarkDetailsList', MarkDetailsList);
     return (
         <Box>
             <Table>
@@ -58,7 +61,7 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                                 </TableCell>
 
                                 {HeaderParent.map((item, index) => (
-                                    <TableCell key={index} colSpan={item.SubjectName !== '' ? item.colSpan + 4 : item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                                    <TableCell key={index} colSpan={item.SubjectName !== '' ? item.colSpan + ListTestTypeIdDetails.length + 1 : item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                         <Typography color="black" textAlign={'left'} mr={5}>
                                             <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
                                         </Typography>
@@ -71,10 +74,12 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                                     <>
                                         {index > 0 && HeaderArray[index - 1].ParentSubjectId !== "0" && item.ParentSubjectId === '0' && (
                                             <>
-                                                <TableCell rowSpan={2} >Total Theory</TableCell>
-                                                <TableCell rowSpan={2} >Total M1</TableCell>
-                                                <TableCell rowSpan={2} >Total M2</TableCell>
-                                                <TableCell rowSpan={2} >Total</TableCell>
+                                                {ListTestTypeIdDetails?.map((item, i) => {
+                                                    return (
+                                                        <TableCell key={i} rowSpan={2} >  <Typography color="#38548A" textAlign={'center'} mr={5}>Total {item.Text2}</Typography></TableCell>
+                                                    )
+                                                })}
+                                                <TableCell rowSpan={2} >  <Typography color="#38548A" textAlign={'center'} mr={5}>Total</Typography></TableCell>
                                             </>
                                         )}
                                         <TableCell key={index} colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>

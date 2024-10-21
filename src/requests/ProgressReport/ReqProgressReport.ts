@@ -421,7 +421,7 @@ export const CDAStudentProgressReport =
                 })
 
                 columns.push({
-                  MarksScored:  `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
+                  MarksScored: `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
                   TotalMarks: "-",
                   IsAbsent: "N"
                 })
@@ -445,132 +445,132 @@ export const CDAStudentProgressReport =
       // SubHeaderArray.push({ TestTypeName: "Grade" })
 
 
-//// grade data
+      //// grade data
 
 
 
-let rows1 = []
-let HeaderArray1 = []
-let SubHeaderArray1 = []
-let HeaderCount1 = 0
-let countOne1 = 0
-response.data.listTestDetails
-  .filter(item => Number(item.Test_Id) !== -1)
-  .map((Test, TestIndex) => {
-    let columns = []
-    response.data.listSubjectsDetails.map((Subject) => {
-      HeaderCount1 = 0
-      let arrTemp = response.data.ListSubjectidDetails
-        .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
+      let rows1 = []
+      let HeaderArray1 = []
+      let SubHeaderArray1 = []
+      let HeaderCount1 = 0
+      let countOne1 = 0
+      response.data.listTestDetails
+        .filter(item => Number(item.Test_Id) !== -1)
+        .map((Test, TestIndex) => {
+          let columns = []
+          response.data.listSubjectsDetails.map((Subject) => {
+            HeaderCount1 = 0
+            let arrTemp = response.data.ListSubjectidDetails
+              .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
 
-      let TestTypeCount = arrTemp.length
-      let temp = ""
-      let totalMarks = null
-      arrTemp.map((TestType, TestTypeIndex) => {
-        // if (TestType.Subject_Id == "2397")
+            let TestTypeCount = arrTemp.length
+            let temp = ""
+            let totalMarks = null
+            arrTemp.map((TestType, TestTypeIndex) => {
+              // if (TestType.Subject_Id == "2397")
 
-        HeaderCount1 += 1
-        let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
-
-
-        if (TestTypeCount != 1) {
-          columns.push({
-            MarksScored: cell ? getListDisplayName1(cell) : "-",
-            TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TotalGrade) : "" : "-",
-            IsAbsent: cell ? cell.Is_Absent : "N"
-          })
-
-        }
+              HeaderCount1 += 1
+              let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
 
 
+              if (TestTypeCount != 1) {
+                columns.push({
+                  MarksScored: cell ? getListDisplayName1(cell) : "-",
+                  TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TotalGrade) : "" : "-",
+                  IsAbsent: cell ? cell.Is_Absent : "N"
+                })
+
+              }
 
 
-        if (TestIndex == 0) {
-          SubHeaderArray1.push({
-            TestTypeName: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1)
-              ? "Total" : TestType.ShortenTestType_Name
-          })
-        }
-
-        if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
-          temp = Subject.Subject_Id + "--" + Test.Test_Id
-
-          totalMarks = {
-            MarksScored: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Grade)  : "-",
-            TotalMarks: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Grade): "-",
-            IsAbsent: cell ? cell.Is_Absent : "N"
-          }
-        }
-        if (TestTypeIndex == TestTypeCount - 1) {
-          columns.push(totalMarks)
-        }
-
-      })
 
 
-      if (TestIndex == 0) {
-        if (HeaderCount1 > 1) {
-          SubHeaderArray1.push({ TestTypeName: "Total" })
+              if (TestIndex == 0) {
+                SubHeaderArray1.push({
+                  TestTypeName: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1)
+                    ? "Total" : TestType.ShortenTestType_Name
+                })
+              }
 
-        }
-        HeaderArray1.push({
-          SubjectName: Subject.Subject_Name,
-          colSpan: HeaderCount1 > 1 ? HeaderCount1 + 1 : HeaderCount1,
-          ParentSubjectId: Subject.Parent_Subject_Id,
-          ParentSubjectName: getParentHeader(listSubjectsDetails, Subject, Test.Test_Id).parent,
-        })
-      }
-    })
-    //show grade column
-    if (data.IsTotalConsiderForProgressReport == "True") {
-      response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+              if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
+                temp = Subject.Subject_Id + "--" + Test.Test_Id
 
-        if (Item.SchoolWise_Test_Id == Test.Test_Id) {
-          let isDataPushed = false; // Flag to track if data has been pushed
+                totalMarks = {
+                  MarksScored: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Grade) : "-",
+                  TotalMarks: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Grade) : "-",
+                  IsAbsent: cell ? cell.Is_Absent : "N"
+                }
+              }
+              if (TestTypeIndex == TestTypeCount - 1) {
+                columns.push(totalMarks)
+              }
 
-          response.data.listTestidDetails.map((Item) => {
-            // Check if the IDs match and data has not been pushed yet
-            if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
-              const insertIndex = columns.length > 0 ? columns.length - 1 : 0;
-              columns.splice(insertIndex, 0, {
-                MarksScored: parseInt(Item.Grade),
-                TotalMarks: Item.Grade,
-                IsAbsent: "N",
-              });
+            })
 
-              isDataPushed = true;
+
+            if (TestIndex == 0) {
+              if (HeaderCount1 > 1) {
+                SubHeaderArray1.push({ TestTypeName: "Total" })
+
+              }
+              HeaderArray1.push({
+                SubjectName: Subject.Subject_Name,
+                colSpan: HeaderCount1 > 1 ? HeaderCount1 + 1 : HeaderCount1,
+                ParentSubjectId: Subject.Parent_Subject_Id,
+                ParentSubjectName: getParentHeader(listSubjectsDetails, Subject, Test.Test_Id).parent,
+              })
             }
-          });
-
-
-          const matchingMarksDetails = response.data.ListMarkssDetails.find(
-            (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
-          );
-    
-
-
-
-         
-
-          columns.push({
-            MarksScored:  `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
-            TotalMarks: "-",
-            IsAbsent: "N"
           })
-        }
-      })
-    }
-    // }
-    rows1.push({
-      TestName: Test.Test_Name,
-      MarksArr: columns
-    })
-  })
-//show grade column
-if (data.IsTotalConsiderForProgressReport == "True") {
+          //show grade column
+          if (data.IsTotalConsiderForProgressReport == "True") {
+            response.data.ListSchoolWiseTestNameDetail.map((Item) => {
 
-  SubHeaderArray1.push({ TestTypeName: "Grade" })
-}
+              if (Item.SchoolWise_Test_Id == Test.Test_Id) {
+                let isDataPushed = false; // Flag to track if data has been pushed
+
+                response.data.listTestidDetails.map((Item) => {
+                  // Check if the IDs match and data has not been pushed yet
+                  if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
+                    const insertIndex = columns.length > 0 ? columns.length - 1 : 0;
+                    columns.splice(insertIndex, 0, {
+                      MarksScored: parseInt(Item.Grade),
+                      TotalMarks: Item.Grade,
+                      IsAbsent: "N",
+                    });
+
+                    isDataPushed = true;
+                  }
+                });
+
+
+                const matchingMarksDetails = response.data.ListMarkssDetails.find(
+                  (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
+                );
+
+
+
+
+
+
+                columns.push({
+                  MarksScored: `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
+                  TotalMarks: "-",
+                  IsAbsent: "N"
+                })
+              }
+            })
+          }
+          // }
+          rows1.push({
+            TestName: Test.Test_Name,
+            MarksArr: columns
+          })
+        })
+      //show grade column
+      if (data.IsTotalConsiderForProgressReport == "True") {
+
+        SubHeaderArray1.push({ TestTypeName: "Grade" })
+      }
 
 
 
@@ -693,7 +693,7 @@ if (data.IsTotalConsiderForProgressReport == "True") {
         return {
           Id: item.TestType_Name,
           Text1: item.TestTypeSort_Order,
-
+          Text2: item.ShortenTestType_Name
         };
       });
 
@@ -723,7 +723,7 @@ if (data.IsTotalConsiderForProgressReport == "True") {
       dispatch(ProgressReportSlice.actions.ShowSubHeader(SubHeaderArray));
       dispatch(ProgressReportSlice.actions.ShowData(rows));
 
-1
+      1
       dispatch(ProgressReportSlice.actions.ShowHeader1(HeaderArray1));
       dispatch(ProgressReportSlice.actions.ShowSubHeader1(SubHeaderArray1));
       dispatch(ProgressReportSlice.actions.ShowData1(rows1));
