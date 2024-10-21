@@ -210,7 +210,8 @@ function PhotoCardDash() {
   };
 
   return (
-    <Box sx={{ height: '382px', backgroundColor: 'white' }}>
+    <Box sx={{height: '382px',}}>
+    <Box sx={{ height: '350px', backgroundColor: 'white' }}>
       <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
         <Grid item xs={12}>
           <Header Title="Photo Albums" />
@@ -309,7 +310,9 @@ function PhotoCardDash() {
           </DialogContent>
         </Dialog>
       </div>
-      <Grid item xs={12} textAlign={'center'} >
+      
+    </Box>
+    <Grid item xs={12} textAlign={'center'}  >
         <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
       </Grid>
     </Box>
