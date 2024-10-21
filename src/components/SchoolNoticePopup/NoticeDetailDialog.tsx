@@ -3,7 +3,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import MinimizeIcon from '@mui/icons-material/Minimize'; // Import the Minimize icon
 import { Box, Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const NoticeDetailDialog = ({ open, onClose, link, contentType, onMinimize }) => {
     const [isMaximized, setIsMaximized] = useState(false);
@@ -11,7 +11,11 @@ const NoticeDetailDialog = ({ open, onClose, link, contentType, onMinimize }) =>
     const toggleMaximize = () => {
         setIsMaximized(!isMaximized);
     };
-
+    useEffect(() => {
+        if (!open) {
+            setIsMaximized(false);
+        }
+    }, [open]);
     return (
         <Dialog
             open={open}
@@ -87,7 +91,7 @@ const NoticeDetailDialog = ({ open, onClose, link, contentType, onMinimize }) =>
             >
                 <DialogContent>
                     {contentType === 'image' ? (
-                        <Box display="flex" justifyContent="center" alignItems="center" sx={{mt:4}}>
+                        <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 4 }}>
                             <img src={link} alt="School Notice" style={{ maxWidth: '100%', height: 'fixed' }} />
                         </Box>
                     ) : (
