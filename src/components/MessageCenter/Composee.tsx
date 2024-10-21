@@ -425,22 +425,32 @@ function Form13() {
         setLoading(false);
       });
   };
-
   const formik = useFormik({
     initialValues: {
       To: '',
       Cc: '',
-      Subject:
-        (PageName == 'Forwa'
-          ? 'FW: ' + Text
-          : '') || (PageName == 'Reply'
-            ? 'RE: ' + Text
-            : '') || PageName == 'Edit'
-          ? Text
-          : '',
-      Content: PageName == 'Edit' ? Text : '',
-      Attachment: PageName == 'Edit' && null
+      Subject: PageName == 'Forwa' ? "FW: " + Text :
+        PageName == 'Reply' ? "RE: " + Text :
+          PageName == 'Edit' ? Text : '',
+      Content: PageName == 'Edit' ? originalMessageBody : '<br/><br/>Thanks and Regards,<br/>' + sessionStorage.getItem('StudentName'),
+      Attachment: PageName == 'Edit' && null,
     },
+
+    // const formik = useFormik({
+    //   initialValues: {
+    //     To: '',
+    //     Cc: '',
+    //     Subject:
+    //       (PageName == 'Forwa'
+    //         ? 'FW: ' + Text
+    //         : '') || (PageName == 'Reply'
+    //           ? 'RE: ' + Text
+    //           : '') || PageName == 'Edit'
+    //         ? Text
+    //         : '',
+    //     Content: PageName == 'Edit' ? Text : '',
+    //     Attachment: PageName == 'Edit' && null
+    //   },
     onSubmit: (values) => {
       let valid = false;
       if (requestSchedule) {
