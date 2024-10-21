@@ -1,6 +1,6 @@
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Grid, Typography } from '@mui/material';
+import { Grid, IconButton, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -39,18 +39,23 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
                     {/* </Card> */}
                 </Grid>
                 {!item.IsImageNotice &&
-                    <Grid item xs={1} sx={{ mt: "10px", ml: "5px" }}
+                    <Grid item xs={1} sx={{ ml: "5px" }}
                     >
-                        <DeleteIcon onClick={() => clickDelete(item.id)}
-                            // sx={{ color: !item.isActive ? 'red' : 'grey' }}
+
+                        <IconButton
                             sx={{
-                                color: '#223354',
+                                color: '#223354', mb: "13px",
                                 '&:hover': {
                                     color: 'red',
-                                    backgroundColor: red[100]
+                                    backgroundColor: red[100], mb: '10px'
                                 }
                             }}
-                        />
+
+                            onClick={() => clickDelete(item.id)}
+                        >
+                            <DeleteForeverIcon />
+
+                        </IconButton>
                     </Grid>
                 }
             </Grid>
