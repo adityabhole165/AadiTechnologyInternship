@@ -25,7 +25,7 @@ const ActiveSchoolNotice = ({ clickOpen }) => {
       })
     }
     setData1(GetAllActiveNotices
-      .filter((obj) => (!(arr.includes(obj.Id))))
+      .filter((obj) => (!(arr.includes(obj.Id)) && (obj.DisplayLocation === 'B' || obj.DisplayLocation === 'C')))
       .map((item, index) => {
         return {
           id: item.Id,
@@ -36,6 +36,7 @@ const ActiveSchoolNotice = ({ clickOpen }) => {
           IsText: item.IsText,
           Content: item.Content,
           IsImageNotice: item.IsImageNotice,
+          DisplayLocation: item.DisplayLocation,
           isActive: false
         };
       }))
