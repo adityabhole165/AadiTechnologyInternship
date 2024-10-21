@@ -236,6 +236,9 @@ const ViewLeaveDetails = Loader(
 const PerEvalViewReport = Loader(
   lazy(() => import('src/components/PerformanceGradeAssignment/PerfEvalViewReport'))
 )
+const PersonalAddressBook = Loader(
+  lazy(() => import('src/components/SMSCenter/PersonalAddressBook/PersonalAddressBook'))
+)
 
 
 const PreprimaryProgressReport = Loader(
@@ -490,6 +493,10 @@ const teacherRoutes = [
   {
     path: 'AssignPrePrimaryGrades',
     element: <AssignPrePrimaryGrades />
+  },
+  {
+    path: 'PersonalAddressBook',
+    element: <PersonalAddressBook />
   },
 
   {

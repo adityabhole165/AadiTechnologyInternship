@@ -1,7 +1,7 @@
 import { Box, FormControl, FormLabel, Radio, RadioGroup } from '@mui/material';
 import { FormControlLabel1 } from '../styled/ButtonStyle';
 
-const RadioButton1 = ({ Array, ClickRadio, defaultValue = '1', Label }) => {
+const RadioButton1 = ({ Array, ClickRadio, defaultValue = '1', Label = '' }) => {
   return (
     <>
       <FormControl>

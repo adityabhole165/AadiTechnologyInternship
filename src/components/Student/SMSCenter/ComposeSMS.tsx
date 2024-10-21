@@ -3,9 +3,9 @@ import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Chec
 import { blue } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSMS';
 import { Styles } from 'src/assets/style/student-style';
@@ -82,6 +82,21 @@ const ComposeSMSform = () => {
     const [contentError, setcontentError] = useState<any>(); // For content Error
     const [initialMessage, setinitialMessage] = useState(0);
     const [initialCount, setCharacterCount] = useState(0);
+    // Getting data from useNavigate state via useLocation
+    const location = useLocation();
+    const { state } = location;
+    // state: { activeNoList }
+    useEffect(() => {
+        if (state) {
+            let updatedList = state?.activeNoList.split(',');
+            // Ensure that all numbers are trimmed of any leading/trailing spaces
+            const trimmedActiveNoList = updatedList.map(num => num.trim());
+
+            // Concatenate the trimmed list to existing mobileNumbers
+            setMobileNumbers(mobileNumbers?.concat(trimmedActiveNoList));
+        }
+    }, [state]);
+
 
     const handleChangeForTemplate = (e) => {
         if (e.target.value != '') {
@@ -466,6 +481,10 @@ const ComposeSMSform = () => {
                                                     backgroundColor: blue[100]
                                                 }
                                             }}
+                                            onClick={() => {
+                                                // pass data via state > mobileNumbers
+                                                navigate('/extended-sidebar/teacher/PersonalAddressBook', { state: { mobileNumbers } })
+                                            }}
                                         >
                                             Personal Address book
                                         </Button>
@@ -505,20 +524,20 @@ const ComposeSMSform = () => {
                                 </Grid>
                                 <Grid xs={2} mt={4} >
                                     <Box mt={2} ml={2}>
-                                    <Button
-                                        fullWidth
-                                        onClick={() => handleOpenDialog(true)}
-                                        sx={{
-                                            color: '#38548A',
-
-                                            width: '200px',
-                                            '&:hover': {
+                                        <Button
+                                            fullWidth
+                                            onClick={() => handleOpenDialog(true)}
+                                            sx={{
                                                 color: '#38548A',
-                                                backgroundColor: blue[100]
-                                            }
-                                        }}>
-                                        Add Recipients
-                                    </Button>
+
+                                                width: '200px',
+                                                '&:hover': {
+                                                    color: '#38548A',
+                                                    backgroundColor: blue[100]
+                                                }
+                                            }}>
+                                            Add Recipients
+                                        </Button>
                                     </Box>
                                 </Grid >
                             </Grid>
@@ -529,7 +548,7 @@ const ComposeSMSform = () => {
                             <Grid item md={3} >
 
                             </Grid>
-                            
+
                             <Grid
                                 container
                                 style={{ marginTop: '12px', marginBottom: '17px' }}
