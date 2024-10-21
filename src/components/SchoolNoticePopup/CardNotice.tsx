@@ -1,5 +1,5 @@
+import AttachmentIcon from '@mui/icons-material/Attachment';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { Grid, IconButton, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { useState } from 'react';
@@ -21,7 +21,7 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
     return (
         <>
             <Grid item container xs={12} pl={2}>
-                <Grid item xs={10}>
+                <Grid item xs={10.8}>
 
                     {/* <Card sx={{ display: 'flex', alignItems: 'center', p: 0.5, mt: 0.7 }}> */}
                     <ListStyle color={item.IsImageNotice ? 'secondary' : 'primary'}
@@ -34,8 +34,8 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
                         >{item.header}</Typography>
                         <div style={{ flex: '1' }}></div>
                         {item.FileName != "" ?
-                            <FileDownloadOutlinedIcon onClick={() => { downloadNotice(item.FileName, item.IsText, item.Content) }} /> :
-                            <FileDownloadOutlinedIcon sx={{ color: 'white' }} />
+                            <AttachmentIcon onClick={() => { downloadNotice(item.FileName, item.IsText, item.Content) }} /> :
+                            <AttachmentIcon sx={{ color: 'white' }} />
 
                         }
                     </ListStyle>
