@@ -20,13 +20,16 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
     }
     return (
         <>
-            <Grid item container xs={12}>
-                <Grid item xs={10.8}>
+            <Grid item container xs={12} pl={2}>
+                <Grid item xs={10}>
 
                     {/* <Card sx={{ display: 'flex', alignItems: 'center', p: 0.5, mt: 0.7 }}> */}
                     <ListStyle color={item.IsImageNotice ? 'secondary' : 'primary'}
                         sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography sx={{ textDecoration: item.isActive ? "line-through" : "" }}
+                        <Typography sx={{
+                            textDecoration: item.isActive ? "line-through" : "",
+                            fontWeight: item.isActive ? 'bold' : 'normal',
+                        }}
                             onClick={() => { downloadNotice(item.FileName, item.IsText, item.Content) }}
                         >{item.header}</Typography>
                         <div style={{ flex: '1' }}></div>

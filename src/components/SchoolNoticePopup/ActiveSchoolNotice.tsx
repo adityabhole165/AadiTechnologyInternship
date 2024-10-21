@@ -1,4 +1,3 @@
-import { Container } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBoard';
@@ -102,7 +101,7 @@ const ActiveSchoolNotice = ({ clickOpen }) => {
     ))
   }
   return (
-    <Container>
+    <>
       {/* <PageHeader heading={'School Notices'} subheading={''} /> */}
 
       {Data1.map((item, index) => {
@@ -114,7 +113,7 @@ const ActiveSchoolNotice = ({ clickOpen }) => {
               clickSingle={clickSingle}
             />
           </div>);
-      })} </Container>
+      })} </>
   )
 }
 
