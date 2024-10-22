@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
+import { processData } from "src/components/ProgressReportNew/Utils";
 import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
@@ -8,6 +9,7 @@ const ProgressReportSlice = createSlice({
   name: 'ProgressReport',
   initialState: {
     ISGetClassTeachers: [],
+    ISEntireDataList: [],
     ISGetStudentNameDropdown: [],
     ISStudentProgressReport: [],
     ISlistTestDetailsArr: [],
@@ -21,6 +23,7 @@ const ProgressReportSlice = createSlice({
     ISListSubjectidDetails: [],
     ISListTestTypeIdDetails: [],
     ISListMarkssDetails: [],
+    ISThirdHeaderColumn: [],
     ISListDisplayNameDetails: [],
     ISGetPassedAcademicYears: [],
     ISGetAllMarksGradeConfiguration: [],
@@ -42,6 +45,9 @@ const ProgressReportSlice = createSlice({
       state.Loading = false;
       state.MarkDetailsList = action.payload;
     },
+    REntireDataList(state, action) {
+      state.ISEntireDataList = action.payload;
+    },
     ShowHeader(state, action) {
       state.Loading = false;
       state.HeaderArray = action.payload;
@@ -50,8 +56,9 @@ const ProgressReportSlice = createSlice({
       state.Loading = false;
       state.SubHeaderArray = action.payload;
     },
-
-
+    RThirdHeaderColumn(state, action) {
+      state.ISThirdHeaderColumn = action.payload;
+    },
     ShowData1(state, action) {
       state.Loading = false;
       state.MarkDetailsList1 = action.payload;
@@ -188,7 +195,8 @@ export const CDAGetStudentName =
 export const CDAStudentProgressReport =
   (data: IStudentProgressReportBody): AppThunk =>
     async (dispatch) => {
-      const response = await ApiProgressReport.StudentProgressReport(data)
+      const response = await ApiProgressReport.StudentProgressReport(data);
+      dispatch(ProgressReportSlice.actions.REntireDataList(processData(response.data)));
 
       let listStudentsDetails = response.data.listStudentsDetails.map((item, i) => {
         return {
@@ -207,14 +215,14 @@ export const CDAStudentProgressReport =
       });
       let listSubjectsDetails = response.data.listSubjectsDetails
       const getListDisplayName = (cell) => {
-        let returnVal = ""
+        let returnVal: any = ""
 
-        if (cell.Is_Absent == "N") {
-          returnVal = cell.Marks_Scored
+        if (cell.Is_Absent === "N") {
+          returnVal = parseInt(cell.Marks_Scored)
         }
         else {
           response.data.ListDisplayNameDetails.map((Item) => {
-            if (Item.ShortName == cell.Is_Absent)
+            if (Item.ShortName === cell.Is_Absent)
               returnVal = Item.DisplayName
           })
         }
@@ -239,12 +247,13 @@ export const CDAStudentProgressReport =
       const getMatch = (TestId, SubjectId, TestTypeId) => {
         let returnVal = null
         response.data.listSubjectIdDetails.map((Item) => {
-          if (Item.Original_SchoolWise_Test_Id == TestId &&
-            Item.Subject_Id == SubjectId &&
-            Item.TestType_Id == TestTypeId
+          if (Item.Original_SchoolWise_Test_Id === TestId &&
+            Item.Subject_Id === SubjectId &&
+            Item.TestType_Id === TestTypeId
 
-          )
+          ) {
             returnVal = Item
+          }
         })
         return returnVal
       }
@@ -270,16 +279,20 @@ export const CDAStudentProgressReport =
       let SubHeaderArray = []
       let HeaderCount = 0
       let countOne = 0
+      // listTestDetails []
+      // list1 = []
       response.data.listTestDetails
-        .filter(item => Number(item.Test_Id) !== -1)
+        .filter(item => item.Test_Id !== `-1`)
         .map((Test, TestIndex) => {
           let columns = []
+          // list2 = []
           response.data.listSubjectsDetails.map((Subject) => {
             HeaderCount = 0
+            // list3 = []
             let arrTemp = response.data.ListSubjectidDetails
-              .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
+              .filter((obj) => { return obj.Subject_Id === Subject.Subject_Id })
 
-            let TestTypeCount = arrTemp.length
+            let TestTypeCount = arrTemp.length;
             let temp = ""
             let totalMarks = null
             arrTemp.map((TestType, TestTypeIndex) => {
@@ -289,7 +302,7 @@ export const CDAStudentProgressReport =
               let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
 
 
-              if (TestTypeCount != 1) {
+              if (TestTypeCount !== 1) {
                 columns.push({
                   MarksScored: cell ? getListDisplayName(cell) : "-",
                   TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TestType_Total_Marks) : "" : "-",
@@ -312,7 +325,7 @@ export const CDAStudentProgressReport =
                 temp = Subject.Subject_Id + "--" + Test.Test_Id
 
                 totalMarks = {
-                  MarksScored: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Total_Marks_Scored) : cell ? parseInt(cell.Marks_Scored) : "-",
+                  MarksScored: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Total_Marks_Scored) : cell ? parseInt(cell.Total_Marks_Scored) : "-",
                   TotalMarks: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Subject_Total_Marks) : cell ? cell.Subject_Total_Marks : "-",
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 }
@@ -367,14 +380,14 @@ export const CDAStudentProgressReport =
               Number(testDetail.Test_Id) === Number(matchingTestId)
             );
 
-            if (matchingTestDetail) {
-              // Push columns data for the matching test detail
-              columns.push({
-                MarksScored: `${matchingTestDetail.TestType_Total_Marks_Scored}/${matchingTestDetail.TestType_Total_Marks}`,
-                TotalMarks: "-",
-                IsAbsent: "N"
-              });
-            }
+            // if (matchingTestDetail) {
+            //   // Push columns data for the matching test detail
+            //   columns.push({
+            //     MarksScored: `${matchingTestDetail.TestType_Total_Marks_Scored}/${matchingTestDetail.TestType_Total_Marks}`,
+            //     TotalMarks: "-",
+            //     IsAbsent: "N"
+            //   });
+            // }
           }
 
 
@@ -387,13 +400,13 @@ export const CDAStudentProgressReport =
               if (Item.SchoolWise_Test_Id == Test.Test_Id) {
                 let isDataPushed = false; // Flag to track if data has been pushed
 
-                response.data.listTestidDetails.map((Item) => {
+                response.data.listTestidDetails.map((Item1) => {
                   // Check if the IDs match and data has not been pushed yet
-                  if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
+                  if (Item1.Test_Id === Test.Test_Id && !isDataPushed) {
                     const insertIndex = columns.length > 0 ? columns.length - 1 : 0;
                     columns.splice(insertIndex, 0, {
-                      MarksScored: parseInt(Item.Total_Marks_Scored),
-                      TotalMarks: Item.ChildSubject_Marks_Total,
+                      MarksScored: parseInt(Item1.Total_Marks_Scored),
+                      TotalMarks: Item1.ChildSubject_Marks_Total,
                       IsAbsent: "N",
                     });
 
@@ -654,6 +667,7 @@ export const CDAStudentProgressReport =
 
         };
       });
+      let ThirdHeaderColumn = response.data.ListSubjectidDetails;
 
       let ListSchoolWiseTestNameDetail = response.data.ListSchoolWiseTestNameDetail.map((item, i) => {
         return {
@@ -742,6 +756,8 @@ export const CDAStudentProgressReport =
       dispatch(ProgressReportSlice.actions.RListTestTypeIdDetails(ListTestTypeIdDetails));
       dispatch(ProgressReportSlice.actions.RListMarkssDetails(ListMarkssDetails));
       dispatch(ProgressReportSlice.actions.RListDisplayNameDetails(ListDisplayNameDetails));
+      // RThirdHeaderColumn
+      dispatch(ProgressReportSlice.actions.RThirdHeaderColumn(ThirdHeaderColumn));
     };
 
 

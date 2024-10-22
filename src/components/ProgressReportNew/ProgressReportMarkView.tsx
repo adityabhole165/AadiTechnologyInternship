@@ -1,6 +1,6 @@
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 
-const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
+const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
 
     const getListDisplayName = (ShortName) => {
         let returnVal = "";
@@ -39,11 +39,14 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
     function showParentColumns() {
 
     }
-    console.log('✨ HeaderArray', HeaderArray);
+    if (EntireDataList.length > 0) {
+        console.log('✨ EntireDataList >>>', EntireDataList);
+    }
 
     console.log('✨ HeaderParent', HeaderParent);
     console.log('✨ SubHeaderArray', SubHeaderArray);
     console.log('✨ MarkDetailsList', MarkDetailsList);
+
     return (
         <Box>
             <Table>
@@ -61,12 +64,21 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                                 </TableCell>
 
                                 {HeaderParent.map((item, index) => (
-                                    <TableCell key={index} colSpan={item.SubjectName !== '' ? item.colSpan + ListTestTypeIdDetails.length + 1 : item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                                    <TableCell
+                                        key={index}
+                                        colSpan={
+                                            item.SubjectName !== ''
+                                                ? item.colSpan + ListTestTypeIdDetails.length + (IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? 1 : 0)
+                                                : item.colSpan
+                                        }
+                                        sx={{ border: '1px solid black', textAlign: 'center' }}
+                                    >
                                         <Typography color="black" textAlign={'left'} mr={5}>
                                             <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
                                         </Typography>
                                     </TableCell>
                                 ))}
+
                             </TableRow>
 
                             <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
@@ -79,10 +91,11 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                                                         <TableCell key={i} rowSpan={2} >  <Typography color="#38548A" textAlign={'center'} mr={5}>Total {item.Text2}</Typography></TableCell>
                                                     )
                                                 })}
-                                                <TableCell rowSpan={2} >  <Typography color="#38548A" textAlign={'center'} mr={5}>Total</Typography></TableCell>
+                                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                    <TableCell rowSpan={2} >  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'center'} mr={5}>Total</Typography></TableCell>}
                                             </>
                                         )}
-                                        <TableCell key={index} colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                                        <TableCell key={index} colSpan={item.colSpan - (IsTotalConsiderForProgressReport.toLowerCase() === 'false' ? 1 : 0)} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                             <Typography color="black" textAlign={'left'} mr={5}>
                                                 <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
                                             </Typography>
@@ -92,6 +105,24 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
 
                                     </>
                                 ))}
+                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                    <>
+                                        <TableCell rowSpan={2}>
+                                            <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                <b>Total</b>
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell rowSpan={2}>
+                                            <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                <b>%</b>
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell rowSpan={2}>
+                                            <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                <b>Grade</b>
+                                            </Typography>
+                                        </TableCell>
+                                    </>}
                             </TableRow>
 
                         </>
@@ -119,14 +150,32 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
 
                     <TableRow>
                         <TableCell></TableCell>
-                        {SubHeaderArray.map((item, index) => (
-                            <TableCell key={index}>
-                                <Typography color="#38548A" textAlign={'center'} mr={9}>
-                                    <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
-                                </Typography>
-                            </TableCell>
+                        {ThirdHeaderRow.map((item, index) => (
+                            <>
+                                {/* Render the normal TableCell */}
+                                <TableCell key={index}>
+                                    <Typography color="#38548A" textAlign={'center'} mr={9}>
+                                        <b style={{ marginRight: "5px" }}>{item.ShortenTestType_Name}</b>
+                                    </Typography>
+                                </TableCell>
+                                {/* Add a 'Total' TableCell after every dynamic number of cells */}
+                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && (index + 1) % ListTestTypeIdDetails.length === 0 && (
+                                    <TableCell key={`total-${index}`}>
+                                        <Typography color="#38548A" textAlign={'center'} mr={9}>
+                                            <b>Total</b>
+                                        </Typography>
+                                    </TableCell>
+                                )}
+
+                            </>
                         ))}
+                        <TableCell >
+                            <Typography color="#38548A" textAlign={'center'} mr={9}>
+                                <b>Grade</b>
+                            </Typography>
+                        </TableCell>
                     </TableRow>
+
                 </TableHead>
 
                 {MarkDetailsList.map((testItem, i) => (

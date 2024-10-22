@@ -67,8 +67,10 @@ const ProgressReportNew = () => {
   );
 
   const USGetPassedAcademicYears: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears);
+  const ThirdHeaderColumn: any = useSelector((state: RootState) => state.ProgressReportNew.ISThirdHeaderColumn);
   const USlistStudentsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistStudentsDetails);
   const USlistSubjectsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectsDetails);
+  const EntireDataList: any = useSelector((state: RootState) => state.ProgressReportNew.ISEntireDataList);
   const USlistTestDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistTestDetails);
   const USlistSubjectIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectIdDetails);
   const USListSchoolWiseTestNameDetail: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSchoolWiseTestNameDetail);
@@ -647,6 +649,8 @@ const ProgressReportNew = () => {
                       USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
                       USListMarkssDetails={USListMarkssDetails}
                       ListTestTypeIdDetails={USListTestTypeIdDetails}
+                      ThirdHeaderRow={ThirdHeaderColumn}
+                      EntireDataList={EntireDataList}
                     />
 
                   </Box>
