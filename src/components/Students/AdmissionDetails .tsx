@@ -1,7 +1,17 @@
-import { Box, Button, Checkbox, FormControlLabel, Grid, TextField } from '@mui/material';
+import {
+    Alert,
+    Box,
+    Button,
+    Checkbox,
+    FormControlLabel,
+    Grid,
+    TextField,
+    Typography
+} from '@mui/material';
 import React, { useState } from 'react';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
-const AdmissionDetails = ({ onSave }) => {
+const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void }) => {
     const [form, setForm] = useState({
         newAdmission: false,
         isRTEApplicable: false,
@@ -11,7 +21,9 @@ const AdmissionDetails = ({ onSave }) => {
         admissionDate: '',
         joiningDate: '',
         studentRollNumber: '',
-        sendSMS: false
+        sendSMS: false,
+        rteCategory: '',
+        rteApplicationForm: '',
     });
 
     const [errors, setErrors] = useState({
@@ -21,17 +33,26 @@ const AdmissionDetails = ({ onSave }) => {
         admissionDate: false,
         joiningDate: false,
         studentRollNumber: false,
+        rteCategory: false,
+        rteApplicationForm: false,
     });
 
     const [message, setMessage] = useState('');
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target;
-        const fieldValue = type === 'checkbox' ? checked : value;
-        setForm({ ...form, [name]: fieldValue });
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, checked, type } = event.target;
+        setForm(prevForm => ({
+            ...prevForm,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
 
-        // Remove error when the user starts filling the field
-        setErrors({ ...errors, [name]: false });
+        // Update error state when user types
+        if (value) {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                [name]: false,
+            }));
+        }
     };
 
     const validateForm = () => {
@@ -42,35 +63,56 @@ const AdmissionDetails = ({ onSave }) => {
             admissionDate: !form.admissionDate,
             joiningDate: !form.joiningDate,
             studentRollNumber: !form.studentRollNumber,
+            rteCategory: form.isRTEApplicable && !form.rteCategory,
+            rteApplicationForm: form.isRTEApplicable && !form.rteApplicationForm,
         };
         setErrors(newErrors);
-        return !Object.values(newErrors).some(error => error);
+        return !Object.values(newErrors).includes(true);
     };
+    const applicableRules = [
+        { id: 1, Name: '50% Fee Concession' },
+        { id: 2, Name: '75% Fee Concession' }
+    ];
+    const StaffUserRole = [
+        { id: 1, Name: 'Teacher' },
+        { id: 2, Name: 'Admin Staff' }
+    ];
+    const ResidenceType = [
+        { id: 1, Name: 'Flat Owners' },
+        { id: 2, Name: 'Tenants' }
+    ];
+    const SchoolBoardName = [
+        { id: 1, Name: 'ICSE' },
+        { id: 2, Name: 'SSC' },
+        { id: 3, Name: 'CBSE' },
+        { id: 4, Name: 'OTHERS' }
+    ];
 
-    const saveDraft = () => {
+    const Recognised = [
+        { id: 1, Name: 'Yes' },
+        { id: 2, Name: 'No' }
+    ];
+
+
+
+
+    const handleSave = () => {
         const isValid = validateForm();
-        if (isValid) {
-            setMessage('Draft saved successfully!');
-            onSave(true); // Pass success to the parent
-        } else {
-            setMessage('Some fields are missing or incorrect.');
-            onSave(false); // Pass failure to the parent
-        }
+        onSave(isValid);
+        setMessage(isValid ? 'Draft saved successfully!' : 'Please fill in all required fields.');
+        setTimeout(() => setMessage(''), 1000);
     };
 
     return (
-        <Box>
-            {/* <Typography variant="h5" p={2}>Admission Details</Typography> */}
-
-            {/* Display success/error message */}
-            {/* {message && (
-                <Alert severity={message.includes('successfully') ? 'success' : 'error'}>
-                    {message}
-                </Alert>
-            )} */}
-
+        <Box sx={{ backgroundColor: 'white', p: 2 }}>
+            {message && (
+                <Grid item xs={12}>
+                    <Alert severity={message.includes('successfully') ? 'success' : 'error'}>
+                        {message}
+                    </Alert>
+                </Grid>
+            )}
             <Grid container spacing={2}>
-                {/* New Admission */}
                 <Grid item xs={3}>
                     <FormControlLabel
                         control={
@@ -83,8 +125,6 @@ const AdmissionDetails = ({ onSave }) => {
                         label="New Admission"
                     />
                 </Grid>
-
-                {/* Is RTE Applicable */}
                 <Grid item xs={3}>
                     <FormControlLabel
                         control={
@@ -97,8 +137,45 @@ const AdmissionDetails = ({ onSave }) => {
                         label="Is RTE Applicable?"
                     />
                 </Grid>
-
-                {/* User Name */}
+                {form.isRTEApplicable && (
+                    <Grid container spacing={2} ml={0}>
+                        <Grid item xs={4}>
+                            <TextField
+                                name="rteCategory"
+                                label="RTE Category"
+                                value={form.rteCategory}
+                                onChange={handleInputChange}
+                                fullWidth
+                                required
+                                error={errors.rteCategory}
+                                helperText={errors.rteCategory ? "This field is required" : ""}
+                                sx={{
+                                    backgroundColor: errors.rteCategory ? 'red' : (form.rteCategory ? 'lightblue' : 'inherit'),
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField
+                                name="rteApplicationForm"
+                                label="RTE Application Form"
+                                value={form.rteApplicationForm}
+                                onChange={handleInputChange}
+                                fullWidth
+                                required
+                                error={errors.rteApplicationForm}
+                                helperText={errors.rteApplicationForm ? "This field is required" : ""}
+                                sx={{
+                                    backgroundColor: errors.rteApplicationForm ? 'red' : (form.rteApplicationForm ? 'lightblue' : 'inherit'),
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography variant="h5" color="textSecondary">
+                                <b>Note:</b> Student marked as RTE (Right To Education) will get 100% concession on the school fees.
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                )}
                 <Grid item xs={3}>
                     <TextField
                         name="userName"
@@ -109,11 +186,12 @@ const AdmissionDetails = ({ onSave }) => {
                         required
                         error={errors.userName}
                         helperText={errors.userName ? "This field is required" : ""}
+                        sx={{
+                            backgroundColor: errors.registrationNumber ? 'white' : (form.registrationNumber ? 'white' : 'inherit'),
+                        }}
                         fullWidth
                     />
                 </Grid>
-
-                {/* Form Number */}
                 <Grid item xs={3}>
                     <TextField
                         name="formNumber"
@@ -124,11 +202,12 @@ const AdmissionDetails = ({ onSave }) => {
                         required
                         error={errors.formNumber}
                         helperText={errors.formNumber ? "This field is required" : ""}
+                        sx={{
+                            backgroundColor: errors.registrationNumber ? 'white' : (form.registrationNumber ? 'white' : 'inherit'),
+                        }}
                         fullWidth
                     />
                 </Grid>
-
-                {/* Registration Number */}
                 <Grid item xs={3}>
                     <TextField
                         name="registrationNumber"
@@ -139,41 +218,46 @@ const AdmissionDetails = ({ onSave }) => {
                         required
                         error={errors.registrationNumber}
                         helperText={errors.registrationNumber ? "This field is required" : ""}
+                        sx={{
+                            backgroundColor: errors.registrationNumber ? 'white' : (form.registrationNumber ? 'white' : 'inherit'),
+                        }}
                         fullWidth
                     />
                 </Grid>
-
-                {/* Admission Date */}
                 <Grid item xs={3}>
                     <TextField
                         name="admissionDate"
                         label="Admission Date"
                         variant="outlined"
+                        type="date" // Optional: use a date input
                         value={form.admissionDate}
                         onChange={handleInputChange}
                         required
                         error={errors.admissionDate}
                         helperText={errors.admissionDate ? "This field is required" : ""}
+                        sx={{
+                            backgroundColor: errors.registrationNumber ? 'white' : (form.registrationNumber ? 'white' : 'inherit'),
+                        }}
                         fullWidth
                     />
                 </Grid>
-
-                {/* Joining Date */}
                 <Grid item xs={3}>
                     <TextField
                         name="joiningDate"
                         label="Joining Date"
                         variant="outlined"
+                        type="date" // Optional: use a date input
                         value={form.joiningDate}
                         onChange={handleInputChange}
                         required
                         error={errors.joiningDate}
                         helperText={errors.joiningDate ? "This field is required" : ""}
+                        sx={{
+                            backgroundColor: errors.registrationNumber ? 'white' : (form.registrationNumber ? 'white' : 'inherit'),
+                        }}
                         fullWidth
                     />
                 </Grid>
-
-                {/* Student Roll Number */}
                 <Grid item xs={3}>
                     <TextField
                         name="studentRollNumber"
@@ -184,11 +268,114 @@ const AdmissionDetails = ({ onSave }) => {
                         required
                         error={errors.studentRollNumber}
                         helperText={errors.studentRollNumber ? "This field is required" : ""}
+                        sx={{
+                            backgroundColor: errors.registrationNumber ? 'white' : (form.registrationNumber ? 'white' : 'inherit'),
+                        }}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="newAdmission"
+                                checked={form.newAdmission}
+                                onChange={handleInputChange}
+                            />
+                        }
+                        label="Is Staff Kid?"
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="newAdmission"
+                                checked={form.newAdmission}
+                                onChange={handleInputChange}
+                            />
+                        }
+                        label="Is Only Child?"
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="newAdmission"
+                                checked={form.newAdmission}
+                                onChange={handleInputChange}
+                            />
+                        }
+                        label="Is Rise & Shine?"
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="newAdmission"
+                                checked={form.newAdmission}
+                                onChange={handleInputChange}
+                            />
+                        }
+                        label="Is Minority?"
+                    />
+                </Grid>
+
+                <Grid item xs={3}>
+                    <SearchableDropdown
+                        sx={{ minWidth: '300px' }}
+                        ItemList={applicableRules}
+                        // onChange={onClickClass}
+                        label={'Applicable Rule'}
+                        size={"medium"}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <SearchableDropdown
+                        sx={{ minWidth: '300px' }}
+                        ItemList={StaffUserRole}
+                        // onChange={onClickClass}
+                        label={'Staff User Role'}
+                        size={"medium"}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <SearchableDropdown
+                        sx={{ minWidth: '300px' }}
+                        ItemList={StaffUserRole}
+                        // onChange={onClickClass}
+                        label={'Staff Name'}
+                        size={"medium"}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <SearchableDropdown
+                        sx={{ minWidth: '300px' }}
+                        ItemList={ResidenceType}
+                        // onChange={onClickClass}
+                        label={' Residence Type'}
+                        size={"medium"}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <TextField
+                        name="userName"
+                        label="RFID"
+                        variant="outlined"
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <TextField
+                        name="userName"
+                        label="Admission Standard"
+                        variant="outlined"
                         fullWidth
                     />
                 </Grid>
 
-                {/* Send SMS of User Name and Password */}
                 <Grid item xs={3}>
                     <FormControlLabel
                         control={
@@ -203,11 +390,68 @@ const AdmissionDetails = ({ onSave }) => {
                 </Grid>
             </Grid>
 
-            <Box p={2}>
-                <Button onClick={saveDraft} variant="contained" color="secondary">
-                    Save as Draft & Next
-                </Button>
+            <Box>
+                <Typography variant="h4" color="initial" p={2}> Last School Details
+                </Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={3}>
+                        <TextField
+                            name="lastSchoolName"
+                            label="Last School Name"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <TextField
+                            name="lastSchoolRollNumber"
+                            label="School Address"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <TextField
+                            name="lastSchoolYear"
+                            label="Standard"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <TextField
+                            name="lastSchoolAddress"
+                            label="School UDISE No."
+                            variant="outlined"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <SearchableDropdown
+                            sx={{ minWidth: '300px' }}
+                            ItemList={SchoolBoardName}
+                            // onChange={onClickClass}
+                            label={' School Board Name'}
+                            size={"medium"}
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <SearchableDropdown
+                            sx={{ minWidth: '300px' }}
+                            ItemList={Recognised}
+                            // onChange={onClickClass}
+                            label={'Is Recognised'}
+                            size={"medium"}
+                        />
+                    </Grid>
+                </Grid>
             </Box>
+            <Grid item xs={12} pt={2}>
+                <Button
+                    onClick={handleSave}>
+                    Save And Next
+                </Button>
+            </Grid>
         </Box>
     );
 };
