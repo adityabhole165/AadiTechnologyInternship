@@ -456,7 +456,7 @@ const StudentwiseprogressreportEdit = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport/' + AssessmentId  },
+                    { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport/' + AssessmentId },
                     { title: 'Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
                 ]}
                 rightActions={
@@ -495,19 +495,21 @@ const StudentwiseprogressreportEdit = () => {
                         </Tooltip>
 
                         <Tooltip title={'View Progress Report'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600]
-                                    }
-                                }}
-                                disabled={StudentWiseAssessmentPublishStatus == "N" || allOutcomesValid == false}
+                            <span>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: blue[500],
+                                        '&:hover': {
+                                            backgroundColor: blue[600]
+                                        }
+                                    }}
+                                    disabled={StudentWiseAssessmentPublishStatus == "N" || allOutcomesValid == false}
 
-                                onClick={ClickShow}>
-                                <FactCheck />
-                            </IconButton>
+                                    onClick={ClickShow}>
+                                    <FactCheck />
+                                </IconButton>
+                            </span>
                         </Tooltip>
 
 
@@ -515,21 +517,23 @@ const StudentwiseprogressreportEdit = () => {
                         {
                             UserDetail.CanPublishUnpublishExam == true ? (
                                 <Tooltip title={StudentWiseAssessmentPublishStatus[0] == "N" ? "Publish" : "Unpublish"}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[500] : red[500],
-                                            '&:hover': {
-                                                backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[600] : red[600],
-                                            },
-                                        }}
-                                        disabled={
-                                            (AssessmentPublishStatus[0] == "Y" || allOutcomesValid == false)
-                                        }
-                                        onClick={StudentWiseAssessmentPublishStatus[0] == "N" ? Clickpublish : ClickUnpublish}
-                                    >
-                                        {StudentWiseAssessmentPublishStatus[0] == "N" ? <CheckCircle /> : <Unpublished />}
-                                    </IconButton>
+                                    <span>
+                                        <IconButton
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[500] : red[500],
+                                                '&:hover': {
+                                                    backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[600] : red[600],
+                                                },
+                                            }}
+                                            disabled={
+                                                (AssessmentPublishStatus[0] == "Y" || allOutcomesValid == false)
+                                            }
+                                            onClick={StudentWiseAssessmentPublishStatus[0] == "N" ? Clickpublish : ClickUnpublish}
+                                        >
+                                            {StudentWiseAssessmentPublishStatus[0] == "N" ? <CheckCircle /> : <Unpublished />}
+                                        </IconButton>
+                                    </span>
                                 </Tooltip>
                             ) : <span></span>
                         }
@@ -539,18 +543,20 @@ const StudentwiseprogressreportEdit = () => {
 
 
                         <Tooltip title={'Save'}>
-                            <IconButton
-                                onClick={clicksave}
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: green[500],
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: green[600] },
-                                }}
-                                disabled={AssessmentPublishStatus == "Y" || StudentWiseAssessmentPublishStatus == "Y"}
-                            >
-                                <Save />
-                            </IconButton>
+                            <span>
+                                <IconButton
+                                    onClick={clicksave}
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: green[500],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: green[600] },
+                                    }}
+                                    disabled={AssessmentPublishStatus == "Y" || StudentWiseAssessmentPublishStatus == "Y"}
+                                >
+                                    <Save />
+                                </IconButton>
+                            </span>
                         </Tooltip>
                     </>}
             />
