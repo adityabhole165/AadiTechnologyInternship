@@ -53,6 +53,8 @@ const ViewResultAll = (props: Props) => {
   const MarkDetailsView = useSelector((state: RootState) => state.VeiwResult.getMarkDetailsView);
   const SubjectDetailsView = useSelector((state: RootState) => state.VeiwResult.getSubjectDetailsView)
   const GradesDetailsView = useSelector((state: RootState) => state.VeiwResult.getGradesDetailsView);
+  const TotalPerGradeView = useSelector((state: RootState) => state.VeiwResult.getTotalPerGradeView);
+  const PercentageDetails = useSelector((state: RootState) => state.VeiwResult.getPerDetails);
   const Usisconfigred: any = useSelector((state: RootState) => state.VeiwResult.iscofigred);
   const Usunpublishedexam: any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
@@ -73,8 +75,6 @@ const ViewResultAll = (props: Props) => {
       setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
   }, [UsGetSchoolSettings])
 
-
-
   const ClassTeachersBody: IClassTeacherBody = {
     asSchoolId,
     asAcademicYearId,
@@ -82,9 +82,6 @@ const ViewResultAll = (props: Props) => {
 
   const GetSchoolSettings: GetSchoolSettingsBody = {
     asSchoolId: Number(asSchoolId),
-
-
-
   };
 
 
@@ -359,7 +356,11 @@ const ViewResultAll = (props: Props) => {
                         ))}
 
                         {IsTotalConsiderForProgressReport == "True" ?
-                          <TableCell> test  </TableCell> : null}
+                          <>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
+                          </> : null}
 
                       </TableRow>
                       <TableRow>
@@ -370,14 +371,35 @@ const ViewResultAll = (props: Props) => {
                                 Marks
                               </Typography>
                             </TableCell>
+
                             {MarkDetailsView.map((marks) => (
-                              <TableCell key={marks.Name} sx={{ textAlign: 'center' }} >{marks.Name}</TableCell>
+                              <TableCell key={marks.Name} sx={{ textAlign: 'center' }}>
+                                {marks.Name}
+                              </TableCell>
                             ))}
 
+                            {IsTotalConsiderForProgressReport === "True" && TotalPerGradeView.map((totalData, index) => {
+                              if (index === 0) {
+                                const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
 
+                                return (
+                                  <>
+                                    <TableCell sx={{ textAlign: 'center' }}>{totalData.TotalMarks}</TableCell>
+                                    <TableCell sx={{ textAlign: 'center' }}>{totalData.Percentage}</TableCell>
+                                    <TableCell sx={{ textAlign: 'center' }}>
+                                      <Typography variant="body2">
+                                        {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}
+                                      </Typography>
+                                    </TableCell>
+                                  </>
+                                );
+                              }
+                              return null;
+                            })}
                           </>
                         )}
                       </TableRow>
+
                       <TableRow>
                         <TableCell sx={{ backgroundColor: '#F0F0F0' }}>
                           <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
@@ -386,8 +408,13 @@ const ViewResultAll = (props: Props) => {
                         {GradesDetailsView.map((Grade) => (
                           <TableCell sx={{ textAlign: 'center' }}>{Grade.Name}
                           </TableCell>
-                        )
-                        )}
+                        ))}
+                        {IsTotalConsiderForProgressReport == "True" ?
+                          <>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                          </> : null}
                       </TableRow>
                     </TableBody>
                   </Table>

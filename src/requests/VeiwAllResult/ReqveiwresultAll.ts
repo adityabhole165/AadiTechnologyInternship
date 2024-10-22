@@ -24,6 +24,8 @@ const VeiwResultSlice = createSlice({
         getSubjectDetailsView: [],
         getMarkDetailsView: [],
         getGradesDetailsView: [],
+        getTotalPerGradeView: [],
+        getPerDetails: [],
         iscofigred: {},
         unpublishexam: [],
         notResultList: [],
@@ -59,6 +61,14 @@ const VeiwResultSlice = createSlice({
         GradesDetailsView(state, action) {
             state.Loading = false;
             state.getGradesDetailsView = action.payload;
+        },
+        TotalPerGradeView(state, action) {
+            state.Loading = false;
+            state.getTotalPerGradeView = action.payload;
+        },
+        PercentDetails(state, action) {
+            state.Loading = false;
+            state.getPerDetails = action.payload;
         },
         SubjectDetailsView(state, action) {
             state.Loading = false;
@@ -173,6 +183,24 @@ export const GetsingleStudentResultVA =
                     Value: item.Grade
                 };
             });
+            let Total = response.data.listMarksDetails.map((item, i) => {
+                return {
+                    TotalMarks: `${item.Total_Marks_Scored} / ${item.Subjects_Total_Marks}`,
+                    GradeName: item.Grade_Name,
+                    Percentage: item.Percentage,
+                    Grade_id: item.Grade_id
+                };
+            });
+            let PerCentDetails = response.data.listParcentageDetails.map((item, i) => {
+                return {
+                    TotalMarks: item.Range,
+                    Grade: item.Grade,
+                    Remarks: item.Remarks,
+                    GradeConfId: item.Marks_Grades_Configuration_Detail_ID
+                };
+            });
+            dispatch(VeiwResultSlice.actions.PercentDetails(PerCentDetails));
+            dispatch(VeiwResultSlice.actions.TotalPerGradeView(Total));
             dispatch(VeiwResultSlice.actions.GradesDetailsView(Grades));
             dispatch(VeiwResultSlice.actions.SubjectDetailsView(subject));
             dispatch(VeiwResultSlice.actions.MarkDetailsView(MarkList));
