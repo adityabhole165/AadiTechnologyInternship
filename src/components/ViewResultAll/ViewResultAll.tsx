@@ -20,6 +20,8 @@ import {
 } from 'src/interfaces/VeiwResultAll/IViewResultAll';
 
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
+import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
+import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import {
   ClassTechersListt,
   GetStudentResultList,
@@ -62,10 +64,29 @@ const ViewResultAll = (props: Props) => {
   const totalconsidration = SubjectDetailsView.filter((item) => item.Total_Consideration === "N")
   //console.log(totalconsidration, "totalconsidrationdddd");
 
+  const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+
+  const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
+
+  useEffect(() => {
+    if (UsGetSchoolSettings != null)
+      setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+  }, [UsGetSchoolSettings])
+
+
+
   const ClassTeachersBody: IClassTeacherBody = {
     asSchoolId,
     asAcademicYearId,
   };
+
+  const GetSchoolSettings: GetSchoolSettingsBody = {
+    asSchoolId: Number(asSchoolId),
+
+
+
+  };
+
 
   const StudentListDropDowntBody: IGetStudentNameListBody = {
     asSchoolId,
@@ -100,11 +121,19 @@ const ViewResultAll = (props: Props) => {
     asStudentId: Number(studentList),
     asInsertedById: Number(asUserId),
     asWithGrace: 0,
+
+
   }
 
   useEffect(() => {
     dispatch(GetsingleStudentResultVA(StudentsingleresultBody))
   }, [selectTeacher, studentList])
+
+  useEffect(() => {
+    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+
+  }, []);
+
 
   const clickSelectClass = (value) => {
     setSelectTeacher(value);
@@ -321,13 +350,16 @@ const ViewResultAll = (props: Props) => {
                         {SubjectDetailsView.map((subject) => (
 
                           <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center' }}><b>{subject.Name}  </b>
-                            {/* {(totalconsidration == subject.Subject_Id) && <span style={{ color: 'red' }}>*</span>} */}
+
 
                             {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
 
                           </TableCell>
 
                         ))}
+
+                        {IsTotalConsiderForProgressReport == "True" ?
+                          <TableCell> test  </TableCell> : null}
 
                       </TableRow>
                       <TableRow>
@@ -341,6 +373,8 @@ const ViewResultAll = (props: Props) => {
                             {MarkDetailsView.map((marks) => (
                               <TableCell key={marks.Name} sx={{ textAlign: 'center' }} >{marks.Name}</TableCell>
                             ))}
+
+
                           </>
                         )}
                       </TableRow>
