@@ -86,7 +86,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                     <>
                                         {index > 0 && HeaderArray[index - 1].ParentSubjectId !== "0" && item.ParentSubjectId === '0' && (
                                             <>
-                                                {ListTestTypeIdDetails?.map((item, i) => {
+                                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && ListTestTypeIdDetails?.map((item, i) => {
                                                     return (
                                                         <TableCell key={i} rowSpan={2} >  <Typography color="#38548A" textAlign={'center'} mr={5}>Total {item.Text2}</Typography></TableCell>
                                                     )

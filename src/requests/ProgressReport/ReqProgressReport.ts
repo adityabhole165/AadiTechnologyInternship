@@ -375,7 +375,8 @@ export const CDAStudentProgressReport =
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 }
               }
-              if (TestTypeIndex == TestTypeCount - 1) {
+
+              if (TestTypeIndex == TestTypeCount - 1 && data.IsTotalConsiderForProgressReport.toLowerCase() == "true") {
                 columns.push(totalMarks);
               }
               if (data.IsTotalConsiderForProgressReport == "True") {
@@ -398,6 +399,7 @@ export const CDAStudentProgressReport =
                   // })
 
                   let isDataPushed = false;
+
                   response.data.listTestidDetails.map((Item) => {
                     // Check if the IDs match and data has not been pushed yet
                     if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
