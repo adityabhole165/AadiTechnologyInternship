@@ -1,5 +1,5 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Box, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Box, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from '@mui/material';
 import { red } from '@mui/material/colors';
 
 function AddRequisitionlist({
@@ -78,6 +78,10 @@ function AddRequisitionlist({
                   <MenuItem value={item.UOMUnit}>{item.UOMUnit}</MenuItem>
                 </Select>
               </TableCell>
+
+
+              <Tooltip title="Delete">  
+
               <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'left' }} align="left">
                 <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)}
                   // sx={{
@@ -96,6 +100,10 @@ function AddRequisitionlist({
                   }}
                 />
               </TableCell>
+              </Tooltip>
+              
+
+
             </TableRow>
           ))}
         </TableBody>
