@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import IsPublishstatus from 'src/components/StudentWiseProgressReport/IsPublishstatus';
 
 
+import { ArrowCircleDown } from '@mui/icons-material';
 import {
     Box,
     Card,
@@ -20,7 +21,6 @@ import {
     Typography,
 } from '@mui/material';
 import { red } from '@mui/material/colors';
-import { ArrowCircleDown } from '@mui/icons-material';
 
 function StudentwiseProgressreportList({
     ItemList,
@@ -90,7 +90,7 @@ function StudentwiseProgressreportList({
                                     <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100 }}>
                                         {item.EditStatus === "1" ? (
                                             <Tooltip title="Marks entry not started">
-                                                <EditOffIcon
+                                                <EditOffIcon style={{ cursor: 'pointer' }}
                                                     onClick={() => clickEdit(item.StandardId, item.Id)}
                                                     sx={{
                                                         color: '#f44336',
@@ -102,7 +102,7 @@ function StudentwiseProgressreportList({
                                             </Tooltip>
                                         ) : item.EditStatus === "2" ? (
                                             <Tooltip title="Marks entry partially done">
-                                                <DesignServicesIcon
+                                                <DesignServicesIcon style={{ cursor: 'pointer' }}
                                                     onClick={() => clickEdit(item.StandardId, item.Id)}
                                                     sx={{
                                                         color: '#ff9800',
