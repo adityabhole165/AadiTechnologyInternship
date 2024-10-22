@@ -338,26 +338,24 @@ const ViewResultAll = (props: Props) => {
                         <TableCell>
                           <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={1} ml={1}>
                             Subjects
-                          </Typography></TableCell>
+                          </Typography>
+                        </TableCell>
                         {SubjectDetailsView.map((subject) => (
-
-                          <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center' }}><b>{subject.Name}  </b>
-
-
-                            {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
-
+                          <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center' }}>
+                            <b>{subject.Name}</b>
+                            {subject.Total_Consideration === "N" && <span style={{ color: 'red' }}>*</span>}
                           </TableCell>
-
                         ))}
 
-                        {IsTotalConsiderForProgressReport == "True" ?
+                        {IsTotalConsiderForProgressReport === "True" && !showOnlyGrades && (
                           <>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
-                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
-                          </> : null}
-
+                          </>
+                        )}
+                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
                       </TableRow>
+
                       <TableRow>
                         {!showOnlyGrades && (
                           <>
@@ -376,7 +374,6 @@ const ViewResultAll = (props: Props) => {
                             {IsTotalConsiderForProgressReport === "True" && TotalPerGradeView.map((totalData, index) => {
                               if (index === 0) {
                                 const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
-
                                 return (
                                   <>
                                     <TableCell sx={{ textAlign: 'center' }}>{totalData.TotalMarks}</TableCell>
@@ -399,17 +396,35 @@ const ViewResultAll = (props: Props) => {
                         <TableCell sx={{ backgroundColor: '#F0F0F0' }}>
                           <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
                             Subject Grade
-                          </Typography></TableCell>
+                          </Typography>
+                        </TableCell>
                         {GradesDetailsView.map((Grade) => (
-                          <TableCell sx={{ textAlign: 'center' }}>{Grade.Name}
-                          </TableCell>
+                          <TableCell key={Grade.Name} sx={{ textAlign: 'center' }}>{Grade.Name}</TableCell>
                         ))}
-                        {IsTotalConsiderForProgressReport == "True" ?
+                        {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
                           <>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
-                          </> : null}
+                          </>
+                        )}
+                        {showOnlyGrades && (
+                          <>
+                            {TotalPerGradeView.map((totalData, index) => {
+                              if (index === 0) {
+                                const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
+                                return (
+                                  <TableCell sx={{ textAlign: 'center' }}>
+                                    <Typography variant="body2">
+                                      {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}
+                                    </Typography>
+                                  </TableCell>
+                                );
+                              }
+                              return null;
+                            })}
+                          </>
+                        )}
                       </TableRow>
                     </TableBody>
                   </Table>
