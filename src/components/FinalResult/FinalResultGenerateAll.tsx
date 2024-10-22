@@ -1,6 +1,6 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
+import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -43,7 +43,7 @@ const GenerateAll = ({ }) => {
     const MarkDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getMarkDetailsView);
     const SubjectDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetailsView);
     const GradesDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getGradesDetailsView);
-
+    const totalconsidration = SubjectDetailsView.filter((item) => item.Total_Consideration === "N")
     const getListDisplayName = (ShortName) => {
         let returnVal = ""
         ListDisplayNameDetails.map((Item) => {
@@ -195,16 +195,16 @@ const GenerateAll = ({ }) => {
                                             {StudentDetailsUS.map((item, i) => {
                                                 return (
                                                     <TableRow sx={{ bgcolor: '#38548A' }} key={i}>
-                                                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No: {item.Text2}</b></TableCell>
-                                                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Name: {item.Text1}</b></TableCell>
-                                                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Class: {item.Text3} - {item.Text4}</b></TableCell>
-                                                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Year: {item.Text5}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: {item.Text2}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: {item.Text1}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: {item.Text3} - {item.Text4}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: {item.Text5}</b></TableCell>
                                                     </TableRow>
                                                 );
                                             })}
                                         </TableBody>
                                     </Table>
-                                    <Box sx={{ overflowX: 'auto',border:1 }}>
+                                    <Box sx={{ overflowX: 'auto', border: 1 }}>
                                         <Table>
                                             <TableHead>
                                                 <TableRow sx={{ bgcolor: '#F0F0F0' }}>
@@ -237,14 +237,14 @@ const GenerateAll = ({ }) => {
                                             </TableHead>
 
                                             {MarkDetailsList.map((testItem, i) => (
-                                                <TableBody key={i} sx={{backgroundColor:'#F0F0F0',alignItems:'center' }}>
+                                                <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
                                                     <TableRow>
                                                         <TableRow sx={{}}>
-                                                           <b> {testItem.TestName}</b>
+                                                            <b> {testItem.TestName}</b>
                                                         </TableRow>
-                                                        
+
                                                         {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell sx={{backgroundColor:'white'}}>
+                                                            <TableCell sx={{ backgroundColor: 'white' }}>
                                                                 {
                                                                     MarkItem.IsAbsent == "N" ?
                                                                         MarkItem.MarksScored + " / " + MarkItem.TotalMarks :
@@ -268,12 +268,13 @@ const GenerateAll = ({ }) => {
                                     // variant="contained"
                                     // color="error"
                                     sx={{
-                                        color:'green',
+                                        color: 'green',
                                         //   backgroundColor: green[500],
-                                          '&:hover': {
-                                        color:'green',
-                                         backgroundColor: green[100]
-                                          }}}
+                                        '&:hover': {
+                                            color: 'green',
+                                            backgroundColor: green[100]
+                                        }
+                                    }}
                                 >
                                     Save & Generate Result
                                 </Button>
@@ -295,23 +296,34 @@ const GenerateAll = ({ }) => {
                                 <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
                                     Final Result
                                 </Typography>
-                                
+
                                 <Table>
                                     <TableBody>
                                         {ViewProgress.map((item, i) => {
                                             return (
                                                 <TableRow sx={{ bgcolor: '#38548A' }} key={i}>
-                                                    <TableCell sx={{textAlign:'center', color:'white'}}>Roll No: <b>{item.Text2}</b></TableCell>
-                                                    <TableCell sx={{textAlign:'center', color:'white'}}>Name: <b>{item.Text1}</b></TableCell>
-                                                    <TableCell sx={{textAlign:'center', color:'white'}}>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
-                                                    <TableCell sx={{textAlign:'center', color:'white'}}>Year: <b>{item.Text5}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white' }}>Roll No: <b>{item.Text2}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white' }}>Name: <b>{item.Text1}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white' }}>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white' }}>Year: <b>{item.Text5}</b></TableCell>
                                                 </TableRow>
                                             );
                                         })}
                                     </TableBody>
                                 </Table>
+                                <Table>
+                                    <TableBody>
+                                        {totalconsidration.length > 0 && (
+                                            <>
+                                                <TableRow sx={{ bgcolor: 'white', p: 2 }}>
+                                                    <TableCell sx={{ pl: 10 }}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks </TableCell>
+                                                </TableRow>
+                                            </>
+                                        )}
 
-                                <Box sx={{ overflowX: 'auto',border:1}}>
+                                    </TableBody>
+                                </Table>
+                                <Box sx={{ overflowX: 'auto', border: 1 }}>
                                     <Table >
                                         <TableBody >
                                             <TableRow sx={{ bgcolor: '#F0F0F0' }}>
@@ -319,7 +331,14 @@ const GenerateAll = ({ }) => {
                                                     Subjects
                                                 </Typography>
                                                 {SubjectDetailsView.map((subject, i) => (
-                                                    <TableCell key={i} sx={{color:'black'}}><b>{subject.Name}</b></TableCell>
+                                                    // <TableCell key={i} sx={{color:'black'}}><b>{subject.Name}</b></TableCell>
+                                                    <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center' }}><b>{subject.Name}  </b>
+
+
+                                                        {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
+
+                                                    </TableCell>
+
                                                 ))}
                                             </TableRow>
                                             <TableRow>

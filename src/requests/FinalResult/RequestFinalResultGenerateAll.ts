@@ -279,7 +279,8 @@ export const ViewResultGA =
                     Id: item.Subject_Id,
                     Name: item.Subject_Name,
                     Value: item.Subject_Id,
-                    IsAbsent: item.IsAbsent
+                    IsAbsent: item.IsAbsent,
+                    Total_Consideration: item.Total_Consideration
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.SubjectDetailsView(Subject));
