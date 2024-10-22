@@ -20,8 +20,8 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
     }
     return (
         <>
-            <Grid item container xs={12} pl={2}>
-                <Grid item xs={10.8}>
+            <Grid item container xs={12} >
+                <Grid item xs={11}>
 
                     {/* <Card sx={{ display: 'flex', alignItems: 'center', p: 0.5, mt: 0.7 }}> */}
                     <ListStyle color={item.IsImageNotice ? 'secondary' : 'primary'}
@@ -41,7 +41,7 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
                     {/* </Card> */}
                 </Grid>
                 {!item.IsImageNotice &&
-                    <Grid item xs={1} sx={{ ml: "5px" }}
+                    <Grid item xs={0.7} sx={{ ml: "5px" }}
                     >
 
                         <IconButton
