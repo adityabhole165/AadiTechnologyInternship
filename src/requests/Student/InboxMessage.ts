@@ -4,6 +4,7 @@ import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import SentMessageApi from 'src/api/Student/SentMessage';
 import {
   getDateMonthYearFormatted,
+  getWithoutHTML,
   isFutureDateTime
 } from 'src/components/Common/Util';
 import {
@@ -173,7 +174,7 @@ export const getListOfMessages =
           return {
             Id: item.Id,
             text1: item.Subject,
-            text2: item.MessageBody,
+            text2: getWithoutHTML(item.MessageBody),
             text3: getDateMonthYearFormatted(item.DraftDate),
             NavPath: item.Id + '/Draft',
             isActive: false,

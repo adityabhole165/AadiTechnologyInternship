@@ -98,10 +98,10 @@ function CardMessage({
               whiteSpace: 'nowrap'
             }}
           >
-            {/* {text1} */}
-            <span
+            {text1}
+            {/* <span
               dangerouslySetInnerHTML={{ __html: (text1) }}
-            />
+            /> */}
           </Typography>
         </Grid>
         {/* cc data  */}
