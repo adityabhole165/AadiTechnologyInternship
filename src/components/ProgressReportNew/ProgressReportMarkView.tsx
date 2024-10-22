@@ -117,8 +117,8 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                                 <b>%</b>
                                             </Typography>
                                         </TableCell>
-                                        <TableCell rowSpan={2}>
-                                            <Typography color="#38548A" textAlign={'center'} px={3}>
+                                        <TableCell rowSpan={2} >
+                                            <Typography color="#38548A" textAlign={'center'} px={5}>
                                                 <b>Grade</b>
                                             </Typography>
                                         </TableCell>
