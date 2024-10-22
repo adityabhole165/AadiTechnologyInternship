@@ -2,6 +2,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, Grid, IconButton, MenuItem, TextField, Tooltip } from '@mui/material';
 import { red } from '@mui/material/colors';
+import { User } from 'lucide-react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
@@ -90,16 +91,26 @@ const PersonalDetails = ({ onSave }) => {
         // Remove error when the user starts filling the field
         setErrors({ ...errors, [name]: false });
     };
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setForm(prevForm => ({ ...prevForm, photo: reader.result }));
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const GetTeachers = useSelector(
         (state: RootState) => state.StudentRecords.ClassTeachers
     );
 
     return (
-        <Box>
+        <Box sx={{ backgroundColor: 'white', p: 2 }}>
             <Grid container spacing={2}>
                 {/* User Name */}
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                     <TextField
                         name="firstName"
                         label="First Name"
@@ -114,7 +125,7 @@ const PersonalDetails = ({ onSave }) => {
                 </Grid>
 
                 {form.middleName !== undefined && (
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <TextField
                             name="middleName"
                             label="Middle Name"
@@ -127,7 +138,7 @@ const PersonalDetails = ({ onSave }) => {
                 )}
 
                 {form.lastName !== undefined && (
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <TextField
                             name="lastName"
                             label="Last Name"
@@ -139,54 +150,35 @@ const PersonalDetails = ({ onSave }) => {
                     </Grid>
                 )}
 
-                <Grid item xs={12} md={2.1} >
-                    <SingleFile2
-                        ValidFileTypes={ValidFileTypes2}
-                        MaxfileSize={MaxfileSize2}
-                        ChangeFile={ChangeFile}
-                        errorMessage={''}
-                        FileName={form.aadharCardScanCopy}
-                        FileLabel={'Select Image'}
-                        width={'100%'}
-                        height={"52px"}
-                        isMandatory={false}
-                    />
-                </Grid>
-                <Grid item xs={1} md={1}>
-                    <>
+                <Grid item xs={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Box
+                        mt={0}
+                        sx={{
+                            width: '45%',
+                            height: '200px', // Adjust height as needed
+                            border: '2px dashed #ccc', // Dashed border for empty box
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            overflow: 'hidden',
+                        }}
+                    >
+                        {form.photo ? (
+                            <img src={form.photo} alt="Preview" style={{
+                                objectFit: 'cover',
+                                width: '100%',
+                                height: '100%',
+                            }} />
+                        ) : (
+                            <p> <User
+                                style={{
+                                    objectFit: 'cover', // Maintain aspect ratio for User icon
+                                }} /></p>
+                        )}
+                    </Box>
 
-                        <Tooltip title={"View"}>
-                            <IconButton
-                                onClick={() => ''}
-                                sx={{
-                                    color: '#223354',
-                                    mt: 0.7,
-                                    '&:hover': {
-                                        color: '#223354',
-                                        cursor: 'pointer'
-                                    }
-                                }}
-                            >
-                                <Visibility />
-                            </IconButton>
-                        </Tooltip>
+                    <input type="file" onChange={handleImageChange} />
 
-                        <Tooltip title={"Delete"}>
-                            <IconButton
-                                onClick={() => ''}
-                                sx={{
-                                    color: '#223354',
-                                    mt: 0.7,
-                                    '&:hover': {
-                                        color: 'red',
-                                        backgroundColor: red[100]
-                                    }
-                                }}
-                            >
-                                <DeleteForeverIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </>
                 </Grid>
 
                 {form.motherName !== undefined && (
