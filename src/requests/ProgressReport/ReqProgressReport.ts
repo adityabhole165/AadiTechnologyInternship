@@ -281,6 +281,32 @@ export const CDAStudentProgressReport =
       let Arraytemp = [];
       // listTestDetails []
       // list1 = []
+      function findCellValue(list, psId, testTypeId, testId) {
+        let filter1 = list.filter(item => {
+          return item.Parent_Subject_Id == psId &&
+            item.TestType_Id == testTypeId &&
+            item.Test_Id == testId;  // Use loose equality (==)
+        });
+        console.log(filter1)
+        if (filter1.length >= 1) {
+          return parseInt(filter1[0].TestType_Total_Marks); // Correct property name
+        }
+
+        return '-';
+      }
+      function findCellValue1(list, psId, testTypeId, testId) {
+        let filter1 = list.filter(item => {
+          return item.Parent_Subject_Id == psId &&
+            item.TestType_Id == testTypeId &&
+            item.Test_Id == testId;  // Use loose equality (==)
+        });
+        console.log(filter1)
+        if (filter1.length >= 1) {
+          return parseInt(filter1[0].TestType_Total_Marks_Scored); // Correct property name
+        }
+
+        return '-';
+      }
       response.data.listTestDetails
         .filter(item => item.Test_Id !== `-1`)
         .map((Test, TestIndex) => {
@@ -292,6 +318,8 @@ export const CDAStudentProgressReport =
             // list3 = []
             let arrTemp = response.data.ListSubjectidDetails
               .filter((obj) => { return obj.Subject_Id === Subject.Subject_Id })
+            console.log('...>🤷‍♀️', arrTemp);
+
             Arraytemp = arrTemp;
             let TestTypeCount = arrTemp.length;
             let temp = ""
@@ -321,6 +349,8 @@ export const CDAStudentProgressReport =
                     IsAbsent: cell ? cell.Is_Absent : "N"
                   })
                 }
+                //#region  check
+
 
 
               }
@@ -350,21 +380,23 @@ export const CDAStudentProgressReport =
               }
               if (data.IsTotalConsiderForProgressReport == "True") {
                 if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' && TestTypeIndex === arrTemp.length - 1) {
-                  columns.push({
-                    MarksScored: 'Extra',
-                    TotalMarks: 'Extra',
-                    IsAbsent: cell ? cell.Is_Absent : "N"
-                  },
-                    {
-                      MarksScored: 'Extra',
-                      TotalMarks: 'Extra',
-                      IsAbsent: cell ? cell.Is_Absent : "N"
-                    },
-                    {
-                      MarksScored: 'Extra',
-                      TotalMarks: 'Extra',
-                      IsAbsent: cell ? cell.Is_Absent : "N"
+                  // response.data.ListTestTypeIdDetails.map((list1, i1) => {
+                  // response.data.Listtestid2Details.map((list2, i2) => {
+                  // if (list2.Test_Id !== '-1') {
+                  // if (list2.Test_Id === Test.Test_Id && list2.TestType_Id === list1.TestType_Id && list2.Parent_Subject_Id === SubjectArray[SubjectIndex].Parent_Subject_Id) {
+                  response.data.ListTestTypeIdDetails.map((itemArr) => {
+                    columns.push({
+                      MarksScored: findCellValue1(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id), //list2.TestType_Total_Marks,
+                      //  function findIts(list, psId, testTypeId, testId) {
+                      TotalMarks: findCellValue(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id),
+                      IsAbsent: "N"
                     })
+                  })
+                  // }
+                  // }
+                  // })
+                  // })
+
                   let isDataPushed = false;
                   response.data.listTestidDetails.map((Item) => {
                     // Check if the IDs match and data has not been pushed yet
@@ -399,7 +431,18 @@ export const CDAStudentProgressReport =
                 ParentSubjectName: getParentHeader(listSubjectsDetails, Subject, Test.Test_Id).parent,
               })
             }
+            if (Subject.Is_CoCurricularActivity === 'True') {
+              let valArr = response.data.listSubjectIdDetails.filter(item => item.Original_SchoolWise_Test_Id === Test.Original_SchoolWise_Test_Id && item.Is_CoCurricularActivity.toLowerCase() === 'true')
+              // let data = response.data.listSubjectIdDetails.filter((item) => )
+              console.log(valArr, '✅✅✅✅✅');
+              columns.push({
+                MarksScored: valArr.length > 0 ? valArr[0].Marks : '-',
+                TotalMarks: "-",
+                IsAbsent: "N"
+              })
+            }
           })
+
 
           const matchingTestId = response.data.Listtestid2Details.find(testDetail =>
             testDetail.Test_Id
