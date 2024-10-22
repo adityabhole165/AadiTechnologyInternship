@@ -353,7 +353,9 @@ const ViewResultAll = (props: Props) => {
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
                           </>
                         )}
-                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
+                        {IsTotalConsiderForProgressReport === "True" && (
+                          <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
+                        )}
                       </TableRow>
 
                       <TableRow>
@@ -408,7 +410,7 @@ const ViewResultAll = (props: Props) => {
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
                           </>
                         )}
-                        {showOnlyGrades && (
+                        {showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
                           <>
                             {TotalPerGradeView.map((totalData, index) => {
                               if (index === 0) {
