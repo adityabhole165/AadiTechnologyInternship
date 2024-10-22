@@ -1,6 +1,7 @@
 import { Clear as ClearIcon } from "@mui/icons-material";
 import {
     Dialog,
+    DialogContent,
     DialogTitle,
     Typography
 } from "@mui/material";
@@ -128,26 +129,15 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                 <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
                     School Notices
                 </Typography>
-                {/* <DialogContent sx={{ maxHeight: '30vh', overflowY: 'auto' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        {SchoolNoticePopupDashBoard.map((item, i) => (
-                            <Box key={i}>
-                                <Divider sx={{ mb: 0 }} />
-                                <Box sx={{ justifyContent: 'center', textAlign: 'center', fontWeight: 'bold', p: 1 }}>
-                                    <Link
-                                        href="#"
-                                        onClick={() => handleLinkClick(item)}
-                                        style={{ textDecoration: 'underline', cursor: 'pointer' }}
-                                    >
-                                        {item.Text1}
-                                    </Link>
-                                </Box>
-                            </Box>
-                        ))}
-                        <Divider />
-                    </Box>
-                </DialogContent> */}
-                <ActiveSchoolNotice clickOpen={clickOpen} />
+                {/* <ActiveSchoolNotice clickOpen={clickOpen} /> */}
+                <DialogContent
+                    sx={{
+                        maxHeight: SchoolNoticePopupDashBoard.length > 5 ? '36vh' : 'auto',  
+                        overflowY: SchoolNoticePopupDashBoard.length > 5 ? 'auto' : 'hidden' 
+                    }}
+                >
+                    <ActiveSchoolNotice clickOpen={clickOpen} />
+                </DialogContent>
             </Dialog>
 
             <NoticeDetailDialog

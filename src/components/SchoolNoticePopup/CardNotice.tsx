@@ -35,8 +35,7 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
                         <div style={{ flex: '1' }}></div>
                         {item.FileName != "" ?
                             <AttachmentIcon onClick={() => { downloadNotice(item.FileName, item.IsText, item.Content) }} /> :
-                            <AttachmentIcon sx={{ color: 'white' }} />
-
+                            <span style={{ marginRight: "10px" }}>-</span>
                         }
                     </ListStyle>
                     {/* </Card> */}
