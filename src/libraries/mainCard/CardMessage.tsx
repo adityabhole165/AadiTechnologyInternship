@@ -60,7 +60,6 @@ function CardMessage({
     }
     setClickParent(true);
   };
-
   let IsReadColor =
     ((ActiveTab == 'Inbox' || ActiveTab == 'Trash') && IsRead == 'N')
       ? 'blue'
@@ -99,10 +98,10 @@ function CardMessage({
               whiteSpace: 'nowrap'
             }}
           >
-            {text1}
-            {/* <span
-              dangerouslySetInnerHTML={{ __html: text1 }}  // Render HTML content inside span
-            /> */}
+            {/* {text1} */}
+            <span
+              dangerouslySetInnerHTML={{ __html: (text1) }}
+            />
           </Typography>
         </Grid>
         {/* cc data  */}

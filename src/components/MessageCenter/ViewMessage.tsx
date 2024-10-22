@@ -188,10 +188,10 @@ function ViewSms({ }) {
               }
               // To={viewSent.DisplayText}
               Cc={viewSent.DisplayTextCc}
-              Body={
-                FromRoute === 'Draft'
-                  ? getWithoutHTML(viewSent.Body)
-                  : viewSent.Body
+              Body={viewSent.Body
+                // FromRoute === 'Draft'
+                //   ? getWithoutHTML(viewSent.Body)
+                //   : viewSent.Body
               }
               Text={viewSent.Subject}
               Attachments={viewSent.Attachments}

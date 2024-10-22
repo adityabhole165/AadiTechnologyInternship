@@ -728,3 +728,10 @@ export const SchoolScreensAccessPermission = () => {
   }
   return flag;
 }
+
+export const getWithoutHTML = (value) => {
+  var div = document.createElement('div');
+  div.innerHTML = value;
+  var text = div.textContent || div.innerText || '';
+  return text;
+};
