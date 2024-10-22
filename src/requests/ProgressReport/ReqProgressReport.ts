@@ -195,7 +195,7 @@ export const CDAStudentProgressReport =
   (data: IStudentProgressReportBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.StudentProgressReport(data);
-      dispatch(ProgressReportSlice.actions.REntireDataList((response.data)));
+      dispatch(ProgressReportSlice.actions.REntireDataList(response.data));
 
       let listStudentsDetails = response.data.listStudentsDetails.map((item, i) => {
         return {
@@ -278,6 +278,7 @@ export const CDAStudentProgressReport =
       let SubHeaderArray = []
       let HeaderCount = 0
       let countOne = 0
+      let Arraytemp = [];
       // listTestDetails []
       // list1 = []
       response.data.listTestDetails
@@ -285,15 +286,18 @@ export const CDAStudentProgressReport =
         .map((Test, TestIndex) => {
           let columns = []
           // list2 = []
-          response.data.listSubjectsDetails.map((Subject) => {
+          let SubjectArray = response.data.listSubjectsDetails;
+          response.data.listSubjectsDetails.map((Subject, SubjectIndex) => {
             HeaderCount = 0
             // list3 = []
             let arrTemp = response.data.ListSubjectidDetails
               .filter((obj) => { return obj.Subject_Id === Subject.Subject_Id })
-
+            Arraytemp = arrTemp;
             let TestTypeCount = arrTemp.length;
             let temp = ""
             let totalMarks = null
+            console.log('arrayTemo', arrTemp);
+
             arrTemp.map((TestType, TestTypeIndex) => {
               // if (TestType.Subject_Id == "2397")
 
@@ -301,14 +305,26 @@ export const CDAStudentProgressReport =
               let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
 
 
-              if (TestTypeCount !== 1) {
-                columns.push({
-                  MarksScored: cell ? getListDisplayName(cell) : "-",
-                  TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TestType_Total_Marks) : "" : "-",
-                  IsAbsent: cell ? cell.Is_Absent : "N"
-                })
+              if (TestTypeCount !== 1) {  // 3 > !==1
+                // Flag > 🚩
+                // let Flag = SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' ? true : false;
+                if (SubjectArray[SubjectIndex].Parent_Subject_Id === '0') {
+                  columns.push({
+                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                    TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TestType_Total_Marks) : "" : "-",
+                    IsAbsent: cell ? cell.Is_Absent : "N"
+                  })
+                } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
+                  columns.push({
+                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                    TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TestType_Total_Marks) : "" : "-",
+                    IsAbsent: cell ? cell.Is_Absent : "N"
+                  })
+                }
+
 
               }
+
 
 
 
@@ -324,14 +340,49 @@ export const CDAStudentProgressReport =
                 temp = Subject.Subject_Id + "--" + Test.Test_Id
 
                 totalMarks = {
-                  MarksScored: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Total_Marks_Scored) : cell ? parseInt(cell.Total_Marks_Scored) : "-",
+                  MarksScored: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(`${cell.Total_Marks_Scored}`) : cell ? parseInt(cell.Total_Marks_Scored) : "-",
                   TotalMarks: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Subject_Total_Marks) : cell ? cell.Subject_Total_Marks : "-",
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 }
               }
               if (TestTypeIndex == TestTypeCount - 1) {
-                columns.push(totalMarks)
+                columns.push(totalMarks);
               }
+              if (data.IsTotalConsiderForProgressReport == "True") {
+                if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' && TestTypeIndex === arrTemp.length - 1) {
+                  columns.push({
+                    MarksScored: 'Extra',
+                    TotalMarks: 'Extra',
+                    IsAbsent: cell ? cell.Is_Absent : "N"
+                  },
+                    {
+                      MarksScored: 'Extra',
+                      TotalMarks: 'Extra',
+                      IsAbsent: cell ? cell.Is_Absent : "N"
+                    },
+                    {
+                      MarksScored: 'Extra',
+                      TotalMarks: 'Extra',
+                      IsAbsent: cell ? cell.Is_Absent : "N"
+                    })
+                  let isDataPushed = false;
+                  response.data.listTestidDetails.map((Item) => {
+                    // Check if the IDs match and data has not been pushed yet
+                    if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
+                      // const insertIndex = columns.length > 0 ? columns.length - (testTypeLength + 1) : 0;
+                      columns.push({
+                        MarksScored: `${parseInt(Item.Total_Marks_Scored)}`,
+                        TotalMarks: Item.ChildSubject_Marks_Total,
+                        IsAbsent: "N",
+                      });
+
+                      isDataPushed = true;
+                    }
+                  });
+                }
+              }
+
+
 
             })
 
@@ -395,23 +446,23 @@ export const CDAStudentProgressReport =
           //show grade column
           if (data.IsTotalConsiderForProgressReport == "True") {
             response.data.ListSchoolWiseTestNameDetail.map((Item) => {
-
+              let testTypeLength = response.data.ListTestTypeIdDetails.length;
               if (Item.SchoolWise_Test_Id == Test.Test_Id) {
                 let isDataPushed = false; // Flag to track if data has been pushed
 
-                response.data.listTestidDetails.map((Item1) => {
-                  // Check if the IDs match and data has not been pushed yet
-                  if (Item1.Test_Id === Test.Test_Id && !isDataPushed) {
-                    const insertIndex = columns.length > 0 ? columns.length - 1 : 0;
-                    columns.splice(insertIndex, 0, {
-                      MarksScored: parseInt(Item1.Total_Marks_Scored),
-                      TotalMarks: Item1.ChildSubject_Marks_Total,
-                      IsAbsent: "N",
-                    });
+                // response.data.listTestidDetails.map((Item) => {
+                //   // Check if the IDs match and data has not been pushed yet
+                //   if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
+                //     const insertIndex = columns.length > 0 ? columns.length - (testTypeLength + 1) : 0;
+                //     columns.splice(insertIndex, 0, {
+                //       MarksScored: `${parseInt(Item.Total_Marks_Scored)}`,
+                //       TotalMarks: Item.ChildSubject_Marks_Total,
+                //       IsAbsent: "N",
+                //     });
 
-                    isDataPushed = true;
-                  }
-                });
+                //     isDataPushed = true;
+                //   }
+                // });
 
 
 
@@ -540,19 +591,19 @@ export const CDAStudentProgressReport =
               if (Item.SchoolWise_Test_Id == Test.Test_Id) {
                 let isDataPushed = false; // Flag to track if data has been pushed
 
-                response.data.listTestidDetails.map((Item) => {
-                  // Check if the IDs match and data has not been pushed yet
-                  if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
-                    const insertIndex = columns.length > 0 ? columns.length - 1 : 0;
-                    columns.splice(insertIndex, 0, {
-                      MarksScored: parseInt(Item.Grade),
-                      TotalMarks: Item.Grade,
-                      IsAbsent: "N",
-                    });
+                // response.data.listTestidDetails.map((Item) => {
+                //   // Check if the IDs match and data has not been pushed yet
+                //   if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
+                //     const insertIndex = columns.length > 0 ? columns.length - 1 : 0;
+                //     columns.splice(insertIndex, 0, {
+                //       MarksScored: parseInt(Item.Grade),
+                //       TotalMarks: Item.Grade,
+                //       IsAbsent: "N",
+                //     });
 
-                    isDataPushed = true;
-                  }
-                });
+                //     isDataPushed = true;
+                //   }
+                // });
 
 
                 const matchingMarksDetails = response.data.ListMarkssDetails.find(
