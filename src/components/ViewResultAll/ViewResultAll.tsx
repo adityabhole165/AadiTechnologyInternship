@@ -325,11 +325,6 @@ const ViewResultAll = (props: Props) => {
                         <TableRow sx={{ bgcolor: 'white', p: 2 }}>
                           <TableCell><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks </TableCell>
                         </TableRow>
-                        {/* {totalconsidration.map((Subject) => (
-                          <TableRow key={Subject.Subject_Id}>
-                            <TableCell>{Subject.Name}<span style={{ color: 'red' }}>*</span></TableCell>
-                          </TableRow>
-                        ))} */}
                       </>
                     )}
 
