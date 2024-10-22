@@ -91,8 +91,8 @@ const NoticeDetailDialog = ({ open, onClose, link, contentType, onMinimize }) =>
             >
                 <DialogContent>
                     {contentType === 'image' ? (
-                        <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 4 }}>
-                            <img src={link} alt="School Notice" style={{ maxWidth: '100%', height: 'fixed' }} />
+                        <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 7 }}>
+                            <img src={link} alt="School Notice" style={{ maxWidth: '100%', height: 'auto' }} />
                         </Box>
                     ) : (
                         <Typography dangerouslySetInnerHTML={{ __html: link }}></Typography>
