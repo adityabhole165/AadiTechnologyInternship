@@ -920,15 +920,37 @@ const AddRequisition = () => {
 
 
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: 'auto', minWidth: '300px' ,}}  >
-                <Dialog open={open1} onClose={handleClose} scroll="body" >
-                    <Box sx={{ backgroundColor: "#ede7f6" }}>
-                        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            Item Images
-                            <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
-                        </DialogTitle>
-                    </Box>
 
+
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: 'auto', minWidth: '300px', }}  >
+                <Dialog
+                    open={open1}
+                    onClose={handleClose}
+                    fullWidth
+                    maxWidth="sm"
+                    PaperProps={{
+                        sx: {
+                            borderRadius: "15px",
+                        }
+                    }}
+                >
+                    <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+                        <ClearIcon onClick={handleClose}
+                            sx={{
+                                color: 'white',
+                                borderRadius: '7px',
+                                position: 'absolute',
+                                top: '5px',
+                                right: '8px',
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    color: 'red',
+                                }
+                            }} />
+                    </DialogTitle>
+                    <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
+                        Item Images
+                    </Typography>
                     <DialogContent>
                         {imageUrls.map((url, index) => (
                             <img
@@ -940,8 +962,47 @@ const AddRequisition = () => {
                             />
                         ))}
                     </DialogContent>
+                   
+                </Dialog>
+                <Dialog open={!!selectedImage} onClose={handleClose1} fullWidth
+                        maxWidth="sm"
+                        PaperProps={{
+                            sx: {
+                                borderRadius: "15px",
+                            }
+                        }}>
+                        <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+                            <ClearIcon onClick={handleClose1}
+                                sx={{
+                                    color: 'white',
+                                    borderRadius: '7px',
+                                    position: 'absolute',
+                                    top: '5px',
+                                    right: '8px',
+                                    cursor: 'pointer',
+                                    '&:hover': {
+                                        color: 'red',
+                                    }
+                                }} />
+                        </DialogTitle>
+                        <DialogContent>
+                            {selectedImage && (
+                                <img
+                                    src={selectedImage}
+                                    alt="Enlarged view"
+                                    style={{ width: '100%', height: 'auto',paddingTop:'7px' }} // Full size
+                                />
+                            )}
+                        </DialogContent>
+                    </Dialog>
 
-                    {/* Enlarged image dialog */}
+                {/* <Dialog open={open1} onClose={handleClose} scroll="body" >
+                    <Box sx={{ backgroundColor: "#ede7f6" }}>
+                        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            Item Images
+                            <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+                        </DialogTitle>
+                    </Box>
                     <Dialog open={!!selectedImage} onClose={handleClose1}>
                         <DialogContent>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -957,10 +1018,7 @@ const AddRequisition = () => {
                             )}
                         </DialogContent>
                     </Dialog>
-
-
-
-                </Dialog>
+                </Dialog> */}
             </Box>
 
         </Box>
