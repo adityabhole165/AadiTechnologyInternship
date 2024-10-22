@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { processData } from "src/components/ProgressReportNew/Utils";
 import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
@@ -196,7 +195,7 @@ export const CDAStudentProgressReport =
   (data: IStudentProgressReportBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.StudentProgressReport(data);
-      dispatch(ProgressReportSlice.actions.REntireDataList(processData(response.data)));
+      dispatch(ProgressReportSlice.actions.REntireDataList((response.data)));
 
       let listStudentsDetails = response.data.listStudentsDetails.map((item, i) => {
         return {
