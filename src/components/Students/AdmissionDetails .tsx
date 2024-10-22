@@ -6,6 +6,7 @@ import {
     FormControlLabel,
     Grid,
     TextField,
+    Tooltip,
     Typography
 } from '@mui/material';
 import React, { useState } from 'react';
@@ -209,12 +210,13 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
                     />
                 </Grid>
                 <Grid item xs={3}>
+                    <Tooltip title="Valid Prefix(s) : No Prefix, PP">
                     <TextField
                         name="registrationNumber"
                         label="Registration Number"
                         variant="outlined"
                         value={form.registrationNumber}
-                        onChange={handleInputChange}
+                         onChange={handleInputChange}
                         required
                         error={errors.registrationNumber}
                         helperText={errors.registrationNumber ? "This field is required" : ""}
@@ -223,6 +225,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
                         }}
                         fullWidth
                     />
+                    </Tooltip>
                 </Grid>
                 <Grid item xs={3}>
                     <TextField
@@ -274,54 +277,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
                         fullWidth
                     />
                 </Grid>
-                <Grid item xs={3}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                name="newAdmission"
-                                checked={form.newAdmission}
-                                onChange={handleInputChange}
-                            />
-                        }
-                        label="Is Staff Kid?"
-                    />
-                </Grid>
-                <Grid item xs={3}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                name="newAdmission"
-                                checked={form.newAdmission}
-                                onChange={handleInputChange}
-                            />
-                        }
-                        label="Is Only Child?"
-                    />
-                </Grid>
-                <Grid item xs={3}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                name="newAdmission"
-                                checked={form.newAdmission}
-                                onChange={handleInputChange}
-                            />
-                        }
-                        label="Is Rise & Shine?"
-                    />
-                </Grid>
-                <Grid item xs={3}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                name="newAdmission"
-                                checked={form.newAdmission}
-                                onChange={handleInputChange}
-                            />
-                        }
-                        label="Is Minority?"
-                    />
-                </Grid>
+                
 
                 <Grid item xs={3}>
                     <SearchableDropdown
@@ -375,6 +331,66 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
                         fullWidth
                     />
                 </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="newAdmission"
+                                checked={form.newAdmission}
+                                onChange={handleInputChange}
+                            />
+                        }
+                        label="Is Staff Kid?"
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="newAdmission"
+                                checked={form.newAdmission}
+                                onChange={handleInputChange}
+                            />
+                        }
+                        label="Is Only Child?"
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="newAdmission"
+                                checked={form.newAdmission}
+                                onChange={handleInputChange}
+                            />
+                        }
+                        label="Is Rise & Shine?"
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="newAdmission"
+                                checked={form.newAdmission}
+                                onChange={handleInputChange}
+                            />
+                        }
+                        label="Is Minority?"
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="newAdmission"
+                                checked={form.newAdmission}
+                                onChange={handleInputChange}
+                            />
+                        }
+                        label="Is For Day Boarding?"
+                    />
+                </Grid>
 
                 <Grid item xs={3}>
                     <FormControlLabel
@@ -391,7 +407,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
             </Grid>
 
             <Box>
-                <Typography variant="h4" color="initial" p={2}> Last School Details
+                <Typography variant="h4" color="initial" py={2}> Last School Details
                 </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={3}>
