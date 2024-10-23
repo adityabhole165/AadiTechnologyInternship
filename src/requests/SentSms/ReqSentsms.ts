@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiSentsms from 'src/api/SentSms/Sentsms';
-import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
+import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
 import { AppThunk } from 'src/store';
 
 const SliceSentsms = createSlice({
@@ -16,6 +16,7 @@ const SliceSentsms = createSlice({
     ISGetAddressBookGroupDetails: [],
     ISCheckIfPersonalAddressGroupAlreadyExists: 'NoResponse',
     ISUpdatePersonalAddressBookGroupMsg: '',
+    ISDeletePersonalAddressBookGroupMsg: '',
   },
 
 
@@ -69,6 +70,13 @@ const SliceSentsms = createSlice({
     },
     RGetAddressBookGroupDetails(state, action) {
       state.ISGetAddressBookGroupDetails = action.payload;
+    },
+    // ISDeletePersonalAddressBookGroupMsg
+    RDeletePersonalAddressBookGroupMsg(state, action) {
+      state.ISDeletePersonalAddressBookGroupMsg = action.payload;
+    },
+    RClearDeletePersonalAddressBookGroupMsg(state) {
+      state.ISDeletePersonalAddressBookGroupMsg = '';
     },
   }
 });
@@ -155,6 +163,12 @@ export const CDAGetClearIsPersonalAddressExists =
   (): AppThunk =>
     async (dispatch) => {
       dispatch(SliceSentsms.actions.RClearIsPersonalAddressExists());
+    }
+// RClearIfPersonalAddressGroupAlreadyExists
+export const CDAGetClearIsPersonalAddressGroupAlreadyExists =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceSentsms.actions.RClearIfPersonalAddressGroupAlreadyExists());
     }
 // InsertPersonalAddressBookapi
 export const CDAGetInsertPersonalAddressBook =
@@ -246,6 +260,26 @@ export const CDAGetUpdatePersonalAddressBookGroup =
       let UpdatePersonalAddressBookGroupMsg = response.data;
       dispatch(SliceSentsms.actions.RInsertPersonalAddressBookGroupMsg(UpdatePersonalAddressBookGroupMsg));
     }
+
+export const CDAGetClearUpdatePersonalAddressBookGroupMsg =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceSentsms.actions.RClearUpdatePersonalAddressBookGroupMsg());
+    }
+// RDeletePersonalAddressBookGroupMsg DeletePersonalAddressBookGroupapi IDeletePersonalAddressBookGroupBody
+export const CDAGetDeletePersonalAddressBookGroup =
+  (data: IDeletePersonalAddressBookGroupBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiSentsms.DeletePersonalAddressBookGroupapi(data);
+      let DeletePersonalAddressBookGroupMsg = response.data;
+      dispatch(SliceSentsms.actions.RDeletePersonalAddressBookGroupMsg(DeletePersonalAddressBookGroupMsg));
+    }
+export const CDAGetClearDeletePersonalAddressBookGroupMsg =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceSentsms.actions.RClearDeletePersonalAddressBookGroupMsg());
+    }
+
 
 
 

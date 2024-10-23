@@ -9,9 +9,9 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { AlertContext } from 'src/contexts/AlertContext';
-import { ICheckIfPersonalAddressExistsBody, IDeletePersonalAddressBookBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IInsertPersonalAddressBookBody, IUpdatePersonalAddressBookBody } from "src/interfaces/SentSms/Sentsms";
+import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from "src/interfaces/SentSms/Sentsms";
 import RadioButton1 from "src/libraries/RadioButton/RadioButton1";
-import { CDAGetAddressBookGroupDetails, CDAGetAddressBookGroupList, CDAGetCheckIfPersonalAddressExists, CDAGetClearAddPersonalAddBookMsg, CDAGetClearDeletePersonalAddressBookMsg, CDAGetClearIsPersonalAddressExists, CDAGetDeletePersonalAddressBook, CDAGetPersonalAddressBookList } from "src/requests/SentSms/ReqSentsms";
+import { CDAGetAddressBookGroupDetails, CDAGetAddressBookGroupList, CDAGetCheckIfPersonalAddressExists, CDAGetCheckIfPersonalAddressGroupAlreadyExists, CDAGetClearAddPersonalAddBookMsg, CDAGetClearDeletePersonalAddressBookGroupMsg, CDAGetClearDeletePersonalAddressBookMsg, CDAGetClearInsertPersonalAddressBookGroupMsg, CDAGetClearIsPersonalAddressExists, CDAGetClearIsPersonalAddressGroupAlreadyExists, CDAGetClearUpdatePersonalAddressBookGroupMsg, CDAGetDeletePersonalAddressBook, CDAGetDeletePersonalAddressBookGroup, CDAGetPersonalAddressBookList } from "src/requests/SentSms/ReqSentsms";
 import AddPersonalContact from "./AddPersonalContact";
 import AddPersonalContactGroup from "./AddPersonalContactGroup";
 import GroupPhoneBookList from "./GroupPhoneBookList";
@@ -53,8 +53,10 @@ const PersonalAddressBook = () => {
     const DeletePersonalAddressBookMsg: any = useSelector((state: any) => state.SentSms.ISDeletePersonalAddressBookMsg);
     const GetAddressBookGroupList: any = useSelector((state: any) => state.SentSms.ISGetAddressBookGroupList);
     const GetAddressBookGroupDetails: any = useSelector((state: any) => state.SentSms.ISGetAddressBookGroupDetails);
+    const ISUpdatePersonalAddressBookGroupMsg: any = useSelector((state: any) => state.SentSms.ISUpdatePersonalAddressBookGroupMsg);
     const CheckIfPersonalAddressGroupAlreadyExists: any = useSelector((state: any) => state.SentSms.ISCheckIfPersonalAddressGroupAlreadyExists);
     const InsertPersonalAddressBookGroupMsg: any = useSelector((state: any) => state.SentSms.ISInsertPersonalAddressBookGroupMsg);
+    const DeletePersonalAddressBookGroupMsg: any = useSelector((state: any) => state.SentSms.ISDeletePersonalAddressBookGroupMsg);
     const RadioListCT = [
         { Value: '1', Name: 'Individual Details' },
         { Value: '2', Name: 'Group Details' }
@@ -70,6 +72,7 @@ const PersonalAddressBook = () => {
     const [formType, setFormType] = useState('');
     const [formGroupType, setFormGroupType] = useState('');
     const [showNotExists, setShowNotExists] = useState(false);
+    const [showNotExistsGroup, setShowNotExistsGroup] = useState(false);
     const [personalAddressBookId, setPersonalAddressBookId] = useState('');
     const [GroupName, setGroupName] = useState('');
     const [GroupId, setGroupId] = useState('');
@@ -83,6 +86,18 @@ const PersonalAddressBook = () => {
             setShowNotExists(false);
         }
     }, [isPersonalContactExists]);
+    // CheckIfPersonalAddressGroupAlreadyExists
+    useEffect(() => {
+        if (CheckIfPersonalAddressGroupAlreadyExists !== 'NoResponse') {
+            if (CheckIfPersonalAddressGroupAlreadyExists !== '') {
+                setShowNotExistsGroup(true)
+            }
+        }
+        else {
+            setShowNotExistsGroup(false);
+        }
+    }, [CheckIfPersonalAddressGroupAlreadyExists]);
+
     useEffect(() => {
         if (DeletePersonalAddressBookMsg !== '') {
             toast.success(DeletePersonalAddressBookMsg);
@@ -109,6 +124,61 @@ const PersonalAddressBook = () => {
             dispatch(CDAGetPersonalAddressBookList(apiBody))
         }
     }, [AddPersonalAddBookMsg])
+    useEffect(() => {
+        if (InsertPersonalAddressBookGroupMsg !== '') {
+            toast.success(InsertPersonalAddressBookGroupMsg);
+            dispatch(CDAGetClearInsertPersonalAddressBookGroupMsg());
+            setGroupName('');
+            setFormGroupType('Add')
+            const apiBody1: IGetAddressBookGroupListBody = {
+                "asSchoolId": schoolId,
+                "userId": Number(userId),
+                "asGroupMob": state?.mobileNumbers.length > 0 ? state?.mobileNumbers : '0'
+            }
+            const apiBody2: IGetAddressBookGroupDetailsBody = {
+                "asSchoolId": schoolId,
+                "asUserId": userId,
+                "asGroupId": '0'
+            }
+            dispatch(CDAGetAddressBookGroupList(apiBody1));
+            dispatch(CDAGetAddressBookGroupDetails(apiBody2));
+        }
+    }, [InsertPersonalAddressBookGroupMsg])
+    // DeletePersonalAddressBookGroupMsg
+    useEffect(() => {
+        if (DeletePersonalAddressBookGroupMsg !== '') {
+            toast.success(DeletePersonalAddressBookGroupMsg);
+            dispatch(CDAGetClearDeletePersonalAddressBookGroupMsg());
+            setGroupName('');
+            setFormGroupType('Add')
+            const apiBody1: IGetAddressBookGroupListBody = {
+                "asSchoolId": schoolId,
+                "userId": Number(userId),
+                "asGroupMob": state?.mobileNumbers.length > 0 ? state?.mobileNumbers : '0'
+            }
+            dispatch(CDAGetAddressBookGroupList(apiBody1));
+        }
+    }, [DeletePersonalAddressBookGroupMsg])
+    useEffect(() => {
+        if (ISUpdatePersonalAddressBookGroupMsg !== '') {
+            toast.success(ISUpdatePersonalAddressBookGroupMsg);
+            dispatch(CDAGetClearUpdatePersonalAddressBookGroupMsg());
+            setGroupName('');
+            setFormGroupType('Add')
+            const apiBody1: IGetAddressBookGroupListBody = {
+                "asSchoolId": schoolId,
+                "userId": Number(userId),
+                "asGroupMob": state?.mobileNumbers.length > 0 ? state?.mobileNumbers : '0'
+            }
+            const apiBody2: IGetAddressBookGroupDetailsBody = {
+                "asSchoolId": schoolId,
+                "asUserId": userId,
+                "asGroupId": '0'
+            }
+            dispatch(CDAGetAddressBookGroupList(apiBody1));
+            dispatch(CDAGetAddressBookGroupDetails(apiBody2));
+        }
+    }, [ISUpdatePersonalAddressBookGroupMsg])
     useEffect(() => {
         const apiBody: IGetAddressBookListBody = {
             "asSchoolId": schoolId,
@@ -183,6 +253,11 @@ const PersonalAddressBook = () => {
             "asUserId": userId,
             "asGroupId": item?.PersonalAddressBookGroupId
         }
+        console.log('❌❌❌', item);
+
+        setGroupId(item.PersonalAddressBookGroupId)
+        console.log('🤞🤞🤞', GroupId);
+
         setShowAddGroupContact(true);
         setGroupName(item.Name)
         setFormGroupType('Edit')
@@ -244,6 +319,43 @@ const PersonalAddressBook = () => {
         }
         dispatch(CDAGetCheckIfPersonalAddressExists(apiBody, apiBody1, apiBody2, formType));
     }
+    // #region XML function
+    function GroupDetailXML(contacts) {
+        // Filter contacts where IsActive is true
+        const activeContacts = contacts.filter(contact => contact.IsActive === true);
+        let xmlString = '<PersonalAddressBook>';
+        activeContacts.forEach(contact => {
+            xmlString += `<PersonalAddressBook PersonalAddressBookId="${contact.PersonalAddressBookId}" />`;
+        });
+        xmlString += '</PersonalAddressBook>';
+        return xmlString;
+    }
+
+    function addIPersonalContactGroup() {
+        dispatch(CDAGetClearIsPersonalAddressGroupAlreadyExists())
+        const apiBody: ICheckIfPersonalAddressGroupAlreadyExistsBody = {
+            "asSchoolId": schoolId,
+            "asPersonalBookGroupId": GroupId !== '' ? GroupId : "0",
+            "asGroupName": GroupName,
+            "asUserId": userId
+        }
+        const apiBody1: IInsertPersonalAddressBookGroupBody = {
+            "asSchoolId": schoolId,
+            "asGroupName": GroupName,
+            "asGroupDetailXML": GroupDetailXML(AddressBookGroupDetails),
+            "asUserId": userId
+        }
+        const apiBody2: IUpdatePersonalAddressBookGroupBody = {
+            "asSchoolId": schoolId,
+            "asGroupId": GroupId !== '' ? GroupId : "0",
+            "asGroupName": GroupName,
+            "asGroupDetailXML": GroupDetailXML(AddressBookGroupDetails),
+            "asUserId": userId
+        }
+        dispatch(CDAGetCheckIfPersonalAddressGroupAlreadyExists(apiBody, apiBody1, apiBody2, formGroupType));
+        console.log('✨✌️👌', apiBody, apiBody1, apiBody2, formType);
+
+    }
     function handleDelete(item: any) {
         const apiBodyForDelete: IDeletePersonalAddressBookBody = {
             "personalAddressBookId": item?.PersonalAddressBookId,
@@ -261,6 +373,28 @@ const PersonalAddressBook = () => {
             onConfirm: () => {
                 closeAlert();
                 dispatch(CDAGetDeletePersonalAddressBook(apiBodyForDelete));
+            },
+            onCancel: closeAlert
+        });
+
+    }
+    function handleGroupDelete(item: any) {
+        console.log('👌', item);
+
+        const apiBodyForDelete: IDeletePersonalAddressBookGroupBody = {
+            "asSchoolId": schoolId,
+            "asPersonalAddressBookGroupId": item?.PersonalAddressBookGroupId,
+            "asUserId": userId
+        }
+        showAlert({
+            title: 'Please Confirm',
+            message: 'Are you sure you want to delete this contact group detail?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onConfirm: () => {
+                closeAlert();
+                dispatch(CDAGetDeletePersonalAddressBookGroup(apiBodyForDelete));
             },
             onCancel: closeAlert
         });
@@ -357,7 +491,7 @@ const PersonalAddressBook = () => {
             {RadioValue === '2' &&
                 <Box sx={{ background: 'white', p: 1 }}>
                     {GetAddressBookGroupList.length > 0 ?
-                        <GroupPhoneBookList itemList={personalAddressBookGroupList} clickRow={clickRow1} clickEdit={(item) => { handleGroupDetailsEdit(item) }} clickDelete={() => { }} />
+                        <GroupPhoneBookList itemList={personalAddressBookGroupList} clickRow={clickRow1} clickEdit={(item) => { handleGroupDetailsEdit(item) }} clickDelete={(item) => { handleGroupDelete(item) }} />
                         :
                         <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                             <b>No record found.</b>
@@ -378,11 +512,12 @@ const PersonalAddressBook = () => {
                 OnChange2={(item) => { handleContactNoChange(item) }}
                 onSubmit={() => { addIPersonalContact() }} />
             <AddPersonalContactGroup
-                isExistsError={showNotExists ? isPersonalContactExists : ''}
+                isExistsError={showNotExistsGroup ? CheckIfPersonalAddressGroupAlreadyExists : ''}
                 Open={showAddGroupContact}
                 OnClose={() => {
                     setShowAddGroupContact(false)
-                    dispatch(CDAGetClearIsPersonalAddressExists())
+                    dispatch(CDAGetClearIsPersonalAddressGroupAlreadyExists())
+
                 }}
                 clickRow={clickRow2}
                 Value1={GroupName}
@@ -390,7 +525,7 @@ const PersonalAddressBook = () => {
                 formType={formGroupType}
                 ItemList2={AddressBookGroupDetails}
                 OnChange1={(item) => { setGroupName(item) }}
-                onSubmit={() => { addIPersonalContact() }} />
+                onSubmit={() => { addIPersonalContactGroup() }} />
         </Box>
     )
 }
