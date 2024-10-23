@@ -225,7 +225,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
                   <TextField
                     fullWidth
                     label={<>
-                      Student Name <span style={{ color: 'red' }}>*</span>
+                      Student Name
                     </>}
                     InputLabelProps={{ shrink: true }}
                     sx={{ bgcolor: '#F0F0F0', width: '100%' }}
@@ -240,7 +240,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
                   <TextField
                     fullWidth
                     label={<>
-                      Document Name  <span style={{ color: 'red' }}>*</span>
+                      Document Name
                     </>}
                     InputLabelProps={{ shrink: true }}
                     sx={{ bgcolor: '#F0F0F0', width: '100%' }}
