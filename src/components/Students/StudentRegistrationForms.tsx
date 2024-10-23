@@ -9,11 +9,13 @@ import { Box, Grid, IconButton, LinearProgress, Tab, Tabs, Tooltip, Typography }
 import { blue, green, grey } from '@mui/material/colors';
 import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
+import AdditionalDetails from './AdditionalDetails';
 import AddmissionDocumentInformation from './AddmissionDocumentInformation';
 import AdmissionDetails from './AdmissionDetails ';
 import FamilyDetails from './FamilyDetails';
 import PersonalDetails from './PersonalDetails'; // Assuming PersonalDetails is already created
 import StudentProfileHeader from './StudentProfileHeader';
+import StudentSubjectDetails from './StudentSubjectDetails';
 
 const StudentRegistrationForm = () => {
     const [currentTab, setCurrentTab] = useState(0);
@@ -194,6 +196,34 @@ const StudentRegistrationForm = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <FamilyDetails onSave={handleSave} />
+                        </Grid>
+                    </Grid>
+                )}
+                {currentTab === 4 && (
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            {/* {status.personalDetails !== null && (
+                                <Alert severity={status.personalDetails ? 'success' : 'error'}>
+                                    {status.personalDetails ? 'Draft saved successfully!' : 'Some fields are missing or incorrect.'}
+                                </Alert>
+                            )} */}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <AdditionalDetails onSave={handleSave} />
+                        </Grid>
+                    </Grid>
+                )}
+                {currentTab === 5 && (
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            {/* {status.personalDetails !== null && (
+                                <Alert severity={status.personalDetails ? 'success' : 'error'}>
+                                    {status.personalDetails ? 'Draft saved successfully!' : 'Some fields are missing or incorrect.'}
+                                </Alert>
+                            )} */}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <StudentSubjectDetails onSave={handleSave} />
                         </Grid>
                     </Grid>
                 )}
