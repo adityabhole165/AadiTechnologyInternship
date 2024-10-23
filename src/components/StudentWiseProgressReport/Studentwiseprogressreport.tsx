@@ -117,6 +117,8 @@ const Studentwiseprogressreport = () => {
 
   const PrimaryTeacher = useSelector((state: RootState) => state.Studentwiseprogress.PrimaryClassTeacher);
 
+  console.log(PrimaryTeacher,"PrimaryTeacher");
+  
   const USAssessmentDrop = useSelector((state: RootState) => state.Studentwiseprogress.ISAssessmentDropdown);
   const StudentAssignment = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignment);
   const StudentGrade = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignmentGrade);
@@ -413,7 +415,7 @@ const Studentwiseprogressreport = () => {
               <SearchableDropdown
                 sx={{
                   minWidth: '20vw'
-                  , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
+                  , bgcolor:GetScreenPermission() === 'N' && PrimaryTeacher.length == 0 ? '#F0F0F0' : 'inherit'
                 }}
                 ItemList={PrimaryTeacher}
                 onChange={clickSelectClass}
@@ -422,7 +424,7 @@ const Studentwiseprogressreport = () => {
                 label="Class Teacher"
                 DisableClearable={GetScreenPermission() === 'N'}
                 mandatory
-                disabled={GetScreenPermission() === 'N'}
+                disabled={GetScreenPermission() === 'N' && PrimaryTeacher.length == 0}
               />
             </Box>
 

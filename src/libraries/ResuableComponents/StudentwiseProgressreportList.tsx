@@ -63,7 +63,9 @@ function StudentwiseProgressreportList({
                                             minWidth: 30, // Reduce minWidth for narrower columns
                                             maxWidth: 50 // Reduce maxWidth for narrower columns
                                         }}
-                                        onClick={() => clickHeader(item.Id)}
+                                        onClick={i < 2 ? () => clickHeader(item.Id) : null}
+
+
                                     >
                                         {item.Header}
                                         {item.SortOrder !== undefined &&
