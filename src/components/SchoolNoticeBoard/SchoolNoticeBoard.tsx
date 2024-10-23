@@ -81,7 +81,7 @@
 
 // export default SchoolNoticeBoard;
 
-import { Box, Card, Container, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllActiveNoticesBody, IGetNoticeBoardDetailsBody } from "src/interfaces/Student/ISchoolNoticeBoard";
@@ -190,7 +190,7 @@ function SchoolNoticeBoard() {
           json = [{ UserId: asUserId, NoticeRead: "Y" }]
         }
         sessionStorage.setItem("NoticeRead", JSON.stringify(json))
-        navigate('/extended-sidebar/Common/ActiveSchoolNotice');
+        //navigate('/extended-sidebar/Common/ActiveSchoolNotice');
       }
     }
 
