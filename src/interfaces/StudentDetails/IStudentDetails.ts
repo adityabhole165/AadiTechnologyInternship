@@ -38,6 +38,22 @@ export interface IsClassTeacherResult {
     ]
 }
 
+export interface IGetBinaryImagesBody {
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asUserId: number,
+    asPhotoTypeId: number
+}
+
+export interface IGetBinaryImagesResult {
+    CteacherListResult: [
+        {
+            UserId: string,
+            TotalBytes: string
+        }
+    ]
+}
+
 export interface IGenerateTransportFeeEntriesBody {
 
     asSchoolId: number,
@@ -47,16 +63,74 @@ export interface IGenerateTransportFeeEntriesBody {
 }
 
 
-export interface IsAnyExamPublishedBody{
-    asSchoolId:number,
-    asAcademicYearId:number,
-    asStandardId:number,
-    asDivisionId:number,
-    asIsExamPublished:boolean
+export interface IsAnyExamPublishedBody {
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asStandardId: number,
+    asDivisionId: number,
+    asIsExamPublished: boolean
 }
-// export interface IsAnyExamPublishedResult{
+export interface IsAnyExamPublishedResult {
+    examListResult: [
+        {
+            IsExamPublishedStatus: boolean
+        }
+    ]
+}
 
-//     ExamPublishedListResult:
-        
-    
-// }
+export interface IGetStudentMandatoryFieldsBody {
+    asSchoolId: number
+}
+
+export interface IGetStudentMandatoryFieldsResult {
+    FileListResult: [
+        {
+            FieldName: string
+        }
+    ]
+
+}
+
+export interface IStandrdwiseStudentsDocumentBody {
+    asSchoolId: number,
+    asStandardId: number,
+    asStudentId: number,
+    asAcademicYearId: number
+}
+export interface IStandrdwiseStudentsDocumentResult {
+
+    StudentDocumentId: string,
+    StandardwiseDocumentId: string,
+    DocumentName: string,
+    SchoolwiseStudentId: string,
+    IsSubmitted: string,
+    IsApplicable: string,
+    DocumentCount: string,
+    IsSubmissionMandatory: string
+
+}
+
+export interface IGetStudentsFormBody {
+    AsiSchoolId: number,
+    AsiAcademicYear: number,
+    AsiStandardId: number,
+    AsiDivisionId: number
+}
+
+export interface IStaffNameBody {
+    asSchoolId: number,
+    asUserRoleId: number,
+    asAcademicYearId: number
+}
+
+export interface IStaffNameResult {
+
+    UserId: string,
+    UserName: string
+
+}
+
+export interface IRemoveStudentPhotoBody {
+    asSchoolId: number,
+    asStudentId: number
+}
