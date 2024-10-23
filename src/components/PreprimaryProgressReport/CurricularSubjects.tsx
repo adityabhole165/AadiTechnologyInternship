@@ -51,7 +51,7 @@
 
 
 
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import React from 'react';
 import { SchoolScreensAccessPermission } from '../Common/Util';
 
@@ -103,20 +103,30 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                 
                                         return (
                                             <TableRow key={outcome.YearwiseStudentId}>
-                                                <TableCell sx={{ py: 1 }}>{index + 1}</TableCell>
-                                                <TableCell sx={{ py: 1 }}>{outcome.LearningOutcome}</TableCell>
-                                                <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell>
-                                                {SchoolScreensAccessPermission() && (
-                                                          
-                                                            <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>
-                                                                {matchingObservation.Observation}
-                                                            </TableCell>
-
-                                                           
-
-                                                )}
-
-                                            </TableRow>
+                                            <TableCell sx={{ py: 1 }}>{index + 1}</TableCell>
+                                            <TableCell sx={{ py: 1 }}>{outcome.LearningOutcome}</TableCell>
+                                            <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell>
+                                          
+                                            {SchoolScreensAccessPermission() && (
+                                                <Tooltip  title= {matchingObservation.Observation}>
+                                              <TableCell 
+                                              sx={{ 
+                                                py: 1, 
+                                                borderRight: '1px solid lightgrey', 
+                                                wordWrap: 'break-word', // Enable word wrapping
+                                                whiteSpace: 'normal',   // Allow wrapping within cell
+                                                wordBreak: 'break-word', // Handle long words
+                                                width: '250px',         // Set the desired width
+                                                minWidth: '250px'       // Ensure minimum width (optional)
+                                              }}
+                                            >
+                                              {matchingObservation.Observation}
+                                            </TableCell>
+                                            </Tooltip>
+                                            
+                                            )}
+                                          </TableRow>
+                                          
                                         );
                                     })}
 
