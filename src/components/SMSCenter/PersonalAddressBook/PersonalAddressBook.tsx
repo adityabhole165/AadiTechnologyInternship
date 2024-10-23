@@ -270,6 +270,12 @@ const PersonalAddressBook = () => {
         setIContactName('')
         setIContactNumber('')
     }
+    function handleClearForIndividualContact() {
+        setFormType('Add')
+        setIContactName('')
+        setIContactNumber('')
+        dispatch(CDAGetClearIsPersonalAddressExists())
+    }
     function handleGroupContactListAdd() {
         const apiBody2: IGetAddressBookGroupDetailsBody = {
             "asSchoolId": schoolId,
@@ -281,9 +287,17 @@ const PersonalAddressBook = () => {
         setGroupName('')
         setGroupId('')
         setFormGroupType('Add')
-        // setFormType('Add')
-        // setIContactName('')
-        // setIContactNumber('')
+    }
+    function handleClearForGroupContact() {
+        const apiBody2: IGetAddressBookGroupDetailsBody = {
+            "asSchoolId": schoolId,
+            "asUserId": userId,
+            "asGroupId": "0"
+        }
+        dispatch(CDAGetAddressBookGroupDetails(apiBody2));
+        setGroupName('')
+        setGroupId('')
+        setFormGroupType('Add')
     }
     function handleContactNoChange(item: string) {
         const numericValue = item.replace(/\D/g, '');
@@ -499,6 +513,7 @@ const PersonalAddressBook = () => {
                     }
                 </Box>}
             <AddPersonalContact
+                handleClear={handleClearForIndividualContact}
                 isExistsError={showNotExists ? isPersonalContactExists : ''}
                 Open={showAddContact}
                 OnClose={() => {
@@ -512,6 +527,7 @@ const PersonalAddressBook = () => {
                 OnChange2={(item) => { handleContactNoChange(item) }}
                 onSubmit={() => { addIPersonalContact() }} />
             <AddPersonalContactGroup
+                clearForm={handleClearForGroupContact}
                 isExistsError={showNotExistsGroup ? CheckIfPersonalAddressGroupAlreadyExists : ''}
                 Open={showAddGroupContact}
                 OnClose={() => {

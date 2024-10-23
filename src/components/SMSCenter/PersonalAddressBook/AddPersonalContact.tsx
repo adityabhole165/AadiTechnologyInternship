@@ -14,6 +14,7 @@ AddPersonalContact.propTypes = {
     Open: PropTypes.bool,
     OnClose: PropTypes.func,
     onSubmit: PropTypes.func,
+    handleClear: PropTypes.func,
     ItemList2: PropTypes.array,
     ItemList3: PropTypes.array,
     ItemList4: PropTypes.array,
@@ -32,7 +33,7 @@ AddPersonalContact.propTypes = {
     formType: PropTypes.string,
     isExistsError: PropTypes.string
 }
-function AddPersonalContact({ isExistsError, formType, tooltipText = 'Add / update contact details.', Value1, Value2, ValErrorMsgList = [], ValError = '', Open, OnClose, onSubmit, Heading = 'Add or update phone book contact', Label1 = 'Name', Label2 = 'Mobile Number', ItemList2 = [], OnChange1, Defaultvalue2 = '',
+function AddPersonalContact({ handleClear, isExistsError, formType, tooltipText = 'Add / update contact details.', Value1, Value2, ValErrorMsgList = [], ValError = '', Open, OnClose, onSubmit, Heading = 'Add or update phone book contact', Label1 = 'Name', Label2 = 'Mobile Number', ItemList2 = [], OnChange1, Defaultvalue2 = '',
     Defaultvalue3 = '', OnChange2, ItemList3 = [], Defaultvalue4 = '', OnChange3 = () => { }, ItemList4 = [], Label3 = '' }) {
     const loading = useSelector((state: RootState) => state.WeeklyTimetable.Loading);
     const [ErrorMsg1, setErrorMsg1] = useState(false);
@@ -55,6 +56,12 @@ function AddPersonalContact({ isExistsError, formType, tooltipText = 'Add / upda
         setErrorMsg1(false);
         setErrorMsg2(false);
         setErrorMsg3(false);
+    }
+    function handleClearClick() {
+        setErrorMsg1(false);
+        setErrorMsg2(false);
+        setErrorMsg3(false);
+        handleClear();
     }
     return (
         <>
@@ -105,11 +112,10 @@ function AddPersonalContact({ isExistsError, formType, tooltipText = 'Add / upda
                         <Stack gap={2} mt={2}>
                             <Box sx={{ width: '100%' }}>
                                 <TextField
-                                    label={Label1}
+                                    label={<>{Label1}<span style={{ color: 'red' }}> *</span></>}
                                     value={Value1}
                                     sx={{ bgcolor: '#F0F0F0', minWidth: '100%' }}
                                     size="small"
-                                    required
                                     onChange={(e) => { OnChange1(e.target.value) }}
                                     InputProps={{
                                         readOnly: false
@@ -120,9 +126,8 @@ function AddPersonalContact({ isExistsError, formType, tooltipText = 'Add / upda
                             </Box>
                             <Box sx={{ width: '100%' }}>
                                 <TextField
-                                    label={Label2}
+                                    label={<>{Label2}<span style={{ color: 'red' }}> *</span></>}
                                     value={Value2}
-                                    required
                                     sx={{ bgcolor: '#F0F0F0', minWidth: '100%' }}
                                     size="small"
                                     onChange={(e) => { OnChange2(e.target.value) }}
@@ -140,6 +145,18 @@ function AddPersonalContact({ isExistsError, formType, tooltipText = 'Add / upda
                     </Box>
                 </DialogContent>
                 <DialogActions sx={{ py: 2, px: 3 }}>
+                    <Button
+                        onClick={handleClearClick}
+                        sx={{
+                            color: 'red',
+                            '&:hover': {
+                                color: 'red',
+                                backgroundColor: red[100]
+                            }
+                        }}
+                    >
+                        Clear
+                    </Button>
                     <Button
                         onClick={handleClose}
                         sx={{
