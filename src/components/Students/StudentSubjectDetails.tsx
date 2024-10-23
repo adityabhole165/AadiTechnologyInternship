@@ -1,6 +1,5 @@
-import React from 'react'
 
-const StudentSubjectDetails = () => {
+const StudentSubjectDetails = ({ onSave }) => {
   return (
     <div>StudentSubjectDetails</div>
   )

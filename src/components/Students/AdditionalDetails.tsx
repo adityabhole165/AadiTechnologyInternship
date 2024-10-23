@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AdditionalDetails = () => {
+const AdditionalDetails = ({onSave}) => {
   return (
     <div>AdditionalDetails</div>
   )

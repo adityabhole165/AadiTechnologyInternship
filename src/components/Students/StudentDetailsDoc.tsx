@@ -83,6 +83,7 @@ const StudentDocumentUpload = ({ studentName, documentName, open, handleClose, o
                 <ClearIcon onClick={handleDialogClose}
                     sx={{
                         color: 'white',
+                        // background:'white',
                         borderRadius: '7px',
                         position: 'absolute',
                         top: '5px',
@@ -90,16 +91,17 @@ const StudentDocumentUpload = ({ studentName, documentName, open, handleClose, o
                         cursor: 'pointer',
                         '&:hover': {
                             color: 'red',
+                            //  backgroundColor: red[100]
+
                         }
                     }} />
-                Upload Document
             </DialogTitle>
 
             <DialogContent>
                 <Box>
                     <Typography variant="h2" sx={{ pt: 2, pl: 1 }}>Upload Documents</Typography>
                     <Box sx={{ background: 'white', top: '1px', alignItems: 'center', pl: 1, pr: 2, pt: 2 }}>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} >
                             <Grid item xs={6}>
                                 <TextField
                                     fullWidth
