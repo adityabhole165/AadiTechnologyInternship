@@ -95,11 +95,15 @@ const Sentsms = () => {
      }
 
 
-     const Changevalue = (value) => {
-       
-        // setSmsListID(value);
-        
+     
+
+
+    const Changevalue = (updatedList) => {
+        setSmsList(updatedList);  // Update SmsList with the updated list
+        const activeItems = updatedList.filter(item => item.IsActive).map(item => item.Id);
+        setSmsListID(activeItems);  // Update SmsListID based on active items
     };
+    
     useEffect(() => {
         dispatch(CDAGetSentItems(GetSentItemsBody));
     }, []);
@@ -167,10 +171,10 @@ const Sentsms = () => {
             />
             <SentsmsList
                 HeaderArray={headerArray}
-                ItemList={USGetSentItems}
+                ItemList={SmsList}
                 ClickHeader={handleHeaderClick}
                 clickEdit={handleClickEdit}
-              
+                clickchange={Changevalue}
             />
 
 
