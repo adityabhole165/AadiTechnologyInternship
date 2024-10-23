@@ -10,6 +10,7 @@ import { blue, green, grey } from '@mui/material/colors';
 import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
 import AdmissionDetails from './AdmissionDetails ';
+import FamilyDetails from './FamilyDetails';
 import PersonalDetails from './PersonalDetails'; // Assuming PersonalDetails is already created
 import StudentProfileHeader from './StudentProfileHeader';
 
@@ -92,7 +93,7 @@ const StudentRegistrationForm = () => {
             </Box>
 
 
-            <Box sx={{pl:10, backgroundColor: 'white', minHeight: '100px' }}>
+            <Box sx={{ pl: 10, backgroundColor: 'white', minHeight: '100px' }}>
                 <Tabs
                     value={currentTab}
                     onChange={handleTabChange}
@@ -102,15 +103,15 @@ const StudentRegistrationForm = () => {
                     sx={{
 
                         '& .MuiTab-root': {
-                             minHeight: '60px',
-                             minWidth: 120,
-                             borderRadius: '10px',
+                            minHeight: '60px',
+                            minWidth: 120,
+                            borderRadius: '10px',
                             textTransform: 'none',
                             color: '#38548A',
-                             backgroundColor: grey[200],
+                            backgroundColor: grey[200],
 
                             // backgroundColor: tabValidity.admissionDetails ? green[100] : grey[200],
-                             mx: 2,
+                            mx: 2,
                             '&:hover': {
                                 color: '#38548A',
                                 backgroundColor: grey[400],
@@ -128,12 +129,12 @@ const StudentRegistrationForm = () => {
                         }
                     }}
                 >
-                    <Tab sx={{m:2}} icon={<PersonIcon />} label="Admission Details" />
-                    <Tab sx={{m:2}} icon={<PersonIcon />} label="Personal Details" />
-                    <Tab sx={{m:2}} icon={<FamilyIcon />} label="Admission Document Information" />
-                    <Tab sx={{m:2}} icon={<DocumentIcon />} label="Family Details" />
-                    <Tab sx={{m:2}} icon={<SchoolIcon />} label="Additional Details" />
-                    <Tab sx={{m:2}} icon={<InfoIcon />} label="Student Stream / Subject Details" />
+                    <Tab sx={{ m: 2 }} icon={<PersonIcon />} label="Admission Details" />
+                    <Tab sx={{ m: 2 }} icon={<PersonIcon />} label="Personal Details" />
+                    <Tab sx={{ m: 2 }} icon={<FamilyIcon />} label="Admission Document Information" />
+                    <Tab sx={{ m: 2 }} icon={<DocumentIcon />} label="Family Details" />
+                    <Tab sx={{ m: 2 }} icon={<SchoolIcon />} label="Additional Details" />
+                    <Tab sx={{ m: 2 }} icon={<InfoIcon />} label="Student Stream / Subject Details" />
                 </Tabs>
             </Box>
 
@@ -167,6 +168,21 @@ const StudentRegistrationForm = () => {
                     </Grid>
                 )}
                 {/* Add additional tab contents here */}
+
+                {currentTab === 3 && (
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            {/* {status.personalDetails !== null && (
+                                <Alert severity={status.personalDetails ? 'success' : 'error'}>
+                                    {status.personalDetails ? 'Draft saved successfully!' : 'Some fields are missing or incorrect.'}
+                                </Alert>
+                            )} */}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FamilyDetails onSave={handleSave} />
+                        </Grid>
+                    </Grid>
+                )}
             </Box>
 
         </Box>

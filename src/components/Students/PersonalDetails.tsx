@@ -179,7 +179,7 @@ const PersonalDetails = ({ onSave }) => {
 
                     </Box>
 
-                    <input type="file" onChange={handleImageChange} style={{ marginTop: '10px', marginLeft: '30%' }} />
+                    <input type="file" onChange={handleImageChange} style={{ marginTop: '10px', marginLeft: '70px' }} />
 
                 </Grid>
 
