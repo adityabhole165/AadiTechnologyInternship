@@ -665,6 +665,7 @@ const MessageList = () => {
                   }/MessageCenter/Compose`}
               >
                 <Card
+                  onClick={clickClear}
                   sx={{
                     textAlign: 'center',
                     height: '85px',
@@ -675,7 +676,6 @@ const MessageList = () => {
                 >
 
                   <AddCircleIcon
-                    onClick={clickClear}
                     sx={{ mt: '10px', color: '#38548A' }}
                     className={classes.IconSize}
                   />
@@ -934,10 +934,10 @@ const MessageList = () => {
                     to={`/${location.pathname.split('/')[1]
                       }/MessageCenter/Compose`}
                   >
-                    <Item
+                    <Item onClick={clickClear}
                       sx={{ fontSize: '10px', mr: 1, mb: '10px', borderRadius: '15px', backgroundColor: '#38548A', color: 'white' }}
                     >
-                      <AddCircleIcon onClick={clickClear} />
+                      <AddCircleIcon />
                       <br />
                       <b>Compose</b>
                     </Item>
