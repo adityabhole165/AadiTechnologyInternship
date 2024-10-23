@@ -46,7 +46,7 @@ import CommonPageHeader from '../CommonPageHeader';
 const Studentwiseprogressreport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { TermId } = useParams();
+  
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asUpdatedById = Number(sessionStorage.getItem('Id'));
@@ -67,7 +67,7 @@ const Studentwiseprogressreport = () => {
     });
     return perm;
   };
-  const { ClassTecherid, ClassId, TestId } =
+  const { ClassTecherid, ClassId, TestId,TermId } =
     useParams();
   let CanEdit = getSchoolConfigurations(74)
 
@@ -75,7 +75,8 @@ const Studentwiseprogressreport = () => {
   const [selectClass, SetSelectClass] = useState(ClassId == undefined ? "" : ClassId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
-  const [Assessment, setAssessment] = useState(TermId ? TermId : 28);
+  const [Assessment, setAssessment] = useState<string | undefined>(undefined);
+
 
   const [std, setstd] = useState();
   const [StudentAssig, setStudentAssig] = useState();
@@ -115,7 +116,7 @@ const Studentwiseprogressreport = () => {
   ]);
 
   const PrimaryTeacher = useSelector((state: RootState) => state.Studentwiseprogress.PrimaryClassTeacher);
-  //console.log(PrimaryTeacher, "PrimaryTeacher");
+
   const USAssessmentDrop = useSelector((state: RootState) => state.Studentwiseprogress.ISAssessmentDropdown);
   const StudentAssignment = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignment);
   const StudentGrade = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignmentGrade);
@@ -132,7 +133,6 @@ const Studentwiseprogressreport = () => {
 
   const GetAllRecordSubmitted: any = useSelector((state: RootState) => state.Studentwiseprogress.ISGetAllRecordSubmitted);
 
-  console.log(ShowDeleteButton[0], "--", IsPublished[0]);
 
 
   const getPrimaryTeacher_body: IGetAllPrimaryClassTeachersBody = {
@@ -168,7 +168,6 @@ const Studentwiseprogressreport = () => {
   }
 
 
-  console.log(StudentRecordCount.Count, "----");
 
   useEffect(() => {
     if (PublishStatu.AllowPublish === true || PublishStatu.AllowUnpublish === true) {
@@ -260,6 +259,22 @@ const Studentwiseprogressreport = () => {
     setAssessment(value);
   };
 
+
+  useEffect(() => {
+    if (USAssessmentDrop.length > 0) {
+      setAssessment(USAssessmentDrop[0].Value);
+    }
+  }, [USAssessmentDrop]);
+
+  useEffect(() => {
+    if (TermId!== undefined) {
+      setAssessment (TermId);
+    }
+  }, [TermId]);
+
+  
+
+  
   const clickunpublish = (value) => {
     setublishS(value);
   };
@@ -361,7 +376,6 @@ const Studentwiseprogressreport = () => {
 
 
   const ClicEdit = (YearwiseStudentId, StandardId) => {
-    console.log(YearwiseStudentId, "--", StandardId, "--", Assessment);
 
     navigate('/extended-sidebar/Teacher/StudentwiseprogressreportEdit/' +
       Assessment + '/' +
