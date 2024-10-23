@@ -120,7 +120,7 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                                                 minWidth: '250px'       // Ensure minimum width (optional)
                                               }}
                                             >
-                                              {matchingObservation.Observation}
+                                             {matchingObservation.Observation?.substring(0, 150)}
                                             </TableCell>
                                             </Tooltip>
                                             
