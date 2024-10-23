@@ -9,6 +9,7 @@ import {
     Tooltip,
     Typography
 } from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
 import React, { useState } from 'react';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
@@ -68,7 +69,9 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
             rteApplicationForm: form.isRTEApplicable && !form.rteApplicationForm,
         };
         setErrors(newErrors);
+        console.log(!Object.values(newErrors).includes(true));
         return !Object.values(newErrors).includes(true);
+
     };
     const applicableRules = [
         { id: 1, Name: '50% Fee Concession' },
@@ -101,7 +104,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
         const isValid = validateForm();
         onSave(isValid);
         setMessage(isValid ? 'Draft saved successfully!' : 'Please fill in all required fields.');
-        setTimeout(() => setMessage(''), 1000);
+        setTimeout(() => setMessage(''), 2000);
     };
 
     return (
@@ -211,20 +214,20 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
                 </Grid>
                 <Grid item xs={3}>
                     <Tooltip title="Valid Prefix(s) : No Prefix, PP">
-                    <TextField
-                        name="registrationNumber"
-                        label="Registration Number"
-                        variant="outlined"
-                        value={form.registrationNumber}
-                         onChange={handleInputChange}
-                        required
-                        error={errors.registrationNumber}
-                        helperText={errors.registrationNumber ? "This field is required" : ""}
-                        sx={{
-                            backgroundColor: errors.registrationNumber ? 'white' : (form.registrationNumber ? 'white' : 'inherit'),
-                        }}
-                        fullWidth
-                    />
+                        <TextField
+                            name="registrationNumber"
+                            label="Registration Number"
+                            variant="outlined"
+                            value={form.registrationNumber}
+                            onChange={handleInputChange}
+                            required
+                            error={errors.registrationNumber}
+                            helperText={errors.registrationNumber ? "This field is required" : ""}
+                            sx={{
+                                backgroundColor: errors.registrationNumber ? 'white' : (form.registrationNumber ? 'white' : 'inherit'),
+                            }}
+                            fullWidth
+                        />
                     </Tooltip>
                 </Grid>
                 <Grid item xs={3}>
@@ -245,6 +248,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
                     />
                 </Grid>
                 <Grid item xs={3}>
+
                     <TextField
                         name="joiningDate"
                         label="Joining Date"
@@ -277,7 +281,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
                         fullWidth
                     />
                 </Grid>
-                
+
 
                 <Grid item xs={3}>
                     <SearchableDropdown
@@ -462,8 +466,15 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
                     </Grid>
                 </Grid>
             </Box>
-            <Grid item xs={12} pt={2}>
+            <Grid item xs={12} pt={2} >
                 <Button
+                sx={{
+                    color:'#38548A',
+                      backgroundColor: grey[100],
+                      '&:hover': {
+                    color:'#38548A',
+                     backgroundColor: blue[100]
+                      }}}
                     onClick={handleSave}>
                     Save And Next
                 </Button>

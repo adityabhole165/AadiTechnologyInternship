@@ -5,23 +5,25 @@ import InfoIcon from '@mui/icons-material/Info';
 import PersonIcon from '@mui/icons-material/Person';
 import SaveIcon from '@mui/icons-material/Save';
 import SchoolIcon from '@mui/icons-material/School';
-import { Alert, Box, Grid, IconButton, LinearProgress, Tab, Tabs, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, LinearProgress, Tab, Tabs, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
 import AdmissionDetails from './AdmissionDetails ';
 import PersonalDetails from './PersonalDetails'; // Assuming PersonalDetails is already created
+import StudentProfileHeader from './StudentProfileHeader';
 
 const StudentRegistrationForm = () => {
     const [currentTab, setCurrentTab] = useState(0);
     const [profileCompletion, setProfileCompletion] = useState(20);
-    
+
 
     const [status, setStatus] = useState({
         admissionDetails: null,
         personalDetails: null,
     });
-    
+
+
 
     const handleSave = (isSuccessful: boolean) => {
         if (currentTab === 0) {
@@ -78,12 +80,10 @@ const StudentRegistrationForm = () => {
                     </>
                 }
             />
+            <Box sx={{ backgroundColor: 'white', p: 1 }}>
+                <StudentProfileHeader />
+            </Box>
 
-            {/* <Tabs value={currentTab} onChange={handleTabChange}>
-                <Tab label="Admission Details" />
-                <Tab label="Personal Details" />
-                {/* Add other tabs here */}
-            {/* </Tabs>  */}
             {/* Profile Completion Bar */}
             <Box sx={{ display: 'flex', alignItems: 'center', my: 1, backgroundColor: 'white', p: 2 }}>
                 <Typography variant="body1" sx={{ mr: 2 }}>Profile Completeness</Typography>
@@ -91,51 +91,53 @@ const StudentRegistrationForm = () => {
                 <Typography variant="body1" sx={{ ml: 2 }}>{profileCompletion}%</Typography>
             </Box>
 
-            <Box sx={{ py: 2, backgroundColor: 'white', maxHeight: '120px' }}>
-                <Box sx={{ alignContent: 'center', backgroundColor: 'white', minHeight: '70px', ml: 4 }}>
-                    <Tabs
-                        value={currentTab}
-                        onChange={handleTabChange}
-                        variant="scrollable"
-                        scrollButtons={false}  // Disable the scroll arrows
-                        aria-label="Student Registration Tabs"
-                        sx={{
 
-                            '& .MuiTab-root': {
-                                minHeight: '60px',
-                                minWidth: 120,
-                                borderRadius: '10px',
-                                textTransform: 'none',
+            <Box sx={{pl:10, backgroundColor: 'white', minHeight: '100px' }}>
+                <Tabs
+                    value={currentTab}
+                    onChange={handleTabChange}
+                    variant="scrollable"
+                    scrollButtons={false}  // Disable the scroll arrows
+                    aria-label="Student Registration Tabs"
+                    sx={{
+
+                        '& .MuiTab-root': {
+                             minHeight: '60px',
+                             minWidth: 120,
+                             borderRadius: '10px',
+                            textTransform: 'none',
+                            color: '#38548A',
+                             backgroundColor: grey[200],
+
+                            // backgroundColor: tabValidity.admissionDetails ? green[100] : grey[200],
+                             mx: 2,
+                            '&:hover': {
                                 color: '#38548A',
-                                // backgroundColor: tabValidity.admissionDetails ? green[100] : grey[200],
-                                mx: 2,
-                                '&:hover': {
-                                    color: '#38548A',
-                                    backgroundColor: grey[400],
-                                },
-                                '&.Mui-selected': {
-                                    backgroundColor: blue[300],
-                                    color: 'white',
-                                },
-                                '&.Mui-focusVisible': {
-                                    outline: '2px solid blue',
-                                }
+                                backgroundColor: grey[400],
                             },
-                            '& .MuiTabs-indicator': {
-                                display: 'none',
+                            '&.Mui-selected': {
+                                backgroundColor: blue[300],
+                                color: 'white',
+                            },
+                            '&.Mui-focusVisible': {
+                                outline: '2px solid blue',
                             }
-                        }}
-                    >
-                        <Tab icon={<PersonIcon />} label="Admission Details" />
-                        <Tab icon={<PersonIcon />} label="Personal Details" />
-                        <Tab icon={<FamilyIcon />} label="Admission Document Information" />
-                        <Tab icon={<DocumentIcon />} label="Family Details" />
-                        <Tab icon={<SchoolIcon />} label="Additional Details" />
-                        <Tab icon={<InfoIcon />} label="Student Stream / Subject Details" />
-                    </Tabs>
-                </Box>
+                        },
+                        '& .MuiTabs-indicator': {
+                            display: 'none',
+                        }
+                    }}
+                >
+                    <Tab sx={{m:2}} icon={<PersonIcon />} label="Admission Details" />
+                    <Tab sx={{m:2}} icon={<PersonIcon />} label="Personal Details" />
+                    <Tab sx={{m:2}} icon={<FamilyIcon />} label="Admission Document Information" />
+                    <Tab sx={{m:2}} icon={<DocumentIcon />} label="Family Details" />
+                    <Tab sx={{m:2}} icon={<SchoolIcon />} label="Additional Details" />
+                    <Tab sx={{m:2}} icon={<InfoIcon />} label="Student Stream / Subject Details" />
+                </Tabs>
             </Box>
-            <Box sx={{}}>
+
+            <Box >
                 {currentTab === 0 && (
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
