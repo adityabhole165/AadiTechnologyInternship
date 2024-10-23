@@ -180,6 +180,7 @@ function AddPersonalContactGroup({ clearForm, isExistsError, formType, tooltipTe
                                             pt: '5px',
                                             pb: '5px',
                                             top: 0,
+                                            fontWeight: '750',
                                             zIndex: 1
                                         }}
                                         align="left"
@@ -193,6 +194,7 @@ function AddPersonalContactGroup({ clearForm, isExistsError, formType, tooltipTe
                                             pt: '5px',
                                             pb: '5px',
                                             top: 0,
+                                            fontWeight: '750',
                                             zIndex: 1
                                         }}
                                         align="center"

@@ -55,36 +55,36 @@ const PhoneBookList = ({ itemList, clickRow, clickEdit, clickDelete }: ListProps
             <Table>
                 <TableHead>
                     <TableRow sx={{ background: (theme) => theme.palette.secondary.main, }}>
-                        <TableCell sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, pt: '10px', pb: '10px' }} align="left">
+                        <TableCell sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, pt: '5px', pb: '5px' }} align="left">
                             <Checkbox checked={isAllChecked()} onClick={checkAll} />
                         </TableCell>
-                        <TableCell sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, pt: '10px', pb: '10px' }} align="left">Name</TableCell>
-                        <TableCell sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, pt: '10px', pb: '10px' }} align="center">Mobile Number</TableCell>
-                        <TableCell sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, pt: '10px', pb: '10px' }} align="center">Edit</TableCell>
-                        <TableCell sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, pt: '10px', pb: '10px' }} align="center">Delete</TableCell>
+                        <TableCell sx={{ textTransform: 'capitalize', fontWeight: '750', color: (theme) => theme.palette.common.white, pt: '5px', pb: '5px' }} align="left">Name</TableCell>
+                        <TableCell sx={{ textTransform: 'capitalize', fontWeight: '750', color: (theme) => theme.palette.common.white, pt: '5px', pb: '5px' }} align="center">Mobile Number</TableCell>
+                        <TableCell sx={{ textTransform: 'capitalize', fontWeight: '750', color: (theme) => theme.palette.common.white, pt: '5px', pb: '5px' }} align="center">Edit</TableCell>
+                        <TableCell sx={{ textTransform: 'capitalize', fontWeight: '750', color: (theme) => theme.palette.common.white, pt: '5px', pb: '5px' }} align="center">Delete</TableCell>
                     </TableRow>
                 </TableHead>
                 {itemList?.length > 0 && itemList?.map((item, i) => {
                     return (
                         <TableRow
                             key={i} >
-                            <TableCell sx={{ pt: '10px', pb: '10px' }}>
+                            <TableCell sx={{ pt: '5px', pb: '5px' }}>
                                 <Checkbox checked={item.IsActive} onClick={() => { clickRows(item.PersonalAddressBookId) }} />
                             </TableCell>
-                            <TableCell sx={{ pt: '10px', pb: '10px' }}>
+                            <TableCell sx={{ pt: '5px', pb: '5px' }}>
                                 {item.Name}
                             </TableCell>
-                            <TableCell align="center" sx={{ pt: '10px', pb: '10px' }}>
+                            <TableCell align="center" sx={{ pt: '5px', pb: '5px' }}>
                                 {item.Mobile_No}
                             </TableCell>
-                            <TableCell align="center" sx={{ pt: '10px', pb: '10px' }}>
+                            <TableCell align="center" sx={{ pt: '5px', pb: '5px' }}>
                                 <Tooltip title='Edit'>
                                     <IconButton onClick={() => { clickEdit(item) }}>
                                         <EditIcon />
                                     </IconButton>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell align="center" sx={{ pt: '10px', pb: '10px' }}>
+                            <TableCell align="center" sx={{ pt: '5px', pb: '5px' }}>
                                 <Tooltip title='Delete'>
                                     <IconButton
                                         onClick={() => { clickDelete(item) }}
