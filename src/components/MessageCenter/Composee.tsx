@@ -90,10 +90,7 @@ function Form13() {
   const theme = useTheme();
   const location = useLocation();
   const pathname = location.pathname;
-  const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/Compose/',
-    ''
-  );
+  const pageName = pathname.replace('/extended-sidebar/MessageCenter/Compose/', '');
   const PageName = pageName.slice(0, 5);
   const ViewData = localStorage.getItem('ViewMessageData');
   const View = ViewData === null || ViewData === '' ? '' : JSON.parse(ViewData);
