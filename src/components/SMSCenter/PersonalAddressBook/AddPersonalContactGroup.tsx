@@ -38,15 +38,19 @@ function AddPersonalContactGroup({ isExistsError, formType, tooltipText = 'Add /
     const [ErrorMsg1, setErrorMsg1] = useState(false);
     const [ErrorMsg2, setErrorMsg2] = useState(false);
     const [ErrorMsg3, setErrorMsg3] = useState(false);
+    function isAnyActive(addressBookGroupList) {
+        return addressBookGroupList.some(item => item.IsActive === true);
+    }
     const handleSubmit = () => {
+        console.log('🚩', ItemList2);
+
         const isName = Boolean(Value1);
-        const isPhoneValid = Value2.length === 10;
+        const isGroupPhoneListChecked = isAnyActive(ItemList2);
 
         setErrorMsg1(!isName);
-        setErrorMsg2(!Value2);
-        setErrorMsg3(Boolean(Value2) && !isPhoneValid);
+        setErrorMsg2(!isGroupPhoneListChecked);
 
-        if (isName && isPhoneValid) {
+        if (isName && isGroupPhoneListChecked) {
             onSubmit();
         }
     };
@@ -141,6 +145,8 @@ function AddPersonalContactGroup({ isExistsError, formType, tooltipText = 'Add /
                                     }}
                                 />
                                 {ErrorMsg1 && <span style={{ color: 'red', fontSize: '12px' }}>Name should not be blank.</span>}
+
+                                {ErrorMsg2 && <div style={{ color: 'red', fontSize: '12px' }}>At least one mobile number should be selected for group.</div>}
                             </Box>
                         </Stack>
                     </Box>
