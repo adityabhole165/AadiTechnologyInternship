@@ -78,7 +78,7 @@ const SingleFile2 = ({
           title={
             'Supports only ' +
             ValidFileTypes.join(', ') +
-            ' file type. File size should not exceed ' + (MaxfileSize / 1000000).toString() + 'MB.'
+            ' file type. File size should not exceed ' + (MaxfileSize / 10000000).toString() + 'MB.'
           }
         >
           <Button
@@ -164,7 +164,7 @@ const SingleFile2 = ({
         )}
       </Grid>
       {errorMessage && (
-        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left', pt:2 }}>
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left', pt: 2 }}>
 
           <Typography >
             {errorMessage && <Errormessage Error={errorMessage} />}
