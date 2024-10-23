@@ -219,53 +219,55 @@ const AdmissionDocumentInformation = ({ onSave }) => {
         <DialogContent>
           <Box>
             <Typography variant="h2" sx={{ pt: 2, pl: 1 }}>Upload Documents</Typography>
-            <Grid container spacing={2} >
-              <Grid item xs={4}>
-                <TextField
-                  fullWidth
-                  label={<>
-                    Student Name <span style={{ color: 'red' }}>*</span>
-                  </>}
-                  InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#F0F0F0', width: '100%' }}
-                  value={studentName} // Show selected student name
-                  size={"medium"}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  fullWidth
-                  label={<>
-                    Document Name  <span style={{ color: 'red' }}>*</span>
-                  </>}
-                  InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#F0F0F0', width: '100%' }}
-                  value={documentName || 'No record found'} // Show selected document name or 'No record found'
-                  size={"medium"}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.7, width: 'calc(100% + 1px)', position: 'relative' }}>
-                  <SingleFile
-                    ValidFileTypes={ValidFileTypes}
-                    MaxfileSize={MaxfileSize}
-                    FileName={fileName}
-                    ChangeFile={ChangeFile}
-                    FileLabel={'Upload Document '}
-                    width={'100%'}
-                    height={"52px"}
-                    errorMessage={fileNameError}
-                    isMandatory={true}
+            <Box sx={{ background: 'white', top: '1px', alignItems: 'center', pl: 1, pr: 2, pt: 2 }}>
+              <Grid container spacing={2} >
+                <Grid item xs={4}>
+                  <TextField
+                    fullWidth
+                    label={<>
+                      Student Name <span style={{ color: 'red' }}>*</span>
+                    </>}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                    value={studentName} // Show selected student name
+                    size={"medium"}
+                    InputProps={{
+                      readOnly: true,
+                    }}
                   />
-                </Box>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    fullWidth
+                    label={<>
+                      Document Name  <span style={{ color: 'red' }}>*</span>
+                    </>}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                    value={documentName || 'No record found'} // Show selected document name or 'No record found'
+                    size={"medium"}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.7, width: 'calc(100% + 1px)', position: 'relative' }}>
+                    <SingleFile
+                      ValidFileTypes={ValidFileTypes}
+                      MaxfileSize={MaxfileSize}
+                      FileName={fileName}
+                      ChangeFile={ChangeFile}
+                      FileLabel={'Upload Document '}
+                      width={'100%'}
+                      height={"52px"}
+                      errorMessage={fileNameError}
+                      isMandatory={true}
+                    />
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
         </DialogContent>
         <Box sx={{ backgroundColor: 'white', pl: 3.8, pr: 3.8 }}>
