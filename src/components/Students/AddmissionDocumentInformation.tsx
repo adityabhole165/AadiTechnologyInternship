@@ -114,7 +114,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
   };
 
   return (
-    <>
+    <Box sx={{ backgroundColor: 'white', p: 2 }}>
       <TableContainer component={Box} sx={{ border: '1px solid #ddd', marginTop: 2 }}>
         <Table aria-label="document information table">
           <TableHead sx={{ backgroundColor: (theme) => theme.palette.secondary.main }}>
@@ -308,7 +308,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 };
 
