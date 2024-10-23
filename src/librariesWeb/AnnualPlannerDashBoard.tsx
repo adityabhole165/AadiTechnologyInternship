@@ -104,7 +104,8 @@ function MyLeaveRequisitionAppraisal() {
             case 'Approved': return 'success';
             case 'Pending': return 'warning';
             case 'Rejected': return 'error';
-            case 'Submitted': return 'secondary';
+            case 'Denied': return 'error';
+            case 'Submitted': return 'warning';
             default: return 'default';
         }
     };
@@ -219,8 +220,8 @@ function MyLeaveRequisitionAppraisal() {
                                         color={getStatusColor(data.Status || data.StatusName)}
                                         size="small"
                                         sx={{
-                                            backgroundColor: data.Status === 'Submitted' ? '#00c853' : undefined,
-                                            color: data.Status === 'Submitted' ? 'white' : undefined,
+                                            backgroundColor: data.Status === 'Published' ? '#228b22' : undefined,
+                                            color: data.Status === 'Published' ? 'white' : undefined,
                                         }} // Custom pink color for submitted
                                     />
                                 </Box>
