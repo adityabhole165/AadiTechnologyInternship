@@ -809,7 +809,7 @@ function Form13() {
                   }}
                 />
                 <Box mt={0}>
-                  {RecipientsList.length == 0 ? (
+                  {RecipientsList.length == 0 && (formik.touched.To && formik.errors.To) ? (
                     <ErrorMessage1 Error={formik.errors.To} />
                   ) : null}
                 </Box>
@@ -849,7 +849,7 @@ function Form13() {
                   }}
                 />
                 <Box mt={0}>
-                  {RecipientsList.length == 0 ? (
+                  {RecipientsList.length == 0 && (formik.touched.To && formik.errors.To) ? (
                     <ErrorMessage1 Error={formik.errors.To} />
                   ) : null}
                 </Box>
