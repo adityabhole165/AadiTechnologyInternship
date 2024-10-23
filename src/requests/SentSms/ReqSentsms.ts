@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiSentsms from 'src/api/SentSms/Sentsms';
-import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
+import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetDetailsOfGroupsBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
 import { AppThunk } from 'src/store';
 
 const SliceSentsms = createSlice({
@@ -17,12 +17,24 @@ const SliceSentsms = createSlice({
     ISCheckIfPersonalAddressGroupAlreadyExists: 'NoResponse',
     ISUpdatePersonalAddressBookGroupMsg: '',
     ISDeletePersonalAddressBookGroupMsg: '',
+    ISGetDetailsOfGroups: [],
+    Loading: false
   },
 
 
   reducers: {
+    getLoading(state, action) {
+      state.Loading = true;
+    },
     RGetSentItems(state, action) {
       state.ISGetSentItems = action.payload;
+    },
+    RGetDetailsOfGroups(state, action) {
+      state.ISGetDetailsOfGroups = action.payload;
+      state.Loading = false;
+    },
+    RClearGetDetailsOfGroups(state) {
+      state.ISGetDetailsOfGroups = [];
     },
     RPersonalAddressBookList(state, action) {
       state.ISPersonalAddressBookList = action.payload;
@@ -279,6 +291,19 @@ export const CDAGetClearDeletePersonalAddressBookGroupMsg =
     async (dispatch) => {
       dispatch(SliceSentsms.actions.RClearDeletePersonalAddressBookGroupMsg());
     }
+
+// RGetDetailsOfGroups GetDetailsOfGroupsapi IGetDetailsOfGroupsBody
+export const CDAGetGetDetailsOfGroups =
+  (data: IGetDetailsOfGroupsBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceSentsms.actions.RClearGetDetailsOfGroups());
+      // getLoading
+      dispatch(SliceSentsms.actions.getLoading(true));
+      const response = await ApiSentsms.GetDetailsOfGroupsapi(data);
+      let GetDetailsOfGroups = response.data;
+      dispatch(SliceSentsms.actions.RGetDetailsOfGroups(GetDetailsOfGroups));
+    }
+
 
 
 

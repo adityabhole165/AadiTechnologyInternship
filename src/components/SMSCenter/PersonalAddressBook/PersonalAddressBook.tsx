@@ -9,9 +9,10 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { AlertContext } from 'src/contexts/AlertContext';
-import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from "src/interfaces/SentSms/Sentsms";
+import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetDetailsOfGroupsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from "src/interfaces/SentSms/Sentsms";
+import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import RadioButton1 from "src/libraries/RadioButton/RadioButton1";
-import { CDAGetAddressBookGroupDetails, CDAGetAddressBookGroupList, CDAGetCheckIfPersonalAddressExists, CDAGetCheckIfPersonalAddressGroupAlreadyExists, CDAGetClearAddPersonalAddBookMsg, CDAGetClearDeletePersonalAddressBookGroupMsg, CDAGetClearDeletePersonalAddressBookMsg, CDAGetClearInsertPersonalAddressBookGroupMsg, CDAGetClearIsPersonalAddressExists, CDAGetClearIsPersonalAddressGroupAlreadyExists, CDAGetClearUpdatePersonalAddressBookGroupMsg, CDAGetDeletePersonalAddressBook, CDAGetDeletePersonalAddressBookGroup, CDAGetPersonalAddressBookList } from "src/requests/SentSms/ReqSentsms";
+import { CDAGetAddressBookGroupDetails, CDAGetAddressBookGroupList, CDAGetCheckIfPersonalAddressExists, CDAGetCheckIfPersonalAddressGroupAlreadyExists, CDAGetClearAddPersonalAddBookMsg, CDAGetClearDeletePersonalAddressBookGroupMsg, CDAGetClearDeletePersonalAddressBookMsg, CDAGetClearInsertPersonalAddressBookGroupMsg, CDAGetClearIsPersonalAddressExists, CDAGetClearIsPersonalAddressGroupAlreadyExists, CDAGetClearUpdatePersonalAddressBookGroupMsg, CDAGetDeletePersonalAddressBook, CDAGetDeletePersonalAddressBookGroup, CDAGetGetDetailsOfGroups, CDAGetPersonalAddressBookList } from "src/requests/SentSms/ReqSentsms";
 import AddPersonalContact from "./AddPersonalContact";
 import AddPersonalContactGroup from "./AddPersonalContactGroup";
 import GroupPhoneBookList from "./GroupPhoneBookList";
@@ -57,6 +58,8 @@ const PersonalAddressBook = () => {
     const CheckIfPersonalAddressGroupAlreadyExists: any = useSelector((state: any) => state.SentSms.ISCheckIfPersonalAddressGroupAlreadyExists);
     const InsertPersonalAddressBookGroupMsg: any = useSelector((state: any) => state.SentSms.ISInsertPersonalAddressBookGroupMsg);
     const DeletePersonalAddressBookGroupMsg: any = useSelector((state: any) => state.SentSms.ISDeletePersonalAddressBookGroupMsg);
+    const GetDetailsOfGroups: any = useSelector((state: any) => state.SentSms.ISGetDetailsOfGroups);
+    const isLoading: any = useSelector((state: any) => state.SentSms.Loading);
     const RadioListCT = [
         { Value: '1', Name: 'Individual Details' },
         { Value: '2', Name: 'Group Details' }
@@ -439,9 +442,66 @@ const PersonalAddressBook = () => {
         } else {
             navigate('/extended-sidebar/Teacher/ComposeSMS', { state: { activeNoList } });
         }
-
-
     }
+    function getActiveGroupIds(groups) {
+        // Filter active groups and return a comma-separated string of PersonalAddressBookGroupId
+        return groups
+            .filter(({ IsActive }) => IsActive)
+            .map(({ PersonalAddressBookGroupId }) => PersonalAddressBookGroupId)
+            .join(',');
+    }
+
+    async function getMobileNumbers() {
+        try {
+            const activeGroupListValues = getActiveGroupIds(personalAddressBookGroupList);
+
+            if (!activeGroupListValues) {
+                console.warn('No active groups found.');
+                return;
+            }
+
+            const apiBody: IGetDetailsOfGroupsBody = {
+                asSchoolId: schoolId,
+                asGroupId: activeGroupListValues
+            };
+
+            await dispatch(CDAGetGetDetailsOfGroups(apiBody));
+
+            const activeNoList = GetDetailsOfGroups?.map(({ Mobile_No }) => Mobile_No).join(',');
+
+            if (!isLoading) {
+                navigate('/extended-sidebar/Teacher/ComposeSMS', { state: { activeNoList } });
+            }
+
+            console.log(activeNoList);
+        } catch (error) {
+            console.error('Error fetching mobile numbers:', error);
+        }
+    }
+
+    async function getActiveGroupMobileNumbers() {
+        const activeGroupListValues = getActiveGroupIds(personalAddressBookGroupList);
+
+        if (!activeGroupListValues) {
+            showAlert({
+                title: 'Please Confirm',
+                message: 'No user is selected. Are you sure you want to continue?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onConfirm: () => {
+                    closeAlert();
+                    navigate('/extended-sidebar/Teacher/ComposeSMS');
+                },
+                onCancel: closeAlert
+            });
+            return;
+        }
+
+        // Call to fetch mobile numbers
+        await getMobileNumbers();
+    }
+
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -458,7 +518,13 @@ const PersonalAddressBook = () => {
                         <Tooltip title={`Add selected users.`}>
                             <IconButton
                                 onClick={() => {
-                                    getActiveMobileNumbers(personalAddressBoolList);
+                                    if (RadioValue === '1') {
+                                        getActiveMobileNumbers(personalAddressBoolList);
+                                    } else {
+                                        getActiveGroupMobileNumbers();
+                                    }
+
+
                                 }}
                                 sx={{
                                     bgcolor: blue[500], color: 'white', '&:hover': { bgcolor: blue[600] }
@@ -487,6 +553,7 @@ const PersonalAddressBook = () => {
                         </Tooltip>
                     </>}
             />
+            {isLoading && <SuspenseLoader />}
             <Grid sx={{ backgroundColor: 'white', mb: 1, p: 1 }}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                     <RadioButton1 Array={RadioListCT} ClickRadio={ClickRadio} defaultValue={RadioValue} />

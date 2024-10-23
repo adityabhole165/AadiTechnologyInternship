@@ -1,5 +1,5 @@
 
-import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupDetailsResult, IGetAddressBookGroupListBody, IGetAddressBookGroupListResult, IGetAddressBookListBody, IGetAddressBookListResult, IGetSentItemsBody, IGetSentItemsResult, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
+import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupDetailsResult, IGetAddressBookGroupListBody, IGetAddressBookGroupListResult, IGetAddressBookListBody, IGetAddressBookListResult, IGetDetailsOfGroupsBody, IGetDetailsOfGroupsResult, IGetSentItemsBody, IGetSentItemsResult, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSentItemsapi = (data: IGetSentItemsBody) => {
@@ -87,7 +87,13 @@ const DeletePersonalAddressBookGroupapi = (data: IDeletePersonalAddressBookGroup
     data
   );
 };
-
+// Teacher/GetDetailsOfGroups IGetDetailsOfGroupsResult IGetDetailsOfGroupsBody
+const GetDetailsOfGroupsapi = (data: IGetDetailsOfGroupsBody) => {
+  return http.post<IGetDetailsOfGroupsResult[]>(
+    'Teacher/GetDetailsOfGroups',
+    data
+  );
+};
 
 const ApiSentsms = {
   GetSentItemsapi,
@@ -101,7 +107,8 @@ const ApiSentsms = {
   CheckIfPersonalAddressGroupAlreadyExistsapi,
   InsertPersonalAddressBookGroupapi,
   UpdatePersonalAddressBookGroupapi,
-  DeletePersonalAddressBookGroupapi
+  DeletePersonalAddressBookGroupapi,
+  GetDetailsOfGroupsapi
 };
 
 export default ApiSentsms;

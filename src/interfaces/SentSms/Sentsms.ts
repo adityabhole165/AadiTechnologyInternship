@@ -158,3 +158,15 @@ export interface IDeletePersonalAddressBookGroupBody {
   asPersonalAddressBookGroupId: string
   asUserId: string
 }
+
+export interface IGetDetailsOfGroupsBody {
+  asSchoolId: string
+  asGroupId: string
+}
+
+export interface IGetDetailsOfGroupsResult {
+  Mobile_No: string
+  User_Id: string
+  Name: string
+  PersonalAddressBookId: string
+}
