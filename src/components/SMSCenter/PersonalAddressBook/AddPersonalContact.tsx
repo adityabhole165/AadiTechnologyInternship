@@ -114,6 +114,7 @@ function AddPersonalContact({ isExistsError, formType, tooltipText = 'Add / upda
                                     InputProps={{
                                         readOnly: false
                                     }}
+                                    inputProps={{ maxLength: 100 }}
                                 />
                                 {ErrorMsg1 && <span style={{ color: 'red', fontSize: '12px' }}>Name should not be blank.</span>}
                             </Box>

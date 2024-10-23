@@ -143,6 +143,7 @@ function AddPersonalContactGroup({ isExistsError, formType, tooltipText = 'Add /
                                     InputProps={{
                                         readOnly: false
                                     }}
+                                    inputProps={{ maxLength: 100 }}
                                 />
                                 {ErrorMsg1 && <span style={{ color: 'red', fontSize: '12px' }}>Name should not be blank.</span>}
 
