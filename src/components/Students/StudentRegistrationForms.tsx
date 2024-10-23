@@ -9,6 +9,7 @@ import { Box, Grid, IconButton, LinearProgress, Tab, Tabs, Tooltip, Typography }
 import { blue, green, grey } from '@mui/material/colors';
 import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
+import AddmissionDocumentInformation from './AddmissionDocumentInformation';
 import AdmissionDetails from './AdmissionDetails ';
 import FamilyDetails from './FamilyDetails';
 import PersonalDetails from './PersonalDetails'; // Assuming PersonalDetails is already created
@@ -168,7 +169,20 @@ const StudentRegistrationForm = () => {
                     </Grid>
                 )}
                 {/* Add additional tab contents here */}
-
+                {currentTab === 2 && (
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            {/* {status.personalDetails !== null && (
+                                <Alert severity={status.personalDetails ? 'success' : 'error'}>
+                                    {status.personalDetails ? 'Draft saved successfully!' : 'Some fields are missing or incorrect.'}
+                                </Alert>
+                            )} */}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <AddmissionDocumentInformation onSave={handleSave} />
+                        </Grid>
+                    </Grid>
+                )}
                 {currentTab === 3 && (
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
