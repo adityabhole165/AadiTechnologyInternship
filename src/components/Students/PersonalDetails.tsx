@@ -173,16 +173,18 @@ const PersonalDetails = ({ onSave }) => {
                             <p> <User
                                 style={{
                                     objectFit: 'cover', // Maintain aspect ratio for User icon
-                                }} /></p>
+                                }} />
+                            </p>
                         )}
+
                     </Box>
 
-                    <input type="file" onChange={handleImageChange} />
+                    <input type="file" onChange={handleImageChange} style={{ marginTop: '10px', marginLeft: '30%' }} />
 
                 </Grid>
 
                 {form.motherName !== undefined && (
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <TextField
                             name="motherName"
                             label="Mother's Name"
@@ -198,7 +200,7 @@ const PersonalDetails = ({ onSave }) => {
                 )}
 
                 {form.motherNumber !== undefined && (
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <TextField
                             name="motherNumber"
                             label="Mother's Number"
@@ -214,7 +216,7 @@ const PersonalDetails = ({ onSave }) => {
                 )}
 
                 {form.parentName !== undefined && (
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <TextField
                             name="parentName"
                             label="Parent's Name"
@@ -230,7 +232,7 @@ const PersonalDetails = ({ onSave }) => {
                 )}
 
                 {form.fatherNumber !== undefined && (
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <TextField
                             name="fatherNumber"
                             label="Father's Number"
