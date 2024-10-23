@@ -410,71 +410,16 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void 
                 </Grid>
             </Grid>
 
-            <Box>
-                <Typography variant="h4" color="initial" py={2}> Last School Details
-                </Typography>
-                <Grid container spacing={2}>
-                    <Grid item xs={3}>
-                        <TextField
-                            name="lastSchoolName"
-                            label="Last School Name"
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            name="lastSchoolRollNumber"
-                            label="School Address"
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            name="lastSchoolYear"
-                            label="Standard"
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField
-                            name="lastSchoolAddress"
-                            label="School UDISE No."
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <SearchableDropdown
-                            sx={{ minWidth: '300px' }}
-                            ItemList={SchoolBoardName}
-                            // onChange={onClickClass}
-                            label={' School Board Name'}
-                            size={"medium"}
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <SearchableDropdown
-                            sx={{ minWidth: '300px' }}
-                            ItemList={Recognised}
-                            // onChange={onClickClass}
-                            label={'Is Recognised'}
-                            size={"medium"}
-                        />
-                    </Grid>
-                </Grid>
-            </Box>
             <Grid item xs={12} pt={2} >
                 <Button
-                sx={{
-                    color:'#38548A',
-                      backgroundColor: grey[100],
-                      '&:hover': {
-                    color:'#38548A',
-                     backgroundColor: blue[100]
-                      }}}
+                    sx={{
+                        color: '#38548A',
+                        backgroundColor: grey[100],
+                        '&:hover': {
+                            color: '#38548A',
+                            backgroundColor: blue[100]
+                        }
+                    }}
                     onClick={handleSave}>
                     Save And Next
                 </Button>
