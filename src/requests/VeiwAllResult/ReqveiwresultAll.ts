@@ -161,9 +161,10 @@ export const GetsingleStudentResultVA =
 
             });
             let MarkList = response.data.listSubjectDetails.map((item, i) => {
+                const marksScored = item.Marks_Scored.includes('.0') ? parseInt(item.Marks_Scored) : item.Marks_Scored;
                 return {
                     Id: item.Subject_Id,
-                    Name: `${item.Marks_Scored} / ${item.Subject_Total_Marks}`,
+                    Name: `${marksScored} / ${item.Subject_Total_Marks}`,
                     Value: item.Subject_Id
                 };
             });
@@ -184,8 +185,9 @@ export const GetsingleStudentResultVA =
                 };
             });
             let Total = response.data.listMarksDetails.map((item, i) => {
+                const totalmarksScored = item.Total_Marks_Scored.includes('.0') ? parseInt(item.Total_Marks_Scored) : item.Total_Marks_Scored;
                 return {
-                    TotalMarks: `${item.Total_Marks_Scored} / ${item.Subjects_Total_Marks}`,
+                    TotalMarks: `${totalmarksScored} / ${item.Subjects_Total_Marks}`,
                     GradeName: item.Grade_Name,
                     Percentage: item.Percentage,
                     Grade_id: item.Grade_id
