@@ -107,7 +107,7 @@ function Card6() {
 
         }}
       >
-        <Card sx={{ background: (theme) => theme.palette.secondary.main, borderRadius: '7px' }}>
+        <Card sx={{ background: '#c0c0c0', borderRadius: '7px' }}>
           <Box
             sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
