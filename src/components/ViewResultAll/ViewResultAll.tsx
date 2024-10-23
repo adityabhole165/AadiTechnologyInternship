@@ -404,7 +404,7 @@ const ViewResultAll = (props: Props) => {
                                 return (
                                   <>
                                     <TableCell sx={{ textAlign: 'center' }}>{totalData.TotalMarks}</TableCell>
-                                    <TableCell sx={{ textAlign: 'center' }}>{totalData.Percentage}</TableCell>
+                                    <TableCell sx={{ textAlign: 'center' }}>{totalData.Percentage}%</TableCell>
                                     <TableCell sx={{ textAlign: 'center' }}>
                                       <Typography variant="body2">
                                         {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}
