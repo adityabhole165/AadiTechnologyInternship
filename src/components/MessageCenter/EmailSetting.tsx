@@ -81,8 +81,14 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
       toast.success("Email setting saved successfully.");
       setOpen(false);
       dispatch(ResetUpdateUserEmailSetting());
+
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   }, [UpdationMessage, dispatch, setOpen]);
+
 
   const clickReset = () => {
     inputFiledBlur(EmailSettings?.EmailAddress);
@@ -134,6 +140,7 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
 
   const handleClose = () => {
     setOpen(false);
+    window.location.reload();
   };
 
   return (
