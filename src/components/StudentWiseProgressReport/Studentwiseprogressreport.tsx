@@ -47,7 +47,7 @@ const Studentwiseprogressreport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { TermId } = useParams();
-  
+
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asUpdatedById = Number(sessionStorage.getItem('Id'));
 
@@ -228,7 +228,7 @@ const Studentwiseprogressreport = () => {
   }, []);
 
 
- 
+
 
   useEffect(() => {
     if (Assessment != null) {
@@ -418,7 +418,7 @@ const Studentwiseprogressreport = () => {
                 ItemList={USAssessmentDrop}
                 onChange={clickAssessmentDropdown}
                 label={'Assessment:'}
-                defaultValue={String(Assessment)} 
+                defaultValue={String(Assessment)}
                 mandatory
                 size={"small"}
               />
@@ -472,22 +472,24 @@ const Studentwiseprogressreport = () => {
 
 
             <Tooltip title="Delete All">
-              <IconButton
-                sx={{
-                  display: 'inline-flex',
-                  color: 'white',
-                  padding: '4px',
-                  width: '36px',
-                  height: '36px',
-                  backgroundColor: red[500],
-                  ':hover': { backgroundColor: red[600] },
-                  marginLeft: '0px',
-                }}
-                disabled={ShowDeleteButton[0] !== 1 && IsPublished[0] == 'Y'}
-                onClick={clickDeleteAlll}
-              >
-                <DeleteSweepIcon />
-              </IconButton>
+              <span>
+                <IconButton
+                  sx={{
+                    display: 'inline-flex',
+                    color: 'white',
+                    padding: '4px',
+                    width: '36px',
+                    height: '36px',
+                    backgroundColor: red[500],
+                    ':hover': { backgroundColor: red[600] },
+                    marginLeft: '0px',
+                  }}
+                  disabled={ShowDeleteButton[0] !== 1 && IsPublished[0] == 'Y'}
+                  onClick={clickDeleteAlll}
+                >
+                  <DeleteSweepIcon />
+                </IconButton>
+              </span>
             </Tooltip>
 
 
