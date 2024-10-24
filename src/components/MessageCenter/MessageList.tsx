@@ -225,7 +225,7 @@ const MessageList = () => {
     if (academicYear !== '') {
       dispatch(getMonthYearList(Mbody));
       // Reset month selection when the academic year changes
-      setMonthYear('');
+      setMonthYear('0');
     }
   }, [academicYear]);
 
