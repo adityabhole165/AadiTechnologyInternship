@@ -1,13 +1,11 @@
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import IsPublishstatus from 'src/components/StudentWiseProgressReport/IsPublishstatus';
-
-
-import { ArrowCircleDown } from '@mui/icons-material';
 import {
     Box,
     Card,
@@ -29,18 +27,27 @@ function StudentwiseProgressreportList({
     clickEdit,
     clickDelete
 }) {
-    const clickHeader = (value) => {
-        if (value !== undefined) {
-            const updatedHeaderArray = HeaderArray.map((item) => {
-                return item.SortOrder === undefined ? item : { ...item, SortOrder: item.SortOrder === "Roll_No" ? "Roll_No desc" : "Roll_No" }
-            });
-            ClickHeader(updatedHeaderArray);
-        }
+    const clickHeader = (id) => {
+        const updatedHeaderArray = HeaderArray.map((item) => {
+            if (item.Id === id) {
+              
+                const newSortOrder = item.SortOrder === ''? 'desc':'';
+                return {
+                    ...item,
+                    SortOrder: newSortOrder
+                };
+            } else {
+                return { ...item, SortOrder: null }; 
+            }
+        });
+
+        ClickHeader(updatedHeaderArray);
     }
 
-    let Publishstatus = useContext(IsPublishstatus)
+    let Publishstatus = useContext(IsPublishstatus);
+    
     return (
-        <Card sx={{ backgroundcolor: 'white' }}>
+        <Card sx={{ backgroundColor: 'white' }}>
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
                 <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, background: 'white' }}>
                     <Table aria-label="simple table">
@@ -49,30 +56,18 @@ function StudentwiseProgressreportList({
                                 {HeaderArray.map((item, i) => (
                                     <TableCell
                                         key={i}
-                                        sx={{
-                                            textTransform: 'capitalize',
-                                            fontWeight: 'bold',
-                                            py: 1,  // Reduce padding for header cells
-                                            textAlign: item.Header === 'Roll No' || item.Header === 'Student Name' ? 'left' : 'center',
-                                            paddingLeft: item.Header === 'Roll No' ? 2 : 1, // Adjust padding for Roll No header
-                                            backgroundColor: 'inherit',
-                                            color: 'inherit',
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            minWidth: 30, // Reduce minWidth for narrower columns
-                                            maxWidth: 50 // Reduce maxWidth for narrower columns
-                                        }}
-                                        onClick={i < 2 ? () => clickHeader(item.Id) : null}
-
-
+                                        sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}
+                                        onClick={item.Id !== 3 &&  item.Id !== 4? () => clickHeader(item.Id) : null}
                                     >
-                                        {item.Header}
-                                        {item.SortOrder !== undefined &&
-                                            (item.SortOrder === "Roll_No" ?
-                                                <ArrowCircleUpIcon sx={{ ml: 1, color: '#ffffff', verticalAlign: 'middle' }} /> :
-                                                <ArrowCircleDown sx={{ ml: 1, color: '#ffffff', verticalAlign: 'middle' }} />
-                                            )}
+                                        <div style={{
+                                            display: 'flex', alignItems: 'left', gap: 2,
+                                            justifyContent: item.Header ? 'flex-start ' : 'left'
+                                        }}>
+                                            <b>{item.Header}</b>
+                                            {item.SortOrder !== null && item.Id !== 3 &&  item.Id !== 4 ? (
+                                                item.SortOrder === "desc" ? <ArrowCircleDownIcon /> : <ArrowCircleUpIcon />
+                                            ) : null}
+                                        </div>
                                     </TableCell>
                                 ))}
                             </TableRow>
@@ -81,15 +76,16 @@ function StudentwiseProgressreportList({
                             {ItemList.map((item, i) => (
                                 <TableRow key={i} sx={{ height: '36px' }}
                                 >
-                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100, pl: 2, pr: 1 }}>
+                                   <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                         {item.RollNo}
                                     </TableCell>
 
-                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.3, minWidth: 20, maxWidth: 80, pl: 1, pr: 0.2 }}>
+
+                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                         <Typography noWrap>{item.StudentName}</Typography>
                                     </TableCell>
 
-                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100 }}>
+                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                         {item.EditStatus === "1" ? (
                                             <Tooltip title="Marks entry not started">
                                                 <EditOffIcon style={{ cursor: 'pointer' }}
@@ -129,8 +125,8 @@ function StudentwiseProgressreportList({
                                                 </Tooltip>) : null
                                         }
                                     </TableCell>
-                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100 }}>
-                                        {item.EditStatus == "1" || Publishstatus == 'Y' ?
+                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                                        {item.EditStatus == "1" || Publishstatus == true ?
 
                                             <span></span>
                                             : <Tooltip title="Delete">

@@ -110,10 +110,28 @@ const Studentwiseprogressreport = () => {
   };
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: 'Roll No', SortOrder: "Roll_No" },
-    { Id: 2, Header: 'Student Name',SortOrder: "Student_Name"},
+    { Id: 2, Header: 'Student Name',SortOrder: "Name"},
     { Id: 3, Header: 'Edit' },
     { Id: 4, Header: 'Delete' }
   ]);
+
+  const [sortExpression, setSortExpression] = useState('Roll_No');
+  const [headerArray, setHeaderArray] = useState([
+    { Id: 1, Header: 'Roll No', SortOrder: null, sortKey: 'Roll_No' },
+    { Id: 2, Header: 'Student Name', SortOrder: null, sortKey: 'Name' },
+    { Id: 3, Header: 'Edit', },
+    { Id: 4, Header: 'Delete', }
+    
+  ]);
+
+  const handleHeaderClick = (updatedHeaderArray) => {
+    setHeaderArray(updatedHeaderArray);
+    const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+    const newSortExpression =  `${sortField.sortKey} ${sortField.SortOrder}`;
+    setSortExpression(newSortExpression);
+  };
+
+
 
   const PrimaryTeacher = useSelector((state: RootState) => state.Studentwiseprogress.PrimaryClassTeacher);
 
@@ -164,7 +182,7 @@ const Studentwiseprogressreport = () => {
     asAssessmentId: Number(Assessment),
     asStartIndex: startIndex,
     asEndIndex: endIndex,
-    asSortExp: ' ' + HeaderPublish[0].SortOrder
+    asSortExp:sortExpression
   }
 
   const GetPublishStatusBody: IGetPublishStatusBody = {
@@ -240,7 +258,7 @@ const Studentwiseprogressreport = () => {
     if (Assessment != null) {
       dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
     }
-  }, [SelectTeacher, Assessment, HeaderPublish, page, rowsPerPage, StandardDivisionId()]);
+  }, [SelectTeacher, Assessment, HeaderPublish, page, rowsPerPage, StandardDivisionId(),sortExpression]);
 
   useEffect(() => {
     if (Assessment != null && PrimaryTeacher.length > 0) {
@@ -505,7 +523,7 @@ const Studentwiseprogressreport = () => {
                     ':hover': { backgroundColor: red[600] },
                     marginLeft: '0px',
                   }}
-                  disabled={ShowDeleteButton  == true  && IsPublished == false }
+                  disabled={ShowDeleteButton  == true  || IsPublished == true }
                   onClick={clickDeleteAlll}
                 >
                   <DeleteSweepIcon />
@@ -616,8 +634,8 @@ const Studentwiseprogressreport = () => {
         <IsPublishstatus.Provider value={IsPublished}>
           <StudentwiseProgressreportList
             ItemList={StudentAssignment}
-            HeaderArray={HeaderPublish}
-            ClickHeader={ClickHeader}
+            HeaderArray={headerArray}
+            ClickHeader={handleHeaderClick}
             clickEdit={ClicEdit}
             clickDelete={ClickDelete}
           />

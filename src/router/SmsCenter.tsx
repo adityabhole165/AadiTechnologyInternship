@@ -3,11 +3,11 @@ import { PartialRouteObject } from 'react-router';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 const SMSCenter = Loader(
   lazy(() => import('src/components/SMSCenter/SmsCenter'))
@@ -29,6 +29,9 @@ const ViewReceiveSMS = Loader(
 const ViewSent = Loader(
   lazy(() => import('src/components/SMSCenter/ViewSent'))
 );
+const ContactGroup = Loader(
+  lazy(() => import('src/components/SMSCenter/ContactGroup'))
+)
 
 const smsCenterRoutes: PartialRouteObject[] = [
   {
@@ -79,7 +82,12 @@ const smsCenterRoutes: PartialRouteObject[] = [
   {
     path: 'ViewSent/:DetailsId/:FromURL',
     element: <ViewSent />
+  },
+  {
+    path: 'ContactGroup',
+    element: <ContactGroup />
   }
+
 ];
 
 export default smsCenterRoutes;
