@@ -1,4 +1,5 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Visibility from '@mui/icons-material/Visibility';
 import { Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { useState } from 'react';
@@ -198,7 +199,7 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         {/* fatherPhoto */}
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2}>
           <SingleFile
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
@@ -210,7 +211,42 @@ const FamilyDetails = ({ onSave }) => {
             isMandatory={false}
           />
         </Grid>
+        <Grid item xs={1} md={1}>
+          <>
 
+            <Tooltip title={"View"}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: '#223354',
+                    cursor: 'pointer'
+                  }
+                }}
+              >
+                <Visibility />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={"Delete"}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
+              >
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        </Grid>
 
         <Grid item xs={12} md={3}>
           <TextField
@@ -360,7 +396,7 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         {/* motherPhoto */}
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2}>
           <SingleFile
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
@@ -371,6 +407,43 @@ const FamilyDetails = ({ onSave }) => {
             height={"52px"}
             isMandatory={false}
           />
+        </Grid>
+
+        <Grid item xs={1} md={1}>
+          <>
+
+            <Tooltip title={"View"}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: '#223354',
+                    cursor: 'pointer'
+                  }
+                }}
+              >
+                <Visibility />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={"Delete"}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
+              >
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </>
         </Grid>
 
         <Grid item xs={12} md={3}>
@@ -454,7 +527,7 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         {/* localGuardianPhoto */}
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2}>
           <SingleFile
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
@@ -465,6 +538,42 @@ const FamilyDetails = ({ onSave }) => {
             height={"52px"}
             isMandatory={false}
           />
+        </Grid>
+        <Grid item xs={1} md={1}>
+          <>
+
+            <Tooltip title={"View"}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: '#223354',
+                    cursor: 'pointer'
+                  }
+                }}
+              >
+                <Visibility />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={"Delete"}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
+              >
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </>
         </Grid>
 
         <Grid item xs={12} md={3}>
@@ -509,7 +618,7 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         {/* familyPhoto */}
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2}>
           <SingleFile
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
@@ -520,6 +629,42 @@ const FamilyDetails = ({ onSave }) => {
             height={"52px"}
             isMandatory={false}
           />
+        </Grid>
+        <Grid item xs={1} md={1}>
+          <>
+
+            <Tooltip title={"View"}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: '#223354',
+                    cursor: 'pointer'
+                  }
+                }}
+              >
+                <Visibility />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={"Delete"}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
+              >
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </>
         </Grid>
 
       </Grid>
@@ -615,7 +760,12 @@ const FamilyDetails = ({ onSave }) => {
 
 
       {/* Save & Next Button */}
-      <Grid item xs={12} pt={2} >
+      <Grid
+        item
+        xs={12}
+        pt={2}
+        sx={{ display: 'flex', justifyContent: 'flex-end' }}
+      >
         <Button
           sx={{
             color: '#38548A',
@@ -625,7 +775,8 @@ const FamilyDetails = ({ onSave }) => {
               backgroundColor: blue[100]
             }
           }}
-          onClick={handleSave}>
+          onClick={handleSave}
+        >
           Save And Next
         </Button>
       </Grid>

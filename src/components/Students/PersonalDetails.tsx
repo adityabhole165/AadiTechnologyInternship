@@ -1,7 +1,7 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, Grid, IconButton, MenuItem, TextField, Tooltip } from '@mui/material';
-import { red } from '@mui/material/colors';
+import { Box, Button, Grid, IconButton, MenuItem, TextField, Tooltip } from '@mui/material';
+import { blue, grey, red } from '@mui/material/colors';
 import { User } from 'lucide-react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -106,6 +106,16 @@ const PersonalDetails = ({ onSave }) => {
         (state: RootState) => state.StudentRecords.ClassTeachers
     );
 
+    const handleDeletePhoto = () => {
+        // Reset the form photo to null to remove the image
+        setForm({ ...form, photo: null });
+
+    };
+
+    const handleSave = () => {
+        // Call the onSave function passed as a prop
+        onSave(form);
+    };
     return (
         <Box sx={{ backgroundColor: 'white', p: 2 }}>
             <Grid container spacing={2} >
@@ -250,6 +260,7 @@ const PersonalDetails = ({ onSave }) => {
 
                 {/* Photo Grid */}
                 <Grid item xs={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
                     <Box
                         mt={0}
                         sx={{
@@ -258,17 +269,23 @@ const PersonalDetails = ({ onSave }) => {
                             border: '2px dashed #ccc', // Dashed border for empty box
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center',
+                            justifyContent: 'center', // Ensure spacing between image and button
                             overflow: 'hidden',
-
+                            flexDirection: 'row', // Arrange items horizontally
                         }}
                     >
                         {form.photo ? (
-                            <img src={form.photo} alt="Preview" style={{
-                                objectFit: 'cover',
-                                width: '100%',
-                                height: '100%',
-                            }} />
+
+                            <img
+                                src={form.photo}
+                                alt="Preview"
+                                style={{
+                                    objectFit: 'cover',
+                                    width: '100%',
+                                    height: '100%',
+                                }}
+                            />
+
                         ) : (
                             <p> <User
                                 style={{
@@ -279,7 +296,33 @@ const PersonalDetails = ({ onSave }) => {
 
                     </Box>
 
-                    <input type="file" onChange={handleImageChange} style={{ marginTop: '10px', marginLeft: '50px' }} />
+                    <Grid container spacing={2} sx={{ justifyContent: 'space-between', px: 2 }}
+                    >
+
+                        <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }} >
+
+                            <input type="file" onChange={handleImageChange} style={{ marginTop: '10px', marginLeft: '100px' }} />
+                        </Grid>
+
+                        <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }} >
+                            <Tooltip title="Delete">
+                                <IconButton
+                                    onClick={handleDeletePhoto}
+                                    sx={{
+                                        color: '#223354',
+                                        mt: 0,
+                                        '&:hover': {
+                                            color: 'red',
+                                            backgroundColor: 'rgb(254, 226, 226)', // red[100] equivalent
+                                        }
+                                    }}
+                                >
+                                    <DeleteForeverIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Grid>
+
+                    </Grid>
 
                 </Grid>
 
@@ -625,7 +668,26 @@ const PersonalDetails = ({ onSave }) => {
                 </Grid>
             </Grid>
 
-
+            <Grid
+                item
+                xs={12}
+                pt={2}
+                sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            >
+                <Button
+                    sx={{
+                        color: '#38548A',
+                        backgroundColor: grey[100],
+                        '&:hover': {
+                            color: '#38548A',
+                            backgroundColor: blue[100]
+                        }
+                    }}
+                    onClick={handleSave}
+                >
+                    Save And Next
+                </Button>
+            </Grid>
         </Box >
     );
 };
