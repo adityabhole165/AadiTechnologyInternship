@@ -11,7 +11,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
 import {
-  IClassTeacherBody,
   IGetAllStudentTestprogressBody,
   IGetStudentNameListBody,
   IGetsingleStudentBody,
@@ -20,10 +19,11 @@ import {
 } from 'src/interfaces/VeiwResultAll/IViewResultAll';
 
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
+import { IClassTeacherListBody } from 'src/interfaces/FinalResult/IFinalResult';
 import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
+import { ClassTechersList } from 'src/requests/FinalResult/RequestFinalResult';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import {
-  ClassTechersListt,
   GetStudentResultList,
   GetsingleStudentResultVA,
   StudentNameList,
@@ -36,8 +36,11 @@ const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { StandardDivisionId } = useParams();
+  const StandardDivisionIdse = (
+    sessionStorage.getItem('StandardDivisionId')
+  );
   const TeacherId = (sessionStorage.getItem('TeacherId'));
-  const [selectTeacher, setSelectTeacher] = useState('')
+  const [selectTeacher, setSelectTeacher] = useState(StandardDivisionIdse)
   const [open, setOpen] = useState(false);
   // console.log(TeacherId, " ----", selectTeacher);
   const [studentList, setStudentList] = useState();
@@ -60,6 +63,10 @@ const ViewResultAll = (props: Props) => {
   const Usunpublishedexam: any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
 
+  const GetClassTeachers = useSelector(
+    (state: RootState) => state.FinalResult.ClassTeachers
+  );
+
   const Data3 = SubjectDetailsView.filter((item) => item.Grade == "")
   const Data4 = SubjectDetailsView.filter((item) => item.Marks == "")
   const showOnlyGrades = USSStudentsingleResult.some((item) => item.ShowOnlyGrades.trim() === 'true');
@@ -76,10 +83,18 @@ const ViewResultAll = (props: Props) => {
       setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
   }, [UsGetSchoolSettings])
 
-  const ClassTeachersBody: IClassTeacherBody = {
-    asSchoolId,
-    asAcademicYearId,
+  // const ClassTeachersBody: IClassTeacherBody = {
+  //   asSchoolId,
+  //   asAcademicYearId,
+  // };
+
+
+  const ClassTeachersNewBody: IClassTeacherListBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asTeacherId: TeacherId
   };
+
 
   const GetSchoolSettings: GetSchoolSettingsBody = {
     asSchoolId: Number(asSchoolId),
@@ -147,8 +162,11 @@ const ViewResultAll = (props: Props) => {
     setOpen(true)
   }
 
+  // useEffect(() => {
+  //   dispatch(ClassTechersListt(ClassTeachersBody));
+  // }, []);
   useEffect(() => {
-    dispatch(ClassTechersListt(ClassTeachersBody));
+    dispatch(ClassTechersList(ClassTeachersNewBody));
   }, []);
 
   useEffect(() => {
@@ -168,10 +186,10 @@ const ViewResultAll = (props: Props) => {
       setSelectTeacher(StandardDivisionId)
   }, [USStudentListDropDown]);
 
-  
 
 
-  
+
+
 
 
   useEffect(() => {
@@ -230,6 +248,14 @@ const ViewResultAll = (props: Props) => {
     getClassTeacherName();
   }, [USClassTeachers])
 
+
+  useEffect(() => {
+    if (teacherList != null) {
+      if (teacherList.length > 0)
+        setSelectTeacher(teacherList[0].Id)
+    }
+  }, [teacherList]);
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -250,14 +276,14 @@ const ViewResultAll = (props: Props) => {
                 minWidth: '20vw'
                 , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
               }}
-              ItemList={teacherList}
+              ItemList={GetClassTeachers}
               onChange={clickSelectClass}
               defaultValue={selectTeacher}
               size="small"
               label="Class Teacher"
               DisableClearable={GetScreenPermission() === 'N'}
               mandatory
-              disabled={teacherList.length === 1}
+              disabled={GetClassTeachers.length === 2}
             />
           </Box>
 
