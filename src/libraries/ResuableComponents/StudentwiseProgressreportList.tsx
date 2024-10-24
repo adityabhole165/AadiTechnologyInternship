@@ -1,13 +1,11 @@
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import IsPublishstatus from 'src/components/StudentWiseProgressReport/IsPublishstatus';
-
-
-import { ArrowCircleDown } from '@mui/icons-material';
 import {
     Box,
     Card,
@@ -29,18 +27,27 @@ function StudentwiseProgressreportList({
     clickEdit,
     clickDelete
 }) {
-    const clickHeader = (value) => {
-        if (value !== undefined) {
-            const updatedHeaderArray = HeaderArray.map((item) => {
-                return item.SortOrder === undefined ? item : { ...item, SortOrder: item.SortOrder === "Roll_No" ? "Roll_No desc" : "Roll_No" }
-            });
-            ClickHeader(updatedHeaderArray);
-        }
+    const clickHeader = (id) => {
+        const updatedHeaderArray = HeaderArray.map((item) => {
+            if (item.Id === id) {
+                // Toggle sort order between 'asc' and 'desc'
+                const newSortOrder = item.SortOrder === ''? 'desc':'';
+                return {
+                    ...item,
+                    SortOrder: newSortOrder
+                };
+            } else {
+                return { ...item, SortOrder: null }; // Reset other headers' sort order
+            }
+        });
+
+        ClickHeader(updatedHeaderArray);
     }
 
-    let Publishstatus = useContext(IsPublishstatus)
+    let Publishstatus = useContext(IsPublishstatus);
+    
     return (
-        <Card sx={{ backgroundcolor: 'white' }}>
+        <Card sx={{ backgroundColor: 'white' }}>
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
                 <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, background: 'white' }}>
                     <Table aria-label="simple table">
@@ -49,30 +56,18 @@ function StudentwiseProgressreportList({
                                 {HeaderArray.map((item, i) => (
                                     <TableCell
                                         key={i}
-                                        sx={{
-                                            textTransform: 'capitalize',
-                                            fontWeight: 'bold',
-                                            py: 1,  // Reduce padding for header cells
-                                            textAlign: item.Header === 'Roll No' || item.Header === 'Student Name' ? 'left' : 'center',
-                                            paddingLeft: item.Header === 'Roll No' ? 2 : 1, // Adjust padding for Roll No header
-                                            backgroundColor: 'inherit',
-                                            color: 'inherit',
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            minWidth: 30, // Reduce minWidth for narrower columns
-                                            maxWidth: 50 // Reduce maxWidth for narrower columns
-                                        }}
-                                        onClick={i < 2 ? () => clickHeader(item.Id) : null}
-
-
+                                        sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}
+                                        onClick={item.Id !== 3 &&  item.Id !== 4? () => clickHeader(item.Id) : null}
                                     >
-                                        {item.Header}
-                                        {item.SortOrder !== undefined &&
-                                            (item.SortOrder === "Roll_No" ?
-                                                <ArrowCircleUpIcon sx={{ ml: 1, color: '#ffffff', verticalAlign: 'middle' }} /> :
-                                                <ArrowCircleDown sx={{ ml: 1, color: '#ffffff', verticalAlign: 'middle' }} />
-                                            )}
+                                        <div style={{
+                                            display: 'flex', alignItems: 'left', gap: 2,
+                                            justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'left'
+                                        }}>
+                                            <b>{item.Header}</b>
+                                            {item.SortOrder !== null && item.Id !== 3 &&  item.Id !== 4 ? (
+                                                item.SortOrder === "desc" ? <ArrowCircleDownIcon /> : <ArrowCircleUpIcon />
+                                            ) : null}
+                                        </div>
                                     </TableCell>
                                 ))}
                             </TableRow>
