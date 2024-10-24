@@ -110,7 +110,7 @@ const Studentwiseprogressreport = () => {
   };
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: 'Roll No', SortOrder: "Roll_No" },
-    { Id: 2, Header: 'Student Name' },
+    { Id: 2, Header: 'Student Name',SortOrder: "Student_Name"},
     { Id: 3, Header: 'Edit' },
     { Id: 4, Header: 'Delete' }
   ]);
