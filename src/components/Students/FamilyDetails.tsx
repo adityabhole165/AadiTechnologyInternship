@@ -615,7 +615,12 @@ const FamilyDetails = ({ onSave }) => {
 
 
       {/* Save & Next Button */}
-      <Grid item xs={12} pt={2} >
+      <Grid
+        item
+        xs={12}
+        pt={2}
+        sx={{ display: 'flex', justifyContent: 'flex-end' }}
+      >
         <Button
           sx={{
             color: '#38548A',
@@ -625,7 +630,8 @@ const FamilyDetails = ({ onSave }) => {
               backgroundColor: blue[100]
             }
           }}
-          onClick={handleSave}>
+          onClick={handleSave}
+        >
           Save And Next
         </Button>
       </Grid>

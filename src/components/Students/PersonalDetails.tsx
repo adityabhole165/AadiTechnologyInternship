@@ -1,7 +1,7 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, Grid, IconButton, MenuItem, TextField, Tooltip } from '@mui/material';
-import { red } from '@mui/material/colors';
+import { Box, Button, Grid, IconButton, MenuItem, TextField, Tooltip } from '@mui/material';
+import { blue, grey, red } from '@mui/material/colors';
 import { User } from 'lucide-react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -106,6 +106,10 @@ const PersonalDetails = ({ onSave }) => {
         (state: RootState) => state.StudentRecords.ClassTeachers
     );
 
+    const handleSave = () => {
+        // Call the onSave function passed as a prop
+        onSave(form);
+    };
     return (
         <Box sx={{ backgroundColor: 'white', p: 2 }}>
             <Grid container spacing={2} >
@@ -260,6 +264,7 @@ const PersonalDetails = ({ onSave }) => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             overflow: 'hidden',
+                            position: 'relative'
 
                         }}
                     >
@@ -625,7 +630,26 @@ const PersonalDetails = ({ onSave }) => {
                 </Grid>
             </Grid>
 
-
+            <Grid
+                item
+                xs={12}
+                pt={2}
+                sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            >
+                <Button
+                    sx={{
+                        color: '#38548A',
+                        backgroundColor: grey[100],
+                        '&:hover': {
+                            color: '#38548A',
+                            backgroundColor: blue[100]
+                        }
+                    }}
+                    onClick={handleSave}
+                >
+                    Save And Next
+                </Button>
+            </Grid>
         </Box >
     );
 };
