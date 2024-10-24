@@ -3,7 +3,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import { Box, Button, Grid, IconButton, MenuItem, TextField, Tooltip } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { User } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -41,6 +41,7 @@ const PersonalDetails = ({ onSave }) => {
         aadharCardScanCopy: '', // This will store the file object
         photo: null, // This will store the file object
     });
+
 
     const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
     const MaxfileSize = 5000000;
@@ -83,6 +84,8 @@ const PersonalDetails = ({ onSave }) => {
         photo: false, // This will store the file object
     });
 
+    const fileInputRef = useRef(null);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked, files } = e.target;
         const fieldValue = type === 'checkbox' ? checked : type === 'file' ? (files ? files[0] : null) : value;
@@ -110,6 +113,9 @@ const PersonalDetails = ({ onSave }) => {
         // Reset the form photo to null to remove the image
         setForm({ ...form, photo: null });
 
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";  // Reset the file input so the file name disappears
+        }
     };
 
     const handleSave = () => {
@@ -301,7 +307,7 @@ const PersonalDetails = ({ onSave }) => {
 
                         <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }} >
 
-                            <input type="file" onChange={handleImageChange} style={{ marginTop: '10px', marginLeft: '100px' }} />
+                            <input type="file" ref={fileInputRef} onChange={handleImageChange} style={{ marginTop: '10px', marginLeft: '100px' }} />
                         </Grid>
 
                         <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }} >
