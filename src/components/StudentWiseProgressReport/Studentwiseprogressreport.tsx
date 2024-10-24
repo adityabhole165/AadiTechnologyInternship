@@ -128,17 +128,18 @@ const Studentwiseprogressreport = () => {
   const PublishUnpublish: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
   const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
   const USClassTeacherXseedSubjects: any = useSelector((state: RootState) => state.Studentwiseprogress.ISClassTeacherXseedSubjects);
-  const IsPublished = USClassTeacherXseedSubjects.map(item => item.IsPublished)
+ const IsPublished1 = USClassTeacherXseedSubjects.map(item => item.IsPublished)
   const [asMode, setAsMode] = useState(PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish');
-  const ShowDeleteButton = StudentAssignment.map(item => item.ShowDeleteButton)
-  const allEditStatusAreThree = StudentAssignment.every(item => item.EditStatus === "3");
+
+  const IsPublished = USClassTeacherXseedSubjects.every(item => item.IsPublished == 'Y')
+  const ShowDeleteButton = StudentAssignment.every(item => item.ShowDeleteButton !== "1")
+
   const ShowProgressReport = StudentAssignment.map(item => item.ShowProgressReport)
 
   const GetAllRecordSubmitted: any = useSelector((state: RootState) => state.Studentwiseprogress.ISGetAllRecordSubmitted);
 
 
-  console.log(ShowDeleteButton,"--",allEditStatusAreThree);
-  
+ 
 
 
   const getPrimaryTeacher_body: IGetAllPrimaryClassTeachersBody = {
@@ -504,7 +505,7 @@ const Studentwiseprogressreport = () => {
                     ':hover': { backgroundColor: red[600] },
                     marginLeft: '0px',
                   }}
-                  disabled={(ShowDeleteButton[0] !== 1 && IsPublished[0] == 'Y')  || allEditStatusAreThree == false}
+                  disabled={ShowDeleteButton  == true  && IsPublished == false }
                   onClick={clickDeleteAlll}
                 >
                   <DeleteSweepIcon />
