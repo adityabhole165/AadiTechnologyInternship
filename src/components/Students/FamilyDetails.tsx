@@ -1,6 +1,7 @@
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useState } from 'react';
+import SingleFile from 'src/libraries/File/SingleFile';
 
 const FamilyDetails = ({ onSave }) => {
 
@@ -43,7 +44,8 @@ const FamilyDetails = ({ onSave }) => {
     residencePhoneNumber: '',
     familyPhoto: ''
   });
-
+  const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
+  const MaxfileSize = 5000000;
 
   const [errors, setErrors] = useState({
     fatherQualification: false,
@@ -172,6 +174,18 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         {/* fatherPhoto */}
+        <Grid item xs={12} md={3}>
+          <SingleFile
+            ValidFileTypes={ValidFileTypes}
+            MaxfileSize={MaxfileSize}
+            FileName={form.fatherPhoto}
+            ChangeFile={handleInputChange}
+            FileLabel={'Father Photo'}
+            width={'100%'}
+            height={"52px"}
+            isMandatory={false}
+          />
+        </Grid>
 
 
         <Grid item xs={12} md={3}>
@@ -312,6 +326,18 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         {/* motherPhoto */}
+        <Grid item xs={12} md={3}>
+          <SingleFile
+            ValidFileTypes={ValidFileTypes}
+            MaxfileSize={MaxfileSize}
+            FileName={form.motherPhoto}
+            ChangeFile={handleInputChange}
+            FileLabel={'Mother Photo'}
+            width={'100%'}
+            height={"52px"}
+            isMandatory={true}
+          />
+        </Grid>
 
         <Grid item xs={12} md={3}>
           <TextField
@@ -384,6 +410,18 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         {/* localGuardianPhoto */}
+        <Grid item xs={12} md={3}>
+          <SingleFile
+            ValidFileTypes={ValidFileTypes}
+            MaxfileSize={MaxfileSize}
+            FileName={form.localGuardianPhoto}
+            ChangeFile={handleInputChange}
+            FileLabel={'Local Guadian Photo'}
+            width={'100%'}
+            height={"52px"}
+            isMandatory={true}
+          />
+        </Grid>
 
         <Grid item xs={12} md={3}>
           <TextField
@@ -427,7 +465,18 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         {/* familyPhoto */}
-
+        <Grid item xs={12} md={3}>
+          <SingleFile
+            ValidFileTypes={ValidFileTypes}
+            MaxfileSize={MaxfileSize}
+            FileName={form.familyPhoto}
+            ChangeFile={handleInputChange}
+            FileLabel={'Family Photo'}
+            width={'100%'}
+            height={"52px"}
+            isMandatory={true}
+          />
+        </Grid>
 
 
       </Grid>
