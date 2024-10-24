@@ -1,6 +1,6 @@
-import { Box, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
 import { useState } from 'react';
-
 
 const FamilyDetails = ({ onSave }) => {
 
@@ -91,6 +91,12 @@ const FamilyDetails = ({ onSave }) => {
     // Remove error when the user starts filling the field
     setErrors({ ...errors, [name]: false });
   };
+
+  const handleSave = () => {
+    // Call the onSave function passed as a prop
+    onSave(form);
+  };
+
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
       <Grid container spacing={2}>
@@ -425,9 +431,29 @@ const FamilyDetails = ({ onSave }) => {
 
 
       </Grid>
+
       <Typography variant="h4" color="initial" py={2}>
         Details of Brothers and Sister of the Student
       </Typography>
+
+      <Grid container spacing={2}>
+
+      </Grid>
+
+      <Grid item xs={12} pt={2} >
+        <Button
+          sx={{
+            color: '#38548A',
+            backgroundColor: grey[100],
+            '&:hover': {
+              color: '#38548A',
+              backgroundColor: blue[100]
+            }
+          }}
+          onClick={handleSave}>
+          Save And Next
+        </Button>
+      </Grid>
 
     </Box>
   );
