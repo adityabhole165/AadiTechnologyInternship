@@ -126,7 +126,7 @@ function StudentwiseProgressreportList({
                                         }
                                     </TableCell>
                                     <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
-                                        {item.EditStatus == "1" || Publishstatus == 'Y' ?
+                                        {item.EditStatus == "1" || Publishstatus == true ?
 
                                             <span></span>
                                             : <Tooltip title="Delete">

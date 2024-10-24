@@ -523,7 +523,7 @@ const Studentwiseprogressreport = () => {
                     ':hover': { backgroundColor: red[600] },
                     marginLeft: '0px',
                   }}
-                  disabled={ShowDeleteButton  == true  && IsPublished == false }
+                  disabled={ShowDeleteButton  == true  || IsPublished == true }
                   onClick={clickDeleteAlll}
                 >
                   <DeleteSweepIcon />
