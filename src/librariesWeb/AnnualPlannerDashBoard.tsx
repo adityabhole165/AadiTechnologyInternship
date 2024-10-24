@@ -222,7 +222,7 @@ function MyLeaveRequisitionAppraisal() {
                                         sx={{
                                             backgroundColor:
                                                 data.Status === 'Pending' ? '#ffa500' :
-                                                    data.Status === 'Submitted' ? '#ffd700' :
+                                                    data.Status === 'Submitted' ? '#f0e68c' :
                                                         undefined,
                                             color:
                                                 (data.Status === 'Pending' || data.Status === 'Submitted') ? 'white' :
