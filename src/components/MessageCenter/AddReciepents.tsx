@@ -1,4 +1,5 @@
-import { Box, Card, Chip, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, Chip, Grid, TextField, Typography } from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -26,6 +27,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [selectedRecipents, setSelectedRecipents] = useState(RecipientName || []);
   const [selectedRecipentsId, setSelectedRecipentsId] = useState(RecipientId || []);
   const [classId, setClassId] = useState([]);
@@ -404,6 +406,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+  const handleClick = () => {
+    navigate('/extended-sidebar/SMSCenter/ContactGroup'); // Replace with your desired route path
+  };
   return (
     <>
       <Box>
@@ -545,6 +550,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                   </Grid>
                 </Grid>
                 <Grid item xs={12} sm={6}>
+
                   {techerStudent1 === '3' && (
                     // <DropdownofAddrecipent
                     //   Array={getClass}
@@ -561,7 +567,23 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                       size={"small"}></DropdownofAddrecipent>
 
                   )}
+                  {techerStudent1 === '9' && (
+                    <Button
+                      sx={{
+                        color: '#38548A',
+                        backgroundColor: grey[100],
+                        m: 1,
+                        '&:hover': {
+                          color: '#38548A',
+                          backgroundColor: blue[100]
+                        }
+                      }}
+                      onClick={handleClick}
+                    >
+                      Create new/update Group
 
+                    </Button>
+                  )}
                   {Loading ? (
                     <SuspenseLoader />
                   ) : list.length === 0 ? (
