@@ -30,14 +30,14 @@ function StudentwiseProgressreportList({
     const clickHeader = (id) => {
         const updatedHeaderArray = HeaderArray.map((item) => {
             if (item.Id === id) {
-                // Toggle sort order between 'asc' and 'desc'
+              
                 const newSortOrder = item.SortOrder === ''? 'desc':'';
                 return {
                     ...item,
                     SortOrder: newSortOrder
                 };
             } else {
-                return { ...item, SortOrder: null }; // Reset other headers' sort order
+                return { ...item, SortOrder: null }; 
             }
         });
 
@@ -61,7 +61,7 @@ function StudentwiseProgressreportList({
                                     >
                                         <div style={{
                                             display: 'flex', alignItems: 'left', gap: 2,
-                                            justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'left'
+                                            justifyContent: item.Header ? 'flex-start ' : 'left'
                                         }}>
                                             <b>{item.Header}</b>
                                             {item.SortOrder !== null && item.Id !== 3 &&  item.Id !== 4 ? (
@@ -76,15 +76,16 @@ function StudentwiseProgressreportList({
                             {ItemList.map((item, i) => (
                                 <TableRow key={i} sx={{ height: '36px' }}
                                 >
-                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100, pl: 2, pr: 1 }}>
+                                   <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                         {item.RollNo}
                                     </TableCell>
 
-                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.3, minWidth: 20, maxWidth: 80, pl: 1, pr: 0.2 }}>
+
+                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                         <Typography noWrap>{item.StudentName}</Typography>
                                     </TableCell>
 
-                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100 }}>
+                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                         {item.EditStatus === "1" ? (
                                             <Tooltip title="Marks entry not started">
                                                 <EditOffIcon style={{ cursor: 'pointer' }}
@@ -124,7 +125,7 @@ function StudentwiseProgressreportList({
                                                 </Tooltip>) : null
                                         }
                                     </TableCell>
-                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100 }}>
+                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                         {item.EditStatus == "1" || Publishstatus == 'Y' ?
 
                                             <span></span>
