@@ -11,7 +11,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
 import {
-  IClassTeacherBody,
   IGetAllStudentTestprogressBody,
   IGetStudentNameListBody,
   IGetsingleStudentBody,
@@ -20,10 +19,11 @@ import {
 } from 'src/interfaces/VeiwResultAll/IViewResultAll';
 
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
+import { IClassTeacherListBody } from 'src/interfaces/FinalResult/IFinalResult';
 import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
+import { ClassTechersList } from 'src/requests/FinalResult/RequestFinalResult';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import {
-  ClassTechersListt,
   GetStudentResultList,
   GetsingleStudentResultVA,
   StudentNameList,
@@ -36,10 +36,12 @@ const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { StandardDivisionId } = useParams();
+  const StandardDivisionIdse = (
+    sessionStorage.getItem('StandardDivisionId')
+  );
   const TeacherId = (sessionStorage.getItem('TeacherId'));
-  const [selectTeacher, setSelectTeacher] = useState('')
+  const [selectTeacher, setSelectTeacher] = useState(StandardDivisionIdse)
   const [open, setOpen] = useState(false);
-  // console.log(TeacherId, " ----", selectTeacher);
   const [studentList, setStudentList] = useState();
   const [teacherList, setTeacherList] = useState([]);
   const ScreensAccessPermission = JSON.parse(sessionStorage.getItem('ScreensAccessPermission'));
@@ -60,13 +62,14 @@ const ViewResultAll = (props: Props) => {
   const Usunpublishedexam: any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
 
+  const GetClassTeachers = useSelector(
+    (state: RootState) => state.FinalResult.ClassTeachers
+  );
+
   const Data3 = SubjectDetailsView.filter((item) => item.Grade == "")
   const Data4 = SubjectDetailsView.filter((item) => item.Marks == "")
   const showOnlyGrades = USSStudentsingleResult.some((item) => item.ShowOnlyGrades.trim() === 'true');
-  // console.log(showOnlyGrades, "showgradeess");
   const totalconsidration = SubjectDetailsView.filter((item) => item.Total_Consideration === "N")
-  //console.log(totalconsidration, "totalconsidrationdddd");
-
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
 
   const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
@@ -76,10 +79,18 @@ const ViewResultAll = (props: Props) => {
       setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
   }, [UsGetSchoolSettings])
 
-  const ClassTeachersBody: IClassTeacherBody = {
-    asSchoolId,
-    asAcademicYearId,
+  // const ClassTeachersBody: IClassTeacherBody = {
+  //   asSchoolId,
+  //   asAcademicYearId,
+  // };
+
+
+  const ClassTeachersNewBody: IClassTeacherListBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asTeacherId: TeacherId
   };
+
 
   const GetSchoolSettings: GetSchoolSettingsBody = {
     asSchoolId: Number(asSchoolId),
@@ -135,7 +146,6 @@ const ViewResultAll = (props: Props) => {
 
   const clickSelectClass = (value) => {
     setSelectTeacher(value);
-    console.log(value, selectTeacher, 'value')
   };
 
   const clickStudentList = (value) => {
@@ -147,8 +157,11 @@ const ViewResultAll = (props: Props) => {
     setOpen(true)
   }
 
+  // useEffect(() => {
+  //   dispatch(ClassTechersListt(ClassTeachersBody));
+  // }, []);
   useEffect(() => {
-    dispatch(ClassTechersListt(ClassTeachersBody));
+    dispatch(ClassTechersList(ClassTeachersNewBody));
   }, []);
 
   useEffect(() => {
@@ -168,10 +181,10 @@ const ViewResultAll = (props: Props) => {
       setSelectTeacher(StandardDivisionId)
   }, [USStudentListDropDown]);
 
-  
 
 
-  
+
+
 
 
   useEffect(() => {
@@ -190,7 +203,6 @@ const ViewResultAll = (props: Props) => {
     });
     return perm;
   };
-  //console.log("GetScreenPermission", GetScreenPermission())
 
   const getStudentName = () => {
     let classStudentName = '';
@@ -215,9 +227,7 @@ const ViewResultAll = (props: Props) => {
     setTeacherList(classTeacherList)
     // }
   };
-  console.log(teacherList, 'teacherList')
   const isgenrate = getStudentName()
-  console.log(isgenrate, "genrate");
 
   const clickPrint = () => {
     window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
@@ -229,6 +239,14 @@ const ViewResultAll = (props: Props) => {
       setTeacherList(USClassTeachers);
     getClassTeacherName();
   }, [USClassTeachers])
+
+
+  useEffect(() => {
+    if (teacherList != null) {
+      if (teacherList.length > 0)
+        setSelectTeacher(teacherList[0].Id)
+    }
+  }, [teacherList]);
 
   return (
     <Box sx={{ px: 2 }}>
@@ -250,14 +268,14 @@ const ViewResultAll = (props: Props) => {
                 minWidth: '20vw'
                 , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
               }}
-              ItemList={teacherList}
+              ItemList={GetClassTeachers}
               onChange={clickSelectClass}
               defaultValue={selectTeacher}
               size="small"
               label="Class Teacher"
               DisableClearable={GetScreenPermission() === 'N'}
               mandatory
-              disabled={teacherList.length === 1}
+              disabled={GetClassTeachers.length === 2}
             />
           </Box>
 
