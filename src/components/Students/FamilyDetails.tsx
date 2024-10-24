@@ -217,9 +217,14 @@ const FamilyDetails = ({ onSave }) => {
             name="fatherWeight"
             label="Father Weight (Kg)"
             variant="outlined"
+            type='number'
             value={form.fatherWeight}
             onChange={handleInputChange}
             fullWidth
+            inputProps={{
+              min: 0,
+              step: "0.1"
+            }}
           />
         </Grid>
 
@@ -228,9 +233,14 @@ const FamilyDetails = ({ onSave }) => {
             name="fatherHeight"
             label="Father Height (Cm)"
             variant="outlined"
+            type='number'
             value={form.fatherHeight}
             onChange={handleInputChange}
             fullWidth
+            inputProps={{
+              min: 0,
+              step: "0.1"
+            }}
           />
         </Grid>
 
@@ -368,9 +378,14 @@ const FamilyDetails = ({ onSave }) => {
             name="motherWeight"
             label="Mother Weight (Kg)"
             variant="outlined"
+            type='number'
             value={form.motherWeight}
             onChange={handleInputChange}
             fullWidth
+            inputProps={{
+              min: 0,
+              step: "0.1"
+            }}
           />
         </Grid>
 
@@ -379,9 +394,14 @@ const FamilyDetails = ({ onSave }) => {
             name="motherHeight"
             label="Mother Height (Cm)"
             variant="outlined"
+            type='number'
             value={form.motherHeight}
             onChange={handleInputChange}
             fullWidth
+            inputProps={{
+              min: 0,
+              step: "0.1"
+            }}
           />
         </Grid>
 
