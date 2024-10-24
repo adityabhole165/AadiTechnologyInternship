@@ -96,7 +96,7 @@ const StudentRegistrationForm = () => {
             </Box>
 
 
-            <Box sx={{ pl: 10, backgroundColor: 'white', minHeight: '100px' }}>
+            <Box sx={{ pl: 6, backgroundColor: 'white', minHeight: '100px' }}>
                 <Tabs
                     value={currentTab}
                     onChange={handleTabChange}
@@ -141,7 +141,7 @@ const StudentRegistrationForm = () => {
                 </Tabs>
             </Box>
 
-            <Box >
+            <Box>
                 {currentTab === 0 && (
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
