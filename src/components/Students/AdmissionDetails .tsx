@@ -43,7 +43,7 @@ const AdmissionDetails = ({
     joiningDate: false,
     studentRollNumber: false,
     rteCategory: false,
-    rteApplicationForm: false,
+    rteApplicationForm: false
   });
 
   const [message, setMessage] = useState('');
@@ -371,7 +371,6 @@ const AdmissionDetails = ({
             variant="outlined"
             value={form.PENNumber}
             onChange={handleInputChange}
-
             fullWidth
           />
         </Grid>
@@ -537,7 +536,18 @@ const AdmissionDetails = ({
             label="Is For Day Boarding?"
           />
         </Grid>
-
+        <Grid item xs={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="isHandicapped"
+                checked={form.newAdmission}
+                onChange={handleInputChange}
+              />
+            }
+            label="Is Handicapped?"
+          />
+        </Grid>
         <Grid item xs={3}>
           <FormControlLabel
             control={
@@ -552,7 +562,12 @@ const AdmissionDetails = ({
         </Grid>
       </Grid>
 
-      <Grid item xs={12} pt={2}>
+      <Grid
+        item
+        xs={12}
+        pt={2}
+        sx={{ display: 'flex', justifyContent: 'flex-end' }}
+      >
         <Button
           sx={{
             color: '#38548A',
