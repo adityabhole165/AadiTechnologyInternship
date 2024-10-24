@@ -107,7 +107,13 @@ function Card6() {
 
         }}
       >
-        <Card sx={{ background: '#c0c0c0', borderRadius: '7px' }}>
+        <Card
+          sx={{
+            background: 'linear-gradient(to bottom, #dbeafe,#bfdbfe, #93c5fd, #60a5fa)', // Faint yellow to dark yellow
+            borderRadius: '7px',
+            padding: '20px',
+            color: '#000',
+          }}>
           <Box
             sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
