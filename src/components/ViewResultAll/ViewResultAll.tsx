@@ -37,7 +37,7 @@ const ViewResultAll = (props: Props) => {
   const dispatch = useDispatch();
   const { StandardDivisionId } = useParams();
   const TeacherId = (sessionStorage.getItem('TeacherId'));
-  const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '')
+  const [selectTeacher, setSelectTeacher] = useState('')
   const [open, setOpen] = useState(false);
   // console.log(TeacherId, " ----", selectTeacher);
   const [studentList, setStudentList] = useState();
@@ -87,9 +87,9 @@ const ViewResultAll = (props: Props) => {
 
 
   const StudentListDropDowntBody: IGetStudentNameListBody = {
-    asSchoolId,
-    asAcademicYearId,
-    asStandardDivisionId,
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: Number(selectTeacher),
   };
 
   const StudentResultBody: IGetAllStudentTestprogressBody = {
@@ -153,12 +153,26 @@ const ViewResultAll = (props: Props) => {
 
   useEffect(() => {
     dispatch(StudentNameList(StudentListDropDowntBody));
-  }, [dispatch]);
+  }, [selectTeacher]);
+
+
   useEffect(() => {
     //dispatch(StudentNameList(StudentListDropDowntBody));
     if (USStudentListDropDown.length > 0)
       setStudentList(USStudentListDropDown[0].Id)
   }, [USStudentListDropDown]);
+
+
+  useEffect(() => {
+    if (StandardDivisionId !== undefined && teacherList.length === 1)
+      setSelectTeacher(StandardDivisionId)
+  }, [USStudentListDropDown]);
+
+  
+
+
+  
+
 
   useEffect(() => {
     dispatch(GetStudentResultList(StudentResultBody));
@@ -189,7 +203,7 @@ const ViewResultAll = (props: Props) => {
   let classTeacherList = [];
   const getClassTeacherName = () => {
     USClassTeachers.map((item) => {
-      if (item.Value == TeacherId) {
+      if (item.TeacherId == TeacherId) {
         classTeacherList.push({
           Id: item.Id,
           Value: item.Value,

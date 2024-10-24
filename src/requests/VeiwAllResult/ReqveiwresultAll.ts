@@ -91,11 +91,13 @@ export const ClassTechersListt =
     (data: IClassTeacherBody): AppThunk =>
         async (dispatch) => {
             const response = await VeiwResultAll.ClassTeacherList(data);
+
             let ClassTeacherList = response.data.map((item, i) => {
                 return {
                     Id: item.Teacher_Id,
                     Name: item.TeacherName,
-                    Value: item.Teacher_Id
+                    Value: item.StdDivId,
+                    TeacherId: item.Teacher_Id
                 };
             });
             dispatch(VeiwResultSlice.actions.classTeacherList(ClassTeacherList));
