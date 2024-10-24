@@ -1,5 +1,6 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { blue, grey, red } from '@mui/material/colors';
 import { useState } from 'react';
 import SingleFile from 'src/libraries/File/SingleFile';
 
@@ -14,11 +15,11 @@ const FamilyDetails = ({ onSave }) => {
     fatherDesignation: '',
     fatherDOB: '',
     fatherPhoto: '',
-    fatherWeight: '',
-    fatherHeight: '',
+    fatherWeight: 0,
+    fatherHeight: 0,
     fatherBloodGroup: '',
     fatherAadharCard: '',
-    fatherAnnualIncome: '',
+    fatherAnnualIncome: 0,
 
     // Mother's Information
     motherOccupation: '',
@@ -29,21 +30,25 @@ const FamilyDetails = ({ onSave }) => {
     motherDesignation: '',
     motherDOB: '',
     motherPhoto: '',
-    motherWeight: '',
-    motherHeight: '',
+    motherWeight: 0,
+    motherHeight: 0,
     motherAadharCard: '',
     motherBloodGroup: '',
-    motherAnnualIncome: '',
+    motherAnnualIncome: 0,
 
     // Family Information
     marriageAnniversaryDate: '',
     localGuardianPhoto: '',
-    familyMonthlyIncome: '',
+    familyMonthlyIncome: 0.00,
     cwsn: '',
     relativeFullName: '',
     residencePhoneNumber: '',
     familyPhoto: ''
   });
+  const [siblings, setSiblings] = useState([
+    { name: '', age: 0, institution: '', standard: '' }
+  ]);
+
   const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
   const MaxfileSize = 5000000;
 
@@ -92,6 +97,25 @@ const FamilyDetails = ({ onSave }) => {
 
     // Remove error when the user starts filling the field
     setErrors({ ...errors, [name]: false });
+  };
+
+  const handleAddSibling = () => {
+    setSiblings([...siblings, { name: '', age: 0, institution: '', standard: '' }]);
+  };
+
+  const handleRemoveSibling = (index) => {
+    const newSiblings = siblings.filter((_, i) => i !== index);
+    setSiblings(newSiblings);
+  };
+
+  const handleChange = (index, field, value) => {
+    const newSiblings = siblings.map((sibling, i) => {
+      if (i === index) {
+        return { ...sibling, [field]: value };
+      }
+      return sibling;
+    });
+    setSiblings(newSiblings);
   };
 
   const handleSave = () => {
@@ -193,9 +217,14 @@ const FamilyDetails = ({ onSave }) => {
             name="fatherWeight"
             label="Father Weight (Kg)"
             variant="outlined"
+            type='number'
             value={form.fatherWeight}
             onChange={handleInputChange}
             fullWidth
+            inputProps={{
+              min: 0,
+              step: "0.1"
+            }}
           />
         </Grid>
 
@@ -204,9 +233,14 @@ const FamilyDetails = ({ onSave }) => {
             name="fatherHeight"
             label="Father Height (Cm)"
             variant="outlined"
+            type='number'
             value={form.fatherHeight}
             onChange={handleInputChange}
             fullWidth
+            inputProps={{
+              min: 0,
+              step: "0.1"
+            }}
           />
         </Grid>
 
@@ -335,7 +369,7 @@ const FamilyDetails = ({ onSave }) => {
             FileLabel={'Mother Photo'}
             width={'100%'}
             height={"52px"}
-            isMandatory={true}
+            isMandatory={false}
           />
         </Grid>
 
@@ -344,9 +378,14 @@ const FamilyDetails = ({ onSave }) => {
             name="motherWeight"
             label="Mother Weight (Kg)"
             variant="outlined"
+            type='number'
             value={form.motherWeight}
             onChange={handleInputChange}
             fullWidth
+            inputProps={{
+              min: 0,
+              step: "0.1"
+            }}
           />
         </Grid>
 
@@ -355,9 +394,14 @@ const FamilyDetails = ({ onSave }) => {
             name="motherHeight"
             label="Mother Height (Cm)"
             variant="outlined"
+            type='number'
             value={form.motherHeight}
             onChange={handleInputChange}
             fullWidth
+            inputProps={{
+              min: 0,
+              step: "0.1"
+            }}
           />
         </Grid>
 
@@ -419,7 +463,7 @@ const FamilyDetails = ({ onSave }) => {
             FileLabel={'Local Guadian Photo'}
             width={'100%'}
             height={"52px"}
-            isMandatory={true}
+            isMandatory={false}
           />
         </Grid>
 
@@ -474,21 +518,103 @@ const FamilyDetails = ({ onSave }) => {
             FileLabel={'Family Photo'}
             width={'100%'}
             height={"52px"}
-            isMandatory={true}
+            isMandatory={false}
           />
         </Grid>
 
-
       </Grid>
 
-      <Typography variant="h4" color="initial" py={2}>
-        Details of Brothers and Sister of the Student
-      </Typography>
+      {/* Sibling Details */}
+      <Typography variant="h4" color="initial" py={2}>Details of Brothers and Sisters of the Student</Typography>
 
-      <Grid container spacing={2}>
 
+      {siblings.map((sibling, index) => (
+        <Grid container spacing={2} sx={{ pb: 2 }} >
+
+          <Grid item xs={12} md={3}>
+            <TextField
+              name="name"
+              label="Name"
+              variant="outlined"
+              value={sibling.name}
+              onChange={(e) => handleChange(index, 'name', e.target.value)}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={2.5}>
+            <TextField
+              name="name"
+              label="Age"
+              variant="outlined"
+              value={sibling.age}
+              onChange={(e) => handleChange(index, 'age', parseInt(e.target.value) || 0)}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={3}>
+            <TextField
+              name="institution"
+              label="Institution"
+              variant="outlined"
+              value={sibling.institution}
+              onChange={(e) => handleChange(index, 'institution', e.target.value)}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={3}>
+            <TextField
+              name="standard"
+              label="Standard"
+              variant="outlined"
+              value={sibling.standard}
+              onChange={(e) => handleChange(index, 'standard', e.target.value)}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={.5}>
+            {siblings.length > 1 && (
+              <Tooltip title={"Delete"}>
+                <IconButton
+                  onClick={() => handleRemoveSibling(index)}
+                  sx={{
+                    color: '#223354',
+                    mt: 0.7,
+                    '&:hover': {
+                      color: 'red',
+                      backgroundColor: red[100]
+                    }
+                  }}
+                >
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+          </Grid>
+
+        </Grid>
+      ))}
+
+      <Grid item xs={12} pt={2} >
+        <Button
+          sx={{
+            color: '#38548A',
+            backgroundColor: grey[100],
+            '&:hover': {
+              color: '#38548A',
+              backgroundColor: blue[100]
+            }
+          }}
+          onClick={handleAddSibling}>
+          Add Sibling
+        </Button>
       </Grid>
 
+
+      {/* Save & Next Button */}
       <Grid item xs={12} pt={2} >
         <Button
           sx={{
