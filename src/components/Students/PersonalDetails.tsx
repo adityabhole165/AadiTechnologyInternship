@@ -5,7 +5,7 @@ import { red } from '@mui/material/colors';
 import { User } from 'lucide-react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import SingleFile2 from 'src/libraries/File/SingleFile2';
+import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { RootState } from 'src/store';
 const PersonalDetails = ({ onSave }) => {
@@ -42,8 +42,8 @@ const PersonalDetails = ({ onSave }) => {
         photo: null, // This will store the file object
     });
 
-    const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
-    const MaxfileSize2 = 10000000;
+    const ValidFileTypes = ["BMP", "JPG", "JPEG"];
+    const MaxfileSize = 5000000;
 
     const ChangeFile = (value) => {
         setForm(value.name);
@@ -560,14 +560,13 @@ const PersonalDetails = ({ onSave }) => {
                     </Grid>
                 )}
 
-                <Grid item xs={12} md={2.1} >
-                    <SingleFile2
-                        ValidFileTypes={ValidFileTypes2}
-                        MaxfileSize={MaxfileSize2}
-                        ChangeFile={ChangeFile}
-                        errorMessage={''}
+                <Grid item xs={12} md={3} >
+                    <SingleFile
+                        ValidFileTypes={ValidFileTypes}
+                        MaxfileSize={MaxfileSize}
                         FileName={form.aadharCardScanCopy}
-                        FileLabel={'Select'}
+                        ChangeFile={handleInputChange}
+                        FileLabel={'Asdhar Card'}
                         width={'100%'}
                         height={"52px"}
                         isMandatory={false}
