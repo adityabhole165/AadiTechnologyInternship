@@ -285,17 +285,21 @@ const GenerateAll = ({ }) => {
                         <Box sx={{ mt: 2, background: 'white' }}>
                             <Box>
                                 <hr />
-                                <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
-                                    Pawar Public Charitable Trust's
-                                </Typography>
-                                <hr />
-                                <Typography variant={"h3"} textAlign={'center'} color={"black"} >
-                                    PAWAR PUBLIC SCHOOL
-                                </Typography>
-                                <hr />
-                                <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
-                                    Final Result
-                                </Typography>
+                                {ViewProgress.length > 0 && (
+                                    <>
+                                        <Typography variant="h4" textAlign={'center'} color={'primary'} mb={1}>
+                                            {ViewProgress[0].Text7}
+                                        </Typography>
+                                        <hr />
+                                        <Typography variant="h3" textAlign={'center'} color={'black'} mb={1}>
+                                            {ViewProgress[0].Text6}
+                                        </Typography>
+                                        <hr />
+                                        <Typography variant="h4" textAlign={'center'} color={'black'} pb={1}>
+                                            Final Result
+                                        </Typography>
+                                    </>
+                                )}
 
                                 <Table>
                                     <TableBody>
