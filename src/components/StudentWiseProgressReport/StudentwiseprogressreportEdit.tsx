@@ -477,7 +477,7 @@ const StudentwiseprogressreportEdit = () => {
                             sx={{ minWidth: '15vw' }}
                             ItemList={USAssessmentDrop}
                             onChange={clickAssessmentId}
-                            label={'Assessment:'}
+                            label={'Assessment'}
                             defaultValue={AssessmentId}
                             size={"small"}
                         />
@@ -607,7 +607,7 @@ const StudentwiseprogressreportEdit = () => {
                         {USFillStudentDetails.map((detail) => (
                             <TableRow sx={{ bgcolor: '#38548A' }}>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No :  {detail.RollNo} </b></TableCell>
-                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name:  {detail.StudentName} </b></TableCell>
+                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name :  {detail.StudentName} </b></TableCell>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class :  {detail.Class} </b></TableCell>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year :  {detail.AcademicYear} </b></TableCell>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Assessment : {detail.Assessment} </b></TableCell>
