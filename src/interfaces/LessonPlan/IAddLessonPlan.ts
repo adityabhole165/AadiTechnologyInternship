@@ -80,7 +80,10 @@ export interface IAddOrEditLessonPlanDetailsResult {
   GetStandardDivisionIds: [{
     StandardDivisionIds: string
   }],
-  GetLessonPlanPhrasesList: []
+  GetLessonPlanPhrasesList: [{
+    Title: string,
+    IsPhrase: string
+  }]
 }
 export interface ISaveLessonPlanBody {
   asSchoolId: number;
