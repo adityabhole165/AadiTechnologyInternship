@@ -263,4 +263,110 @@ export interface IApprovalProcessResult {
   ],
 }
 
+export interface IProfileBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asTeacherID: number;
+  asUserId: number;
+}
+
+export interface IProfileResult {
+  TeacherPersonalDetails: {
+    Teacher_Id: number;
+    User_Id: number;
+    School_Id: number;
+    Teacher_First_Name: string;
+    Teacher_Middle_Name: string;
+    Teacher_Last_Name: string;
+    Teacher_Designation_Name: string;
+    Local_Address: string;
+    Local_City: string;
+    Local_Pincode: string;
+    Local_State: string;
+    Permanent_Address: string;
+    Permanent_City: string;
+    Permanent_Pincode: string;
+    Permanent_State: string;
+    Phone_Number: string;
+    Mobile_Number: string;
+    Date_of_Birth: string;
+    Nationality: string;
+    Salutation_Id: number;
+    Is_LocalAddress: string;
+    Is_Temporary: number;
+    GradePay: number;
+    Exprince_In_Years: number;
+    Exprince_In_Months: number;
+    Achivements: string;
+    Religion_Id: number;
+    Category_Id: number;
+    Designation_Id: number;
+    Caste_SubCaste: string;
+    Salutation_Name: string;
+    Category_Name: string;
+    Religion_Name: string;
+    Date_of_Retirement: string;
+    EmergencyContactNumber: string;
+    IsInternalUser: boolean;
+    AssociatedStandardCategory: number;
+    TypeId: number;
+  },
+  TeacherEducationDetails: [
+    {
+      Qualification_Id: number;
+      Qualification_Name: string;
+      Specialization: string;
+      Year_Of_Passing: number;
+      Passing_University: string;
+      Class_Id: number;
+      Class_Name: string;
+    }
+  ],
+  SubjectDetails: [
+    {
+      Subject_Id: number;
+      Original_Subject_Id: number;
+      Teacher_Id: number;
+      Subject_Name: string;
+      Teacher_Subject_Id: number;
+    }
+  ],
+  StandardDetails: [
+    {
+      Standard_Id: number;
+      Original_Standard_Id: number;
+      Teacher_Id: number;
+      Standard_Name: string;
+      Teacher_Standard_Id: number;
+    }
+  ],
+  TeacherLoginDetails: {
+    User_Login: string;
+    User_Password: string;
+    Email_Address: string;
+    CanApproveRequisition: string;
+    CanCreateGeneralRequisition: string;
+    CanSanctionLeave: string;
+    CanCreateVoucher: boolean;
+    CanApproveVoucher: boolean;
+    CanSelfApprove: boolean;
+    CanDeleteVoucher: boolean;
+    CanEditOldFinancialYear: boolean;
+    CanPublishUnpublishExam: boolean;
+    ShowAllSentSMS: boolean;
+  },
+  GetTopRequisitionDetails: [],
+  EmployeeDetails: [
+    {
+      PanNo: string;
+      JoiningDate: string;
+      PermanentDate: string;
+      ResignationDate: string;
+      PanAttachment: string;
+      StaffStatusId: string;
+      StatusName: string;
+    }
+  ]
+}
+
 

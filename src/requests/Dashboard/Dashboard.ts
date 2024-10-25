@@ -8,6 +8,7 @@ import {
   IMsgfrom,
   INewMessageCount,
   IPhotoAlbumBody,
+  IProfileBody,
   ISaveUserLoginDetailsBody,
   IUnreadMessages,
   IUpcomingEventsList,
@@ -34,6 +35,10 @@ const Dashboardlice = createSlice({
     IsMyLeaveList: [],
     IsMyRequisitionList: [],
     IsMyAppraisal: [],
+    IsPermanentAddress: '',
+    IsEmailAddress: '',
+    IsSUbjectDetails: '',
+    IsStandardDetails: '',
     Loading: true,
     UserLoginDetails: null
   },
@@ -105,7 +110,19 @@ const Dashboardlice = createSlice({
     },
     Rresetphotolist1(state) {
       state.PhotoAlbumList1 = [];
-    }
+    },
+    RGetPermanentAddress(state, action) {
+      state.IsPermanentAddress = action.payload;
+    },
+    RGetEmailAddress(state, action) {
+      state.IsEmailAddress = action.payload;
+    },
+    RGetSUbjectDetails(state, action) {
+      state.IsSUbjectDetails = action.payload;
+    },
+    RGetStandardDetails(state, action) {
+      state.IsStandardDetails = action.payload;
+    },
   }
 });
 
@@ -308,4 +325,26 @@ export const GetLeaveRequisitionAppraisalDetails =
     };
 
 
+export const GetProfileDetails =
+  (data: IProfileBody): AppThunk =>
+    async (dispatch) => {
+      const response = await DashboardApi.ApiProfileDetails(data);
+      const GetPersonalAddress = response.data.TeacherPersonalDetails.Permanent_Address
+      dispatch(Dashboardlice.actions.RGetPermanentAddress(GetPersonalAddress));
+
+      const GetEmailAddress = response.data.TeacherLoginDetails.Email_Address
+      dispatch(Dashboardlice.actions.RGetEmailAddress(GetEmailAddress));
+
+      const GetSubjectDetails = response.data.SubjectDetails
+        .filter((item) => item.Teacher_Id === data.asTeacherID)
+        .map((item) => item.Subject_Name)
+        .join(', ');
+      dispatch(Dashboardlice.actions.RGetSUbjectDetails(GetSubjectDetails));
+
+      const standardNames = response.data.StandardDetails
+        .filter((item) => item.Teacher_Id === data.asTeacherID)
+        .map((item) => item.Standard_Name)
+        .join(', ');
+      dispatch(Dashboardlice.actions.RGetStandardDetails(standardNames));
+    };
 export default Dashboardlice.reducer;
