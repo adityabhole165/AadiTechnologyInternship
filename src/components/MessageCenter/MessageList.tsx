@@ -1,4 +1,6 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -518,6 +520,31 @@ const MessageList = () => {
       setdisplayMoveToTop('none');
     }, 10);
   };
+  const scrollToBottom = () => {
+    const div = scrollableDivRefference;
+    scrollableDivRefference.scrollTo({ top: div.scrollHeight, behavior: 'smooth' });
+    refreshList()
+  };
+  const refreshList = () => {
+    const getListBody: IgetList = {
+      asSchoolId: SchoolId,
+      asAcademicYearId: academicYear,
+      asUserId: sessionStorage.getItem('Id'),
+      asUserRoleId: sessionStorage.getItem('RoleId'),
+      abIsSMSCenter: '0',
+      asFilter: searchText,
+      asPageIndex: pageIndex,
+      asMonthId: monthYear,
+      asOperator: operator,
+      asDate: searchDate,
+      asSortExp: SortExp,
+      asSortDirection: SortDirection
+    };
+
+    dispatch(getListOfMessages(getListBody, activeTab, true));
+
+    pageIndexIncrement();
+  }
   const clickClear = () => {
     localStorage.setItem('ViewMessageData', '');
   };
@@ -843,45 +870,30 @@ const MessageList = () => {
                     )}
                   </div>
                 )}
-                {/* <Box>
-                <Avatar
+                <Box
                   sx={{
-                    display: displayMoveToTop,
-                    position: 'fixed',
-                    bottom: '150px',
-                    zIndex: '4',
-                    left: '15px',
-                    p: '2px',
-                    width: 50,
-                    height: 50,
-                    backgroundColor: 'white',
-                    boxShadow:
-                      '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
-                  }}
-                  onClick={MoveToTop} // Close function
-                >
-                  <KeyboardArrowUpRoundedIcon
-                    fontSize="large"
-                    color="success"
-                  /></Avatar>
-                  <Avatar sx={{
-                    display: displayMoveToTop,
+                    isplay: displayMoveToTop,
                     position: 'fixed',
                     bottom: '95px',
-                    zIndex: '4',
+                    zIndex: '1',
                     left: '15px',
-                    p: '2px',
+                    p: '1px',
                     width: 50,
-                    height: 50,
+                    height: 80,
                     backgroundColor: 'white',
-                    boxShadow:
-                      '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+                    m: 2,
+                    textAlign: 'center',
+                    boxShadow: '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 1) !important',
+                    borderRadius: '15px'
+                    // boxShadow:
+                    // '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
                   }}>
-                  <KeyboardArrowDownIcon  fontSize="large"
-                  color="success"></KeyboardArrowDownIcon>
-                  </Avatar>
-                
-                </Box> */}
+                  <KeyboardArrowUpRoundedIcon onClick={MoveToTop} fontSize="large"
+                    color="success" />
+
+                  <KeyboardArrowDownIcon onClick={scrollToBottom} fontSize="large"
+                    color="success" />
+                </Box>
                 {/* <Box
                    sx={{
                     isplay: displayMoveToTop,
