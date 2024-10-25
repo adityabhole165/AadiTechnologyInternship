@@ -105,6 +105,9 @@ const AddLessonPlan = () => {
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
   const GetEnableButtonList: any = useSelector((state: RootState) => state.addlessonplan.GetEnableButtonList);
+  const LessonPlanPhrasesList: any = useSelector((state: RootState) => state.addlessonplan.GetLessonPlanPhrasesList);
+  console.log(LessonPlanPhrasesList, "LessonPlanPhrasesList");
+
   const Loading = useSelector((state: RootState) => state.addlessonplan.Loading);
 
   // const EnableSaveButton = GetEnableButtonList.EnableSaveButton;
@@ -269,6 +272,9 @@ const AddLessonPlan = () => {
   };
   const onSelectEndDate = (value) => {
     setEndDate(value);
+  };
+  const onsentence = (value) => {
+    setSentences(value);
   };
   const onClickClass = (value) => {
 
@@ -862,9 +868,11 @@ const AddLessonPlan = () => {
               onChange={onClickClass}
             />
           </Grid>
-          {asSchoolId === 71 && (
+          {LessonPlanPhrasesList.length !== 0 && (
             <>
+
               <Grid item xs={6}>
+
                 <ResizableTextField
                   label={
                     <>
@@ -873,11 +881,11 @@ const AddLessonPlan = () => {
                   }
                   multiline
                   rows={3}
-                  value={Word}
-                  onChange={(e) => setWord(e.target.value)}
+                  value={LessonPlanPhrasesList.text1}
+
                   fullWidth
                   InputProps={{
-                    readOnly: false,
+                    readOnly: true,
                   }}
                 />
               </Grid>
@@ -891,7 +899,7 @@ const AddLessonPlan = () => {
                   multiline
                   rows={3}
                   value={Sentences}
-                  onChange={(e) => setSentences(e.target.value)}
+                  onChange={onsentence}
                   fullWidth
                   InputProps={{
                     readOnly: false,
