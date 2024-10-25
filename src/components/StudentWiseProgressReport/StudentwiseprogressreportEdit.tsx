@@ -22,6 +22,7 @@ import { CDAAssessmentDropdown } from 'src/requests/StudentWiseProgressReport/Re
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import CommonPageHeader from '../CommonPageHeader';
+import { ResizableTextField1 } from './ResizableTextField1';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -817,19 +818,18 @@ const StudentwiseprogressreportEdit = () => {
 
                                             <TableCell sx={{
                                                 textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                                py: 1
+                                                py: 1, width: '100%',
                                             }}>
-                                                <ResizableTextField
-                                                    rows={3}
+                                                <ResizableTextField1
+                                                    rows={1}
                                                     value={row.Observation}
 
                                                     fullWidth
                                                     sx={{
-                                                        resize: 'both',
+                                                        
                                                         width: '100%',
                                                     }}
                                                 />
-
                                             </TableCell>
                                         </TableRow>
                                     ))}
