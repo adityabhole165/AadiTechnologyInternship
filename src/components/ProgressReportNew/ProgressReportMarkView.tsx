@@ -37,16 +37,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
     // Track if there is any parent subject
     const hasParentSubjects = HeaderArray.some(item => item.ParentSubjectId !== "0");
     function showParentColumns() {
-
     }
-    if (EntireDataList.length > 0) {
-        console.log('✨ EntireDataList >>>', EntireDataList);
-    }
-
-    console.log('✨ HeaderParent', HeaderParent);
-    console.log('✨ SubHeaderArray', SubHeaderArray);
-    console.log('✨ MarkDetailsList', MarkDetailsList);
-
     return (
         <Box>
             <Table>
@@ -62,7 +53,6 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                         &#9660; Exam
                                     </Typography>
                                 </TableCell>
-
                                 {HeaderParent.map((item, index) => (
                                     <TableCell
                                         key={index}
@@ -78,15 +68,14 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                         </Typography>
                                     </TableCell>
                                 ))}
-
                             </TableRow>
-
                             <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                                 {HeaderArray.map((item, index) => (
                                     <>
                                         {index > 0 && HeaderArray[index - 1].ParentSubjectId !== "0" && item.ParentSubjectId === '0' && (
                                             <>
-                                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && ListTestTypeIdDetails?.map((item, i) => {
+                                            {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
+                                                {ListTestTypeIdDetails?.map((item, i) => {
                                                     return (
                                                         <TableCell key={i} rowSpan={2} >  <Typography color="#38548A" textAlign={'center'} mr={5}>Total {item.Text2}</Typography></TableCell>
                                                     )
@@ -124,10 +113,8 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                         </TableCell>
                                     </>}
                             </TableRow>
-
                         </>
                     )}
-
                     {HeaderParent.length <= 1 && (
                         <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                             <TableCell rowSpan={2}>
@@ -199,3 +186,45 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
 };
 
 export default ProgressReportMarkView;
+
+
+// function findRow2() {
+//     return data.listSubjectsDetails.map((item) => {
+//         if (item.Parent_Subject_Id === '0') { // Handle undefined or empty Parent_Subject_Id
+//             return { ...item, Subject_Name: '', rowSpan: 1, colSpan: 4 };
+//         } else {
+//             return { ...item, rowSpan: 1, colSpan: 4 };
+//         }
+//     });
+// }
+
+// function findRow1() {
+//     let ParentSubArr = [];
+    
+//     return data.listSubjectsDetails.map((item) => {
+//         if (item.Parent_Subject_Id === '0') { // For top-level subjects
+//             return { ...item, rowSpan: 2, colSpan: 4 };
+//         } else if (!ParentSubArr.includes(item.Parent_Subject_Id)) { // For child subjects with unique Parent_Subject_Id
+//             ParentSubArr.push(item.Parent_Subject_Id);
+//             return { 
+//                 ...item, 
+//                 Subject_Name: findName(item.Parent_Subject_Id), 
+//                 rowSpan: 1, 
+//                 colSpan: 16 
+//             };
+//         }
+//         return item; // Return the unchanged item if it's already processed
+//     });
+// }
+
+// function findName(Id) {
+//     // Safeguard: Check if data.listTestIdDetails exists and filter properly
+//     if (!Array.isArray(data.listTestIdDetails)) return 'No Name Available';
+
+//     const list1 = data.listTestIdDetails.filter((item) => item.Parent_Subject_Id === Id);
+    
+//     if (list1.length >= 1 && list1[0].Parent_Subject_Name) {
+//         return list1[0].Parent_Subject_Name; // Return the found Parent_Subject_Name
+//     }
+//     return 'No Name Available'; // Fallback if no valid name is found
+// }
