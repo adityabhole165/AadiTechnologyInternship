@@ -1,6 +1,6 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, Button, Grid, IconButton, MenuItem, TextField, Tooltip } from '@mui/material';
+import { Alert, Box, Button, Grid, IconButton, MenuItem, TextField, Tooltip, } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { User } from 'lucide-react';
 import { useRef, useState } from 'react';
@@ -53,38 +53,23 @@ const PersonalDetails = ({ onSave }) => {
 
     const [errors, setErrors] = useState({
         firstName: false,
-        middleName: false,
-        lastName: false,
         motherName: false,
         motherNumber: false,
         parentName: false,
-        fatherNumber: false,
         email: false,
-        parentOccupation: false,
         address: false,
         city: false,
         state: false,
         pin: false,
         placeOfBirth: false,
-        birthTaluka: false,
-        birthDistrict: false,
-        birthState: false,
-        neighbourPhoneNumber: false,
-        religion: false,
         casteAndSubCaste: false,
-        category: false,
         dateOfBirth: false,
         nationality: false,
         motherTongue: false,
-        gender: false,
-        bloodGroup: false,
-        aadharCardNumber: false,
-        nameOnAadharCard: false,
-        aadharCardScanCopy: false, // This will store the file object
-        photo: false, // This will store the file object
     });
 
     const fileInputRef = useRef(null);
+    const [message, setMessage] = useState('');
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked, files } = e.target;
@@ -118,12 +103,50 @@ const PersonalDetails = ({ onSave }) => {
         }
     };
 
-    const handleSave = () => {
-        // Call the onSave function passed as a prop
-        onSave(form);
+    const validateForm = () => {
+        const newErrors = {
+            firstName: !form.firstName,
+            motherName: !form.motherName,
+            motherNumber: !form.motherNumber,
+            parentName: !form.parentName,
+            email: !form.email,
+            address: !form.address,
+            city: !form.city,
+            state: !form.state,
+            pin: !form.pin,
+            placeOfBirth: !form.placeOfBirth,
+            casteAndSubCaste: !form.casteAndSubCaste,
+            dateOfBirth: !form.dateOfBirth,
+            nationality: !form.nationality,
+            motherTongue: !form.motherTongue
+        };
+        setErrors(newErrors);
+        console.log(!Object.values(newErrors).includes(true));
+        return !Object.values(newErrors).includes(true);
     };
+
+    const handleSave = () => {
+        const isValid = validateForm();
+        onSave(isValid);
+        setMessage(
+            isValid
+                ? 'Draft saved successfully!'
+                : 'Please fill in all required fields.'
+        );
+        setTimeout(() => setMessage(''), 2000);
+    };
+
     return (
         <Box sx={{ backgroundColor: 'white', p: 2 }}>
+            {message && (
+                <Grid item xs={12}>
+                    <Alert
+                        severity={message.includes('successfully') ? 'success' : 'error'}
+                    >
+                        {message}
+                    </Alert>
+                </Grid>
+            )}
             <Grid container spacing={2} >
                 <Grid item xs={9}>
                     <Grid container spacing={2}>
@@ -489,6 +512,9 @@ const PersonalDetails = ({ onSave }) => {
                                     variant="outlined"
                                     value={form.casteAndSubCaste}
                                     onChange={handleInputChange}
+                                    required
+                                    error={errors.casteAndSubCaste}
+                                    helperText={errors.casteAndSubCaste ? "This field is required" : ""}
                                     fullWidth
                                 />
                             </Grid>
@@ -568,9 +594,6 @@ const PersonalDetails = ({ onSave }) => {
                                     variant="outlined"
                                     value={form.gender}
                                     onChange={handleInputChange}
-                                    required
-                                    error={errors.gender}
-                                    helperText={errors.gender ? "This field is required" : ""}
                                     fullWidth
                                     select
                                 >
