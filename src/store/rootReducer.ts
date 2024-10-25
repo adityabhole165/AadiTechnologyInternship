@@ -127,6 +127,7 @@ import SliceSentsms from '../requests/SentSms/ReqSentsms';
 import GetStandardwiseMinMaxDOBslice from '../requests/StudentDetails/RequestStudentDetails';
 import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudentRecords';
 import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
+import StudentUISlice from '../requests/Students/RequestStudentUI';
 import StudentsSlice from '../requests/Students/RequestStudents';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
@@ -269,7 +270,8 @@ const rootReducer = combineReducers({
   SchoolLibrary: SchoolLibraryslice,
   SentSms: SliceSentsms,
   GetStandardwiseMinMaxDOB: GetStandardwiseMinMaxDOBslice,
-  ContactGroup: ContactGroupSlice
+  ContactGroup: ContactGroupSlice,
+  StudentUI: StudentUISlice,
 });
 
 export default rootReducer;
