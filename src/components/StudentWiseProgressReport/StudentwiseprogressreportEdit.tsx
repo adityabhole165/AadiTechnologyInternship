@@ -741,88 +741,74 @@ const StudentwiseprogressreportEdit = () => {
                     </TableContainer>
                 </>
                 {
-                    USFillNonXseedSubjectGrades.length > 0 ? <div>
-                        <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2} >
-                            Co-CurricularSubjects
-                        </Typography>
-                        <TableContainer component={Box} >
-                            <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
-                                <TableHead>
-                                    <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                                        <TableCell sx={{
-                                            textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                            py: 1
-                                        }}>Subject</TableCell>
+                    USFillNonXseedSubjectGrades.length > 0 ? (
+                        <div>
+                            <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2}>
+                                Co-Curricular Subjects
+                            </Typography>
+                            <TableContainer component={Box}>
+                                <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
+                                    <TableHead>
+                                        <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                            <TableCell sx={{
+                                                textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                                py: 1
+                                            }}>Subject</TableCell>
 
-
-
-
-
-                                        <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
-                                            <SearchableDropdown
-                                                ItemList={USFillGradeDetails}
-                                                defaultValue={headerGrade1}
-                                                label={''}
-                                                sx={{ maxWidth: '20vw', backgroundColor: 'white', marginLeft: '5px' }}
-                                                size={"small"}
-                                                DisableClearable={true}
-                                                onChange={clickHeaderGrade1}
-                                                mandatory
-                                                disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") || (IsPublished == 'Y' && PublishStatus == "Y")}
-
-                                            />
-                                        </TableCell>
-
-                                        <TableCell sx={{
-                                            textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                            py: 1
-                                        }}></TableCell>
-
-                                        {USFillNonXseedSubjectGrades.map((row, index) => (
-                                            row.Observation !== "" ? (
-                                                <TableCell
-                                                    key={index}
-                                                    sx={{
-                                                        textTransform: 'capitalize',
-                                                        color: (theme) => theme.palette.common.white,
-                                                        py: 1
-                                                    }}
-                                                >
-                                                    Facilitator's Observation
-                                                </TableCell>
-                                            ) : null
-                                        ))}
-
-
-
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {USFillNonXseedSubjectGrades.map((row) => (
-                                        <TableRow key={row.YearwiseStudentId}>
-                                            <TableCell sx={{ py: 1 }}>{row.SubjectName}</TableCell>
-                                            <TableCell key={row.GradeId}>
+                                            <TableCell sx={{
+                                                textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main,
+                                                color: 'white', pt: '10px', pb: '10px'
+                                            }}>
                                                 <SearchableDropdown
-                                                    key={row.GradeId}
                                                     ItemList={USFillGradeDetails}
-                                                    defaultValue={grades1[row.GradeId]}
+                                                    defaultValue={headerGrade1}
                                                     label={''}
-                                                    sx={{ width: '20vw', backgroundColor: 'white' }}
+                                                    sx={{ maxWidth: '20vw', backgroundColor: 'white', marginLeft: '5px' }}
                                                     size={"small"}
                                                     DisableClearable={true}
-                                                    onChange={(value) => clickGrade1(value, row.GradeId)}
+                                                    onChange={clickHeaderGrade1}
                                                     mandatory
-                                                    disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") || (IsPublished == 'Y' && PublishStatus == "Y")}
-
+                                                    disabled={(StudentWiseAssessmentPublishStatus === "Y" && AssessmentPublishStatus === "N") || (IsPublished === 'Y' && PublishStatus === "Y")}
                                                 />
                                             </TableCell>
-                                            <TableCell sx={{ py: 1 }}>{row.Observation}</TableCell>
+
+                                            {/* Conditionally render the "Facilitator's Observation" header based on asSchoolId */}
+                                            {asSchoolId !== 18 && (
+                                                <TableCell sx={{
+                                                    textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                                    py: 1
+                                                }}>Facilitator's Observation</TableCell>
+                                            )}
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </div> : null
+                                    </TableHead>
+                                    <TableBody>
+                                        {USFillNonXseedSubjectGrades.map((row) => (
+                                            <TableRow key={row.YearwiseStudentId}>
+                                                <TableCell sx={{ py: 1 }}>{row.SubjectName}</TableCell>
+                                                <TableCell key={row.GradeId}>
+                                                    <SearchableDropdown
+                                                        ItemList={USFillGradeDetails}
+                                                        defaultValue={grades1[row.GradeId]}
+                                                        label={''}
+                                                        sx={{ width: '20vw', backgroundColor: 'white' }}
+                                                        size={"small"}
+                                                        DisableClearable={true}
+                                                        onChange={(value) => clickGrade1(value, row.GradeId)}
+                                                        mandatory
+                                                        disabled={(StudentWiseAssessmentPublishStatus === "Y" && AssessmentPublishStatus === "N") || (IsPublished === 'Y' && PublishStatus === "Y")}
+                                                    />
+                                                </TableCell>
+                                                {/* Conditionally render the observation cell based on asSchoolId */}
+                                                {asSchoolId !== 18 && (
+                                                    <TableCell sx={{ py: 1 }}>{row.Observation}</TableCell>
+                                                )}
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                    ) : null
                 }
 
                 <br></br>
