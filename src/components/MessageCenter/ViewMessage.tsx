@@ -123,9 +123,9 @@ function ViewSms({ }) {
         showAlert({
           title: 'Read Receipt Request',
           message:
-            "The sender of this message has requested 'Read Receipt'. Do you want to send it?",
+            'The sender of this message has requested "Read Receipt". Do you want to send it?',
           variant: 'warning',
-          confirmButtonText: 'Send Receipt',
+          confirmButtonText: 'Confirm',
           cancelButtonText: 'Cancel',
           onCancel: () => {
             closeAlert();
@@ -148,6 +148,7 @@ function ViewSms({ }) {
       setShowMessage(true);
     }
   }, [viewSent]);
+
 
   const isSame = (value1, value2) => {
     let arr1 = value1.split('(');
