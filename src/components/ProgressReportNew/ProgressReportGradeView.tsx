@@ -1,8 +1,9 @@
 
 
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { useEffect } from 'react';
 
-const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsList1 }) => {
+const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsList1, IsTotalConsiderForProgressReport }) => {
   // const getListDisplayName = (ShortName) => {
   //     let returnVal = ""
   //     ListDisplayNameDetails1.map((Item) => {
@@ -17,7 +18,7 @@ const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsLis
   let PrevParentId = "0", SubjectName = ""
   let HeaderCount = 0
   HeaderArray1.map((item) => {
-    // if (item.ParentSubjectId != "0") {
+    // if (item.ParentSubjectId !=  "0") {
     if (item.ParentSubjectId != PrevParentId) {
       HeaderParent.push({
         SubjectName: SubjectName,
@@ -35,6 +36,10 @@ const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsLis
     SubjectName: SubjectName,
     colSpan: HeaderCount
   })
+  useEffect(() => {
+    console.log('🦥🦥🦥🦥', MarkDetailsList1);
+
+  }, [MarkDetailsList1])
 
   return (
     <Box>
@@ -84,6 +89,11 @@ const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsLis
                     <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
                   </Typography></TableCell>
               ))}
+              {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                <TableCell rowSpan={2} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                  <Typography color="black" textAlign={'left'} mr={5}  >
+                    <b style={{ marginRight: "5px" }}>Grade</b>
+                  </Typography></TableCell>}
             </TableRow>
             )}
           <TableRow>
@@ -103,7 +113,6 @@ const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsLis
               <TableCell sx={{}}>
                 <b> {testItem.TestName}</b>
               </TableCell>
-
               {testItem.MarksArr.map((MarkItem) => (
                 <TableCell sx={{ backgroundColor: 'white' }}>
                   {MarkItem?.MarksScored + (MarkItem?.TotalMarks === "-" ? "" : "")}

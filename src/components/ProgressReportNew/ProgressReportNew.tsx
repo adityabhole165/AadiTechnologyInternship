@@ -402,18 +402,18 @@ const ProgressReportNew = () => {
           </Box>
 
           <Tooltip title={'Show'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: blue[500],
-                  '&:hover': {
-                    backgroundColor: blue[600]
-                  }
-                }}
-                onClick={ClickShow}>
-                <VisibilityTwoToneIcon />
-              </IconButton>
-            </Tooltip>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: blue[500],
+                '&:hover': {
+                  backgroundColor: blue[600]
+                }
+              }}
+              onClick={ClickShow}>
+              <VisibilityTwoToneIcon />
+            </IconButton>
+          </Tooltip>
 
         </>}
 
@@ -531,6 +531,7 @@ const ProgressReportNew = () => {
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
                     <ProgressReportGradeView
+                      IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
                       HeaderArray1={HeaderArray1}
                       SubHeaderArray1={SubHeaderArray1}
                       MarkDetailsList1={MarkDetailsList1}
