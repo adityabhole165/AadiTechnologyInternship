@@ -379,25 +379,25 @@ export const CDAStudentProgressReport =
               if (TestTypeIndex == TestTypeCount - 1 && data.IsTotalConsiderForProgressReport.toLowerCase() == "true") {
                 columns.push(totalMarks);
               }
-              if (data.IsTotalConsiderForProgressReport == "True") {
-                if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' && TestTypeIndex === arrTemp.length - 1) {
-                  // response.data.ListTestTypeIdDetails.map((list1, i1) => {
-                  // response.data.Listtestid2Details.map((list2, i2) => {
-                  // if (list2.Test_Id !== '-1') {
-                  // if (list2.Test_Id === Test.Test_Id && list2.TestType_Id === list1.TestType_Id && list2.Parent_Subject_Id === SubjectArray[SubjectIndex].Parent_Subject_Id) {
-                  response.data.ListTestTypeIdDetails.map((itemArr) => {
-                    columns.push({
-                      MarksScored: findCellValue1(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id), //list2.TestType_Total_Marks,
-                      //  function findIts(list, psId, testTypeId, testId) {
-                      TotalMarks: findCellValue(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id),
-                      IsAbsent: "N"
-                    })
-                  })
-                  // }
-                  // }
-                  // })
-                  // })
 
+              if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' && TestTypeIndex === arrTemp.length - 1) {
+                // response.data.ListTestTypeIdDetails.map((list1, i1) => {
+                // response.data.Listtestid2Details.map((list2, i2) => {
+                // if (list2.Test_Id !== '-1') {
+                // if (list2.Test_Id === Test.Test_Id && list2.TestType_Id === list1.TestType_Id && list2.Parent_Subject_Id === SubjectArray[SubjectIndex].Parent_Subject_Id) {
+                response.data.ListTestTypeIdDetails.map((itemArr) => {
+                  columns.push({
+                    MarksScored: findCellValue1(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id), //list2.TestType_Total_Marks,
+                    //  function findIts(list, psId, testTypeId, testId) {
+                    TotalMarks: findCellValue(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id),
+                    IsAbsent: "N"
+                  })
+                })
+                // }
+                // }
+                // })
+                // })
+                if (data.IsTotalConsiderForProgressReport == "True") {
                   let isDataPushed = false;
 
                   response.data.listTestidDetails.map((Item) => {
