@@ -104,7 +104,7 @@ export interface IMasterDatastudentBody {
     asDivisionId: Number
 }
 
-export interface IMasterDatastudentResult {
+export interface IMasterDataStudentResult {
     OcupationDropdown: [{
         Ocupation_Id: string,
         Ocupation_Name: string
