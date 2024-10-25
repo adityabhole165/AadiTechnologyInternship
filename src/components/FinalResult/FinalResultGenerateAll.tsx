@@ -7,10 +7,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
     IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
+import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import {
     StudentDetailsGA,
     UpdateStudentTestMarks, ViewResultGA
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
+import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -43,7 +45,18 @@ const GenerateAll = ({ }) => {
     const MarkDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getMarkDetailsView);
     const SubjectDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetailsView);
     const GradesDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getGradesDetailsView);
+    const showOnlyGrades = ViewProgress.some((item) => item.ShowOnlyGrades.trim() === 'true');
     const totalconsidration = SubjectDetailsView.filter((item) => item.Total_Consideration === "N")
+    const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+    const TotalPerGradeView = useSelector((state: RootState) => state.FinalResultGenerateAll.getTotalPerGradeView);
+    const PercentageDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getPerDetails);
+    const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
+
+    useEffect(() => {
+        if (UsGetSchoolSettings != null)
+            setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+    }, [UsGetSchoolSettings])
+
     const getListDisplayName = (ShortName) => {
         let returnVal = ""
         ListDisplayNameDetails.map((Item) => {
@@ -73,6 +86,12 @@ const GenerateAll = ({ }) => {
         dispatch(ViewResultGA(GetViewResultBody));
     }, []);
 
+    const GetSchoolSettings: GetSchoolSettingsBody = {
+        asSchoolId: Number(asSchoolId),
+    };
+    useEffect(() => {
+        dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+    }, []);
     const onClickClose = () => {
         navigate('/extended-sidebar/Teacher/FinalResult');
     };
@@ -335,25 +354,93 @@ const GenerateAll = ({ }) => {
                                                     Subjects
                                                 </Typography>
                                                 {SubjectDetailsView.map((subject, i) => (
-                                                    // <TableCell key={i} sx={{color:'black'}}><b>{subject.Name}</b></TableCell>
+
                                                     <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center' }}><b>{subject.Name}  </b>
-
-
                                                         {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
-
                                                     </TableCell>
-
                                                 ))}
+                                                {IsTotalConsiderForProgressReport === "True" && !showOnlyGrades && (
+                                                    <>
+                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
+                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
+                                                    </>
+                                                )}
+                                                {IsTotalConsiderForProgressReport === "True" && (
+                                                    <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
+                                                )}
                                             </TableRow>
+
                                             <TableRow>
+                                                {!showOnlyGrades && (
+                                                    <>
+                                                        {/* <TableCell sx={{ backgroundColor: '#F0F0F0' }}>
+                                                            <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
+                                                                Marks
+                                                            </Typography>
+                                                        </TableCell> */}
+
+                                                        {MarkDetailsView.map((marks, i) => (
+                                                            <TableCell key={i} sx={{ textAlign: 'center' }}>
+                                                                {marks.IsAbsent === '1' ? '-' : marks.Name}
+                                                            </TableCell>
+                                                        ))}
+
+                                                        {IsTotalConsiderForProgressReport === "True" && TotalPerGradeView.map((totalData, index) => {
+                                                            if (index === 0) {
+                                                                const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
+                                                                return (
+                                                                    <>
+                                                                        <TableCell sx={{ textAlign: 'center' }}>{totalData.TotalMarks}</TableCell>
+                                                                        <TableCell sx={{ textAlign: 'center' }}>{totalData.Percentage}%</TableCell>
+                                                                        <TableCell sx={{ textAlign: 'center' }}>
+                                                                            <Typography variant="body2">
+                                                                                {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}
+                                                                            </Typography>
+                                                                        </TableCell>
+                                                                    </>
+                                                                );
+                                                            }
+                                                            return null;
+                                                        })}
+                                                    </>
+                                                )}
+                                            </TableRow>
+                                            {/* <TableRow>
                                                 {MarkDetailsView.map((subject, i) => (
                                                     <TableCell key={i} align="center">  {subject.IsAbsent === '1' ? '-' : subject.Name}</TableCell>
                                                 ))}
-                                            </TableRow>
+                                            </TableRow> */}
                                             <TableRow>
-                                                {GradesDetailsView.map((Grade, i) => (
+                                                {/* {GradesDetailsView.map((Grade, i) => (
                                                     <TableCell key={i} align="center"> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
+                                                ))} */}
+                                                {GradesDetailsView.map((Grade, i) => (
+                                                    <TableCell key={i} sx={{ textAlign: 'center' }}> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
                                                 ))}
+                                                {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
+                                                    <>
+                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                    </>
+                                                )}
+                                                {showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
+                                                    <>
+                                                        {TotalPerGradeView.map((totalData, index) => {
+                                                            if (index === 0) {
+                                                                const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
+                                                                return (
+                                                                    <TableCell sx={{ textAlign: 'center' }}>
+                                                                        <Typography variant="body2">
+                                                                            {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                );
+                                                            }
+                                                            return null;
+                                                        })}
+                                                    </>
+                                                )}
                                             </TableRow>
                                         </TableBody>
                                     </Table>

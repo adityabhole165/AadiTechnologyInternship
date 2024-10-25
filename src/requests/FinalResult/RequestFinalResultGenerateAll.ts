@@ -17,6 +17,8 @@ const FinalResultGenerateAllSlice = createSlice({
         getShortenTestDetails: [],
         getTestMarksGA: [],
         getExamDetails: [],
+        getTotalPerGradeView: [],
+        getPerDetails: [],
         getSubjectDetailsView: [],
         getMarkDetailsView: [],
         getGradesDetailsView: [],
@@ -88,6 +90,14 @@ const FinalResultGenerateAllSlice = createSlice({
         SubjectDetailsView(state, action) {
             state.Loading = false;
             state.getSubjectDetailsView = action.payload;
+        },
+        TotalPerGradeView(state, action) {
+            state.Loading = false;
+            state.getTotalPerGradeView = action.payload;
+        },
+        PercentDetails(state, action) {
+            state.Loading = false;
+            state.getPerDetails = action.payload;
         },
         UpdateStudentTestMarksMSG(state, action) {
             state.Loading = false;
@@ -268,7 +278,8 @@ export const ViewResultGA =
                     Text4: item.Division_Name,
                     Text5: item.Academic_Year,
                     Text6: item.School_Name,
-                    Text7: item.School_Orgn_Name
+                    Text7: item.School_Orgn_Name,
+                    ShowOnlyGrades: item.ShowOnlyGrades
                 };
             });
             dispatch(FinalResultGenerateAllSlice.actions.ViewResult(abc));
@@ -287,9 +298,10 @@ export const ViewResultGA =
 
             let Marks = [{ Id: '0', Name: 'Marks', Value: '0', IsAbsent: '0' }];
             response.data.listSubjectDetails.map((item, i) => {
+                const marksScored = item.Marks_Scored.includes('.0') ? parseInt(item.Marks_Scored) : item.Marks_Scored;
                 Marks.push({
                     Id: item.Subject_Id,
-                    Name: `${item.Marks_Scored} / ${item.Subject_Total_Marks}`,
+                    Name: `${marksScored} / ${item.Subject_Total_Marks}`,
                     Value: item.Subject_Id,
                     IsAbsent: item.IsAbsent
                 });
@@ -306,6 +318,26 @@ export const ViewResultGA =
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.GradesDetailsView(grades));
+
+            let Total = response.data.listMarksDetails.map((item, i) => {
+                const totalmarksScored = item.Total_Marks_Scored.includes('.0') ? parseInt(item.Total_Marks_Scored) : item.Total_Marks_Scored;
+                return {
+                    TotalMarks: `${totalmarksScored} / ${item.Subjects_Total_Marks}`,
+                    GradeName: item.Grade_Name,
+                    Percentage: item.Percentage,
+                    Grade_id: item.Grade_id
+                };
+            });
+            let PerCentDetails = response.data.listParcentageDetails.map((item, i) => {
+                return {
+                    TotalMarks: item.Range,
+                    Grade: item.Grade,
+                    Remarks: item.Remarks,
+                    GradeConfId: item.Marks_Grades_Configuration_Detail_ID
+                };
+            });
+            dispatch(FinalResultGenerateAllSlice.actions.PercentDetails(PerCentDetails));
+            dispatch(FinalResultGenerateAllSlice.actions.TotalPerGradeView(Total));
         }
 
 
