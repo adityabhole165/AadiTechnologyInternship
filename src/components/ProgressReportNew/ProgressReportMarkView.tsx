@@ -136,9 +136,15 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                         colSpan={item.Is_CoCurricularActivity === 'True' ? 1 : item.colSpan} rowSpan={item.rowSpan}
                                         sx={{ border: '1px solid black', textAlign: 'center' }}
                                     >
-                                        <Typography color="black" textAlign={'left'} mr={5}>
-                                            <b style={{ marginRight: "5px" }}>{item.Subject_Name}</b>
-                                        </Typography>
+                                        <Typography color="black" textAlign="left" mr={5}>
+                                             <b style={{ marginRight: "5px" }}>
+                                                 {item.Subject_Name} 
+                                         {item.Is_CoCurricularActivity.toLowerCase() == "true" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+                                                     </b>
+                                                </Typography>
+
                                     </TableCell>
                                 ))}
                                      {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
@@ -203,7 +209,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                             {HeaderArray.map((item, index) => (
                                 <TableCell key={index} colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                     <Typography color="black" textAlign={'left'} mr={5}>
-                                        <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                                        <b style={{ marginRight: "5px" }}>{item.SubjectName} </b>
                                     </Typography>
                                 </TableCell>
                             ))}
