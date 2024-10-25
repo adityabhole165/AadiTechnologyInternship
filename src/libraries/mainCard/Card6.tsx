@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { IGetStudentPhotoBody } from 'src/interfaces/Student/GetStudentPhoto';
+import { IProfileBody } from 'src/interfaces/Student/dashboard';
+import { GetProfileDetails } from 'src/requests/Dashboard/Dashboard';
 import { GetAllowStudentPhotoUploadFromStudentLogin } from 'src/requests/SchoolSetting/schoolSetting';
 import { getstudentpic } from 'src/requests/StudentPhoto/RequestStudentPhoto';
 import { RootState } from 'src/store';
@@ -29,12 +31,26 @@ function Card6() {
   const MotherTongue = sessionStorage.getItem('MotherTongue');
   const DOB = sessionStorage.getItem('DOB');
   const birthPlace = sessionStorage.getItem('BirthPlace');
-  const asUserId = sessionStorage.getItem('UserId');
+  const asUserId = localStorage.getItem('UserId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const RoleId = sessionStorage.getItem('RoleId');
-
+  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const MobileNo = sessionStorage.getItem('MobileNumber');
+  const PermAddress = useSelector((state: RootState) => state.Dashboard.IsPermanentAddress);
+  const EmailAddress = useSelector((state: RootState) => state.Dashboard.IsEmailAddress);
+  const SubjectDetails = useSelector((state: RootState) => state.Dashboard.IsSUbjectDetails);
+  const StandardDetails = useSelector((state: RootState) => state.Dashboard.IsStandardDetails);
 
+  const ProfileDashBody: IProfileBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asTeacherID: TeacherId,
+    asUserId: Number(asUserId),
+  };
+
+  useEffect(() => {
+    dispatch(GetProfileDetails(ProfileDashBody));
+  }, []);
   const AllowStudentPhotoUpload: any = useSelector(
     (state: RootState) =>
       state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
@@ -109,7 +125,7 @@ function Card6() {
       >
         <Card
           sx={{
-            background: 'linear-gradient(to bottom, #dbeafe,#bfdbfe, #93c5fd, #60a5fa)', // Faint yellow to dark yellow
+            background: 'linear-gradient(to bottom, #98add5,#718dc5,#5577ba)', // Faint yellow to dark yellow
             borderRadius: '7px',
             padding: '20px',
             color: '#000',
@@ -167,7 +183,7 @@ function Card6() {
                         <ProfileComponent Name="Designation :" Value={DesignationName} />
                       </TableCell>
                       <TableCell>
-                        <ProfileComponent Name="Address :" Value={Address} />
+                        <ProfileComponent Name="Address :" Value={PermAddress} />
                       </TableCell>
                     </TableRow>
 
@@ -187,16 +203,16 @@ function Card6() {
                         <ProfileComponent Name="Mobile Number :" Value={MobileNo} />
                       </TableCell>
                       <TableCell>
-                        <ProfileComponent Name="Email Id :" Value={null} />
+                        <ProfileComponent Name="Email Id :" Value={EmailAddress} />
                       </TableCell>
                     </TableRow>
 
                     <TableRow>
-                      <TableCell>
-                        <ProfileComponent Name=" Standard Details:" Value={null} />
+                      <TableCell  style={{ verticalAlign: 'top' }}>
+                        <ProfileComponent  Name=" Standard Details:" Value={StandardDetails} />
                       </TableCell>
-                      <TableCell>
-                        <ProfileComponent Name="Subject Details :" Value={null} />
+                      <TableCell  style={{ verticalAlign: 'top' }}>
+                        <ProfileComponent Name="Subject Details :" Value={SubjectDetails} />
                       </TableCell>
                     </TableRow>
 
