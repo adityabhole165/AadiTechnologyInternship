@@ -1,5 +1,18 @@
-import { Box, Button, Card, Chip, Grid, TextField, Typography } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import {
+  Box,
+  Button,
+  Card,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  TextField,
+  Tooltip,
+  Typography
+} from '@mui/material';
+import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -21,15 +34,31 @@ import {
 } from 'src/requests/AdminSMSCenter/To1';
 import { RootState } from 'src/store';
 import SelectallAddrecipents from './SelectallAddrecipents';
+import { QuestionMark } from '@mui/icons-material';
+import SquareIcon from '@mui/icons-material/Square';
+import { ClearIcon } from '@mui/x-date-pickers';
+import ContactGroupList from './ContactGroupList';
 
-const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfirm }) => {
-
+const AddReciepents = ({
+  RecipientName,
+  RecipientId,
+  recipientListClick,
+  IsConfirm
+}) => {
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [showRecipients, setShowRecipients] = useState(false);
+  const [IsConfirm1, setIsConfirm1] = useState('');
+
   //const navigate = useNavigate();
-  const [selectedRecipents, setSelectedRecipents] = useState(RecipientName || []);
-  const [selectedRecipentsId, setSelectedRecipentsId] = useState(RecipientId || []);
+  const [selectedRecipents, setSelectedRecipents] = useState(
+    RecipientName || []
+  );
+  const [selectedRecipentsId, setSelectedRecipentsId] = useState(
+    RecipientId || []
+  );
   const [classId, setClassId] = useState([]);
   const [contactGroup, setContactGroup] = useState([]);
   const [techerStudent1, setTeacherStudent1] = useState('');
@@ -40,7 +69,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   const [teacherStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
   const [SearchByName, setSearchByName] = useState('');
-  const [openDialog, setOpenDialog] = useState(false);
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
@@ -57,10 +85,15 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   ]);
 
   // Api for Admin principle and Software co-ordinator
-  const getGetAdminAndprincipalUsers: any = useSelector((state: RootState) => state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers);
+  const getGetAdminAndprincipalUsers: any = useSelector(
+    (state: RootState) =>
+      state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
+  );
 
   // Api for Teacher list ,Student list ,Other staff and admin staff
-  const getuserlist: any = useSelector((state: RootState) => state.getuser1.GetUser);
+  const getuserlist: any = useSelector(
+    (state: RootState) => state.getuser1.GetUser
+  );
 
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
@@ -118,7 +151,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
 
   const handleDelete = (recipient) => {
     const updatedRecipients = selectedRecipents.filter((r) => r !== recipient);
-    const updatedRecipientIds = selectedRecipentsId.filter((id, index) => selectedRecipents[index] !== recipient);
+    const updatedRecipientIds = selectedRecipentsId.filter(
+      (id, index) => selectedRecipents[index] !== recipient
+    );
 
     setSelectedRecipents(updatedRecipients);
     setSelectedRecipentsId(updatedRecipientIds);
@@ -189,13 +224,13 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   }, [adminandSW]);
 
   useEffect(() => {
-
-    setStaffAndAdmin(getGetAdminAndprincipalUsers?.map((obj) => {
-      return {
-        ...obj,
-        isActive: (RecipientId.includes(obj.Id)) ? true : false
-      }
-    })
+    setStaffAndAdmin(
+      getGetAdminAndprincipalUsers?.map((obj) => {
+        return {
+          ...obj,
+          isActive: RecipientId.includes(obj.Id) ? true : false
+        };
+      })
     );
   }, [getGetAdminAndprincipalUsers]);
   // Teacher / Students List / Admin Staff / Other Staff Body
@@ -268,7 +303,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   };
   const handleSearchByName = (value) => {
     setSearchByName(value);
-  }
+  };
 
   const teacherStudentChange = (value) => {
     setList([]);
@@ -341,6 +376,14 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
     setStaffAndAdmin(value);
     populateRecipient(value);
   };
+  const clickConfirm = () => {
+    handleCloseDialog();
+  };
+  const groups = [
+    { GroupId: '1', GroupName: 'Marketing' },
+    { GroupId: '2', GroupName: 'Sales' },
+    { GroupId: '3', GroupName: 'Support' },
+];
 
   const populateRecipient = (itemList) => {
     itemList?.map((obj) => {
@@ -391,9 +434,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
     });
   };
   useEffect(() => {
-    if (IsConfirm != '')
-      clickOkay()
-  }, [IsConfirm])
+    if (IsConfirm != '') clickOkay();
+  }, [IsConfirm]);
   const clickOkay = () => {
     recipientListClick({
       RecipientName: selectedRecipents,
@@ -409,6 +451,13 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   const handleClick = () => {
     navigate('/extended-sidebar/SMSCenter/ContactGroup'); // Replace with your desired route path
   };
+
+  const handleOpenDialog = (isRecipients) => {
+    setIsConfirm1('');
+    setShowRecipients(isRecipients);
+    setOpenDialog(true);
+  };
+
   return (
     <>
       <Box>
@@ -430,7 +479,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
             label="Search By Name"
             value={SearchByName}
             variant={'outlined'}
-            size={"small"}
+            size={'small'}
             onChange={(e) => {
               handleSearchByName(e.target.value);
             }}
@@ -444,7 +493,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
 
         {/* field and back Compose code  */}
         <Grid container>
-          <Grid item xs={12} sm={10}  >
+          <Grid item xs={12} sm={10}>
             {/* <TextField
               fullWidth
               disabled
@@ -481,14 +530,14 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                     ))}
                   </Box>
                 ),
-                readOnly: true, // Ensure the TextField is read-only
+                readOnly: true // Ensure the TextField is read-only
               }}
               value={''}
               sx={{
                 height: 'auto',
                 overflow: 'auto',
                 border: '0.1px solid #c4c5c5',
-                borderRadius: '5.3px',
+                borderRadius: '5.3px'
               }}
             />
           </Grid>
@@ -509,7 +558,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
         </Grid>
         <>
           {RoleId === '6' && (
-            <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
+            <Box
+              sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
+            >
               <ListSelect Itemlist={entireSchool} onChange={onChange} />
             </Box>
           )}
@@ -520,13 +571,17 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                   <Grid container spacing={1}>
                     <Grid item xs={6} sm={12}>
                       <Card>
-                        <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
+                        <Box
+                          sx={{
+                            border: (theme) =>
+                              `1px solid ${theme.palette.grey[300]}`
+                          }}
                           height={
                             RoleId === '3'
                               ? '50px'
                               : RoleId === '2'
-                                ? '95px'
-                                : '180px'
+                              ? '95px'
+                              : '180px'
                           }
                         >
                           <ListSelect
@@ -538,7 +593,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                     </Grid>
                     <Grid item xs={6} sm={12}>
                       <Card>
-                        <Box >
+                        <Box>
                           <ListSelect
                             Itemlist={teacherStudent}
                             onChange={teacherStudentChange}
@@ -550,7 +605,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                   </Grid>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-
                   {techerStudent1 === '3' && (
                     // <DropdownofAddrecipent
                     //   Array={getClass}
@@ -564,8 +618,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                       onChange={classChange}
                       label={'Select Class'}
                       defaultValue={studentlist}
-                      size={"small"}></DropdownofAddrecipent>
-
+                      size={'small'}
+                    ></DropdownofAddrecipent>
                   )}
                   {techerStudent1 === '9' && (
                     <Button
@@ -573,15 +627,15 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                         color: '#38548A',
                         backgroundColor: grey[100],
                         m: 1,
+                        ml: 28,
                         '&:hover': {
                           color: '#38548A',
                           backgroundColor: blue[100]
                         }
                       }}
-                      onClick={handleClick}
+                      onClick={() => handleOpenDialog(true)}
                     >
-                      Create new/update Group
-
+                      Create/update Group
                     </Button>
                   )}
                   {Loading ? (
@@ -589,7 +643,19 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                   ) : list.length === 0 ? (
                     !isSelected('Student') &&
                     isTeacherSelected() && (
-                      <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                      <Typography
+                        variant="h6"
+                        align="center"
+                        color="blue"
+                        sx={{
+                          textAlign: 'center',
+                          marginTop: 1,
+                          backgroundColor: '#324b84',
+                          padding: 1,
+                          borderRadius: 2,
+                          color: 'white'
+                        }}
+                      >
                         No record found.
                       </Typography>
                     )
@@ -605,6 +671,121 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
           ) : null}
         </>
       </Box>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        fullWidth
+        maxWidth="md"
+        PaperProps={{ sx: { borderRadius: '15px' } }}
+      >
+        <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <Tooltip
+            title={'Add/edit delete contact group(s).'}
+            placement="bottom-end"
+          >
+            <QuestionMark
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '10px',
+                position: 'absolute',
+                top: '4px',
+                right: '35px',
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: grey[600] }
+              }}
+            />
+          </Tooltip>
+          <ClearIcon
+            onClick={handleCloseDialog}
+            sx={{
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red'
+              }
+            }}
+          />
+        </DialogTitle>
+        <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
+          Contact Group(s)
+        </Typography>
+
+        <DialogContent>
+          <Box sx={{ background: 'white', py: 1 }}>
+            <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+              <Typography
+                variant="h4"
+                sx={{
+                  mb: 0,
+                  lineHeight: 'normal',
+                  alignSelf: 'center',
+                  paddingBottom: '2px'
+                }}
+              >
+                Legend
+              </Typography>
+              <Box sx={{ display: 'flex', gap: '20px' }}>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                  <SquareIcon
+                    style={{
+                      color: '#F0F0F0',
+                      fontSize: 25,
+                      position: 'relative',
+                      top: '-2px'
+                    }}
+                  />
+                  <Typography>Deactivated User</Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box>
+          <ContactGroupList groups={groups} />
+          </Box>
+          {/* <Box sx={{ overflow: 'auto', maxBlockSize: '400px', mt: 2 }}>
+            {showRecipients ? (
+              <AddReciepents
+                RecipientName={RecipientsObject.RecipientName}
+                RecipientId={RecipientsObject.RecipientId}
+                recipientListClick={RecipientsListFun}
+                IsConfirm={IsConfirm}
+              />
+            ) : (
+              <AddReciepents
+                RecipientName={RecipientsCCObject.RecipientName}
+                RecipientId={RecipientsCCObject.RecipientId}
+                recipientListClick={RecipientsCCListFun}
+                IsConfirm={IsConfirm}
+              />
+            )}
+          </Box> */}
+          <Box>
+            <DialogActions sx={{ py: 2, px: 3 }}>
+              <Button color={'error'} onClick={handleCloseDialog}>
+                Cancel
+              </Button>
+              <Button
+                onClick={clickConfirm}
+                sx={{
+                  color: 'green',
+                  '&:hover': {
+                    color: 'green',
+                    backgroundColor: green[100]
+                  }
+                }}
+              >
+                Confirm
+              </Button>
+            </DialogActions>
+          </Box>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
