@@ -192,10 +192,11 @@ export const CDAGetStudentName =
 
 
 export const CDAStudentProgressReport =
-  (data: IStudentProgressReportBody): AppThunk =>
-    async (dispatch) => {
+  (data: IStudentProgressReportBody, IsGradingStandardFlag): AppThunk =>
+    async (dispatch, getState) => {
       const response = await ApiProgressReport.StudentProgressReport(data);
       dispatch(ProgressReportSlice.actions.REntireDataList(response.data));
+      const { IsGradingStandarBodyIS } = getState().ProgressReportNew;
 
       let listStudentsDetails = response.data.listStudentsDetails.map((item, i) => {
         return {
@@ -217,7 +218,12 @@ export const CDAStudentProgressReport =
         let returnVal: any = ""
 
         if (cell.Is_Absent === "N") {
-          returnVal = parseInt(cell.Marks_Scored)
+          console.log('this is cell', cell);
+          if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
+            returnVal = cell.Grade
+          } else {
+            returnVal = parseInt(cell.Marks_Scored)
+          }
         }
         else {
           response.data.ListDisplayNameDetails.map((Item) => {
@@ -332,15 +338,18 @@ export const CDAStudentProgressReport =
                 // Flag > 🚩
                 // let Flag = SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' ? true : false;
                 if (SubjectArray[SubjectIndex].Parent_Subject_Id === '0') {
+                  // if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
+                  //   returnVal = cell.Grade
+                  // } else {
                   columns.push({
                     MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                    TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TestType_Total_Marks) : "" : "-",
+                    TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
                     IsAbsent: cell ? cell.Is_Absent : "N"
                   })
                 } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
                   columns.push({
                     MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                    TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TestType_Total_Marks) : "" : "-",
+                    TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
                     IsAbsent: cell ? cell.Is_Absent : "N"
                   })
                 }
@@ -365,8 +374,8 @@ export const CDAStudentProgressReport =
                 temp = Subject.Subject_Id + "--" + Test.Test_Id
 
                 totalMarks = {
-                  MarksScored: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(`${cell.Total_Marks_Scored}`) : cell ? parseInt(cell.Total_Marks_Scored) : "-",
-                  TotalMarks: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? parseInt(cell.Subject_Total_Marks) : cell ? cell.Subject_Total_Marks : "-",
+                  MarksScored: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(`${cell.Total_Marks_Scored}`) : cell ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? `${cell.TotalGrade}` : parseInt(cell.Total_Marks_Scored) : "-",
+                  TotalMarks: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.Subject_Total_Marks) : cell ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? `${cell.Grade}` : cell.Subject_Total_Marks : "-",
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 }
               }
@@ -509,18 +518,19 @@ export const CDAStudentProgressReport =
                   (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
                 );
 
+                if (IsGradingStandarBodyIS !== true) {
+                  columns.push({
+                    MarksScored: parseInt(Item.Total_Marks_Scored),
+                    TotalMarks: Item.Subjects_Total_Marks,
+                    IsAbsent: "N"
+                  })
 
-                columns.push({
-                  MarksScored: parseInt(Item.Total_Marks_Scored),
-                  TotalMarks: Item.Subjects_Total_Marks,
-                  IsAbsent: "N"
-                })
-
-                columns.push({
-                  MarksScored: Item.Percentage + "%",
-                  TotalMarks: "-",
-                  IsAbsent: "N"
-                })
+                  columns.push({
+                    MarksScored: Item.Percentage + "%",
+                    TotalMarks: "-",
+                    IsAbsent: "N"
+                  })
+                }
 
                 columns.push({
                   MarksScored: `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
@@ -600,26 +610,29 @@ export const CDAStudentProgressReport =
               if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
                 temp = Subject.Subject_Id + "--" + Test.Test_Id;
                 totalMarks = {
-                  MarksScored: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount === 1) ? cell.Grade : cell.TotalGrade,
+                  MarksScored: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount === 1) ? `${cell.Grade}` : `${cell.TotalGrade}`,
                   TotalMarks: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount === 1) ? cell.Grade : "-",
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 }
               }
-              if (TestTypeIndex == TestTypeCount - 1) {
+              if (TestTypeCount === 1) {
                 columns.push(totalMarks)
               }
+
 
             })
 
 
             if (TestIndex == 0) {
-              if (HeaderCount1 > 1) {
+              if (HeaderCount1 > 1 && data.IsTotalConsiderForProgressReport == "True") {
+                columns.push(totalMarks)
                 SubHeaderArray1.push({ TestTypeName: "Total" })
 
               }
+
               HeaderArray1.push({
                 SubjectName: Subject.Subject_Name,
-                colSpan: HeaderCount1 > 1 ? HeaderCount1 + 1 : HeaderCount1,
+                colSpan: HeaderCount1 > 1 ? HeaderCount1 + (data.IsTotalConsiderForProgressReport == "True" ? 1 : 0) : HeaderCount1,
                 ParentSubjectId: Subject.Parent_Subject_Id,
                 ParentSubjectName: getParentHeader(listSubjectsDetails, Subject, Test.Test_Id).parent,
               })
@@ -900,6 +913,8 @@ export const CDAIsGradingStandard =
   (data: IsGradingStandarBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.IsGradingStandard(data);
+      console.log('/ Check this out >>> ', response.data);
+
       dispatch(ProgressReportSlice.actions.RIsGradingStandard(response.data));
     };
 export const CDAIsTestPublishedForStdDiv =

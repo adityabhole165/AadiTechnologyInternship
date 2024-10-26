@@ -107,6 +107,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     if (UsGetSchoolSettings != null)
       setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+    // setIsTotalConsiderForProgressReport('True');
   }, [UsGetSchoolSettings])
 
 
@@ -185,7 +186,7 @@ const ProgressReportNew = () => {
     asAcadmeicYearId: Number(asAcademicYearId),
     asStudentId: Number(StudentId),
     asUserId: asUserId,
-    IsTotalConsiderForProgressReport: IsTotalConsiderForProgressReport
+    IsTotalConsiderForProgressReport: IsTotalConsiderForProgressReport,
 
   };
 
@@ -319,7 +320,7 @@ const ProgressReportNew = () => {
   }, [selectTeacher, StandardDivisionId()]);
 
   useEffect(() => {
-    dispatch(CDAStudentProgressReport(StudentProgressReportBody));
+    dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
 
   }, [StudentId]);
 
@@ -534,7 +535,7 @@ const ProgressReportNew = () => {
                       IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
                       HeaderArray1={HeaderArray1}
                       SubHeaderArray1={SubHeaderArray1}
-                      MarkDetailsList1={MarkDetailsList1}
+                      MarkDetailsList1={IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? MarkDetailsList : MarkDetailsList1}
                     />
                   </Box>
                 </>
