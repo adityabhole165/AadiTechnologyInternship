@@ -20,6 +20,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { blue, grey, red } from '@mui/material/colors';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 interface Group {
   GroupId: string;
@@ -29,44 +30,31 @@ interface Group {
 interface ContactGroupListProps {
   groups: Group[];
 }
+const userRoles = [
+  { id: 1, Name: 'Admin' },
+  { id: 2, Name: 'Teacher' },
+  { id: 3, Name: 'Student' },
+  { id: 4, Name: 'Admin Staff' },
+  { id: 5, Name: 'Ex. Admin' }
+];
 
 const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
   return (
     <>
       <Box>
-        <Typography variant="h4" sx={{ py: 2 }}>
+        {/* <Typography variant="h4" sx={{ py: 2 }}>
           Add/Update Group
-        </Typography>
+        </Typography> */}
         <Grid container spacing={2}>
           {/* Group Name */}
           <Grid item xs={6}>
-            <TextField
-              label="Group Name"
-              // value={groupName}
-              // onChange={(e) => setGroupName(e.target.value)}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={6}>
-          <Button
-                      sx={{
-                        color: '#38548A',
-                        backgroundColor: grey[100],
-                        m: 1,
-                        '&:hover': {
-                          color: '#38548A',
-                          backgroundColor: blue[100]
-                        }
-                      }}
-                      
-                    >
-                         Add Recipients
-                    </Button>
+            <TextField label="Group Name" fullWidth required />
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Typography pt={1}><b>Applicable To :</b></Typography>
+          <Typography pt={1}>
+            <b>Applicable To :</b>
+          </Typography>
           <FormControl component="fieldset">
             <Grid container direction="row" alignItems="center" spacing={2}>
               {['Admin', 'Teacher', 'Student', 'Admin Staff', 'Ex. Admin'].map(
@@ -88,10 +76,25 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
           </FormControl>
         </Grid>
       </Box>
-      <Typography variant="h4" sx={{ p: 1, pl: 0 }}>
+      <Grid container direction="row" alignItems="center" spacing={2}>
+        <Grid item xs={4}>
+          <SearchableDropdown
+            label="User Role "
+            sx={{ minWidth: '20vw' }}
+            ItemList={userRoles}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <TextField label="Class " fullWidth required />
+        </Grid>
+        <Grid item xs={4}>
+          <TextField label="Search Name" fullWidth required />
+        </Grid>
+      </Grid>
+      {/* <Typography variant="h4" sx={{ p: 1, pl: 0 }}>
         Select Contact Group(s)
-      </Typography>
-      <TableContainer component={Box}>
+      </Typography> */}
+      {/* <TableContainer component={Box}>
         <Table
           aria-label="simple table"
           sx={{
@@ -178,7 +181,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
     </>
   );
 };

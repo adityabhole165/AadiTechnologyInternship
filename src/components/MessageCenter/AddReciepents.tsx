@@ -712,7 +712,7 @@ const AddReciepents = ({
           />
         </DialogTitle>
         <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-          Contact Group(s)
+          Add Contact Group(s)
         </Typography>
 
         <DialogContent>
