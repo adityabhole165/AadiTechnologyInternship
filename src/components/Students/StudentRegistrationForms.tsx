@@ -5,7 +5,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import PersonIcon from '@mui/icons-material/Person';
 import SaveIcon from '@mui/icons-material/Save';
 import SchoolIcon from '@mui/icons-material/School';
-import { Box, Grid, IconButton, LinearProgress, Tab, Tabs, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Grid, IconButton, LinearProgress, Tab, Tabs, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
@@ -16,17 +16,16 @@ import FamilyDetails from './FamilyDetails';
 import PersonalDetails from './PersonalDetails'; // Assuming PersonalDetails is already created
 import StudentProfileHeader from './StudentProfileHeader';
 import StudentSubjectDetails from './StudentSubjectDetails';
+import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 const StudentRegistrationForm = () => {
     const [currentTab, setCurrentTab] = useState(0);
     const [profileCompletion, setProfileCompletion] = useState(20);
 
 
-    const [status, setStatus] = useState({
-        admissionDetails: null,
-        personalDetails: null,
-    });
-
+ 
 
 
     const handleSave = (isSuccessful: boolean) => {
@@ -45,6 +44,46 @@ const StudentRegistrationForm = () => {
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setCurrentTab(newValue);
     };
+    const handleNextTab = () => {
+        setCurrentTab(prevTab => Math.min(prevTab + 1, 5)); // Move to the next tab
+    };
+
+    const handlePreviousTab = () => {
+        setCurrentTab(prevTab => Math.max(prevTab - 1, 0)); // Move to the previous tab
+    };
+     // Track the validation status for each tab
+     const [status, setStatus] = useState({
+        admissionDetails: null,
+        personalDetails: null,
+        admissionDocuments: null,
+        familyDetails: null,
+        additionalDetails: null,
+        streamDetails: null,
+    });
+    // const validateAllTabs = () => {
+    //     const updatedStatus = {
+    //         admissionDetails: validateAdmissionDetails(),
+    //         personalDetails: validatePersonalDetails(),
+    //         admissionDocuments: validateAdmissionDocuments(),
+    //         familyDetails: validateFamilyDetails(),
+    //         additionalDetails: validateAdditionalDetails(),
+    //         streamDetails: validateStreamDetails(),
+    //     };
+    //     setStatus(updatedStatus);
+
+    //     // Return true if all tabs are valid
+    //     return Object.values(updatedStatus).every((isValid) => isValid);
+    // };
+    // const handleSaveClick = () => {
+    //     const allValid = validateAllTabs();
+    //     if (!allValid) {
+    //         // Show an alert if any tab has unfilled required fields
+    //         alert('Some fields are missing or incorrect.');
+    //     } else {
+    //         alert('All required fields are filled, saving draft!');
+    //     }
+    // };
+
 
     return (
         <Box sx={{ px: 2 }}>
@@ -90,13 +129,13 @@ const StudentRegistrationForm = () => {
 
             {/* Profile Completion Bar */}
             <Box sx={{ display: 'flex', alignItems: 'center', my: 1, backgroundColor: 'white', p: 2 }}>
-                <Typography variant="body1" sx={{ mr: 2 }}>Profile Completeness</Typography>
+                <Typography variant="body1" sx={{ mr: 2 }}>Completeness</Typography>
                 <LinearProgress variant="determinate" value={profileCompletion} sx={{ flexGrow: 1, height: 10 }} />
                 <Typography variant="body1" sx={{ ml: 2 }}>{profileCompletion}%</Typography>
             </Box>
 
 
-            <Box sx={{ pl: 6, backgroundColor: 'white', minHeight: '100px' }}>
+            <Box sx={{backgroundColor: 'white', minHeight: '100px',display: 'flex',  justifyContent: 'center' }}>
                 <Tabs
                     value={currentTab}
                     onChange={handleTabChange}
@@ -132,14 +171,15 @@ const StudentRegistrationForm = () => {
                         }
                     }}
                 >
-                    <Tab sx={{ m: 2 }} icon={<PersonIcon />} label="Admission Details" />
-                    <Tab sx={{ m: 2 }} icon={<PersonIcon />} label="Personal Details" />
-                    <Tab sx={{ m: 2 }} icon={<FamilyIcon />} label="Admission Document Information" />
-                    <Tab sx={{ m: 2 }} icon={<DocumentIcon />} label="Family Details" />
-                    <Tab sx={{ m: 2 }} icon={<SchoolIcon />} label="Additional Details" />
-                    <Tab sx={{ m: 2 }} icon={<InfoIcon />} label="Student Stream / Subject Details" />
+                    <Tab sx={{ m: 2 }} icon={<SchoolIcon />} label="Admission Details" />
+                    <Tab sx={{ m: 2 }} icon={<AccountCircleIcon />} label="Personal Details" />
+                    <Tab sx={{ m: 2 }} icon={<DocumentIcon />} label="Admission Documents" />
+                    <Tab sx={{ m: 2 }} icon={<FamilyRestroomIcon />} label="Family Details" />
+                    <Tab sx={{ m: 2 }} icon={< GroupAddIcon/>} label="Additional Details" />
+                    <Tab sx={{ m: 2 }} icon={<InfoIcon />} label="Stream Details" />
                 </Tabs>
             </Box>
+            
 
             <Box>
                 {currentTab === 0 && (
@@ -228,6 +268,24 @@ const StudentRegistrationForm = () => {
                     </Grid>
                 )}
             </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', p:2, backgroundColor:'white' }}>
+                    <Button
+                        variant="contained"
+                        onClick={handlePreviousTab}
+                        disabled={currentTab === 0}
+                        sx={{ backgroundColor: grey[100], color:'blue', '&:hover': { color:'blue', backgroundColor: blue[200] } }}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={handleNextTab}
+                        disabled={currentTab === 5} // Disable if on the last tab
+                        sx={{backgroundColor: grey[100],  color:'green', '&:hover': {color:'green', backgroundColor: green[200] } }}
+                    >
+                        Next
+                    </Button>
+                </Box>
 
         </Box>
     );

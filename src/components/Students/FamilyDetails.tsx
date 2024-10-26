@@ -760,7 +760,7 @@ const FamilyDetails = ({ onSave }) => {
 
 
       {/* Save & Next Button */}
-      <Grid
+      {/* <Grid
         item
         xs={12}
         pt={2}
@@ -779,7 +779,7 @@ const FamilyDetails = ({ onSave }) => {
         >
           Save And Next
         </Button>
-      </Grid>
+      </Grid> */}
 
     </Box>
   );
