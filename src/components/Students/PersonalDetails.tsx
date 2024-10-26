@@ -1,7 +1,7 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
-import { Alert, Box, Button, Grid, IconButton, MenuItem, TextField, Tooltip, } from '@mui/material';
-import { blue, grey, red } from '@mui/material/colors';
+import { Alert, Box, Grid, IconButton, MenuItem, TextField, Tooltip } from '@mui/material';
+import { red } from '@mui/material/colors';
 import { User } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,7 +47,7 @@ const PersonalDetails = ({ onSave }) => {
         aadharCardScanCopy: '', // This will store the file object
         photo: null, // This will store the file object
     });
-
+    console.log("form", form.parentOccupation)
 
     const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
     const MaxfileSize = 5000000;
@@ -115,6 +115,7 @@ const PersonalDetails = ({ onSave }) => {
         // Remove error when the user starts filling the field
         setErrors({ ...errors, [name]: false });
     };
+
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -302,19 +303,24 @@ const PersonalDetails = ({ onSave }) => {
                         )}
 
                         {/* Dropdown */}
-                        {form.parentOccupation !== undefined && (
-                            <Grid item xs={4}>
-                                <SearchableDropdown
-                                    sx={{ minWidth: '15vw' }}
-                                    ItemList={OccupationDropdown}
-                                    onChange={handleInputChange}
-                                    label={"Parent's Occupation"}
-                                    defaultValue={form.parentOccupation}
-                                    size={"medium"}
-                                />
-                            </Grid>
-                        )}
 
+                        <Grid item xs={4}>
+                            <SearchableDropdown
+                                sx={{ minWidth: '15vw' }}
+                                ItemList={OccupationDropdown}
+                                onChange={(value) => {
+                                    setForm(prevForm => ({
+                                        ...prevForm,
+                                        parentOccupation: value
+                                    }));
+                                    console.log("Selected value:", value);
+                                }}
+                                label={"Parent's Occupation"}
+                                defaultValue={form.parentOccupation}
+                                size={"medium"}
+
+                            />
+                        </Grid>
 
                     </Grid>
 
