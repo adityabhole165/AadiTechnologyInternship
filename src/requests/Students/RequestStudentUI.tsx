@@ -30,7 +30,7 @@ export const CDAGetStudentRecordData =
 
                     Id: item.Ocupation_Id,
                     Name: item.Ocupation_Name,
-                    value: item.Ocupation_Id
+                    Value: item.Ocupation_Id
 
                 });
             });

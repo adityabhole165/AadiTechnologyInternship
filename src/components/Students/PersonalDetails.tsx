@@ -116,6 +116,14 @@ const PersonalDetails = ({ onSave }) => {
         setErrors({ ...errors, [name]: false });
     };
 
+    const handleDropdownChange = (name: string, value: any) => {
+        setForm(prevForm => ({
+            ...prevForm,
+            [name]: value
+        }));
+        setErrors(prev => ({ ...prev, [name]: false }));
+    };
+
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -308,13 +316,7 @@ const PersonalDetails = ({ onSave }) => {
                             <SearchableDropdown
                                 sx={{ minWidth: '15vw' }}
                                 ItemList={OccupationDropdown}
-                                onChange={(value) => {
-                                    setForm(prevForm => ({
-                                        ...prevForm,
-                                        parentOccupation: value
-                                    }));
-                                    console.log("Selected value:", value);
-                                }}
+                                onChange={(value) => handleDropdownChange('parentOccupation', value)}
                                 label={"Parent's Occupation"}
                                 defaultValue={form.parentOccupation}
                                 size={"medium"}
