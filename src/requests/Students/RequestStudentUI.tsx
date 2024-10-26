@@ -10,7 +10,7 @@ const StudentUISlice = createSlice({
         Loading: true
     },
     reducers: {
-        OcupationDropdown(state, action) {
+        ROcupationDropdown(state, action) {
             state.ISOcupationDropdown = action.payload;
             state.Loading = false;
         },
@@ -20,7 +20,7 @@ const StudentUISlice = createSlice({
     }
 });
 
-export const GetStudentRecordData =
+export const CDAGetStudentRecordData =
     (data: IMasterDatastudentBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentUIAPI.GetMasterDatastudentApi(data);
@@ -28,12 +28,13 @@ export const GetStudentRecordData =
             response.data.OcupationDropdown.map((item, i) => {
                 OcupationDropdown.push({
 
-                    Text1: item.Ocupation_Id,
-                    Text2: item.Ocupation_Name,
+                    Id: item.Ocupation_Id,
+                    Name: item.Ocupation_Name,
+                    value: item.Ocupation_Id
 
                 });
             });
-            dispatch(StudentUISlice.actions.OcupationDropdown(OcupationDropdown));
+            dispatch(StudentUISlice.actions.ROcupationDropdown(OcupationDropdown));
         };
 
 

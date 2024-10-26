@@ -3,12 +3,18 @@ import Visibility from '@mui/icons-material/Visibility';
 import { Alert, Box, Button, Grid, IconButton, MenuItem, TextField, Tooltip, } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { User } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { CDAGetStudentRecordData } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 const PersonalDetails = ({ onSave }) => {
+    const location = useLocation();
+    const { standardId, DivisionId } = location.state || {};
+    const dispatch = useDispatch();
     const [form, setForm] = useState({
         firstName: '',
         middleName: '',
@@ -71,10 +77,40 @@ const PersonalDetails = ({ onSave }) => {
     const fileInputRef = useRef(null);
     const [message, setMessage] = useState('');
 
+    const GetTeachers = useSelector(
+        (state: RootState) => state.StudentRecords.ClassTeachers
+    );
+    //Occupation Dropdown
+    const OccupationDropdown = useSelector((state: RootState) => state.StudentUI.ISOcupationDropdown);
+    console.log('OccupationDropdown', OccupationDropdown);
+
+    useEffect(() => {
+        dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
+    }, []);
+
+    const GetStudentRecordDataResult: IMasterDatastudentBody = {
+        asSchoolId: Number(localStorage.getItem('localSchoolId')),
+        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+        asStandardId: standardId,
+        asDivisionId: DivisionId
+    };
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked, files } = e.target;
-        const fieldValue = type === 'checkbox' ? checked : type === 'file' ? (files ? files[0] : null) : value;
-        setForm({ ...form, [name]: fieldValue });
+
+        let fieldValue;
+        if (type === 'checkbox') {
+            fieldValue = checked;
+        } else if (type === 'file') {
+            fieldValue = files ? files[0] : null;
+        } else {
+            fieldValue = value;
+        }
+
+        setForm(prevForm => ({
+            ...prevForm,
+            [name]: fieldValue
+        }));
 
         // Remove error when the user starts filling the field
         setErrors({ ...errors, [name]: false });
@@ -90,9 +126,6 @@ const PersonalDetails = ({ onSave }) => {
         }
     };
 
-    const GetTeachers = useSelector(
-        (state: RootState) => state.StudentRecords.ClassTeachers
-    );
 
     const handleDeletePhoto = () => {
         // Reset the form photo to null to remove the image
@@ -273,7 +306,7 @@ const PersonalDetails = ({ onSave }) => {
                             <Grid item xs={4}>
                                 <SearchableDropdown
                                     sx={{ minWidth: '15vw' }}
-                                    ItemList={GetTeachers}
+                                    ItemList={OccupationDropdown}
                                     onChange={handleInputChange}
                                     label={"Parent's Occupation"}
                                     defaultValue={form.parentOccupation}
