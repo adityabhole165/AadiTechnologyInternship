@@ -272,7 +272,7 @@ const AdditionalDetails = ({ onSave }) => {
         {/* New Fields for Academic Details */}
 
       </Grid>
-      <Grid item xs={12} pt={2}>
+      {/* <Grid item xs={12} pt={2}>
         <Button
           sx={{
             color: '#38548A',
@@ -286,7 +286,7 @@ const AdditionalDetails = ({ onSave }) => {
         >
           Save And Next
         </Button>
-      </Grid>
+      </Grid> */}
     </Box>
   );
 };

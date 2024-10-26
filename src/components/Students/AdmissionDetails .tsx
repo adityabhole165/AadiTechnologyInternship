@@ -138,7 +138,7 @@ const AdmissionDetails = ({
             label="New Admission"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={9}>
           <FormControlLabel
             control={
               <Checkbox
@@ -152,7 +152,7 @@ const AdmissionDetails = ({
         </Grid>
         {form.isRTEApplicable && (
           <Grid container spacing={2} ml={0}>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <TextField
                 name="rteCategory"
                 label="RTE Category"
@@ -171,7 +171,7 @@ const AdmissionDetails = ({
                 }}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <TextField
                 name="rteApplicationForm"
                 label="RTE Application Form"
@@ -192,7 +192,7 @@ const AdmissionDetails = ({
                 }}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6} mt={1.5}>
               <Typography variant="h5" color="textSecondary">
                 <b>Note:</b> Student marked as RTE (Right To Education) will get
                 100% concession on the school fees.
@@ -465,6 +465,9 @@ const AdmissionDetails = ({
           />
         </Grid>
         <Grid item xs={3}>
+       
+        </Grid>
+        <Grid item xs={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -562,7 +565,7 @@ const AdmissionDetails = ({
         </Grid>
       </Grid>
 
-      <Grid
+      {/* <Grid
         item
         xs={12}
         pt={2}
@@ -581,7 +584,7 @@ const AdmissionDetails = ({
         >
           Save And Next
         </Button>
-      </Grid>
+      </Grid> */}
     </Box>
   );
 };

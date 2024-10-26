@@ -175,7 +175,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Grid item xs={12} pt={2} >
+      {/* <Grid item xs={12} pt={2} >
         <Button
           sx={{
             color: '#38548A',
@@ -188,7 +188,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
           onClick={handleSave}>
           Save And Next
         </Button>
-      </Grid>
+      </Grid> */}
 
       {/* File upload dialog */}
       <Dialog

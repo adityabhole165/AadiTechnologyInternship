@@ -133,7 +133,7 @@ const StudentSubjectDetails = ({ onSave }) => {
           />
         </Grid>
 
-        <Grid item xs={12} pt={2}>
+        {/* <Grid item xs={12} pt={2}>
           <Button
             sx={{
               color: '#38548A',
@@ -147,7 +147,7 @@ const StudentSubjectDetails = ({ onSave }) => {
           >
             Save
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Box>
   );

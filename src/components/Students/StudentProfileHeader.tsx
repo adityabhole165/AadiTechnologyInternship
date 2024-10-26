@@ -12,20 +12,22 @@ const StudentProfileHeader: React.FC = () => {
                     sx={{ width: 80, height: 80, marginRight: '16px' }}
                 />
                 <div>
-                    <Typography variant="h6">Aadi Tech</Typography>
+                    <Typography variant="h4">Aadi Tech</Typography>
                     <Typography variant="subtitle1">Class: 5th Grade</Typography>
+                    <Typography variant="subtitle1">Roll Number: 2024</Typography>
+                    <Typography variant="subtitle1">Registration Number : 12344</Typography>
                 </div>
             </Grid>
 
             {/* Right Side - Confirmation and Update Info */}
             <Grid item xs={6} container direction="column" justifyContent="flex-start" alignItems="flex-end">
-                <Typography variant="h5" >
+                <Typography variant="h6" >
                     <b> Confirmed by:</b> Ms. Pallavi A. Shilimkar on 16 Jan 2019 10:30 AM
                 </Typography>
-                <Typography variant="h5" >
+                <Typography variant="h6" >
                     <b> Confirmed by:</b> Ms. Manisha J. Mohite on 27 May 2024 11:45 AM
                 </Typography>
-                <Typography variant="h5" >
+                <Typography variant="h6" >
                     <b>Admitted In: </b> Nursery
                 </Typography>
             </Grid>
