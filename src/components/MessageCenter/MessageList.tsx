@@ -239,6 +239,7 @@ const MessageList = () => {
 
   const clickTab = (value) => {
     setActiveTab(value);
+    setpageIndex(2)
   };
   const clickAcademicYear = (value) => {
     setAcademicYear(value);
