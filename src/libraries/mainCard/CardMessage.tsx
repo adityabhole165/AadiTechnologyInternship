@@ -131,7 +131,7 @@ function CardMessage({
           <>
             {RequestReadReceipt === 'True' && HasReadReceipt === true && (
               <>
-                <Tooltip title={'Read Receipt Information'}>
+                <Tooltip title={'View'}>
                   <IconButton
                     sx={{
                       overflow: 'hidden',
@@ -172,11 +172,12 @@ function CardMessage({
             )}
           </>
           {RequestReadReceipt === 'True' && HasReadReceipt === false && (
-            <Email
-              fontSize="small"
-              color="error"
-            // sx={{ mt: '-2px', ml: '4px' }}
-            />
+            <Tooltip title={'Requested'}>
+              <Email
+                fontSize="small"
+                color="error"
+              // sx={{ mt: '-2px', ml: '4px' }}
+              /></Tooltip>
           )}
         </Grid>
         <Grid item xs={2} sm={2} md={2} ml={ActiveTab == 'Inbox' ? -10 : ActiveTab == 'Sent' ? 0 : -10}>
