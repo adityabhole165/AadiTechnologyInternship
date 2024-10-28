@@ -47,7 +47,7 @@ function ContactGroupEditTable() {
                 background: (theme) => theme.palette.secondary.main,
                 color: 'white',
                 fontWeight: 'bold',
-                py:1
+                py:1.5
               }}
             >
               User Name

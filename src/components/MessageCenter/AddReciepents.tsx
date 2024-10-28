@@ -763,55 +763,9 @@ const AddReciepents = ({
         </Typography>
 
         <DialogContent>
-          {/* <Box sx={{ background: 'white', py: 1 }}>
-            <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-              <Typography
-                variant="h4"
-                sx={{
-                  mb: 0,
-                  lineHeight: 'normal',
-                  alignSelf: 'center',
-                  paddingBottom: '2px'
-                }}
-              >
-                Legend
-              </Typography>
-              <Box sx={{ display: 'flex', gap: '20px' }}>
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  <SquareIcon
-                    style={{
-                      color: '#F0F0F0',
-                      fontSize: 25,
-                      position: 'relative',
-                      top: '-2px'
-                    }}
-                  />
-                  <Typography>Deactivated User</Typography>
-                </Box>
-              </Box>
-            </Box>
-          </Box> */}
-
           <Box>
             <ContactGroupList groups={groups} />
           </Box>
-          {/* <Box sx={{ overflow: 'auto', maxBlockSize: '400px', mt: 2 }}>
-            {showRecipients ? (
-              <AddReciepents
-                RecipientName={RecipientsObject.RecipientName}
-                RecipientId={RecipientsObject.RecipientId}
-                recipientListClick={RecipientsListFun}
-                IsConfirm={IsConfirm}
-              />
-            ) : (
-              <AddReciepents
-                RecipientName={RecipientsCCObject.RecipientName}
-                RecipientId={RecipientsCCObject.RecipientId}
-                recipientListClick={RecipientsCCListFun}
-                IsConfirm={IsConfirm}
-              />
-            )}
-          </Box> */}
           <Box>
             <DialogActions sx={{ py: 2, px: 3 }}>
               <Button color={'error'} onClick={handleCloseDialog}>
