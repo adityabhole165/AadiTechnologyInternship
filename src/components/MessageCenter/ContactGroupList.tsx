@@ -79,7 +79,12 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
         <Grid container spacing={2}>
           {/* Group Name */}
           <Grid item xs={6}>
-            <TextField label="Group Name" fullWidth required />
+            <TextField    label={
+          <span>
+            Group Name<span style={{ color: 'red' }}> *</span>
+          </span>
+        }
+        fullWidth  />
           </Grid>
         </Grid>
         <Box py={2}  sx={{  overflow: 'auto',}}>
@@ -119,10 +124,21 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
           />
         </Grid>
         <Grid item xs={4}>
-          <TextField label="Class " fullWidth required />
+          <TextField 
+              label={
+                <span>
+                 Class <span style={{ color: 'red' }}> *</span>
+                </span>
+              } fullWidth  />
         </Grid>
         <Grid item xs={4}>
-          <TextField label="Search Name" fullWidth required />
+          <TextField 
+           label={
+            <span>
+             Search Name <span style={{ color: 'red' }}> *</span>
+            </span>
+          }
+           fullWidth  />
         </Grid>
       </Grid>
       <Box py={2}>
