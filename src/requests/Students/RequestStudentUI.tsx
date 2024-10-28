@@ -7,11 +7,16 @@ const StudentUISlice = createSlice({
 
     initialState: {
         ISOcupationDropdown: [],
+        ISCategoryDropdown: [],
         Loading: true
     },
     reducers: {
         ROcupationDropdown(state, action) {
             state.ISOcupationDropdown = action.payload;
+            state.Loading = false;
+        },
+        RCategoryDropdown(state, action) {
+            state.ISCategoryDropdown = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -35,6 +40,16 @@ export const CDAGetStudentRecordData =
                 });
             });
             dispatch(StudentUISlice.actions.ROcupationDropdown(OcupationDropdown));
+
+            let CategoryDropdown = []
+            response.data.CategoryDropdown.map((item, i) => {
+                CategoryDropdown.push({
+                    Id: item.Category_Id,
+                    Name: item.Category_Name,
+                    Value: item.Category_Id
+                });
+            });
+            dispatch(StudentUISlice.actions.RCategoryDropdown(CategoryDropdown));
         };
 
 

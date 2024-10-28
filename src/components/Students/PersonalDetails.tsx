@@ -83,6 +83,8 @@ const PersonalDetails = ({ onSave }) => {
     //Occupation Dropdown
     const OccupationDropdown = useSelector((state: RootState) => state.StudentUI.ISOcupationDropdown);
     console.log('OccupationDropdown', OccupationDropdown);
+    const CategoryDropdown = useSelector((state: RootState) => state.StudentUI.ISCategoryDropdown);
+    console.log('OccupationDropdown', CategoryDropdown);
 
     useEffect(() => {
         dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
@@ -317,7 +319,7 @@ const PersonalDetails = ({ onSave }) => {
                                 sx={{ minWidth: '15vw' }}
                                 ItemList={OccupationDropdown}
                                 onChange={(value) => handleDropdownChange('parentOccupation', value)}
-                                label={"Parent's Occupation"}
+                                label={"Parent's Occupation *"}
                                 defaultValue={form.parentOccupation}
                                 size={"medium"}
 
@@ -566,8 +568,8 @@ const PersonalDetails = ({ onSave }) => {
                             <Grid item xs={3}>
                                 <SearchableDropdown
                                     sx={{ minWidth: '15vw' }}
-                                    ItemList={GetTeachers}
-                                    onChange={handleInputChange}
+                                    ItemList={CategoryDropdown}
+                                    onChange={(value) => handleDropdownChange('category', value)}
                                     label={"Category"}
                                     defaultValue={form.category}
                                     size={"medium"}
