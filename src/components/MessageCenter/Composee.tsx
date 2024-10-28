@@ -1226,9 +1226,9 @@ function Form13() {
                   <JoditEditor
                     ref={editor}
                     value={formik.values.Content}
-                    config={{
-                      disablePlugins: ['ai-assistant', 'class-span', 'about', 'powered-by-jodit','paste-storage','placeholder']
-                    }}
+                    // config={{
+                    //   disablePlugins: ['ai-assistant', 'class-span', 'about', 'powered-by-jodit','paste-storage','placeholder']
+                    // }}
                     onChange={(newContent) => {
                       formik.setFieldValue('Content', newContent);
                     }}
