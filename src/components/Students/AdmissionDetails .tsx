@@ -126,7 +126,7 @@ const AdmissionDetails = ({
         </Grid>
       )}
       <Grid container spacing={2}>
-      <Grid item xs={3}>
+      <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="userName"
             label={
@@ -142,7 +142,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -154,7 +154,7 @@ const AdmissionDetails = ({
             label="Send SMS of User Name and Password"
           />
         </Grid>
-        <Grid item xs={3} >
+        <Grid item xs={12} sm={6} md={4} lg={3} >
           <FormControlLabel
             control={
               <Checkbox
@@ -166,7 +166,7 @@ const AdmissionDetails = ({
             label="New Admission"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -180,7 +180,7 @@ const AdmissionDetails = ({
         </Grid>
         {form.isRTEApplicable && (
           <Grid container spacing={2} pt={2} pl={2}>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 name="rteCategory"
                 label="RTE Category"
@@ -198,7 +198,7 @@ const AdmissionDetails = ({
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 name="rteApplicationForm"
                 label="RTE Application Form"
@@ -227,7 +227,7 @@ const AdmissionDetails = ({
           </Grid>
         )}
         
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="formNumber"
             label="Form Number"
@@ -246,7 +246,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Tooltip title="Valid Prefix(s) : No Prefix, PP">
             <TextField
               name="registrationNumber"
@@ -274,7 +274,7 @@ const AdmissionDetails = ({
             />
           </Tooltip>
         </Grid>
-        {/* <Grid item xs={3}>
+        {/* <Grid item xs={12} sm={6} md={4} lg={3}>
                     <TextField
                         name="admissionDate"
                         label="Admission Date"
@@ -291,7 +291,7 @@ const AdmissionDetails = ({
                         fullWidth
                     />
                 </Grid> */}
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="admissionDate"
             label={
@@ -311,7 +311,7 @@ const AdmissionDetails = ({
             }}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="joiningDate"
             label={
@@ -338,7 +338,7 @@ const AdmissionDetails = ({
             }}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="studentRollNumber"
             label={
@@ -363,7 +363,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="StudentUDISEnumber"
             label="Student UDISE number"
@@ -373,7 +373,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="BoardRegistrationNumber"
             label="Board Registration Number"
@@ -383,7 +383,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="SaralNo"
             label="Saral No"
@@ -393,7 +393,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="PENNumber "
             label="PEN Number"
@@ -404,7 +404,7 @@ const AdmissionDetails = ({
           />
         </Grid>
        
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={applicableRules}
@@ -413,7 +413,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={applicableRules}
@@ -423,7 +423,7 @@ const AdmissionDetails = ({
           />
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={applicableRules}
@@ -432,7 +432,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={StaffUserRole}
@@ -441,7 +441,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={StaffUserRole}
@@ -450,7 +450,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ResidenceType}
@@ -459,7 +459,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ResidenceType}
@@ -468,7 +468,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="userName"
             label="RFID"
@@ -478,7 +478,7 @@ const AdmissionDetails = ({
         </Grid>
        
       
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -490,7 +490,7 @@ const AdmissionDetails = ({
             label="Is Staff Kid?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -502,7 +502,7 @@ const AdmissionDetails = ({
             label="Is Only Child?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -514,7 +514,7 @@ const AdmissionDetails = ({
             label="Is Rise & Shine?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -526,7 +526,7 @@ const AdmissionDetails = ({
             label="Is Minority?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -538,7 +538,7 @@ const AdmissionDetails = ({
             label="Is For Day Boarding?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -550,7 +550,7 @@ const AdmissionDetails = ({
             label="Is For Day Boarding?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
