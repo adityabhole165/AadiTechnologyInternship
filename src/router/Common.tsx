@@ -67,7 +67,9 @@ const EventOverview = Loader(
 const EventManagement = Loader(
   lazy(() => import('src/components/EventManagementNew/EventManagement'))
 );
-
+const StaffBirthdays = Loader(
+  lazy(() => import('src/components/StaffBirthdays/StaffBirthdaysBase'))
+);
 
 
 const List = Loader(
@@ -195,7 +197,12 @@ const commonRoutes = [
   {
     path: 'DashBoard',
     element: <DashBoard />
-  }
+  },
+  {
+    path: 'StaffBirthdays',
+    element: <StaffBirthdays />
+  },
+
 
 ];
 
