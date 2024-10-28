@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -21,6 +21,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { blue, grey, red } from '@mui/material/colors';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import ContactGroupEditTable from './ContactGroupEditTable';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 interface Group {
   GroupId: string;
@@ -39,6 +42,34 @@ const userRoles = [
 ];
 
 const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
+
+  const initialUserData = [
+    { id: 1, name: 'Mr. Devendra Kumar (Principal)' },
+    { id: 2, name: 'Dr. Anjali S. Gurjar (Ex Principal)' },
+    { id: 3, name: 'Mrs. Anupama S. Chatterjee (Headmistress)' },
+    { id: 4, name: 'Ms. Reema Bhattacharjee (Headmistress)' },
+    { id: 5, name: 'Mr. Amit Arun Kharat (Vice-Principal)' },
+    { id: 6, name: 'Ms. Mahasweta Bhattacharya (Co-ordinator)' },
+    { id: 7, name: 'Ms. Maya D. Ghule (Co-ordinator)' },
+    { id: 8, name: 'Ms. Ritu Saxena (Co-ordinator)' },
+    { id: 9, name: 'Ms. Aanchal Verma (Teacher)' },
+  ];
+
+  const [userData, setUserData] = useState(initialUserData);
+  const [sortOrder, setSortOrder] = useState('asc');
+
+  // Sort function for User Name
+  const handleSort = () => {
+    const sortedData = [...userData].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    });
+    setUserData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
   return (
     <>
       <Box>
@@ -51,9 +82,12 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
             <TextField label="Group Name" fullWidth required />
           </Grid>
         </Grid>
+        <Box py={2}  sx={{  overflow: 'auto',}}>
+          <ContactGroupEditTable/>
+        </Box>
         <Grid item xs={12}>
           <Typography pt={1}>
-            <b>Applicable To :</b>
+            <b>Applicable To </b>
           </Typography>
           <FormControl component="fieldset">
             <Grid container direction="row" alignItems="center" spacing={2}>
@@ -91,97 +125,52 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
           <TextField label="Search Name" fullWidth required />
         </Grid>
       </Grid>
-      {/* <Typography variant="h4" sx={{ p: 1, pl: 0 }}>
-        Select Contact Group(s)
-      </Typography> */}
-      {/* <TableContainer component={Box}>
-        <Table
-          aria-label="simple table"
-          sx={{
-            border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-            overflow: 'hidden'
-          }}
-        >
+      <Box py={2}>
+      <Typography variant="h4" sx={{ p: 1, pl: 0 }}>
+        Select Users To Add In Selected Group 
+      </Typography>
+
+      </Box>
+     
+      <TableContainer component={Box} sx={{  overflow: 'auto',}}>
+        <Table aria-label="simple table"
+        sx={{
+          border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+          overflow: 'hidden'
+        }}
+      >
           <TableHead>
-            <TableRow
-              sx={{
-                background: (theme) => theme.palette.secondary.main,
-                color: (theme) => theme.palette.common.white
-              }}
-            >
-              <TableCell
-                sx={{
-                  textTransform: 'capitalize',
-                  color: (theme) => theme.palette.common.white,
-                  py: 0
-                }}
-                align="left"
-              >
+            <TableRow sx={{
+              background: (theme) => theme.palette.secondary.main,
+              color: (theme) => theme.palette.common.white,
+             
+            }}
+          >
+              <TableCell padding="checkbox" sx={{ py:0.5}}>
                 <Checkbox />
               </TableCell>
-              <TableCell
-                sx={{
-                  textTransform: 'capitalize',
-                  color: (theme) => theme.palette.common.white,
-                  py: 0
-                }}
-                align="left"
-              >
-                Group Name
-              </TableCell>
-              <TableCell
-                sx={{
-                  textTransform: 'capitalize',
-                  color: (theme) => theme.palette.common.white,
-                  py: 0
-                }}
-                align="center"
-              >
-                Edit
-              </TableCell>
-              <TableCell
-                sx={{
-                  textTransform: 'capitalize',
-                  color: (theme) => theme.palette.common.white,
-                  py: 0
-                }}
-                align="center"
-              >
-                Delete
+              <TableCell sx={{ py:0.5}}>
+                <Box display="flex" alignItems="center">
+                  User Name
+                  <IconButton onClick={handleSort} size="small">
+                    {sortOrder === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                  </IconButton>
+                </Box>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {groups.map((item) => (
-              <TableRow key={item.GroupId}>
-                <TableCell sx={{ py: 0 }}>
+            {userData.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell padding="checkbox" sx={{ py:0.5}}>
                   <Checkbox />
                 </TableCell>
-                <TableCell sx={{ py: 0 }}>{item.GroupName}</TableCell>
-                <TableCell align="center" sx={{ py: 0 }}>
-                  <Tooltip title="Edit">
-                    <IconButton>
-                      <EditIcon />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
-                <TableCell align="center" sx={{ py: 0 }}>
-                  <Tooltip title="Delete">
-                    <IconButton
-                      sx={{
-                        color: '#223354',
-                        '&:hover': { color: 'red', backgroundColor: red[100] }
-                      }}
-                    >
-                      <DeleteForeverIcon />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
+                <TableCell sx={{ py:0.5}}>{user.name}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer> */}
+      </TableContainer>
     </>
   );
 };

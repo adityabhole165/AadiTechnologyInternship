@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
   TextField,
   Tooltip,
   Typography
@@ -38,6 +39,7 @@ import { QuestionMark } from '@mui/icons-material';
 import SquareIcon from '@mui/icons-material/Square';
 import { ClearIcon } from '@mui/x-date-pickers';
 import ContactGroupList from './ContactGroupList';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 const AddReciepents = ({
   RecipientName,
@@ -382,8 +384,8 @@ const AddReciepents = ({
   const groups = [
     { GroupId: '1', GroupName: 'Marketing' },
     { GroupId: '2', GroupName: 'Sales' },
-    { GroupId: '3', GroupName: 'Support' },
-];
+    { GroupId: '3', GroupName: 'Support' }
+  ];
 
   const populateRecipient = (itemList) => {
     itemList?.map((obj) => {
@@ -622,21 +624,30 @@ const AddReciepents = ({
                     ></DropdownofAddrecipent>
                   )}
                   {techerStudent1 === '9' && (
-                    <Button
+                    <Box
                       sx={{
-                        color: '#38548A',
-                        backgroundColor: grey[100],
-                        m: 1,
-                        ml: 28,
-                        '&:hover': {
-                          color: '#38548A',
-                          backgroundColor: blue[100]
-                        }
+                        display: 'flex',
+                        justifyContent: 'flex-end'
                       }}
-                      onClick={() => handleOpenDialog(true)}
                     >
-                      Create/update Group
-                    </Button>
+                      <Tooltip title="Add New Group">
+                        <IconButton
+                          sx={{
+                            color: '#38548A',
+                            backgroundColor: grey[100],
+                            m: 1,
+
+                            '&:hover': {
+                              color: '#38548A',
+                              backgroundColor: blue[100]
+                            }
+                          }}
+                          onClick={() => handleOpenDialog(true)}
+                        >
+                          <GroupAddIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
                   )}
                   {Loading ? (
                     <SuspenseLoader />
@@ -746,7 +757,7 @@ const AddReciepents = ({
           </Box>
 
           <Box>
-          <ContactGroupList groups={groups} />
+            <ContactGroupList groups={groups} />
           </Box>
           {/* <Box sx={{ overflow: 'auto', maxBlockSize: '400px', mt: 2 }}>
             {showRecipients ? (
