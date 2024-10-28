@@ -146,7 +146,7 @@ function Form13() {
 
   const originalMessageBody = localStorage.getItem('messageBody');
   const MSGBody = originalMessageBody?.replace(/(\r\n|\r|\n)/g, '<br>');
-  useEffect(() => {}, [finalBase642New]);
+  useEffect(() => { }, [finalBase642New]);
   useEffect(() => {
     if (PageName == 'Reply' || PageName == 'ReplyAll') {
       const PayLoadObject = {
@@ -432,15 +432,15 @@ function Form13() {
         PageName == 'Forwa'
           ? 'FW: ' + Text
           : PageName == 'Reply'
-          ? 'RE: ' + Text
-          : PageName == 'Edit'
-          ? Text
-          : '',
+            ? 'RE: ' + Text
+            : PageName == 'Edit'
+              ? Text
+              : '',
       Content:
         PageName == 'Edit'
           ? originalMessageBody
           : '<br/><br/>Thanks and Regards,<br/>' +
-            sessionStorage.getItem('StudentName'),
+          sessionStorage.getItem('StudentName'),
       Attachment: PageName == 'Edit' && null
     },
 
@@ -887,8 +887,8 @@ function Form13() {
                 />
                 <Box mt={0}>
                   {RecipientsList.length == 0 &&
-                  formik.touched.To &&
-                  formik.errors.To ? (
+                    formik.touched.To &&
+                    formik.errors.To ? (
                     <ErrorMessage1 Error={formik.errors.To} />
                   ) : null}
                 </Box>
@@ -1095,8 +1095,8 @@ function Form13() {
               </Grid>
               <Grid item xs={12}>
                 {finalBase642New == undefined ||
-                finalBase642New.length == 0 ||
-                PageName == 'Reply' ? null : (
+                  finalBase642New.length == 0 ||
+                  PageName == 'Reply' ? null : (
                   <div>
                     <Typography>Attachment(s):</Typography>
 
@@ -1312,6 +1312,8 @@ function Form13() {
                 RecipientName={RecipientsObject.RecipientName}
                 RecipientId={RecipientsObject.RecipientId}
                 recipientListClick={RecipientsListFun}
+                contactGroupList={RecipientsObject.ContactGroup}
+                classIdList={RecipientsCCObject.ClassId}
                 IsConfirm={IsConfirm}
               />
             ) : (
@@ -1319,6 +1321,8 @@ function Form13() {
                 RecipientName={RecipientsCCObject.RecipientName}
                 RecipientId={RecipientsCCObject.RecipientId}
                 recipientListClick={RecipientsCCListFun}
+                contactGroupList={RecipientsObject.ContactGroup}
+                classIdList={RecipientsCCObject.ClassId}
                 IsConfirm={IsConfirm}
               />
             )}
