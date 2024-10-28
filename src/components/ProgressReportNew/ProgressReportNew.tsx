@@ -15,6 +15,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressReportGradeView from './ProgressReportGradeView';
 import ProgressReportMarkView from './ProgressReportMarkView';
+import { getSchoolConfigurations } from '../Common/Util';
 
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,9 @@ const ProgressReportNew = () => {
   );
 
 
+
+  let CanEdit = getSchoolConfigurations(79)
+
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission?.map((item) => {
@@ -45,7 +49,11 @@ const ProgressReportNew = () => {
     return perm;
   };
 
-  const [selectTeacher, SetselectTeacher] = useState(GetScreenPermission() == 'N' ? TeacherIdsession : '');
+
+  
+
+
+  const [selectTeacher, SetselectTeacher] = useState(CanEdit == 'N' ? TeacherIdsession : '');
 
 
   const USlistTestDetailsArr: any = useSelector(
@@ -100,7 +108,7 @@ const ProgressReportNew = () => {
   const HeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray1);
   const SubHeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray1);
 
-  console.log(MarkDetailsList1, "MarkDetailsList1");
+
 
 
 
@@ -133,12 +141,15 @@ const ProgressReportNew = () => {
   const StandardDivisionId = () => {
     let returnVal = 0
     USGetClassTeachers.map((item) => {
-      if (item.Value == item.NewValue) {
+      if (item.Value == selectTeacher) {
         returnVal = item.Id
       }
     })
     return returnVal
   };
+
+
+  
 
   const Standard_Id = () => {
     let returnVal = 0
@@ -171,7 +182,7 @@ const ProgressReportNew = () => {
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asTeacherId: Number(GetScreenPermission() == 'Y' ? 0 : TeacherIdsession)
+    asTeacherId: Number(CanEdit == 'Y' ? 0 : TeacherIdsession)
   };
 
   const GetStudentNameDropdownBody: IGetStudentNameDropdownBody = {
@@ -297,7 +308,7 @@ const ProgressReportNew = () => {
 
 
   useEffect(() => {
-    if (GetScreenPermission() == 'Y') {
+    if (CanEdit == 'Y') {
       if (USGetClassTeachers.length > 0) {
         SetselectTeacher(USGetClassTeachers[0].Value);
       }
@@ -317,7 +328,7 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetStudentName(GetStudentNameDropdownBody));
-  }, [selectTeacher, StandardDivisionId()]);
+  }, [selectTeacher,StandardDivisionId()]);
 
   useEffect(() => {
     dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
@@ -367,11 +378,11 @@ const ProgressReportNew = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#F0F0F0' : '', }}
+            sx={{ pl: 0, minWidth: '350px', backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
             ItemList={USGetClassTeachers}
             mandatory
             onChange={clickSelectClass}
-            disabled={GetScreenPermission() == 'N'}
+            disabled={CanEdit == 'N'}
             defaultValue={selectTeacher}
             size={"small"}
 
