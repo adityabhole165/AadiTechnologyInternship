@@ -146,7 +146,6 @@ const StudentRegistrationForm = () => {
 
                         '& .MuiTab-root': {
                             minHeight: '60px',
-                            minWidth: 120,
                             borderRadius: '10px',
                             textTransform: 'none',
                             color: '#38548A',
@@ -171,12 +170,12 @@ const StudentRegistrationForm = () => {
                         }
                     }}
                 >
-                    <Tab sx={{ m: 2 }} icon={<SchoolIcon />} label="Admission Details" />
-                    <Tab sx={{ m: 2 }} icon={<AccountCircleIcon />} label="Personal Details" />
-                    <Tab sx={{ m: 2 }} icon={<DocumentIcon />} label="Admission Documents" />
-                    <Tab sx={{ m: 2 }} icon={<FamilyRestroomIcon />} label="Family Details" />
-                    <Tab sx={{ m: 2 }} icon={< GroupAddIcon/>} label="Additional Details" />
-                    <Tab sx={{ m: 2 }} icon={<InfoIcon />} label="Stream Details" />
+                    <Tab sx={{ m: 2, minWidth: 150 }} icon={<SchoolIcon />} label="Admission Details" />
+                    <Tab sx={{ m: 2, minWidth: 150 }} icon={<AccountCircleIcon />} label="Personal Details" />
+                    <Tab sx={{ m: 2, minWidth: 150 }} icon={<DocumentIcon />} label="Admission Documents" />
+                    <Tab sx={{ m: 2, minWidth: 150 }} icon={<FamilyRestroomIcon />} label="Family Details" />
+                    <Tab sx={{ m: 2, minWidth: 150 }} icon={< GroupAddIcon/>} label="Additional Details" />
+                    <Tab sx={{ m: 2, minWidth: 150 }} icon={<InfoIcon />} label="Stream Details" />
                 </Tabs>
             </Box>
             

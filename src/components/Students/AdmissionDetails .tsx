@@ -126,7 +126,35 @@ const AdmissionDetails = ({
         </Grid>
       )}
       <Grid container spacing={2}>
+      <Grid item xs={3}>
+          <TextField
+            name="userName"
+            label={
+              <span>
+              User Name
+              </span>
+            }
+            variant="outlined"
+            value={form.userName}
+            onChange={handleInputChange}
+            error={errors.userName}
+            helperText={errors.userName ? 'This field is required' : ''}
+            fullWidth
+          />
+        </Grid>
         <Grid item xs={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="sendSMS"
+                checked={form.sendSMS}
+                onChange={handleInputChange}
+              />
+            }
+            label="Send SMS of User Name and Password"
+          />
+        </Grid>
+        <Grid item xs={3} >
           <FormControlLabel
             control={
               <Checkbox
@@ -138,7 +166,7 @@ const AdmissionDetails = ({
             label="New Admission"
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -151,7 +179,7 @@ const AdmissionDetails = ({
           />
         </Grid>
         {form.isRTEApplicable && (
-          <Grid container spacing={2} ml={0}>
+          <Grid container spacing={2} pt={2} pl={2}>
             <Grid item xs={3}>
               <TextField
                 name="rteCategory"
@@ -159,7 +187,6 @@ const AdmissionDetails = ({
                 value={form.rteCategory}
                 onChange={handleInputChange}
                 fullWidth
-                required
                 error={errors.rteCategory}
                 helperText={errors.rteCategory ? 'This field is required' : ''}
                 sx={{
@@ -178,7 +205,6 @@ const AdmissionDetails = ({
                 value={form.rteApplicationForm}
                 onChange={handleInputChange}
                 fullWidth
-                required
                 error={errors.rteApplicationForm}
                 helperText={
                   errors.rteApplicationForm ? 'This field is required' : ''
@@ -200,26 +226,7 @@ const AdmissionDetails = ({
             </Grid>
           </Grid>
         )}
-        <Grid item xs={3}>
-          <TextField
-            name="userName"
-            label="User Name"
-            variant="outlined"
-            value={form.userName}
-            onChange={handleInputChange}
-            required
-            error={errors.userName}
-            helperText={errors.userName ? 'This field is required' : ''}
-            sx={{
-              backgroundColor: errors.registrationNumber
-                ? 'white'
-                : form.registrationNumber
-                ? 'white'
-                : 'inherit'
-            }}
-            fullWidth
-          />
-        </Grid>
+        
         <Grid item xs={3}>
           <TextField
             name="formNumber"
@@ -227,7 +234,6 @@ const AdmissionDetails = ({
             variant="outlined"
             value={form.formNumber}
             onChange={handleInputChange}
-            required
             error={errors.formNumber}
             helperText={errors.formNumber ? 'This field is required' : ''}
             sx={{
@@ -244,11 +250,15 @@ const AdmissionDetails = ({
           <Tooltip title="Valid Prefix(s) : No Prefix, PP">
             <TextField
               name="registrationNumber"
-              label="Registration Number"
+              label={
+                <span>
+                 Registration Number <span style={{ color: 'red' }}> *</span>
+                </span>
+              }
               variant="outlined"
               value={form.registrationNumber}
               onChange={handleInputChange}
-              required
+  
               error={errors.registrationNumber}
               helperText={
                 errors.registrationNumber ? 'This field is required' : ''
@@ -284,12 +294,15 @@ const AdmissionDetails = ({
         <Grid item xs={3}>
           <TextField
             name="admissionDate"
-            label="Admission Date"
+            label={
+              <span>
+               Admission Date <span style={{ color: 'red' }}> *</span>
+              </span>
+            }
             type="date"
             variant="outlined"
             value={form.admissionDate}
             onChange={handleInputChange}
-            required
             error={errors.admissionDate}
             helperText={errors.admissionDate ? 'This field is required' : ''}
             fullWidth
@@ -301,12 +314,15 @@ const AdmissionDetails = ({
         <Grid item xs={3}>
           <TextField
             name="joiningDate"
-            label="Joining Date"
+            label={
+              <span>
+              Joining Date <span style={{ color: 'red' }}> *</span>
+              </span>
+            }
             variant="outlined"
             type="date" // Optional: use a date input
             value={form.joiningDate}
             onChange={handleInputChange}
-            required
             error={errors.joiningDate}
             helperText={errors.joiningDate ? 'This field is required' : ''}
             sx={{
@@ -325,11 +341,14 @@ const AdmissionDetails = ({
         <Grid item xs={3}>
           <TextField
             name="studentRollNumber"
-            label="Student Roll Number"
+            label={
+              <span>
+              Student Roll Number <span style={{ color: 'red' }}> *</span>
+              </span>
+            }
             variant="outlined"
             value={form.studentRollNumber}
             onChange={handleInputChange}
-            required
             error={errors.studentRollNumber}
             helperText={
               errors.studentRollNumber ? 'This field is required' : ''
@@ -341,6 +360,16 @@ const AdmissionDetails = ({
                 ? 'white'
                 : 'inherit'
             }}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            name="StudentUDISEnumber"
+            label="Student UDISE number"
+            variant="outlined"
+            value={form.studentRollNumber}
+            onChange={handleInputChange}
             fullWidth
           />
         </Grid>
@@ -374,16 +403,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="StudentUDISEnumber"
-            label="Student UDISE number"
-            variant="outlined"
-            value={form.studentRollNumber}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+       
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
@@ -456,17 +476,8 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="userName"
-            label="Admission Standard"
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={3}>
        
-        </Grid>
+      
         <Grid item xs={3}>
           <FormControlLabel
             control={
@@ -551,18 +562,7 @@ const AdmissionDetails = ({
             label="Is Handicapped?"
           />
         </Grid>
-        <Grid item xs={3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="sendSMS"
-                checked={form.sendSMS}
-                onChange={handleInputChange}
-              />
-            }
-            label="Send SMS of User Name and Password"
-          />
-        </Grid>
+        
       </Grid>
 
       {/* <Grid
