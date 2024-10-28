@@ -476,7 +476,7 @@ const AddReciepents = ({
             size={"small"}
           /> */}
           <TextField
-            sx={{ width: '15vw', mt: 2 }}
+            sx={{ width: '15vw', mt: 0 }}
             fullWidth
             label="Search By Name"
             value={SearchByName}
@@ -624,19 +624,54 @@ const AddReciepents = ({
                     ></DropdownofAddrecipent>
                   )}
                   {techerStudent1 === '9' && (
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end'
-                      }}
-                    >
+                    <Box sx={{display:'flex', justifyContent:'space-between', p:0.5}}>
+                      <Box sx={{ background: 'white', pt:1 }}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            gap: '20px',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <Typography
+                            variant="h4"
+                            sx={{
+                              mb: 0,
+                              lineHeight: 'normal',
+                              alignSelf: 'center',
+                              paddingBottom: '2px'
+                            }}
+                          >
+                            Legend
+                          </Typography>
+                          <Box sx={{ display: 'flex', gap: '20px' }}>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                gap: 1,
+                                alignItems: 'center'
+                              }}
+                            >
+                              <SquareIcon
+                                style={{
+                                  color: '#F0F0F0',
+                                  fontSize: 25,
+                                  position: 'relative',
+                                  top: '-2px'
+                                }}
+                              />
+                              <Typography>Deactivated User</Typography>
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box>
+                      <Box>
+
                       <Tooltip title="Add New Group">
                         <IconButton
                           sx={{
                             color: '#38548A',
                             backgroundColor: grey[100],
-                            m: 1,
-
                             '&:hover': {
                               color: '#38548A',
                               backgroundColor: blue[100]
@@ -647,6 +682,7 @@ const AddReciepents = ({
                           <GroupAddIcon />
                         </IconButton>
                       </Tooltip>
+                      </Box>
                     </Box>
                   )}
                   {Loading ? (
@@ -727,7 +763,7 @@ const AddReciepents = ({
         </Typography>
 
         <DialogContent>
-          <Box sx={{ background: 'white', py: 1 }}>
+          {/* <Box sx={{ background: 'white', py: 1 }}>
             <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
               <Typography
                 variant="h4"
@@ -754,7 +790,7 @@ const AddReciepents = ({
                 </Box>
               </Box>
             </Box>
-          </Box>
+          </Box> */}
 
           <Box>
             <ContactGroupList groups={groups} />
