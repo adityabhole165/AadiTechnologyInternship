@@ -99,34 +99,34 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                                         const matchingObservation = FillStudentsLearningOutcomeObservations.find(
                                             obs => obs.SubjectSectionConfigId === outcome.SubjectSectionConfigId
                                         );
-                                
-                
+
+
                                         return (
                                             <TableRow key={outcome.YearwiseStudentId}>
-                                            <TableCell sx={{ py: 1 }}>{index + 1}</TableCell>
-                                            <TableCell sx={{ py: 1 }}>{outcome.LearningOutcome}</TableCell>
-                                            <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell>
-                                          
-                                            {SchoolScreensAccessPermission() && (
-                                                <Tooltip  title= {matchingObservation.Observation}>
-                                              <TableCell 
-                                              sx={{ 
-                                                py: 1, 
-                                                borderRight: '1px solid lightgrey', 
-                                                wordWrap: 'break-word', // Enable word wrapping
-                                                whiteSpace: 'normal',   // Allow wrapping within cell
-                                                wordBreak: 'break-word', // Handle long words
-                                                width: '250px',         // Set the desired width
-                                                minWidth: '250px'       // Ensure minimum width (optional)
-                                              }}
-                                            >
-                                             {matchingObservation.Observation?.substring(0, 150)}
-                                            </TableCell>
-                                            </Tooltip>
-                                            
-                                            )}
-                                          </TableRow>
-                                          
+                                                <TableCell sx={{ py: 1 }}>{index + 1}</TableCell>
+                                                <TableCell sx={{ py: 1 }}>{outcome.LearningOutcome}</TableCell>
+                                                <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell>
+
+                                                {SchoolScreensAccessPermission() && (
+                                                    <Tooltip title={matchingObservation?.Observation ? matchingObservation?.Observation :''}>
+                                                        <TableCell
+                                                            sx={{
+                                                                py: 1,
+                                                                borderRight: '1px solid lightgrey',
+                                                                wordWrap: 'break-word',
+                                                                whiteSpace: 'normal',
+                                                                wordBreak: 'break-word',
+                                                                width: '250px',
+                                                                minWidth: '250px',
+                                                            }}
+                                                        >
+                                                            {matchingObservation?.Observation?.substring(0, 150) ? matchingObservation?.Observation?.substring(0, 150) : ''}
+                                                        </TableCell>
+                                                    </Tooltip>
+                                                )}
+
+                                            </TableRow>
+
                                         );
                                     })}
 

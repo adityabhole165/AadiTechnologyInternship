@@ -79,12 +79,15 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
         <Grid container spacing={2}>
           {/* Group Name */}
           <Grid item xs={6}>
-            <TextField label="Group Name" fullWidth required />
+            <TextField    label={
+          <span>
+            Group Name<span style={{ color: 'red' }}> *</span>
+          </span>
+        }
+        fullWidth  />
           </Grid>
         </Grid>
-        <Box py={2}  sx={{  overflow: 'auto',}}>
-          <ContactGroupEditTable/>
-        </Box>
+        
         <Grid item xs={12}>
           <Typography pt={1}>
             <b>Applicable To </b>
@@ -109,24 +112,36 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
             </Grid>
           </FormControl>
         </Grid>
+        
+        <Box py={1}  sx={{  overflow: 'auto',}}>
+          <ContactGroupEditTable/>
+        </Box>
+        
       </Box>
-      <Grid container direction="row" alignItems="center" spacing={2}>
+      <Grid container direction="row" alignItems="center" spacing={2} sx={{pt:1}}>
         <Grid item xs={4}>
           <SearchableDropdown
             label="User Role "
-            sx={{ minWidth: '20vw' }}
+            sx={{ minWidth: '15vw' }}
             ItemList={userRoles}
           />
         </Grid>
         <Grid item xs={4}>
-          <TextField label="Class " fullWidth required />
+          <SearchableDropdown 
+              label="Class"
+              sx={{ minWidth: '15vw' }}
+            ItemList={userRoles}
+                  
+               />
         </Grid>
         <Grid item xs={4}>
-          <TextField label="Search Name" fullWidth required />
+          <TextField 
+           label= "Search By Name"
+           fullWidth  />
         </Grid>
       </Grid>
-      <Box py={2}>
-      <Typography variant="h4" sx={{ p: 1, pl: 0 }}>
+      <Box py={1}>
+      <Typography variant="h4" sx={{  pl: 0 }}>
         Select Users To Add In Selected Group 
       </Typography>
 
@@ -146,10 +161,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
              
             }}
           >
-              <TableCell padding="checkbox" sx={{ py:0.5}}>
+              <TableCell padding="checkbox" sx={{ py:0.5, color: 'white', }}>
                 <Checkbox />
               </TableCell>
-              <TableCell sx={{ py:0.5}}>
+              <TableCell sx={{ py:0.5, color: 'white',}}>
                 <Box display="flex" alignItems="center">
                   User Name
                   <IconButton onClick={handleSort} size="small">
