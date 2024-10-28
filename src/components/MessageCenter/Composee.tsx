@@ -562,14 +562,16 @@ function Form13() {
   }, [RecipientsObject.RecipientName]);
 
   // Handle deleting a chip
-  const handleDelete = (chipToDelete) => {
+  const handleDelete = (chipToDelete, index) => {
     const updatedRecipients = recipients.filter(
-      (recipient) => recipient !== chipToDelete
+      (recipient, i) => i !== index
     );
     setRecipients(updatedRecipients);
-
-    // Update the formik value or the related state
-    formik.setFieldValue('RecipientsObject.RecipientName', updatedRecipients);
+    setRecipientsObject((prev) => ({
+      ...prev,
+      RecipientName: prev.RecipientName.filter((recipient, i) => i !== index),
+      RecipientId: prev.RecipientId.filter((recipient, i) => i !== index),
+    }));
   };
 
   useEffect(() => {
@@ -722,14 +724,16 @@ function Form13() {
   }, [RecipientsCCObject.RecipientName]);
 
   // Handle deleting a chip (recipient)
-  const handleDelete1 = (chipToDelete) => {
+  const handleDelete1 = (chipToDelete, index) => {
     const updatedRecipients = recipientsCC.filter(
-      (recipient) => recipient !== chipToDelete
+      (recipient, i) => i !== index
     );
     setRecipientsCC(updatedRecipients);
-
-    // Update the formik value (or related state)
-    formik.setFieldValue('RecipientsCCObject.RecipientName', updatedRecipients);
+    setRecipientsCCObject((prev) => ({
+      ...prev,
+      RecipientName: prev.RecipientName.filter((recipient, i) => i !== index),
+      RecipientId: prev.RecipientId.filter((recipient, i) => i !== index),
+    }));
   };
   return (
     <>
@@ -868,7 +872,7 @@ function Form13() {
                           <Chip
                             key={index}
                             label={recipient?.trim()}
-                            onDelete={() => handleDelete(recipient)} // Add delete functionality
+                            onDelete={() => handleDelete(recipient, index)} // Add delete functionality
                             sx={{ margin: '2px 4px' }}
                           />
                         ))}
@@ -962,7 +966,7 @@ function Form13() {
                                 key={index}
                                 label={recipient?.trim()}
                                 sx={{ margin: '2px 4px' }}
-                                onDelete={() => handleDelete1(recipient)} // Add delete functionality
+                                onDelete={() => handleDelete1(recipient, index)} // Add delete functionality
                               />
                             ))}
                           </Box>
