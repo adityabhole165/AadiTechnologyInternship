@@ -334,30 +334,30 @@ export const CDAStudentProgressReport =
               let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
 
 
-              if (TestTypeCount !== 1) {  // 3 > !==1
-                // Flag > 🚩
-                // let Flag = SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' ? true : false;
-                if (SubjectArray[SubjectIndex].Parent_Subject_Id === '0') {
-                  // if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
-                  //   returnVal = cell.Grade
-                  // } else {
-                  columns.push({
-                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                    TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
-                    IsAbsent: cell ? cell.Is_Absent : "N"
-                  })
-                } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
-                  columns.push({
-                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                    TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
-                    IsAbsent: cell ? cell.Is_Absent : "N"
-                  })
-                }
-                //#region  check
-
-
-
+              // if (TestTypeCount !== 1) {  // 3 > !==1
+              // Flag > 🚩
+              // let Flag = SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' ? true : false;
+              if (SubjectArray[SubjectIndex].Parent_Subject_Id === '0') {
+                // if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
+                //   returnVal = cell.Grade
+                // } else {
+                columns.push({
+                  MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                  TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
+                  IsAbsent: cell ? cell.Is_Absent : "N"
+                })
+              } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
+                columns.push({
+                  MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                  TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
+                  IsAbsent: cell ? cell.Is_Absent : "N"
+                })
               }
+              //#region  check
+
+
+
+              // }
 
 
 
@@ -594,7 +594,7 @@ export const CDAStudentProgressReport =
                   TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TotalGrade) : "" : "-",
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 })
-
+                // 
               }
 
 
@@ -780,7 +780,6 @@ export const CDAStudentProgressReport =
           Grade_Name: item.Grade_Name,
           SchoolWise_Test_Id: item.SchoolWise_Test_Id,
           Grade_id: item.Grade_id
-
         };
       });
       let listTestidDetails = response.data.listTestidDetails.map((item, i) => {

@@ -87,6 +87,10 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
             console.log(findRow2());
         }
     }, [EntireDataList])
+    useEffect(() => {
+        console.log('🦥🦥🦥',MarkDetailsList);
+        
+    }, [MarkDetailsList]);
 
     let HeaderParent = [];
     let PrevParentId = "0", SubjectName = "";
@@ -122,7 +126,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                     {HeaderParent.length > 1 && (
                         <>
                             <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                                <TableCell rowSpan={2}>
+                                <TableCell rowSpan={3}>
                                     <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5}>
                                         Subjects &#9654;
                                     </Typography>
@@ -217,7 +221,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                     )}
 
                     <TableRow>
-                        <TableCell></TableCell>
+                        {/* <TableCell></TableCell> */}
                         {ThirdHeaderRow.map((item, index) => (
                             <>
                                 {/* Render the normal TableCell */}
