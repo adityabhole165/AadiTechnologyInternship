@@ -50,3 +50,11 @@ export interface IGetStandardClassResult {
     Original_Division_Id: string,
     Standard_Name: string
 }
+export interface IAddUpdateGroupBody {
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asMailingGroupXML: string
+}
+export interface IAddUpdateGroupResult {
+    string
+}
