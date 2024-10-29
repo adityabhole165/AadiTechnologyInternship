@@ -23,8 +23,8 @@ Past Password- Aamerah@30
 3. Gemini     🔗 https://gemini.google.com/
 ---
 ### LLM's for Large Coding Problems - `Google's Gemini 1.5 pro`
-Pro's - Have a [Token Window]()https://blog.mlq.ai/tokens-context-window-llms/#:~:text=Tokens%20are%20the%20basic%20building,broken%20down%20(i.e.%20tokenized) of rougly 2 million ~ 200,000 lines of code
-Link to Access 🔗 https://aistudio.google.com/prompts/new_chat
+Pro's - Have a [Token Window](https://blog.mlq.ai/tokens-context-window-llms/#:~:text=Tokens%20are%20the%20basic%20building,broken%20down%20(i.e.%20tokenized)) of rougly 2 million ~ 200,000 lines of code
+##### Link to Access 🔗 https://aistudio.google.com/prompts/new_chat
 ---
 ### VS Code Extensions for Faster Development and Context Aware Auto - Code Completions
 1. Cody AI 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=sourcegraph.cody-ai" target="_blank">Click to Open</a>
