@@ -28,4 +28,6 @@ Past Password- Aamerah@30
 
 ### For UI Design Inspiration and Mock Generation LLM
 1. V0 by Vercel 🔗 https://v0.dev/
+### Tailwind CSS Color Pallete 🟥🟩🟨🟧
+Link 🔗 https://uicolors.app/browse/tailwind-colors
 
