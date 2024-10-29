@@ -152,12 +152,12 @@ const AdmissionDetails = ({
         </Grid>
       )}
       <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="userName"
             label={
               <span>
-              User Name
+                User Name
               </span>
             }
             variant="outlined"
@@ -252,32 +252,8 @@ const AdmissionDetails = ({
             </Grid>
           </Grid>
         )}
-<<<<<<< HEAD
-        <Grid item xs={3}>
-          <TextField
-            name="userName"
-            label="User Name"
-            variant="outlined"
-            value={form.userName}
-            onChange={handleInputChange}
-            required
-            error={errors.userName}
-            helperText={errors.userName ? 'This field is required' : ''}
-            sx={{
-              backgroundColor: errors.registrationNumber
-                ? 'white'
-                : form.registrationNumber
-                  ? 'white'
-                  : 'inherit'
-            }}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={3}>
-=======
-        
+
         <Grid item xs={12} sm={6} md={4} lg={3}>
->>>>>>> 050f254749c96edef461fd1e1699f4cc1997e927
           <TextField
             name="formNumber"
             label="Form Number"
@@ -302,13 +278,13 @@ const AdmissionDetails = ({
               name="registrationNumber"
               label={
                 <span>
-                 Registration Number <span style={{ color: 'red' }}> *</span>
+                  Registration Number <span style={{ color: 'red' }}> *</span>
                 </span>
               }
               variant="outlined"
               value={form.registrationNumber}
               onChange={handleInputChange}
-  
+
               error={errors.registrationNumber}
               helperText={
                 errors.registrationNumber ? 'This field is required' : ''
@@ -346,7 +322,7 @@ const AdmissionDetails = ({
             name="admissionDate"
             label={
               <span>
-               Admission Date <span style={{ color: 'red' }}> *</span>
+                Admission Date <span style={{ color: 'red' }}> *</span>
               </span>
             }
             type="date"
@@ -366,7 +342,7 @@ const AdmissionDetails = ({
             name="joiningDate"
             label={
               <span>
-              Joining Date <span style={{ color: 'red' }}> *</span>
+                Joining Date <span style={{ color: 'red' }}> *</span>
               </span>
             }
             variant="outlined"
@@ -393,7 +369,7 @@ const AdmissionDetails = ({
             name="studentRollNumber"
             label={
               <span>
-              Student Roll Number <span style={{ color: 'red' }}> *</span>
+                Student Roll Number <span style={{ color: 'red' }}> *</span>
               </span>
             }
             variant="outlined"
@@ -453,7 +429,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-       
+
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
@@ -528,24 +504,8 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-<<<<<<< HEAD
-        <Grid item xs={3}>
-          <TextField
-            name="userName"
-            label="Admission Standard"
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={3}>
 
-        </Grid>
-        <Grid item xs={3}>
-=======
-       
-      
         <Grid item xs={12} sm={6} md={4} lg={3}>
->>>>>>> 050f254749c96edef461fd1e1699f4cc1997e927
           <FormControlLabel
             control={
               <Checkbox
@@ -629,7 +589,7 @@ const AdmissionDetails = ({
             label="Is Handicapped?"
           />
         </Grid>
-        
+
       </Grid>
 
       {/* <Grid
