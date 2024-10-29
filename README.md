@@ -23,5 +23,5 @@ Past Password- Aamerah@30
 3. Gemini     🔗 https://gemini.google.com/
 
 ### VS Code Extensions for Faster Development and Context Aware Auto - Code Completions
-1. Cody AI 🔗 [Click to Open](https://marketplace.visualstudio.com/items?itemName=sourcegraph.cody-ai)
-2. Codeium 🔗 [Click to Open](https://marketplace.visualstudio.com/items?itemName=Codeium.codeium)
+1. Cody AI 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=sourcegraph.cody-ai" target="_blank">Click to Open</a>
+2. Codeium 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=Codeium.codeium" target="_blank">Click to Open</a>
