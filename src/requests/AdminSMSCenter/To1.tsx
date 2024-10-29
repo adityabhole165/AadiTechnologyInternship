@@ -56,7 +56,7 @@ export const GetUser =
       const response = await getuserlistapi.GetUsersInGroup(data);
       const userList = response.data.GetUsersInGroupResult.map((item, index) => {
         return {
-          Id: item.Id,
+          Id: item.Id.toString(),
           Value: item.Name,
           isActive: false,
           Name: item.Name
@@ -93,7 +93,7 @@ export const GetStudent =
         const response = await getuserlistapi.GetStudentGroup(data);
         studentList = response.data.GetStudentsUserResult.map((item, index) => {
           return {
-            Id: item.Id,
+            Id: item.Id.toString(),
             Value: item.Name,
             isActive: false,
             Name: item.Name

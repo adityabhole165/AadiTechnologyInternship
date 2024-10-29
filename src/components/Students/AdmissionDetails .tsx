@@ -152,7 +152,35 @@ const AdmissionDetails = ({
         </Grid>
       )}
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+      <Grid item xs={12} sm={6} md={4} lg={3}>
+          <TextField
+            name="userName"
+            label={
+              <span>
+              User Name
+              </span>
+            }
+            variant="outlined"
+            value={form.userName}
+            onChange={handleInputChange}
+            error={errors.userName}
+            helperText={errors.userName ? 'This field is required' : ''}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="sendSMS"
+                checked={form.sendSMS}
+                onChange={handleInputChange}
+              />
+            }
+            label="Send SMS of User Name and Password"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} >
           <FormControlLabel
             control={
               <Checkbox
@@ -164,7 +192,7 @@ const AdmissionDetails = ({
             label="New Admission"
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -177,15 +205,14 @@ const AdmissionDetails = ({
           />
         </Grid>
         {form.isRTEApplicable && (
-          <Grid container spacing={2} ml={0}>
-            <Grid item xs={3}>
+          <Grid container spacing={2} pt={2} pl={2}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 name="rteCategory"
                 label="RTE Category"
                 value={form.rteCategory}
                 onChange={handleInputChange}
                 fullWidth
-                required
                 error={errors.rteCategory}
                 helperText={errors.rteCategory ? 'This field is required' : ''}
                 sx={{
@@ -197,14 +224,13 @@ const AdmissionDetails = ({
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 name="rteApplicationForm"
                 label="RTE Application Form"
                 value={form.rteApplicationForm}
                 onChange={handleInputChange}
                 fullWidth
-                required
                 error={errors.rteApplicationForm}
                 helperText={
                   errors.rteApplicationForm ? 'This field is required' : ''
@@ -226,6 +252,7 @@ const AdmissionDetails = ({
             </Grid>
           </Grid>
         )}
+<<<<<<< HEAD
         <Grid item xs={3}>
           <TextField
             name="userName"
@@ -247,13 +274,16 @@ const AdmissionDetails = ({
           />
         </Grid>
         <Grid item xs={3}>
+=======
+        
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+>>>>>>> 050f254749c96edef461fd1e1699f4cc1997e927
           <TextField
             name="formNumber"
             label="Form Number"
             variant="outlined"
             value={form.formNumber}
             onChange={handleInputChange}
-            required
             error={errors.formNumber}
             helperText={errors.formNumber ? 'This field is required' : ''}
             sx={{
@@ -266,15 +296,19 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Tooltip title="Valid Prefix(s) : No Prefix, PP">
             <TextField
               name="registrationNumber"
-              label="Registration Number"
+              label={
+                <span>
+                 Registration Number <span style={{ color: 'red' }}> *</span>
+                </span>
+              }
               variant="outlined"
               value={form.registrationNumber}
               onChange={handleInputChange}
-              required
+  
               error={errors.registrationNumber}
               helperText={
                 errors.registrationNumber ? 'This field is required' : ''
@@ -290,7 +324,7 @@ const AdmissionDetails = ({
             />
           </Tooltip>
         </Grid>
-        {/* <Grid item xs={3}>
+        {/* <Grid item xs={12} sm={6} md={4} lg={3}>
                     <TextField
                         name="admissionDate"
                         label="Admission Date"
@@ -307,15 +341,18 @@ const AdmissionDetails = ({
                         fullWidth
                     />
                 </Grid> */}
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="admissionDate"
-            label="Admission Date"
+            label={
+              <span>
+               Admission Date <span style={{ color: 'red' }}> *</span>
+              </span>
+            }
             type="date"
             variant="outlined"
             value={form.admissionDate}
             onChange={handleInputChange}
-            required
             error={errors.admissionDate}
             helperText={errors.admissionDate ? 'This field is required' : ''}
             fullWidth
@@ -324,15 +361,18 @@ const AdmissionDetails = ({
             }}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="joiningDate"
-            label="Joining Date"
+            label={
+              <span>
+              Joining Date <span style={{ color: 'red' }}> *</span>
+              </span>
+            }
             variant="outlined"
             type="date" // Optional: use a date input
             value={form.joiningDate}
             onChange={handleInputChange}
-            required
             error={errors.joiningDate}
             helperText={errors.joiningDate ? 'This field is required' : ''}
             sx={{
@@ -348,14 +388,17 @@ const AdmissionDetails = ({
             }}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="studentRollNumber"
-            label="Student Roll Number"
+            label={
+              <span>
+              Student Roll Number <span style={{ color: 'red' }}> *</span>
+              </span>
+            }
             variant="outlined"
             value={form.studentRollNumber}
             onChange={handleInputChange}
-            required
             error={errors.studentRollNumber}
             helperText={
               errors.studentRollNumber ? 'This field is required' : ''
@@ -370,37 +413,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="BoardRegistrationNumber"
-            label="Board Registration Number"
-            variant="outlined"
-            value={form.BoardRegistrationNumber}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="SaralNo"
-            label="Saral No"
-            variant="outlined"
-            value={form.SaralNo}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="PENNumber "
-            label="PEN Number"
-            variant="outlined"
-            value={form.PENNumber}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="StudentUDISEnumber"
             label="Student UDISE number"
@@ -410,7 +423,38 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <TextField
+            name="BoardRegistrationNumber"
+            label="Board Registration Number"
+            variant="outlined"
+            value={form.BoardRegistrationNumber}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <TextField
+            name="SaralNo"
+            label="Saral No"
+            variant="outlined"
+            value={form.SaralNo}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <TextField
+            name="PENNumber "
+            label="PEN Number"
+            variant="outlined"
+            value={form.PENNumber}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+       
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={applicableRules}
@@ -419,7 +463,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={applicableRules}
@@ -429,7 +473,7 @@ const AdmissionDetails = ({
           />
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={applicableRules}
@@ -438,7 +482,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={StaffUserRole}
@@ -447,7 +491,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={StaffUserRole}
@@ -456,7 +500,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ResidenceTypesDropdown}
@@ -465,7 +509,7 @@ const AdmissionDetails = ({
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '15vw' }}
             ItemList={ResidenceType}
@@ -476,7 +520,7 @@ const AdmissionDetails = ({
 
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="userName"
             label="RFID"
@@ -484,6 +528,7 @@ const AdmissionDetails = ({
             fullWidth
           />
         </Grid>
+<<<<<<< HEAD
         <Grid item xs={3}>
           <TextField
             name="userName"
@@ -496,6 +541,11 @@ const AdmissionDetails = ({
 
         </Grid>
         <Grid item xs={3}>
+=======
+       
+      
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+>>>>>>> 050f254749c96edef461fd1e1699f4cc1997e927
           <FormControlLabel
             control={
               <Checkbox
@@ -507,7 +557,7 @@ const AdmissionDetails = ({
             label="Is Staff Kid?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -519,7 +569,7 @@ const AdmissionDetails = ({
             label="Is Only Child?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -531,7 +581,7 @@ const AdmissionDetails = ({
             label="Is Rise & Shine?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -543,7 +593,7 @@ const AdmissionDetails = ({
             label="Is Minority?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -555,7 +605,7 @@ const AdmissionDetails = ({
             label="Is For Day Boarding?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -567,7 +617,7 @@ const AdmissionDetails = ({
             label="Is For Day Boarding?"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -579,18 +629,7 @@ const AdmissionDetails = ({
             label="Is Handicapped?"
           />
         </Grid>
-        <Grid item xs={3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="sendSMS"
-                checked={form.sendSMS}
-                onChange={handleInputChange}
-              />
-            }
-            label="Send SMS of User Name and Password"
-          />
-        </Grid>
+        
       </Grid>
 
       {/* <Grid

@@ -2,6 +2,7 @@ import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import CheckboxImg from '../card/CheckboxImg';
 import ListCard4ColSel from '../card/ListCard4ColSel';
 const SelectList3Col = ({
   Itemlist, refreshData, ActiveTab, DeleteDraft,
@@ -88,24 +89,35 @@ const SelectList3Col = ({
     clickSortExp(columnName)
 
   }
+  const onCheckAll = (value) => {
+    Itemlist = Itemlist.map(item => ({ ...item, isActive: value }));
+    refreshData(Itemlist);
+  }
   return (
     <Box sx={{ textAlign: 'center' }}>
-
       <Box sx={{
         display: 'flex', borderRadius: '7px', mb: 1, p: 1.5, background: (theme) => theme.palette.secondary.main,
         border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden'
       }}>
+        {ActiveTab !== 'Draft' && (
+          <Box ml={0.5}>
+            <CheckboxImg
+              name={"All"}
+              value={"All"}
+              checked={Itemlist.every(item => item.isActive === true)}
+              onChange={(value) => { onCheckAll(value.checked) }}
+            /></Box>)}
         {showcolumn('Delete') && <Box sx={{ color: 'white', ml: 0 }}>Delete</Box>}
-        {showcolumn('Subject') && <Box onClick={() => { clickHeader('Subject') }} sx={{ color: 'white', ml: 7, display: 'flex' }}>
+        {showcolumn('Subject') && <Box onClick={() => { clickHeader('Subject') }} sx={{ color: 'white', ml: 5, display: 'flex' }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Subject
           </Typography>
           {SortExp === 'Subject' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
-        {showcolumn('To') && <Box sx={{ color: 'white', ml: 32 }}>To</Box>}
+        {showcolumn('To') && <Box sx={{ color: 'white', ml: 31 }}>To</Box>}
         {showcolumn('Cc') && <Box sx={{ color: 'white', ml: 22 }}>Cc</Box>}
-        {showcolumn('Read Receipt Information') && <Box sx={{ color: 'white', ml: 18 }}>Read Receipt Information</Box>}
+        {showcolumn('Read Receipt Information') && <Box sx={{ color: 'white', ml: 16 }}>Read Receipt Information</Box>}
         {showcolumn('Message Body') && <Box sx={{ color: 'white', ml: 32 }}>  Message Body</Box>}
         {showcolumn('From') && <Box sx={{ color: 'white', ml: 40 }}>From</Box>}
         {showcolumn('From1') && <Box sx={{ color: 'white', ml: 40 }}>From</Box>}

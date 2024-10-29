@@ -1,3 +1,6 @@
+import { QuestionMark } from '@mui/icons-material';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import SquareIcon from '@mui/icons-material/Square';
 import {
   Box,
   Button,
@@ -14,6 +17,7 @@ import {
   Typography
 } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -34,17 +38,15 @@ import {
   getShowPTA
 } from 'src/requests/AdminSMSCenter/To1';
 import { RootState } from 'src/store';
-import SelectallAddrecipents from './SelectallAddrecipents';
-import { QuestionMark } from '@mui/icons-material';
-import SquareIcon from '@mui/icons-material/Square';
-import { ClearIcon } from '@mui/x-date-pickers';
 import ContactGroupList from './ContactGroupList';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import SelectallAddrecipents from './SelectallAddrecipents';
 
 const AddReciepents = ({
   RecipientName,
   RecipientId,
   recipientListClick,
+  contactGroupList,
+  classIdList,
   IsConfirm
 }) => {
   let PageName = 'MessageCenter';
@@ -61,8 +63,8 @@ const AddReciepents = ({
   const [selectedRecipentsId, setSelectedRecipentsId] = useState(
     RecipientId || []
   );
-  const [classId, setClassId] = useState([]);
-  const [contactGroup, setContactGroup] = useState([]);
+  const [classId, setClassId] = useState(classIdList || []);
+  const [contactGroup, setContactGroup] = useState(contactGroupList || []);
   const [techerStudent1, setTeacherStudent1] = useState('');
   const [adminandSW, setAdminandSW] = useState();
   const [staffAndAdmin, setStaffAndAdmin] = useState();
@@ -582,8 +584,8 @@ const AddReciepents = ({
                             RoleId === '3'
                               ? '50px'
                               : RoleId === '2'
-                              ? '95px'
-                              : '180px'
+                                ? '95px'
+                                : '180px'
                           }
                         >
                           <ListSelect
@@ -624,8 +626,8 @@ const AddReciepents = ({
                     ></DropdownofAddrecipent>
                   )}
                   {techerStudent1 === '9' && (
-                    <Box sx={{display:'flex', justifyContent:'space-between', p:0.5}}>
-                      <Box sx={{ background: 'white', pt:1 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 0.5 }}>
+                      <Box sx={{ background: 'white', pt: 1 }}>
                         <Box
                           sx={{
                             display: 'flex',
@@ -667,21 +669,21 @@ const AddReciepents = ({
                       </Box>
                       <Box>
 
-                      <Tooltip title="Add New Group">
-                        <IconButton
-                          sx={{
-                            color: '#38548A',
-                            backgroundColor: grey[100],
-                            '&:hover': {
+                        <Tooltip title="Add New Group">
+                          <IconButton
+                            sx={{
                               color: '#38548A',
-                              backgroundColor: blue[100]
-                            }
-                          }}
-                          onClick={() => handleOpenDialog(true)}
-                        >
-                          <GroupAddIcon />
-                        </IconButton>
-                      </Tooltip>
+                              backgroundColor: grey[100],
+                              '&:hover': {
+                                color: '#38548A',
+                                backgroundColor: blue[100]
+                              }
+                            }}
+                            onClick={() => handleOpenDialog(true)}
+                          >
+                            <GroupAddIcon />
+                          </IconButton>
+                        </Tooltip>
                       </Box>
                     </Box>
                   )}
