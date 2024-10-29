@@ -46,7 +46,7 @@ const ContactGroupSlice = createSlice({
     }
 })
 
-export const CDAGetMailingGroups = (data: IGetMailingGroupsBody): AppThunk => async (dispatch) => {
+export const CDAAddUpdateGroup = (data: IGetMailingGroupsBody): AppThunk => async (dispatch) => {
     dispatch(ContactGroupSlice.actions.getLoading(true));
     const response = await ContactGroupApi.GetMailingGroupsApi(data);
     let GroupDetails = response.data.map((item, i) => {
@@ -105,7 +105,7 @@ export const CDAGetUserName = (data: IGetUserNameBody): AppThunk => async (dispa
     dispatch(ContactGroupSlice.actions.RGetUserName(userName));
 };
 
-export const CDAAddUpdateGroup =
+export const CDAaddUpdateGroup =
     (data: IAddUpdateGroupBody): AppThunk =>
         async (dispatch) => {
             const response = await ContactGroupApi.AddUpdateGroupApi(data);
