@@ -8,6 +8,7 @@ const StudentUISlice = createSlice({
     initialState: {
         ISOcupationDropdown: [],
         ISCategoryDropdown: [],
+        ISResidenceTypesDropdown: [],
         Loading: true
     },
     reducers: {
@@ -17,6 +18,10 @@ const StudentUISlice = createSlice({
         },
         RCategoryDropdown(state, action) {
             state.ISCategoryDropdown = action.payload;
+            state.Loading = false;
+        },
+        RResidenceTypesDropdown(state, action) {
+            state.ISResidenceTypesDropdown = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -50,6 +55,18 @@ export const CDAGetStudentRecordData =
                 });
             });
             dispatch(StudentUISlice.actions.RCategoryDropdown(CategoryDropdown));
+
+
+            let ResidenceTypesDropdown = []
+            response.data.ResidenceTypesDropdown.map((item, i) => {
+                ResidenceTypesDropdown.push({
+                    Id: item.ResidenceTypeId,
+                    Name: item.Name,
+                    Value: item.ResidenceTypeId
+                });
+            });
+            dispatch(StudentUISlice.actions.RResidenceTypesDropdown(ResidenceTypesDropdown));
+            console.log(ResidenceTypesDropdown, "ak");
         };
 
 

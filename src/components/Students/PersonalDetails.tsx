@@ -650,13 +650,14 @@ const PersonalDetails = ({ onSave }) => {
                         {/* Dropdown */}
                         {form.bloodGroup !== undefined && (
                             <Grid item xs={3}>
-                                <TextField
-                                    name="bloodGroup"
-                                    label="Blood Group"
-                                    variant="outlined"
-                                    value={form.bloodGroup}
-                                    onChange={handleInputChange}
-                                    fullWidth
+                                <SearchableDropdown
+                                    sx={{ minWidth: '15vw' }}
+                                    ItemList={OccupationDropdown}
+                                    onChange={(value) => handleDropdownChange('parentOccupation', value)}
+                                    label={"BloodGroup"}
+                                    defaultValue={form.bloodGroup}
+                                    size={"medium"}
+
                                 />
                             </Grid>
                         )}

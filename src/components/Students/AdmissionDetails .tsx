@@ -1,7 +1,6 @@
 import {
   Alert,
   Box,
-  Button,
   Checkbox,
   FormControlLabel,
   Grid,
@@ -9,15 +8,20 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { CDAGetStudentRecordData } from 'src/requests/Students/RequestStudentUI';
+import { RootState } from 'src/store';
 
 const AdmissionDetails = ({
   onSave
 }: {
   onSave: (isSuccessful: boolean) => void;
 }) => {
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState({
     newAdmission: false,
     isRTEApplicable: false,
@@ -34,6 +38,20 @@ const AdmissionDetails = ({
     SaralNo: '',
     PENNumber: ''
   });
+
+  const ResidenceTypesDropdown = useSelector((state: RootState) => state.StudentUI.ISResidenceTypesDropdown);
+  //console.log('ResidenceTypesDropdown', ResidenceTypesDropdown);
+
+  const GetStudentRecordDataResult: IMasterDatastudentBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asStandardId: 1082,
+    asDivisionId: 1299
+  };
+
+  useEffect(() => {
+    dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
+  }, []);
 
   const [errors, setErrors] = useState({
     userName: false,
@@ -54,6 +72,14 @@ const AdmissionDetails = ({
       ...prevForm,
       [name]: type === 'checkbox' ? checked : value
     }));
+
+    const handleDropdownChange = (name: string, value: any) => {
+      setForm(prevForm => ({
+        ...prevForm,
+        [name]: value
+      }));
+      setErrors(prev => ({ ...prev, [name]: false }));
+    };
 
     // Update error state when user types
     if (value) {
@@ -166,8 +192,8 @@ const AdmissionDetails = ({
                   backgroundColor: errors.rteCategory
                     ? 'red'
                     : form.rteCategory
-                    ? 'lightblue'
-                    : 'inherit'
+                      ? 'lightblue'
+                      : 'inherit'
                 }}
               />
             </Grid>
@@ -187,8 +213,8 @@ const AdmissionDetails = ({
                   backgroundColor: errors.rteApplicationForm
                     ? 'red'
                     : form.rteApplicationForm
-                    ? 'lightblue'
-                    : 'inherit'
+                      ? 'lightblue'
+                      : 'inherit'
                 }}
               />
             </Grid>
@@ -214,8 +240,8 @@ const AdmissionDetails = ({
               backgroundColor: errors.registrationNumber
                 ? 'white'
                 : form.registrationNumber
-                ? 'white'
-                : 'inherit'
+                  ? 'white'
+                  : 'inherit'
             }}
             fullWidth
           />
@@ -234,8 +260,8 @@ const AdmissionDetails = ({
               backgroundColor: errors.registrationNumber
                 ? 'white'
                 : form.registrationNumber
-                ? 'white'
-                : 'inherit'
+                  ? 'white'
+                  : 'inherit'
             }}
             fullWidth
           />
@@ -257,8 +283,8 @@ const AdmissionDetails = ({
                 backgroundColor: errors.registrationNumber
                   ? 'white'
                   : form.registrationNumber
-                  ? 'white'
-                  : 'inherit'
+                    ? 'white'
+                    : 'inherit'
               }}
               fullWidth
             />
@@ -313,8 +339,8 @@ const AdmissionDetails = ({
               backgroundColor: errors.registrationNumber
                 ? 'white'
                 : form.registrationNumber
-                ? 'white'
-                : 'inherit'
+                  ? 'white'
+                  : 'inherit'
             }}
             fullWidth
             InputLabelProps={{
@@ -338,8 +364,8 @@ const AdmissionDetails = ({
               backgroundColor: errors.registrationNumber
                 ? 'white'
                 : form.registrationNumber
-                ? 'white'
-                : 'inherit'
+                  ? 'white'
+                  : 'inherit'
             }}
             fullWidth
           />
@@ -433,7 +459,7 @@ const AdmissionDetails = ({
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={ResidenceType}
+            ItemList={ResidenceTypesDropdown}
             // onChange={onClickClass}
             label={' Residence Type'}
             size={'medium'}
@@ -441,11 +467,13 @@ const AdmissionDetails = ({
         </Grid>
         <Grid item xs={3}>
           <SearchableDropdown
-            sx={{ minWidth: '300px' }}
+            sx={{ minWidth: '15vw' }}
             ItemList={ResidenceType}
-            // onChange={onClickClass}
+            onChange={handleInputChange}
             label={'Fee Area Name'}
-            size={'medium'}
+            //defaultValue={form.parentOccupation}
+            size={"medium"}
+
           />
         </Grid>
         <Grid item xs={3}>
@@ -465,7 +493,7 @@ const AdmissionDetails = ({
           />
         </Grid>
         <Grid item xs={3}>
-       
+
         </Grid>
         <Grid item xs={3}>
           <FormControlLabel
