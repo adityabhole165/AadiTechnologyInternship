@@ -9,6 +9,7 @@ const StudentUISlice = createSlice({
         ISOcupationDropdown: [],
         ISCategoryDropdown: [],
         ISFeeRuleConcession: [],
+        ISLanguageDropdown: [],
         ISResidenceTypesDropdown: [],
         Loading: true
     },
@@ -27,6 +28,10 @@ const StudentUISlice = createSlice({
         },
         RResidenceTypesDropdown(state, action) {
             state.ISResidenceTypesDropdown = action.payload;
+            state.Loading = false;
+        },
+        RLanguageDropdown(state, action) {
+            state.ISLanguageDropdown = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -70,7 +75,18 @@ export const CDAGetStudentRecordData =
                 });
             });
             dispatch(StudentUISlice.actions.RFeeRuleConcession(FeeRuleConcession));
-            console.log(FeeRuleConcession, "ak");
+
+            let LanguageDropdown = []
+            response.data.LanguageDropdown.map((item, i) => {
+                LanguageDropdown.push({
+                    Id: item.Subject_Id,
+                    Name: item.Subject_Name,
+                    Value: item.Subject_Id,
+                    LanguageGroupId: item.LanguageGroupId
+                });
+            });
+            dispatch(StudentUISlice.actions.RLanguageDropdown(LanguageDropdown));
+            console.log(LanguageDropdown, "ak");
 
             let ResidenceTypesDropdown = []
             response.data.ResidenceTypesDropdown.map((item, i) => {
