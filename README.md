@@ -16,18 +16,23 @@ Past Password- Aamerah@30
 ### Internal Tools for Development
 1. API Interface and Function Generator
    - Link 🔗 https://type-gen.vercel.app/
-
+---
 ### LLM's for problem solving and brainstorming
 1. Claude AI  🔗 https://claude.ai/
 2. ChatGPT    🔗 https://chatgpt.com/
 3. Gemini     🔗 https://gemini.google.com/
-
+---
+### LLM's for Large Coding Problems - `Google's Gemini 1.5 pro`
+Pro's - Have a [Token Window]()https://blog.mlq.ai/tokens-context-window-llms/#:~:text=Tokens%20are%20the%20basic%20building,broken%20down%20(i.e.%20tokenized) of rougly 2 million ~ 200,000 lines of code
+Link to Access 🔗 https://aistudio.google.com/prompts/new_chat
+---
 ### VS Code Extensions for Faster Development and Context Aware Auto - Code Completions
 1. Cody AI 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=sourcegraph.cody-ai" target="_blank">Click to Open</a>
 2. Codeium 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=Codeium.codeium" target="_blank">Click to Open</a>
-
+---
 ### For UI Design Inspiration and Mock Up Generation LLM
 1. V0 by Vercel 🔗 https://v0.dev/
+---
 ### Tailwind CSS Color Pallete 🟥🟩🟨🟧
 Link 🔗 https://uicolors.app/browse/tailwind-colors
 
