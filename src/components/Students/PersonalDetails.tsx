@@ -342,9 +342,7 @@ const PersonalDetails = ({ onSave }) => {
               <SearchableDropdown
                 sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
                 ItemList={OccupationDropdown}
-                onChange={(value) =>
-                  handleDropdownChange('parentOccupation', value)
-                }
+                onChange={(value) => handleDropdownChange('parentOccupation', value)}
                 label={'Parent Occupation'}
                 mandatory
                 defaultValue={form.parentOccupation}

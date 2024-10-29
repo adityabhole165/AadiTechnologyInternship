@@ -10,17 +10,16 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStudentRecordData } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
-const AdmissionDetails = ({
-  onSave
-}: {
-  onSave: (isSuccessful: boolean) => void;
-}) => {
+const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void; }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { standardId, DivisionId } = location.state || {};
 
   const [form, setForm] = useState({
     newAdmission: false,
@@ -36,17 +35,22 @@ const AdmissionDetails = ({
     rteApplicationForm: '',
     BoardRegistrationNumber: '',
     SaralNo: '',
-    PENNumber: ''
+    PENNumber: '',
+    secondlanguage: '',
+    thirdlanguage: '',
+    applicableRules: '',
+    residenceTypes: '',
   });
 
   const ResidenceTypesDropdown = useSelector((state: RootState) => state.StudentUI.ISResidenceTypesDropdown);
   //console.log('ResidenceTypesDropdown', ResidenceTypesDropdown);
+  const FeeRuleConcession = useSelector((state: RootState) => state.StudentUI.ISFeeRuleConcession);
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
     asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asStandardId: 1082,
-    asDivisionId: 1299
+    asStandardId: standardId,
+    asDivisionId: DivisionId
   };
 
   useEffect(() => {
@@ -65,6 +69,13 @@ const AdmissionDetails = ({
   });
 
   const [message, setMessage] = useState('');
+  const handleDropdownChange = (name: string, value: any) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value
+    }));
+    setErrors((prev) => ({ ...prev, [name]: false }));
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = event.target;
@@ -72,14 +83,6 @@ const AdmissionDetails = ({
       ...prevForm,
       [name]: type === 'checkbox' ? checked : value
     }));
-
-    const handleDropdownChange = (name: string, value: any) => {
-      setForm(prevForm => ({
-        ...prevForm,
-        [name]: value
-      }));
-      setErrors(prev => ({ ...prev, [name]: false }));
-    };
 
     // Update error state when user types
     if (value) {
@@ -452,9 +455,10 @@ const AdmissionDetails = ({
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={applicableRules}
-            // onChange={onClickClass}
+            ItemList={FeeRuleConcession}
+            onChange={(value) => handleDropdownChange('applicableRules', value)}
             label={'Applicable Rule'}
+            defaultValue={form.applicableRules}
             size={'medium'}
           />
         </Grid>
@@ -480,7 +484,8 @@ const AdmissionDetails = ({
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ResidenceTypesDropdown}
-            // onChange={onClickClass}
+            onChange={(value) => handleDropdownChange('residenceTypes', value)}
+            defaultValue={form.residenceTypes}
             label={' Residence Type'}
             size={'medium'}
           />
