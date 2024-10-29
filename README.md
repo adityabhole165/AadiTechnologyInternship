@@ -26,7 +26,7 @@ Past Password- Aamerah@30
 1. Cody AI 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=sourcegraph.cody-ai" target="_blank">Click to Open</a>
 2. Codeium 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=Codeium.codeium" target="_blank">Click to Open</a>
 
-### For UI Design Inspiration and Mock Generation LLM
+### For UI Design Inspiration and Mock Up Generation LLM
 1. V0 by Vercel 🔗 https://v0.dev/
 ### Tailwind CSS Color Pallete 🟥🟩🟨🟧
 Link 🔗 https://uicolors.app/browse/tailwind-colors
