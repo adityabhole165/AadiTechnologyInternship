@@ -31,15 +31,15 @@ interface Group {
 }
 
 interface ContactGroupListProps {
-  groups: Group[];
+  // \
 }
 
-const ContactGroupList: React.FC<ContactGroupListProps> = ({ groups }) => {
+const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
   const dispatch = useDispatch();
 
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(1);
-  const rowsPerPageOptions = [10, 20, 30, 40];
+  const rowsPerPageOptions = [5, 10, 20, 30, 40];
 
   const [sortOrder, setSortOrder] = useState('asc');
   const [UsersRole, setUserRole] = useState();

@@ -26,6 +26,7 @@ import {
   IGetStudentsUser,
   IUsergroup
 } from 'src/interfaces/AdminSMSCenter/To1';
+import { IAddUpdateGroupBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
@@ -33,10 +34,11 @@ import ListSelect from 'src/libraries/list/ListSelect';
 import {
   ContactGroup,
   GetGetAdminAndprincipalUsers,
+  getShowPTA,
   GetStudent,
-  GetUser,
-  getShowPTA
+  GetUser
 } from 'src/requests/AdminSMSCenter/To1';
+import { CDAaddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import ContactGroupList from './ContactGroupList';
@@ -384,13 +386,19 @@ const AddReciepents = ({
     populateRecipient(value);
   };
   const clickConfirm = () => {
-    handleCloseDialog();
+    const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
+      asSchoolId: Number(schoolId),
+      asAcademicYearId: Number(academicYearId),
+      asMailingGroupXML: ''
+    }
+    dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
+    dispatch(ContactGroup(ContactgroupBody))
   };
-  const groups = [
-    { GroupId: '1', GroupName: 'Marketing' },
-    { GroupId: '2', GroupName: 'Sales' },
-    { GroupId: '3', GroupName: 'Support' }
-  ];
+  // const groups = [
+  //   { GroupId: '1', GroupName: 'Marketing' },
+  //   { GroupId: '2', GroupName: 'Sales' },
+  //   { GroupId: '3', GroupName: 'Support' }
+  // ];
 
   const populateRecipient = (itemList) => {
     itemList?.map((obj) => {
@@ -771,7 +779,7 @@ const AddReciepents = ({
 
         <DialogContent>
           <Box>
-            <ContactGroupList groups={groups} />
+            <ContactGroupList />
           </Box>
           <Box>
             <DialogActions sx={{ py: 2, px: 3 }}>
