@@ -99,7 +99,7 @@ const SelectList3Col = ({
         display: 'flex', borderRadius: '7px', mb: 1, p: 1.5, background: (theme) => theme.palette.secondary.main,
         border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden'
       }}>
-        <Box ml={1}>
+        <Box ml={0.5}>
           <CheckboxImg
             name={"All"}
             value={"All"}
@@ -107,7 +107,7 @@ const SelectList3Col = ({
             onChange={(value) => { onCheckAll(value.checked) }}
           /></Box>
         {showcolumn('Delete') && <Box sx={{ color: 'white', ml: 0 }}>Delete</Box>}
-        {showcolumn('Subject') && <Box onClick={() => { clickHeader('Subject') }} sx={{ color: 'white', ml: 4, display: 'flex' }}>
+        {showcolumn('Subject') && <Box onClick={() => { clickHeader('Subject') }} sx={{ color: 'white', ml: 5, display: 'flex' }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Subject
           </Typography>
