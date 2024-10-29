@@ -38,6 +38,7 @@ import {
   getShowPTA
 } from 'src/requests/AdminSMSCenter/To1';
 import { RootState } from 'src/store';
+import { GetScreenPermission } from '../Common/Util';
 import ContactGroupList from './ContactGroupList';
 import SelectallAddrecipents from './SelectallAddrecipents';
 
@@ -78,7 +79,7 @@ const AddReciepents = ({
   const RoleId = sessionStorage.getItem('RoleId');
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = sessionStorage.getItem('Id');
-
+  const MessageCenterFullAccess = GetScreenPermission('MessageCenter');
   const [entireSchool, setEntireSchool] = useState([
     {
       Id: 'Entire School',
@@ -668,22 +669,24 @@ const AddReciepents = ({
                         </Box>
                       </Box>
                       <Box>
-
-                        <Tooltip title="Add New Group">
-                          <IconButton
-                            sx={{
-                              color: '#38548A',
-                              backgroundColor: grey[100],
-                              '&:hover': {
+                        {MessageCenterFullAccess == 'N' ? (
+                          <Tooltip title="Add New Group">
+                            <IconButton
+                              sx={{
                                 color: '#38548A',
-                                backgroundColor: blue[100]
-                              }
-                            }}
-                            onClick={() => handleOpenDialog(true)}
-                          >
-                            <GroupAddIcon />
-                          </IconButton>
-                        </Tooltip>
+                                backgroundColor: grey[100],
+                                '&:hover': {
+                                  color: '#38548A',
+                                  backgroundColor: blue[100]
+                                }
+                              }}
+                              onClick={() => handleOpenDialog(true)}
+                            >
+                              <GroupAddIcon />
+                            </IconButton>
+                          </Tooltip>
+
+                        ) : null}
                       </Box>
                     </Box>
                   )}

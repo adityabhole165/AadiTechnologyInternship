@@ -1,8 +1,14 @@
 import {
+    IAddUpdateGroupBody,
+    IAddUpdateGroupResult,
     IGetMailingGroupsBody,
     IGetMailingGroupsResult,
+    IGetStandardClassBody,
+    IGetStandardClassResult,
     IGetUserNameBody,
-    IGetUserNameResult
+    IGetUserNameResult,
+    IGetUserRoleBody,
+    IGetUserRoleResult
 } from 'src/interfaces/ContactGroup/IContactGroup';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -12,9 +18,21 @@ const UserNameApi = (data: IGetUserNameBody) => {
 const GetMailingGroupsApi = (data: IGetMailingGroupsBody) => {
     return http.post<IGetMailingGroupsResult[]>('Teacher/GetMailingGroups', data);
 };
+const GetUserRoleApi = (data: IGetUserRoleBody) => {
+    return http.post<IGetUserRoleResult[]>('Teacher/GetUserRole', data);
+};
+const GetStandardClassApi = (data: IGetStandardClassBody) => {
+    return http.post<IGetStandardClassResult[]>('Teacher/GetStandardClass', data);
+}
+const AddUpdateGroupApi = (data: IAddUpdateGroupBody) => {
+    return http.post<IAddUpdateGroupResult>('Teacher/AddUpdateGroup', data);
+}
 
 const ContactGroupApi = {
     UserNameApi,
-    GetMailingGroupsApi
+    GetMailingGroupsApi,
+    GetUserRoleApi,
+    GetStandardClassApi,
+    AddUpdateGroupApi
 };
 export default ContactGroupApi;
