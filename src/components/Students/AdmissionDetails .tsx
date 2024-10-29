@@ -45,6 +45,9 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
   const ResidenceTypesDropdown = useSelector((state: RootState) => state.StudentUI.ISResidenceTypesDropdown);
   //console.log('ResidenceTypesDropdown', ResidenceTypesDropdown);
   const FeeRuleConcession = useSelector((state: RootState) => state.StudentUI.ISFeeRuleConcession);
+  //Second & Third Land Dropdown
+  const SecondLangDropdown = useSelector((state: RootState) => state.StudentUI.ISSecondlang);
+  const ThirdLangDropdown = useSelector((state: RootState) => state.StudentUI.ISThirdLang);
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -141,6 +144,12 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
         : 'Please fill in all required fields.'
     );
     setTimeout(() => setMessage(''), 2000);
+  };
+
+  const Constants = {
+    S_SELECT: 'Select',
+    S_ZERO: '0',
+    // add other constants here
   };
 
   return (
@@ -436,19 +445,24 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={applicableRules}
-            // onChange={onClickClass}
+            ItemList={SecondLangDropdown.length > 0 ? SecondLangDropdown : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]}
+            onChange={(value) => handleDropdownChange('secondlanguage', value)}
             label={'Second Language'}
+            defaultValue={form.secondlanguage}
             size={'medium'}
+            disabled={SecondLangDropdown.length <= 1}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={applicableRules}
-            // onChange={onClickClass}
+            ItemList={ThirdLangDropdown.length > 0 ? ThirdLangDropdown : SecondLangDropdown.length > 0 ? SecondLangDropdown
+              : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]}
+            onChange={(value) => handleDropdownChange('thirdlanguage', value)}
             label={'Third Language'}
+            defaultValue={form.thirdlanguage}
             size={'medium'}
+            disabled={!form.secondlanguage}
           />
         </Grid>
 

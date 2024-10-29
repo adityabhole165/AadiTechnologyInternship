@@ -10,6 +10,8 @@ const StudentUISlice = createSlice({
         ISCategoryDropdown: [],
         ISFeeRuleConcession: [],
         ISLanguageDropdown: [],
+        ISSecondlang: [],
+        ISThirdLang: [],
         ISResidenceTypesDropdown: [],
         Loading: true
     },
@@ -33,6 +35,12 @@ const StudentUISlice = createSlice({
         RLanguageDropdown(state, action) {
             state.ISLanguageDropdown = action.payload;
             state.Loading = false;
+        },
+        RSecondLang(state, action) {
+            state.ISSecondlang = action.payload;
+        },
+        RThirdLang(state, action) {
+            state.ISThirdLang = action.payload;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -76,17 +84,23 @@ export const CDAGetStudentRecordData =
             });
             dispatch(StudentUISlice.actions.RFeeRuleConcession(FeeRuleConcession));
 
-            let LanguageDropdown = []
-            response.data.LanguageDropdown.map((item, i) => {
-                LanguageDropdown.push({
-                    Id: item.Subject_Id,
-                    Name: item.Subject_Name,
-                    Value: item.Subject_Id,
-                    LanguageGroupId: item.LanguageGroupId
-                });
-            });
+            const LanguageDropdown = response.data.LanguageDropdown.map((item) => ({
+                Id: item.Subject_Id,
+                Name: item.Subject_Name,
+                Value: item.Subject_Id,
+                LanguageGroupId: item.LanguageGroupId,
+            }));
+
+            const SecondLangData = LanguageDropdown.filter(item => item.LanguageGroupId === "1");
+            const ThirdLangData = LanguageDropdown.filter(item => item.LanguageGroupId === "2");
+
             dispatch(StudentUISlice.actions.RLanguageDropdown(LanguageDropdown));
-            console.log(LanguageDropdown, "ak");
+            dispatch(StudentUISlice.actions.RSecondLang(SecondLangData));
+            dispatch(StudentUISlice.actions.RThirdLang(ThirdLangData));
+
+            console.log(LanguageDropdown, "LanguageDropdown");
+            console.log(SecondLangData, "SecondLangData");
+            console.log(ThirdLangData, "ThirdLangData");
 
             let ResidenceTypesDropdown = []
             response.data.ResidenceTypesDropdown.map((item, i) => {
