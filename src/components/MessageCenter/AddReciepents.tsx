@@ -80,6 +80,8 @@ const AddReciepents = ({
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = sessionStorage.getItem('Id');
   const MessageCenterFullAccess = GetScreenPermission('MessageCenter');
+
+  console.log(MessageCenterFullAccess, '###### ')
   const [entireSchool, setEntireSchool] = useState([
     {
       Id: 'Entire School',
@@ -669,7 +671,7 @@ const AddReciepents = ({
                         </Box>
                       </Box>
                       <Box>
-                        {MessageCenterFullAccess == 'N' ? (
+                        {MessageCenterFullAccess === 'Y' && (
                           <Tooltip title="Add New Group">
                             <IconButton
                               sx={{
@@ -686,7 +688,7 @@ const AddReciepents = ({
                             </IconButton>
                           </Tooltip>
 
-                        ) : null}
+                        )}
                       </Box>
                     </Box>
                   )}
