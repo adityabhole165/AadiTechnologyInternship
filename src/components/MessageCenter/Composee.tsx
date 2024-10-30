@@ -860,34 +860,37 @@ function Form13() {
               <Grid item xs={12} sm={8} md={9.5}>
                 {/* <FormControl fullWidth> */}
                 <TextField
-                  multiline
-                  id=""
-                  fullWidth
+                  // multiline
+                  // id=""
+                   fullWidth
                   InputProps={{
                     startAdornment: (
                       <Box
-                        sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}
+                        sx={{ display: 'flex', flexWrap: 'wrap',  overflowY: 'scroll', minWidth:'100%', height:'110px' }}
                       >
+                      <>
                         {recipients.map((recipient, index) => (
                           <Chip
                             key={index}
                             label={recipient?.trim()}
                             onDelete={() => handleDelete(recipient, index)} // Add delete functionality
-                            sx={{ margin: '2px 4px' }}
+                            sx={{ margin: '4px 2px' }}
                           />
                         ))}
+                        </>
                       </Box>
                     ),
                     readOnly: true
                   }}
                   // Display joined recipients as string in textfield
                   onChange={formik.handleChange}
-                  sx={{
-                    height: 'auto',
-                    overflow: 'auto',
-                    border: '0.1px solid #c4c5c5',
-                    borderRadius: '7px'
-                  }}
+                  // sx={{
+                  //   height: '120px',
+                  //   overflow: 'auto',
+                  //   my:2,
+                  //   // border: '0.1px solid #c4c5c5',
+                  //   borderRadius: '7px'
+                  // }}
                 />
                 <Box mt={0}>
                   {RecipientsList.length == 0 &&
@@ -905,7 +908,7 @@ function Form13() {
                   sx={{
                     color: '#38548A',
                     width: '140px',
-                    mt: 1,
+                    mt: 4,
                     '&:hover': { color: '#38548A', backgroundColor: blue[100] }
                   }}
                 >
@@ -919,7 +922,7 @@ function Form13() {
                   sx={{
                     color: '#38548A',
                     ml: 4,
-                    mt: 1,
+                    mt: 4,
                     '&:hover': { color: '#38548A', backgroundColor: blue[100] }
                   }}
                 >
