@@ -360,6 +360,7 @@ const AdmissionDetails = ({
           <Tooltip title="Valid Prefix(s): No Prefix, PP">
             <TextField
               name="registrationNumber"
+              
               label={
                 <span style={{ display: 'flex', alignItems: 'center' }}>
                   Registration Number <span style={{ color: 'red' }}> *</span>
@@ -375,13 +376,7 @@ const AdmissionDetails = ({
               helperText={
                 errors.registrationNumber ? 'This field is required' : ''
               }
-              sx={{
-                backgroundColor: errors.registrationNumber
-                  ? 'white'
-                  : form.registrationNumber
-                  ? 'white'
-                  : 'inherit'
-              }}
+              sx={{ cursor: 'pointer' }}
               fullWidth
             />
           </Tooltip>
@@ -393,11 +388,8 @@ const AdmissionDetails = ({
             onDateChange={onSelectDate}
             // label={'Start Date'}
             size={'medium'}
-            label={
-              <span>
-                Admission Date <span style={{ color: 'red' }}> *</span>
-              </span>
-            }
+            label={'Admission Date'}
+            
           />
           {/* <TextField
             name="admissionDate"
@@ -424,11 +416,7 @@ const AdmissionDetails = ({
             onDateChange={onSelectDate}
             // label={'Start Date'}
             size={'medium'}
-            label={
-              <span>
-                Joining Date <span style={{ color: 'red' }}> *</span>
-              </span>
-            }
+            label={'Joining Date'}
           />
           {/* <TextField
             name="joiningDate"

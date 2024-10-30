@@ -11,9 +11,13 @@ import {
 } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { useState } from 'react';
+import { useParams } from 'react-router';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile from 'src/libraries/File/SingleFile';
+import { getCalendarDateFormatDateNew } from '../Common/Util';
 
 const FamilyDetails = ({ onSave }) => {
+  const { AssignedDate } = useParams();
   const [form, setForm] = useState({
     // Father's Information
     fatherQualification: '',
@@ -68,6 +72,12 @@ const FamilyDetails = ({ onSave }) => {
     'XLSX'
   ];
   const MaxfileSize = 5000000;
+
+  const [SelectDate, SetSelectDate] = useState(
+    AssignedDate == undefined
+      ? new Date().toISOString().split('T')[0]
+      : getCalendarDateFormatDateNew(AssignedDate)
+  );
 
   const [errors, setErrors] = useState({
     fatherQualification: false,
@@ -149,6 +159,9 @@ const FamilyDetails = ({ onSave }) => {
     // Call the onSave function passed as a prop
     onSave(form);
   };
+  const onSelectDate = (value) => {
+    SetSelectDate(value);
+  };
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
@@ -170,7 +183,7 @@ const FamilyDetails = ({ onSave }) => {
         <Grid item xs={12} md={3}>
           <TextField
             name="fatherEmail"
-            label="Father Email"
+            label="Father E-mail"
             variant="outlined"
             value={form.fatherEmail}
             onChange={handleInputChange}
@@ -212,17 +225,11 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherDOB"
-            label="Father DOB"
-            variant="outlined"
-            type="date" // Optional: use a date input
-            value={form.fatherDOB}
-            onChange={handleInputChange}
-            fullWidth
-            InputLabelProps={{
-              shrink: true
-            }}
+          <Datepicker
+            DateValue={SelectDate}
+            onDateChange={onSelectDate}
+            size={'medium'}
+           label="Father DOB"
           />
         </Grid>
 
@@ -370,7 +377,7 @@ const FamilyDetails = ({ onSave }) => {
         <Grid item xs={12} md={3}>
           <TextField
             name="motherEmail"
-            label="Mother Email"
+            label="Mother E-mail"
             variant="outlined"
             value={form.motherEmail}
             onChange={handleInputChange}
@@ -412,17 +419,11 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <TextField
-            name="motherDOB"
-            label="Mother DOB"
-            variant="outlined"
-            type="date" // Optional: use a date input
-            value={form.motherDOB}
-            onChange={handleInputChange}
-            fullWidth
-            InputLabelProps={{
-              shrink: true
-            }}
+        <Datepicker
+            DateValue={SelectDate}
+            onDateChange={onSelectDate}
+            size={'medium'}
+           label="Mother DOB"
           />
         </Grid>
 
@@ -542,17 +543,12 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <TextField
-            name="marriageAnniversaryDate"
-            label="Marriage Anniversary Date"
-            variant="outlined"
-            type="date" // Optional: use a date input
-            value={form.marriageAnniversaryDate}
-            onChange={handleInputChange}
-            fullWidth
-            InputLabelProps={{
-              shrink: true
-            }}
+         
+           <Datepicker
+            DateValue={SelectDate}
+            onDateChange={onSelectDate}
+            size={'medium'}
+           label="Marriage Anniversary Date"
           />
         </Grid>
 
@@ -646,26 +642,25 @@ const FamilyDetails = ({ onSave }) => {
           />
         </Grid>
         <Grid item xs={12} md={3}>
-                <TextField
-                  name="neighbourPhoneNumber"
-                  label="Neighbour's Phone Number"
-                  variant="outlined"
-                  // value={form.neighbourPhoneNumber}
-                  onChange={handleInputChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <TextField
-                  name="OfficePhoneNumber"
-                  label="Office Phone Number"
-                  variant="outlined"
-                  // value={form.neighbourPhoneNumber}
-                  onChange={handleInputChange}
-                  fullWidth
-                />
-              </Grid>
-
+          <TextField
+            name="neighbourPhoneNumber"
+            label="Neighbour's Phone Number"
+            variant="outlined"
+            // value={form.neighbourPhoneNumber}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="OfficePhoneNumber"
+            label="Office Phone Number"
+            variant="outlined"
+            // value={form.neighbourPhoneNumber}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
 
         {/* familyPhoto */}
         <Grid item xs={12} md={2}>

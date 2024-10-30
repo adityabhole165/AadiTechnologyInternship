@@ -13,17 +13,20 @@ import { red } from '@mui/material/colors';
 import { User } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStudentRecordData } from 'src/requests/Students/RequestStudentUI';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { RootState } from 'src/store';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import { getCalendarDateFormatDateNew } from '../Common/Util';
 const PersonalDetails = ({ onSave }) => {
   const location = useLocation();
   const { standardId, DivisionId } = location.state || {};
   const dispatch = useDispatch();
+  const { AssignedDate } = useParams();
   const [form, setForm] = useState({
     firstName: '',
     middleName: '',
@@ -94,6 +97,14 @@ const PersonalDetails = ({ onSave }) => {
 
   const fileInputRef = useRef(null);
   const [message, setMessage] = useState('');
+  const [SelectDate, SetSelectDate] = useState(
+    AssignedDate == undefined
+      ? new Date().toISOString().split('T')[0]
+      : getCalendarDateFormatDateNew(AssignedDate)
+  );
+  const onSelectDate = (value) => {
+    SetSelectDate(value);
+  };
 
   const GetTeachers = useSelector(
     (state: RootState) => state.StudentRecords.ClassTeachers
@@ -295,7 +306,7 @@ const PersonalDetails = ({ onSave }) => {
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="email"
-                  label="Email"
+                  label="E-mail"
                   variant="outlined"
                   value={form.email}
                   onChange={handleInputChange}
@@ -536,7 +547,12 @@ const PersonalDetails = ({ onSave }) => {
             {/* Date of Birth */}
             {form.dateOfBirth !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
-                <TextField
+                <Datepicker
+            DateValue={SelectDate}
+            onDateChange={onSelectDate}
+            size={'medium'}
+            label={'Date of Birth'} />
+                {/* <TextField
                   name="dateOfBirth"
                   label={
                     <span>
@@ -553,8 +569,8 @@ const PersonalDetails = ({ onSave }) => {
                   }
                   fullWidth
                   InputLabelProps={{ shrink: true }}
-                />
-              </Grid>
+                />*/}
+              </Grid> 
             )}
             {/* Remaining Fields */}
             {form.placeOfBirth !== undefined && (
