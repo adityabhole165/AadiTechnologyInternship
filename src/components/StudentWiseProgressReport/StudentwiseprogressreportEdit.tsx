@@ -815,8 +815,26 @@ const StudentwiseprogressreportEdit = () => {
                                         </TableCell>
 
 
-
                                         {USFillNonXseedSubjectGrades.map((row, index) => (
+                                           (
+                                                <TableCell
+                                                    key={index}
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        color: (theme) => theme.palette.common.white,
+                                                        py: 1
+                                                    }}
+                                                >
+                                                   
+                                                </TableCell>
+                                            )
+                                        ))}
+
+                                       
+
+{SchoolScreensAccessPermission() && (
+    <span>
+ {USFillNonXseedSubjectGrades.map((row, index) => (
                                            (
                                                 <TableCell
                                                     key={index}
@@ -830,6 +848,12 @@ const StudentwiseprogressreportEdit = () => {
                                                 </TableCell>
                                             )
                                         ))}
+
+    </span>
+    
+
+
+)}
 
 
 
@@ -855,7 +879,9 @@ const StudentwiseprogressreportEdit = () => {
                                                 />
                                             </TableCell>
 
-                                            <TableCell sx={{
+                                            {SchoolScreensAccessPermission() && (
+                                                <span>
+<TableCell sx={{
                                                 textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
                                                 py: 1, width: '100%',
                                             }}>
@@ -870,6 +896,13 @@ const StudentwiseprogressreportEdit = () => {
                                                     }}
                                                 />
                                             </TableCell>
+
+                                                </span>
+                                            )}
+
+                                            
+
+
                                         </TableRow>
                                     ))}
                                 </TableBody>
