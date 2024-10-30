@@ -343,7 +343,9 @@ const PersonalDetails = ({ onSave }) => {
               <SearchableDropdown
                 sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
                 ItemList={OccupationDropdown}
-                onChange={(value) => handleDropdownChange('parentOccupation', value)}
+                onChange={(value) =>
+                  handleDropdownChange('parentOccupation', value)
+                }
                 label={'Parent Occupation'}
                 mandatory
                 defaultValue={form.parentOccupation}
@@ -417,13 +419,14 @@ const PersonalDetails = ({ onSave }) => {
               />
             </Grid>
             <Grid
-                 item
-                 xs={3}
-                 sm={2}
-                 sx={{ display: 'flex', justifyContent: 'center' }}>
-                   <IconButton>
-                    <AddAPhotoIcon/>
-                   </IconButton>               
+              item
+              xs={3}
+              sm={2}
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <IconButton>
+                <AddAPhotoIcon />
+              </IconButton>
             </Grid>
 
             <Grid
@@ -618,6 +621,47 @@ const PersonalDetails = ({ onSave }) => {
                 />
               </Grid>
             )}
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <TextField
+                name="Religion"
+                label="Religion"
+                variant="outlined"
+                value={form.nationality}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <TextField
+                name="Category"
+                label="Category"
+                variant="outlined"
+                value={form.nationality}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <TextField
+                name="CasteSubCaste"
+                label="Caste & Sub-Caste"
+                variant="outlined"
+                value={form.nationality}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <TextField
+                name="MotherTongue"
+                label="MotherTongue"
+                variant="outlined"
+                value={form.nationality}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
             {/* Other Fields */}
             {form.gender !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -636,6 +680,37 @@ const PersonalDetails = ({ onSave }) => {
                 </TextField>
               </Grid>
             )}
+
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <TextField
+                name="BloodGroup"
+                label="Blood Group"
+                variant="outlined"
+                value={form.nationality}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <TextField
+                name="AadharCardNumber"
+                label="Aadhar Card Number"
+                variant="outlined"
+                value={form.nationality}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <TextField
+                name="NameonAdharCard"
+                label="Name on Adhar Card"
+                variant="outlined"
+                value={form.nationality}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
             {/* Single File Upload */}
             <Grid item xs={4} sm={2} md={2} lg={2}>
               <SingleFile
