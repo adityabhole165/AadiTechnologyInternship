@@ -529,12 +529,12 @@ const AddReciepents = ({
             /> */}
             <TextField
               fullWidth
-              multiline
+              // multiline
               placeholder="Selected Recipient"
               margin="normal"
               InputProps={{
                 startAdornment: (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap',  overflowY: 'scroll', minWidth:'100%', height:'110px'}}>
                     {selectedRecipents.map((recipient, index) => (
                       <Chip
                         key={index}
@@ -548,12 +548,12 @@ const AddReciepents = ({
                 readOnly: true // Ensure the TextField is read-only
               }}
               value={''}
-              sx={{
-                height: 'auto',
-                overflow: 'auto',
-                border: '0.1px solid #c4c5c5',
-                borderRadius: '5.3px'
-              }}
+              // sx={{
+              //   height: 'auto',
+              //   overflow: 'auto',
+              //   border: '0.1px solid #c4c5c5',
+              //   borderRadius: '5.3px'
+              // }}
             />
           </Grid>
           {/* <Grid item xs={6} sm={2} mt={2}>
