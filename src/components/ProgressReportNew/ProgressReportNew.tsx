@@ -444,7 +444,7 @@ const ProgressReportNew = () => {
       {open && (
         <div>
 
-          {USIsTestPublishedForStdDiv === true || USIsTestPublishedForStudentIS === true ?
+          {USIsTestPublishedForStdDiv == true || USIsTestPublishedForStudentIS == false ?
             <>
               {USIsGradingStandard == true ?
                 <>

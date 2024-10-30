@@ -37,7 +37,7 @@ const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsLis
     colSpan: HeaderCount
   })
   useEffect(() => {
-    console.log('🦥🦥🦥🦥', MarkDetailsList1);
+    console.log('🦥🦥🦥🦥 >>>', MarkDetailsList1);
 
   }, [MarkDetailsList1])
 
@@ -115,7 +115,7 @@ const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsLis
               </TableCell>
               {testItem.MarksArr.map((MarkItem) => (
                 <TableCell sx={{ backgroundColor: 'white' }}>
-                  {MarkItem?.MarksScored + (MarkItem?.TotalMarks === "-" ? "" : "")}
+                  {MarkItem?.MarksScored ?? '-'}
                 </TableCell>
               ))}
 

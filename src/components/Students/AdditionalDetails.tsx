@@ -23,18 +23,18 @@ const AdditionalDetails = ({ onSave }) => {
     schoolBoardName: '',
     isRecognised: '',
     houseNumber: '',
-    mainArea: '',      // New field
-    subareaName: '',   // New field
-    landmark: '',      // New field
-    taluka: '',        // New field
-    district: '',      // New field
-    admissionAcademicYear: '',  // New field
-    previousMarksObtained: '',   // New field
-    previousMarksOutOf: '',       // New field
-    subjectNames: '',              // New field
-    previousYearOfPassing: '',    // New field
-    currentAcademicYear: '',      // New field
-    currentStandard: '',          // New field
+    mainArea: '', // New field
+    subareaName: '', // New field
+    landmark: '', // New field
+    taluka: '', // New field
+    district: '', // New field
+    admissionAcademicYear: '', // New field
+    previousMarksObtained: '', // New field
+    previousMarksOutOf: '', // New field
+    subjectNames: '', // New field
+    previousYearOfPassing: '', // New field
+    currentAcademicYear: '', // New field
+    currentStandard: '' // New field
   });
 
   const SchoolBoardName = [
@@ -54,7 +54,7 @@ const AdditionalDetails = ({ onSave }) => {
     const { name, value } = event.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -62,7 +62,7 @@ const AdditionalDetails = ({ onSave }) => {
   const handleDropdownChange = (name, value) => {
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -74,7 +74,164 @@ const AdditionalDetails = ({ onSave }) => {
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
+      <Typography variant="h4" color="initial" pt={2} pb={1}>
+        Last School Details
+      </Typography>
       <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <TextField
+            name="lastSchoolName"
+            label="Last School Name"
+            variant="outlined"
+            fullWidth
+            value={formData.lastSchoolName}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            name="lastSchoolAddress"
+            label="School Address"
+            variant="outlined"
+            fullWidth
+            value={formData.lastSchoolAddress}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            name="lastSchoolYear"
+            label="Standard"
+            variant="outlined"
+            fullWidth
+            value={formData.lastSchoolYear}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            name="lastSchoolRollNumber"
+            label="School Roll Number"
+            variant="outlined"
+            fullWidth
+            value={formData.lastSchoolRollNumber}
+            onChange={handleInputChange}
+          />
+        </Grid>
+
+        <Grid item xs={3}>
+          <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={SchoolBoardName}
+            label={'School Board Name'}
+            size={'medium'}
+            onChange={(value) => handleDropdownChange('schoolBoardName', value)}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={Recognised}
+            label={'Is Recognised'}
+            size={'medium'}
+            onChange={(value) => handleDropdownChange('isRecognised', value)}
+          />
+        </Grid>
+      </Grid>
+      <Typography variant="h4" color="initial" pt={2} pb={1}>
+        Transport Address
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <TextField
+            name="houseNumber"
+            label="House No. / Plot No"
+            variant="outlined"
+            fullWidth
+            value={formData.houseNumber}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        {/* New Fields */}
+        <Grid item xs={3}>
+          <TextField
+            name="mainArea"
+            label="Main Area"
+            variant="outlined"
+            fullWidth
+            value={formData.mainArea}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            name="subareaName"
+            label="Subarea Name"
+            variant="outlined"
+            fullWidth
+            value={formData.subareaName}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            name="landmark"
+            label="Landmark"
+            variant="outlined"
+            fullWidth
+            value={formData.landmark}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            name="taluka"
+            label="Taluka"
+            variant="outlined"
+            fullWidth
+            value={formData.taluka}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            name="district"
+            label="District"
+            variant="outlined"
+            fullWidth
+            value={formData.district}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        {/* New Fields for Academic Details */}
+      </Grid>
+      {/* <Grid item xs={12} pt={2}>
+        <Button
+          sx={{
+            color: '#38548A',
+            backgroundColor: grey[100],
+            '&:hover': {
+              color: '#38548A',
+              backgroundColor: blue[100],
+            },
+          }}
+          onClick={handleSave}
+        >
+          Save And Next
+        </Button>
+      </Grid> */}
+      <Typography variant="h4" color="initial" pt={2} pb={1}>
+        Educational Details
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <TextField
+            name="userName"
+            label="Admission Standard"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
         <Grid item xs={3}>
           <TextField
             name="admissionAcademicYear"
@@ -146,147 +303,6 @@ const AdditionalDetails = ({ onSave }) => {
           />
         </Grid>
       </Grid>
-      <Typography variant="h4" color="initial" py={2}>
-        Last School Details
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={3}>
-          <TextField
-            name="lastSchoolName"
-            label="Last School Name"
-            variant="outlined"
-            fullWidth
-            value={formData.lastSchoolName}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="lastSchoolRollNumber"
-            label="School Roll Number"
-            variant="outlined"
-            fullWidth
-            value={formData.lastSchoolRollNumber}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="lastSchoolYear"
-            label="Standard"
-            variant="outlined"
-            fullWidth
-            value={formData.lastSchoolYear}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="lastSchoolAddress"
-            label="School Address"
-            variant="outlined"
-            fullWidth
-            value={formData.lastSchoolAddress}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={SchoolBoardName}
-            label={'School Board Name'}
-            size={"medium"}
-            onChange={(value) => handleDropdownChange('schoolBoardName', value)}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={Recognised}
-            label={'Is Recognised'}
-            size={"medium"}
-            onChange={(value) => handleDropdownChange('isRecognised', value)}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="houseNumber"
-            label="House No. / Plot No"
-            variant="outlined"
-            fullWidth
-            value={formData.houseNumber}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        {/* New Fields */}
-        <Grid item xs={3}>
-          <TextField
-            name="mainArea"
-            label="Main Area"
-            variant="outlined"
-            fullWidth
-            value={formData.mainArea}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="subareaName"
-            label="Subarea Name"
-            variant="outlined"
-            fullWidth
-            value={formData.subareaName}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="landmark"
-            label="Landmark"
-            variant="outlined"
-            fullWidth
-            value={formData.landmark}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="taluka"
-            label="Taluka"
-            variant="outlined"
-            fullWidth
-            value={formData.taluka}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="district"
-            label="District"
-            variant="outlined"
-            fullWidth
-            value={formData.district}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        {/* New Fields for Academic Details */}
-
-      </Grid>
-      {/* <Grid item xs={12} pt={2}>
-        <Button
-          sx={{
-            color: '#38548A',
-            backgroundColor: grey[100],
-            '&:hover': {
-              color: '#38548A',
-              backgroundColor: blue[100],
-            },
-          }}
-          onClick={handleSave}
-        >
-          Save And Next
-        </Button>
-      </Grid> */}
     </Box>
   );
 };

@@ -1,12 +1,19 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  TextField,
+  Tooltip,
+  Typography
+} from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { useState } from 'react';
 import SingleFile from 'src/libraries/File/SingleFile';
 
 const FamilyDetails = ({ onSave }) => {
-
   const [form, setForm] = useState({
     // Father's Information
     fatherQualification: '',
@@ -40,7 +47,7 @@ const FamilyDetails = ({ onSave }) => {
     // Family Information
     marriageAnniversaryDate: '',
     localGuardianPhoto: '',
-    familyMonthlyIncome: 0.00,
+    familyMonthlyIncome: 0.0,
     cwsn: '',
     relativeFullName: '',
     residencePhoneNumber: '',
@@ -50,7 +57,16 @@ const FamilyDetails = ({ onSave }) => {
     { name: '', age: 0, institution: '', standard: '' }
   ]);
 
-  const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
+  const ValidFileTypes = [
+    'BMP',
+    'DOC',
+    'DOCX',
+    'JPG',
+    'JPEG',
+    'PDF',
+    'XLS',
+    'XLSX'
+  ];
   const MaxfileSize = 5000000;
 
   const [errors, setErrors] = useState({
@@ -90,10 +106,17 @@ const FamilyDetails = ({ onSave }) => {
     relativeFullName: false,
     residencePhoneNumber: false,
     familyPhoto: false
-  })
+  });
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked, files } = e.target;
-    const fieldValue = type === 'checkbox' ? checked : type === 'file' ? (files ? files[0] : null) : value;
+    const fieldValue =
+      type === 'checkbox'
+        ? checked
+        : type === 'file'
+        ? files
+          ? files[0]
+          : null
+        : value;
     setForm({ ...form, [name]: fieldValue });
 
     // Remove error when the user starts filling the field
@@ -101,7 +124,10 @@ const FamilyDetails = ({ onSave }) => {
   };
 
   const handleAddSibling = () => {
-    setSiblings([...siblings, { name: '', age: 0, institution: '', standard: '' }]);
+    setSiblings([
+      ...siblings,
+      { name: '', age: 0, institution: '', standard: '' }
+    ]);
   };
 
   const handleRemoveSibling = (index) => {
@@ -126,8 +152,10 @@ const FamilyDetails = ({ onSave }) => {
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
+      <Typography variant="h4" color="initial" py={1} pb={1}>
+        Father Details
+      </Typography>
       <Grid container spacing={2}>
-
         <Grid item xs={12} md={3}>
           <TextField
             name="fatherQualification"
@@ -193,7 +221,7 @@ const FamilyDetails = ({ onSave }) => {
             onChange={handleInputChange}
             fullWidth
             InputLabelProps={{
-              shrink: true,
+              shrink: true
             }}
           />
         </Grid>
@@ -207,14 +235,13 @@ const FamilyDetails = ({ onSave }) => {
             ChangeFile={handleInputChange}
             FileLabel={'Father Photo'}
             width={'100%'}
-            height={"52px"}
+            height={'52px'}
             isMandatory={false}
           />
         </Grid>
         <Grid item xs={1} md={1}>
           <>
-
-            <Tooltip title={"View"}>
+            <Tooltip title={'View'}>
               <IconButton
                 onClick={() => ''}
                 sx={{
@@ -230,7 +257,7 @@ const FamilyDetails = ({ onSave }) => {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Delete"}>
+            <Tooltip title={'Delete'}>
               <IconButton
                 onClick={() => ''}
                 sx={{
@@ -253,13 +280,13 @@ const FamilyDetails = ({ onSave }) => {
             name="fatherWeight"
             label="Father Weight (Kg)"
             variant="outlined"
-            type='number'
+            type="number"
             value={form.fatherWeight}
             onChange={handleInputChange}
             fullWidth
             inputProps={{
               min: 0,
-              step: "0.1"
+              step: '0.1'
             }}
           />
         </Grid>
@@ -269,13 +296,13 @@ const FamilyDetails = ({ onSave }) => {
             name="fatherHeight"
             label="Father Height (Cm)"
             variant="outlined"
-            type='number'
+            type="number"
             value={form.fatherHeight}
             onChange={handleInputChange}
             fullWidth
             inputProps={{
               min: 0,
-              step: "0.1"
+              step: '0.1'
             }}
           />
         </Grid>
@@ -312,8 +339,12 @@ const FamilyDetails = ({ onSave }) => {
             fullWidth
           />
         </Grid>
-
-        {/* Mother's Information */}
+      </Grid>
+      <Typography variant="h4" color="initial" pt={2} pb={1}>
+        Mother Details
+      </Typography>
+      {/* Mother's Information */}
+      <Grid container spacing={2}>
         <Grid item xs={12} md={3}>
           <TextField
             name="motherOccupation"
@@ -390,7 +421,7 @@ const FamilyDetails = ({ onSave }) => {
             onChange={handleInputChange}
             fullWidth
             InputLabelProps={{
-              shrink: true,
+              shrink: true
             }}
           />
         </Grid>
@@ -404,15 +435,14 @@ const FamilyDetails = ({ onSave }) => {
             ChangeFile={handleInputChange}
             FileLabel={'Mother Photo'}
             width={'100%'}
-            height={"52px"}
+            height={'52px'}
             isMandatory={false}
           />
         </Grid>
 
         <Grid item xs={1} md={1}>
           <>
-
-            <Tooltip title={"View"}>
+            <Tooltip title={'View'}>
               <IconButton
                 onClick={() => ''}
                 sx={{
@@ -428,7 +458,7 @@ const FamilyDetails = ({ onSave }) => {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Delete"}>
+            <Tooltip title={'Delete'}>
               <IconButton
                 onClick={() => ''}
                 sx={{
@@ -451,13 +481,13 @@ const FamilyDetails = ({ onSave }) => {
             name="motherWeight"
             label="Mother Weight (Kg)"
             variant="outlined"
-            type='number'
+            type="number"
             value={form.motherWeight}
             onChange={handleInputChange}
             fullWidth
             inputProps={{
               min: 0,
-              step: "0.1"
+              step: '0.1'
             }}
           />
         </Grid>
@@ -467,13 +497,13 @@ const FamilyDetails = ({ onSave }) => {
             name="motherHeight"
             label="Mother Height (Cm)"
             variant="outlined"
-            type='number'
+            type="number"
             value={form.motherHeight}
             onChange={handleInputChange}
             fullWidth
             inputProps={{
               min: 0,
-              step: "0.1"
+              step: '0.1'
             }}
           />
         </Grid>
@@ -521,7 +551,7 @@ const FamilyDetails = ({ onSave }) => {
             onChange={handleInputChange}
             fullWidth
             InputLabelProps={{
-              shrink: true,
+              shrink: true
             }}
           />
         </Grid>
@@ -535,14 +565,13 @@ const FamilyDetails = ({ onSave }) => {
             ChangeFile={handleInputChange}
             FileLabel={'Local Guadian Photo'}
             width={'100%'}
-            height={"52px"}
+            height={'52px'}
             isMandatory={false}
           />
         </Grid>
         <Grid item xs={1} md={1}>
           <>
-
-            <Tooltip title={"View"}>
+            <Tooltip title={'View'}>
               <IconButton
                 onClick={() => ''}
                 sx={{
@@ -558,7 +587,7 @@ const FamilyDetails = ({ onSave }) => {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Delete"}>
+            <Tooltip title={'Delete'}>
               <IconButton
                 onClick={() => ''}
                 sx={{
@@ -616,6 +645,27 @@ const FamilyDetails = ({ onSave }) => {
             fullWidth
           />
         </Grid>
+        <Grid item xs={12} md={3}>
+                <TextField
+                  name="neighbourPhoneNumber"
+                  label="Neighbour's Phone Number"
+                  variant="outlined"
+                  // value={form.neighbourPhoneNumber}
+                  onChange={handleInputChange}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <TextField
+                  name="OfficePhoneNumber"
+                  label="Office Phone Number"
+                  variant="outlined"
+                  // value={form.neighbourPhoneNumber}
+                  onChange={handleInputChange}
+                  fullWidth
+                />
+              </Grid>
+
 
         {/* familyPhoto */}
         <Grid item xs={12} md={2}>
@@ -626,14 +676,13 @@ const FamilyDetails = ({ onSave }) => {
             ChangeFile={handleInputChange}
             FileLabel={'Family Photo'}
             width={'100%'}
-            height={"52px"}
+            height={'52px'}
             isMandatory={false}
           />
         </Grid>
         <Grid item xs={1} md={1}>
           <>
-
-            <Tooltip title={"View"}>
+            <Tooltip title={'View'}>
               <IconButton
                 onClick={() => ''}
                 sx={{
@@ -649,7 +698,7 @@ const FamilyDetails = ({ onSave }) => {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Delete"}>
+            <Tooltip title={'Delete'}>
               <IconButton
                 onClick={() => ''}
                 sx={{
@@ -666,16 +715,15 @@ const FamilyDetails = ({ onSave }) => {
             </Tooltip>
           </>
         </Grid>
-
       </Grid>
 
       {/* Sibling Details */}
-      <Typography variant="h4" color="initial" py={2}>Details of Brothers and Sisters of the Student</Typography>
-
+      <Typography variant="h4" color="initial" pt={2} pb={1}>
+        Details of Brothers and Sisters of the Student
+      </Typography>
 
       {siblings.map((sibling, index) => (
-        <Grid container spacing={2} sx={{ pb: 2 }} >
-
+        <Grid container spacing={2} sx={{ pb: 2 }}>
           <Grid item xs={12} md={3}>
             <TextField
               name="name"
@@ -693,7 +741,9 @@ const FamilyDetails = ({ onSave }) => {
               label="Age"
               variant="outlined"
               value={sibling.age}
-              onChange={(e) => handleChange(index, 'age', parseInt(e.target.value) || 0)}
+              onChange={(e) =>
+                handleChange(index, 'age', parseInt(e.target.value) || 0)
+              }
               fullWidth
             />
           </Grid>
@@ -704,7 +754,9 @@ const FamilyDetails = ({ onSave }) => {
               label="Institution"
               variant="outlined"
               value={sibling.institution}
-              onChange={(e) => handleChange(index, 'institution', e.target.value)}
+              onChange={(e) =>
+                handleChange(index, 'institution', e.target.value)
+              }
               fullWidth
             />
           </Grid>
@@ -720,9 +772,9 @@ const FamilyDetails = ({ onSave }) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={.5}>
+          <Grid item xs={12} md={0.5}>
             {siblings.length > 1 && (
-              <Tooltip title={"Delete"}>
+              <Tooltip title={'Delete'}>
                 <IconButton
                   onClick={() => handleRemoveSibling(index)}
                   sx={{
@@ -739,11 +791,10 @@ const FamilyDetails = ({ onSave }) => {
               </Tooltip>
             )}
           </Grid>
-
         </Grid>
       ))}
 
-      <Grid item xs={12} pt={2} >
+      <Grid item xs={12} pt={2}>
         <Button
           sx={{
             color: '#38548A',
@@ -753,11 +804,11 @@ const FamilyDetails = ({ onSave }) => {
               backgroundColor: blue[100]
             }
           }}
-          onClick={handleAddSibling}>
+          onClick={handleAddSibling}
+        >
           Add Sibling
         </Button>
       </Grid>
-
 
       {/* Save & Next Button */}
       {/* <Grid
@@ -780,11 +831,8 @@ const FamilyDetails = ({ onSave }) => {
           Save And Next
         </Button>
       </Grid> */}
-
     </Box>
   );
 };
 
 export default FamilyDetails;
-
-
