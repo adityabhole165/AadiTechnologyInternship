@@ -11,10 +11,23 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
         });
         return returnVal;
     };
+        // f() to control visibility of Test Type Columns
+        function showTestTypeDetails() {
+            let flag = false;
+            if(data.ListTestTypeIdDetails?.length === 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'true' ) {
+                return false;
+            } else if (data.ListTestTypeIdDetails?.length === 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+                return true;
+            } else if (data.ListTestTypeIdDetails?.length > 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                return true;
+            }  else if (data.ListTestTypeIdDetails?.length > 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+                return true;
+            }      
+        }
     function getColSpan(){
         let colSpan = 1;
         if(IsTotalConsiderForProgressReport.toLowerCase() === "true"){
-            colSpan = data.ListTestTypeIdDetails?.length + 1;
+            colSpan = 1 + (showTestTypeDetails() ? data.ListTestTypeIdDetails?.length : 0);
             return colSpan;
         } else if(IsTotalConsiderForProgressReport.toLowerCase() === "false"){
             colSpan = data.ListTestTypeIdDetails?.length;
@@ -23,10 +36,15 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
     }
     function parentSubColSpan(parentSubId){
         let colSpan = 1;
-          let filteredArr = data.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === parentSubId);
+        let filteredArr = data.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === parentSubId);
           if(IsTotalConsiderForProgressReport.toLowerCase() === "true"){
-            colSpan = (filteredArr.length +1) * (data.ListTestTypeIdDetails?.length+1);
-            return colSpan;
+            if(data.ListTestTypeIdDetails?.length === 1) {
+                colSpan = (filteredArr.length) + (data.ListTestTypeIdDetails?.length + 1);  // 3 + ( 1 + 1 ) 
+                return colSpan;
+            } else {
+                colSpan = (filteredArr.length + 1) * (data.ListTestTypeIdDetails?.length + 1);  // 3 + 1 * ( 1 + 1 ) 
+                return colSpan;
+            }
           } else if(IsTotalConsiderForProgressReport.toLowerCase() === "false"){
             colSpan = (filteredArr.length +1) * data.ListTestTypeIdDetails?.length;
             return colSpan;
@@ -119,6 +137,8 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
     const hasParentSubjects = HeaderArray.some(item => item.ParentSubjectId !== "0");
     function showParentColumns() {
     }
+
+
     return (
         <Box>
             <Table>
@@ -217,19 +237,37 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                     </Typography>
                                 </TableCell>
                             ))}
+                                   {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                    <>
+                                        <TableCell rowSpan={3}>
+                                            <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                <b>Total</b>
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell rowSpan={3}>
+                                            <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                <b>%</b>
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell rowSpan={3} >
+                                            <Typography color="#38548A" textAlign={'center'} px={5}>
+                                                <b>Grade</b>
+                                            </Typography>
+                                        </TableCell>
+                                    </>}
                         </TableRow>
                     )}
 
                     <TableRow>
                         {/* <TableCell></TableCell> */}
-                        {ThirdHeaderRow.map((item, index) => (
+                            {ThirdHeaderRow.map((item, index) => (
                             <>
                                 {/* Render the normal TableCell */}
-                                <TableCell key={index}>
+                                {showTestTypeDetails() && <TableCell key={index}>
                                     <Typography color="#38548A" textAlign={'center'} mr={9}>
                                         <b style={{ marginRight: "5px" }}>{item.ShortenTestType_Name}</b>
                                     </Typography>
-                                </TableCell>
+                                </TableCell>}
                                 {/* Add a 'Total' TableCell after every dynamic number of cells */}
                                 {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && (index + 1) % ListTestTypeIdDetails.length === 0 && (
                                     <TableCell key={`total-${index}`}>
@@ -238,14 +276,13 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                         </Typography>
                                     </TableCell>
                                 )}
-
                             </>
                         ))}
-                        <TableCell >
+                        {/* <TableCell >
                             <Typography color="#38548A" textAlign={'center'} mr={9}>
                                 <b>Grade</b>
                             </Typography>
-                        </TableCell>
+                        </TableCell> */}
                     </TableRow>
 
                 </TableHead>
@@ -256,7 +293,6 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                             <TableCell>
                                 <b>{testItem.TestName}</b>
                             </TableCell>
-
                             {testItem.MarksArr.map((MarkItem, index) => (
                                 <TableCell key={index} sx={{ backgroundColor: 'white' }}>
                                     {MarkItem?.MarksScored + (MarkItem?.TotalMarks === "-" ? "" : (" / " + MarkItem?.TotalMarks))}

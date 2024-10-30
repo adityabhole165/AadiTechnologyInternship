@@ -234,6 +234,7 @@ export const CDAStudentProgressReport =
         return returnVal
       }
 
+
       const getListDisplayName1 = (cell) => {
         let returnVal = ""
 
@@ -275,6 +276,10 @@ export const CDAStudentProgressReport =
             })
         }
         return { parent: returnVal, colsPan: colsPan }
+      }
+      function subIdDetailsLength(subId) {
+        let result = response.data.ListSubjectidDetails.filter((item) => item.Subject_Id === subId).length;
+        return result
       }
 
 
@@ -321,7 +326,19 @@ export const CDAStudentProgressReport =
             // list3 = []
             let arrTemp = response.data.ListSubjectidDetails
               .filter((obj) => { return obj.Subject_Id === Subject.Subject_Id })
-
+            // f() to control visibility of Test Type Columns
+            function showTestTypeDetails() {
+              let flag = false;
+              if (subIdDetailsLength(Subject.Subject_Id) === 1 && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                return false;
+              } else if (subIdDetailsLength(Subject.Subject_Id) === 1 && data.IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+                return true;
+              } else if (subIdDetailsLength(Subject.Subject_Id) > 1 && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                return true;
+              } else if (subIdDetailsLength(Subject.Subject_Id) > 1 && data.IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+                return true;
+              }
+            }
             Arraytemp = arrTemp;
             let TestTypeCount = arrTemp.length;
             let temp = "";
@@ -332,36 +349,27 @@ export const CDAStudentProgressReport =
 
               HeaderCount += 1
               let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
-
-
-              // if (TestTypeCount !== 1) {  // 3 > !==1
-              // Flag > 🚩
-              // let Flag = SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' ? true : false;
-              if (SubjectArray[SubjectIndex].Parent_Subject_Id === '0') {
-                // if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
-                //   returnVal = cell.Grade
-                // } else {
-                columns.push({
-                  MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                  TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
-                  IsAbsent: cell ? cell.Is_Absent : "N"
-                })
-              } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
-                columns.push({
-                  MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                  TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
-                  IsAbsent: cell ? cell.Is_Absent : "N"
-                })
+              if (showTestTypeDetails()) {  // 3 > !==1
+                // Flag > 🚩
+                // let Flag = SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' ? true : false;
+                if (SubjectArray[SubjectIndex].Parent_Subject_Id === '0') {
+                  // if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
+                  //   returnVal = cell.Grade
+                  // } else {
+                  columns.push({
+                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                    TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
+                    IsAbsent: cell ? cell.Is_Absent : "N"
+                  })
+                } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
+                  columns.push({
+                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                    TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.TestType_Total_Marks) : "" : "-",
+                    IsAbsent: cell ? cell.Is_Absent : "N"
+                  })
+                }
+                //#region  check
               }
-              //#region  check
-
-
-
-              // }
-
-
-
-
 
               if (TestIndex == 0) {
                 SubHeaderArray.push({
@@ -372,10 +380,10 @@ export const CDAStudentProgressReport =
 
               if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
                 temp = Subject.Subject_Id + "--" + Test.Test_Id
-
+                // Flag 🟥 
                 totalMarks = {
-                  MarksScored: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(`${cell.Total_Marks_Scored}`) : cell ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? `${cell.TotalGrade}` : parseInt(cell.Total_Marks_Scored) : "-",
-                  TotalMarks: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1) ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.Subject_Total_Marks) : cell ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? `${cell.Grade}` : cell.Subject_Total_Marks : "-",
+                  MarksScored: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount == 1) ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(`${cell.Total_Marks_Scored}`) : cell ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? `${cell.TotalGrade}` : parseInt(cell.Total_Marks_Scored) : "-",
+                  TotalMarks: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount == 1) ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.Subject_Total_Marks) : cell ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? `${cell.Grade}` : cell.Subject_Total_Marks : "-",
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 }
               }
@@ -410,7 +418,7 @@ export const CDAStudentProgressReport =
                       // const insertIndex = columns.length > 0 ? columns.length - (testTypeLength + 1) : 0;
                       columns.push({
                         MarksScored: `${parseInt(Item.Total_Marks_Scored)}`,
-                        TotalMarks: Item.ChildSubject_Marks_Total,
+                        TotalMarks: `${Item.ChildSubject_Marks_Total}`,
                         IsAbsent: "N",
                       });
 
@@ -440,11 +448,19 @@ export const CDAStudentProgressReport =
             if (Subject.Is_CoCurricularActivity === 'True') {
               let valArr = response.data.listSubjectIdDetails.filter(item => item.Original_SchoolWise_Test_Id === Test.Original_SchoolWise_Test_Id && item.Is_CoCurricularActivity.toLowerCase() === 'true')
               // let data = response.data.listSubjectIdDetails.filter((item) => )
-              columns.push({
-                MarksScored: valArr.length > 0 ? valArr[0].Marks : '-',
-                TotalMarks: "-",
-                IsAbsent: "N"
-              })
+              if (IsGradingStandarBodyIS !== true) {
+                columns.push({
+                  MarksScored: valArr.length > 0 ? valArr[0].Marks : '-',
+                  TotalMarks: "-",
+                  IsAbsent: "N"
+                })
+              } else if (showTestTypeDetails()) {
+                columns.push({
+                  MarksScored: valArr.length > 0 ? valArr[0].Marks : '-',
+                  TotalMarks: "-",
+                  IsAbsent: "N"
+                })
+              }
             }
           })
 
@@ -492,7 +508,7 @@ export const CDAStudentProgressReport =
 
 
           //show grade column
-          if (data.IsTotalConsiderForProgressReport == "True") {
+          if (data.IsTotalConsiderForProgressReport === "True") {
             response.data.ListSchoolWiseTestNameDetail.map((Item) => {
               let testTypeLength = response.data.ListTestTypeIdDetails.length;
               if (Item.SchoolWise_Test_Id == Test.Test_Id) {
@@ -520,7 +536,7 @@ export const CDAStudentProgressReport =
 
                 if (IsGradingStandarBodyIS !== true) {
                   columns.push({
-                    MarksScored: parseInt(Item.Total_Marks_Scored),
+                    MarksScored: `${parseInt(Item.Total_Marks_Scored)}`,
                     TotalMarks: Item.Subjects_Total_Marks,
                     IsAbsent: "N"
                   })
