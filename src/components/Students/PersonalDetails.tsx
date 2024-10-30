@@ -18,6 +18,7 @@ import { IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStudentRecordData } from 'src/requests/Students/RequestStudentUI';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { RootState } from 'src/store';
 const PersonalDetails = ({ onSave }) => {
   const location = useLocation();
@@ -404,22 +405,31 @@ const PersonalDetails = ({ onSave }) => {
           >
             <Grid
               item
-              xs={12}
-              sm={6}
+              xs={6}
+              sm={8}
               sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <input
                 type="file"
                 ref={fileInputRef}
                 onChange={handleImageChange}
-                style={{ marginTop: '10px' }}
+                style={{ margin: '12px' }}
               />
+            </Grid>
+            <Grid
+                 item
+                 xs={3}
+                 sm={2}
+                 sx={{ display: 'flex', justifyContent: 'center' }}>
+                   <IconButton>
+                    <AddAPhotoIcon/>
+                   </IconButton>               
             </Grid>
 
             <Grid
               item
-              xs={12}
-              sm={6}
+              xs={3}
+              sm={2}
               sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <Tooltip title="Delete">
