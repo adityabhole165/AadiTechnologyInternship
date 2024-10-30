@@ -1,9 +1,9 @@
 
 
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsList1, IsTotalConsiderForProgressReport }) => {
+const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1, MarkDetailsList1, IsTotalConsiderForProgressReport }) => {
   // const getListDisplayName = (ShortName) => {
   //     let returnVal = ""
   //     ListDisplayNameDetails1.map((Item) => {
@@ -13,7 +13,12 @@ const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsLis
   //     return returnVal
 
   // }
-
+  const [data, setData] = useState<any>([]);
+  useEffect(() => {
+    if (Object.keys(EntireDataList).length > 0) {
+      setData(EntireDataList);
+    }
+  }, [EntireDataList])
   let HeaderParent = []
   let PrevParentId = "0", SubjectName = ""
   let HeaderCount = 0
@@ -40,6 +45,15 @@ const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsLis
     console.log('🦥🦥🦥🦥 >>>', MarkDetailsList1);
 
   }, [MarkDetailsList1])
+  function getRemarkForGradeCell(cellRemark) {
+    // html element type
+    let result: any;
+    let remarkList = data?.ListDisplayNameDetails?.filter((item) => item.ShortName === cellRemark);
+    if (remarkList?.length > 0) {
+      result = <span style={{ color: `${remarkList[0]?.ForeColor}`, fontWeight: 'bold' }}>{remarkList[0]?.DisplayName}</span>;
+    }
+    return result;
+  }
 
   return (
     <Box>
@@ -115,7 +129,7 @@ const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsLis
               </TableCell>
               {testItem.MarksArr.map((MarkItem) => (
                 <TableCell sx={{ backgroundColor: 'white' }}>
-                  {MarkItem?.MarksScored ?? '-'}
+                  {MarkItem?.IsAbsent !== 'N' ? getRemarkForGradeCell(MarkItem?.IsAbsent) : MarkItem?.MarksScored ? MarkItem?.MarksScored === '' ? '-' : MarkItem?.MarksScored : '-'}
                 </TableCell>
               ))}
 
