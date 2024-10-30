@@ -23,7 +23,6 @@ import { RootState } from 'src/store';
 import { SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField1 } from './ResizableTextField1';
-import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -694,7 +693,7 @@ const StudentwiseprogressreportEdit = () => {
                                         />
                                     </TableCell>
                                     {SchoolScreensAccessPermission() && (
-                                        <TableCell  sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Facilitator's Observation</TableCell>
+                                        <TableCell sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Facilitator's Observation</TableCell>
 
 
                                     )}
@@ -740,9 +739,9 @@ const StudentwiseprogressreportEdit = () => {
 
 
 
-                                                               
 
-                                                                
+
+
 
 
 
@@ -750,29 +749,29 @@ const StudentwiseprogressreportEdit = () => {
                                                         )}
                                                     </TableBody>
                                                     {SchoolScreensAccessPermission() && (
-                                                                    <TableCell  sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>
-                                                                        {USFillStudentsLearningOutcomeObservations.find(
+                                                        <TableCell sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>
+                                                            {USFillStudentsLearningOutcomeObservations.find(
+                                                                item => item.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId
+                                                            ) ? (
+                                                                <ResizableTextField1
+                                                                    rows={1}
+                                                                    value={
+                                                                        USFillStudentsLearningOutcomeObservations.find(
                                                                             item => item.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId
-                                                                        ) ? (
-                                                                            <ResizableTextField1
-                                                                                rows={1}
-                                                                                value={
-                                                                                    USFillStudentsLearningOutcomeObservations.find(
-                                                                                        item => item.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId
-                                                                                    ).Observation
-                                                                                }
-                                                                            disabled
+                                                                        ).Observation
+                                                                    }
+                                                                    disabled
 
-                                                                                fullWidth
-                                                                                sx={{ width: '100%' }}
-                                                                            />
-                                                                        ) : (
-                                                                            <span></span> // Placeholder when condition is not met
-                                                                        )}
-                                                                    </TableCell>
+                                                                    fullWidth
+                                                                    sx={{ width: '100%' }}
+                                                                />
+                                                            ) : (
+                                                                <span></span> // Placeholder when condition is not met
+                                                            )}
+                                                        </TableCell>
 
-                                                                )}
-                                                    
+                                                    )}
+
                                                 </TableRow>
                                             ))}
                                     </React.Fragment>
@@ -815,45 +814,32 @@ const StudentwiseprogressreportEdit = () => {
                                         </TableCell>
 
 
-                                        {USFillNonXseedSubjectGrades.map((row, index) => (
-                                           (
-                                                <TableCell
-                                                    key={index}
-                                                    sx={{
-                                                        textTransform: 'capitalize',
-                                                        color: (theme) => theme.palette.common.white,
-                                                        py: 1
-                                                    }}
-                                                >
-                                                   
-                                                </TableCell>
-                                            )
-                                        ))}
-
-                                       
-
-{SchoolScreensAccessPermission() && (
-    <span>
- {USFillNonXseedSubjectGrades.map((row, index) => (
-                                           (
-                                                <TableCell
-                                                    key={index}
-                                                    sx={{
-                                                        textTransform: 'capitalize',
-                                                        color: (theme) => theme.palette.common.white,
-                                                        py: 1
-                                                    }}
-                                                >
-                                                    Facilitator's Observation
-                                                </TableCell>
-                                            )
-                                        ))}
-
-    </span>
-    
+                                        
 
 
-)}
+
+                                        {SchoolScreensAccessPermission() && (
+                                            <span>
+                                                {USFillNonXseedSubjectGrades.map((row, index) => (
+                                                    (
+                                                        <TableCell
+                                                            key={index}
+                                                            sx={{
+                                                                textTransform: 'capitalize',
+                                                                color: (theme) => theme.palette.common.white,
+                                                                py: 1
+                                                            }}
+                                                        >
+                                                            Facilitator's Observation
+                                                        </TableCell>
+                                                    )
+                                                ))}
+
+                                            </span>
+
+
+
+                                        )}
 
 
 
@@ -880,27 +866,27 @@ const StudentwiseprogressreportEdit = () => {
                                             </TableCell>
 
                                             {SchoolScreensAccessPermission() && (
-                                                <span>
-<TableCell sx={{
-                                                textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                                py: 1, width: '100%',
-                                            }}>
-                                                <ResizableTextField1
-                                                    rows={1}
-                                                    value={row.Observation}
+                                                <>
+                                                    <TableCell sx={{
+                                                        textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                                        py: 1, width: '100%',
+                                                    }}>
+                                                        <ResizableTextField1
+                                                            rows={1}
+                                                            value={row.Observation}
 
-                                                    fullWidth
-                                                    sx={{
+                                                            fullWidth
+                                                            sx={{
 
-                                                        width: '100%',
-                                                    }}
-                                                />
-                                            </TableCell>
+                                                                width: '100%',
+                                                            }}
+                                                        />
+                                                    </TableCell>
 
-                                                </span>
+                                                </>
                                             )}
 
-                                            
+
 
 
                                         </TableRow>
