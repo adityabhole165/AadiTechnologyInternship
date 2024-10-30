@@ -4,22 +4,39 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
+  IconButton,
   TextField,
   Tooltip,
   Typography
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { IGetAllUserRolesBody, IMasterDatastudentBody, IStaffNameBody } from 'src/interfaces/Students/IStudentUI';
+import { useLocation, useParams } from 'react-router-dom';
+import {
+  IGetAllUserRolesBody,
+  IMasterDatastudentBody,
+  IStaffNameBody
+} from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetStudentRecordData, CDAStaffName, CDAUserRoles } from 'src/requests/Students/RequestStudentUI';
+import {
+  CDAGetStudentRecordData,
+  CDAStaffName,
+  CDAUserRoles
+} from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
+import InfoIcon from '@mui/icons-material/Info';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void; }) => {
+const AdmissionDetails = ({
+  onSave
+}: {
+  onSave: (isSuccessful: boolean) => void;
+}) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId } = location.state || {};
+  const { AssignedDate } = useParams();
 
   const [form, setForm] = useState({
     newAdmission: false,
@@ -41,17 +58,29 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
     applicableRules: '',
     staffUserRole: '',
     staffName: '',
-    residenceTypes: '',
+    residenceTypes: ''
   });
 
-  const ResidenceTypesDropdown = useSelector((state: RootState) => state.StudentUI.ISResidenceTypesDropdown);
-  const FeeRuleConcession = useSelector((state: RootState) => state.StudentUI.ISFeeRuleConcession);
+  const ResidenceTypesDropdown = useSelector(
+    (state: RootState) => state.StudentUI.ISResidenceTypesDropdown
+  );
+  const FeeRuleConcession = useSelector(
+    (state: RootState) => state.StudentUI.ISFeeRuleConcession
+  );
   //Second & Third Land Dropdown
-  const SecondLangDropdown = useSelector((state: RootState) => state.StudentUI.ISSecondlang);
-  const ThirdLangDropdown = useSelector((state: RootState) => state.StudentUI.ISThirdLang);
+  const SecondLangDropdown = useSelector(
+    (state: RootState) => state.StudentUI.ISSecondlang
+  );
+  const ThirdLangDropdown = useSelector(
+    (state: RootState) => state.StudentUI.ISThirdLang
+  );
   //Staff Dropdowns
-  const StaffUserRoleDropdown = useSelector((state: RootState) => state.StudentUI.ISUserRoles);
-  const StaffNameDropdown = useSelector((state: RootState) => state.StudentUI.ISStaffName);
+  const StaffUserRoleDropdown = useSelector(
+    (state: RootState) => state.StudentUI.ISUserRoles
+  );
+  const StaffNameDropdown = useSelector(
+    (state: RootState) => state.StudentUI.ISStaffName
+  );
   console.log('StaffNameDropdown', StaffNameDropdown);
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
@@ -62,7 +91,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
   };
 
   const GetAllUserRoles: IGetAllUserRolesBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asSchoolId: Number(localStorage.getItem('localSchoolId'))
   };
 
   // const GetStaffName: IStaffNameBody = {
@@ -78,7 +107,12 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
   }, []);
 
   useEffect(() => {
-    const roleId = form.staffUserRole === 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null;
+    const roleId =
+      form.staffUserRole === 'Teacher'
+        ? 2
+        : form.staffUserRole === 'Admin Staff'
+        ? 6
+        : null;
 
     if (roleId) {
       const GetStaffName: IStaffNameBody = {
@@ -92,7 +126,6 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
     }
   }, []);
 
-
   const [errors, setErrors] = useState({
     userName: false,
     formNumber: false,
@@ -105,15 +138,22 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
   });
 
   const [message, setMessage] = useState('');
+  const [SelectDate, SetSelectDate] = useState(
+    AssignedDate == undefined
+      ? new Date().toISOString().split('T')[0]
+      : getCalendarDateFormatDateNew(AssignedDate)
+  );
   const handleDropdownChange = (name: string, value: any) => {
     setForm((prevForm) => ({
       ...prevForm,
       [name]: value,
 
       ...(name === 'staffUserRole' && { staffName: '' })
-
     }));
     setErrors((prev) => ({ ...prev, [name]: false }));
+  };
+  const onSelectDate = (value) => {
+    SetSelectDate(value);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,7 +224,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
 
   const Constants = {
     S_SELECT: 'Select',
-    S_ZERO: '0',
+    S_ZERO: '0'
     // add other constants here
   };
 
@@ -203,11 +243,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="userName"
-            label={
-              <span>
-                User Name
-              </span>
-            }
+            label={<span>User Name</span>}
             variant="outlined"
             value={form.userName}
             onChange={handleInputChange}
@@ -228,7 +264,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
             label="Send SMS of User Name and Password"
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3} >
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -267,8 +303,8 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
                   backgroundColor: errors.rteCategory
                     ? 'red'
                     : form.rteCategory
-                      ? 'lightblue'
-                      : 'inherit'
+                    ? 'lightblue'
+                    : 'inherit'
                 }}
               />
             </Grid>
@@ -287,8 +323,8 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
                   backgroundColor: errors.rteApplicationForm
                     ? 'red'
                     : form.rteApplicationForm
-                      ? 'lightblue'
-                      : 'inherit'
+                    ? 'lightblue'
+                    : 'inherit'
                 }}
               />
             </Grid>
@@ -314,25 +350,27 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
               backgroundColor: errors.registrationNumber
                 ? 'white'
                 : form.registrationNumber
-                  ? 'white'
-                  : 'inherit'
+                ? 'white'
+                : 'inherit'
             }}
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <Tooltip title="Valid Prefix(s) : No Prefix, PP">
+          <Tooltip title="Valid Prefix(s): No Prefix, PP">
             <TextField
               name="registrationNumber"
               label={
-                <span>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
                   Registration Number <span style={{ color: 'red' }}> *</span>
+                  <IconButton size="small" sx={{ ml: 0.5 }}>
+                    <InfoIcon fontSize="small" color="primary" />
+                  </IconButton>
                 </span>
               }
               variant="outlined"
               value={form.registrationNumber}
               onChange={handleInputChange}
-
               error={errors.registrationNumber}
               helperText={
                 errors.registrationNumber ? 'This field is required' : ''
@@ -341,32 +379,27 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
                 backgroundColor: errors.registrationNumber
                   ? 'white'
                   : form.registrationNumber
-                    ? 'white'
-                    : 'inherit'
+                  ? 'white'
+                  : 'inherit'
               }}
               fullWidth
             />
           </Tooltip>
         </Grid>
-        {/* <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <TextField
-                        name="admissionDate"
-                        label="Admission Date"
-                        variant="outlined"
-                        type="date" // Optional: use a date input
-                        value={form.admissionDate}
-                        onChange={handleInputChange}
-                        required
-                        error={errors.admissionDate}
-                        helperText={errors.admissionDate ? "This field is required" : ""}
-                        sx={{
-                            backgroundColor: errors.registrationNumber ? 'white' : (form.registrationNumber ? 'white' : 'inherit'),
-                        }}
-                        fullWidth
-                    />
-                </Grid> */}
+
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <TextField
+          <Datepicker
+            DateValue={SelectDate}
+            onDateChange={onSelectDate}
+            // label={'Start Date'}
+            size={'medium'}
+            label={
+              <span>
+                Admission Date <span style={{ color: 'red' }}> *</span>
+              </span>
+            }
+          />
+          {/* <TextField
             name="admissionDate"
             label={
               <span>
@@ -383,10 +416,21 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
             InputLabelProps={{
               shrink: true
             }}
-          />
-        </Grid>
+          />*/}
+        </Grid> 
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <TextField
+        <Datepicker
+            DateValue={SelectDate}
+            onDateChange={onSelectDate}
+            // label={'Start Date'}
+            size={'medium'}
+            label={
+              <span>
+                Joining Date <span style={{ color: 'red' }}> *</span>
+              </span>
+            }
+          />
+          {/* <TextField
             name="joiningDate"
             label={
               <span>
@@ -403,14 +447,14 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
               backgroundColor: errors.registrationNumber
                 ? 'white'
                 : form.registrationNumber
-                  ? 'white'
-                  : 'inherit'
+                ? 'white'
+                : 'inherit'
             }}
             fullWidth
             InputLabelProps={{
               shrink: true
             }}
-          />
+          /> */}
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
@@ -431,8 +475,8 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
               backgroundColor: errors.registrationNumber
                 ? 'white'
                 : form.registrationNumber
-                  ? 'white'
-                  : 'inherit'
+                ? 'white'
+                : 'inherit'
             }}
             fullWidth
           />
@@ -481,7 +525,11 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={SecondLangDropdown.length > 0 ? SecondLangDropdown : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]}
+            ItemList={
+              SecondLangDropdown.length > 0
+                ? SecondLangDropdown
+                : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]
+            }
             onChange={(value) => handleDropdownChange('secondlanguage', value)}
             label={'Second Language'}
             defaultValue={form.secondlanguage}
@@ -492,13 +540,17 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={ThirdLangDropdown.length > 0 ? ThirdLangDropdown : SecondLangDropdown.length > 0 ? SecondLangDropdown
-              : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]}
+            ItemList={
+              ThirdLangDropdown.length > 0
+                ? ThirdLangDropdown
+                : SecondLangDropdown.length > 0
+                ? SecondLangDropdown
+                : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]
+            }
             onChange={(value) => handleDropdownChange('thirdlanguage', value)}
             label={'Third Language'}
             defaultValue={form.thirdlanguage}
             size={'medium'}
-            disabled={!form.secondlanguage}
           />
         </Grid>
 
@@ -530,7 +582,6 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
             label={'Staff Name'}
             defaultValue={form.staffName}
             size={'medium'}
-            disabled={!form.staffUserRole}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -550,8 +601,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
             onChange={handleInputChange}
             label={'Fee Area Name'}
             //defaultValue={form.parentOccupation}
-            size={"medium"}
-
+            size={'medium'}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -647,7 +697,6 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
             label="Is Handicapped?"
           />
         </Grid>
-
       </Grid>
 
       {/* <Grid
