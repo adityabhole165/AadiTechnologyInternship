@@ -817,7 +817,7 @@ const StudentwiseprogressreportEdit = () => {
 
 
                                         {USFillNonXseedSubjectGrades.map((row, index) => (
-                                            row.Observation !== "" ? (
+                                           (
                                                 <TableCell
                                                     key={index}
                                                     sx={{
@@ -828,7 +828,7 @@ const StudentwiseprogressreportEdit = () => {
                                                 >
                                                     Facilitator's Observation
                                                 </TableCell>
-                                            ) : null
+                                            )
                                         ))}
 
 

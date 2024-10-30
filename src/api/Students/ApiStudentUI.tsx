@@ -1,4 +1,4 @@
-import { IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllUserRolesBody, IGetAllUserRolesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult } from 'src/interfaces/Students/IStudentUI';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
@@ -13,10 +13,15 @@ const GetMasterDatastudentApi = (data: IMasterDatastudentBody) => {
 const StaffNameApi = (data: IStaffNameBody) => {
     return http.post<IStaffNameResult[]>('Teacher/StaffName', data);
 };
+//3
+const GetAllUserRolesApi = (data: IGetAllUserRolesBody) => {
+    return http.post<IGetAllUserRolesResult[]>('Teacher/GetAllUserRoles', data);
+};
 
 const GetStudentUIAPI = {
     GetSingleStudentDetailsApi,
     GetMasterDatastudentApi,
-    StaffNameApi
+    StaffNameApi,
+    GetAllUserRolesApi
 };
 export default GetStudentUIAPI;

@@ -164,7 +164,16 @@ export interface IMasterDataStudentResult {
     }]
 
 }
+//User Rolre Dropdown
+export interface IGetAllUserRolesBody {
+    asSchoolId: Number
+}
 
+export interface IGetAllUserRolesResult {
+    User_Role_Id: string,
+    User_Role_Name: string,
+    Is_Admin: string
+}
 // StaffName Dropdown
 export interface IStaffNameBody {
     asSchoolId: Number,
