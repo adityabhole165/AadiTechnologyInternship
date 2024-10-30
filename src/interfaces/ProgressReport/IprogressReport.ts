@@ -315,36 +315,35 @@ export interface GetSchoolSettingsResult {
     ShowTopppers: string
     BlockExamPublish: string
 }
+export interface IGetAllStudentsProgressSheetBody {
+    asSchoolId: number
+    asAcadmicYearId: number
+    asStdDivId: number
+}
 
+export interface IGetAllStudentsProgressSheetResult {
+    listStudentsMarksDetiles: ListStudentsMarksDetile[]
+    listDisplaynameDetiles: ListDisplaynameDetile[]
+}
 
-//   export interface GetSchoolSettingsResult {
-//     GetSchoolSettingsResult: {
-//         IsMPTApplicable: string
-//         MPTLectNo: number
-//         MPTName: string
-//         MPTWeekday: string
-//         BlockProgressReportIfFeesArePending: string
-//         ProgressSheetNote: string
-//         IsAssemblyApplicable: string
-//         AssemblyLectNo: number
-//         AssemblyName: string
-//         AssemblyWeekday: string
-//         IsStaybackApplicable: string
-//         StaybackName: string
-//         ShowProgressSheetNote: string
-//         SiteName: any
-//         SendMail: any
-//         SendSMS: any
-//         SMSSenderUPwd: any
-//         SMSSenderUserName: string
-//         FromMailAddress: any
-//         SMSProvider: any
-//         IsWeeklyTestApplicable: any
-//         WeeklyTestName: any
-//         WeeklyTestLectNo: any
-//         WeeklyTestWeekDay: any
-//         IsTotalConsiderForProgressReport: string
+export interface ListStudentsMarksDetile {
+    Student_id: string
+    Header: string
+    Subjects: string
+    Tests: string
+    Marks: string
+    Result: string
+    SubjectgroupTotal: string
+    SubjectTestTypeGroupTotal: string
+    SubjectTestType: string
+    TestTypes: string
+    grades: string
+}
 
-//     }
-
-// }
+export interface ListDisplaynameDetile {
+    DisplayName: string
+    DisplayValue: string
+    ShortName: string
+    ForeColor: string
+    BackColor: string
+}

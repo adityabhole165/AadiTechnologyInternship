@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -37,7 +37,8 @@ const ProgressReportSlice = createSlice({
     SubHeaderArray: [],
     MarkDetailsList1: [],
     HeaderArray1: [],
-    SubHeaderArray1: []
+    SubHeaderArray1: [],
+    AllStudentsProgressSheet: null
   },
   reducers: {
     ShowData(state, action) {
@@ -79,6 +80,9 @@ const ProgressReportSlice = createSlice({
     },
     RStudentProgressReport(state, action) {
       state.ISStudentProgressReport = action.payload;
+    },
+    GetAllStudentsProgressSheet(state, action) {
+      state.AllStudentsProgressSheet = action.payload;
     },
 
     RlistTestDetailsArr(state, action) {
@@ -191,6 +195,12 @@ export const CDAGetStudentName =
 
 
 
+export const GetAllStudentsProgressSheet =
+  (data: IGetAllStudentsProgressSheetBody): AppThunk =>
+    async (dispatch, getState) => {
+      const response = await ApiProgressReport.GetAllStudentsProgressSheet(data);
+      dispatch(ProgressReportSlice.actions.GetAllStudentsProgressSheet(response.data));
+    }
 export const CDAStudentProgressReport =
   (data: IStudentProgressReportBody, IsGradingStandardFlag): AppThunk =>
     async (dispatch, getState) => {

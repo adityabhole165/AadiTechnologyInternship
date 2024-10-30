@@ -6,11 +6,11 @@ import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Tabl
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -191,7 +191,11 @@ const ProgressReportNew = () => {
     asStandardDivisionId: StandardDivisionId()
 
   };
-
+  const GetAllStudentsProgressSheetBody: IGetAllStudentsProgressSheetBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcadmicYearId: Number(asAcademicYearId),
+    asStdDivId: StandardDivisionId()
+  }
   const StudentProgressReportBody: IStudentProgressReportBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmeicYearId: Number(asAcademicYearId),
@@ -331,23 +335,22 @@ const ProgressReportNew = () => {
   }, [selectTeacher, StandardDivisionId()]);
 
   useEffect(() => {
+    if (StudentId == '0') {
+      dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
+    }
     dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
-
   }, [StudentId]);
 
   useEffect(() => {
     dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
-
   }, [StudentId]);
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
-
   }, [Standard_Id()]);
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
-
   }, [Standard_Id()]);
 
 
