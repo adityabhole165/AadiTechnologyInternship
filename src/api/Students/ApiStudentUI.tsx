@@ -1,4 +1,4 @@
-import { IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IMasterDatastudentBody, IMasterDataStudentResult } from 'src/interfaces/Students/IStudentUI';
+import { IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult } from 'src/interfaces/Students/IStudentUI';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
@@ -9,8 +9,14 @@ const GetMasterDatastudentApi = (data: IMasterDatastudentBody) => {
     return http.post<IMasterDataStudentResult>('Teacher/MasterDatastudent', data);
 }
 
+//2
+const StaffNameApi = (data: IStaffNameBody) => {
+    return http.post<IStaffNameResult[]>('Teacher/StaffName', data);
+};
+
 const GetStudentUIAPI = {
     GetSingleStudentDetailsApi,
-    GetMasterDatastudentApi
+    GetMasterDatastudentApi,
+    StaffNameApi
 };
 export default GetStudentUIAPI;

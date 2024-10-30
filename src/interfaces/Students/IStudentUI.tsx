@@ -164,3 +164,15 @@ export interface IMasterDataStudentResult {
     }]
 
 }
+
+// StaffName Dropdown
+export interface IStaffNameBody {
+    asSchoolId: Number,
+    asUserRoleId: Number,
+    asAcademicYearId: Number
+}
+
+export interface IStaffNameResult {
+    UserId: string
+    UserName: string
+}

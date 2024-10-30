@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
+import { IMasterDatastudentBody, IStaffNameBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -13,6 +13,8 @@ const StudentUISlice = createSlice({
         ISSecondlang: [],
         ISThirdLang: [],
         ISResidenceTypesDropdown: [],
+        //
+        ISStaffName: [],
         Loading: true
     },
     reducers: {
@@ -41,6 +43,11 @@ const StudentUISlice = createSlice({
         },
         RThirdLang(state, action) {
             state.ISThirdLang = action.payload;
+        },
+        //
+        RStaffName(state, action) {
+            state.ISStaffName = action.payload;
+            state.Loading = false;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -98,9 +105,9 @@ export const CDAGetStudentRecordData =
             dispatch(StudentUISlice.actions.RSecondLang(SecondLangData));
             dispatch(StudentUISlice.actions.RThirdLang(ThirdLangData));
 
-            console.log(LanguageDropdown, "LanguageDropdown");
-            console.log(SecondLangData, "SecondLangData");
-            console.log(ThirdLangData, "ThirdLangData");
+            //console.log(LanguageDropdown, "LanguageDropdown");
+            //console.log(SecondLangData, "SecondLangData");
+            // console.log(ThirdLangData, "ThirdLangData");
 
             let ResidenceTypesDropdown = []
             response.data.ResidenceTypesDropdown.map((item, i) => {
@@ -114,5 +121,19 @@ export const CDAGetStudentRecordData =
 
         };
 
+//
+export const CDAStaffName =
+    (data: IStaffNameBody): AppThunk => async (dispatch) => {
+        const response = await GetStudentUIAPI.StaffNameApi(data);
 
+        const StaffName = response.data.map((item, i) => {
+            return ({
+                Id: item.UserId,
+                Name: item.UserName,
+                Value: item.UserId,
+            })
+        })
+
+        dispatch(StudentUISlice.actions.RStaffName(StaffName));
+    };
 export default StudentUISlice.reducer;

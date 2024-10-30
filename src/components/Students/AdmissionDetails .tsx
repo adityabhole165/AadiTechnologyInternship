@@ -11,9 +11,9 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
+import { IMasterDatastudentBody, IStaffNameBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetStudentRecordData } from 'src/requests/Students/RequestStudentUI';
+import { CDAGetStudentRecordData, CDAStaffName } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
 const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void; }) => {
@@ -39,15 +39,19 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
     secondlanguage: '',
     thirdlanguage: '',
     applicableRules: '',
+    staffUserRole: '',
+    staffName: '',
     residenceTypes: '',
   });
 
   const ResidenceTypesDropdown = useSelector((state: RootState) => state.StudentUI.ISResidenceTypesDropdown);
-  //console.log('ResidenceTypesDropdown', ResidenceTypesDropdown);
   const FeeRuleConcession = useSelector((state: RootState) => state.StudentUI.ISFeeRuleConcession);
   //Second & Third Land Dropdown
   const SecondLangDropdown = useSelector((state: RootState) => state.StudentUI.ISSecondlang);
   const ThirdLangDropdown = useSelector((state: RootState) => state.StudentUI.ISThirdLang);
+  //Staff Dropdown
+  const StaffNameDropdown = useSelector((state: RootState) => state.StudentUI.ISStaffName);
+  console.log(StaffNameDropdown, "StaffNameDropdown");
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -56,8 +60,15 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
     asDivisionId: DivisionId
   };
 
+  const GetStaffName: IStaffNameBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asUserRoleId: Number(sessionStorage.getItem('RoleId'))
+  };
+
   useEffect(() => {
     dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
+    dispatch(CDAStaffName(GetStaffName));
   }, []);
 
   const [errors, setErrors] = useState({
@@ -488,9 +499,10 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={StaffUserRole}
-            // onChange={onClickClass}
+            ItemList={StaffNameDropdown}
+            onChange={(value) => handleDropdownChange('staffUserRole', value)}
             label={'Staff Name'}
+            defaultValue={form.staffUserRole}
             size={'medium'}
           />
         </Grid>
