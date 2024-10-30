@@ -381,11 +381,49 @@ export const CDAStudentProgressReport =
               if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
                 temp = Subject.Subject_Id + "--" + Test.Test_Id
                 // Flag 🟥 
-                totalMarks = {
-                  MarksScored: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount == 1) ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(`${cell.Total_Marks_Scored}`) : cell ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? `${cell.TotalGrade}` : parseInt(cell.Total_Marks_Scored) : "-",
-                  TotalMarks: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount == 1) ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseInt(cell.Subject_Total_Marks) : cell ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? `${cell.Grade}` : cell.Subject_Total_Marks : "-",
-                  IsAbsent: cell ? cell.Is_Absent : "N"
-                }
+                // Helper function to handle grade or marks
+                const getGradeOrMarks = (cell, isGrade, totalGrade) => {
+                  if (!cell) return "-";
+                  return isGrade ? `${totalGrade}` : `${parseInt(cell.Total_Marks_Scored)}`;
+                };
+
+                // Main calculation function
+                const calculateTotalMarks = (data, Subject, cell) => {
+                  if (!cell) {
+                    return {
+                      MarksScored: " ",
+                      TotalMarks: "-",
+                      IsAbsent: "N"
+                    };
+                  }
+
+                  const isConsiderForReport = data.IsTotalConsiderForProgressReport === "True";
+                  const isSingleSubject = subIdDetailsLength(Subject.Subject_Id) === 1;
+                  const isGradeFormat = cell.Grade_Or_Marks.trim().toLowerCase() === 'g';
+
+                  // Determine marks or grade based on conditions
+                  const marksScored = isConsiderForReport && isSingleSubject
+                    ? isGradeFormat ? `${cell.Grade}` : `${parseInt(cell.Total_Marks_Scored)}`
+                    : getGradeOrMarks(cell, isGradeFormat, cell.TotalGrade);
+
+                  const totalMarks = isConsiderForReport && isSingleSubject
+                    ? isGradeFormat ? `${cell.Grade}` : `${parseInt(cell.Subject_Total_Marks)}`
+                    : isGradeFormat ? `${cell.Grade}` : cell.Subject_Total_Marks;
+
+                  return {
+                    MarksScored: marksScored,
+                    TotalMarks: totalMarks,
+                    IsAbsent: cell.Is_Absent
+                  };
+                };
+
+                // Usage
+                totalMarks = calculateTotalMarks(data, Subject, cell);
+                const isConsideredForReport = data.IsTotalConsiderForProgressReport === "True";
+                const isSingleSubject = subIdDetailsLength(Subject.Subject_Id) === 1;
+                const isGrade = cell?.Grade_Or_Marks?.trim().toLowerCase() === 'g';
+
+
               }
 
               if (TestTypeIndex == TestTypeCount - 1 && data.IsTotalConsiderForProgressReport.toLowerCase() == "true") {
