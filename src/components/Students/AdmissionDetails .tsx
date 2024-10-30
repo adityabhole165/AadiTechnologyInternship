@@ -11,9 +11,9 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { IMasterDatastudentBody, IStaffNameBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllUserRolesBody, IMasterDatastudentBody, IStaffNameBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetStudentRecordData, CDAStaffName } from 'src/requests/Students/RequestStudentUI';
+import { CDAGetStudentRecordData, CDAStaffName, CDAUserRoles } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
 const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void; }) => {
@@ -50,8 +50,10 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
   const SecondLangDropdown = useSelector((state: RootState) => state.StudentUI.ISSecondlang);
   const ThirdLangDropdown = useSelector((state: RootState) => state.StudentUI.ISThirdLang);
   //Staff Dropdown
+  const StaffUserRoleDropdown = useSelector((state: RootState) => state.StudentUI.ISUserRoles);
+  console.log(StaffUserRoleDropdown, "StaffUserRoleDropdown");
+
   const StaffNameDropdown = useSelector((state: RootState) => state.StudentUI.ISStaffName);
-  console.log(StaffNameDropdown, "StaffNameDropdown");
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -66,9 +68,14 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
     asUserRoleId: Number(sessionStorage.getItem('RoleId'))
   };
 
+  const GetAllUserRoles: IGetAllUserRolesBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  };
+
   useEffect(() => {
     dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
     dispatch(CDAStaffName(GetStaffName));
+    dispatch(CDAUserRoles(GetAllUserRoles));
   }, []);
 
   const [errors, setErrors] = useState({
@@ -490,7 +497,9 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={StaffUserRole}
+            ItemList={StaffUserRoleDropdown}
+            onChange={(value) => handleDropdownChange('staffUserRole', value)}
+            defaultValue={form.staffUserRole}
             // onChange={onClickClass}
             label={'Staff User Role'}
             size={'medium'}
@@ -500,9 +509,9 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={StaffNameDropdown}
-            onChange={(value) => handleDropdownChange('staffUserRole', value)}
+            onChange={(value) => handleDropdownChange('staffName', value)}
             label={'Staff Name'}
-            defaultValue={form.staffUserRole}
+            defaultValue={form.staffName}
             size={'medium'}
           />
         </Grid>

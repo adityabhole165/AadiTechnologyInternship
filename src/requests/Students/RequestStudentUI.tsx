@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IMasterDatastudentBody, IStaffNameBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllUserRolesBody, IMasterDatastudentBody, IStaffNameBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -14,6 +14,7 @@ const StudentUISlice = createSlice({
         ISThirdLang: [],
         ISResidenceTypesDropdown: [],
         //
+        ISUserRoles: [],
         ISStaffName: [],
         Loading: true
     },
@@ -45,6 +46,10 @@ const StudentUISlice = createSlice({
             state.ISThirdLang = action.payload;
         },
         //
+        RUserRoles(state, action) {
+            state.ISUserRoles = action.payload;
+            state.Loading = false;
+        },
         RStaffName(state, action) {
             state.ISStaffName = action.payload;
             state.Loading = false;
@@ -121,7 +126,7 @@ export const CDAGetStudentRecordData =
 
         };
 
-//
+//2
 export const CDAStaffName =
     (data: IStaffNameBody): AppThunk => async (dispatch) => {
         const response = await GetStudentUIAPI.StaffNameApi(data);
@@ -135,5 +140,21 @@ export const CDAStaffName =
         })
 
         dispatch(StudentUISlice.actions.RStaffName(StaffName));
+    };
+//3
+export const CDAUserRoles =
+    (data: IGetAllUserRolesBody): AppThunk => async (dispatch) => {
+        const response = await GetStudentUIAPI.GetAllUserRolesApi(data);
+
+        const UserRoles = response.data.map((item, i) => {
+            return ({
+                Id: item.User_Role_Id,
+                Name: item.User_Role_Name,
+                Value: item.User_Role_Id,
+                Is_Admin: item.Is_Admin
+            })
+        })
+
+        dispatch(StudentUISlice.actions.RUserRoles(UserRoles));
     };
 export default StudentUISlice.reducer;
