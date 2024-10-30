@@ -31,6 +31,7 @@ import StudentSubjectDetails from './StudentSubjectDetails';
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import FamilyRestroomTwoToneIcon from '@mui/icons-material/FamilyRestroomTwoTone';
 
 const StudentRegistrationForm = () => {
   const [currentTab, setCurrentTab] = useState(0);
@@ -124,6 +125,20 @@ const StudentRegistrationForm = () => {
               </IconButton>
             </Tooltip>
             
+            <Tooltip title={'Add  Sibling Details'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: blue[500],
+                  '&:hover': {
+                    backgroundColor: blue[600]
+                  }
+                }}
+              >
+                <FamilyRestroomTwoToneIcon />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title={'Add Note'}>
               <IconButton
                 sx={{
