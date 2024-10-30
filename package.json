@@ -63,6 +63,7 @@
     "clsx": "1.1.1",
     "country-flag-icons": "1.4.14",
     "date-fns": "^2.25.0",
+    "fast-xml-parser": "^4.5.0",
     "file-saver": "^2.0.5",
     "firebase": "9.4.1",
     "formik": "2.2.9",
