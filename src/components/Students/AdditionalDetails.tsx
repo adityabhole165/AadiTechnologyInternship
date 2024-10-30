@@ -81,7 +81,7 @@ const AdditionalDetails = ({ onSave }) => {
         <Grid item xs={3}>
           <TextField
             name="lastSchoolName"
-            label="Last School Name"
+            label="School Name"
             variant="outlined"
             fullWidth
             value={formData.lastSchoolName}
@@ -111,7 +111,7 @@ const AdditionalDetails = ({ onSave }) => {
         <Grid item xs={3}>
           <TextField
             name="lastSchoolRollNumber"
-            label="School Roll Number"
+            label="School UDISE No"
             variant="outlined"
             fullWidth
             value={formData.lastSchoolRollNumber}

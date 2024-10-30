@@ -44,6 +44,7 @@ import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
 import { SchoolNoticePopup } from 'src/requests/SchoolNoticePopup/RequestSchoolNoticePopup';
+import FeeStructurePopUp from '../FeeStructure/FeeStrycture';
 import SchoolNoticePopupCom from '../SchoolNoticePopup/SchoolNoticePopup';
 import AbsentStudentDetailsPopup from './AbsentStudentDetails/AbsentStudentDetailsPopup';
 const Text = styled(Box)(({ theme }) => ({
@@ -173,6 +174,14 @@ function Dashboard() {
       setSchoolNoticeDialog(true);
     } else {
       setSchoolNoticeDialog(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!sessionStorage.getItem('hasShownFeeStructurePopup')) {
+      setFeeStructureDialog(true);
+    } else {
+      setFeeStructureDialog(false);
     }
   }, []);
   const AbsentStudentsBody: ISchoolIdBody = {
@@ -472,6 +481,7 @@ function Dashboard() {
   const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(false);
   const [SchoolNoticeDialog, setSchoolNoticeDialog] = useState(false);
   const [AbsentStudentDialog, setAbsentStudentDialog] = useState(false);
+  const [FeeStructureDialog, setFeeStructureDialog] = useState(false);
 
   const handleMissingAttendanceDialogClose = () => {
     setMissingAttendanceDialog(false);
@@ -485,6 +495,10 @@ function Dashboard() {
   const handleAbsentStudentDialogClose = () => {
     setAbsentStudentDialog(false);
     sessionStorage.setItem('hasShownAbsentStudentPopup', 'true');
+  };
+  const handleFeeStructureDialogClose = () => {
+    setFeeStructureDialog(false);
+    sessionStorage.setItem('hasShownFeeStructurePopup', 'true');
   };
   return (
     <>
@@ -540,6 +554,13 @@ function Dashboard() {
         <SchoolNoticePopupCom
           open={SchoolNoticeDialog}
           setOpen={handleSchoolNoticePopupDialogClose}
+        />
+      )}
+
+      {FeeStructureDialog && Number(asSchoolId) == 71 && (
+        <FeeStructurePopUp
+          open={FeeStructureDialog}
+          setOpen={handleFeeStructureDialogClose}
         />
       )}
     </>

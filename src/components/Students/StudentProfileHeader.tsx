@@ -20,16 +20,20 @@ const StudentProfileHeader: React.FC = () => {
         </Grid>
     
         {/* Right Side - Confirmation and Update Info */}
-        <Grid item xs={12} sm={6} container direction="column" justifyContent="flex-start" alignItems="flex-end">
+        <Grid item  xs={12} sm={6} container direction="column" justifyContent="flex-start" alignItems="flex-center">
             <Typography variant="body1" sx={{ textAlign: 'right' }}>
                 <b>Confirmed by:</b> Ms. Pallavi A. Shilimkar on 16 Jan 2019 10:30 AM
             </Typography>
-            <Typography variant="body1" sx={{ textAlign: 'right' }}>
-                <b>Confirmed by:</b> Ms. Manisha J. Mohite on 27 May 2024 11:45 AM
-            </Typography>
-            <Typography variant="body1" sx={{ textAlign: 'right' }}>
+            <Typography variant="body1" sx={{ textAlign: 'right'}}>
+                <b> Confirmed by:</b> Ms. Manisha J. Mohite on 27 May 2024 11:45 AM
+            </Typography>   
+            <Typography variant="body1" sx={{ textAlign: 'center', pl:2 }}>
                 <b>Admitted In:</b> Nursery
             </Typography>
+            <Typography variant="body1" sx={{ textAlign: 'center', pl:2 }}>
+                <b> Residence Type:</b> NA
+            </Typography>
+           
         </Grid>
     </Grid>
     );

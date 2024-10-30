@@ -14,7 +14,7 @@ export interface IGetClassTeachersResult {
     Original_Standard_Id: string
     Original_Division_Id: string
     SchoolWise_Standard_Division_Id: string,
-    Standard_Id:string
+    Standard_Id: string
 };
 
 export interface IGetStudentNameDropdownBody {
@@ -34,7 +34,7 @@ export interface IStudentProgressReportBody {
     asAcadmeicYearId: number
     asStudentId: number
     asUserId: number,
-    IsTotalConsiderForProgressReport:string
+    IsTotalConsiderForProgressReport: string
 }
 
 
@@ -119,13 +119,13 @@ export interface IStudentProgressReportResult {
     ],
 
     Listtestid2Details: [{
-      Grade: string
-      Parent_Subject_Id: string
-      TestTypeSort_Order: string
-      TestType_Id:string
-      TestType_Total_Marks: string
-      TestType_Total_Marks_Scored: string
-      Test_Id: string
+        Grade: string
+        Parent_Subject_Id: string
+        TestTypeSort_Order: string
+        TestType_Id: string
+        TestType_Total_Marks: string
+        TestType_Total_Marks_Scored: string
+        Test_Id: string
     }
 
 
@@ -179,7 +179,7 @@ export interface IStudentProgressReportResult {
             Grade_Name: string,
             Grade_id: string,
             FailCount: string,
-            Result: string ,
+            Result: string,
             rank: string
         }
 
@@ -199,34 +199,34 @@ export interface IStudentProgressReportResult {
 
 
     ]
-   
-    
+
+
 }
 
 export interface IGetPassedAcademicYearsBody {
     asSchoolId: number
     asStudent_Id: number
     asIncludeCurrentYear: boolean
-  }
+}
 
-  export interface IGetPassedAcademicYearsResult{
+export interface IGetPassedAcademicYearsResult {
     Display_Member: string
-    
-  }
 
-  
+}
 
-  export interface IGetAllMarksGradeConfigurationBody {
+
+
+export interface IGetAllMarksGradeConfigurationBody {
     asSchoolId: number;
     asAcademicYrId: number;
     asStandardId: number;
     asIsCoCurricular: boolean;
-  }
-  
- 
+}
 
 
-  export interface IGetAllMarksGradeConfigurationResult {
+
+
+export interface IGetAllMarksGradeConfigurationResult {
     listConfigurationIdDetails: [
         {
             Marks_Grades_Configuration_Id: string
@@ -245,36 +245,36 @@ export interface IGetPassedAcademicYearsBody {
             Academic_Year_Id: string;
         }
     ],
-        
 
-    
+
+
 }
 
 export interface IsGradingStandarBody {
     asSchoolId: number
     asAcademicYearId: number
     asStandardId: number
-  }
-  export interface IsTestPublishedForStdDivBody {
+}
+export interface IsTestPublishedForStdDivBody {
     asSchoolId: number
     asAcadmicYearId: number
     asStdDivId: number
-  }
-  export interface IsTestPublishedForStudentBody {
+}
+export interface IsTestPublishedForStudentBody {
     asSchoolId: number
     asAcademicYearId: number
     asStandardDivId: number
     asStudentId: number
-  }
+}
 
 
 
-  export interface GetSchoolSettingsBody{
+export interface GetSchoolSettingsBody {
     asSchoolId: number
-    
-  }
 
-  export interface GetSchoolSettingsResult {
+}
+
+export interface GetSchoolSettingsResult {
     IsMPTApplicable: string
     MPTLectNo: number
     MPTName: string
@@ -314,7 +314,7 @@ export interface IsGradingStandarBody {
     ExternalLibrarySite: string
     ShowTopppers: string
     BlockExamPublish: string
-  }
+}
 
 
 //   export interface GetSchoolSettingsResult {

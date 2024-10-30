@@ -12,10 +12,10 @@ import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfig
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
+import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressReportGradeView from './ProgressReportGradeView';
 import ProgressReportMarkView from './ProgressReportMarkView';
-import { getSchoolConfigurations } from '../Common/Util';
 
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const ProgressReportNew = () => {
   };
 
 
-  
+
 
 
   const [selectTeacher, SetselectTeacher] = useState(CanEdit == 'N' ? TeacherIdsession : '');
@@ -149,7 +149,7 @@ const ProgressReportNew = () => {
   };
 
 
-  
+
 
   const Standard_Id = () => {
     let returnVal = 0
@@ -328,7 +328,7 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetStudentName(GetStudentNameDropdownBody));
-  }, [selectTeacher,StandardDivisionId()]);
+  }, [selectTeacher, StandardDivisionId()]);
 
   useEffect(() => {
     dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
@@ -543,6 +543,7 @@ const ProgressReportNew = () => {
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
                     <ProgressReportGradeView
+                      EntireDataList={EntireDataList}
                       IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
                       HeaderArray1={HeaderArray1}
                       SubHeaderArray1={SubHeaderArray1}

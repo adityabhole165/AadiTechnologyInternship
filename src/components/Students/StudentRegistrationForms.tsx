@@ -5,6 +5,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import PersonIcon from '@mui/icons-material/Person';
 import SaveIcon from '@mui/icons-material/Save';
 import SchoolIcon from '@mui/icons-material/School';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import {
   Alert,
   Box,
@@ -30,6 +31,7 @@ import StudentSubjectDetails from './StudentSubjectDetails';
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import FamilyRestroomTwoToneIcon from '@mui/icons-material/FamilyRestroomTwoTone';
 
 const StudentRegistrationForm = () => {
   const [currentTab, setCurrentTab] = useState(0);
@@ -109,9 +111,7 @@ const StudentRegistrationForm = () => {
         ]}
         rightActions={
           <>
-            <Tooltip
-              title={'View exam dates for each exam associated with standards.'}
-            >
+            <Tooltip title={'Add/Edit student details and click on "Save".'}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -124,6 +124,35 @@ const StudentRegistrationForm = () => {
                 <QuestionMark />
               </IconButton>
             </Tooltip>
+            
+            <Tooltip title={'Add  Sibling Details'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: blue[500],
+                  '&:hover': {
+                    backgroundColor: blue[600]
+                  }
+                }}
+              >
+                <FamilyRestroomTwoToneIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={'Add Note'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: blue[500],
+                  '&:hover': {
+                    backgroundColor: blue[600]
+                  }
+                }}
+              >
+                <NoteAddIcon />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title={'Save'}>
               <IconButton
                 sx={{
@@ -173,7 +202,7 @@ const StudentRegistrationForm = () => {
           minHeight: '100px',
           display: 'flex',
           justifyContent: 'center',
-          mb:0
+          mb: 0
         }}
       >
         <Tabs
@@ -265,7 +294,7 @@ const StudentRegistrationForm = () => {
                                 </Alert>
                             )} */}
             </Grid>
-            <Grid item xs={12} >
+            <Grid item xs={12}>
               <PersonalDetails onSave={handleSave} />
             </Grid>
           </Grid>
@@ -308,7 +337,7 @@ const StudentRegistrationForm = () => {
                                 </Alert>
                             )} */}
             </Grid>
-            <Grid item xs={12} >
+            <Grid item xs={12}>
               <AdditionalDetails onSave={handleSave} />
             </Grid>
           </Grid>
@@ -322,7 +351,7 @@ const StudentRegistrationForm = () => {
                                 </Alert>
                             )} */}
             </Grid>
-            <Grid item xs={12} >
+            <Grid item xs={12}>
               <StudentSubjectDetails onSave={handleSave} />
             </Grid>
           </Grid>

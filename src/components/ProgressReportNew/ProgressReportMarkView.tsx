@@ -278,11 +278,11 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                 )}
                             </>
                         ))}
-                        {/* <TableCell >
+                        <TableCell >
                             <Typography color="#38548A" textAlign={'center'} mr={9}>
                                 <b>Grade</b>
                             </Typography>
-                        </TableCell> */}
+                        </TableCell>
                     </TableRow>
 
                 </TableHead>
