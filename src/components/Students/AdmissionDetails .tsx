@@ -49,11 +49,10 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
   //Second & Third Land Dropdown
   const SecondLangDropdown = useSelector((state: RootState) => state.StudentUI.ISSecondlang);
   const ThirdLangDropdown = useSelector((state: RootState) => state.StudentUI.ISThirdLang);
-  //Staff Dropdown
+  //Staff Dropdowns
   const StaffUserRoleDropdown = useSelector((state: RootState) => state.StudentUI.ISUserRoles);
-  console.log(StaffUserRoleDropdown, "StaffUserRoleDropdown");
-
   const StaffNameDropdown = useSelector((state: RootState) => state.StudentUI.ISStaffName);
+  console.log('StaffNameDropdown', StaffNameDropdown);
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -62,21 +61,37 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
     asDivisionId: DivisionId
   };
 
-  const GetStaffName: IStaffNameBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asUserRoleId: Number(sessionStorage.getItem('RoleId'))
-  };
-
   const GetAllUserRoles: IGetAllUserRolesBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
   };
 
+  // const GetStaffName: IStaffNameBody = {
+  //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  //   asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+  //   asUserRoleId: 6
+  // };
+
   useEffect(() => {
     dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
-    dispatch(CDAStaffName(GetStaffName));
     dispatch(CDAUserRoles(GetAllUserRoles));
+    // dispatch(CDAStaffName(GetStaffName));
   }, []);
+
+  useEffect(() => {
+    const roleId = form.staffUserRole === 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null;
+
+    if (roleId) {
+      const GetStaffName: IStaffNameBody = {
+        asSchoolId: Number(localStorage.getItem('localSchoolId')),
+        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+        asUserRoleId: roleId
+      };
+      console.log('roleId', roleId);
+
+      dispatch(CDAStaffName(GetStaffName));
+    }
+  }, []);
+
 
   const [errors, setErrors] = useState({
     userName: false,
@@ -93,7 +108,10 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
   const handleDropdownChange = (name: string, value: any) => {
     setForm((prevForm) => ({
       ...prevForm,
-      [name]: value
+      [name]: value,
+
+      ...(name === 'staffUserRole' && { staffName: '' })
+
     }));
     setErrors((prev) => ({ ...prev, [name]: false }));
   };
@@ -500,7 +518,6 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
             ItemList={StaffUserRoleDropdown}
             onChange={(value) => handleDropdownChange('staffUserRole', value)}
             defaultValue={form.staffUserRole}
-            // onChange={onClickClass}
             label={'Staff User Role'}
             size={'medium'}
           />
@@ -513,6 +530,7 @@ const AdmissionDetails = ({ onSave }: { onSave: (isSuccessful: boolean) => void;
             label={'Staff Name'}
             defaultValue={form.staffName}
             size={'medium'}
+            disabled={!form.staffUserRole}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>

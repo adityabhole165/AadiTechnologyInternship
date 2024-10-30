@@ -146,14 +146,17 @@ export const CDAUserRoles =
     (data: IGetAllUserRolesBody): AppThunk => async (dispatch) => {
         const response = await GetStudentUIAPI.GetAllUserRolesApi(data);
 
-        const UserRoles = response.data.map((item, i) => {
-            return ({
-                Id: item.User_Role_Id,
-                Name: item.User_Role_Name,
-                Value: item.User_Role_Id,
-                Is_Admin: item.Is_Admin
+        const UserRoles = response.data.filter((item) => item.User_Role_Id === "2" || item.User_Role_Id === "6").
+            map((item, i) => {
+                return ({
+                    Id: item.User_Role_Id,
+                    Name: item.User_Role_Name,
+                    Value: item.User_Role_Id,
+                    Is_Admin: item.Is_Admin
+                })
             })
-        })
+
+        //const Users = UserRoles.filter(item => item.Id === "2" || item.Id === "6");
 
         dispatch(StudentUISlice.actions.RUserRoles(UserRoles));
     };
