@@ -1,3 +1,4 @@
+import InfoIcon from '@mui/icons-material/Info';
 import {
   Alert,
   Box,
@@ -17,6 +18,7 @@ import {
   IMasterDatastudentBody,
   IStaffNameBody
 } from 'src/interfaces/Students/IStudentUI';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAGetStudentRecordData,
@@ -24,8 +26,6 @@ import {
   CDAUserRoles
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
-import InfoIcon from '@mui/icons-material/Info';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
 const AdmissionDetails = ({
@@ -81,7 +81,7 @@ const AdmissionDetails = ({
   const StaffNameDropdown = useSelector(
     (state: RootState) => state.StudentUI.ISStaffName
   );
-  console.log('StaffNameDropdown', StaffNameDropdown);
+  //console.log('StaffNameDropdown', StaffNameDropdown);
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -97,34 +97,31 @@ const AdmissionDetails = ({
   // const GetStaffName: IStaffNameBody = {
   //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
   //   asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-  //   asUserRoleId: 6
+  //   asUserRoleId: form.staffUserRole === 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null
   // };
+
 
   useEffect(() => {
     dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
     dispatch(CDAUserRoles(GetAllUserRoles));
-    // dispatch(CDAStaffName(GetStaffName));
+    //dispatch(CDAStaffName(GetStaffName));
   }, []);
+
 
   useEffect(() => {
-    const roleId =
-      form.staffUserRole === 'Teacher'
-        ? 2
-        : form.staffUserRole === 'Admin Staff'
-        ? 6
-        : null;
+    // const roleId = form.staffUserRole === 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null;
+    console.log('staffUserRole', form.staffUserRole);
+    // console.log('roleId', roleId);
 
-    if (roleId) {
-      const GetStaffName: IStaffNameBody = {
-        asSchoolId: Number(localStorage.getItem('localSchoolId')),
-        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asUserRoleId: roleId
-      };
-      console.log('roleId', roleId);
-
-      dispatch(CDAStaffName(GetStaffName));
+    const GetStaffName: IStaffNameBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+      asUserRoleId: Number(form.staffUserRole) //=== 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null
     }
-  }, []);
+    console.log("GetStaffName", GetStaffName)
+    dispatch(CDAStaffName(GetStaffName));
+
+  }, [form.staffUserRole]);
 
   const [errors, setErrors] = useState({
     userName: false,
@@ -143,6 +140,11 @@ const AdmissionDetails = ({
       ? new Date().toISOString().split('T')[0]
       : getCalendarDateFormatDateNew(AssignedDate)
   );
+
+  const onSelectDate = (value) => {
+    SetSelectDate(value);
+  };
+
   const handleDropdownChange = (name: string, value: any) => {
     setForm((prevForm) => ({
       ...prevForm,
@@ -151,9 +153,6 @@ const AdmissionDetails = ({
       ...(name === 'staffUserRole' && { staffName: '' })
     }));
     setErrors((prev) => ({ ...prev, [name]: false }));
-  };
-  const onSelectDate = (value) => {
-    SetSelectDate(value);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -303,8 +302,8 @@ const AdmissionDetails = ({
                   backgroundColor: errors.rteCategory
                     ? 'red'
                     : form.rteCategory
-                    ? 'lightblue'
-                    : 'inherit'
+                      ? 'lightblue'
+                      : 'inherit'
                 }}
               />
             </Grid>
@@ -323,8 +322,8 @@ const AdmissionDetails = ({
                   backgroundColor: errors.rteApplicationForm
                     ? 'red'
                     : form.rteApplicationForm
-                    ? 'lightblue'
-                    : 'inherit'
+                      ? 'lightblue'
+                      : 'inherit'
                 }}
               />
             </Grid>
@@ -350,8 +349,8 @@ const AdmissionDetails = ({
               backgroundColor: errors.registrationNumber
                 ? 'white'
                 : form.registrationNumber
-                ? 'white'
-                : 'inherit'
+                  ? 'white'
+                  : 'inherit'
             }}
             fullWidth
           />
@@ -360,7 +359,7 @@ const AdmissionDetails = ({
           <Tooltip title="Valid Prefix(s): No Prefix, PP">
             <TextField
               name="registrationNumber"
-              
+
               label={
                 <span style={{ display: 'flex', alignItems: 'center' }}>
                   Registration Number <span style={{ color: 'red' }}> *</span>
@@ -389,7 +388,7 @@ const AdmissionDetails = ({
             // label={'Start Date'}
             size={'medium'}
             label={'Admission Date'}
-            
+
           />
           {/* <TextField
             name="admissionDate"
@@ -409,9 +408,9 @@ const AdmissionDetails = ({
               shrink: true
             }}
           />*/}
-        </Grid> 
+        </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
-        <Datepicker
+          <Datepicker
             DateValue={SelectDate}
             onDateChange={onSelectDate}
             // label={'Start Date'}
@@ -463,8 +462,8 @@ const AdmissionDetails = ({
               backgroundColor: errors.registrationNumber
                 ? 'white'
                 : form.registrationNumber
-                ? 'white'
-                : 'inherit'
+                  ? 'white'
+                  : 'inherit'
             }}
             fullWidth
           />
@@ -532,8 +531,8 @@ const AdmissionDetails = ({
               ThirdLangDropdown.length > 0
                 ? ThirdLangDropdown
                 : SecondLangDropdown.length > 0
-                ? SecondLangDropdown
-                : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]
+                  ? SecondLangDropdown
+                  : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]
             }
             onChange={(value) => handleDropdownChange('thirdlanguage', value)}
             label={'Third Language'}
