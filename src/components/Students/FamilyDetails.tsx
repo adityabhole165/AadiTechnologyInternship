@@ -153,7 +153,7 @@ const FamilyDetails = ({ onSave }) => {
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
       <Typography variant="h4" color="initial" py={1} pb={1}>
-        Father Details
+        Father's Details
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} md={3}>
@@ -341,7 +341,7 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
       </Grid>
       <Typography variant="h4" color="initial" pt={2} pb={1}>
-        Mother Details
+        Mother's Details
       </Typography>
       {/* Mother's Information */}
       <Grid container spacing={2}>
