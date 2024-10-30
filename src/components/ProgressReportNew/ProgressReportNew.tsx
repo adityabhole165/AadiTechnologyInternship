@@ -1,3 +1,4 @@
+import { XMLParser } from "fast-xml-parser";
 
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
@@ -73,6 +74,16 @@ const ProgressReportNew = () => {
   const USStudentProgressReport: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISStudentProgressReport
   );
+  const AllStudentsProgressSheet: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.AllStudentsProgressSheet
+  );
+  useEffect(() => {
+    if (AllStudentsProgressSheet !== null) {
+      const parser = new XMLParser();
+      const jsonData = parser.parse(AllStudentsProgressSheet.listStudentsMarksDetiles[0].Tests);
+      console.log(jsonData, "AllStudentsProgressSheet", AllStudentsProgressSheet.listStudentsMarksDetiles[0].Header);
+    }
+  }, [AllStudentsProgressSheet])
 
   const USGetPassedAcademicYears: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears);
   const ThirdHeaderColumn: any = useSelector((state: RootState) => state.ProgressReportNew.ISThirdHeaderColumn);
