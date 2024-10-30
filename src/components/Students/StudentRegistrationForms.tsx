@@ -32,11 +32,15 @@ import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import FamilyRestroomTwoToneIcon from '@mui/icons-material/FamilyRestroomTwoTone';
+import AddNotePopup from './AddNotePopup';
 
 const StudentRegistrationForm = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [profileCompletion, setProfileCompletion] = useState(20);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  const handleOpenPopup = () => setIsPopupOpen(true);
+  const handleClosePopup = () => setIsPopupOpen(false);
   const handleSave = (isSuccessful: boolean) => {
     if (currentTab === 0) {
       setStatus((prevStatus) => ({
@@ -124,7 +128,7 @@ const StudentRegistrationForm = () => {
                 <QuestionMark />
               </IconButton>
             </Tooltip>
-            
+
             <Tooltip title={'Add  Sibling Details'}>
               <IconButton
                 sx={{
@@ -141,6 +145,7 @@ const StudentRegistrationForm = () => {
 
             <Tooltip title={'Add Note'}>
               <IconButton
+               
                 sx={{
                   color: 'white',
                   backgroundColor: blue[500],
@@ -393,7 +398,11 @@ const StudentRegistrationForm = () => {
         >
           Next
         </Button>
+        
       </Box>
+      <Box  onClick={handleOpenPopup} sx={{ backgroundColor: 'red', width:50, height:50 }}>
+          <AddNotePopup open={isPopupOpen} onClose={handleClosePopup} />
+        </Box>
     </Box>
   );
 };
