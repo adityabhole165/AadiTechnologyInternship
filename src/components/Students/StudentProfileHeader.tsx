@@ -24,12 +24,16 @@ const StudentProfileHeader: React.FC = () => {
             <Typography variant="body1" sx={{ textAlign: 'right' }}>
                 <b>Confirmed by:</b> Ms. Pallavi A. Shilimkar on 16 Jan 2019 10:30 AM
             </Typography>
-            <Typography variant="body1" sx={{ textAlign: 'right' }}>
-                <b>Confirmed by:</b> Ms. Manisha J. Mohite on 27 May 2024 11:45 AM
-            </Typography>
-            <Typography variant="body1" sx={{ textAlign: 'center', pl:2.5 }}>
+            <Typography variant="body1" sx={{ textAlign: 'right'}}>
+                <b> Confirmed by:</b> Ms. Manisha J. Mohite on 27 May 2024 11:45 AM
+            </Typography>   
+            <Typography variant="body1" sx={{ textAlign: 'center', pl:2 }}>
                 <b>Admitted In:</b> Nursery
             </Typography>
+            <Typography variant="body1" sx={{ textAlign: 'center', pl:2 }}>
+                <b> Residence Type:</b> NA
+            </Typography>
+           
         </Grid>
     </Grid>
     );
