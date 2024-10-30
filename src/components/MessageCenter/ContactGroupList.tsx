@@ -40,8 +40,11 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(1);
   const rowsPerPageOptions = [5, 10, 20, 30, 40];
-
+  const [selected, setSelected] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
   const [sortOrder, setSortOrder] = useState('asc');
+
+  // const [sortOrder, setSortOrder] = useState('asc');
   const [UsersRole, setUserRole] = useState();
   const [StandardClass, setStandardClass] = useState();
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -96,17 +99,17 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
   }, []);
   // Sort function for User Name
   const [userData, setUserData] = useState(USGetUserName);
-  const handleSort = () => {
-    const sortedData = [...userData].sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a.name.localeCompare(b.name);
-      } else {
-        return b.name.localeCompare(a.name);
-      }
-    });
-    setUserData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
+  // const handleSort = () => {
+  //   const sortedData = [...userData].sort((a, b) => {
+  //     if (sortOrder === 'asc') {
+  //       return a.name.localeCompare(b.name);
+  //     } else {
+  //       return b.name.localeCompare(a.name);
+  //     }
+  //   });
+  //   setUserData(sortedData);
+  //   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  // };
   const clickUserRole = (Value) => {
     setUserRole(Value);
   }
@@ -120,6 +123,30 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
   };
   const PageChange = (pageNumber: number) => {
     setPage(pageNumber);
+  };
+
+  const handleSelectAll = (event) => {
+    const checked = event.target.checked;
+    setSelectAll(checked);
+    if (checked) {
+      setSelected(USGetUserName.map((item) => item.UserId));
+    } else {
+      setSelected([]);
+    }
+  };
+
+  const handleCheckboxChange = (userId) => {
+    setSelected((prevSelected) =>
+      prevSelected.includes(userId)
+        ? prevSelected.filter((id) => id !== userId)
+        : [...prevSelected, userId]
+    );
+    setSelectAll(false);
+  };
+
+  const handleSort = () => {
+    setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+    // Sorting logic can be implemented here
   };
 
   const startRecord = (page - 1) * rowsPerPage + 1;
@@ -237,7 +264,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
             }}
             >
               <TableCell padding="checkbox" sx={{ py: 0.5, color: 'white', }}>
-                <Checkbox />
+                <Checkbox
+                  checked={selectAll}
+                  onChange={handleSelectAll} />
               </TableCell>
               <TableCell sx={{ py: 0.5, color: 'white', }}>
                 <Box display="flex" alignItems="center">
@@ -253,7 +282,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
             {USGetUserName.map((item) => (
               <TableRow key={item.UserId}>
                 <TableCell padding="checkbox" sx={{ py: 0.5 }}>
-                  <Checkbox />
+                  <Checkbox
+                    checked={selected.includes(item.UserId)}
+                    onChange={() => handleCheckboxChange(item.UserId)} />
                 </TableCell>
                 <TableCell sx={{ py: 0.5 }}>{item.UserName}</TableCell>
               </TableRow>
