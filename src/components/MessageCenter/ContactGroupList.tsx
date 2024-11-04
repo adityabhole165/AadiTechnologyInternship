@@ -40,6 +40,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(1);
   const rowsPerPageOptions = [5, 10, 20, 30, 40];
+
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [sortOrder, setSortOrder] = useState('asc');
@@ -53,10 +54,12 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = Number(localStorage.getItem('UserId'));
 
+  console.log(UsersRole, "###########")
+
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
   const USGetStandardClass: any = useSelector((state: RootState) => state.ContactGroup.IGetStandardClass);
   const USGetUserName: any = useSelector((state: RootState) => state.ContactGroup.IGetUserName);
-
+  const [sortsOrder, setSortOrders] = useState();
   const singleTotalCount: number = useMemo(() => {
     if (!Array.isArray(USGetUserName)) {
       return 0;
@@ -87,18 +90,24 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
     asSchoolId: Number(schoolId),
     asAcademicYearId: Number(academicYearId),
     asGroupId: 0,
-    asRoleId: 2,//Number(UsersRole),
+    asRoleId: Number(UsersRole),
     asStartIndex: (page - 1) * rowsPerPage,
     asEndIndex: page * rowsPerPage,
     asSortDirection: "ASC",
-    asStandardDivisionId: 0, //Number(StandardClass),
+    asStandardDivisionId: Number(StandardClass),
     asFilter: ""
   };
   useEffect(() => {
     dispatch(CDAGetUserName(UserName));
-  }, []);
+  }, [dispatch, page, rowsPerPage, UsersRole, StandardClass]);
+
+
+
+
+
+
   // Sort function for User Name
-  const [userData, setUserData] = useState(USGetUserName);
+  //const [userData, setUserData] = useState(USGetUserName);
   // const handleSort = () => {
   //   const sortedData = [...userData].sort((a, b) => {
   //     if (sortOrder === 'asc') {
@@ -142,6 +151,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
         : [...prevSelected, userId]
     );
     setSelectAll(false);
+    console.log(selected, "***********");
   };
 
   const handleSort = () => {
@@ -210,15 +220,17 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
             defaultValue={UsersRole}
           />
         </Grid>
-        <Grid item xs={4}>
-          <SearchableDropdown
-            label="Class"
-            sx={{ minWidth: '15vw' }}
-            ItemList={USGetStandardClass}
-            onChange={clickStandardClass}
-            defaultValue={StandardClass}
-          />
-        </Grid>
+        {UsersRole === '3' && (
+          <Grid item xs={4}>
+            <SearchableDropdown
+              label="Class"
+              sx={{ minWidth: '15vw' }}
+              ItemList={USGetStandardClass}
+              onChange={clickStandardClass}
+              defaultValue={StandardClass}
+            />
+          </Grid>
+        )}
         <Grid item xs={4}>
           <TextField
             label="Search By Name"
@@ -226,7 +238,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
         </Grid>
       </Grid>
       <Box py={1}>
-        <Box sx={{ display: 'flex', textAlign: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 0.5 }}>
           <Box>
             <Typography variant="h4" sx={{ pl: 0 }}>
               Select Users To Add In Selected Group
