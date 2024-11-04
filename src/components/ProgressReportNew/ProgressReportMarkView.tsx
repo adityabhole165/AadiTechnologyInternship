@@ -167,13 +167,13 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                 {findRow1().map((item, index) => (
                                     <TableCell
                                         key={index}
-                                        colSpan={item.Is_CoCurricularActivity === 'True' ? 1 : item.colSpan} rowSpan={item.rowSpan}
+                                        colSpan={item.Total_Consideration === 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
                                         sx={{ border: '1px solid black', textAlign: 'center' }}
                                     >
                                         <Typography color="black" textAlign="left" mr={5}>
                                              <b style={{ marginRight: "5px" }}>
                                                  {item.Subject_Name} 
-                                         {item.Is_CoCurricularActivity.toLowerCase() == "true" && (
+                                         {item.Total_Consideration.toLowerCase() == "N" && (
                                               <span style={{ color: 'red' }}>*</span>
                                                    )}
                                                      </b>
