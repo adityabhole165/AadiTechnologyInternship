@@ -140,31 +140,28 @@ function SmsCenter() {
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
-  useEffect(() => {
-    setPagedSMS(NewSmsList);
-  }, [NewSmsList]);
-
-  const clickSearch = () => {
-    if (NameSubject === '') {
-      setPagedSMS(NewSmsList);
-    } else {
-      setPagedSMS(
-        NewSmsList.filter((item) => {
-          const text1Match = item.UserName.toLowerCase().includes(
-            NameSubject.toLowerCase()
-          );
-          const text2Match = item.Subject.toLowerCase().includes(
-            NameSubject.toLowerCase()
-          );
-          return text1Match || text2Match;
-        })
-      );
-    }
-  };
 
   const handleRegNoOrNameChange = (value) => {
     setNameSubject(value);
   };
+  const clickSearch = () => {
+    if (NameSubject === '') {
+      setPagedSMS(NewSmsList);
+    } else {
+      const filteredSMS = NewSmsList.filter((item) => {
+        const text1Match = item.UserName.toLowerCase().includes(NameSubject.toLowerCase());
+        const text2Match = item.Subject.toLowerCase().includes(NameSubject.toLowerCase());
+        return text1Match || text2Match;
+      });
+      setPagedSMS(filteredSMS);
+    }
+  };
+
+  useEffect(() => {
+    // Set PagedSMS to NewSmsList whenever it updates
+    setPagedSMS(NewSmsList);
+  }, [NewSmsList]);
+
   let url = "/extended-sidebar/Student/viewsms/"
   return (
     <Box sx={{ px: 2 }}>
@@ -195,7 +192,7 @@ function SmsCenter() {
               }}
             />
             <IconButton
-              onClick={undefined}
+              onClick={clickSearch}
               sx={{
                 background: (theme) => theme.palette.primary.main,
                 color: 'white',
