@@ -310,7 +310,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
             </TableCell>
             {testItem.MarksArr.map((MarkItem, index) => (
                 <TableCell key={index} sx={{ backgroundColor: 'white' }}>
-                    {MarkItem == null || MarkItem?.IsAbsent == null
+                    {MarkItem == null || MarkItem?.MarksScored == ''
                         ? '-'   
                         : (MarkItem?.IsAbsent !== 'N'
                             ? getRemarkForGradeCell(MarkItem.IsAbsent)
