@@ -3,11 +3,9 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import SquareIcon from '@mui/icons-material/Square';
 import {
   Box,
-  Button,
   Card,
   Chip,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
@@ -16,7 +14,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -385,11 +383,30 @@ const AddReciepents = ({
     setStaffAndAdmin(value);
     populateRecipient(value);
   };
+
+  function getXML() {
+    let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
+    asUpdateSelectXML +=
+      " <GroupId>" + 0 + "</GroupId>\r\n  " +
+      "<Name>" + "students" + "</Name>\r\n  " +
+      "<lstUserRoles>\r\n  " +
+      "<UserRoles>\r\n  " +
+      "<User_Role_Id>" + 3 + "</User_Role_Id>\r\n  " +
+      "</UserRoles>\r\n  " +
+      "</lstUserRoles>\r\n  " +
+      "<Users>" + "6926, 7040, 6904, 5781, 5892, 5821 " + "</Users>\r\n  " +
+      "<IsDefault>" + false + "</IsDefault>\r\n  " +
+      "<IsAllDeactivated>" + false + "</IsAllDeactivated>"
+
+    asUpdateSelectXML += "\r\n</MailingGroup>";
+    return asUpdateSelectXML
+  }
+
   const clickConfirm = () => {
     const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
       asSchoolId: Number(schoolId),
       asAcademicYearId: Number(academicYearId),
-      asMailingGroupXML: ''
+      asMailingGroupXML: getXML(),
     }
     dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
     dispatch(ContactGroup(ContactgroupBody))
@@ -534,7 +551,7 @@ const AddReciepents = ({
               margin="normal"
               InputProps={{
                 startAdornment: (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap',  overflowY: 'scroll', minWidth:'100%', height:'110px'}}>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', overflowY: 'scroll', minWidth: '100%', height: '110px' }}>
                     {selectedRecipents.map((recipient, index) => (
                       <Chip
                         key={index}
@@ -548,12 +565,12 @@ const AddReciepents = ({
                 readOnly: true // Ensure the TextField is read-only
               }}
               value={''}
-              // sx={{
-              //   height: 'auto',
-              //   overflow: 'auto',
-              //   border: '0.1px solid #c4c5c5',
-              //   borderRadius: '5.3px'
-              // }}
+            // sx={{
+            //   height: 'auto',
+            //   overflow: 'auto',
+            //   border: '0.1px solid #c4c5c5',
+            //   borderRadius: '5.3px'
+            // }}
             />
           </Grid>
           {/* <Grid item xs={6} sm={2} mt={2}>
@@ -781,7 +798,7 @@ const AddReciepents = ({
           <Box>
             <ContactGroupList />
           </Box>
-          <Box>
+          {/* <Box>
             <DialogActions sx={{ py: 2, px: 3 }}>
               <Button color={'error'} onClick={handleCloseDialog}>
                 Cancel
@@ -799,7 +816,7 @@ const AddReciepents = ({
                 Confirm
               </Button>
             </DialogActions>
-          </Box>
+          </Box> */}
         </DialogContent>
       </Dialog>
     </>

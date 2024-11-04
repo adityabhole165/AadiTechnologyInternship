@@ -2,7 +2,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import {
   Box,
+  Button,
   Checkbox,
+  DialogActions,
   FormControl,
   FormControlLabel,
   Grid,
@@ -16,14 +18,15 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { green } from '@mui/material/colors';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup';
+import { IAddUpdateGroupBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetStandardClass, CDAGetUserName, CDAGetUserRole } from 'src/requests/ContactGroup/ReqContactGroup';
+import { CDAaddUpdateGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
-import ContactGroupEditTable from './ContactGroupEditTable';
+import ContactGroup from '../SMSCenter/ContactGroup';
 
 interface Group {
   GroupId: string;
@@ -44,7 +47,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [sortOrder, setSortOrder] = useState('asc');
-
+  const [openDialog, setOpenDialog] = useState(false);
   // const [sortOrder, setSortOrder] = useState('asc');
   const [UsersRole, setUserRole] = useState();
   const [StandardClass, setStandardClass] = useState();
@@ -125,6 +128,37 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
   const clickStandardClass = (Value) => {
     setStandardClass(Value);
   }
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  function getXML() {
+    let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
+    asUpdateSelectXML +=
+      " <GroupId>" + 0 + "</GroupId>\r\n  " +
+      "<Name>" + "students" + "</Name>\r\n  " +
+      "<lstUserRoles>\r\n  " +
+      "<UserRoles>\r\n  " +
+      "<User_Role_Id>" + 3 + "</User_Role_Id>\r\n  " +
+      "</UserRoles>\r\n  " +
+      "</lstUserRoles>\r\n  " +
+      "<Users>" + "6926, 7040, 6904, 5781, 5892, 5821 " + "</Users>\r\n  " +
+      "<IsDefault>" + false + "</IsDefault>\r\n  " +
+      "<IsAllDeactivated>" + false + "</IsAllDeactivated>"
+
+    asUpdateSelectXML += "\r\n</MailingGroup>";
+    return asUpdateSelectXML
+  }
+
+  const clickConfirm = () => {
+    const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
+      asSchoolId: Number(schoolId),
+      asAcademicYearId: Number(academicYearId),
+      asMailingGroupXML: getXML(),
+    }
+    dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
+    dispatch(ContactGroup())
+  };
 
   const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -205,9 +239,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
           </FormControl>
         </Grid>
 
-        <Box py={1} sx={{ overflow: 'auto', }}>
+        {/* <Box py={1} sx={{ overflow: 'auto', }}>
           <ContactGroupEditTable />
-        </Box>
+        </Box> */}
 
       </Box>
       <Grid container direction="row" alignItems="center" spacing={2} sx={{ pt: 1 }}>
@@ -311,6 +345,25 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
           pagecount={pageCount}  // Use the calculated pageCount
         />
       </TableContainer>
+      <Box>
+        <DialogActions sx={{ py: 2, px: 3 }}>
+          <Button color={'error'} onClick={handleCloseDialog}>
+            Cancel
+          </Button>
+          <Button
+            onClick={clickConfirm}
+            sx={{
+              color: 'green',
+              '&:hover': {
+                color: 'green',
+                backgroundColor: green[100]
+              }
+            }}
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Box>
     </>
   );
 };
