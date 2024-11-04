@@ -496,7 +496,7 @@ export const CDAStudentProgressReport =
             if (Subject.Is_CoCurricularActivity === 'True') {
               let valArr = response.data.listSubjectIdDetails.filter(item => item.Original_SchoolWise_Test_Id === Test.Original_SchoolWise_Test_Id && item.Is_CoCurricularActivity.toLowerCase() === 'true')
               // let data = response.data.listSubjectIdDetails.filter((item) => )
-              if (IsGradingStandarBodyIS !== true) {
+              if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() !== 'true') {
                 columns.push({
                   MarksScored: valArr.length > 0 ? valArr[0].Marks : '-',
                   TotalMarks: "-",
@@ -582,7 +582,7 @@ export const CDAStudentProgressReport =
                   (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
                 );
 
-                if (IsGradingStandarBodyIS !== true) {
+                if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() !== 'true') {
                   columns.push({
                     MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
                     TotalMarks: Item.Subjects_Total_Marks,

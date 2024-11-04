@@ -165,7 +165,7 @@ const ProgressReportNew = () => {
   const Standard_Id = () => {
     let returnVal = 0
     USGetClassTeachers.map((item) => {
-      if (item.Value == selectTeacher ) {
+      if (item.Value == selectTeacher) {
         returnVal = item.asStandardId
       }
     })
@@ -303,7 +303,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
-  }, [Standard_Id(),selectTeacher,StudentId]);
+  }, [Standard_Id(), selectTeacher, StudentId]);
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
@@ -460,7 +460,7 @@ const ProgressReportNew = () => {
 
           {USIsTestPublishedForStdDiv == true || USIsTestPublishedForStudentIS == false ?
             <>
-              {USIsGradingStandard == true ?
+              {EntireDataList?.listStudentsDetails[0]?.ShowOnlyGrades.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
