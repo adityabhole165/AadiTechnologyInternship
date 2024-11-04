@@ -165,7 +165,7 @@ const ProgressReportNew = () => {
   const Standard_Id = () => {
     let returnVal = 0
     USGetClassTeachers.map((item) => {
-      if (item.Value == item.NewValue) {
+      if (item.Value == selectTeacher ) {
         returnVal = item.asStandardId
       }
     })
@@ -303,7 +303,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
-  }, [Standard_Id()]);
+  }, [Standard_Id(),selectTeacher,StudentId]);
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
