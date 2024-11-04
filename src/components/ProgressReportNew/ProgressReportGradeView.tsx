@@ -43,6 +43,7 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
   })
   useEffect(() => {
     console.log('🦥🦥🦥🦥 >>>', MarkDetailsList1);
+    console.log('', HeaderArray1);
 
   }, [MarkDetailsList1])
   function getRemarkForGradeCell(cellRemark) {
@@ -117,6 +118,17 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
                   <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
                 </Typography>
               </TableCell>
+              </>
+            ))}
+            {data?.listSubjectsDetails?.map((item, i) => (
+              <>
+                {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' &&
+                  <TableCell key={i} >
+                    <Typography color="#38548A" textAlign={'center'} mr={9}>
+                      <b>Grade</b>
+                    </Typography>
+                  </TableCell>
+                }
               </>
             ))}
           </TableRow>
