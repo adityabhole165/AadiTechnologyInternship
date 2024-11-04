@@ -138,6 +138,16 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
     function showParentColumns() {
     }
 
+    function getRemarkForGradeCell(cellRemark) {
+        // html element type
+        let result: any;
+        let remarkList = data?.ListDisplayNameDetails?.filter((item) => item.ShortName === cellRemark);
+        if (remarkList?.length > 0) {
+          result = <span style={{ color: `${remarkList[0]?.ForeColor}`, fontWeight: 'bold' }}>{remarkList[0]?.DisplayName}</span>;
+        }
+        return result;
+      }
+
 
     return (
         <Box>
@@ -284,23 +294,32 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                             </Typography>
                         </TableCell>
                     </TableRow>
-
                 </TableHead>
 
                 {MarkDetailsList.map((testItem, i) => (
-                    <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
-                        <TableRow>
-                            <TableCell>
-                                <b>{testItem.TestName}</b>
-                            </TableCell>
-                            {testItem.MarksArr.map((MarkItem, index) => (
-                                <TableCell key={index} sx={{ backgroundColor: 'white' }}>
-                                    {MarkItem?.MarksScored + (MarkItem?.TotalMarks === "-" ? "" : (" / " + MarkItem?.TotalMarks))}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableBody>
-                ))}
+    <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
+        <TableRow>
+            <TableCell>
+                <b>{testItem.TestName || '-'}</b>
+            </TableCell>
+            {testItem.MarksArr.map((MarkItem, index) => (
+                <TableCell key={index} sx={{ backgroundColor: 'white' }}>
+                    {MarkItem == null || MarkItem?.IsAbsent == null
+                        ? '-'   
+                        : (MarkItem?.IsAbsent !== 'N'
+                            ? getRemarkForGradeCell(MarkItem.IsAbsent)
+                            : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null
+                                ? '-'
+                                : MarkItem?.MarksScored + (MarkItem.TotalMarks === "-" ? "" : (" / " + MarkItem.TotalMarks))
+                            )
+                        )
+                    }
+                </TableCell>
+            ))}
+        </TableRow>
+    </TableBody>
+))}
+
             </Table>
         </Box>
     );

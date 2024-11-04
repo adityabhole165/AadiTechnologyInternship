@@ -150,9 +150,11 @@ export const StudentDetailsGA =
                                 })
                             }
                             let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
+                            console.log('this was cell 🟧', cell);
+
                             columns.push({
-                                MarksScored: cell ? cell.Marks_Scored : "-",
-                                TotalMarks: cell ? cell.Subject_Total_Marks : "-",
+                                MarksScored: cell ? parseFloat(cell.Marks_Scored) : "-",
+                                TotalMarks: cell ? parseFloat(cell.TestType_Total_Marks) : "-",
                                 IsAbsent: cell ? cell.Is_Absent : "N"
                             })
 
@@ -298,7 +300,7 @@ export const ViewResultGA =
 
             let Marks = [{ Id: '0', Name: 'Marks', Value: '0', IsAbsent: '0' }];
             response.data.listSubjectDetails.map((item, i) => {
-                const marksScored = item.Marks_Scored.includes('.0') ? parseInt(item.Marks_Scored) : item.Marks_Scored;
+                const marksScored = item.Marks_Scored.includes('.0') ? parseFloat(item.Marks_Scored) : item.Marks_Scored;
                 Marks.push({
                     Id: item.Subject_Id,
                     Name: `${marksScored} / ${item.Subject_Total_Marks}`,
@@ -320,7 +322,7 @@ export const ViewResultGA =
             dispatch(FinalResultGenerateAllSlice.actions.GradesDetailsView(grades));
 
             let Total = response.data.listMarksDetails.map((item, i) => {
-                const totalmarksScored = item.Total_Marks_Scored.includes('.0') ? parseInt(item.Total_Marks_Scored) : item.Total_Marks_Scored;
+                const totalmarksScored = item.Total_Marks_Scored.includes('.0') ? parseFloat(item.Total_Marks_Scored) : item.Total_Marks_Scored;
                 return {
                     TotalMarks: `${totalmarksScored} / ${item.Subjects_Total_Marks}`,
                     GradeName: item.Grade_Name,
