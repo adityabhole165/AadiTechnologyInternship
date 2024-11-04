@@ -177,6 +177,7 @@ export const CDAGetStudentDocuments =
                     Id: item.StudentDocumentId,
                     Name: item.DocumentName,
                     Value: item.StudentDocumentId,
+                    StandardwiseDocumentId: item.StandardwiseDocumentId,
                     SchoolwiseStudentId: item.SchoolwiseStudentId,
                     IsSubmitted: item.IsSubmitted,
                     IsApplicable: item.IsApplicable,

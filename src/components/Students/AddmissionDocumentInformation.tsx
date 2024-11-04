@@ -95,7 +95,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
   const handleOpenDialog = (index) => {
     setSelectedDocumentIndex(index);
     setStudentName('John Doe'); // Replace with actual student name logic
-    setDocumentName(documents[index].documentName);
+    setDocumentName(GetStudentDocumentsList[index].Name);
     setOpen(true);
   };
 
@@ -173,15 +173,15 @@ const AdmissionDocumentInformation = ({ onSave }) => {
                 <TableCell align="center" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
                   <Checkbox
                     color="primary"
-                    checked={doc.IsApplicable}
-                    onChange={() => handleCheckboxChange(index, 'IsApplicable')}
+                    checked={doc.IsApplicable === "True"}
+                    onChange={() => handleCheckboxChange(doc.StudentDocumentId, 'IsApplicable')}
                   />
                 </TableCell>
                 <TableCell align="center" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
                   <Checkbox
                     color="primary"
-                    checked={doc.IsSubmitted}
-                    onChange={() => handleCheckboxChange(index, 'IsSubmitted')}
+                    checked={doc.IsSubmitted === "True"}
+                    onChange={() => handleCheckboxChange(doc.StudentDocumentId, 'IsSubmitted')}
                   />
                 </TableCell>
                 <TableCell align="left" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
