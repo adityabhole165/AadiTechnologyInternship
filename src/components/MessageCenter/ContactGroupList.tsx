@@ -34,10 +34,10 @@ interface Group {
 }
 
 interface ContactGroupListProps {
-  // \
+  onClose
 }
 
-const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
+const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
   const dispatch = useDispatch();
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
@@ -347,7 +347,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ }) => {
       </TableContainer>
       <Box>
         <DialogActions sx={{ py: 2, px: 3 }}>
-          <Button color={'error'} onClick={handleCloseDialog}>
+          <Button color={'error'} onClick={onClose}>
             Cancel
           </Button>
           <Button

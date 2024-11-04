@@ -796,7 +796,7 @@ const AddReciepents = ({
 
         <DialogContent>
           <Box>
-            <ContactGroupList />
+            <ContactGroupList onClose={handleCloseDialog} />
           </Box>
           {/* <Box>
             <DialogActions sx={{ py: 2, px: 3 }}>
