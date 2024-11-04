@@ -11,6 +11,7 @@ import SmsIcon from '@mui/icons-material/Sms';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
 import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,6 +25,15 @@ import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Studen
 
 import { RootState } from 'src/store';
 const PageSize = 20;
+const Item = styled(Card)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  height: '61px',
+  color: 'black',
+  boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+}));
 
 function SmsCenter() {
   const [dateFilter, setDateFilter] = useState<{ startDate: Date | null; endDate: Date | null }>({
@@ -165,7 +175,9 @@ function SmsCenter() {
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
-
+  const clickClear = () => {
+    localStorage.setItem('ViewSMSData', '');
+  };
   const handleRegNoOrNameChange = (value) => {
     setNameSubject(value);
   };
@@ -506,7 +518,28 @@ function SmsCenter() {
 
           </Grid>
         </Grid>
-
+        <span
+          style={{
+            width: '95px',
+            position: 'fixed',
+            bottom: '70px',
+            right: '60px'
+          }}
+        >
+          <RouterLink
+            style={{ textDecoration: 'none' }}
+            to={`/${location.pathname.split('/')[1]
+              }/Teacher/ComposeSMS`}
+          >
+            <Item onClick={clickClear}
+              sx={{ fontSize: '10px', mr: 1, mb: '60px', borderRadius: '15px', backgroundColor: '#38548A', color: 'white' }}
+            >
+              <AddCircleIcon />
+              <br />
+              <b>Compose</b>
+            </Item>
+          </RouterLink>
+        </span>
       </Box>
     </Box>
   );
