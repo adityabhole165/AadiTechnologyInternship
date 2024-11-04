@@ -185,3 +185,22 @@ export interface IStaffNameResult {
     UserId: string
     UserName: string
 }
+//Students Documents
+export interface IStandrdwiseStudentsDocumentBody {
+    asSchoolId: number
+    asStandardId: number
+    asStudentId: number
+    asAcademicYearId: number
+}
+
+export interface IStandrdwiseStudentsDocumentResult {
+    StudentDocumentId: string
+    StandardwiseDocumentId: string
+    DocumentName: string
+    SchoolwiseStudentId: string
+    IsSubmitted: string
+    IsApplicable: string
+    DocumentCount: string
+    IsSubmissionMandatory: string
+}
+

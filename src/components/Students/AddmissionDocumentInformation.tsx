@@ -30,15 +30,24 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
 import green from '@mui/material/colors/green';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile';
+import { CDAGetStudentDocuments } from 'src/requests/Students/RequestStudentUI';
+import { RootState } from 'src/store';
 import StudentDocumentUpload from './StudentDetailsDoc';
 
+
 const AdmissionDocumentInformation = ({ onSave }) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { standardId, DivisionId } = location.state || {};
+
   const [documents, setDocuments] = useState([
-    { documentName: 'Two Photographs', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
+    { documentName: 'Two Photographs 2', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
     { documentName: 'Copy of Birth Certificate', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
     { documentName: 'Residence Proof', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
     { documentName: 'Fitness Certificate', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
@@ -56,10 +65,26 @@ const AdmissionDocumentInformation = ({ onSave }) => {
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState({});
 
+  const GetStudentDocumentsList = useSelector(
+    (state: RootState) => state.StudentUI.ISGetStudentDocuments
+  );
+  console.log('GetStudentDocumentsList', GetStudentDocumentsList);
+
+  const GetStudentDocuments: IStandrdwiseStudentsDocumentBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asStandardId: standardId,
+    asStudentId: 3556,
+    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+  };
+
+  useEffect(() => {
+    dispatch(CDAGetStudentDocuments(GetStudentDocuments));
+  }, []);
+
   const handleCheckboxChange = (index, field) => {
-    const updatedDocuments = [...documents];
+    const updatedDocuments = [...GetStudentDocumentsList];
     updatedDocuments[index][field] = !updatedDocuments[index][field];
-    setDocuments(updatedDocuments);
+    //setDocuments(updatedDocuments);
   };
 
   const ChangeFile = (value) => {
@@ -143,24 +168,24 @@ const AdmissionDocumentInformation = ({ onSave }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {documents.map((doc, index) => (
+            {GetStudentDocumentsList.map((doc, index) => (
               <TableRow key={index}>
                 <TableCell align="center" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
                   <Checkbox
                     color="primary"
-                    checked={doc.isApplicable}
-                    onChange={() => handleCheckboxChange(index, 'isApplicable')}
+                    checked={doc.IsApplicable}
+                    onChange={() => handleCheckboxChange(index, 'IsApplicable')}
                   />
                 </TableCell>
                 <TableCell align="center" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
                   <Checkbox
                     color="primary"
-                    checked={doc.isSubmitted}
-                    onChange={() => handleCheckboxChange(index, 'isSubmitted')}
+                    checked={doc.IsSubmitted}
+                    onChange={() => handleCheckboxChange(index, 'IsSubmitted')}
                   />
                 </TableCell>
                 <TableCell align="left" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
-                  {doc.documentName}
+                  {doc.Name}
                 </TableCell>
                 <TableCell align="center" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
                   <IconButton color="primary" onClick={() => handleOpenDialog(index)}>
@@ -168,7 +193,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
                   </IconButton>
                 </TableCell>
                 <TableCell align="center" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
-                  <Typography variant="body1">{doc.attachmentCount}</Typography> {/* Display attachment count */}
+                  <Typography variant="body1">{doc.DocumentCount}</Typography> {/* Display attachment count */}
                 </TableCell>
               </TableRow>
             ))}

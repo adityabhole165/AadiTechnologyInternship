@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IGetAllUserRolesBody, IMasterDatastudentBody, IStaffNameBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllUserRolesBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -16,6 +16,8 @@ const StudentUISlice = createSlice({
         //
         ISUserRoles: [],
         ISStaffName: [],
+        //
+        ISGetStudentDocuments: [],
         Loading: true
     },
     reducers: {
@@ -52,6 +54,11 @@ const StudentUISlice = createSlice({
         },
         RStaffName(state, action) {
             state.ISStaffName = action.payload;
+            state.Loading = false;
+        },
+        //
+        RGetStudentDocuments(state, action) {
+            state.ISGetStudentDocuments = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -160,4 +167,24 @@ export const CDAUserRoles =
 
         dispatch(StudentUISlice.actions.RUserRoles(UserRoles));
     };
+export const CDAGetStudentDocuments =
+    (data: IStandrdwiseStudentsDocumentBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.StandrdwiseStudentsDocumentApi(data);
+            const responseData = response.data.map((item, i) => {
+                return ({
+                    Id: item.StudentDocumentId,
+                    Name: item.DocumentName,
+                    Value: item.StudentDocumentId,
+                    SchoolwiseStudentId: item.SchoolwiseStudentId,
+                    IsSubmitted: item.IsSubmitted,
+                    IsApplicable: item.IsApplicable,
+                    DocumentCount: item.DocumentCount,
+                    IsSubmissionMandatory: item.IsSubmissionMandatory
+                })
+            })
+            dispatch(StudentUISlice.actions.RGetStudentDocuments(responseData));
+            //console.log(responseData, "responseData");
+        };
 export default StudentUISlice.reducer;
