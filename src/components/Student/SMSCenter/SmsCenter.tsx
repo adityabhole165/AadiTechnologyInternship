@@ -1,6 +1,8 @@
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AllInboxIcon from '@mui/icons-material/AllInbox';
+import ArrowCircleDown from '@mui/icons-material/ArrowCircleDown';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -48,12 +50,14 @@ function SmsCenter() {
   const [PagedSMS, setPagedSMS] = useState([]);
   const [NameSubject, setNameSubject] = useState('');
   const [SortExp, setSortExp] = useState('Insert_Date')
-  const [SortDirection, setSortDirection] = useState('DESC')
+  const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const filteredList = NewSmsList.filter((item) => item.TotalRows !== undefined);
   const TotalCount = filteredList.map((item) => item.TotalRows);
   const uniqueTotalCount = [...new Set(TotalCount)];
   const singleTotalCount = uniqueTotalCount[0];
   const [activeTab, setActiveTab] = useState('');
+  const [SortBy, setSortBy] = useState('Date');
+
   const pathname = window.location.pathname;
   const pageName =
     pathname.indexOf('/extended-sidebar/Teacher/SmsCenter/') === -1
@@ -80,15 +84,36 @@ function SmsCenter() {
     setActiveTab(pageName === '' ? 'Received SMS' : pageName);
   }, []);
 
-  const sortedAndFilteredSmsList = NewSmsList
-    .filter(item => {
-      if (!dateFilter.startDate && !dateFilter.endDate) return true;
-      const itemDate = new Date(item.Date); // Assuming item.Date is in a parseable format
-      if (dateFilter.startDate && !dateFilter.endDate) return itemDate >= dateFilter.startDate;
-      if (!dateFilter.startDate && dateFilter.endDate) return itemDate <= dateFilter.endDate;
-      return itemDate >= dateFilter.startDate && itemDate <= dateFilter.endDate;
-    })
-    .sort((a, b) => new Date(a.Date).getTime() - new Date(b.Date).getTime());
+  // In your component, remove the `sortedAndFilteredSmsList` declaration and replace it with the following `useEffect`.
+
+  useEffect(() => {
+    const filteredAndSortedList = NewSmsList
+      .filter(item => {
+        if (!dateFilter.startDate && !dateFilter.endDate) return true;
+        const itemDate = new Date(item.Date);
+        if (dateFilter.startDate && !dateFilter.endDate) return itemDate >= dateFilter.startDate;
+        if (!dateFilter.startDate && dateFilter.endDate) return itemDate <= dateFilter.endDate;
+        return itemDate >= dateFilter.startDate && itemDate <= dateFilter.endDate;
+      })
+      .filter(item => {
+        // Apply filter based on `NameSubject` input
+        return item.UserName.toLowerCase().includes(NameSubject.toLowerCase()) ||
+          item.Subject.toLowerCase().includes(NameSubject.toLowerCase());
+      })
+      .sort((a, b) => {
+        let comparison = 0;
+        if (SortBy === 'Date') {
+          comparison = new Date(a.Date).getTime() - new Date(b.Date).getTime();
+        } else if (SortBy === 'UserName') {
+          comparison = a.UserName.localeCompare(b.UserName);
+        } else if (SortBy === 'Subject') {
+          comparison = a.Subject.localeCompare(b.Subject);
+        }
+        return SortDirection === 'asc' ? comparison : -comparison;
+      });
+
+    setPagedSMS(filteredAndSortedList);
+  }, [NewSmsList, dateFilter, SortBy, SortDirection]);
 
   const handleStartDateChange = (date: Date | null) => {
     setDateFilter(prevState => ({ ...prevState, startDate: date }));
@@ -131,11 +156,11 @@ function SmsCenter() {
   }, [NewSmsList]);
 
   const handleFilterClick = () => {
-    setFiltered(!filtered); // Toggle the filtered state
-    setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc')); // Toggle sort direction
+    setFiltered(!filtered);
+    setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc'));
   };
 
-  const displayList = filtered ? sortedAndFilteredSmsList : NewSmsList; // Implement pagination
+  // const displayList = filtered ? sortedAndFilteredSmsList : NewSmsList; // Implement pagination
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
@@ -162,6 +187,14 @@ function SmsCenter() {
     setPagedSMS(NewSmsList);
   }, [NewSmsList]);
 
+  const handleSortChange = (column: string) => {
+    if (SortBy === column) {
+      setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(column);
+      setSortDirection('asc');
+    }
+  };
   let url = "/extended-sidebar/Student/viewsms/"
   return (
     <Box sx={{ px: 2 }}>
@@ -405,39 +438,22 @@ function SmsCenter() {
                   <CircularProgress />
                 </Box>
               ) : PagedSMS.length > 0 ? (
-                // displayList.map((item, index) => (
-                //   <Box
-                //     key={index}
-                //     sx={{
-                //       p: 1,
-                //       border: (theme) => `1px solid ${theme.palette.grey[500]}`,
-                //       borderRadius: (theme) => theme.general.borderRadius,
-                //       mb: 1
-                //     }}
-                //   >
-                //     <Typography variant={'h4'} sx={{ display: 'flex', gap: 1 }}>
-                //       <span style={{ color: grey[500] }}>From: </span> {item.UserName}
-                //     </Typography>
-                //     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                //       <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1 }}>
-                //         <Link to={`/extended-sidebar/Student/viewsms/${item.SMS_Id}`} style={{ textDecoration: 'none' }}>
-                //           <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
-                //         </Link>
-                //       </Typography>
-                //       <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }}>
-                //         <span style={{ color: grey[500] }}>Received Date: </span> {format(new Date(item.Date), 'dd MMM yyyy hh:mm a')}
-                //       </Typography>
-                //     </Box>
-                //   </Box>
-                // ))
                 <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                   <TableHead>
                     <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                      <TableCell sx={{ color: 'white' }}><b>From</b></TableCell>
-                      <TableCell sx={{ color: 'white' }}><b>SMS Text</b></TableCell>
                       <TableCell sx={{ color: 'white' }}>
-                        <b onClick={handleFilterClick} style={{ cursor: 'pointer' }}>
-                          Received Date {SortDirection === 'asc' ? '▲' : '▼'}
+                        <b onClick={() => handleSortChange('UserName')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                          From {SortBy === 'UserName' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                        </b>
+                      </TableCell>
+                      <TableCell sx={{ color: 'white' }}>
+                        <b onClick={() => handleSortChange('Subject')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                          SMS Text {SortBy === 'Subject' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                        </b>
+                      </TableCell>
+                      <TableCell sx={{ color: 'white' }}>
+                        <b onClick={() => handleSortChange('Date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                          Received Date {SortBy === 'Date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                         </b>
                       </TableCell>
                     </TableRow>
