@@ -820,10 +820,8 @@ const StudentwiseprogressreportEdit = () => {
 
                                         {SchoolScreensAccessPermission() && (
                                             <span>
-                                                {USFillNonXseedSubjectGrades.map((row, index) => (
-                                                    (
+                                              
                                                         <TableCell
-                                                            key={index}
                                                             sx={{
                                                                 textTransform: 'capitalize',
                                                                 color: (theme) => theme.palette.common.white,
@@ -832,9 +830,7 @@ const StudentwiseprogressreportEdit = () => {
                                                         >
                                                             Facilitator's Observation
                                                         </TableCell>
-                                                    )
-                                                ))}
-
+                                                  
                                             </span>
 
 
