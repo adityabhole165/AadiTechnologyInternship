@@ -129,10 +129,17 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
               </TableCell>
               {testItem.MarksArr.map((MarkItem) => (
                 <TableCell sx={{ backgroundColor: 'white' }}>
-                  {MarkItem?.IsAbsent !== 'N' ? getRemarkForGradeCell(MarkItem?.IsAbsent) : MarkItem?.MarksScored ? MarkItem?.MarksScored === '' ? '-' : MarkItem?.MarksScored : '-'}
+                  {
+                    MarkItem
+                      ? (MarkItem.IsAbsent !== 'N'
+                        ? getRemarkForGradeCell(MarkItem.IsAbsent)
+                        : (MarkItem.MarksScored || MarkItem.MarksScored === 0)
+                          ? MarkItem.MarksScored === '' ? '-' : MarkItem.MarksScored
+                          : '-')
+                      : '-'
+                  }
                 </TableCell>
               ))}
-
 
               {/* <TableCell sx={{ backgroundColor: 'white' }}>
                   Total
