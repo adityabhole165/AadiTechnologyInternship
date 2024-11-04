@@ -432,76 +432,78 @@ function SmsCenter() {
             </Grid>
 
             <Typography variant={'h4'} fontWeight={800} textAlign={'center'} pt={1}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
-            <Box sx={{ mt: 2 }}>
-              {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <CircularProgress />
-                </Box>
-              ) : PagedSMS.length > 0 ? (
-                <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
-                  <TableHead>
-                    <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                      <TableCell sx={{ color: 'white' }}>
-                        <b onClick={() => handleSortChange('UserName')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                          From {SortBy === 'UserName' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
-                        </b>
-                      </TableCell>
-                      <TableCell sx={{ color: 'white' }}>
-                        <b onClick={() => handleSortChange('Subject')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                          SMS Text {SortBy === 'Subject' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
-                        </b>
-                      </TableCell>
-                      <TableCell sx={{ color: 'white' }}>
-                        <b onClick={() => handleSortChange('Date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                          Received Date {SortBy === 'Date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
-                        </b>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {PagedSMS.map((row, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{row.UserName}</TableCell>
-                        <TableCell>   <Link href={url + row.SMS_Id}>
-                          {row.Subject}
-                        </Link></TableCell>
-                        <TableCell>{format(new Date(row.Date), 'dd/MM/yyyy')}</TableCell>
+            {activeTab == 'Received SMS' && (
+              <Box sx={{ mt: 2 }}>
+                {loading ? (
+                  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CircularProgress />
+                  </Box>
+                ) : PagedSMS.length > 0 ? (
+                  <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
+                    <TableHead>
+                      <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                        <TableCell sx={{ color: 'white' }}>
+                          <b onClick={() => handleSortChange('UserName')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                            From {SortBy === 'UserName' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                          </b>
+                        </TableCell>
+                        <TableCell sx={{ color: 'white' }}>
+                          <b onClick={() => handleSortChange('Subject')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                            SMS Text {SortBy === 'Subject' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                          </b>
+                        </TableCell>
+                        <TableCell sx={{ color: 'white' }}>
+                          <b onClick={() => handleSortChange('Date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                            Received Date {SortBy === 'Date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                          </b>
+                        </TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              ) : (
-                <Typography
-                  variant="body1"
-                  sx={{
-                    textAlign: 'center',
-                    marginTop: 4,
-                    backgroundColor: '#324b84',
-                    padding: 1,
-                    borderRadius: 2,
-                    color: 'white',
-                  }}
-                >
-                  <b>No record found.</b>
-                </Typography>
-              )}
-            </Box>
-            <Box mt={1}>
-              {
-                endRecord > 19 ? (
-                  <ButtonGroupComponent
-                    rowsPerPage={rowsPerPage}
-                    ChangeRowsPerPage={ChangeRowsPerPage}
-                    rowsPerPageOptions={rowsPerPageOptions}
-                    PageChange={PageChange}
-                    pagecount={pagecount}
-                  />
-
+                    </TableHead>
+                    <TableBody>
+                      {PagedSMS.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{row.UserName}</TableCell>
+                          <TableCell>   <Link href={url + row.SMS_Id}>
+                            {row.Subject}
+                          </Link></TableCell>
+                          <TableCell>{format(new Date(row.Date), 'dd/MM/yyyy')}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 ) : (
-                  <span></span>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      textAlign: 'center',
+                      marginTop: 4,
+                      backgroundColor: '#324b84',
+                      padding: 1,
+                      borderRadius: 2,
+                      color: 'white',
+                    }}
+                  >
+                    <b>No record found.</b>
+                  </Typography>
+                )}
 
-                )
-              }</Box>
+                <Box mt={1}>
+                  {endRecord > 19 ? (
+                    <ButtonGroupComponent
+                      rowsPerPage={rowsPerPage}
+                      ChangeRowsPerPage={ChangeRowsPerPage}
+                      rowsPerPageOptions={rowsPerPageOptions}
+                      PageChange={PageChange}
+                      pagecount={pagecount}
+                    />
+                  ) : (
+                    <span></span>
+                  )
+                  }
+                </Box>
+              </Box>
+            )}
+
           </Grid>
         </Grid>
 

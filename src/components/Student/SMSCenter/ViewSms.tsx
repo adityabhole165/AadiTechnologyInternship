@@ -75,9 +75,9 @@ function ViewSms() {
     },
     {
       title: 'View SMS',
-      path: GetScreenPermission() === 'N'
-        ? '/extended-sidebar/Teacher/ReceivedSMSOwn'
-        : '/extended-sidebar/Teacher/SmsCenter',
+      path: GetScreenPermission() === 'Y'
+        ? '/extended-sidebar/Teacher/SmsCenter'
+        : '/extended-sidebar/Teacher/ReceivedSMSOwn',
     }
   ];
   return (
