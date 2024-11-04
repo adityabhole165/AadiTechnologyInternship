@@ -288,11 +288,17 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                 )}
                             </>
                         ))}
-                        <TableCell >
-                            <Typography color="#38548A" textAlign={'center'} mr={9}>
-                                <b>Grade</b>
-                            </Typography>
-                        </TableCell>
+                        {findRow1()?.map((item, i) => (
+                            <>
+                                {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' &&
+                                    <TableCell key={i} >
+                                        <Typography color="#38548A" textAlign={'center'} mr={9}>
+                                            <b>Grade</b>
+                                        </Typography>
+                                    </TableCell>
+                                }
+                            </>
+                        ))}
                     </TableRow>
                 </TableHead>
 
