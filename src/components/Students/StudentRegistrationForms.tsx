@@ -48,7 +48,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import { useParams } from 'react-router';
 import AddNotePopupList from './AddNotePopupList';
-
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import StreamIcon from '@mui/icons-material/Stream';
 const initialData = [
   { className: '10-B', date: '05-Nov-2024', description: 'qqq' },
   // Add more rows if needed
@@ -200,7 +201,7 @@ const handleDelete = (rowIndex: number) => {
                   }
                 }}
               >
-                <FamilyRestroomTwoToneIcon />
+                <PeopleOutlineIcon />
               </IconButton>
             </Tooltip>
 
@@ -304,33 +305,33 @@ const handleDelete = (rowIndex: number) => {
           }}
         >
           <Tab
-            sx={{ m: 2, minWidth: 150 }}
+            sx={{ m: 2, maxWidth: 200 }}
             icon={<SchoolIcon />}
             label="Admission Details"
           />
           <Tab
-            sx={{ m: 2, minWidth: 150 }}
+            sx={{ m: 2, maxWidth: 200 }}
             icon={<AccountCircleIcon />}
             label="Personal Details"
           />
           <Tab
-            sx={{ m: 2, minWidth: 150 }}
+            sx={{ m: 2, maxWidth: 200 }}
             icon={<DocumentIcon />}
             label="Admission Documents"
           />
           <Tab
-            sx={{ m: 2, minWidth: 150 }}
+            sx={{ m: 2, maxWidth: 200 }}
             icon={<FamilyRestroomIcon />}
             label="Family Details"
           />
           <Tab
-            sx={{ m: 2, minWidth: 150 }}
+            sx={{ m: 2, maxWidth: 200 }}
             icon={<GroupAddIcon />}
             label="Additional Details"
           />
           <Tab
-            sx={{ m: 2, minWidth: 150 }}
-            icon={<InfoIcon />}
+            sx={{ m: 2, maxWidth: 200, borderRadius:'100%' }}
+            icon={<StreamIcon />}
             label="Stream Details"
           />
         </Tabs>

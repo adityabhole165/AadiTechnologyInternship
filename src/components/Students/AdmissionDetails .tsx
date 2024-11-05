@@ -521,7 +521,6 @@ const AdmissionDetails = ({
             label={'Second Language'}
             defaultValue={form.secondlanguage}
             size={'medium'}
-            disabled={SecondLangDropdown.length <= 1}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
