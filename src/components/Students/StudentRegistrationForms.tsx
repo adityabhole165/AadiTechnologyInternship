@@ -1,4 +1,4 @@
-import { QuestionMark } from '@mui/icons-material';
+import { QuestionMark, Visibility } from '@mui/icons-material';
 import DocumentIcon from '@mui/icons-material/Description';
 import FamilyIcon from '@mui/icons-material/FamilyRestroom';
 import InfoIcon from '@mui/icons-material/Info';
@@ -10,15 +10,22 @@ import {
   Alert,
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   IconButton,
   LinearProgress,
+  List,
+  ListItem,
   Tab,
   Tabs,
+  TextField,
   Tooltip,
   Typography
 } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
 import AdditionalDetails from './AdditionalDetails';
@@ -32,15 +39,32 @@ import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import FamilyRestroomTwoToneIcon from '@mui/icons-material/FamilyRestroomTwoTone';
-import AddNotePopup from './AddNotePopup';
+import AddNotePopup from './AddNotePopupList';
+import { ClearIcon } from '@mui/x-date-pickers';
+import SingleFile from 'src/libraries/File/SingleFile3';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import Datepicker from '../MessageCenter/DatepickerMessage';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { getCalendarDateFormatDateNew } from '../Common/Util';
+import { useParams } from 'react-router';
+import AddNotePopupList from './AddNotePopupList';
+
+const initialData = [
+  { className: '10-B', date: '05-Nov-2024', description: 'qqq' },
+  // Add more rows if needed
+];
 
 const StudentRegistrationForm = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [profileCompletion, setProfileCompletion] = useState(20);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+const [openDialog, setOpenDialog] = useState(false);
+  const [showRecipients, setShowRecipients] = useState(false);
+  const [IsConfirm, setIsConfirm] = useState('');
   const handleOpenPopup = () => setIsPopupOpen(true);
   const handleClosePopup = () => setIsPopupOpen(false);
+  const [tableData, setTableData] = useState(initialData);
+  const { AssignedDate } = useParams();
   const handleSave = (isSuccessful: boolean) => {
     if (currentTab === 0) {
       setStatus((prevStatus) => ({
@@ -79,6 +103,43 @@ const StudentRegistrationForm = () => {
     additionalDetails: null,
     streamDetails: null
   });
+  const handleOpenDialog = (isRecipients) => {
+    setIsConfirm('');
+    setShowRecipients(isRecipients);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setIsConfirm('true');
+  };
+  
+const ValidFileTypes = [
+  'BMP',
+  'DOC',
+  'DOCX',
+  'JPG',
+  'JPEG',
+  'PDF',
+  'XLS',
+  'XLSX'
+];
+const MaxfileSize = 5000000;
+const [SelectDate, SetSelectDate] = useState(
+  AssignedDate == undefined
+    ? new Date().toISOString().split('T')[0]
+    : getCalendarDateFormatDateNew(AssignedDate)
+);
+const onSelectDate = (value) => {
+  SetSelectDate(value);
+};
+const handleEdit = (rowIndex: number) => {
+  console.log(`Edit row ${rowIndex}`);
+  };
+const handleDelete = (rowIndex: number) => {
+  console.log(`Delete row ${rowIndex}`);
+  setTableData(prevData => prevData.filter((_, index) => index !== rowIndex));
+};
   // const validateAllTabs = () => {
   //     const updatedStatus = {
   //         admissionDetails: validateAdmissionDetails(),
@@ -145,7 +206,7 @@ const StudentRegistrationForm = () => {
 
             <Tooltip title={'Add Note'}>
               <IconButton
-               
+                onClick={() => handleOpenDialog(true)}
                 sx={{
                   color: 'white',
                   backgroundColor: blue[500],
@@ -400,8 +461,156 @@ const StudentRegistrationForm = () => {
         </Button>
         
       </Box>
-      <Box  onClick={handleOpenPopup} sx={{ backgroundColor: 'red', width:50, height:50 }}>
-          <AddNotePopup open={isPopupOpen} onClose={handleClosePopup} />
+      <Box >
+          
+          <Dialog
+      open={openDialog}
+      onClose={handleCloseDialog}
+      fullWidth
+      maxWidth="md"
+      PaperProps={{
+        sx: {
+          borderRadius: '15px'
+        }
+      }}
+    >
+      <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+        <ClearIcon
+          onClick={handleCloseDialog}
+          sx={{
+            color: 'white',
+            borderRadius: '7px',
+            position: 'absolute',
+            top: '5px',
+            right: '8px',
+            cursor: 'pointer',
+            '&:hover': {
+              color: 'red'
+            }
+          }}
+        />
+      </DialogTitle>
+      <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
+        Student Achievement/Punishment Details
+      </Typography>
+      <DialogContent>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              name="RegistrationNumber"
+              label="Registration Number"
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              name="StudentName"
+              label="Student Name"
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Datepicker
+                  DateValue={SelectDate}
+                  onDateChange={onSelectDate}
+                  // label={'Start Date'}
+                  size={'medium'}
+                  label={'Joining Date'} minDate={undefined} maxDate={undefined} display={undefined}            />
+          </Grid>
+          <Grid item xs={4}>
+            <Tooltip
+              title="Supports only .JPG, .JPEG, .PNG, .BMP, .PDF file type.
+                   File size should not exceed 1MB.">
+              <SingleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                // FileName={form.aadharCardScanCopy}
+                // ChangeFile={handleImageChange}
+                FileLabel={'Attachment'}
+                isMandatory={false}
+                height={'52px'}
+                width="100%"
+                ChangeFile={undefined}
+              />
+            </Tooltip>
+          </Grid>
+          <Grid item xs={2}>
+            <>
+              <Tooltip title={'View'}>
+                <IconButton
+                  onClick={() => ''}
+                  sx={{
+                    color: '#223354',
+                    mt: 0.7,
+                    '&:hover': {
+                      color: '#223354',
+                      cursor: 'pointer'
+                    }
+                  }}
+                >
+                  <Visibility />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title={'Delete'}>
+                <IconButton
+                  onClick={() => ''}
+                  sx={{
+                    color: '#223354',
+                    mt: 0.7,
+                    '&:hover': {
+                      color: 'red',
+                      backgroundColor: red[100]
+                    }
+                  }}
+                >
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+            </>
+          </Grid>
+        </Grid>
+        <Grid xs={12} spacing={2} mt={2}>
+          <Grid item>
+          <ResizableTextField
+          name='description' 
+          label={
+            <span>
+                Description
+            </span>
+        }
+        sx={{
+          resize: 'both'
+      }}  
+          multiline
+          fullWidth/>
+          </Grid>
+        </Grid>
+        <Box py={2}>
+        <AddNotePopupList
+        data={tableData}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+         </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseDialog} color={'error'}>
+          Close
+        </Button>
+        <Button onClick={undefined}  sx={{
+                  color: 'green',
+                  '&:hover': {
+                    color: 'green',
+                    backgroundColor: green[100]
+                  }
+                }}>
+          save
+        </Button>
+      </DialogActions>
+    </Dialog>
         </Box>
     </Box>
   );
