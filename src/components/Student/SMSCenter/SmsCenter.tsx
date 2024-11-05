@@ -223,7 +223,7 @@ function SmsCenter() {
             <TextField
               sx={{ width: '15vw' }}
               fullWidth
-              label="Name / Subject / Message Body"
+              label="Name / Subject / SMS Body"
               value={NameSubject}
               variant={'outlined'}
               size={"small"}
