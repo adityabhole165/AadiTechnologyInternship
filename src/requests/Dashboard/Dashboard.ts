@@ -10,6 +10,7 @@ import {
   IPhotoAlbumBody,
   IProfileBody,
   ISaveUserLoginDetailsBody,
+  IstaffBirthday,
   IUnreadMessages,
   IUpcomingEventsList,
   IWeeklyAttendanceBody
@@ -39,6 +40,7 @@ const Dashboardlice = createSlice({
     IsEmailAddress: '',
     IsSUbjectDetails: '',
     IsStandardDetails: '',
+    staffBirthdayData: [],
     Loading: true,
     UserLoginDetails: null
   },
@@ -122,6 +124,9 @@ const Dashboardlice = createSlice({
     },
     RGetStandardDetails(state, action) {
       state.IsStandardDetails = action.payload;
+    },
+    getstaffBirthday(state, action) {
+      state.staffBirthdayData = action.payload;
     },
   }
 });
@@ -347,4 +352,39 @@ export const GetProfileDetails =
         .join(', ');
       dispatch(Dashboardlice.actions.RGetStandardDetails(standardNames));
     };
+
+
+
+export const getstaffBirthday =
+  (data: IstaffBirthday): AppThunk =>
+    async (dispatch) => {
+      const response = await DashboardApi.ApiGetstaffBirthdayList(data);
+      let arr = response.data.GetStaffBirthdaysList.map((item) => {
+        return { ...item, date: item.BirthDate + + " " + data.year }
+      })
+      let newArr = []
+      if (
+        data.asMonth == (new Date()).getMonth() + 1 &&
+        data.year == (new Date()).getFullYear()
+      ) {
+        let HighlightDate = new Date()
+        arr.filter((item) => Date.parse(item.date) >= new Date(new Date().toLocaleDateString()).getTime())
+          .map((item, i) => {
+            if (i == 0) {
+              HighlightDate = item.date
+            }
+            newArr.push({ ...item, IsHighlight: HighlightDate == item.date ? 1 : 0 })
+          })
+        arr.filter((item) => Date.parse(item.date) < new Date(new Date().toLocaleDateString()).getTime())
+          .map((item) => {
+            newArr.push({ ...item, IsHighlight: 2 })
+          })
+
+      }
+      else
+        newArr = response.data.GetStaffBirthdaysList
+
+      dispatch(Dashboardlice.actions.getstaffBirthday(newArr));
+    };
+
 export default Dashboardlice.reducer;

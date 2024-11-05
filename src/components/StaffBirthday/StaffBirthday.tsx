@@ -2,27 +2,23 @@ import { Box, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
-import {
-  GetstaffBirthdayList, IstaffBirthday
-} from 'src/interfaces/Common/StaffBirthday';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import { IstaffBirthday } from 'src/interfaces/Student/dashboard';
 import MonthSelector from 'src/libraries/buttons/MonthSelector';
-import PageHeader from 'src/libraries/heading/PageHeader';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import List17 from 'src/libraries/list/list17';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
-import {
-  DotLegend1,
-  DotLegendStyled1
-} from 'src/libraries/styled/DotLegendStyled';
-import { getstaffBirthday } from 'src/requests/StaffBirthday/StaffBirthday';
+import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
+import { getstaffBirthday } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 function StaffBirthday() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const staffBirthdayList = useSelector(
-    (state: RootState) => state.staffBirthday.staffBirthdayData
+    (state: RootState) => state.Dashboard.staffBirthdayData
   );
+
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -31,12 +27,14 @@ function StaffBirthday() {
 
   const [assignedMonth, setAssignedMonth] = useState<string>();
   const [assignedMonth_num, SetassignedMonth_num] = useState<number>();
+  const Current_Month = new Date().getMonth() + 1;
 
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'long' });
     const Month_num = new Date(date).getMonth();
     const Year = new Date(date).getFullYear();
+    setAssignedYear(Year)
     const NewDateFormat = `${Month}-${Year}`;
     setDate({
       selectedDate: NewDateFormat
@@ -45,7 +43,6 @@ function StaffBirthday() {
     setAssignedMonth(Month);
     SetassignedMonth_num(Month_num + 1);
   }
-
   useEffect(() => {
     setCurrentDate();
   }, []);
@@ -67,7 +64,8 @@ function StaffBirthday() {
   const body: IstaffBirthday = {
     asMonth: assignedMonth_num,
     asAcademicyearId: asAcademicYearId,
-    asSchoolId: asSchoolId
+    asSchoolId: asSchoolId,
+    year: assignedYear
   };
 
   useEffect(() => {
@@ -78,16 +76,25 @@ function StaffBirthday() {
 
   return (
     <Box sx={{ px: 2 }}>
-      <PageHeader heading={'Staff Birthdays'} subheading={''} />
+      <CommonPageHeader
+        navLinks={[{ title: 'Staff Birthdays', path: ' ' },
+        ]}
 
-      <DotLegend1>
-        <DotLegendStyled1
-          className={classes.border}
-          style={{ background: '#e9a69a' }}
-        />
-
-        <CardDetail7>Upcoming Birthday</CardDetail7>
-      </DotLegend1>
+      />
+      {assignedMonth_num == Current_Month &&
+        <DotLegend1>
+          <DotLegendStyled1
+            className={classes.border}
+            style={{ background: '#e9a69a' }}
+          />
+          <CardDetail7>Upcoming Birthday</CardDetail7>
+          <DotLegendStyled1
+            className={classes.border}
+            style={{ background: "#C0C0C0", marginLeft: '10px' }}
+          />
+          <CardDetail7>Past Birthday</CardDetail7>
+        </DotLegend1>
+      }
       <br />
       <MonthSelector
         date={date.selectedDate}
@@ -100,13 +107,8 @@ function StaffBirthday() {
         <ErrorMessages Error={'No birthdays are available'} />
       ) : (
         <>
-          {staffBirthdayList.map((item: GetstaffBirthdayList, i) => (
-            <List17
-              Name={item.Name}
-              BirthDate={item.BirthDate}
-              key={i}
-              CalendarMonth={date.selectedDate}
-            />
+          {staffBirthdayList.map((item, i) => (
+            <List17 Name={item.Name} BirthDate={item.BirthDate} Designation={item.Designation} EmailAddress={item.EmailAddress} MobileNumber={item.MobileNumber} IsHighlight={item.IsHighlight} key={i} />
           ))}
         </>
       )}
