@@ -79,7 +79,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
             }
             // No need for return since map is only used for iteration
         });
-        
+        console.log('ans ⭐⭐🦥🔥', ans);
         return ans; 
     }
     
@@ -240,10 +240,10 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                     &#9660; Exam
                                 </Typography>
                             </TableCell>
-                            {HeaderArray.map((item, index) => (
+                            {findRow1().map((item, index) => (
                                 <TableCell key={index} colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                     <Typography color="black" textAlign={'left'} mr={5}>
-                                        <b style={{ marginRight: "5px" }}>{item.SubjectName} </b>
+                                        <b style={{ marginRight: "5px" }}>{item.Subject_Name} </b>
                                     </Typography>
                                 </TableCell>
                             ))}

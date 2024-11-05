@@ -460,7 +460,7 @@ const ProgressReportNew = () => {
 
           {USIsTestPublishedForStdDiv == true || USIsTestPublishedForStudentIS == false ?
             <>
-              {EntireDataList?.listStudentsDetails[0]?.ShowOnlyGrades.trim() === 'true' ? //USIsGradingStandard == true ?
+              {EntireDataList?.listStudentsDetails[0].ShowOnlyGrades.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -676,7 +676,6 @@ const ProgressReportNew = () => {
                       ThirdHeaderRow={ThirdHeaderColumn}
                       EntireDataList={EntireDataList}
                     />
-
                   </Box>
                 </>
 
