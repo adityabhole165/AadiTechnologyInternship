@@ -10,6 +10,7 @@ import {
   Alert,
   Box,
   Button,
+  Card,
   Dialog,
   DialogActions,
   DialogContent,
@@ -50,8 +51,9 @@ import { useParams } from 'react-router';
 import AddNotePopupList from './AddNotePopupList';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import StreamIcon from '@mui/icons-material/Stream';
+import CheckboxList from './SiblingDetailsCheckBoxList';
 const initialData = [
-  { className: '10-B', date: '05-Nov-2024', description: 'qqq' },
+  { className: '10-B', date: '05-Nov-2024', description: 'qqq' }
   // Add more rows if needed
 ];
 
@@ -59,9 +61,11 @@ const StudentRegistrationForm = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [profileCompletion, setProfileCompletion] = useState(20);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog1, setOpenDialog1] = useState(false);
   const [showRecipients, setShowRecipients] = useState(false);
   const [IsConfirm, setIsConfirm] = useState('');
+  const [IsConfirm1, setIsConfirm1] = useState('');
   const handleOpenPopup = () => setIsPopupOpen(true);
   const handleClosePopup = () => setIsPopupOpen(false);
   const [tableData, setTableData] = useState(initialData);
@@ -114,33 +118,45 @@ const [openDialog, setOpenDialog] = useState(false);
     setOpenDialog(false);
     setIsConfirm('true');
   };
-  
-const ValidFileTypes = [
-  'BMP',
-  'DOC',
-  'DOCX',
-  'JPG',
-  'JPEG',
-  'PDF',
-  'XLS',
-  'XLSX'
-];
-const MaxfileSize = 5000000;
-const [SelectDate, SetSelectDate] = useState(
-  AssignedDate == undefined
-    ? new Date().toISOString().split('T')[0]
-    : getCalendarDateFormatDateNew(AssignedDate)
-);
-const onSelectDate = (value) => {
-  SetSelectDate(value);
-};
-const handleEdit = (rowIndex: number) => {
-  console.log(`Edit row ${rowIndex}`);
+  const handleOpenDialog1 = (isRecipients) => {
+    setIsConfirm1('');
+    setShowRecipients(isRecipients);
+    setOpenDialog1(true);
   };
-const handleDelete = (rowIndex: number) => {
-  console.log(`Delete row ${rowIndex}`);
-  setTableData(prevData => prevData.filter((_, index) => index !== rowIndex));
-};
+
+  const handleCloseDialog1 = () => {
+    setOpenDialog1(false);
+    setIsConfirm('true');
+  };
+
+  const ValidFileTypes = [
+    'BMP',
+    'DOC',
+    'DOCX',
+    'JPG',
+    'JPEG',
+    'PDF',
+    'XLS',
+    'XLSX'
+  ];
+  const MaxfileSize = 5000000;
+  const [SelectDate, SetSelectDate] = useState(
+    AssignedDate == undefined
+      ? new Date().toISOString().split('T')[0]
+      : getCalendarDateFormatDateNew(AssignedDate)
+  );
+  const onSelectDate = (value) => {
+    SetSelectDate(value);
+  };
+  const handleEdit = (rowIndex: number) => {
+    console.log(`Edit row ${rowIndex}`);
+  };
+  const handleDelete = (rowIndex: number) => {
+    console.log(`Delete row ${rowIndex}`);
+    setTableData((prevData) =>
+      prevData.filter((_, index) => index !== rowIndex)
+    );
+  };
   // const validateAllTabs = () => {
   //     const updatedStatus = {
   //         admissionDetails: validateAdmissionDetails(),
@@ -222,6 +238,7 @@ const handleDelete = (rowIndex: number) => {
 
             <Tooltip title={'Save'}>
               <IconButton
+                onClick={() => handleOpenDialog1(true)}
                 sx={{
                   color: 'white',
                   backgroundColor: green[500],
@@ -330,7 +347,7 @@ const handleDelete = (rowIndex: number) => {
             label="Additional Details"
           />
           <Tab
-            sx={{ m: 2, maxWidth: 200, borderRadius:'100%' }}
+            sx={{ m: 2, maxWidth: 200, borderRadius: '100%' }}
             icon={<StreamIcon />}
             label="Stream Details"
           />
@@ -460,159 +477,224 @@ const handleDelete = (rowIndex: number) => {
         >
           Next
         </Button>
-        
       </Box>
-      <Box >
-          
-          <Dialog
-      open={openDialog}
-      onClose={handleCloseDialog}
-      fullWidth
-      maxWidth="md"
-      PaperProps={{
-        sx: {
-          borderRadius: '15px'
-        }
-      }}
-    >
-      <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
-        <ClearIcon
-          onClick={handleCloseDialog}
-          sx={{
-            color: 'white',
-            borderRadius: '7px',
-            position: 'absolute',
-            top: '5px',
-            right: '8px',
-            cursor: 'pointer',
-            '&:hover': {
-              color: 'red'
+      <Box>
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          fullWidth
+          maxWidth="md"
+          PaperProps={{
+            sx: {
+              borderRadius: '15px'
             }
           }}
-        />
-      </DialogTitle>
-      <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
-        Student Achievement/Punishment Details
-      </Typography>
-      <DialogContent>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <TextField
-              name="RegistrationNumber"
-              label="Registration Number"
-              variant="outlined"
-              fullWidth
+        >
+          <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+            <ClearIcon
+              onClick={handleCloseDialog}
+              sx={{
+                color: 'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '5px',
+                right: '8px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'red'
+                }
+              }}
             />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              name="StudentName"
-              label="Student Name"
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Datepicker
+          </DialogTitle>
+          <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
+            Student Achievement/Punishment Details
+          </Typography>
+          <DialogContent>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  name="RegistrationNumber"
+                  label="Registration Number"
+                  variant="outlined"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  name="StudentName"
+                  label="Student Name"
+                  variant="outlined"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Datepicker
                   DateValue={SelectDate}
                   onDateChange={onSelectDate}
                   // label={'Start Date'}
                   size={'medium'}
-                  label={'Joining Date'} minDate={undefined} maxDate={undefined} display={undefined}            />
-          </Grid>
-          <Grid item xs={4}>
-            <Tooltip
-              title="Supports only .JPG, .JPEG, .PNG, .BMP, .PDF file type.
-                   File size should not exceed 1MB.">
-              <SingleFile
-                ValidFileTypes={ValidFileTypes}
-                MaxfileSize={MaxfileSize}
-                // FileName={form.aadharCardScanCopy}
-                // ChangeFile={handleImageChange}
-                FileLabel={'Attachment'}
-                isMandatory={false}
-                height={'52px'}
-                width="100%"
-                ChangeFile={undefined}
-              />
-            </Tooltip>
-          </Grid>
-          <Grid item xs={2}>
-            <>
-              <Tooltip title={'View'}>
-                <IconButton
-                  onClick={() => ''}
-                  sx={{
-                    color: '#223354',
-                    mt: 0.7,
-                    '&:hover': {
-                      color: '#223354',
-                      cursor: 'pointer'
-                    }
-                  }}
+                  label={'Joining Date'}
+                  minDate={undefined}
+                  maxDate={undefined}
+                  display={undefined}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Tooltip
+                  title="Supports only .JPG, .JPEG, .PNG, .BMP, .PDF file type.
+                   File size should not exceed 1MB."
                 >
-                  <Visibility />
-                </IconButton>
-              </Tooltip>
+                  <SingleFile
+                    ValidFileTypes={ValidFileTypes}
+                    MaxfileSize={MaxfileSize}
+                    // FileName={form.aadharCardScanCopy}
+                    // ChangeFile={handleImageChange}
+                    FileLabel={'Attachment'}
+                    isMandatory={false}
+                    height={'52px'}
+                    width="100%"
+                    ChangeFile={undefined}
+                  />
+                </Tooltip>
+              </Grid>
+              <Grid item xs={2}>
+                <>
+                  <Tooltip title={'View'}>
+                    <IconButton
+                      onClick={() => ''}
+                      sx={{
+                        color: '#223354',
+                        mt: 0.7,
+                        '&:hover': {
+                          color: '#223354',
+                          cursor: 'pointer'
+                        }
+                      }}
+                    >
+                      <Visibility />
+                    </IconButton>
+                  </Tooltip>
 
-              <Tooltip title={'Delete'}>
-                <IconButton
-                  onClick={() => ''}
+                  <Tooltip title={'Delete'}>
+                    <IconButton
+                      onClick={() => ''}
+                      sx={{
+                        color: '#223354',
+                        mt: 0.7,
+                        '&:hover': {
+                          color: 'red',
+                          backgroundColor: red[100]
+                        }
+                      }}
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Tooltip>
+                </>
+              </Grid>
+            </Grid>
+            <Grid xs={12} spacing={2} mt={2}>
+              <Grid item>
+                <ResizableTextField
+                  name="description"
+                  label={<span>Description</span>}
                   sx={{
-                    color: '#223354',
-                    mt: 0.7,
-                    '&:hover': {
-                      color: 'red',
-                      backgroundColor: red[100]
-                    }
+                    resize: 'both'
                   }}
-                >
-                  <DeleteForeverIcon />
-                </IconButton>
-              </Tooltip>
-            </>
-          </Grid>
-        </Grid>
-        <Grid xs={12} spacing={2} mt={2}>
-          <Grid item>
-          <ResizableTextField
-          name='description' 
-          label={
-            <span>
-                Description
-            </span>
-        }
-        sx={{
-          resize: 'both'
-      }}  
-          multiline
-          fullWidth/>
-          </Grid>
-        </Grid>
-        <Box py={2}>
-        <AddNotePopupList
-        data={tableData}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
-         </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCloseDialog} color={'error'}>
-          Close
-        </Button>
-        <Button onClick={undefined}  sx={{
+                  multiline
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+            <Box py={2}>
+              <AddNotePopupList
+                data={tableData}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            </Box>
+          </DialogContent>
+          <DialogActions sx={{m:2}}>
+            <Button onClick={handleCloseDialog} color={'error'}>
+              Close
+            </Button>
+            <Button
+              onClick={undefined}
+              sx={{
+                color: 'green',
+                '&:hover': {
                   color: 'green',
-                  '&:hover': {
-                    color: 'green',
-                    backgroundColor: green[100]
-                  }
-                }}>
-          save
-        </Button>
-      </DialogActions>
-    </Dialog>
-        </Box>
+                  backgroundColor: green[100]
+                }
+              }}
+            >
+              save
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
+      <Box>
+        <Dialog
+          open={openDialog1}
+          onClose={handleCloseDialog1}
+          fullWidth
+          maxWidth="sm"
+          PaperProps={{
+            sx: {
+              borderRadius: '15px'
+            }
+          }}
+        >
+          <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+            <ClearIcon
+              onClick={handleCloseDialog1}
+              sx={{
+                color: 'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '5px',
+                right: '8px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'red'
+                }
+              }}
+            />
+          </DialogTitle>
+          <Typography variant="h3" sx={{ pt: 1, pl: 3 }}>
+            Sibling Details
+          </Typography>
+          <DialogContent>
+            <Card sx={{p:1, mb:1}}>
+            <b>Note : </b>If you click on save button selected Sibling Details will be
+              replaced to the following sibling(s) : 
+              <b> Master Aadvik Prashant Dalavi</b>
+            </Card>
+            <Box>
+            <CheckboxList />
+            </Box>
+          </DialogContent>
+          <DialogActions sx={{m:2}}>
+            
+            <Button onClick={handleCloseDialog1} color={'error'}>
+              Close
+            </Button>
+            <Button
+              onClick={undefined}
+              sx={{
+                color: 'green',
+                '&:hover': {
+                  color: 'green',
+                  backgroundColor: green[100]
+                }
+              }}
+            >
+              save
+            </Button>
+          </DialogActions>
+         
+        </Dialog>
+      </Box>
     </Box>
   );
 };
