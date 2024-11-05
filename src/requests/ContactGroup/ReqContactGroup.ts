@@ -56,7 +56,7 @@ export const CDAGetMailingGroups = (data: IGetMailingGroupsBody): AppThunk => as
             Users: item.Users
         };
     });
-    console.log(response.data, '>>>>>>');
+    // console.log(response.data, '>>>>>>');
     dispatch(ContactGroupSlice.actions.RGetMailingGroups(GroupDetails));
 };
 export const CDAGetStandardClass =

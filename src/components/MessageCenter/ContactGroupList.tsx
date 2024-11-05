@@ -48,16 +48,17 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [sortOrder, setSortOrder] = useState('asc');
   const [openDialog, setOpenDialog] = useState(false);
-  // const [sortOrder, setSortOrder] = useState('asc');
-  const [UsersRole, setUserRole] = useState();
-  const [StandardClass, setStandardClass] = useState();
+  const [UsersRole, setUserRole] = useState('1');
+  const [StandardClass, setStandardClass] = useState('1293');
+  const [GroupName, setGroupName] = useState('');
+
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = Number(localStorage.getItem('UserId'));
 
-  console.log(UsersRole, "###########")
+  console.log(GroupName, "###########")
 
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
   const USGetStandardClass: any = useSelector((state: RootState) => state.ContactGroup.IGetStandardClass);
@@ -128,6 +129,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
   const clickStandardClass = (Value) => {
     setStandardClass(Value);
   }
+  const clickGroupName = (Value) => {
+    setGroupName(Value);
+  }
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
@@ -136,13 +141,13 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
     let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
     asUpdateSelectXML +=
       " <GroupId>" + 0 + "</GroupId>\r\n  " +
-      "<Name>" + "students" + "</Name>\r\n  " +
+      "<Name>" + GroupName + "</Name>\r\n  " +
       "<lstUserRoles>\r\n  " +
       "<UserRoles>\r\n  " +
-      "<User_Role_Id>" + 3 + "</User_Role_Id>\r\n  " +
+      "<User_Role_Id>" + UsersRole + "</User_Role_Id>\r\n  " +
       "</UserRoles>\r\n  " +
       "</lstUserRoles>\r\n  " +
-      "<Users>" + "6926, 7040, 6904, 5781, 5892, 5821 " + "</Users>\r\n  " +
+      "<Users>" + selected + "</Users>\r\n  " +
       "<IsDefault>" + false + "</IsDefault>\r\n  " +
       "<IsAllDeactivated>" + false + "</IsAllDeactivated>"
 
@@ -185,7 +190,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
         : [...prevSelected, userId]
     );
     setSelectAll(false);
-    console.log(selected, "***********");
+    // console.log(selected, "***********");
   };
 
   const handleSort = () => {
@@ -199,18 +204,16 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
   return (
     <>
       <Box>
-        {/* <Typography variant="h4" sx={{ py: 2 }}>
-          Add/Update Group
-        </Typography> */}
+
         <Grid container spacing={2}>
-          {/* Group Name */}
+
           <Grid item xs={6}>
             <TextField label={
               <span>
                 Group Name<span style={{ color: 'red' }}> *</span>
               </span>
             }
-              fullWidth />
+              fullWidth onChange={(e) => clickGroupName(e.target.value)} />
           </Grid>
         </Grid>
 
@@ -238,11 +241,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
             </Grid>
           </FormControl>
         </Grid>
-
-        {/* <Box py={1} sx={{ overflow: 'auto', }}>
-          <ContactGroupEditTable />
-        </Box> */}
-
       </Box>
       <Grid container direction="row" alignItems="center" spacing={2} sx={{ pt: 1 }}>
         <Grid item xs={4}>
@@ -278,73 +276,96 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
               Select Users To Add In Selected Group
             </Typography>
           </Box>
-          <Box style={{ flex: 1, textAlign: 'center' }}>
-            <Typography
-              variant='subtitle1'
-              sx={{ margin: '16px 0', textAlign: 'center' }}
-            >
-              <Box component='span' fontWeight='fontWeightBold'>
-                {startRecord} to {endRecord}
-              </Box>{' '}
-              out of{' '}
-              <Box component='span' fontWeight='fontWeightBold'>
-                {singleTotalCount}
-              </Box>{' '}
-              {singleTotalCount === 1 ? 'record' : 'records'}
-            </Typography>
-          </Box>
+          {USGetUserName.length !== 0 ? (
+            <Box style={{ flex: 1, textAlign: 'center' }}>
+              <Typography
+                variant='subtitle1'
+                sx={{ margin: '16px 0', textAlign: 'center' }}
+              >
+                <Box component='span' fontWeight='fontWeightBold'>
+                  {startRecord} to {endRecord}
+                </Box>{' '}
+                out of{' '}
+                <Box component='span' fontWeight='fontWeightBold'>
+                  {singleTotalCount}
+                </Box>{' '}
+                {singleTotalCount === 1 ? 'record' : 'records'}
+              </Typography>
+            </Box>
+          ) : null}
         </Box>
       </Box>
-      <TableContainer component={Box} sx={{ overflow: 'auto', }}>
-        <Table aria-label="simple table"
-          sx={{
-            border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-            overflow: 'hidden'
-          }}
-        >
-          <TableHead>
-            <TableRow sx={{
-              background: (theme) => theme.palette.secondary.main,
-              color: (theme) => theme.palette.common.white,
-
-            }}
+      {USGetUserName.length !== 0 ? (
+        <Box>
+          <TableContainer component={Box} sx={{ overflow: 'auto', }}>
+            <Table aria-label="simple table"
+              sx={{
+                border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+                overflow: 'hidden'
+              }}
             >
-              <TableCell padding="checkbox" sx={{ py: 0.5, color: 'white', }}>
-                <Checkbox
-                  checked={selectAll}
-                  onChange={handleSelectAll} />
-              </TableCell>
-              <TableCell sx={{ py: 0.5, color: 'white', }}>
-                <Box display="flex" alignItems="center">
-                  User Name
-                  <IconButton onClick={handleSort} size="small">
-                    {sortOrder === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-                  </IconButton>
-                </Box>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {USGetUserName.map((item) => (
-              <TableRow key={item.UserId}>
-                <TableCell padding="checkbox" sx={{ py: 0.5 }}>
-                  <Checkbox
-                    checked={selected.includes(item.UserId)}
-                    onChange={() => handleCheckboxChange(item.UserId)} />
-                </TableCell>
-                <TableCell sx={{ py: 0.5 }}>{item.UserName}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <ButtonGroupComponent
-          ChangeRowsPerPage={ChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions} // Set your options
-          rowsPerPage={rowsPerPage}
-          PageChange={PageChange}
-          pagecount={pageCount}  // Use the calculated pageCount
-        />
-      </TableContainer>
+              <TableHead>
+                <TableRow sx={{
+                  background: (theme) => theme.palette.secondary.main,
+                  color: (theme) => theme.palette.common.white,
+
+                }}
+                >
+                  <TableCell padding="checkbox" sx={{ py: 0.5, color: 'white', }}>
+                    <Checkbox
+                      checked={selectAll}
+                      onChange={handleSelectAll} />
+                  </TableCell>
+                  <TableCell sx={{ py: 0.5, color: 'white', }}>
+                    <Box display="flex" alignItems="center">
+                      User Name
+                      <IconButton onClick={handleSort} size="small">
+                        {sortOrder === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                      </IconButton>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {USGetUserName.map((item) => (
+                  <TableRow key={item.UserId}>
+                    <TableCell padding="checkbox" sx={{ py: 0.5 }}>
+                      <Checkbox
+                        checked={selected.includes(item.UserId)}
+                        onChange={() => handleCheckboxChange(item.UserId)} />
+                    </TableCell>
+                    <TableCell sx={{ py: 0.5 }}>{item.UserName}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <ButtonGroupComponent
+            ChangeRowsPerPage={ChangeRowsPerPage}
+            rowsPerPageOptions={rowsPerPageOptions} // Set your options
+            rowsPerPage={rowsPerPage}
+            PageChange={PageChange}
+            pagecount={pageCount}  // Use the calculated pageCount
+          />
+        </Box>
+      ) : (
+        <Box sx={{ backgroundColor: '#D2FDFC' }}>
+          <Typography
+            variant="h6"
+            align="center"
+            sx={{
+              textAlign: 'center',
+              marginTop: 1,
+              backgroundColor: '#324b84',
+              padding: 1,
+              borderRadius: 2,
+              color: 'white',
+            }}
+          >
+            No record found.
+          </Typography>
+        </Box>
+      )}
       <Box>
         <DialogActions sx={{ py: 2, px: 3 }}>
           <Button color={'error'} onClick={onClose}>
