@@ -119,6 +119,7 @@ const ProgressReportNew = () => {
   const HeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray1);
   const SubHeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray1);
 
+  const ShowOnlyGrades = EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true';
 
 
 
@@ -460,7 +461,7 @@ const ProgressReportNew = () => {
 
           {USIsTestPublishedForStdDiv == true || USIsTestPublishedForStudentIS == false ?
             <>
-              {EntireDataList?.listStudentsDetails[0].ShowOnlyGrades.trim() === 'true' ? //USIsGradingStandard == true ?
+              {EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
