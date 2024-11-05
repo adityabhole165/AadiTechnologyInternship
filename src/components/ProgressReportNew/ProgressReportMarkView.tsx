@@ -83,6 +83,9 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
         return ans; 
     }
     
+console.log( findRow1()," findRow1()");
+
+
     
     function findName(Id) {
         // Safeguard: Check if data.listTestIdDetails exists and filter properly
@@ -167,13 +170,13 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                 {findRow1().map((item, index) => (
                                     <TableCell
                                         key={index}
-                                        colSpan={item.Total_Consideration === 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
+                                        colSpan={item.Total_Consideration == 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
                                         sx={{ border: '1px solid black', textAlign: 'center' }}
                                     >
                                         <Typography color="black" textAlign="left" mr={5}>
                                              <b style={{ marginRight: "5px" }}>
                                                  {item.Subject_Name} 
-                                         {item.Total_Consideration.toLowerCase() == "N" && (
+                                         {item.Total_Consideration == "N" && (
                                               <span style={{ color: 'red' }}>*</span>
                                                    )}
                                                      </b>
