@@ -1,10 +1,10 @@
 
 
-export default interface IstaffBirthdayBody {
-  pagesize: number;
-  asAcademicYearId: number;
-  asSchoolId: number;
-  startindex: number;
+export interface IstaffBirthdayBody {
+  pagesize: string;
+  asAcademicYearId: string;
+  asSchoolId: string;
+  startindex: string;
 }
 
 export interface getSchoolStaffBirthdayResult {
@@ -26,10 +26,10 @@ export interface getSchoolStaffBirthdayResult {
   ]
 }
 
-export default interface IstaffBirthday {
-  asMonth: Number;
-  asAcademicyearId: number;
-  asSchoolId: number;
+export interface IstaffBirthday {
+  asMonth: number;
+  asAcademicyearId: string;
+  asSchoolId: string;
 }
 
 export interface GetstaffBirthdayList {

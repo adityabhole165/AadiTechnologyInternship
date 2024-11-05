@@ -494,7 +494,7 @@ export const CDAStudentProgressReport =
               })
             }
             if (Subject.Is_CoCurricularActivity === 'True') {
-              let valArr = response.data.listSubjectIdDetails.filter(item => item.Original_SchoolWise_Test_Id === Test.Original_SchoolWise_Test_Id && item.Is_CoCurricularActivity.toLowerCase() === 'true')
+              let valArr = response.data.listSubjectIdDetails.filter(item => item.Original_SchoolWise_Test_Id === Test.Original_SchoolWise_Test_Id && item.Is_CoCurricularActivity.toLowerCase() === 'true' && item.Subject_Id === Subject.Subject_Id)
               // let data = response.data.listSubjectIdDetails.filter((item) => )
               function showGradeHeader(subId) {
                 let flag = true;
@@ -728,7 +728,7 @@ export const CDAStudentProgressReport =
                 Is_CoCurricularActivity: Subject.Is_CoCurricularActivity
               })
 
-             
+
 
 
 

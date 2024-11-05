@@ -2,8 +2,8 @@ import { Box, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
-import IstaffBirthday, {
-  GetstaffBirthdayList
+import {
+  GetstaffBirthdayList, IstaffBirthday
 } from 'src/interfaces/Common/StaffBirthday';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import MonthSelector from 'src/libraries/buttons/MonthSelector';

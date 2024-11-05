@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { default as IstaffBirthday, default as IstaffBirthdayBody } from 'src/interfaces/Common/StaffBirthday';
+import { IstaffBirthday,  IstaffBirthdayBody } from 'src/interfaces/Common/StaffBirthday';
 import { AppThunk } from 'src/store';
 import staffBirthdayApi from '../../api/StaffBirthday/StaffBirthday';
 

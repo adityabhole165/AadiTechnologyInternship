@@ -1,4 +1,4 @@
-import { default as IstaffBirthday, default as IstaffBirthdayBody } from '../../interfaces/Common/StaffBirthday';
+import { IstaffBirthday, IstaffBirthdayBody } from '../../interfaces/Common/StaffBirthday';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetstaffBirthdayList = (data: IstaffBirthday) => {
