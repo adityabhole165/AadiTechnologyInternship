@@ -79,10 +79,13 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
             }
             // No need for return since map is only used for iteration
         });
-        
+        console.log('ans ⭐⭐🦥🔥', ans);
         return ans; 
     }
     
+console.log( findRow1()," findRow1()");
+
+
     
     function findName(Id) {
         // Safeguard: Check if data.listTestIdDetails exists and filter properly
@@ -138,6 +141,16 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
     function showParentColumns() {
     }
 
+    function getRemarkForGradeCell(cellRemark) {
+        // html element type
+        let result: any;
+        let remarkList = data?.ListDisplayNameDetails?.filter((item) => item.ShortName === cellRemark);
+        if (remarkList?.length > 0) {
+          result = <span style={{ color: `${remarkList[0]?.ForeColor}`, fontWeight: 'bold' }}>{remarkList[0]?.DisplayName}</span>;
+        }
+        return result;
+      }
+
 
     return (
         <Box>
@@ -157,13 +170,13 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                 {findRow1().map((item, index) => (
                                     <TableCell
                                         key={index}
-                                        colSpan={item.Is_CoCurricularActivity === 'True' ? 1 : item.colSpan} rowSpan={item.rowSpan}
+                                        colSpan={item.Total_Consideration == 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
                                         sx={{ border: '1px solid black', textAlign: 'center' }}
                                     >
                                         <Typography color="black" textAlign="left" mr={5}>
                                              <b style={{ marginRight: "5px" }}>
                                                  {item.Subject_Name} 
-                                         {item.Is_CoCurricularActivity.toLowerCase() == "true" && (
+                                         {item.Is_CoCurricularActivity == "True" && (
                                               <span style={{ color: 'red' }}>*</span>
                                                    )}
                                                      </b>
@@ -208,7 +221,15 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                          {item.Subject_Name !== '' &&
                                         <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                             <Typography color="black" textAlign={'left'} mr={5}>
-                                                <b style={{ marginRight: "5px" }}>{item.Subject_Name}</b>
+                                                <b style={{ marginRight: "5px" }}>{item.Subject_Name}
+                                                {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+
+
+                                                </b>
+
+
                                             </Typography>
                                         </TableCell>}
 
@@ -230,10 +251,15 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                     &#9660; Exam
                                 </Typography>
                             </TableCell>
-                            {HeaderArray.map((item, index) => (
+                            {findRow1().map((item, index) => (
                                 <TableCell key={index} colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                     <Typography color="black" textAlign={'left'} mr={5}>
-                                        <b style={{ marginRight: "5px" }}>{item.SubjectName} </b>
+                                        <b style={{ marginRight: "5px" }}>{item.Subject_Name} 
+
+                                        {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+                                        </b>
                                     </Typography>
                                 </TableCell>
                             ))}
@@ -278,29 +304,44 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                 )}
                             </>
                         ))}
-                        <TableCell >
-                            <Typography color="#38548A" textAlign={'center'} mr={9}>
-                                <b>Grade</b>
-                            </Typography>
-                        </TableCell>
+                        {findRow1()?.map((item, i) => (
+                            <>
+                                {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' &&
+                                    <TableCell key={i} >
+                                        <Typography color="#38548A" textAlign={'center'} mr={9}>
+                                            <b>Grade</b>
+                                        </Typography>
+                                    </TableCell>
+                                }
+                            </>
+                        ))}
                     </TableRow>
-
                 </TableHead>
 
                 {MarkDetailsList.map((testItem, i) => (
-                    <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
-                        <TableRow>
-                            <TableCell>
-                                <b>{testItem.TestName}</b>
-                            </TableCell>
-                            {testItem.MarksArr.map((MarkItem, index) => (
-                                <TableCell key={index} sx={{ backgroundColor: 'white' }}>
-                                    {MarkItem?.MarksScored + (MarkItem?.TotalMarks === "-" ? "" : (" / " + MarkItem?.TotalMarks))}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableBody>
-                ))}
+    <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
+        <TableRow>
+            <TableCell>
+                <b>{testItem.TestName || '-'}</b>
+            </TableCell>
+            {testItem.MarksArr.map((MarkItem, index) => (
+                <TableCell key={index} sx={{ backgroundColor: 'white' }}>
+                    {MarkItem == null || MarkItem?.MarksScored == ''
+                        ? '-'   
+                        : (MarkItem?.IsAbsent !== 'N'
+                            ? getRemarkForGradeCell(MarkItem.IsAbsent)
+                            : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null
+                                ? '-'
+                                : MarkItem?.MarksScored + (MarkItem.TotalMarks === "-" ? "" : (" / " + MarkItem.TotalMarks))
+                            )
+                        )
+                    }
+                </TableCell>
+            ))}
+        </TableRow>
+    </TableBody>
+))}
+
             </Table>
         </Box>
     );

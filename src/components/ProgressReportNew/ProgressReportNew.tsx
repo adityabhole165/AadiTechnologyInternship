@@ -119,6 +119,7 @@ const ProgressReportNew = () => {
   const HeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray1);
   const SubHeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray1);
 
+  const ShowOnlyGrades = EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true';
 
 
 
@@ -165,7 +166,7 @@ const ProgressReportNew = () => {
   const Standard_Id = () => {
     let returnVal = 0
     USGetClassTeachers.map((item) => {
-      if (item.Value == item.NewValue) {
+      if (item.Value == selectTeacher) {
         returnVal = item.asStandardId
       }
     })
@@ -303,7 +304,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
-  }, [Standard_Id()]);
+  }, [Standard_Id(), selectTeacher, StudentId]);
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
@@ -458,9 +459,9 @@ const ProgressReportNew = () => {
       {open && (
         <div>
 
-          {USIsTestPublishedForStdDiv == true || USIsTestPublishedForStudentIS == false ?
+          {USIsTestPublishedForStdDiv == true  ?
             <>
-              {USIsGradingStandard == true ?
+              {EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -676,7 +677,6 @@ const ProgressReportNew = () => {
                       ThirdHeaderRow={ThirdHeaderColumn}
                       EntireDataList={EntireDataList}
                     />
-
                   </Box>
                 </>
 

@@ -1,3 +1,4 @@
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
 import {
@@ -15,12 +16,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStudentRecordData } from 'src/requests/Students/RequestStudentUI';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { RootState } from 'src/store';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 const PersonalDetails = ({ onSave }) => {
   const location = useLocation();
@@ -211,6 +211,17 @@ const PersonalDetails = ({ onSave }) => {
     );
     setTimeout(() => setMessage(''), 2000);
   };
+  const BloodGroupDrodown = [
+    { Id: 1, Name: 'O+', Value: 1 },
+    { Id: 2, Name: 'A+', Value: 2 },
+    { Id: 3, Name: 'B+', Value: 3 },
+    { Id: 4, Name: 'AB+', Value: 4 },
+    { Id: 5, Name: 'O-', Value: 5 },
+    { Id: 6, Name: 'A-', Value: 6 },
+    { Id: 7, Name: 'B-', Value: 7 },
+    { Id: 8, Name: 'AB-', Value: 8 },
+
+  ];
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
@@ -548,10 +559,10 @@ const PersonalDetails = ({ onSave }) => {
             {form.dateOfBirth !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <Datepicker
-            DateValue={SelectDate}
-            onDateChange={onSelectDate}
-            size={'medium'}
-            label={'Date of Birth'} />
+                  DateValue={SelectDate}
+                  onDateChange={onSelectDate}
+                  size={'medium'}
+                  label={'Date of Birth'} />
                 {/* <TextField
                   name="dateOfBirth"
                   label={
@@ -570,17 +581,23 @@ const PersonalDetails = ({ onSave }) => {
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                 />*/}
-              </Grid> 
+              </Grid>
             )}
             {/* Remaining Fields */}
             {form.placeOfBirth !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="placeOfBirth"
-                  label="Place of Birth"
+                  label={
+                    <span>
+                      Place of Birth <span style={{ color: 'red' }}> *</span>
+                    </span>
+                  }
                   variant="outlined"
                   value={form.placeOfBirth}
                   onChange={handleInputChange}
+                  error={errors.placeOfBirth}
+                  helperText={errors.placeOfBirth ? 'This field is required' : ''}
                   fullWidth
                 />
               </Grid>
@@ -648,22 +665,28 @@ const PersonalDetails = ({ onSave }) => {
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <TextField
-                name="Category"
-                label="Category"
-                variant="outlined"
-                value={form.nationality}
-                onChange={handleInputChange}
-                fullWidth
+              <SearchableDropdown
+                sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
+                ItemList={CategoryDropdown}
+                onChange={(value) => handleDropdownChange('category', value)}
+                label={'Category'}
+                defaultValue={form.category}
+                size="medium"
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 name="CasteSubCaste"
-                label="Caste & Sub-Caste"
+                label={
+                  <span>
+                    Caste & Sub-Caste <span style={{ color: 'red' }}> *</span>
+                  </span>
+                }
                 variant="outlined"
-                value={form.nationality}
+                value={form.casteAndSubCaste}
                 onChange={handleInputChange}
+                error={errors.casteAndSubCaste}
+                helperText={errors.casteAndSubCaste ? 'This field is required' : ''}
                 fullWidth
               />
             </Grid>
@@ -698,13 +721,13 @@ const PersonalDetails = ({ onSave }) => {
             )}
 
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <TextField
-                name="BloodGroup"
-                label="Blood Group"
-                variant="outlined"
-                value={form.nationality}
-                onChange={handleInputChange}
-                fullWidth
+              <SearchableDropdown
+                sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
+                ItemList={BloodGroupDrodown}
+                onChange={(value) => handleDropdownChange('bloodGroup', value)}
+                label={'Blood Group'}
+                defaultValue={form.bloodGroup}
+                size="medium"
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
