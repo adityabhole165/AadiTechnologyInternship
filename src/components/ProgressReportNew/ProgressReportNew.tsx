@@ -459,7 +459,7 @@ const ProgressReportNew = () => {
       {open && (
         <div>
 
-          {USIsTestPublishedForStdDiv == true || USIsTestPublishedForStudentIS == false ?
+          {USIsTestPublishedForStdDiv == true  ?
             <>
               {EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>

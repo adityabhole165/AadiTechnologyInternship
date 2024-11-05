@@ -176,7 +176,7 @@ console.log( findRow1()," findRow1()");
                                         <Typography color="black" textAlign="left" mr={5}>
                                              <b style={{ marginRight: "5px" }}>
                                                  {item.Subject_Name} 
-                                         {item.Total_Consideration == "N" && (
+                                         {item.Is_CoCurricularActivity == "True" && (
                                               <span style={{ color: 'red' }}>*</span>
                                                    )}
                                                      </b>
@@ -221,7 +221,15 @@ console.log( findRow1()," findRow1()");
                                          {item.Subject_Name !== '' &&
                                         <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                             <Typography color="black" textAlign={'left'} mr={5}>
-                                                <b style={{ marginRight: "5px" }}>{item.Subject_Name}</b>
+                                                <b style={{ marginRight: "5px" }}>{item.Subject_Name}
+                                                {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+
+
+                                                </b>
+
+
                                             </Typography>
                                         </TableCell>}
 
@@ -246,7 +254,12 @@ console.log( findRow1()," findRow1()");
                             {findRow1().map((item, index) => (
                                 <TableCell key={index} colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                     <Typography color="black" textAlign={'left'} mr={5}>
-                                        <b style={{ marginRight: "5px" }}>{item.Subject_Name} </b>
+                                        <b style={{ marginRight: "5px" }}>{item.Subject_Name} 
+
+                                        {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+                                        </b>
                                     </Typography>
                                 </TableCell>
                             ))}

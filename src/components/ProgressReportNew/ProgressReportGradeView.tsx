@@ -13,6 +13,12 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
   //     return returnVal
 
   // }
+
+  console.log(HeaderArray1,"HeaderArray1");
+  
+
+
+
   const [data, setData] = useState<any>([]);
   useEffect(() => {
     if (Object.keys(EntireDataList).length > 0) {
@@ -84,7 +90,12 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
                 {HeaderParent.map((item) => (
                   <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                     <Typography color="black" textAlign={'left'} mr={5}  >
-                      <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                      <b style={{ marginRight: "5px" }}>{item.SubjectName}
+
+                      {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+                      </b>
                     </Typography></TableCell>
                 ))
                 }
@@ -93,7 +104,11 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
                 {HeaderArray1.map((item) => (
                   <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                     <Typography color="black" textAlign={'left'} mr={5}  >
-                      <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                      <b style={{ marginRight: "5px" }}>{item.SubjectName}
+                      {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+                      </b>
                     </Typography></TableCell>
                 ))
                 }
@@ -111,7 +126,11 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
               {HeaderArray1.map((item) => (
                 <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                   <Typography color="black" textAlign={'left'} mr={5}  >
-                    <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                    <b style={{ marginRight: "5px" }}>{item.SubjectName}
+                    {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+                    </b>
                   </Typography></TableCell>
               ))}
               {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&

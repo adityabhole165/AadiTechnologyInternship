@@ -725,7 +725,13 @@ export const CDAStudentProgressReport =
                 colSpan: HeaderCount1 > 1 ? HeaderCount1 + (data.IsTotalConsiderForProgressReport == "True" ? 1 : 0) : HeaderCount1,
                 ParentSubjectId: Subject.Parent_Subject_Id,
                 ParentSubjectName: getParentHeader(listSubjectsDetails, Subject, Test.Test_Id).parent,
+                Is_CoCurricularActivity: Subject.Is_CoCurricularActivity
               })
+
+             
+
+
+
             }
           })
           //show grade column |  Last Three Columns
