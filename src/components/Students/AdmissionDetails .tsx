@@ -22,8 +22,8 @@ import {
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
+  CDAGetMasterData,
   CDAGetSingleStudentDetails,
-  CDAGetStudentRecordData,
   CDAStaffName,
   CDAUserRoles
 } from 'src/requests/Students/RequestStudentUI';
@@ -117,7 +117,7 @@ const AdmissionDetails = ({
   };
 
   useEffect(() => {
-    dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
+    dispatch(CDAGetMasterData(GetStudentRecordDataResult));
     dispatch(CDAUserRoles(GetAllUserRoles));
     dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
     //dispatch(CDAGetStudentAdditionalDetails(GetSingleStudentDetails))
@@ -392,8 +392,9 @@ const AdmissionDetails = ({
                 </span>
               }
               variant="outlined"
-              defaultValue={USGetSingleStudentDetails[0].Enrolment_Number}
+              //defaultValue={USGetSingleStudentDetails[0].Enrolment_Number}
               value={form.registrationNumber}
+              defaultValue={form.registrationNumber}
               onChange={handleInputChange}
               error={errors.registrationNumber}
               helperText={

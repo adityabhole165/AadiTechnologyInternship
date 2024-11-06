@@ -15,11 +15,11 @@ import { User } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetSingleStudentDetailsBody, IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetStudentRecordData } from 'src/requests/Students/RequestStudentUI';
+import { CDAGetMasterData, CDAGetSingleStudentDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 const PersonalDetails = ({ onSave }) => {
@@ -106,21 +106,31 @@ const PersonalDetails = ({ onSave }) => {
     SetSelectDate(value);
   };
 
-  const GetTeachers = useSelector(
-    (state: RootState) => state.StudentRecords.ClassTeachers
-  );
+  // const GetTeachers = useSelector(
+  //   (state: RootState) => state.StudentRecords.ClassTeachers
+  // );
   //Occupation Dropdown
   const OccupationDropdown = useSelector(
     (state: RootState) => state.StudentUI.ISOcupationDropdown
   );
-  console.log('OccupationDropdown', OccupationDropdown);
   const CategoryDropdown = useSelector(
     (state: RootState) => state.StudentUI.ISCategoryDropdown
   );
-  console.log('OccupationDropdown', CategoryDropdown);
+
+  const USGetSingleStudentDetails = useSelector(
+    (state: RootState) => state.StudentUI.ISGetSingleStudentDetails
+  );
+  console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
+
+  const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asStudentId: 3556 // Number(sessionStorage.getItem('Id'))
+  };
 
   useEffect(() => {
-    dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
+    dispatch(CDAGetMasterData(GetStudentRecordDataResult));
+    dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
   }, []);
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {

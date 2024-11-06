@@ -79,7 +79,7 @@ const StudentUISlice = createSlice({
     }
 });
 
-export const CDAGetStudentRecordData =
+export const CDAGetMasterData =
     (data: IMasterDatastudentBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentUIAPI.GetMasterDatastudentApi(data);
