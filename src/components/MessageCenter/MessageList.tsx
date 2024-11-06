@@ -685,7 +685,7 @@ const MessageList = () => {
         </Box> */}
         {/* </Hidden> */}
         <Grid container columnGap={1}>
-          <Grid item sm={2} xs={12} spacing={1}>
+          <Grid item sm={1.7} xs={12} spacing={1}>
             <Hidden smDown>
               <RouterLink
                 style={{ textDecoration: 'none', color: '#223354' }}
@@ -696,7 +696,7 @@ const MessageList = () => {
                   onClick={clickClear}
                   sx={{
                     textAlign: 'center',
-                    height: '85px',
+                    height: '80px',
                     backgroundColor: 'white',
                     mb: '10px',
                     borderRadius: '5px',
@@ -724,7 +724,7 @@ const MessageList = () => {
               )}
             </Box>
           </Grid>
-          <Grid container sm={10} spacing={1}>
+          <Grid container sm={10.3} spacing={1}>
             {((showSearch && isMobile) || !isMobile) && (
               <>
                 <Grid item xs={12} sm={12} md={12}>
