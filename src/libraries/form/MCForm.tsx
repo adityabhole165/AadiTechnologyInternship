@@ -28,8 +28,13 @@ const MCForm = ({
   const clickOperator = (value) => {
     setOperator(value);
   };
+  // const textOnChange = (e) => {
+  //   setSearchText(e.target.value);
+  // };
   const textOnChange = (e) => {
-    setSearchText(e.target.value);
+    if (e.target.value.length <= 50) {
+      setSearchText(e.target.value);
+    }
   };
   const clickAY = (value) => {
     academicYear = value;
@@ -93,6 +98,7 @@ const MCForm = ({
                 // variant="standard"
                 fullWidth
                 onChange={textOnChange}
+                inputProps={{ maxLength: 50 }}
                 size={"medium"}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === 'Tab') {
