@@ -413,12 +413,12 @@ export const CDAStudentProgressReport =
 
                   // Determine marks or grade based on conditions
                   const marksScored = isConsiderForReport && isSingleSubject
-                    ? isGradeFormat ? `${cell.Grade}` : `${parseFloat(cell.Total_Marks_Scored)}`
+                    ? isGradeFormat ? `${cell.TotalGrade}` : `${parseFloat(cell.Total_Marks_Scored)}`
                     : getGradeOrMarks(cell, isGradeFormat, cell.TotalGrade);
 
                   const totalMarks = isConsiderForReport && isSingleSubject
-                    ? isGradeFormat ? `${cell.Grade}` : `${parseFloat(cell.Subject_Total_Marks)}`
-                    : isGradeFormat ? `${cell.Grade}` : cell.Subject_Total_Marks;
+                    ? isGradeFormat ? `${cell.TotalGrade}` : `${parseFloat(cell.Subject_Total_Marks)}`
+                    : isGradeFormat ? `${cell.TotalGrade}` : cell.Subject_Total_Marks;
 
                   return {
                     MarksScored: marksScored,
