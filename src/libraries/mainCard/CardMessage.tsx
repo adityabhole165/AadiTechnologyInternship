@@ -126,9 +126,10 @@ function CardMessage({
                 <AttachmentIcon fontSize="small" />
               </IconButton>
             ) : (
-              <IconButton sx={{ ml: -13 }}>
+              // <IconButton sx={{ ml: -13 }}>
+              <Typography ml={-13}>
                 -
-              </IconButton>
+              </Typography>
             )
           )}
         </Grid>
