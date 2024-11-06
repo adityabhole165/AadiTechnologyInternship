@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Grid,
   Grow,
   useTheme
@@ -22,11 +23,11 @@ List17.propTypes = {
   setAssignedMonth: PropTypes.string,
   SetassignedMonth_num: PropTypes.string,
   setCurrentDate: PropTypes.string,
-
+  BinaryPhotoImage: PropTypes.string
 }
 
 
-function List17({ Name, BirthDate, Designation, EmailAddress, MobileNumber, IsHighlight }) {
+function List17({ Name, BirthDate, Designation, EmailAddress, MobileNumber, BinaryPhotoImage, IsHighlight }) {
   const [checked, setChecked] = useState(true);
   const theme = useTheme();
   const classes = Styles();
@@ -111,27 +112,32 @@ function List17({ Name, BirthDate, Designation, EmailAddress, MobileNumber, IsHi
 
           <Grid container>
 
-            <Grid item xs={3}>
+            <Grid item xs={3} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Avatar
+                alt={Name}
+                src={`data:image/png;base64,${BinaryPhotoImage}`}
+                sx={{ marginRight: 1 }}
+              />
               <CardDetail2 >
                 {Name}
               </CardDetail2>
             </Grid>
-            <Grid item xs={1.5} >
+            <Grid item xs={1.5} sx={{ display: 'flex', alignItems: 'center' }} >
               <CardDetail2>
                 {BirthDate}
               </CardDetail2>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} sx={{ display: 'flex', alignItems: 'center' }}>
               <CardDetail2 >
                 {Designation}
               </CardDetail2>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={4} sx={{ display: 'flex', alignItems: 'center' }}>
               <CardDetail2 >
                 {EmailAddress}
               </CardDetail2>
             </Grid>
-            <Grid item xs={1.5}>
+            <Grid item xs={1.5} sx={{ display: 'flex', alignItems: 'center' }}>
               <CardDetail2 >
                 {MobileNumber}
               </CardDetail2>

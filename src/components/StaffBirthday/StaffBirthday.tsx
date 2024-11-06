@@ -72,6 +72,9 @@ function StaffBirthday() {
     dispatch(getstaffBirthday(body));
   }, [assignedMonth]);
 
+  useEffect(() => {
+    dispatch(getstaffBirthday(body));
+  }, []);
   const classes = Styles();
 
   return (
@@ -108,7 +111,7 @@ function StaffBirthday() {
       ) : (
         <>
           {staffBirthdayList.map((item, i) => (
-            <List17 Name={item.Name} BirthDate={item.BirthDate} Designation={item.Designation} EmailAddress={item.EmailAddress} MobileNumber={item.MobileNumber} IsHighlight={item.IsHighlight} key={i} />
+            <List17 Name={item.Name} BirthDate={item.BirthDate} Designation={item.Designation} EmailAddress={item.EmailAddress} MobileNumber={item.MobileNumber} BinaryPhotoImage={item.BinaryPhotoImage} IsHighlight={item.IsHighlight} key={i} />
           ))}
         </>
       )}
