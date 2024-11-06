@@ -52,6 +52,7 @@ import AddNotePopupList from './AddNotePopupList';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import StreamIcon from '@mui/icons-material/Stream';
 import CheckboxList from './SiblingDetailsCheckBoxList';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 const initialData = [
   { className: '10-B', date: '05-Nov-2024', description: 'qqq' }
   // Add more rows if needed
@@ -348,7 +349,7 @@ const StudentRegistrationForm = () => {
           />
           <Tab
             sx={{ m: 2, maxWidth: 200, borderRadius: '100%' }}
-            icon={<StreamIcon />}
+            icon={<LocalLibraryIcon  />}
             label="Stream Details"
           />
         </Tabs>
