@@ -148,7 +148,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
       "<Name>" + GroupName + "</Name>\r\n  " +
       "<lstUserRoles>\r\n  " +
       "<UserRoles>\r\n  " +
-      "<User_Role_Id>" + UsersRole + "</User_Role_Id>\r\n  " +
+      "<User_Role_Id>" + selectedd + "</User_Role_Id>\r\n  " +
       "</UserRoles>\r\n  " +
       "</lstUserRoles>\r\n  " +
       "<Users>" + selected + "</Users>\r\n  " +
@@ -253,8 +253,11 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          name={item.Id}
-                          onChange={handleCheckboxChanges}
+
+                          checked={selectedd.includes(item.Id)}
+                          onChange={() => handleCheckboxChanges(item.Id)}
+                        // name={item.Id}
+                        // onChange={handleCheckboxChanges}
                         />
                       }
                       label={item.Name}
@@ -263,39 +266,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
                 )
               )}
             </Grid>
-            {/* <Grid container direction="row" alignItems="center" spacing={2}>
-              {USGetUserRole.map((item) => (
-                <Grid item key={item.UserId}>
-                  <FormControlLabel
-                    control={
-                      // <Checkbox
-                      //   name={item.User_Role_Name} // Set a default name if User_Role_Name is undefined
-                      // />
-                      <Checkbox
-                        id={`role-${item.UserId}`}
-                        name={item.User_Role_Name || 'unknown'}
-                      />
-                    }
-                    label={item.User_Role_Name} // Set a default label if User_Role_Name is undefined
-                  />
-                </Grid>
-              ))}
-            </Grid> */}
-            {/* <Grid container direction="row" alignItems="center" spacing={2}>
-              {USGetUserRole.map((item) => (
-                <Grid item key={item.UserId}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        id={`role-${item.UserId}`}
-                        name={item.User_Role_Name || 'unknown'}
-                      />
-                    }
-                    label={item.User_Role_Name || 'Unnamed Role'}
-                  />
-                </Grid>
-              ))}
-            </Grid> */}
+
           </FormControl>
         </Grid>
       </Box>
