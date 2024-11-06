@@ -320,9 +320,9 @@ const MessageList = () => {
     MoveToTrashApi.MoveToTrash(trashbody)
       .then((data) => {
         if (activeTab == 'Inbox' || activeTab == 'Sent') {
-          toast.success('Message has been moved to the trash.');
+          toast.success('Message(s) has been moved to the trash.');
         } else {
-          toast.success('Message deleted successfully');
+          toast.success('Message deleted successfully.');
         }
         dispatch(getListOfMessages(getListBody, activeTab, false));
       })
@@ -373,7 +373,7 @@ const MessageList = () => {
     };
     ApiDeleteMessagePermanently.UnDeleteMessagesapi(UnDeleteMessagesBody)
       .then((data) => {
-        toast.success('Message(s) Undeleted successfully.');
+        toast.success('Message(s) undeleted successfully.');
         dispatch(getListOfMessages(getListBody, activeTab, false));
       })
       .catch((err) => {
@@ -389,7 +389,7 @@ const MessageList = () => {
     showAlert({
       title: 'Please Confirm',
       message:
-        'Are you sure you want to Un-Delete the selected message(s)?',
+        'Are you sure you want to un-delete the selected message(s)?',
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
@@ -618,7 +618,7 @@ const MessageList = () => {
             <>
               <Box>
                 <Tooltip
-                  title={`Inbox - List of messages Received. Select message(s) and click on "Trash" to send the message to trash box. Trash - List of Trash(deleted messages) messages. Select message and click on "Un-Delete" to move the message back to inbox. To permanently delete the message click on "Delete". Sent Items - List of messages which you have sent. Select message(s) and click on "Trash" to send the message to trash box.`}
+                  title={`Inbox - List of message Received. Select message(s) and click on "Delete" to send the message to trash box. Trash - List of Trash(deleted messages) messages. Select message and click on "Un-Delete" to move the message back to inbox. To permanently delete the message click on "Delete". Sent items - List of messages which you have sent.Select message(s) and click on "Delete" to send the message to trash box.`}
                 >
                   <IconButton
                     sx={{
