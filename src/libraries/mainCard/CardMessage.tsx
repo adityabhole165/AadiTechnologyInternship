@@ -120,10 +120,13 @@ function CardMessage({
         </Grid>
         {/* This attachment is used for web view */}
         <Grid item sm={2} md={2} ml={-2}>
-          {IsAttachmentExist && (
-            <IconButton
-              sx={{ ml: -13 }}>
+          {IsAttachmentExist ? (
+            <IconButton sx={{ ml: -13 }}>
               <AttachmentIcon fontSize="small" />
+            </IconButton>
+          ) : (
+            <IconButton sx={{ ml: -13 }}>
+              -
             </IconButton>
           )}
         </Grid>
