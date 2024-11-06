@@ -61,16 +61,7 @@ const PersonalDetails = ({ onSave }) => {
   });
   console.log('form', form.parentOccupation);
 
-  const ValidFileTypes = [
-    'BMP',
-    'DOC',
-    'DOCX',
-    'JPG',
-    'JPEG',
-    'PDF',
-    'XLS',
-    'XLSX'
-  ];
+  const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
   const MaxfileSize = 5000000;
 
   const ChangeFile = (value) => {
@@ -110,18 +101,18 @@ const PersonalDetails = ({ onSave }) => {
   //   (state: RootState) => state.StudentRecords.ClassTeachers
   // );
   //Occupation Dropdown
-  const OccupationDropdown = useSelector(
-    (state: RootState) => state.StudentUI.ISOcupationDropdown
-  );
-  const CategoryDropdown = useSelector(
-    (state: RootState) => state.StudentUI.ISCategoryDropdown
-  );
+  const OccupationDropdown = useSelector((state: RootState) => state.StudentUI.ISOcupationDropdown);
+  const CategoryDropdown = useSelector((state: RootState) => state.StudentUI.ISCategoryDropdown);
 
-  const USGetSingleStudentDetails = useSelector(
-    (state: RootState) => state.StudentUI.ISGetSingleStudentDetails
-  );
+  const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
 
+  const GetStudentRecordDataResult: IMasterDatastudentBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asStandardId: standardId,
+    asDivisionId: DivisionId
+  };
   const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
     asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
@@ -133,12 +124,45 @@ const PersonalDetails = ({ onSave }) => {
     dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
   }, []);
 
-  const GetStudentRecordDataResult: IMasterDatastudentBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asStandardId: standardId,
-    asDivisionId: DivisionId
-  };
+  useEffect(() => {
+    if (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) {
+      const studentData = USGetSingleStudentDetails[0]; // Get first item from array
+      setForm(prevForm => ({
+        ...prevForm,
+        firstName: studentData.First_Name || '',
+        middleName: studentData.Middle_Name || '',
+        lastName: studentData.Last_Name || '',
+        motherName: studentData.Mother_Name || '',
+        motherNumber: studentData.Mobile_Number || '',
+        parentName: studentData.Parent_Name || '',
+        fatherNumber: studentData.Mobile_Number2 || '',
+        email: studentData.Email_Address || '',
+        parentOccupation: studentData.Parent_Occupation || '',
+        address: studentData.Address || '',
+        city: studentData.City || '',
+        state: studentData.State || '',
+        pin: studentData.Pincode || '',
+        placeOfBirth: studentData.Birth_Place || '',
+        birthTaluka: studentData.birthTaluka || '',
+        birthDistrict: studentData.birthDistrict || '',
+        birthState: studentData.birthState || '',
+        neighbourPhoneNumber: studentData.neighbourPhoneNumber || '',
+        religion: studentData.Religion || '',
+        casteAndSubCaste: studentData.CasteAndSubCaste || '',
+        category: studentData.Category_Id || '',
+        dateOfBirth: studentData.DOB || '',
+        nationality: studentData.Nationality || '',
+        motherTongue: studentData.Mother_Tongue || '',
+        gender: studentData.Sex || '',
+        bloodGroup: studentData.Blood_Group || '',
+        aadharCardNumber: studentData.AadharCardNo || '',
+        nameOnAadharCard: studentData.NameOnAadharCard || '',
+        aadharCardScanCopy: studentData.AadharCard_Photo_Copy_Path || '',
+        photo: studentData.Photo_file_Path_Image || null
+
+      }));
+    }
+  }, [USGetSingleStudentDetails]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked, files } = e.target;
@@ -669,7 +693,7 @@ const PersonalDetails = ({ onSave }) => {
                 name="Religion"
                 label="Religion"
                 variant="outlined"
-                value={form.nationality}
+                value={form.religion}
                 onChange={handleInputChange}
                 fullWidth
               />
@@ -705,7 +729,7 @@ const PersonalDetails = ({ onSave }) => {
                 name="MotherTongue"
                 label="MotherTongue"
                 variant="outlined"
-                value={form.nationality}
+                value={form.motherTongue}
                 onChange={handleInputChange}
                 fullWidth
               />
@@ -745,7 +769,7 @@ const PersonalDetails = ({ onSave }) => {
                 name="AadharCardNumber"
                 label="Aadhar Card Number"
                 variant="outlined"
-                value={form.nationality}
+                value={form.aadharCardNumber}
                 onChange={handleInputChange}
                 fullWidth
               />
@@ -755,7 +779,7 @@ const PersonalDetails = ({ onSave }) => {
                 name="NameonAdharCard"
                 label="Name on Adhar Card"
                 variant="outlined"
-                value={form.nationality}
+                value={form.nameOnAadharCard}
                 onChange={handleInputChange}
                 fullWidth
               />
