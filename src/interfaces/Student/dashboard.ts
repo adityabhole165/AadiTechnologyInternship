@@ -277,6 +277,7 @@ export interface IGetstaffBirthdayListResult {
     BirthDate;
     MobileNumber: string;
     EmailAddress: string;
+    BinaryPhotoImage: string;
   }]
 
 }
