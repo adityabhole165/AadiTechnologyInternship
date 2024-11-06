@@ -3,6 +3,7 @@ import {
   IApprovalProcessResult,
   IBirthdays,
   IFeedbackList,
+  IGetstaffBirthdayListResult,
   IMsgfrom,
   INewMessageCount,
   IPhotoAlbumBody,
@@ -11,6 +12,7 @@ import {
   IProfileResult,
   ISaveUserLoginDetailsBody,
   ISaveUserLoginDetailsResult,
+  IstaffBirthday,
   IUnreadMessages,
   IUnreadMessagesResult,
   IUpcomingEventsList,
@@ -67,6 +69,10 @@ const ApiGetApprovalProcess = (data: IApprovalProcessBody) => {
 const ApiProfileDetails = (data: IProfileBody) => {
   return http.post<IProfileResult>('Teacher/GetTeacherDetails', data);
 };
+
+const ApiGetstaffBirthdayList = (data: IstaffBirthday) => {
+  return http.post<IGetstaffBirthdayListResult>('Teacher/GetStaffBirthdaysList', data);
+};
 const DashboardApi = {
   GetUnreadMessageList,
   GetUpcomingEventSList,
@@ -78,7 +84,8 @@ const DashboardApi = {
   GetSaveUserLoginDetailsResult,
   ApiGetWeeklyAttendance,
   ApiGetApprovalProcess,
-  ApiProfileDetails
+  ApiProfileDetails,
+  ApiGetstaffBirthdayList
 };
 
 export default DashboardApi;

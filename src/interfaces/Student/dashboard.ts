@@ -263,6 +263,24 @@ export interface IApprovalProcessResult {
   ],
 }
 
+export interface IstaffBirthday {
+  asMonth: number,
+  asAcademicyearId: string,
+  asSchoolId: string,
+  year: number
+}
+
+export interface IGetstaffBirthdayListResult {
+  GetStaffBirthdaysList: [{
+    Name: string;
+    Designation: string;
+    BirthDate;
+    MobileNumber: string;
+    EmailAddress: string;
+    BinaryPhotoImage: string;
+  }]
+
+}
 export interface IProfileBody {
   asSchoolId: number;
   asAcademicYearId: number;

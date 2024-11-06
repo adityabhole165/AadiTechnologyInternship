@@ -1,7 +1,7 @@
 export interface IGetSingleStudentDetailsBody {
-    asSchoolId: Number,
-    asAcademicYearId: Number,
-    asStudentId: Number
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asStudentId: number
 }
 export interface IGetSingleStudentDetailsResult {
     SchoolWise_Student_Id: string,
@@ -203,4 +203,79 @@ export interface IStandrdwiseStudentsDocumentResult {
     DocumentCount: string
     IsSubmissionMandatory: string
 }
+//Student Additional
+export interface IGetStudentAdditionalDetailsBody {
+    asSchoolId: number
+    asStudentId: number
+}
+
+export interface IGetStudentAdditionalDetailsResult {
+    SchoolwiseStudentId: string
+    Status: string
+    AddmissionAcademicYear: string
+    AddmissionStandard: string
+    IsHandicapped: boolean
+    CurrentAcademicYear: string
+    CurrentStandard: string
+    PreviousMarksObtained: string
+    PreviousMarksOutOff: string
+    PreviousYearOfPassing: string
+    SubjectNames: string
+    Religion: string
+    BirthTaluka: string
+    BirthDistrict: string
+    HouseNoPlotNo: string
+    MainArea: string
+    SubareaName: string
+    Landmark: string
+    Taluka: string
+    District: string
+    FeeAreaName: string
+    FatherOccupation: string
+    FatherQualification: string
+    FatherEmail: string
+    FatherOfficeName: string
+    FatherOfficeAddress: string
+    MotherOccupation: string
+    MotherQualification: string
+    MotherEmail: string
+    MotherOfficeName: string
+    MotherOfficeAddress: string
+    FatherDOB: string
+    MotherDOB: string
+    FatherDesignation: string
+    MotherDesignation: string
+    FatherPhoto: string
+    MotherPhoto: string
+    AnniversaryDate: string
+    GuardianPhoto: string
+    IsFatherBinaryPhotoPresent: string
+    IsMotherBinaryPhotoPresent: string
+    IsParentBinaryPhotoPresent: string
+    RelativeName: string
+    FatherWeight: string
+    MotherWeight: string
+    FatherHeight: string
+    MotherHeight: string
+    FatherAadharcardNo: string
+    MotherAadharcardNo: string
+    FatherBloodGroup: string
+    MotherBloodGroup: string
+    FamilyMonthlyIncome: string
+    CWSN: string
+    FatherAnnualIncome: string
+    MotherAnnualIncome: string
+    BirthState: string
+    Name1: string
+    Age1: string
+    Institution1: string
+    StandardName1: string
+    Name2: string
+    Age2: string
+    Institution2: string
+    StandardName2: string
+    ResidenceType: string
+    RFID: string
+}
+
 

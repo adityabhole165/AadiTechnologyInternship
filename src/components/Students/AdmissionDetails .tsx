@@ -15,13 +15,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import {
   IGetAllUserRolesBody,
+  IGetSingleStudentDetailsBody,
   IMasterDatastudentBody,
   IStaffNameBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
-  CDAGetStudentRecordData,
+  CDAGetMasterData,
+  CDAGetSingleStudentDetails,
   CDAStaffName,
   CDAUserRoles
 } from 'src/requests/Students/RequestStudentUI';
@@ -81,7 +83,15 @@ const AdmissionDetails = ({
   const StaffNameDropdown = useSelector(
     (state: RootState) => state.StudentUI.ISStaffName
   );
-  //console.log('StaffNameDropdown', StaffNameDropdown);
+  //
+  const USGetSingleStudentDetails = useSelector(
+    (state: RootState) => state.StudentUI.ISGetSingleStudentDetails
+  );
+  console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
+
+  // const GetStudentAdditionalDetails = useSelector(
+  //   (state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails
+  // );
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -100,12 +110,25 @@ const AdmissionDetails = ({
   //   asUserRoleId: form.staffUserRole === 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null
   // };
 
+  const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asStudentId: 3556 // Number(sessionStorage.getItem('Id'))
+  };
 
   useEffect(() => {
-    dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
+    dispatch(CDAGetMasterData(GetStudentRecordDataResult));
     dispatch(CDAUserRoles(GetAllUserRoles));
-    //dispatch(CDAStaffName(GetStaffName));
+    dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
+    //dispatch(CDAGetStudentAdditionalDetails(GetSingleStudentDetails))
+
   }, []);
+
+  useEffect(() => {
+    if (USGetSingleStudentDetails.length > 0) {
+      setForm(USGetSingleStudentDetails[0]);
+    }
+  }, [USGetSingleStudentDetails]);
 
 
   useEffect(() => {
@@ -369,7 +392,9 @@ const AdmissionDetails = ({
                 </span>
               }
               variant="outlined"
+              //defaultValue={USGetSingleStudentDetails[0].Enrolment_Number}
               value={form.registrationNumber}
+              defaultValue={form.registrationNumber}
               onChange={handleInputChange}
               error={errors.registrationNumber}
               helperText={

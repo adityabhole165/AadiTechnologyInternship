@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IGetAllUserRolesBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllUserRolesBody, IGetSingleStudentDetailsBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -18,6 +18,9 @@ const StudentUISlice = createSlice({
         ISStaffName: [],
         //
         ISGetStudentDocuments: [],
+        //
+        ISGetSingleStudentDetails: [],
+        ISGetStudentAdditionalDetails: [],
         Loading: true
     },
     reducers: {
@@ -61,13 +64,22 @@ const StudentUISlice = createSlice({
             state.ISGetStudentDocuments = action.payload;
             state.Loading = false;
         },
+        //
+        RGetSingleStudentDetails(state, action) {
+            state.ISGetSingleStudentDetails = action.payload;
+            state.Loading = false;
+        },
+        RGetStudentAdditionalDetails(state, action) {
+            state.ISGetStudentAdditionalDetails = action.payload;
+            state.Loading = false;
+        },
         getLoading(state, action) {
             state.Loading = true;
         },
     }
 });
 
-export const CDAGetStudentRecordData =
+export const CDAGetMasterData =
     (data: IMasterDatastudentBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentUIAPI.GetMasterDatastudentApi(data);
@@ -187,5 +199,21 @@ export const CDAGetStudentDocuments =
             })
             dispatch(StudentUISlice.actions.RGetStudentDocuments(responseData));
             //console.log(responseData, "responseData");
+        };
+
+export const CDAGetSingleStudentDetails =
+    (data: IGetSingleStudentDetailsBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.GetSingleStudentDetailsApi(data);
+            dispatch(StudentUISlice.actions.RGetSingleStudentDetails(response.data));
+        };
+
+export const CDAGetStudentAdditionalDetails =
+    (data: IGetSingleStudentDetailsBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.GetStudentAdditionalDetailsapi(data);
+            dispatch(StudentUISlice.actions.RGetStudentAdditionalDetails(response.data));
         };
 export default StudentUISlice.reducer;
