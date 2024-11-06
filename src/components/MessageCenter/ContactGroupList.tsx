@@ -21,6 +21,7 @@ import {
 import { green } from '@mui/material/colors';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { IAddUpdateGroupBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -44,6 +45,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
   const [page, setPage] = useState<number>(1);
   const rowsPerPageOptions = [5, 10, 20, 30, 40];
 
+
+  const [selectedd, setSelectedd] = useState([]);
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [sortOrder, setSortOrder] = useState('asc');
@@ -63,6 +66,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
   const USGetStandardClass: any = useSelector((state: RootState) => state.ContactGroup.IGetStandardClass);
   const USGetUserName: any = useSelector((state: RootState) => state.ContactGroup.IGetUserName);
+  const USAddUpdateGroup: any = useSelector((state: RootState) => state.ContactGroup.IAddUpdateGroup);
   const [sortsOrder, setSortOrders] = useState();
   const singleTotalCount: number = useMemo(() => {
     if (!Array.isArray(USGetUserName)) {
@@ -163,7 +167,15 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
     }
     dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
     dispatch(ContactGroup())
+    // toast.success("Group Added Successfully");
   };
+  useEffect(() => {
+    if (USAddUpdateGroup !== '') {
+      toast.success(USAddUpdateGroup);
+
+    }
+  }, [USAddUpdateGroup])
+
 
   const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -192,6 +204,15 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
     setSelectAll(false);
     // console.log(selected, "***********");
   };
+  const handleCheckboxChanges = (userId) => {
+    setSelectedd((prevSelected) =>
+      prevSelected.includes(userId)
+        ? prevSelected.filter((id) => id !== userId)
+        : [...prevSelected, userId]
+    );
+    //setSelectAll(false);
+    // console.log(selected, "***********");
+  };
 
   const handleSort = () => {
     setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
@@ -201,6 +222,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
+
+
+  console.log(selectedd, '77777777777')
   return (
     <>
       <Box>
@@ -223,22 +247,55 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
           </Typography>
           <FormControl component="fieldset">
             <Grid container direction="row" alignItems="center" spacing={2}>
-              {['Admin', 'Teacher', 'Student', 'Admin Staff', 'Ex. Admin'].map(
-                (option) => (
-                  <Grid item key={option}>
+              {USGetUserRole.map(
+                (item) => (
+                  <Grid item key={item.Id}>
                     <FormControlLabel
                       control={
                         <Checkbox
-                          name={option}
-                        // onChange={handleCheckboxChange}
+                          name={item.Id}
+                          onChange={handleCheckboxChanges}
                         />
                       }
-                      label={option}
+                      label={item.Name}
                     />
                   </Grid>
                 )
               )}
             </Grid>
+            {/* <Grid container direction="row" alignItems="center" spacing={2}>
+              {USGetUserRole.map((item) => (
+                <Grid item key={item.UserId}>
+                  <FormControlLabel
+                    control={
+                      // <Checkbox
+                      //   name={item.User_Role_Name} // Set a default name if User_Role_Name is undefined
+                      // />
+                      <Checkbox
+                        id={`role-${item.UserId}`}
+                        name={item.User_Role_Name || 'unknown'}
+                      />
+                    }
+                    label={item.User_Role_Name} // Set a default label if User_Role_Name is undefined
+                  />
+                </Grid>
+              ))}
+            </Grid> */}
+            {/* <Grid container direction="row" alignItems="center" spacing={2}>
+              {USGetUserRole.map((item) => (
+                <Grid item key={item.UserId}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        id={`role-${item.UserId}`}
+                        name={item.User_Role_Name || 'unknown'}
+                      />
+                    }
+                    label={item.User_Role_Name || 'Unnamed Role'}
+                  />
+                </Grid>
+              ))}
+            </Grid> */}
           </FormControl>
         </Grid>
       </Box>

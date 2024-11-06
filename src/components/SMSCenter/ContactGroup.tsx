@@ -12,9 +12,8 @@ import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 function ContactGroup() {
     const dispatch = useDispatch();
-
     const USGetMailingGroups: any = useSelector((state: RootState) => state.ContactGroup.IGetMailingGroups);
-    console.log(USGetMailingGroups, '@@@@@@@')
+
     const ContactGroupDetails: IGetMailingGroupsBody = {
         asSchoolId: 18,
         asAcademicYearId: 55,
