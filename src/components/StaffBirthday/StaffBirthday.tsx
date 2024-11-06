@@ -1,10 +1,9 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
 import { IstaffBirthday } from 'src/interfaces/Student/dashboard';
 import MonthSelector from 'src/libraries/buttons/MonthSelector';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import List17 from 'src/libraries/list/list17';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
@@ -106,10 +105,36 @@ function StaffBirthday() {
         Close={undefined}
       />
 
+
       {staffBirthdayList.length === 0 ? (
-        <ErrorMessages Error={'No birthdays are available'} />
+        <Box sx={{ backgroundColor: '#D2FDFC' }}>
+          <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+            No birthdays are available.
+          </Typography>
+        </Box>
       ) : (
         <>
+          {/* Render the header only if there are birthdays */}
+          <Box sx={{ background: (theme) => theme.palette.secondary.main, p: 1.5, borderRadius: '7px', mb: 1 }}>
+            <Grid container>
+              <Grid item xs={3}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold', ml: 10 }} variant="subtitle2">Name</Typography>
+              </Grid>
+              <Grid item xs={1.5}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Birth Date</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Designation</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Email Address</Typography>
+              </Grid>
+              <Grid item xs={1.5}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Mobile Number</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+
           {staffBirthdayList.map((item, i) => (
             <List17 Name={item.Name} BirthDate={item.BirthDate} Designation={item.Designation} EmailAddress={item.EmailAddress} MobileNumber={item.MobileNumber} BinaryPhotoImage={item.BinaryPhotoImage} IsHighlight={item.IsHighlight} key={i} />
           ))}
