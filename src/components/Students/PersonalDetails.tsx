@@ -146,7 +146,7 @@ const PersonalDetails = ({ onSave }) => {
         birthTaluka: studentData.birthTaluka || '',
         birthDistrict: studentData.birthDistrict || '',
         birthState: studentData.birthState || '',
-        neighbourPhoneNumber: studentData.neighbourPhoneNumber || '',
+        neighbourPhoneNumber: studentData.Neighbour_Number || '',
         religion: studentData.Religion || '',
         casteAndSubCaste: studentData.CasteAndSubCaste || '',
         category: studentData.Category_Id || '',
