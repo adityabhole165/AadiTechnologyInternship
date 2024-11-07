@@ -1,6 +1,6 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -228,7 +228,7 @@ const GenerateAll = ({ }) => {
                                             <TableHead>
                                                 <TableRow sx={{ bgcolor: '#F0F0F0' }}>
                                                     <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                        <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
+                                                        <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={6} >
                                                             Subjects &#9654;
                                                         </Typography>
                                                         <Typography variant={"h3"} textAlign={'left'} color={"black"}>
@@ -238,7 +238,7 @@ const GenerateAll = ({ }) => {
                                                     {HeaderArray.map((item) => (
                                                         // <TableCell><b>{item.Name}</b></TableCell>
                                                         <TableCell colSpan={item.colSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                            <Typography color="black" textAlign={'left'} mr={5}  >
+                                                            <Typography color="black" textAlign={'left'} mr={0}  >
                                                                 <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
                                                             </Typography></TableCell>
                                                     ))}
@@ -246,10 +246,10 @@ const GenerateAll = ({ }) => {
                                                 <TableRow>
                                                     {/* {ShortenTestDetails.map((item) => ( */}
                                                     {SubHeaderArray.map((item) => (
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                            <Typography color="#38548A" textAlign={'center'} mr={9}  >
+                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                            <Typography color="#38548A" textAlign={'left'} mr={2}  >
                                                                 <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
-                                                            </Typography>
+                                                            </Typography>   
                                                         </TableCell>
                                                     ))}
                                                 </TableRow>
@@ -346,27 +346,29 @@ const GenerateAll = ({ }) => {
 
                                     </TableBody>
                                 </Table>
-                                <Box sx={{ overflowX: 'auto', border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
+                                <Box sx={{ overflowX: 'auto', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                     <Table sx={{}}>
                                         <TableBody >
-                                            <TableRow sx={{ bgcolor: '#F0F0F0', border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
-                                                <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={2} ml={2}>
+                                            <TableRow sx={{bgcolor: '#F0F0F0'}}>
+                                                <TableCell sx={{  border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                <Typography variant={"h4"} textAlign={'center'} color={"black"}  ml={2}>
                                                     Subjects
                                                 </Typography>
+                                                </TableCell>
                                                 {SubjectDetailsView.map((subject, i) => (
 
-                                                    <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[300]}` }}><b>{subject.Name}  </b>
+                                                    <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}><b>{subject.Name}  </b>
                                                         {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
                                                     </TableCell>
                                                 ))}
                                                 {IsTotalConsiderForProgressReport === "True" && !showOnlyGrades && (
                                                     <>
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
+                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
+                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
                                                     </>
                                                 )}
                                                 {IsTotalConsiderForProgressReport === "True" && (
-                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
+                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
                                                 )}
                                             </TableRow>
 
