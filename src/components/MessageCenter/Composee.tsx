@@ -1285,7 +1285,7 @@ function Form13() {
         <DialogTitle sx={{ bgcolor: '#223354' }}>
           <Tooltip
             title={
-              'Select name of the teacher / student / admin staff / other staff and click on "Confirm".'
+              'Select name of the teacher / student / admin staff / other staff and click on " Confirm " button.'
             }
             placement="bottom-end"
           >
