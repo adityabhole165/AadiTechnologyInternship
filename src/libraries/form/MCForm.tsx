@@ -44,7 +44,7 @@ const MCForm = ({
   return (
     <>
       {activeTab != 'Draft' && (
-        <Box sx={{ p: 2, backgroundColor: 'white', mb: 2 }}>
+        <Box sx={{ p: 2, backgroundColor: 'white', mb: 1 }}>
           {/* <ListStyle> */}
           {/* <Box display={{ xs: 'block', sm: 'none' }}>
         <Avatar

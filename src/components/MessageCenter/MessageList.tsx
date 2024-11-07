@@ -891,7 +891,7 @@ const MessageList = () => {
                       // </Grid>
                     ) : (<Grid container>
                       <Grid xs={12} sm={12} md={12} sx={{ textAlign: 'right' }}>
-                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, padding: 1, borderRadius: 2 }} >{inboxListData.length} Out of {TotalCountLabel}</Typography>
+                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', padding: 1, borderRadius: 2, backgroundColor: 'White' }} >{inboxListData.length} Out of {TotalCountLabel}</Typography>
                       </Grid>
                       <Grid xs={12} sm={12} md={12}>
                         <SelectList3Col
