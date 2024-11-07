@@ -295,6 +295,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       visible: true
     },
     {
+      id: 'Calendar',
+      title: 'Staff Birthday',
+      icon: <DateRangeOutlinedIcon />,
+      link: '/extended-sidebar/Common/StaffBirthday',
+      screenId: 0,
+      visible: true
+    },
+    {
       id: 'Other Utilities',
       title: 'Library',
       icon: <AutoStoriesIcon />,
@@ -571,7 +579,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <AssignmentTwoToneIcon />,
       link: GetScreenPermission() === 'N' ? '/extended-sidebar/Common/SchoolnoticeOwn' : '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
       screenId: 187
-    }
+    },
+    {
+      id: 'Calendar',
+      title: 'Staff Birthday',
+      icon: <CakeIcon />,
+      link: '/extended-sidebar/Common/StaffBirthday',
+      screenId: 0
+    },
   ];
   // #endregion
 
