@@ -620,8 +620,8 @@ const MessageList = () => {
 
   useEffect(() => {
     if (DeleteDraftM !== '') {
-      // toast.success(DeleteDraftM, { toastId: 'success1' });
-      toast.success("Message deleted successfully.", { toastId: 'success1' })
+      toast.success(DeleteDraftM, { toastId: 'success1' });
+      // toast.success("Message deleted successfully.", { toastId: 'success1' })
       dispatch(resetDeleteDraftMessage());
       dispatch(getListOfMessages(getListBody, activeTab, false));
     }
