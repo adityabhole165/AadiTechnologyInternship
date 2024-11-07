@@ -1,4 +1,6 @@
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { Box, Grid, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
@@ -81,7 +83,22 @@ function StaffBirthday() {
       <CommonPageHeader
         navLinks={[{ title: 'Staff Birthdays', path: ' ' },
         ]}
-
+        rightActions={
+          <Box>
+            <Tooltip title={`List of the school staff birthdays.`}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: grey[600] },
+                }}
+              >
+                <QuestionMarkIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        }
       />
       {assignedMonth_num == Current_Month &&
         <DotLegend1>
@@ -121,7 +138,7 @@ function StaffBirthday() {
                 <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold', ml: 10 }} variant="subtitle2">Name</Typography>
               </Grid>
               <Grid item xs={1.5}>
-                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Birth Date</Typography>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">DOB</Typography>
               </Grid>
               <Grid item xs={2}>
                 <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Designation</Typography>
