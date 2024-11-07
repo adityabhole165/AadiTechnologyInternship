@@ -277,5 +277,52 @@ export interface IGetStudentAdditionalDetailsResult {
     ResidenceType: string
     RFID: string
 }
+// Streamwise Subject Interface
+//1
+export interface IGetAllStreamsBody {
+    asSchoolId: number
+}
+
+export interface IGetAllStreamsResult {
+    Id: string
+    Name: string
+}
+//2
+export interface IGetAllGroupsOfStreamBody {
+    asSchoolId: number
+    asStreamId: number
+}
+
+export interface IGetAllGroupsOfStreamResult {
+    Id: string
+    GroupName: string
+}
+//3
+export interface IGetStreamwiseSubjectDetailsBody {
+    asSchoolId: number
+    asStreamGroupId: number
+    asAcademicYearId: number
+}
+
+export interface IGetStreamwiseSubjectDetailsResult {
+    StudentCompulsarySubjects: {
+        SubjectDetails: string
+    }[]
+    FillOptionalSubjects: {
+        SubjectId: string
+        SubjectName: string
+    }[]
+    FillCompitativeExams: {
+        Id: string
+        ExamName: string
+    }[]
+    FillOptionalSubjectArts: {
+        SubjectId: string
+        Subject_Name: string
+    }[]
+}
+
+
+
 
 

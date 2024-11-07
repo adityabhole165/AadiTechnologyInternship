@@ -229,7 +229,7 @@ export const CDAStudentProgressReport =
 
         if (cell.Is_Absent === "N") {
           console.log('this is cell', cell);
-          if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
+          if (response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true') {
             returnVal = cell.Grade
           } else {
             returnVal = parseFloat(cell.Marks_Scored)
@@ -368,13 +368,13 @@ export const CDAStudentProgressReport =
                   // } else {
                   columns.push({
                     MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                    TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
+                    TotalMarks: cell ? cell.Is_Absent == "N" ? response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
                     IsAbsent: cell ? cell.Is_Absent : "N"
                   })
                 } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
                   columns.push({
                     MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                    TotalMarks: cell ? cell.Is_Absent == "N" ? cell.Grade_Or_Marks.trim().toLowerCase() === 'g' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
+                    TotalMarks: cell ? cell.Is_Absent == "N" ? response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
                     IsAbsent: cell ? cell.Is_Absent : "N"
                   })
                 }
@@ -409,16 +409,16 @@ export const CDAStudentProgressReport =
 
                   const isConsiderForReport = data.IsTotalConsiderForProgressReport === "True";
                   const isSingleSubject = subIdDetailsLength(Subject.Subject_Id) === 1;
-                  const isGradeFormat = cell.Grade_Or_Marks.trim().toLowerCase() === 'g';
+                  const isGradeFormat = response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true'
 
                   // Determine marks or grade based on conditions
                   const marksScored = isConsiderForReport && isSingleSubject
-                    ? isGradeFormat ? `${cell.Grade}` : `${parseFloat(cell.Total_Marks_Scored)}`
+                    ? isGradeFormat ? `${cell.TotalGrade}` : `${parseFloat(cell.Total_Marks_Scored)}`
                     : getGradeOrMarks(cell, isGradeFormat, cell.TotalGrade);
 
                   const totalMarks = isConsiderForReport && isSingleSubject
-                    ? isGradeFormat ? `${cell.Grade}` : `${parseFloat(cell.Subject_Total_Marks)}`
-                    : isGradeFormat ? `${cell.Grade}` : cell.Subject_Total_Marks;
+                    ? isGradeFormat ? `${cell.TotalGrade}` : `${parseFloat(cell.Subject_Total_Marks)}`
+                    : isGradeFormat ? `${cell.TotalGrade}` : cell.Subject_Total_Marks;
 
                   return {
                     MarksScored: marksScored,

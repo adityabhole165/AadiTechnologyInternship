@@ -1,4 +1,4 @@
-import { IGetAllUserRolesBody, IGetAllUserRolesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult } from 'src/interfaces/Students/IStudentUI';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
@@ -23,11 +23,22 @@ const StandrdwiseStudentsDocumentApi = (data: IStandrdwiseStudentsDocumentBody) 
 };
 //5
 const GetStudentAdditionalDetailsapi = (data: IGetStudentAdditionalDetailsBody) => {
-    return http.post<IGetStudentAdditionalDetailsResult>(
-        'Teacher/GetStudentAdditionalDetails',
-        data
-    );
+    return http.post<IGetStudentAdditionalDetailsResult>('Teacher/GetStudentAdditionalDetails', data);
 };
+//Streamwise Subject API's
+//1
+const GetAllStreamsApi = (data: IGetAllStreamsBody) => {
+    return http.post<IGetAllStreamsResult[]>('Teacher/GetAllStreams', data);
+};
+//2
+const GetAllGroupsOfStreamApi = (data: IGetAllGroupsOfStreamBody) => {
+    return http.post<IGetAllGroupsOfStreamResult[]>('Teacher/GetAllGroupsOfStream', data);
+};
+//3
+const GetStreamwiseSubjectDetailsApi = (data: IGetStreamwiseSubjectDetailsBody) => {
+    return http.post<IGetStreamwiseSubjectDetailsResult>('Teacher/GetStreamwiseSubjectDetails', data);
+};
+
 
 const GetStudentUIAPI = {
     GetSingleStudentDetailsApi,
@@ -35,6 +46,7 @@ const GetStudentUIAPI = {
     GetMasterDatastudentApi,
     StaffNameApi,
     GetAllUserRolesApi,
-    StandrdwiseStudentsDocumentApi
+    StandrdwiseStudentsDocumentApi,
+    GetAllStreamsApi, GetAllGroupsOfStreamApi, GetStreamwiseSubjectDetailsApi
 };
 export default GetStudentUIAPI;

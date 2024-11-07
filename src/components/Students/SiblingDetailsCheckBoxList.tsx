@@ -60,9 +60,9 @@ const CheckboxList = () => {
                     />
                     </Box>
             <FormGroup>             
-                <Grid container spacing={1}  sx={{my:0, ml:0, border: (theme) => `1px solid ${theme.palette.grey[300]}`}}>
+                <Grid container spacing={0}  sx={{my:0, ml:0, border: (theme) => `1px solid ${theme.palette.grey[300]}`}}>
                             {items.map((item, index) => (
-                                <Grid item xs={6} key={item.id}>
+                                <Grid item xs={6} key={item.id} sx={{pl:1}}>
                                     <FormControlLabel
                                         control={
                                             <Checkbox

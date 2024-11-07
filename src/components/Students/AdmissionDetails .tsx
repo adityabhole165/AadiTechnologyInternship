@@ -22,8 +22,8 @@ import {
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
+  CDAGetMasterData,
   CDAGetSingleStudentDetails,
-  CDAGetStudentRecordData,
   CDAStaffName,
   CDAUserRoles
 } from 'src/requests/Students/RequestStudentUI';
@@ -117,7 +117,7 @@ const AdmissionDetails = ({
   };
 
   useEffect(() => {
-    dispatch(CDAGetStudentRecordData(GetStudentRecordDataResult));
+    dispatch(CDAGetMasterData(GetStudentRecordDataResult));
     dispatch(CDAUserRoles(GetAllUserRoles));
     dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
     //dispatch(CDAGetStudentAdditionalDetails(GetSingleStudentDetails))
@@ -125,8 +125,32 @@ const AdmissionDetails = ({
   }, []);
 
   useEffect(() => {
-    if (USGetSingleStudentDetails.length > 0) {
-      setForm(USGetSingleStudentDetails[0]);
+    if (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) {
+      const studentData = USGetSingleStudentDetails[0]; // Get first item from array
+      setForm(prevForm => ({
+        ...prevForm,
+        newAdmission: studentData.Is_New_Student === 'False' ? false : true,
+        isRTEApplicable: studentData.Is_RTE_Student === 'False' ? false : true,
+        userName: studentData.User_Id || '',
+        formNumber: studentData.Enrolment_Number || '',
+        registrationNumber: studentData.Enrolment_Number || '',
+        admissionDate: studentData.Admission_date || '',
+        joiningDate: studentData.Joining_Date || '',
+        studentRollNumber: studentData.Roll_No || '',
+        sendSMS: false,
+        rteCategory: studentData.RTECategoryId || '',
+        rteApplicationForm: studentData.RTEApplicationFormNo || '',
+        BoardRegistrationNumber: studentData.BoardRegistrationNo || '',
+        SaralNo: studentData.SaralNo || '',
+        PENNumber: studentData.PENNumber || '',
+        secondlanguage: studentData.SecondLanguageSubjectId || '',
+        thirdlanguage: studentData.ThirdLanguageSubjectId || '',
+        applicableRules: studentData.Rule_Id || '',
+        staffUserRole: studentData.Roll_No || '',
+        staffName: studentData.User_Id || '',
+        residenceTypes: studentData.ResidenceTypeId || ''
+
+      }));
     }
   }, [USGetSingleStudentDetails]);
 
@@ -392,8 +416,9 @@ const AdmissionDetails = ({
                 </span>
               }
               variant="outlined"
-              defaultValue={USGetSingleStudentDetails[0].Enrolment_Number}
+              //defaultValue={USGetSingleStudentDetails[0].Enrolment_Number}
               value={form.registrationNumber}
+              defaultValue={form.registrationNumber}
               onChange={handleInputChange}
               error={errors.registrationNumber}
               helperText={

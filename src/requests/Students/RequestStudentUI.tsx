@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IGetAllUserRolesBody, IGetSingleStudentDetailsBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -21,6 +21,10 @@ const StudentUISlice = createSlice({
         //
         ISGetSingleStudentDetails: [],
         ISGetStudentAdditionalDetails: [],
+        //streamwise Subject
+        ISGetAllStreams: [],
+        ISGetAllGroupsOfStream: [],
+        ISGetStreamwiseSubjectDetails: [],
         Loading: true
     },
     reducers: {
@@ -73,13 +77,62 @@ const StudentUISlice = createSlice({
             state.ISGetStudentAdditionalDetails = action.payload;
             state.Loading = false;
         },
+        //
+        RGetAllStreams(state, action) {
+            state.ISGetAllStreams = action.payload;
+            state.Loading = false;
+        },
+        RGetAllGroupsOfStream(state, action) {
+            state.ISGetAllGroupsOfStream = action.payload;
+            state.Loading = false;
+        },
+        RGetStreamwiseSubjectDetails(state, action) {
+            state.ISGetStreamwiseSubjectDetails = action.payload;
+            state.Loading = false;
+        },
         getLoading(state, action) {
             state.Loading = true;
         },
     }
 });
 
-export const CDAGetStudentRecordData =
+export const CDAGetAllStreams =
+    (data: IGetAllStreamsBody): AppThunk => async (dispatch) => {
+        const response = await GetStudentUIAPI.GetAllStreamsApi(data);
+
+        const responseData = response.data.map((item, i) => {
+            return ({
+                Id: item.Id,
+                Name: item.Name,
+                Value: item.Id,
+            })
+        })
+
+        dispatch(StudentUISlice.actions.RGetAllStreams(responseData));
+    };
+
+export const CDAGetAllGroupsOfStream =
+    (data: IGetAllGroupsOfStreamBody): AppThunk => async (dispatch) => {
+        const response = await GetStudentUIAPI.GetAllGroupsOfStreamApi(data);
+
+        const responseData = response.data.map((item, i) => {
+            return ({
+                Id: item.Id,
+                Name: item.GroupName,
+                Value: item.Id,
+            })
+        })
+
+        dispatch(StudentUISlice.actions.RGetAllGroupsOfStream(responseData));
+    };
+
+export const CDAStreamwiseSubjectDetails =
+    (data: IGetStreamwiseSubjectDetailsBody): AppThunk => async (dispatch) => {
+        const response = await GetStudentUIAPI.GetStreamwiseSubjectDetailsApi(data);
+
+        dispatch(StudentUISlice.actions.RGetStreamwiseSubjectDetails(response.data));
+    };
+export const CDAGetMasterData =
     (data: IMasterDatastudentBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentUIAPI.GetMasterDatastudentApi(data);

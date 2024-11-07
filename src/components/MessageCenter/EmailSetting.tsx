@@ -221,7 +221,7 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
                 color: 'red',
                 ':hover': { backgroundColor: red[100] }
               }} onClick={handleClose}>
-                Close
+                Cancel
               </Button>
               <Button sx={{
                 // backgroundColor: green[100],
