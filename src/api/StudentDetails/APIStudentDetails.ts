@@ -1,4 +1,19 @@
-import { IGenerateTransportFeeEntriesBody, IGetBinaryImagesBody, IGetBinaryImagesResult, IGetStandardwiseMinMaxDOBBody, IGetStandardwiseMinMaxDOBResult, IGetStudentMandatoryFieldsBody, IGetStudentMandatoryFieldsResult, IGetStudentsFormBody, IGetStudentUIPreConditionMsgBody, IGetStudentUIPreConditionMsgResult, IRemoveStudentPhotoBody, IsAnyExamPublishedBody, IsAnyExamPublishedResult, IsClassTeacherBody, IsClassTeacherResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult } from 'src/interfaces/StudentDetails/IStudentDetails';
+import {
+    IGenerateTransportFeeEntriesBody,
+    IGetAcademicDatesForStandardBody,
+    IGetAcademicDatesForStandardResult,
+    IGetFormNumberBody,
+    IGetFormNumberResult,
+    IGetStandardwiseMinMaxDOBBody, IGetStandardwiseMinMaxDOBResult,
+    IGetStudentMandatoryFieldsBody,
+    IGetStudentMandatoryFieldsResult,
+    IGetStudentsSiblingDetailBody,
+    IGetStudentsSiblingDetailResult,
+    IGetStudentUIPreConditionMsgBody, IGetStudentUIPreConditionMsgResult,
+    IsClassTeacherBody,
+    IsClassTeacherResult,
+    IUpdateStudentTrackingDetailsBody
+} from 'src/interfaces/StudentDetails/IStudentDetails';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetStandardwiseMinMaxDOB = (data: IGetStandardwiseMinMaxDOBBody) => {
@@ -12,29 +27,27 @@ const GetStudentUIPreConditionMsg = (data: IGetStudentUIPreConditionMsgBody) => 
 const GetIsClassTeacher = (data: IsClassTeacherBody) => {
     return http.post<IsClassTeacherResult>('School/IsClassTeacher', data);
 };
-const GetBinaryImages = (data: IGetBinaryImagesBody) => {
-    return http.post<IGetBinaryImagesResult>('School/GetBinaryImages', data);
-};
+
 const GetGenerateTransportFeeEntriesBody = (data: IGenerateTransportFeeEntriesBody) => {
     return http.post<String>('School/GenerateTransportFeeEntries', data);
 };
-const GetIsAnyExamPublished = (data: IsAnyExamPublishedBody) => {
-    return http.post<IsAnyExamPublishedResult>('School/IsAnyExamPublished', data);
+
+const GetFormNumber = (data: IGetFormNumberBody) => {
+    return http.post<IGetFormNumberResult[]>('School/GetFormNumber', data);
 };
+const GetStudentsSiblingDetail = (data: IGetStudentsSiblingDetailBody) => {
+    return http.post<IGetStudentsSiblingDetailResult[]>('Teacher/GetStudentsSiblingDetail', data);
+};
+
+const GetAcademicDatesForStandard = (data: IGetAcademicDatesForStandardBody) => {
+    return http.post<IGetAcademicDatesForStandardResult>('Teacher/GetAcademicDatesForStandard', data);
+};
+
 const GetStudentMandatoryFields = (data: IGetStudentMandatoryFieldsBody) => {
     return http.post<IGetStudentMandatoryFieldsResult>('School/GetStudentMandatoryFields', data);
 };
-const GetStandrdwiseStudentsDocument = (data: IStandrdwiseStudentsDocumentBody) => {
-    return http.post<IStandrdwiseStudentsDocumentResult[]>('Teacher/StandrdwiseStudentsDocument', data);
-};
-const GetStudentsForm = (data: IGetStudentsFormBody) => {
-    return http.post<String>('Teacher/GetStudentsForm', data);
-};
-const GetStaffName = (data: IStaffNameBody) => {
-    return http.post<IStaffNameResult[]>('Teacher/StaffName', data);
-};
-const GetRemoveStudentPhoto = (data: IRemoveStudentPhotoBody) => {
-    return http.post<String>('Teacher/RemoveStudentPhoto', data);
+const UpdateStudentTrackingDetails = (data: IUpdateStudentTrackingDetailsBody) => {
+    return http.post<String>('Teacher/UpdateStudentTrackingDetails', data);
 };
 
 
@@ -42,14 +55,13 @@ const APIStudentDetails = {
     GetStandardwiseMinMaxDOB,
     GetStudentUIPreConditionMsg,
     GetIsClassTeacher,
-    GetBinaryImages,
     GetGenerateTransportFeeEntriesBody,
-    GetIsAnyExamPublished,
+    GetFormNumber,
+    GetStudentsSiblingDetail,
+    GetAcademicDatesForStandard,
     GetStudentMandatoryFields,
-    GetStandrdwiseStudentsDocument,
-    GetStudentsForm,
-    GetStaffName,
-    GetRemoveStudentPhoto
+    UpdateStudentTrackingDetails
+
 };
 
 export default APIStudentDetails;

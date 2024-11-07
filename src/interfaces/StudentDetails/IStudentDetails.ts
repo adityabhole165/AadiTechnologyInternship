@@ -38,21 +38,7 @@ export interface IsClassTeacherResult {
     ]
 }
 
-export interface IGetBinaryImagesBody {
-    asSchoolId: number,
-    asAcademicYearId: number,
-    asUserId: number,
-    asPhotoTypeId: number
-}
 
-export interface IGetBinaryImagesResult {
-    CteacherListResult: [
-        {
-            UserId: string,
-            TotalBytes: string
-        }
-    ]
-}
 
 export interface IGenerateTransportFeeEntriesBody {
 
@@ -62,75 +48,59 @@ export interface IGenerateTransportFeeEntriesBody {
     asUpdatedById: number
 }
 
-
-export interface IsAnyExamPublishedBody {
-    asSchoolId: number,
-    asAcademicYearId: number,
-    asStandardId: number,
-    asDivisionId: number,
-    asIsExamPublished: boolean
-}
-export interface IsAnyExamPublishedResult {
-    examListResult: [
-        {
-            IsExamPublishedStatus: boolean
-        }
-    ]
-}
-
-export interface IGetStudentMandatoryFieldsBody {
-    asSchoolId: number
-}
-
-export interface IGetStudentMandatoryFieldsResult {
-    FileListResult: [
-        {
-            FieldName: string
-        }
-    ]
-
-}
-
-export interface IStandrdwiseStudentsDocumentBody {
-    asSchoolId: number,
-    asStandardId: number,
-    asStudentId: number,
-    asAcademicYearId: number
-}
-export interface IStandrdwiseStudentsDocumentResult {
-
-    StudentDocumentId: string,
-    StandardwiseDocumentId: string,
-    DocumentName: string,
-    SchoolwiseStudentId: string,
-    IsSubmitted: string,
-    IsApplicable: string,
-    DocumentCount: string,
-    IsSubmissionMandatory: string
-
-}
-
-export interface IGetStudentsFormBody {
-    AsiSchoolId: number,
-    AsiAcademicYear: number,
-    AsiStandardId: number,
-    AsiDivisionId: number
-}
-
-export interface IStaffNameBody {
-    asSchoolId: number,
-    asUserRoleId: number,
-    asAcademicYearId: number
-}
-
-export interface IStaffNameResult {
-
-    UserId: string,
-    UserName: string
-
-}
-
-export interface IRemoveStudentPhotoBody {
+export interface IGetFormNumberBody {
     asSchoolId: number,
     asStudentId: number
 }
+
+export interface IGetFormNumberResult {
+    FormNumberList: [
+        {
+            FormNumber: string
+        }
+    ]
+}
+
+export interface IGetStudentsSiblingDetailBody {
+
+    asSchoolId: number,
+}
+
+export interface IGetStudentsSiblingDetailResult {
+
+    CommonFieldId: string,
+    CommonFieldName: string
+
+}
+
+export interface IGetAcademicDatesForStandardBody {
+    asSchoolId: number
+    asAcademicYearID: number
+    asStandardId: number
+}
+export interface IGetAcademicDatesForStandardResult {
+    StandardwiseAcademicYearId: string
+    Academic_Year_Id: string
+    StandardId: string
+    StartDate: string
+    EndDate: string
+    SchoolReopeningDate: string
+    School_Id: string
+    Is_Deleted: string
+    InsertedById: string
+    InsertDate: string
+    UpdatedById: string
+    UpdateDate: string
+}
+export interface IGetStudentMandatoryFieldsBody {
+    asSchoolId: number
+}
+export interface IGetStudentMandatoryFieldsResult {
+    FileListResult: []
+}
+
+export interface IUpdateStudentTrackingDetailsBody {
+
+    asSchoolId: number,
+}
+

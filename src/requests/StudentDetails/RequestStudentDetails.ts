@@ -1,8 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import APIStudentDetails from 'src/api/StudentDetails/APIStudentDetails';
-import { IGenerateTransportFeeEntriesBody, IGetBinaryImagesBody, IGetStandardwiseMinMaxDOBBody, IGetStudentMandatoryFieldsBody, IGetStudentsFormBody, IGetStudentUIPreConditionMsgBody, IRemoveStudentPhotoBody, IsAnyExamPublishedBody, IsClassTeacherBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import {
+    IGenerateTransportFeeEntriesBody,
+    IGetAcademicDatesForStandardBody,
+    IGetFormNumberBody,
+    IGetStandardwiseMinMaxDOBBody,
+    IGetStudentMandatoryFieldsBody,
+    IGetStudentsSiblingDetailBody,
+    IGetStudentUIPreConditionMsgBody,
+    IsClassTeacherBody,
+    IUpdateStudentTrackingDetailsBody,
+} from 'src/interfaces/StudentDetails/IStudentDetails';
 import { AppThunk } from 'src/store';
-import { boolean } from 'yup/lib/locale';
 
 const GetStandardwiseMinMaxDOBslice = createSlice({
     name: 'GetStandardwiseMinMaxDOB',
@@ -10,14 +19,13 @@ const GetStandardwiseMinMaxDOBslice = createSlice({
         StandardwiseMinMaxDOB: [],
         StudentUIPreConditionMsg: [],
         IsClassTeacher: [],
-        IGetBinaryImages: [],
         IGenerateTransportFeeEntries: '',
-        IsAnyExamPublished: boolean,
-        IGetStudentMandatoryFields: [],
-        IStandrdwiseStudentsDocument: [],
-        IStudentsForm: '',
-        IStaffName: [],
-        IRemoveStudentPhoto: ''
+        IGetFormNumber: [],
+        IGetStudentsSiblingDetail: [],
+        ISGetAcademicDatesForStandard: [],
+        ISGetStudentMandatoryFields: [],
+        IUpdateStudentTrackingDetails: ''
+
     },
     reducers: {
         GetStandardwiseMinMaxDOB(state, action) {
@@ -29,30 +37,31 @@ const GetStandardwiseMinMaxDOBslice = createSlice({
         GetIsClassTeacher(state, action) {
             state.IsClassTeacher = action.payload;
         },
-        GetBinaryImages(state, action) {
-            state.IGetBinaryImages = action.payload;
-        },
+
         GetGenerateTransportFeeEntries(state, action) {
             state.IGenerateTransportFeeEntries = action.payload;
         },
-        GetIsAnyExamPublished(state, action) {
-            state.IsAnyExamPublished = action.payload;
+        GetFormNumber(state, action) {
+            state.IGetFormNumber = action.payload;
         },
+        GetStudentsSiblingDetail(state, action) {
+            state.IGetStudentsSiblingDetail = action.payload;
+        },
+
+        GetAcademicDatesForStandard(state, action) {
+            state.ISGetAcademicDatesForStandard = action.payload;
+        },
+
         GetStudentMandatoryFields(state, action) {
-            state.IGetStudentMandatoryFields = action.payload;
+            state.ISGetStudentMandatoryFields = action.payload;
         },
-        GetStandrdwiseStudentsDocument(state, action) {
-            state.IStandrdwiseStudentsDocument = action.payload;
+
+        GetUpdateStudentTrackingDetails(state, action) {
+            state.IUpdateStudentTrackingDetails = action.payload;
         },
-        GetStudentsForm(state, action) {
-            state.IStudentsForm = action.payload;
-        },
-        GetStaffName(state, action) {
-            state.IStaffName = action.payload;
-        },
-        GetRemoveStudentPhoto(state, action) {
-            state.IRemoveStudentPhoto = action.payload;
-        }
+
+
+
     }
 });
 
@@ -82,71 +91,53 @@ export const GetIsClassTeacher =
             });
             dispatch(GetStandardwiseMinMaxDOBslice.actions.GetIsClassTeacher(responseData));
         };
-export const GetBinaryImages =
-    (data: IGetBinaryImagesBody): AppThunk =>
-        async (dispatch) => {
-            const response = await APIStudentDetails.GetBinaryImages(data);
-            const responseData = response.data.CteacherListResult.map((item, i) => {
-                return {
 
-                    UserId: item.UserId,
-                    TotalBytes: item.TotalBytes
-                };
-            });
-            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetBinaryImages(responseData));
-        };
 export const GetGenerateTransportFeeEntries =
     (data: IGenerateTransportFeeEntriesBody): AppThunk =>
         async (dispatch) => {
             const response = await APIStudentDetails.GetGenerateTransportFeeEntriesBody(data);
             dispatch(GetStandardwiseMinMaxDOBslice.actions.GetGenerateTransportFeeEntries(response.data));
         };
-export const GetIsAnyExamPublished =
-    (data: IsAnyExamPublishedBody): AppThunk =>
-        async (dispatch) => {
-            const response = await APIStudentDetails.GetIsAnyExamPublished(data);
-            const responseData = response.data.examListResult.map((item, i) => {
-                return {
 
-                    IsExamPublishedStatus: item.IsExamPublishedStatus
-                };
-            });
-            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetIsAnyExamPublished(responseData));
+export const GetFormNumber =
+    (data: IGetFormNumberBody): AppThunk =>
+        async (dispatch) => {
+            const response = await APIStudentDetails.GetFormNumber(data);
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetFormNumber(response.data));
         };
+export const GetStudentsSiblingDetail =
+    (data: IGetStudentsSiblingDetailBody): AppThunk =>
+        async (dispatch) => {
+            const response = await APIStudentDetails.GetStudentsSiblingDetail(data);
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetStudentsSiblingDetail(response.data));
+        };
+
+export const GetAcademicDatesForStandard =
+    (data: IGetAcademicDatesForStandardBody): AppThunk =>
+        async (dispatch) => {
+            const response = await APIStudentDetails.GetAcademicDatesForStandard(data);
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetAcademicDatesForStandard(response.data));
+
+        };
+
 export const GetStudentMandatoryFields =
     (data: IGetStudentMandatoryFieldsBody): AppThunk =>
         async (dispatch) => {
-            const response = await APIStudentDetails.GetStudentMandatoryFields(data);
-            const responseData = response.data.FileListResult.map((item, i) => {
-                return {
 
-                    FieldName: item.FieldName
-                };
-            });
-            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetStudentMandatoryFields(responseData));
+            const response = await APIStudentDetails.GetStudentMandatoryFields(data);
+
+
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetStudentMandatoryFields(GetStudentMandatoryFields));
+
         };
-export const GetStandrdwiseStudentsDocument =
-    (data: IStandrdwiseStudentsDocumentBody): AppThunk =>
+
+
+export const GetUpdateStudentTrackingDetails =
+    (data: IUpdateStudentTrackingDetailsBody): AppThunk =>
         async (dispatch) => {
-            const response = await APIStudentDetails.GetStandrdwiseStudentsDocument(data);
-            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetStandrdwiseStudentsDocument(response.data));
+            const response = await APIStudentDetails.UpdateStudentTrackingDetails(data);
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetUpdateStudentTrackingDetails(response.data));
         };
-export const GetStudentsForm =
-    (data: IGetStudentsFormBody): AppThunk =>
-        async (dispatch) => {
-            const response = await APIStudentDetails.GetStudentsForm(data);
-            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetStudentsForm(response.data));
-        };
-export const GetStaffName =
-    (data: IStaffNameBody): AppThunk =>
-        async (dispatch) => {
-            const response = await APIStudentDetails.GetStaffName(data);
-            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetStaffName(response.data));
-        };
-export const GetRemoveStudentPhoto =
-    (data: IRemoveStudentPhotoBody): AppThunk =>
-        async (dispatch) => {
-            const response = await APIStudentDetails.GetRemoveStudentPhoto(data);
-            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetRemoveStudentPhoto(response.data));
-        };
+
+
 export default GetStandardwiseMinMaxDOBslice.reducer;
