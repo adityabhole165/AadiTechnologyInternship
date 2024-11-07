@@ -108,8 +108,8 @@ const SelectList3Col = ({
               onChange={(value) => { onCheckAll(value.checked) }}
             /></Box>)}
         {showcolumn('Delete') && <Box sx={{ color: 'white', ml: 0, pt: 0.5 }}>Delete</Box>}
-        {showcolumn('Subject') && <Box onClick={() => { clickHeader('Subject') }} sx={{ color: 'white', ml: 5, display: 'flex' }}>
-          <Typography variant="body1" sx={{ color: 'white', marginRight: '4px', pt: 0.5 }}>
+        {showcolumn('Subject') && <Box onClick={() => { clickHeader('Subject') }} sx={{ color: 'white', ml: 5, display: 'flex', pt: 0.5 }}>
+          <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Subject
           </Typography>
           {SortExp === 'Subject' ? SortDirection === 'ASC' ?
@@ -124,7 +124,7 @@ const SelectList3Col = ({
         {showcolumn('Cc1') && <Box sx={{ color: 'white', ml: 24, pt: 0.5 }}>Cc</Box>}
         {showcolumn('Attachment') && <Box sx={{ color: 'white', ml: 28, pt: 0.5 }}>Attachment</Box>}
         {showcolumn('Received Date1') && <Box sx={{ color: 'white', ml: 28, display: 'flex', pt: 0.5 }} onClick={() => { clickHeader('Insert_Date') }}>
-          <Typography variant="body1" sx={{ color: 'white', marginRight: '4px', pt: 0.5 }}>
+          <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Received Date
           </Typography>
           {/* {Datecolumn} */}
