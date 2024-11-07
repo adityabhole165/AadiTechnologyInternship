@@ -335,8 +335,8 @@ function Form13() {
         setFilerror(null);
         return true;
       }
-      if (fileData?.size > 20e6) {
-        setFilerror('Please upload a file smaller than 20 MB');
+      if (fileData?.size > 50e6) {
+        setFilerror('Total file size should be less than 50 MB.');
         return false;
       }
     }
@@ -862,21 +862,26 @@ function Form13() {
                 <TextField
                   // multiline
                   // id=""
-                   fullWidth
+                  fullWidth
+                  label={
+
+                    <span style={{ color: 'red' }}>*</span>
+
+                  }
                   InputProps={{
                     startAdornment: (
                       <Box
-                        sx={{ display: 'flex', flexWrap: 'wrap',  overflowY: 'scroll', minWidth:'100%', height:'110px' }}
+                        sx={{ display: 'flex', flexWrap: 'wrap', overflowY: 'scroll', minWidth: '100%', height: '110px' }}
                       >
-                      <>
-                        {recipients.map((recipient, index) => (
-                          <Chip
-                            key={index}
-                            label={recipient?.trim()}
-                            onDelete={() => handleDelete(recipient, index)} // Add delete functionality
-                            sx={{ margin: '4px 2px' }}
-                          />
-                        ))}
+                        <>
+                          {recipients.map((recipient, index) => (
+                            <Chip
+                              key={index}
+                              label={recipient?.trim()}
+                              onDelete={() => handleDelete(recipient, index)} // Add delete functionality
+                              sx={{ margin: '4px 2px' }}
+                            />
+                          ))}
                         </>
                       </Box>
                     ),
@@ -884,13 +889,13 @@ function Form13() {
                   }}
                   // Display joined recipients as string in textfield
                   onChange={formik.handleChange}
-                  // sx={{
-                  //   height: '120px',
-                  //   overflow: 'auto',
-                  //   my:2,
-                  //   // border: '0.1px solid #c4c5c5',
-                  //   borderRadius: '7px'
-                  // }}
+                // sx={{
+                //   height: '120px',
+                //   overflow: 'auto',
+                //   my:2,
+                //   // border: '0.1px solid #c4c5c5',
+                //   borderRadius: '7px'
+                // }}
                 />
                 <Box mt={0}>
                   {RecipientsList.length == 0 &&
@@ -1026,7 +1031,11 @@ function Form13() {
                 <TextField
                   fullWidth
                   margin="normal"
-                  label="Subject "
+                  label={
+                    <span>
+                      Subject <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
                   name="Subject"
                   type="text"
                   autoComplete="off"
@@ -1276,7 +1285,7 @@ function Form13() {
         <DialogTitle sx={{ bgcolor: '#223354' }}>
           <Tooltip
             title={
-              'Select name of the teacher / student / admin staff / other staff and click on "Back to compose / Confirm'
+              'Select name of the teacher / student / admin staff / other staff and click on "Confirm".'
             }
             placement="bottom-end"
           >
