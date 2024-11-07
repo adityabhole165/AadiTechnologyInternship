@@ -78,7 +78,7 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
         <TableHead>
           {HeaderParent.length > 1 &&
             (<>
-              <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+              <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center',  }}>
                 <TableCell rowSpan={2}>
                   <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
                     Subjects &#9654;
@@ -88,7 +88,7 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
                   </Typography></TableCell>
 
                 {HeaderParent.map((item) => (
-                  <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                  <TableCell colSpan={item.colSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center' }}>
                     <Typography color="black" textAlign={'left'} mr={5}  >
                       <b style={{ marginRight: "5px" }}>{item.SubjectName}
 
@@ -96,13 +96,13 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
                                               <span style={{ color: 'red' }}>*</span>
                                                    )}
                       </b>
-                    </Typography></TableCell>
+                    </Typography></TableCell> 
                 ))
                 }
               </TableRow>
               <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                 {HeaderArray1.map((item) => (
-                  <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                  <TableCell colSpan={item.colSpan} sx={{  border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center' }}>
                     <Typography color="black" textAlign={'left'} mr={5}  >
                       <b style={{ marginRight: "5px" }}>{item.SubjectName}
                       {item.Is_CoCurricularActivity == "True" && (
@@ -115,8 +115,8 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
               </TableRow>
             </>)}
           {HeaderParent.length <= 1 &&
-            (<TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-              <TableCell rowSpan={2}>
+            (<TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+              <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                 <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
                   Subjects &#9654;
                 </Typography>
@@ -124,7 +124,7 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
                   &#9660; Exam
                 </Typography></TableCell>
               {HeaderArray1.map((item) => (
-                <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                <TableCell colSpan={item.colSpan} sx={{  border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center' }}>
                   <Typography color="black" textAlign={'left'} mr={5}  >
                     <b style={{ marginRight: "5px" }}>{item.SubjectName}
                     {item.Is_CoCurricularActivity == "True" && (
@@ -134,15 +134,15 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
                   </Typography></TableCell>
               ))}
               {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                <TableCell rowSpan={2} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center' }}>
                   <Typography color="black" textAlign={'left'} mr={5}  >
-                    <b style={{ marginRight: "5px" }}>Grade</b>
+                    <b style={{ marginRight: "30px" }}>Grade</b>
                   </Typography></TableCell>}
             </TableRow>
             )}
           <TableRow>
             {SubHeaderArray1.map((item) => (
-              <><TableCell >
+              <><TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                 <Typography color="#38548A" textAlign={'center'} mr={9}  >
                   <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
                 </Typography>
@@ -165,11 +165,11 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
         {MarkDetailsList1.map((testItem, i) => (
           <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
             <TableRow>
-              <TableCell sx={{}}>
+              <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                 <b> {testItem.TestName}</b>
               </TableCell>
               {testItem.MarksArr.map((MarkItem) => (
-                <TableCell sx={{ backgroundColor: 'white' }}>
+                <TableCell sx={{ backgroundColor: 'white',border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
                   {
                     MarkItem
                       ? (MarkItem.IsAbsent !== 'N'

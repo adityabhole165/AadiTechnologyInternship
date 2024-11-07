@@ -1,4 +1,4 @@
-import QuestionMark from '@mui/icons-material/QuestionMark';
+    import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
@@ -223,11 +223,11 @@ const GenerateAll = ({ }) => {
                                             })}
                                         </TableBody>
                                     </Table>
-                                    <Box sx={{ overflowX: 'auto', border: 1 }}>
+                                    <Box sx={{ overflowX: 'auto',  border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                         <Table>
                                             <TableHead>
                                                 <TableRow sx={{ bgcolor: '#F0F0F0' }}>
-                                                    <TableCell rowSpan={2}>
+                                                    <TableCell rowSpan={2} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                                         <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
                                                             Subjects &#9654;
                                                         </Typography>
@@ -237,7 +237,7 @@ const GenerateAll = ({ }) => {
                                                     {/* {SubjectDetails.map((item) => ( */}
                                                     {HeaderArray.map((item) => (
                                                         // <TableCell><b>{item.Name}</b></TableCell>
-                                                        <TableCell colSpan={item.colSpan}>
+                                                        <TableCell colSpan={item.colSpan} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                                             <Typography color="black" textAlign={'left'} mr={5}  >
                                                                 <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
                                                             </Typography></TableCell>
@@ -246,7 +246,7 @@ const GenerateAll = ({ }) => {
                                                 <TableRow>
                                                     {/* {ShortenTestDetails.map((item) => ( */}
                                                     {SubHeaderArray.map((item) => (
-                                                        <TableCell >
+                                                        <TableCell sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                                             <Typography color="#38548A" textAlign={'center'} mr={9}  >
                                                                 <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
                                                             </Typography>
@@ -256,14 +256,14 @@ const GenerateAll = ({ }) => {
                                             </TableHead>
 
                                             {MarkDetailsList.map((testItem, i) => (
-                                                <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
-                                                    <TableRow>
-                                                        <TableRow sx={{}}>
+                                                <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center', }}>
+                                                    <TableRow sx={{}}>
+                                                        <TableCell sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                                             <b> {testItem.TestName}</b>
-                                                        </TableRow>
+                                                        </TableCell>
 
                                                         {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell sx={{ backgroundColor: 'white' }}>
+                                                            <TableCell sx={{ backgroundColor: 'white',border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
                                                                 {
                                                                     MarkItem.IsAbsent == "N" ?
                                                                         MarkItem.MarksScored + " / " + MarkItem.TotalMarks :
@@ -301,7 +301,7 @@ const GenerateAll = ({ }) => {
                         </div>
                     )}
                     {(isResultGenerated || isGenerated == 'Y') && ( // Conditionally display the final result section
-                        <Box sx={{ mt: 2, background: 'white' }}>
+                        <Box sx={{ mt: 2, background: 'white',border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                             <Box>
                                 <hr />
                                 {ViewProgress.length > 0 && (
@@ -346,27 +346,27 @@ const GenerateAll = ({ }) => {
 
                                     </TableBody>
                                 </Table>
-                                <Box sx={{ overflowX: 'auto', border: 1 }}>
-                                    <Table >
+                                <Box sx={{ overflowX: 'auto', border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
+                                    <Table sx={{}}>
                                         <TableBody >
-                                            <TableRow sx={{ bgcolor: '#F0F0F0' }}>
+                                            <TableRow sx={{ bgcolor: '#F0F0F0', border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                                                 <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={2} ml={2}>
                                                     Subjects
                                                 </Typography>
                                                 {SubjectDetailsView.map((subject, i) => (
 
-                                                    <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center' }}><b>{subject.Name}  </b>
+                                                    <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center',border: (theme) => `1px solid ${theme.palette.grey[300]}` }}><b>{subject.Name}  </b>
                                                         {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
                                                     </TableCell>
                                                 ))}
                                                 {IsTotalConsiderForProgressReport === "True" && !showOnlyGrades && (
                                                     <>
-                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
-                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
+                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
+                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`,fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
                                                     </>
                                                 )}
                                                 {IsTotalConsiderForProgressReport === "True" && (
-                                                    <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
+                                                    <TableCell sx={{border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
                                                 )}
                                             </TableRow>
 
@@ -380,7 +380,7 @@ const GenerateAll = ({ }) => {
                                                         </TableCell> */}
 
                                                         {MarkDetailsView.map((marks, i) => (
-                                                            <TableCell key={i} sx={{ textAlign: 'center' }}>
+                                                            <TableCell key={i} sx={{border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}>
                                                                 {marks.IsAbsent === '1' ? '-' : marks.Name}
                                                             </TableCell>
                                                         ))}
@@ -390,9 +390,9 @@ const GenerateAll = ({ }) => {
                                                                 const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
                                                                 return (
                                                                     <>
-                                                                        <TableCell sx={{ textAlign: 'center' }}>{totalData.TotalMarks}</TableCell>
-                                                                        <TableCell sx={{ textAlign: 'center' }}>{totalData.Percentage}%</TableCell>
-                                                                        <TableCell sx={{ textAlign: 'center' }}>
+                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}>{totalData.TotalMarks}</TableCell>
+                                                                        <TableCell sx={{border: (theme) => `1px solid ${theme.palette.grey[300]}`,  textAlign: 'center' }}>{totalData.Percentage}%</TableCell>
+                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`,textAlign: 'center' }}>
                                                                             <Typography variant="body2">
                                                                                 {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}
                                                                             </Typography>
@@ -415,13 +415,13 @@ const GenerateAll = ({ }) => {
                                                     <TableCell key={i} align="center"> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
                                                 ))} */}
                                                 {GradesDetailsView.map((Grade, i) => (
-                                                    <TableCell key={i} sx={{ textAlign: 'center' }}> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
+                                                    <TableCell key={i} sx={{border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
                                                 ))}
                                                 {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
                                                     <>
-                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
-                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
-                                                        <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                        <TableCell sx={{border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`,fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                        <TableCell sx={{border: (theme) => `1px solid ${theme.palette.grey[300]}`,fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
                                                     </>
                                                 )}
                                                 {showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
