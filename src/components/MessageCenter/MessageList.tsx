@@ -29,6 +29,7 @@ import { IDeleteDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMess
 import { IGetAllMonths, Iyears } from 'src/interfaces/MessageCenter/Search';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import MCForm from 'src/libraries/form/MCForm';
+import SelectList3Col from 'src/libraries/list/SelectList3Col';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
 import {
   DeleteButton
@@ -46,7 +47,6 @@ import {
 } from 'src/requests/MessageCenter/RequestDraftMessage';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
-import SelectList3Col from '../../libraries/list/SelectList3Col';
 import CommonPageHeader from '../CommonPageHeader';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
 import CardMessage from './CardMessage';
@@ -111,6 +111,9 @@ const MessageList = () => {
   );
   const TrashMarkAsUnRead = useSelector(
     (state: RootState) => state.InboxMessage.trashUnReadMessage
+  )
+  const TotalCountLabel = useSelector(
+    (state: RootState) => state.InboxMessage.TotalCountLabel
   )
 
   const StatusReadUnread = useSelector(
@@ -857,17 +860,22 @@ const MessageList = () => {
                         No record found.
                       </Typography>
                       // </Grid>
-                    ) : (
-                      <SelectList3Col
-                        Itemlist={inboxListData}
-                        ActiveTab={activeTab}
-                        DeleteDraft={DeleteDraft}
-                        refreshData={refreshData}
-                        clickSortExp={clickSortExp}
-                        clickSortDirection={clickSortDirection}
-                        SortDirection={SortDirection}
-                        SortExp={SortExp}
-                      />
+                    ) : (<Grid container>
+                      <Grid xs={12} sm={12} md={12} sx={{ textAlign: 'right' }}>
+                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, padding: 1, borderRadius: 2 }} >{TotalCountLabel}</Typography>
+                      </Grid>
+                      <Grid xs={12} sm={12} md={12}>
+                        <SelectList3Col
+                          Itemlist={inboxListData}
+                          ActiveTab={activeTab}
+                          DeleteDraft={DeleteDraft}
+                          refreshData={refreshData}
+                          clickSortExp={clickSortExp}
+                          clickSortDirection={clickSortDirection}
+                          SortDirection={SortDirection}
+                          SortExp={SortExp}
+                        />
+                      </Grid></Grid>
                     )}
                   </div>
                 )}
