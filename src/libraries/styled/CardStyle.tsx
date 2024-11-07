@@ -437,14 +437,14 @@ export const CardStyle1 = styled(Card)(
 );
 export const ItemSize = styled(Box)(
   ({ theme }) => `
-  font-size: 14px;
+  font-size: 13px;
   color: #38548A;
  
  cursor: pointer;
  margin-left:5px;
-  justify-content: center;
-align-items: center;  
- text-align: center; 
+  justify-content: left;
+align-items: left;  
+ text-align: left; 
  @media (max-width: 280px) {
   font-size: 10px;
  
