@@ -1,4 +1,4 @@
-import { IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentResult } from 'src/interfaces/Students/IStudentUI';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
@@ -38,6 +38,10 @@ const GetAllGroupsOfStreamApi = (data: IGetAllGroupsOfStreamBody) => {
 const GetStreamwiseSubjectDetailsApi = (data: IGetStreamwiseSubjectDetailsBody) => {
     return http.post<IGetStreamwiseSubjectDetailsResult>('Teacher/GetStreamwiseSubjectDetails', data);
 };
+//Update Student
+const UpdateStudentApi = (data: IUpdateStudentBody) => {
+    return http.post<IUpdateStudentResult>('Teacher/UpdateStudent', data);
+};
 
 
 const GetStudentUIAPI = {
@@ -47,6 +51,7 @@ const GetStudentUIAPI = {
     StaffNameApi,
     GetAllUserRolesApi,
     StandrdwiseStudentsDocumentApi,
-    GetAllStreamsApi, GetAllGroupsOfStreamApi, GetStreamwiseSubjectDetailsApi
+    GetAllStreamsApi, GetAllGroupsOfStreamApi, GetStreamwiseSubjectDetailsApi,
+    UpdateStudentApi
 };
 export default GetStudentUIAPI;

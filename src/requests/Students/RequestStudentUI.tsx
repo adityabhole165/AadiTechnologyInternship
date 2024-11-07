@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -25,6 +25,8 @@ const StudentUISlice = createSlice({
         ISGetAllStreams: [],
         ISGetAllGroupsOfStream: [],
         ISGetStreamwiseSubjectDetails: [],
+        //UpdateStudent
+        ISUpdateStudent: [],
         Loading: true
     },
     reducers: {
@@ -88,6 +90,10 @@ const StudentUISlice = createSlice({
         },
         RGetStreamwiseSubjectDetails(state, action) {
             state.ISGetStreamwiseSubjectDetails = action.payload;
+            state.Loading = false;
+        },
+        RUpdateStudent(state, action) {
+            state.ISUpdateStudent = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -269,4 +275,13 @@ export const CDAGetStudentAdditionalDetails =
             const response = await GetStudentUIAPI.GetStudentAdditionalDetailsapi(data);
             dispatch(StudentUISlice.actions.RGetStudentAdditionalDetails(response.data));
         };
+
+export const CDAUpdateStudent =
+    (data: IUpdateStudentBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.UpdateStudentApi(data);
+            dispatch(StudentUISlice.actions.RUpdateStudent(response.data));
+        };
+
 export default StudentUISlice.reducer;

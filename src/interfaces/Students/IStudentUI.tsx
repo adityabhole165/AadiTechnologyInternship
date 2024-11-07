@@ -321,6 +321,95 @@ export interface IGetStreamwiseSubjectDetailsResult {
         Subject_Name: string
     }[]
 }
+//Update Student
+export interface IUpdateStudentBody {
+    asSchoolId: number
+    asStudentId: number
+    asInsertedById: number
+    asID: number
+    asAcademicYearId: number
+    asFormNumber: number
+    asPhoto_file_Path: string
+    asFirst_Name: string
+    asMiddle_Name: string
+    asLast_Name: string
+    asMother_Name: string
+    asBlood_Group: string
+    asEnrolment_Number: string
+    asParent_Name: string
+    asParent_Occupation: string
+    asOther_Occupation: string
+    asAddress: string
+    asCity: string
+    asState: string
+    asPincode: string
+    asResidence_Phone_Number: string
+    asMobile_Number: string
+    asMobile_Number2: string
+    asOffice_Number: string
+    asNeighbour_Number: string
+    asUpdated_By_Id: string
+    asUpdate_Date: string
+    asDOB: string
+    asBirth_Place: string
+    asNationality: string
+    asSex: string
+    asSalutation_Id: string
+    asCategory_Id: string
+    asCasteAndSubCaste: string
+    asAdmission_Date: string
+    asJoining_Date: string
+    asDateOfBirthInText: string
+    asOptional_Subject_Id: string
+    asMother_Tongue: string
+    asLastSchoolName: string
+    asLastSchoolAddress: string
+    asLastCompletedStd: string
+    asLastSchoolUDISENo: string
+    asLastCompletedBoard: string
+    asIsRecognisedBoard: string
+    asAadharCardNo: string
+    asNameOnAadharCard: string
+    asAadharCard_Photo_Copy_Path: string
+    asFamily_Photo_Copy_Path: string
+    asUDISENumber: string
+    asBoardRegistrationNo: string
+    asIsRiseAndShine: string
+    asAdmissionSectionId: string
+    asGRNumber: string
+    asStudentUniqueNo: string
+    asSaralNo: string
+    asIsOnlyChild: string
+    asMinority: string
+    asRoll_No: number
+    asRule_Id: number
+    asIsStaffKid: number
+    asHeight: number
+    asWeight: number
+    asUpdated_By_id: number
+    asRTECategoryId: number
+    asSecondLanguageSubjectId: number
+    asThirdLanguageSubjectId: number
+    asIsForDayBoarding: boolean
+    asFeeCategoryDetailsId: number
+    asRTEApplicationFormNo: string
+    asAnnualIncome: number
+    asStandard_Id: number
+    asDivision_Id: number
+    asReligion: string
+    asYearWise_Student_Id: number
+    asParentUserId: number
+}
+
+export interface IUpdateStudentResult {
+    iReturnValue: number
+    IsRollNumberDuplicate: boolean
+    IsRegisterNoAlreadyPresent: boolean
+    IsGeneralRegisterNoAlreadyPresent: boolean
+    IsStudentUniqueNoAlreadyPresent: boolean
+    CheckIsRFormNumberDuplicate: boolean
+}
+
 
 
 
