@@ -38,6 +38,8 @@ export interface IsClassTeacherResult {
     ]
 }
 
+
+
 export interface IGenerateTransportFeeEntriesBody {
 
     asSchoolId: number,
@@ -46,17 +48,59 @@ export interface IGenerateTransportFeeEntriesBody {
     asUpdatedById: number
 }
 
-
-export interface IsAnyExamPublishedBody{
-    asSchoolId:number,
-    asAcademicYearId:number,
-    asStandardId:number,
-    asDivisionId:number,
-    asIsExamPublished:boolean
+export interface IGetFormNumberBody {
+    asSchoolId: number,
+    asStudentId: number
 }
-// export interface IsAnyExamPublishedResult{
 
-//     ExamPublishedListResult:
-        
-    
-// }
+export interface IGetFormNumberResult {
+    FormNumberList: [
+        {
+            FormNumber: string
+        }
+    ]
+}
+
+export interface IGetStudentsSiblingDetailBody {
+
+    asSchoolId: number,
+}
+
+export interface IGetStudentsSiblingDetailResult {
+
+    CommonFieldId: string,
+    CommonFieldName: string
+
+}
+
+export interface IGetAcademicDatesForStandardBody {
+    asSchoolId: number
+    asAcademicYearID: number
+    asStandardId: number
+}
+export interface IGetAcademicDatesForStandardResult {
+    StandardwiseAcademicYearId: string
+    Academic_Year_Id: string
+    StandardId: string
+    StartDate: string
+    EndDate: string
+    SchoolReopeningDate: string
+    School_Id: string
+    Is_Deleted: string
+    InsertedById: string
+    InsertDate: string
+    UpdatedById: string
+    UpdateDate: string
+}
+export interface IGetStudentMandatoryFieldsBody {
+    asSchoolId: number
+}
+export interface IGetStudentMandatoryFieldsResult {
+    FileListResult: []
+}
+
+export interface IUpdateStudentTrackingDetailsBody {
+
+    asSchoolId: number,
+}
+
