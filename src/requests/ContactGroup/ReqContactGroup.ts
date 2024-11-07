@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ContactGroupApi from "src/api/ContactGroup/ContactGroupApi";
-import { IAddUpdateGroupBody, IGetMailingGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from "src/interfaces/ContactGroup/IContactGroup";
+import { IAddUpdateGroupBody, IDeleteMailGroupBody, IGetMailingGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from "src/interfaces/ContactGroup/IContactGroup";
 import { AppThunk } from "src/store";
 
 const ContactGroupSlice = createSlice({
@@ -10,8 +10,10 @@ const ContactGroupSlice = createSlice({
         IGetUserRole: [],
         IGetStandardClass: [],
         IGetUserName: [],
-
+        IlistGetUserName: [],
+        IlistGetUserNameCount: [],
         IAddUpdateGroup: '',
+        IDeleteMailGroupMsg: '',
         Loading: true
     },
     reducers: {
@@ -38,6 +40,16 @@ const ContactGroupSlice = createSlice({
         resetAddUpdateGroup(state) {
             state.Loading = false;
             state.IAddUpdateGroup = "";
+        },
+        RlistGetUserName(state, action) {
+            state.IlistGetUserName = action.payload;
+        },
+        RlistGetUserNameCount(state, action) {
+            state.IlistGetUserNameCount = action.payload;
+        },
+        RDeleteMailGroupMsg(state, action) {
+            state.Loading = false;
+            state.IDeleteMailGroupMsg = action.payload;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -90,20 +102,30 @@ export const CDAGetUserRole =
             //userRole.unshift({ Id: '0', Name: 'Select', Value: '0' });
             dispatch(ContactGroupSlice.actions.RGetUserRole(userRole));
         };
-export const CDAGetUserName = (data: IGetUserNameBody): AppThunk => async (dispatch) => {
-    dispatch(ContactGroupSlice.actions.getLoading(true));
-    const response = await ContactGroupApi.UserNameApi(data);
-    let userName = response.data.map((item, i) => {
-        return {
-            UserId: item.UserId,
-            UserName: item.UserName,
-            IsInGroup: item.IsInGroup,
-            IsDeactivated: item.IsDeactivated
+
+export const CDAGetUserName =
+    (data: IGetUserNameBody): AppThunk =>
+        async (dispatch) => {
+            const response = await ContactGroupApi.UserNameApi(data);
+            let getUserName = response.data.listGetUserName.map((item, i) => {
+                return {
+                    UserId: item.UserId,
+                    UserName: item.UserName,
+                    IsInGroup: item.IsInGroup,
+                    IsDeactivated: item.IsDeactivated
+
+                }
+            });
+            let getUserTotalCount = response.data.listGetUserNameCount.map((item, i) => {
+                return {
+                    TotalUserCount: item.TotalUserCount
+                }
+
+            });
+
+            dispatch(ContactGroupSlice.actions.RlistGetUserName(getUserName));
+            dispatch(ContactGroupSlice.actions.RlistGetUserNameCount(getUserTotalCount));
         };
-    });
-    console.log(response.data, '>>>>>>');
-    dispatch(ContactGroupSlice.actions.RGetUserName(userName));
-};
 
 export const CDAaddUpdateGroup =
     (data: IAddUpdateGroupBody): AppThunk =>
@@ -113,6 +135,12 @@ export const CDAaddUpdateGroup =
         }
 export const resetAddUpdateGroup = (): AppThunk => async (dispatch) => {
     dispatch(ContactGroupSlice.actions.resetAddUpdateGroup());
+};
+
+export const CDADeleteMailGroup = (data: IDeleteMailGroupBody): AppThunk => async (dispatch) => {
+    dispatch(ContactGroupSlice.actions.getLoading(true));
+    const response = await ContactGroupApi.DeleteGroupApi(data);
+    dispatch(ContactGroupSlice.actions.RDeleteMailGroupMsg(response.data));
 };
 
 

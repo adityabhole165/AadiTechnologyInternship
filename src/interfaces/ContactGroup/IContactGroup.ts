@@ -9,11 +9,28 @@ export interface IGetUserNameBody {
     asStandardDivisionId: number,
     asFilter: string
 }
+// export interface IGetUserNameResult {
+//     UserId: string,
+//     UserName: string,
+//     IsInGroup: string,
+//     IsDeactivated: string
+// }
+
 export interface IGetUserNameResult {
-    UserId: string,
-    UserName: string,
-    IsInGroup: string,
-    IsDeactivated: string
+    listGetUserName: [
+        {
+            UserId: string,
+            UserName: string,
+            IsInGroup: string,
+            IsDeactivated: string
+        }
+    ];
+    listGetUserNameCount: [
+        {
+            TotalUserCount: string
+
+        }
+    ]
 }
 export interface IGetMailingGroupsBody {
     asSchoolId: number,
@@ -56,5 +73,13 @@ export interface IAddUpdateGroupBody {
     asMailingGroupXML: string
 }
 export interface IAddUpdateGroupResult {
+    string
+}
+export interface IDeleteMailGroupBody {
+    asSchoolId: number,
+    asGroupId: number,
+    asInsertedById: number
+}
+export interface IDeleteMailGroupResult {
     string
 }

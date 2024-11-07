@@ -23,6 +23,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { IAddUpdateGroupBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAaddUpdateGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole } from 'src/requests/ContactGroup/ReqContactGroup';
@@ -54,6 +55,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
   const [UsersRole, setUserRole] = useState('1');
   const [StandardClass, setStandardClass] = useState('1293');
   const [GroupName, setGroupName] = useState('');
+  const [ErrorUserRole, setErrorUserRole] = useState('');
+  const [ErrorSelectedUser, setErrorSelectedUser] = useState('');
+  const [ErrorGroupName, setErrorGroupName] = useState('');
+  // const [ErrorGroupName, setErrorGroupName] = useState('');
 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
@@ -61,12 +66,15 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = Number(localStorage.getItem('UserId'));
 
-  console.log(GroupName, "###########")
+  //console.log(USGetUserRole, "###########")
 
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
+  console.log(USGetUserRole, "###########")
+
   const USGetStandardClass: any = useSelector((state: RootState) => state.ContactGroup.IGetStandardClass);
-  const USGetUserName: any = useSelector((state: RootState) => state.ContactGroup.IGetUserName);
+  const USGetUserName: any = useSelector((state: RootState) => state.ContactGroup.IlistGetUserName);
   const USAddUpdateGroup: any = useSelector((state: RootState) => state.ContactGroup.IAddUpdateGroup);
+
   const [sortsOrder, setSortOrders] = useState();
   const singleTotalCount: number = useMemo(() => {
     if (!Array.isArray(USGetUserName)) {
@@ -159,22 +167,71 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
     return asUpdateSelectXML
   }
 
-  const clickConfirm = () => {
-    const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
-      asSchoolId: Number(schoolId),
-      asAcademicYearId: Number(academicYearId),
-      asMailingGroupXML: getXML(),
-    }
-    dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
-    dispatch(ContactGroup())
-    // toast.success("Group Added Successfully");
-  };
-  useEffect(() => {
-    if (USAddUpdateGroup !== '') {
-      toast.success(USAddUpdateGroup);
+  const clickConfirm = async () => {
+    try {
+      if (!GroupName.trim()) {
+        //toast.error("Please enter a group name");
+        setErrorGroupName('Please enter a group name');
+        return;
+      }
 
+      if (selectedd.length === 0) {
+        //toast.error("Please select at least one user role");
+        setErrorUserRole("Please select at least one user role");
+        return;
+      }
+
+      if (selected.length === 0) {
+        //toast.error("Please select at least one user");
+        setErrorSelectedUser("Please select at least one user");
+        return;
+      }
+
+      const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
+        asSchoolId: Number(schoolId),
+        asAcademicYearId: Number(academicYearId),
+        asMailingGroupXML: getXML(),
+      };
+
+      await dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration));
+      dispatch(ContactGroup());
+    } catch (error) {
+      toast.error("Failed to create group. Please try again.");
+      console.error("Error creating group:", error);
     }
-  }, [USAddUpdateGroup])
+  };
+
+  useEffect(() => {
+    if (USAddUpdateGroup) {
+      if (typeof USAddUpdateGroup === 'string' && USAddUpdateGroup.toLowerCase().includes('success')) {
+        toast.success(USAddUpdateGroup);
+        onClose(); // Close the dialog after successful creation
+      } else if (typeof USAddUpdateGroup === 'string') {
+        toast.error(USAddUpdateGroup);
+      }
+    }
+  }, [USAddUpdateGroup, onClose]);
+
+  // ... (rest of the component code remains the same)
+
+
+
+  // const clickConfirm = () => {
+  //   const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
+  //     asSchoolId: Number(schoolId),
+  //     asAcademicYearId: Number(academicYearId),
+  //     asMailingGroupXML: getXML(),
+  //   }
+  //   dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
+  //   dispatch(ContactGroup())
+  //   // toast.success("Group Added Successfully");
+  // };
+  // useEffect(() => {
+  //   if (USAddUpdateGroup !== '') {
+  //     toast.success(USAddUpdateGroup);
+
+  //   }
+  // }, [USAddUpdateGroup])
 
 
   const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,7 +291,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
           <Grid item xs={6}>
             <TextField label={
               <span>
-                Group Name<span style={{ color: 'red' }}> *</span>
+                Group Name<span style={{ color: 'red' }}> *
+                  <ErrorMessage1 Error={ErrorGroupName}></ErrorMessage1>
+                </span>
               </span>
             }
               fullWidth onChange={(e) => clickGroupName(e.target.value)} />
@@ -261,7 +320,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
                         />
                       }
                       label={item.Name}
+
                     />
+                    <ErrorMessage1 Error={ErrorUserRole}></ErrorMessage1>
                   </Grid>
                 )
               )}
@@ -278,6 +339,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
             ItemList={USGetUserRole}
             onChange={clickUserRole}
             defaultValue={UsersRole}
+
           />
         </Grid>
         {UsersRole === '3' && (
@@ -289,6 +351,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
               onChange={clickStandardClass}
               defaultValue={StandardClass}
             />
+
           </Grid>
         )}
         <Grid item xs={4}>
@@ -343,6 +406,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
                     <Checkbox
                       checked={selectAll}
                       onChange={handleSelectAll} />
+
                   </TableCell>
                   <TableCell sx={{ py: 0.5, color: 'white', }}>
                     <Box display="flex" alignItems="center">
@@ -361,6 +425,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
                       <Checkbox
                         checked={selected.includes(item.UserId)}
                         onChange={() => handleCheckboxChange(item.UserId)} />
+                      <ErrorMessage1 Error={ErrorSelectedUser}></ErrorMessage1>
                     </TableCell>
                     <TableCell sx={{ py: 0.5 }}>{item.UserName}</TableCell>
                   </TableRow>
