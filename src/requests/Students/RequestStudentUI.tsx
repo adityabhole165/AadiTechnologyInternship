@@ -26,7 +26,7 @@ const StudentUISlice = createSlice({
         ISGetAllGroupsOfStream: [],
         ISGetStreamwiseSubjectDetails: [],
         //UpdateStudent
-        ISUpdateStudent: [],
+        ISUpdateStudent: {},
         Loading: true
     },
     reducers: {
@@ -282,6 +282,10 @@ export const CDAUpdateStudent =
             //dispatch(StudentUISlice.actions.getLoading(true));
             const response = await GetStudentUIAPI.UpdateStudentApi(data);
             dispatch(StudentUISlice.actions.RUpdateStudent(response.data));
+            if (response.status === 200) {
+                // The API call was successful
+                console.log('Student information updated successfully');
+            }
         };
 
 export default StudentUISlice.reducer;

@@ -1,13 +1,15 @@
 import { QuestionMark, Visibility } from '@mui/icons-material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DocumentIcon from '@mui/icons-material/Description';
-import FamilyIcon from '@mui/icons-material/FamilyRestroom';
-import InfoIcon from '@mui/icons-material/Info';
-import PersonIcon from '@mui/icons-material/Person';
+import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import SaveIcon from '@mui/icons-material/Save';
 import SchoolIcon from '@mui/icons-material/School';
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import {
-  Alert,
   Box,
   Button,
   Card,
@@ -18,8 +20,6 @@ import {
   Grid,
   IconButton,
   LinearProgress,
-  List,
-  ListItem,
   Tab,
   Tabs,
   TextField,
@@ -27,38 +27,33 @@ import {
   Typography
 } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import React, { useState } from 'react';
+import { ClearIcon } from '@mui/x-date-pickers';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
+import SingleFile from 'src/libraries/File/SingleFile3';
+import { CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import Datepicker from '../MessageCenter/DatepickerMessage';
 import AdditionalDetails from './AdditionalDetails';
 import AddmissionDocumentInformation from './AddmissionDocumentInformation';
+import AddNotePopupList from './AddNotePopupList';
 import AdmissionDetails from './AdmissionDetails ';
 import FamilyDetails from './FamilyDetails';
 import PersonalDetails from './PersonalDetails'; // Assuming PersonalDetails is already created
+import CheckboxList from './SiblingDetailsCheckBoxList';
 import StudentProfileHeader from './StudentProfileHeader';
 import StudentSubjectDetails from './StudentSubjectDetails';
-import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import FamilyRestroomTwoToneIcon from '@mui/icons-material/FamilyRestroomTwoTone';
-import AddNotePopup from './AddNotePopupList';
-import { ClearIcon } from '@mui/x-date-pickers';
-import SingleFile from 'src/libraries/File/SingleFile3';
-import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import Datepicker from '../MessageCenter/DatepickerMessage';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
-import { useParams } from 'react-router';
-import AddNotePopupList from './AddNotePopupList';
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import StreamIcon from '@mui/icons-material/Stream';
-import CheckboxList from './SiblingDetailsCheckBoxList';
-import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 const initialData = [
   { className: '10-B', date: '05-Nov-2024', description: 'qqq' }
   // Add more rows if needed
 ];
 
 const StudentRegistrationForm = () => {
+  const dispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState(0);
   const [profileCompletion, setProfileCompletion] = useState(20);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -146,6 +141,92 @@ const StudentRegistrationForm = () => {
       ? new Date().toISOString().split('T')[0]
       : getCalendarDateFormatDateNew(AssignedDate)
   );
+
+  const UpdateStudentBody: IUpdateStudentBody = {
+    asSchoolId: 18, // Missing
+    asStudentId: 3556, // Missing
+    asInsertedById: 4463, // Missing
+    asID: 0, // Missing
+    asAcademicYearId: 55, // Missing
+    asFormNumber: 4576, // Missing
+    asPhoto_file_Path: "", // Missing
+    asFirst_Name: "Pranjal",
+    asMiddle_Name: "Pritam",
+    asLast_Name: "Bajare",
+    asMother_Name: "Rohini",
+    asBlood_Group: "",
+    asEnrolment_Number: "2495",
+    asParent_Name: "Pritam",
+    asParent_Occupation: "1",
+    asOther_Occupation: "",
+    asAddress: "Tower no. 100, Flat no. 504, Gateway Tower, Amanora Park Town, Hadapsar.",
+    asCity: "Pune",
+    asState: "Maharashtra",
+    asPincode: "411028",
+    asResidence_Phone_Number: "9224286937",
+    asMobile_Number: "9224773766",
+    asMobile_Number2: "9527208383",
+    asOffice_Number: "9270362059",
+    asNeighbour_Number: "1001001001",
+    asUpdated_By_Id: "4463",
+    asUpdate_Date: "2024-10-10",
+    asDOB: "2011-03-21",
+    asBirth_Place: "Vashi, Navi Mumbai",
+    asNationality: "Indian",
+    asSex: "F",
+    asSalutation_Id: "6",
+    asCategory_Id: "1",
+    asCasteAndSubCaste: "Maratha",
+    asAdmission_Date: "2014-01-03",
+    asJoining_Date: "2014-06-09",
+    asDateOfBirthInText: "Twenty One March Two Thousand Eleven",
+    asOptional_Subject_Id: "0",
+    asMother_Tongue: "Pali",
+    asLastSchoolName: "",
+    asLastSchoolAddress: "",
+    asLastCompletedStd: "",
+    asLastSchoolUDISENo: "",
+    asLastCompletedBoard: "",
+    asIsRecognisedBoard: "True",
+    asAadharCardNo: "748788202981",
+    asNameOnAadharCard: "Pranjal Pritam Bajare",
+    asAadharCard_Photo_Copy_Path: "16837343102883781539044089618529202351021292145.jpg",
+    asFamily_Photo_Copy_Path: "",
+    asUDISENumber: "2014272505108050285",
+    asBoardRegistrationNo: "",
+    asIsRiseAndShine: "False",
+    asAdmissionSectionId: "0",
+    asGRNumber: "",
+    asStudentUniqueNo: "",
+    asSaralNo: "",
+    asIsOnlyChild: "False",
+    asMinority: "False",
+    asRoll_No: 1,
+    asRule_Id: 0,
+    asIsStaffKid: 0,
+    asHeight: 0,
+    asWeight: 0,
+    asUpdated_By_id: 4463,
+    asRTECategoryId: 0,
+    asSecondLanguageSubjectId: 1760,
+    asThirdLanguageSubjectId: 1763,
+    asIsForDayBoarding: false,
+    asFeeCategoryDetailsId: 0,
+    asRTEApplicationFormNo: "",
+    asAnnualIncome: 0,
+    asStandard_Id: 1082, // Missing
+    asDivision_Id: 1299, // Missing
+    asReligion: "Hindu",
+    asYearWise_Student_Id: 40467,
+    asParentUserId: 0
+  }
+
+  useEffect(() => {
+
+    dispatch(CDAUpdateStudent(UpdateStudentBody));
+
+  }, []);
+
   const onSelectDate = (value) => {
     SetSelectDate(value);
   };
@@ -349,7 +430,7 @@ const StudentRegistrationForm = () => {
           />
           <Tab
             sx={{ m: 2, maxWidth: 200, borderRadius: '100%' }}
-            icon={<LocalLibraryIcon  />}
+            icon={<LocalLibraryIcon />}
             label="Stream Details"
           />
         </Tabs>
@@ -615,7 +696,7 @@ const StudentRegistrationForm = () => {
               />
             </Box>
           </DialogContent>
-          <DialogActions sx={{m:2}}>
+          <DialogActions sx={{ m: 2 }}>
             <Button onClick={handleCloseDialog} color={'error'}>
               Close
             </Button>
@@ -666,17 +747,17 @@ const StudentRegistrationForm = () => {
             Sibling Details
           </Typography>
           <DialogContent>
-            <Card sx={{p:1, mb:1}}>
-            <b>Note : </b>If you click on save button selected Sibling Details will be
-              replaced to the following sibling(s) : 
+            <Card sx={{ p: 1, mb: 1 }}>
+              <b>Note : </b>If you click on save button selected Sibling Details will be
+              replaced to the following sibling(s) :
               <b> Master Aadvik Prashant Dalavi</b>
             </Card>
             <Box>
-            <CheckboxList />
+              <CheckboxList />
             </Box>
           </DialogContent>
-          <DialogActions sx={{m:2}}>
-            
+          <DialogActions sx={{ m: 2 }}>
+
             <Button onClick={handleCloseDialog1} color={'error'}>
               Close
             </Button>
@@ -693,7 +774,7 @@ const StudentRegistrationForm = () => {
               save
             </Button>
           </DialogActions>
-         
+
         </Dialog>
       </Box>
     </Box>
