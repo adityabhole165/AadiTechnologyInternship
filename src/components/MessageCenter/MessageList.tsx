@@ -47,6 +47,7 @@ import {
 } from 'src/requests/MessageCenter/RequestDraftMessage';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
+import { getDateFormat1 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
 import CardMessage from './CardMessage';
@@ -79,11 +80,13 @@ const MessageList = () => {
 
   const [pageIndex, setpageIndex] = useState<number>(NextPageIndex); // Page index
   const [activeTab, setActiveTab] = useState('');
-  const [searchText, setSearchText] = useState('');
+  // const [searchText, setSearchText] = useState('');
   const [academicYear, setAcademicYear] = useState('');
   const [monthYear, setMonthYear] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [operator, setOperator] = useState('=');
   const [isSearchClicked, setIsSearchClicked] = useState(false);
-  const [operator, setOperator] = useState('');
+  // const [operator, setOperator] = useState('');
   const [searchDate, setSearchDate] = useState<string>('');
   const [showSearch, setShowSearch] = useState(false);
   const [inboxListData, setInboxListData] = useState([]);
@@ -254,6 +257,28 @@ const MessageList = () => {
     setMonthYear(value);
   };
 
+  const clickDate = (value) => {
+    setSearchDate(getDateFormat1(value));
+  };
+  const clickOperator = (value) => {
+    setOperator(value);
+  };
+  // const textOnChange = (e) => {
+  //   setSearchText(e.target.value);
+  // };
+  const textOnChange = (e) => {
+    if (e.target.value.length <= 50) {
+      setSearchText(e.target.value);
+    }
+  };
+  const operatorArray = [
+    { Name: '=', Value: '=' },
+    { Name: '<', Value: '<' },
+    { Name: '<=', Value: '<=' },
+    { Name: '>', Value: '>' },
+    { Name: '>=', Value: '>=' }
+  ];
+
   const clickSearchIcon = () => {
     setShowSearch(!showSearch);
   };
@@ -405,16 +430,6 @@ const MessageList = () => {
       }
     });
   };
-  // const DeletePermanent = () => {
-  //   if (
-  //     confirm(
-  //       'This action will permanently delete selected message(s) from the Sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?'
-  //     )
-  //   ) {
-  //     permanentDelete();
-  //   } else {
-  //   }
-  // };
   const DeletePermanent = () => {
     showAlert({
       title: 'Please Confirm',
@@ -460,6 +475,15 @@ const MessageList = () => {
 
   const refreshData = (value) => {
     setInboxListData(value);
+  };
+
+  const handleRefresh = () => {
+    setIsRefresh(!isRefresh);
+    setSearchText('');
+    setAcademicYear(AcademicYearId);
+    setMonthYear('');
+    setOperator('');
+    setSearchDate('');
   };
 
   const scrollableDivRefference = document.getElementById('ScrollableDiv');
@@ -663,9 +687,7 @@ const MessageList = () => {
                         }
                       }}>
                       <RefreshIcon
-                        onClick={() => {
-                          setIsRefresh(!isRefresh);
-                        }}
+                        onClick={handleRefresh}
                         fontSize="medium"
                       />
                     </IconButton>
@@ -735,11 +757,18 @@ const MessageList = () => {
                     activeTab={activeTab}
                     AcademicYearList={AcademicYearList}
                     MonthYearList={MonthYearList}
+                    operatorArray={operatorArray}
                     clickSearch={clickSearch}
                     academicYear={academicYear}
                     monthYear={monthYear}
+                    operator={operator}
+                    searchDate={searchDate}
+                    searchText={searchText}
                     clickAcademicYear={clickAcademicYear}
                     clickMonthYear={clickMonthYear}
+                    clickOperator={clickOperator}
+                    clickDate={clickDate}
+                    textOnChange={textOnChange}
                     isSearchClicked={isSearchClicked}
                     CloseSearchBar={closeSearchBar}
                   />
@@ -862,7 +891,7 @@ const MessageList = () => {
                       // </Grid>
                     ) : (<Grid container>
                       <Grid xs={12} sm={12} md={12} sx={{ textAlign: 'right' }}>
-                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, padding: 1, borderRadius: 2 }} >{TotalCountLabel}</Typography>
+                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, padding: 1, borderRadius: 2 }} >{inboxListData.length} Out of {TotalCountLabel}</Typography>
                       </Grid>
                       <Grid xs={12} sm={12} md={12}>
                         <SelectList3Col
