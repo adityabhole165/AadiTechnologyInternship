@@ -102,10 +102,10 @@ function MyLeaveRequisitionAppraisal() {
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'Approved': return 'success';
-            case 'Pending': return 'warning';
+            case 'Published': return 'success';
             case 'Rejected': return 'error';
             case 'Denied': return 'error';
-            case 'Submitted': return 'warning';
+            case 'Pending': return 'warning';
             default: return 'default';
         }
     };
@@ -220,9 +220,14 @@ function MyLeaveRequisitionAppraisal() {
                                         color={getStatusColor(data.Status || data.StatusName)}
                                         size="small"
                                         sx={{
-                                            backgroundColor: data.Status === 'Published' ? '#228b22' : undefined,
-                                            color: data.Status === 'Published' ? 'white' : undefined,
-                                        }} // Custom pink color for submitted
+                                            backgroundColor:
+                                                data.Status === 'Pending' ? '#ffa500' :
+                                                    data.Status === 'Submitted' ? '#f0e68c' :
+                                                        undefined,
+                                            color:
+                                                (data.Status === 'Pending' || data.Status === 'Submitted') ? 'white' :
+                                                    undefined,
+                                        }} // Custom colors for Pending and Submitted
                                     />
                                 </Box>
                             </Grid>

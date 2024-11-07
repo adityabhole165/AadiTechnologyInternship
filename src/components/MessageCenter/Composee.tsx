@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { blue, green, grey } from '@mui/material/colors';
-import { ClearIcon, TimePicker } from "@mui/x-date-pickers";
+import { ClearIcon, TimePicker } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import JoditEditor from 'jodit-react';
 import React, { useEffect, useRef, useState } from 'react';
@@ -69,10 +69,9 @@ import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
 function Form13() {
-
   const [openDialog, setOpenDialog] = useState(false);
   const [showRecipients, setShowRecipients] = useState(false);
-  const [IsConfirm, setIsConfirm] = useState('')
+  const [IsConfirm, setIsConfirm] = useState('');
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -82,8 +81,8 @@ function Form13() {
   const SaveDraftM = useSelector(
     (state: RootState) => state.DraftMessages.SaveDraftMessage
   );
-  const editor = useRef(null)
-  const [content, setContent] = useState('')
+  const editor = useRef(null);
+  const [content, setContent] = useState('');
 
   const dispatch = useDispatch();
 
@@ -232,8 +231,8 @@ function Form13() {
   const StudentName = sessionStorage.getItem('StudentName');
   const DivisionId = sessionStorage.getItem('DivisionId');
   const SchoolName = localStorage.getItem('SchoolName');
-  const userName = sessionStorage.getItem('StudentName')
-  const DesignationName = sessionStorage.getItem('DesignationName')
+  const userName = sessionStorage.getItem('StudentName');
+  const DesignationName = sessionStorage.getItem('DesignationName');
   const fullDisplayName = ` ${userName} (${DesignationName})`;
   const [fileExtension, setfileExtension] = React.useState<any>('');
   const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
@@ -285,14 +284,14 @@ function Form13() {
   };
 
   const handleOpenDialog = (isRecipients) => {
-    setIsConfirm('')
+    setIsConfirm('');
     setShowRecipients(isRecipients);
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setIsConfirm('true')
+    setIsConfirm('true');
   };
 
   const CheckValidation = (fileData) => {
@@ -336,8 +335,8 @@ function Form13() {
         setFilerror(null);
         return true;
       }
-      if (fileData?.size > 20e6) {
-        setFilerror('Please upload a file smaller than 20 MB');
+      if (fileData?.size > 50e6) {
+        setFilerror('Total file size should be less than 50 MB.');
         return false;
       }
     }
@@ -429,11 +428,20 @@ function Form13() {
     initialValues: {
       To: '',
       Cc: '',
-      Subject: PageName == 'Forwa' ? "FW: " + Text :
-        PageName == 'Reply' ? "RE: " + Text :
-          PageName == 'Edit' ? Text : '',
-      Content: PageName == 'Edit' ? originalMessageBody : '<br/><br/>Thanks and Regards,<br/>' + sessionStorage.getItem('StudentName'),
-      Attachment: PageName == 'Edit' && null,
+      Subject:
+        PageName == 'Forwa'
+          ? 'FW: ' + Text
+          : PageName == 'Reply'
+            ? 'RE: ' + Text
+            : PageName == 'Edit'
+              ? Text
+              : '',
+      Content:
+        PageName == 'Edit'
+          ? originalMessageBody
+          : '<br/><br/>Thanks and Regards,<br/>' +
+          sessionStorage.getItem('StudentName'),
+      Attachment: PageName == 'Edit' && null
     },
 
     // const formik = useFormik({
@@ -544,7 +552,9 @@ function Form13() {
     setdisplayOfCCRecipients('none');
     setdisplayOfComposePage('block');
   };
-  const [recipients, setRecipients] = useState(RecipientsObject.RecipientName || []);
+  const [recipients, setRecipients] = useState(
+    RecipientsObject.RecipientName || []
+  );
 
   // Update local recipients state whenever the RecipientsObject changes
   useEffect(() => {
@@ -552,14 +562,16 @@ function Form13() {
   }, [RecipientsObject.RecipientName]);
 
   // Handle deleting a chip
-  const handleDelete = (chipToDelete) => {
+  const handleDelete = (chipToDelete, index) => {
     const updatedRecipients = recipients.filter(
-      (recipient) => recipient !== chipToDelete
+      (recipient, i) => i !== index
     );
     setRecipients(updatedRecipients);
-
-    // Update the formik value or the related state
-    formik.setFieldValue('RecipientsObject.RecipientName', updatedRecipients);
+    setRecipientsObject((prev) => ({
+      ...prev,
+      RecipientName: prev.RecipientName.filter((recipient, i) => i !== index),
+      RecipientId: prev.RecipientId.filter((recipient, i) => i !== index),
+    }));
   };
 
   useEffect(() => {
@@ -659,10 +671,24 @@ function Form13() {
     }
   };
   const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
-  //const MaxfileSize = 10000000; 
+  //const MaxfileSize = 10000000;
   const MaxfileSize = 50000000;
   // const ValidFileTypes2 =  ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
-  const ValidFileTypes2 = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'PNG', 'PPS', 'PPSX', 'PPT', 'PPTX', 'XLS', 'XLSX'];
+  const ValidFileTypes2 = [
+    'BMP',
+    'DOC',
+    'DOCX',
+    'JPG',
+    'JPEG',
+    'PDF',
+    'PNG',
+    'PPS',
+    'PPSX',
+    'PPT',
+    'PPTX',
+    'XLS',
+    'XLSX'
+  ];
 
   const SaveDraft = () => {
     let isError = false;
@@ -686,9 +712,11 @@ function Form13() {
   }, [SaveDraftM]);
 
   const clickConfirm = () => {
-    handleCloseDialog()
-  }
-  const [recipientsCC, setRecipientsCC] = useState(RecipientsCCObject.RecipientName || []);
+    handleCloseDialog();
+  };
+  const [recipientsCC, setRecipientsCC] = useState(
+    RecipientsCCObject.RecipientName || []
+  );
 
   // Update local recipients state whenever the RecipientsCCObject changes
   useEffect(() => {
@@ -696,73 +724,82 @@ function Form13() {
   }, [RecipientsCCObject.RecipientName]);
 
   // Handle deleting a chip (recipient)
-  const handleDelete1 = (chipToDelete) => {
+  const handleDelete1 = (chipToDelete, index) => {
     const updatedRecipients = recipientsCC.filter(
-      (recipient) => recipient !== chipToDelete
+      (recipient, i) => i !== index
     );
     setRecipientsCC(updatedRecipients);
-
-    // Update the formik value (or related state)
-    formik.setFieldValue('RecipientsCCObject.RecipientName', updatedRecipients);
+    setRecipientsCCObject((prev) => ({
+      ...prev,
+      RecipientName: prev.RecipientName.filter((recipient, i) => i !== index),
+      RecipientId: prev.RecipientId.filter((recipient, i) => i !== index),
+    }));
   };
   return (
     <>
       <Box sx={{ px: 2, height: '90vh', mb: 2 }}>
-        <CommonPageHeader navLinks={[
-          { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
-          { title: 'Compose Message', path: '' }
-        ]}
-          rightActions={<>
-            <Box>
-              <Tooltip
-                title={`Write a new message / send reply to the message received.`}
-              >
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
-                  }}
+        <CommonPageHeader
+          navLinks={[
+            {
+              title: 'Message Center',
+              path: '/extended-sidebar/MessageCenter/msgCenter'
+            },
+            { title: 'Compose Message', path: '' }
+          ]}
+          rightActions={
+            <>
+              <Box>
+                <Tooltip
+                  title={`Write a new message / send reply to the message received.`}
                 >
-                  <QuestionMarkIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={'Save As Draft'}>
-                <IconButton
-                  type='submit'
-                  sx={{
-                    color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: green[600] }
-                  }}
-                  onClick={SaveDraft}
-                >
-                  <DraftsIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={'Send'}>
-                <IconButton
-                  type='submit'
-                  onClick={() => { formik.handleSubmit() }}
-                  disabled={disabledStateOfSend}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: blue[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: blue[600] }
-                  }}
-                >
-                  <SendIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <QuestionMarkIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box>
+                <Tooltip title={'Save As Draft'}>
+                  <IconButton
+                    type="submit"
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: green[600] }
+                    }}
+                    onClick={SaveDraft}
+                  >
+                    <DraftsIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box>
+                <Tooltip title={'Send'}>
+                  <IconButton
+                    type="submit"
+                    onClick={() => {
+                      formik.handleSubmit();
+                    }}
+                    disabled={disabledStateOfSend}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: blue[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: blue[600] }
+                    }}
+                  >
+                    <SendIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </>
           }
         />
 
@@ -785,11 +822,13 @@ function Form13() {
         </span> */}
         <Box sx={{ backgroundColor: 'white', px: 2, minHeight: '85vh' }}>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={1} >
-              <Grid item xs={12} >
-                <Typography variant='h4' pl={1}>Form</Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <Typography variant="h4" pl={1}>
+                  Form
+                </Typography>
               </Grid>
-              <Grid item xs={12} sm={8} md={9.5} >
+              <Grid item xs={12} sm={8} md={9.5}>
                 {/* <FormControl fullWidth> */}
                 <TextField
                   multiline
@@ -811,48 +850,57 @@ function Form13() {
                     borderRadius: '7px'
                   }}
                 />
-                <Box mt={0}>
-                  {RecipientsList.length == 0 ? (
-                    <ErrorMessage1 Error={formik.errors.To} />
-                  ) : null}
-                </Box>
               </Grid>
-              <Grid item xs={12} >
-                <Typography variant='h4' pl={1}>To</Typography>
+              <Grid item xs={12}>
+                <Typography variant="h4" pl={1}>
+                  To
+                </Typography>
               </Grid>
 
-              <Grid item xs={12} sm={8} md={9.5} >
+              <Grid item xs={12} sm={8} md={9.5}>
                 {/* <FormControl fullWidth> */}
                 <TextField
-                  multiline
-                  id=""
+                  // multiline
+                  // id=""
                   fullWidth
+                  label={
+
+                    <span style={{ color: 'red' }}>*</span>
+
+                  }
                   InputProps={{
                     startAdornment: (
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                        {recipients.map((recipient, index) => (
-                          <Chip
-                            key={index}
-                            label={recipient?.trim()}
-                            onDelete={() => handleDelete(recipient)} // Add delete functionality
-                            sx={{ margin: '2px 4px' }}
-                          />
-                        ))}
+                      <Box
+                        sx={{ display: 'flex', flexWrap: 'wrap', overflowY: 'scroll', minWidth: '100%', height: '110px' }}
+                      >
+                        <>
+                          {recipients.map((recipient, index) => (
+                            <Chip
+                              key={index}
+                              label={recipient?.trim()}
+                              onDelete={() => handleDelete(recipient, index)} // Add delete functionality
+                              sx={{ margin: '4px 2px' }}
+                            />
+                          ))}
+                        </>
                       </Box>
                     ),
-                    readOnly: true,
+                    readOnly: true
                   }}
                   // Display joined recipients as string in textfield
                   onChange={formik.handleChange}
-                  sx={{
-                    height: 'auto',
-                    overflow: 'auto',
-                    border: '0.1px solid #c4c5c5',
-                    borderRadius: '7px',
-                  }}
+                // sx={{
+                //   height: '120px',
+                //   overflow: 'auto',
+                //   my:2,
+                //   // border: '0.1px solid #c4c5c5',
+                //   borderRadius: '7px'
+                // }}
                 />
                 <Box mt={0}>
-                  {RecipientsList.length == 0 ? (
+                  {RecipientsList.length == 0 &&
+                    formik.touched.To &&
+                    formik.errors.To ? (
                     <ErrorMessage1 Error={formik.errors.To} />
                   ) : null}
                 </Box>
@@ -863,7 +911,9 @@ function Form13() {
                   fullWidth
                   onClick={() => handleOpenDialog(true)}
                   sx={{
-                    color: '#38548A', width: '140px', mt: 1,
+                    color: '#38548A',
+                    width: '140px',
+                    mt: 4,
                     '&:hover': { color: '#38548A', backgroundColor: blue[100] }
                   }}
                 >
@@ -875,9 +925,12 @@ function Form13() {
                   fullWidth
                   onClick={clickHide}
                   sx={{
-                    color: '#38548A', ml: 4, mt: 1,
+                    color: '#38548A',
+                    ml: 4,
+                    mt: 4,
                     '&:hover': { color: '#38548A', backgroundColor: blue[100] }
-                  }}>
+                  }}
+                >
                   Add Cc
                 </Button>
               </Grid>
@@ -897,20 +950,35 @@ function Form13() {
               {showCC && (
                 <>
                   <Grid item xs={12}>
-                    <Typography variant='h4' pl={1}>Cc</Typography>
+                    <Typography variant="h4" pl={1}>
+                      Cc
+                    </Typography>
                   </Grid>
                   <Grid item xs={12} sm={8} md={9.5}>
-                    <TextField multiline id="" fullWidth disabled
+                    <TextField
+                      multiline
+                      id=""
+                      fullWidth
+                      disabled
                       InputProps={{
                         startAdornment: (
-                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              gap: '4px'
+                            }}
+                          >
                             {recipientsCC.map((recipient, index) => (
-                              <Chip key={index} label={recipient?.trim()} sx={{ margin: '2px 4px' }}
-                                onDelete={() => handleDelete1(recipient)} // Add delete functionality
+                              <Chip
+                                key={index}
+                                label={recipient?.trim()}
+                                sx={{ margin: '2px 4px' }}
+                                onDelete={() => handleDelete1(recipient, index)} // Add delete functionality
                               />
                             ))}
                           </Box>
-                        ),
+                        )
                       }}
                       // value={recipientsCC.join('; ')} // Display joined recipients as a string in the textfield
                       onChange={formik.handleChange}
@@ -919,20 +987,25 @@ function Form13() {
                         overflow: 'auto',
                         border: '0.1px solid #c4c5c5',
                         borderRadius: '5.3px',
-                        marginLeft: '0px',
+                        marginLeft: '0px'
                       }}
                     />
                   </Grid>
 
                   <Grid item xs={6} sm={2} md={1}>
-                    <Box >
+                    <Box>
                       <Button
                         fullWidth
-                        // onClick={(e) => RecipientCCButton(e)}       
+                        // onClick={(e) => RecipientCCButton(e)}
                         onClick={() => handleOpenDialog(false)}
                         sx={{
-                          color: '#38548A', mt: 0.7, width: '160px',
-                          '&:hover': { color: '#38548A', backgroundColor: blue[100] }
+                          color: '#38548A',
+                          mt: 0.7,
+                          width: '160px',
+                          '&:hover': {
+                            color: '#38548A',
+                            backgroundColor: blue[100]
+                          }
                         }}
                       >
                         Add Cc Recipients
@@ -955,11 +1028,22 @@ function Form13() {
               )}
               {/* </FormControl> */}
               <Grid item xs={12} px={1}>
-                <TextField fullWidth margin="normal" label="Subject " name="Subject" type="text"
-                  autoComplete="off" value={formik.values.Subject} onChange={formik.handleChange}
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label={
+                    <span>
+                      Subject <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  name="Subject"
+                  type="text"
+                  autoComplete="off"
+                  value={formik.values.Subject}
+                  onChange={formik.handleChange}
                 />
                 <Errormessages Error={subjecterror} />
-                <Box >
+                <Box>
                   {formik.touched.Subject && formik.errors.Subject ? (
                     <ErrorMessage1 Error={formik.errors.Subject} />
                   ) : null}
@@ -971,29 +1055,54 @@ function Form13() {
                   title={
                     'Supports only ' +
                     ValidFileTypes2.join(', ') +
-                    ' files types with total size upto ' + (MaxfileSize / 1000000).toString() + 'MB.'
+                    ' files types with total size upto ' +
+                    (MaxfileSize / 1000000).toString() +
+                    'MB.'
                   }
                 >
                   <Button
                     sx={{
-                      width: '300px', height: 'auto', gap: 1,
-                      border: (theme) => `1px dashed ${theme.colors.primary.main}`,
-                      position: 'relative', display: 'flex', alignItems: 'center',
+                      width: '300px',
+                      height: 'auto',
+                      gap: 1,
+                      border: (theme) =>
+                        `1px dashed ${theme.colors.primary.main}`,
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
                       justifyContent: 'space-between'
                     }}
                     color={'primary'}
-                  ><Stack direction={'row'} alignItems={'center'} gap={1}
-                    sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', }}>
+                  >
+                    <Stack
+                      direction={'row'}
+                      alignItems={'center'}
+                      gap={1}
+                      sx={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
                       <CloudUploadIcon />
                       Select Image
-                      <input ref={aRef} type="file" multiple
+                      <input
+                        ref={aRef}
+                        type="file"
+                        multiple
                         onChange={fileChangedHandler}
                         style={{
-                          opacity: 0, position: 'absolute', cursor: 'pointer',
-                          top: 0, left: 0, right: 0, bottom: 0,
+                          opacity: 0,
+                          position: 'absolute',
+                          cursor: 'pointer',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0
                         }}
                       />
-                    </Stack></Button>
+                    </Stack>
+                  </Button>
                 </Tooltip>
 
                 <Box sx={{ mt: '15px', width: '300px' }}>
@@ -1015,8 +1124,16 @@ function Form13() {
                             <CardDetail8 sx={{ mt: '1px' }}>
                               {obj.FileName.slice(0, 25)}
                             </CardDetail8>
-                            <IconButton aria-label="delete" title="Delete"
-                              onClick={() => handleRemoveListItems(obj.FileName, obj.Base64URL)}>
+                            <IconButton
+                              aria-label="delete"
+                              title="Delete"
+                              onClick={() =>
+                                handleRemoveListItems(
+                                  obj.FileName,
+                                  obj.Base64URL
+                                )
+                              }
+                            >
                               <DeleteIcon sx={{ color: 'red', mt: '-4px' }} />
                             </IconButton>
                           </Box>
@@ -1028,8 +1145,11 @@ function Form13() {
               </Grid>
 
               <Grid item xs={6} sm={4} md={4} lg={2} sx={ReadRecipient}>
-                <Checkbox size="small" sx={{ ml: '-10px' }}
-                  onChange={() => setRequestReadReceipt(!requestReadReceipt)} />
+                <Checkbox
+                  size="small"
+                  sx={{ ml: '-10px' }}
+                  onChange={() => setRequestReadReceipt(!requestReadReceipt)}
+                />
                 <Typography sx={{ display: 'inline-block' }}>
                   Request Read Receipt ?
                 </Typography>
@@ -1050,15 +1170,27 @@ function Form13() {
                 <ClickAwayListener onClickAway={handleClickAwayS}>
                   <Tooltip
                     PopperProps={{ disablePortal: true }}
-                    onClose={handleClickS} arrow open={Sopen}
-                    disableFocusListener disableHoverListener disableTouchListener
-                    title={NoteSchedule} placement="right"
+                    onClose={handleClickS}
+                    arrow
+                    open={Sopen}
+                    disableFocusListener
+                    disableHoverListener
+                    disableTouchListener
+                    title={NoteSchedule}
+                    placement="right"
                     componentsProps={{
-                      tooltip: { sx: { marginLeft: '7px', transform: 'translate3d(15px, 0.5px, 0px) !important' } }
+                      tooltip: {
+                        sx: {
+                          marginLeft: '7px',
+                          transform: 'translate3d(15px, 0.5px, 0px) !important'
+                        }
+                      }
                     }}
                   >
-                    <IconButton onMouseOver={handleClickS}
-                      sx={{ color: '#38548A	', mt: '-9px', ml: -1 }}>
+                    <IconButton
+                      onMouseOver={handleClickS}
+                      sx={{ color: '#38548A	', mt: '-9px', ml: -1 }}
+                    >
                       <InfoIcon
                       // sx={{ color: '#38548A', fontSize: '20px',  }}
                       />
@@ -1067,12 +1199,32 @@ function Form13() {
                 </ClickAwayListener>
               </Grid>
 
-              <Grid item xs={12} sm={3.5} md={3.5} lg={1.5} sx={{ ml: -5, mt: -1, messageCenterCale }} >
-                <Datepicker DateValue={undefined} onDateChange={scheduleDateAndTime}
-                  label="" size="medium" minDate={MinDate} maxDate={MaxDate} display={scheduleMessage}
+              <Grid
+                item
+                xs={12}
+                sm={3.5}
+                md={3.5}
+                lg={1.5}
+                sx={{ ml: -5, mt: -1, messageCenterCale }}
+              >
+                <Datepicker
+                  DateValue={undefined}
+                  onDateChange={scheduleDateAndTime}
+                  label=""
+                  size="medium"
+                  minDate={MinDate}
+                  maxDate={MaxDate}
+                  display={scheduleMessage}
                 />
               </Grid>
-              <Grid item xs={12} sm={3.5} md={3.5} lg={1.5} sx={{ mt: -1, display: scheduleMessage }}>
+              <Grid
+                item
+                xs={12}
+                sm={3.5}
+                md={3.5}
+                lg={1.5}
+                sx={{ mt: -1, display: scheduleMessage }}
+              >
                 <TimePicker value={value} onChange={clickTime} />
               </Grid>
               <Grid item xs={6} sx={{ mt: 0, mb: '6px', ml: '1px' }}>
@@ -1090,11 +1242,13 @@ function Form13() {
                   <JoditEditor
                     ref={editor}
                     value={formik.values.Content}
+                    // config={{
+                    //   disablePlugins: ['ai-assistant', 'class-span', 'about', 'powered-by-jodit','paste-storage','placeholder']
+                    // }}
                     onChange={(newContent) => {
-                      formik.setFieldValue('Content', newContent);  // Manually set the value in Formik
+                      formik.setFieldValue('Content', newContent);
                     }}
                   />
-
                 </Box>
                 <Errormessages Error={contenterror} />
                 <Box mb={0.5}>
@@ -1121,12 +1275,20 @@ function Form13() {
           </form>
         </Box>
       </Box>
-      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth maxWidth="md"
-        PaperProps={{ sx: { borderRadius: "15px", } }}
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        fullWidth
+        maxWidth="md"
+        PaperProps={{ sx: { borderRadius: '15px' } }}
       >
         <DialogTitle sx={{ bgcolor: '#223354' }}>
-          <Tooltip title={'Select name of the teacher / student / admin staff / other staff and click on "Back to compose / Confirm'}
-            placement="bottom-end"  >
+          <Tooltip
+            title={
+              'Select name of the teacher / student / admin staff / other staff and click on " Confirm " button.'
+            }
+            placement="bottom-end"
+          >
             <QuestionMark
               sx={{
                 color: 'white',
@@ -1137,9 +1299,11 @@ function Form13() {
                 right: '35px',
                 cursor: 'pointer',
                 '&:hover': { backgroundColor: grey[600] }
-              }} />
+              }}
+            />
           </Tooltip>
-          <ClearIcon onClick={handleCloseDialog}
+          <ClearIcon
+            onClick={handleCloseDialog}
             sx={{
               color: 'white',
               borderRadius: '7px',
@@ -1148,10 +1312,10 @@ function Form13() {
               right: '8px',
               cursor: 'pointer',
               '&:hover': {
-                color: 'red',
+                color: 'red'
               }
-            }} />
-
+            }}
+          />
         </DialogTitle>
         <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
           {showRecipients ? 'Add Recipients' : 'Add Cc Recipients'}
@@ -1164,6 +1328,8 @@ function Form13() {
                 RecipientName={RecipientsObject.RecipientName}
                 RecipientId={RecipientsObject.RecipientId}
                 recipientListClick={RecipientsListFun}
+                contactGroupList={RecipientsObject.ContactGroup}
+                classIdList={RecipientsCCObject.ClassId}
                 IsConfirm={IsConfirm}
               />
             ) : (
@@ -1171,16 +1337,15 @@ function Form13() {
                 RecipientName={RecipientsCCObject.RecipientName}
                 RecipientId={RecipientsCCObject.RecipientId}
                 recipientListClick={RecipientsCCListFun}
+                contactGroupList={RecipientsObject.ContactGroup}
+                classIdList={RecipientsCCObject.ClassId}
                 IsConfirm={IsConfirm}
               />
             )}
           </Box>
-          <Box >
+          <Box>
             <DialogActions sx={{ py: 2, px: 3 }}>
-              <Button
-                color={'error'}
-                onClick={handleCloseDialog}
-              >
+              <Button color={'error'} onClick={handleCloseDialog}>
                 Cancel
               </Button>
               <Button
@@ -1191,7 +1356,8 @@ function Form13() {
                     color: 'green',
                     backgroundColor: green[100]
                   }
-                }}>
+                }}
+              >
                 Confirm
               </Button>
             </DialogActions>

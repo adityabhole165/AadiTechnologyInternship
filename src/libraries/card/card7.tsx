@@ -141,7 +141,26 @@ function Card7({
   const navigateToInBox = () => {
     navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
   };
+  function replaceTableStyles(htmlString) {
+    // Regular expression to match td tags with or without existing style
+    const tdRegex = /<td(?:\s+style="([^"]*)")?([^>]*)>/g;
 
+    // Replace function that preserves existing styles while adding border
+    return htmlString.replace(tdRegex, (match, existingStyle, otherAttributes) => {
+      // If there's an existing style
+      if (existingStyle) {
+        // Check if border style already exists
+        if (!existingStyle.includes('border:')) {
+          // Add border style to existing styles
+          return `<td style="${existingStyle};border:1px solid black"${otherAttributes}>`;
+        }
+        return match; // Return unchanged if border already exists
+      }
+
+      // If no existing style, add new style attribute with border
+      return `<td style="border:1px solid black"${otherAttributes}>`;
+    });
+  }
   return (
     <>
       <CommonPageHeader
@@ -416,9 +435,9 @@ function Card7({
           </BoxWrapper>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Body}</CardDetail1>
-
             {/* <Wordbreak  /> */}
-            <Typography dangerouslySetInnerHTML={{ __html: Body }}></Typography>
+
+            <Typography dangerouslySetInnerHTML={{ __html: replaceTableStyles(Body) }}></Typography>
           </BoxWrapper>
         </ListStyle>
       </Box>

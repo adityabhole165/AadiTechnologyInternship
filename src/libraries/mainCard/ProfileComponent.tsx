@@ -6,10 +6,15 @@ import {
 
 const ProfileComponent = ({ Name, Value }) => {
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <ProfileWrapper>
         <ProfileDetail1>{Name}</ProfileDetail1>
-        <ProfileDetail4> {Value}</ProfileDetail4>
+        <ProfileDetail4 style={{
+          overflowWrap: 'break-word',
+          maxWidth: '600px', 
+          wordBreak: 'break-word',
+          whiteSpace: 'normal', 
+        }}> {Value}</ProfileDetail4>
       </ProfileWrapper>
     </div>
   );

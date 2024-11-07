@@ -305,8 +305,8 @@ const StudentBaseScreen = () => {
                                                                         }}
                                                                         onClick={() => navigate(`/extended-sidebar/Teacher/StudentRegistrationForms`, {
                                                                             state: {
-                                                                                Mode: 'edit'
-
+                                                                                standardId: standardId,
+                                                                                DivisionId: divId,
                                                                             }
                                                                         })} />
                                                                 </Tooltip>

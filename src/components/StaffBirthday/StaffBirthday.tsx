@@ -1,28 +1,25 @@
-import { Box, useTheme } from '@mui/material';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { Box, Grid, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
-import IstaffBirthday, {
-  GetstaffBirthdayList
-} from 'src/interfaces/Common/StaffBirthday';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import { IstaffBirthday } from 'src/interfaces/Student/dashboard';
 import MonthSelector from 'src/libraries/buttons/MonthSelector';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import List17 from 'src/libraries/list/list17';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
-import {
-  DotLegend1,
-  DotLegendStyled1
-} from 'src/libraries/styled/DotLegendStyled';
-import { getstaffBirthday } from 'src/requests/StaffBirthday/StaffBirthday';
+import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
+import { getstaffBirthday } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 function StaffBirthday() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const staffBirthdayList = useSelector(
-    (state: RootState) => state.staffBirthday.staffBirthdayData
+    (state: RootState) => state.Dashboard.staffBirthdayData
   );
+
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -31,12 +28,14 @@ function StaffBirthday() {
 
   const [assignedMonth, setAssignedMonth] = useState<string>();
   const [assignedMonth_num, SetassignedMonth_num] = useState<number>();
+  const Current_Month = new Date().getMonth() + 1;
 
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'long' });
     const Month_num = new Date(date).getMonth();
     const Year = new Date(date).getFullYear();
+    setAssignedYear(Year)
     const NewDateFormat = `${Month}-${Year}`;
     setDate({
       selectedDate: NewDateFormat
@@ -45,7 +44,6 @@ function StaffBirthday() {
     setAssignedMonth(Month);
     SetassignedMonth_num(Month_num + 1);
   }
-
   useEffect(() => {
     setCurrentDate();
   }, []);
@@ -67,27 +65,55 @@ function StaffBirthday() {
   const body: IstaffBirthday = {
     asMonth: assignedMonth_num,
     asAcademicyearId: asAcademicYearId,
-    asSchoolId: asSchoolId
+    asSchoolId: asSchoolId,
+    year: assignedYear
   };
 
   useEffect(() => {
     dispatch(getstaffBirthday(body));
   }, [assignedMonth]);
 
+  useEffect(() => {
+    dispatch(getstaffBirthday(body));
+  }, []);
   const classes = Styles();
 
   return (
     <Box sx={{ px: 2 }}>
-      <PageHeader heading={'Staff Birthdays'} subheading={''} />
-
-      <DotLegend1>
-        <DotLegendStyled1
-          className={classes.border}
-          style={{ background: '#e9a69a' }}
-        />
-
-        <CardDetail7>Upcoming Birthday</CardDetail7>
-      </DotLegend1>
+      <CommonPageHeader
+        navLinks={[{ title: 'Staff Birthdays', path: ' ' },
+        ]}
+        rightActions={
+          <Box>
+            <Tooltip title={`List of the school staff birthdays.`}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: grey[600] },
+                }}
+              >
+                <QuestionMarkIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        }
+      />
+      {assignedMonth_num == Current_Month &&
+        <DotLegend1>
+          <DotLegendStyled1
+            className={classes.border}
+            style={{ background: '#e9a69a' }}
+          />
+          <CardDetail7>Upcoming Birthday</CardDetail7>
+          <DotLegendStyled1
+            className={classes.border}
+            style={{ background: "#C0C0C0", marginLeft: '10px' }}
+          />
+          <CardDetail7>Past Birthday</CardDetail7>
+        </DotLegend1>
+      }
       <br />
       <MonthSelector
         date={date.selectedDate}
@@ -96,17 +122,38 @@ function StaffBirthday() {
         Close={undefined}
       />
 
+
       {staffBirthdayList.length === 0 ? (
-        <ErrorMessages Error={'No birthdays are available'} />
+        <Box sx={{ backgroundColor: '#D2FDFC' }}>
+          <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+            No birthdays are available.
+          </Typography>
+        </Box>
       ) : (
         <>
-          {staffBirthdayList.map((item: GetstaffBirthdayList, i) => (
-            <List17
-              Name={item.Name}
-              BirthDate={item.BirthDate}
-              key={i}
-              CalendarMonth={date.selectedDate}
-            />
+          {/* Render the header only if there are birthdays */}
+          <Box sx={{ background: (theme) => theme.palette.secondary.main, p: 1.5, borderRadius: '7px', mb: 1 }}>
+            <Grid container>
+              <Grid item xs={3}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold', ml: 10 }} variant="subtitle2">Name</Typography>
+              </Grid>
+              <Grid item xs={1.5}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">DOB</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Designation</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Email Address</Typography>
+              </Grid>
+              <Grid item xs={1.5}>
+                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Mobile Number</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+
+          {staffBirthdayList.map((item, i) => (
+            <List17 Name={item.Name} BirthDate={item.BirthDate} Designation={item.Designation} EmailAddress={item.EmailAddress} MobileNumber={item.MobileNumber} BinaryPhotoImage={item.BinaryPhotoImage} IsHighlight={item.IsHighlight} key={i} />
           ))}
         </>
       )}

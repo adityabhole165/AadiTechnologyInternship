@@ -5,7 +5,6 @@ import { Styles } from 'src/assets/style/student-style';
 import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBoard';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import BackButton from 'src/libraries/button/BackButton';
-import CardNotice from 'src/libraries/card/CardNotice';
 import List1 from 'src/libraries/mainCard/List1';
 import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
@@ -144,20 +143,20 @@ function Schoolnotice() {
       {/* <Typography variant="h3" pl={5.5} pt={2.4} mb={2} >
                    School Notice 
          </Typography> */}
-      <Box sx={{ background: 'white', py:2}}>
+      <Box sx={{ background: 'white', py: 2 }}>
 
         {/* <CardNotice
           itemList={Data1}
           downloadNotice={downloadNotice}
           clickSingle={clickSingle}
         /> */}
-        {GetAllActiveNotices.length > 0 && (
+        {/* {GetAllActiveNotices.length > 0 && (
           <CardNotice
             itemList={Data1}
             downloadNotice={downloadNotice}
             clickSingle={clickSingle}
           />
-        )}
+        )} */}
 
         {sessionStorage.getItem('Id') === null && (
           <BackButton FromRoute={'/schoolList'} />

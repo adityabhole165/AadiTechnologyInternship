@@ -109,13 +109,25 @@ const PreprimaryProgressReport = () => {
         if (ClassTeacher !== '0' && PreprimaryFullAccess == 'Y') {
             SetError1('')
         }
-
+        if (ClassTeacher == '') {
+            setOpen(false)
+       }
+       if (AssessmentId == '') {
+           setOpen(false)
+       }
+       if (StudentId == '') {
+           setOpen(false)
+       }
 
         if (AssessmentId !== '0') {
             SetError('')
         }
     }
 
+
+
+    console.log(ClassTeacher,"ClassTeacher",StudentId,"StudentId",AssessmentId,"AssessmentId");
+    
     const countDuplicates = (arr) => {
         const counts = {};
         arr.forEach((item) => {

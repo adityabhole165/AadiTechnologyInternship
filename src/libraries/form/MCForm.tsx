@@ -1,36 +1,27 @@
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, Grid, IconButton, TextField, Tooltip } from '@mui/material';
-import { useState } from 'react';
-import { getDateFormat1 } from 'src/components/Common/Util';
 import Datepicker from '../DateSelector/Datepicker';
 import SearchableDropdown from '../ResuableComponents/SearchableDropdown';
 
 const MCForm = ({
   AcademicYearList,
   MonthYearList,
+  operatorArray,
   clickSearch,
   academicYear,
   monthYear,
+  operator,
+  searchDate,
+  searchText,
   clickAcademicYear,
   clickMonthYear,
+  clickOperator,
+  clickDate,
+  textOnChange,
   isSearchClicked,
   CloseSearchBar,
   activeTab
 }) => {
-  const [searchText, setSearchText] = useState('');
-  const [operator, setOperator] = useState('=');
-  const [searchDate, setSearchDateDate] = useState<string>('');
-
-
-  const clickDate = (value) => {
-    setSearchDateDate(getDateFormat1(value));
-  };
-  const clickOperator = (value) => {
-    setOperator(value);
-  };
-  const textOnChange = (e) => {
-    setSearchText(e.target.value);
-  };
   const clickAY = (value) => {
     academicYear = value;
     clickAcademicYear(value);
@@ -49,21 +40,11 @@ const MCForm = ({
       !isSearchClicked
     );
   };
-  const operatorArray = [
-    { Name: '=', Value: '=' },
-    { Name: '<', Value: '<' },
-    { Name: '<=', Value: '<=' },
-    { Name: '>', Value: '>' },
-    { Name: '>=', Value: '>=' }
-  ];
-
-  console.log('AcademicYearList', AcademicYearList);
-  console.log('operatorArray', operatorArray);
 
   return (
     <>
       {activeTab != 'Draft' && (
-        <Box sx={{ p: 2, backgroundColor: 'white', mb: 2 }}>
+        <Box sx={{ p: 2, backgroundColor: 'white', mb: 1 }}>
           {/* <ListStyle> */}
           {/* <Box display={{ xs: 'block', sm: 'none' }}>
         <Avatar
@@ -93,6 +74,8 @@ const MCForm = ({
                 // variant="standard"
                 fullWidth
                 onChange={textOnChange}
+                value={searchText}
+                inputProps={{ maxLength: 50 }}
                 size={"medium"}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === 'Tab') {

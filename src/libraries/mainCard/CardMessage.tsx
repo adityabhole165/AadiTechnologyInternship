@@ -120,18 +120,24 @@ function CardMessage({
         </Grid>
         {/* This attachment is used for web view */}
         <Grid item sm={2} md={2} ml={-2}>
-          {IsAttachmentExist && (
-            <IconButton
-              sx={{ ml: -13 }}>
-              <AttachmentIcon fontSize="small" />
-            </IconButton>
+          {ActiveTab === 'Inbox' && (
+            IsAttachmentExist ? (
+              <IconButton sx={{ ml: -13 }}>
+                <AttachmentIcon fontSize="small" />
+              </IconButton>
+            ) : (
+              // <IconButton sx={{ ml: -13 }}>
+              <Typography ml={-13}>
+                -
+              </Typography>
+            )
           )}
         </Grid>
         <Grid item xs={1} sm={1} md={2} ml={-12}>
           <>
             {RequestReadReceipt === 'True' && HasReadReceipt === true && (
               <>
-                <Tooltip title={'Read Receipt Information'}>
+                <Tooltip title={'View'}>
                   <IconButton
                     sx={{
                       overflow: 'hidden',
@@ -172,11 +178,12 @@ function CardMessage({
             )}
           </>
           {RequestReadReceipt === 'True' && HasReadReceipt === false && (
-            <Email
-              fontSize="small"
-              color="error"
-            // sx={{ mt: '-2px', ml: '4px' }}
-            />
+            <Tooltip title={'Requested'}>
+              <Email
+                fontSize="small"
+                color="error"
+              // sx={{ mt: '-2px', ml: '4px' }}
+              /></Tooltip>
           )}
         </Grid>
         <Grid item xs={2} sm={2} md={2} ml={ActiveTab == 'Inbox' ? -10 : ActiveTab == 'Sent' ? 0 : -10}>

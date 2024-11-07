@@ -1,4 +1,6 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -27,6 +29,7 @@ import { IDeleteDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMess
 import { IGetAllMonths, Iyears } from 'src/interfaces/MessageCenter/Search';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import MCForm from 'src/libraries/form/MCForm';
+import SelectList3Col from 'src/libraries/list/SelectList3Col';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
 import {
   DeleteButton
@@ -44,7 +47,7 @@ import {
 } from 'src/requests/MessageCenter/RequestDraftMessage';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
-import SelectList3Col from '../../libraries/list/SelectList3Col';
+import { getDateFormat1 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
 import CardMessage from './CardMessage';
@@ -77,11 +80,13 @@ const MessageList = () => {
 
   const [pageIndex, setpageIndex] = useState<number>(NextPageIndex); // Page index
   const [activeTab, setActiveTab] = useState('');
-  const [searchText, setSearchText] = useState('');
+  // const [searchText, setSearchText] = useState('');
   const [academicYear, setAcademicYear] = useState('');
   const [monthYear, setMonthYear] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [operator, setOperator] = useState('=');
   const [isSearchClicked, setIsSearchClicked] = useState(false);
-  const [operator, setOperator] = useState('');
+  // const [operator, setOperator] = useState('');
   const [searchDate, setSearchDate] = useState<string>('');
   const [showSearch, setShowSearch] = useState(false);
   const [inboxListData, setInboxListData] = useState([]);
@@ -109,6 +114,9 @@ const MessageList = () => {
   );
   const TrashMarkAsUnRead = useSelector(
     (state: RootState) => state.InboxMessage.trashUnReadMessage
+  )
+  const TotalCountLabel = useSelector(
+    (state: RootState) => state.InboxMessage.TotalCountLabel
   )
 
   const StatusReadUnread = useSelector(
@@ -225,7 +233,7 @@ const MessageList = () => {
     if (academicYear !== '') {
       dispatch(getMonthYearList(Mbody));
       // Reset month selection when the academic year changes
-      setMonthYear('');
+      setMonthYear('0');
     }
   }, [academicYear]);
 
@@ -237,6 +245,7 @@ const MessageList = () => {
 
   const clickTab = (value) => {
     setActiveTab(value);
+    setpageIndex(2)
   };
   const clickAcademicYear = (value) => {
     setAcademicYear(value);
@@ -247,6 +256,28 @@ const MessageList = () => {
   const clickMonthYear = (value) => {
     setMonthYear(value);
   };
+
+  const clickDate = (value) => {
+    setSearchDate(getDateFormat1(value));
+  };
+  const clickOperator = (value) => {
+    setOperator(value);
+  };
+  // const textOnChange = (e) => {
+  //   setSearchText(e.target.value);
+  // };
+  const textOnChange = (e) => {
+    if (e.target.value.length <= 50) {
+      setSearchText(e.target.value);
+    }
+  };
+  const operatorArray = [
+    { Name: '=', Value: '=' },
+    { Name: '<', Value: '<' },
+    { Name: '<=', Value: '<=' },
+    { Name: '>', Value: '>' },
+    { Name: '>=', Value: '>=' }
+  ];
 
   const clickSearchIcon = () => {
     setShowSearch(!showSearch);
@@ -317,9 +348,9 @@ const MessageList = () => {
     MoveToTrashApi.MoveToTrash(trashbody)
       .then((data) => {
         if (activeTab == 'Inbox' || activeTab == 'Sent') {
-          toast.success('Message has been moved to the trash.');
+          toast.success('Message(s) has been moved to the trash.');
         } else {
-          toast.success('Message deleted successfully');
+          toast.success('Message deleted successfully.');
         }
         dispatch(getListOfMessages(getListBody, activeTab, false));
       })
@@ -370,7 +401,7 @@ const MessageList = () => {
     };
     ApiDeleteMessagePermanently.UnDeleteMessagesapi(UnDeleteMessagesBody)
       .then((data) => {
-        toast.success('Message(s) Undeleted successfully.');
+        toast.success('Message(s) undeleted successfully.');
         dispatch(getListOfMessages(getListBody, activeTab, false));
       })
       .catch((err) => {
@@ -386,7 +417,7 @@ const MessageList = () => {
     showAlert({
       title: 'Please Confirm',
       message:
-        'Are you sure you want to Un-Delete the selected message(s)?',
+        'Are you sure you want to un-delete the selected message(s)?',
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
@@ -399,16 +430,6 @@ const MessageList = () => {
       }
     });
   };
-  // const DeletePermanent = () => {
-  //   if (
-  //     confirm(
-  //       'This action will permanently delete selected message(s) from the Sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?'
-  //     )
-  //   ) {
-  //     permanentDelete();
-  //   } else {
-  //   }
-  // };
   const DeletePermanent = () => {
     showAlert({
       title: 'Please Confirm',
@@ -454,6 +475,15 @@ const MessageList = () => {
 
   const refreshData = (value) => {
     setInboxListData(value);
+  };
+
+  const handleRefresh = () => {
+    setIsRefresh(!isRefresh);
+    setSearchText('');
+    setAcademicYear(AcademicYearId);
+    setMonthYear('');
+    setOperator('');
+    setSearchDate('');
   };
 
   const scrollableDivRefference = document.getElementById('ScrollableDiv');
@@ -518,6 +548,31 @@ const MessageList = () => {
       setdisplayMoveToTop('none');
     }, 10);
   };
+  const scrollToBottom = () => {
+    const div = scrollableDivRefference;
+    scrollableDivRefference.scrollTo({ top: div.scrollHeight, behavior: 'smooth' });
+    refreshList()
+  };
+  const refreshList = () => {
+    const getListBody: IgetList = {
+      asSchoolId: SchoolId,
+      asAcademicYearId: academicYear,
+      asUserId: sessionStorage.getItem('Id'),
+      asUserRoleId: sessionStorage.getItem('RoleId'),
+      abIsSMSCenter: '0',
+      asFilter: searchText,
+      asPageIndex: pageIndex,
+      asMonthId: monthYear,
+      asOperator: operator,
+      asDate: searchDate,
+      asSortExp: SortExp,
+      asSortDirection: SortDirection
+    };
+
+    dispatch(getListOfMessages(getListBody, activeTab, true));
+
+    pageIndexIncrement();
+  }
   const clickClear = () => {
     localStorage.setItem('ViewMessageData', '');
   };
@@ -565,7 +620,8 @@ const MessageList = () => {
 
   useEffect(() => {
     if (DeleteDraftM !== '') {
-      toast.success(DeleteDraftM, { toastId: 'success1' });
+      // toast.success(DeleteDraftM, { toastId: 'success1' });
+      toast.success("Message deleted successfully.", { toastId: 'success1' })
       dispatch(resetDeleteDraftMessage());
       dispatch(getListOfMessages(getListBody, activeTab, false));
     }
@@ -590,7 +646,7 @@ const MessageList = () => {
             <>
               <Box>
                 <Tooltip
-                  title={`Inbox - List of messages Received. Select message(s) and click on "Trash" to send the message to trash box. Trash - List of Trash(deleted messages) messages. Select message and click on "Un-Delete" to move the message back to inbox. To permanently delete the message click on "Delete". Sent Items - List of messages which you have sent. Select message(s) and click on "Trash" to send the message to trash box.`}
+                  title={`Inbox - List of message Received. Select message(s) and click on "Delete" to send the message to trash box. Trash - List of Trash(deleted messages) messages. Select message and click on "Un-Delete" to move the message back to inbox. To permanently delete the message click on "Delete". Sent items - List of messages which you have sent.Select message(s) and click on "Delete" to send the message to trash box.`}
                 >
                   <IconButton
                     sx={{
@@ -632,9 +688,7 @@ const MessageList = () => {
                         }
                       }}>
                       <RefreshIcon
-                        onClick={() => {
-                          setIsRefresh(!isRefresh);
-                        }}
+                        onClick={handleRefresh}
                         fontSize="medium"
                       />
                     </IconButton>
@@ -657,7 +711,7 @@ const MessageList = () => {
         </Box> */}
         {/* </Hidden> */}
         <Grid container columnGap={1}>
-          <Grid item sm={2} xs={12} spacing={1}>
+          <Grid item sm={1.7} xs={12} spacing={1}>
             <Hidden smDown>
               <RouterLink
                 style={{ textDecoration: 'none', color: '#223354' }}
@@ -665,9 +719,10 @@ const MessageList = () => {
                   }/MessageCenter/Compose`}
               >
                 <Card
+                  onClick={clickClear}
                   sx={{
                     textAlign: 'center',
-                    height: '85px',
+                    height: '80px',
                     backgroundColor: 'white',
                     mb: '10px',
                     borderRadius: '5px',
@@ -675,7 +730,6 @@ const MessageList = () => {
                 >
 
                   <AddCircleIcon
-                    onClick={clickClear}
                     sx={{ mt: '10px', color: '#38548A' }}
                     className={classes.IconSize}
                   />
@@ -696,7 +750,7 @@ const MessageList = () => {
               )}
             </Box>
           </Grid>
-          <Grid container sm={10} spacing={1}>
+          <Grid container sm={10.3} spacing={1}>
             {((showSearch && isMobile) || !isMobile) && (
               <>
                 <Grid item xs={12} sm={12} md={12}>
@@ -704,11 +758,18 @@ const MessageList = () => {
                     activeTab={activeTab}
                     AcademicYearList={AcademicYearList}
                     MonthYearList={MonthYearList}
+                    operatorArray={operatorArray}
                     clickSearch={clickSearch}
                     academicYear={academicYear}
                     monthYear={monthYear}
+                    operator={operator}
+                    searchDate={searchDate}
+                    searchText={searchText}
                     clickAcademicYear={clickAcademicYear}
                     clickMonthYear={clickMonthYear}
+                    clickOperator={clickOperator}
+                    clickDate={clickDate}
+                    textOnChange={textOnChange}
                     isSearchClicked={isSearchClicked}
                     CloseSearchBar={closeSearchBar}
                   />
@@ -829,59 +890,49 @@ const MessageList = () => {
                         No record found.
                       </Typography>
                       // </Grid>
-                    ) : (
-                      <SelectList3Col
-                        Itemlist={inboxListData}
-                        ActiveTab={activeTab}
-                        DeleteDraft={DeleteDraft}
-                        refreshData={refreshData}
-                        clickSortExp={clickSortExp}
-                        clickSortDirection={clickSortDirection}
-                        SortDirection={SortDirection}
-                        SortExp={SortExp}
-                      />
+                    ) : (<Grid container>
+                      <Grid xs={12} sm={12} md={12} sx={{ textAlign: 'right' }}>
+                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', padding: 1, borderRadius: 2, backgroundColor: 'White' }} >{inboxListData.length} Out of {TotalCountLabel}</Typography>
+                      </Grid>
+                      <Grid xs={12} sm={12} md={12}>
+                        <SelectList3Col
+                          Itemlist={inboxListData}
+                          ActiveTab={activeTab}
+                          DeleteDraft={DeleteDraft}
+                          refreshData={refreshData}
+                          clickSortExp={clickSortExp}
+                          clickSortDirection={clickSortDirection}
+                          SortDirection={SortDirection}
+                          SortExp={SortExp}
+                        />
+                      </Grid></Grid>
                     )}
                   </div>
                 )}
-                {/* <Box>
-                <Avatar
+                <Box
                   sx={{
-                    display: displayMoveToTop,
-                    position: 'fixed',
-                    bottom: '150px',
-                    zIndex: '4',
-                    left: '15px',
-                    p: '2px',
-                    width: 50,
-                    height: 50,
-                    backgroundColor: 'white',
-                    boxShadow:
-                      '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
-                  }}
-                  onClick={MoveToTop} // Close function
-                >
-                  <KeyboardArrowUpRoundedIcon
-                    fontSize="large"
-                    color="success"
-                  /></Avatar>
-                  <Avatar sx={{
-                    display: displayMoveToTop,
+                    isplay: displayMoveToTop,
                     position: 'fixed',
                     bottom: '95px',
-                    zIndex: '4',
+                    zIndex: '1',
                     left: '15px',
-                    p: '2px',
+                    p: '1px',
                     width: 50,
-                    height: 50,
+                    height: 80,
                     backgroundColor: 'white',
-                    boxShadow:
-                      '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+                    m: 2,
+                    textAlign: 'center',
+                    boxShadow: '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 1) !important',
+                    borderRadius: '15px'
+                    // boxShadow:
+                    // '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
                   }}>
-                  <KeyboardArrowDownIcon  fontSize="large"
-                  color="success"></KeyboardArrowDownIcon>
-                  </Avatar>
-                
-                </Box> */}
+                  <KeyboardArrowUpRoundedIcon onClick={MoveToTop} fontSize="large"
+                    color="success" />
+
+                  <KeyboardArrowDownIcon onClick={scrollToBottom} fontSize="large"
+                    color="success" />
+                </Box>
                 {/* <Box
                    sx={{
                     isplay: displayMoveToTop,
@@ -934,10 +985,10 @@ const MessageList = () => {
                     to={`/${location.pathname.split('/')[1]
                       }/MessageCenter/Compose`}
                   >
-                    <Item
+                    <Item onClick={clickClear}
                       sx={{ fontSize: '10px', mr: 1, mb: '10px', borderRadius: '15px', backgroundColor: '#38548A', color: 'white' }}
                     >
-                      <AddCircleIcon onClick={clickClear} />
+                      <AddCircleIcon />
                       <br />
                       <b>Compose</b>
                     </Item>

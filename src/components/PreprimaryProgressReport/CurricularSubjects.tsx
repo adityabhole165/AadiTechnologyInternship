@@ -51,7 +51,7 @@
 
 
 
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import React from 'react';
 import { SchoolScreensAccessPermission } from '../Common/Util';
 
@@ -99,24 +99,34 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                                         const matchingObservation = FillStudentsLearningOutcomeObservations.find(
                                             obs => obs.SubjectSectionConfigId === outcome.SubjectSectionConfigId
                                         );
-                                
-                
+
+
                                         return (
                                             <TableRow key={outcome.YearwiseStudentId}>
                                                 <TableCell sx={{ py: 1 }}>{index + 1}</TableCell>
                                                 <TableCell sx={{ py: 1 }}>{outcome.LearningOutcome}</TableCell>
                                                 <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell>
+
                                                 {SchoolScreensAccessPermission() && (
-                                                          
-                                                            <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>
-                                                                {matchingObservation.Observation}
-                                                            </TableCell>
-
-                                                           
-
+                                                    <Tooltip title={matchingObservation?.Observation ? matchingObservation?.Observation :''}>
+                                                        <TableCell
+                                                            sx={{
+                                                                py: 1,
+                                                                borderRight: '1px solid lightgrey',
+                                                                wordWrap: 'break-word',
+                                                                whiteSpace: 'normal',
+                                                                wordBreak: 'break-word',
+                                                                width: '250px',
+                                                                minWidth: '250px',
+                                                            }}
+                                                        >
+                                                            {matchingObservation?.Observation?.substring(0, 150) ? matchingObservation?.Observation?.substring(0, 150) : ''}
+                                                        </TableCell>
+                                                    </Tooltip>
                                                 )}
 
                                             </TableRow>
+
                                         );
                                     })}
 

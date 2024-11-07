@@ -155,9 +155,14 @@ const TExamScheduleNew = () => {
 
     //const classList = ['Nursery', 'Junior KG', 'Senior KG', ...Array.from({ length: 10 }, (_, i) => `${i + 1}`)];
     const classList = (asSchoolId === '122')
-        ? ['Nursery', 'Junior KG', 'Senior KG', ...Array.from({ length: 12 }, (_, i) => `${i + 1}`)]
+        ? [
+            'Nursery', 'Junior KG', 'Senior KG',
+            ...Array.from({ length: 10 }, (_, i) => `${i + 1}`),
+            '11 Sci', '11 Com', '12 Sci', '12 Com', '11 Art',
+            '12 Art'
+        ]
         : ['Nursery', 'Junior KG', 'Senior KG', ...Array.from({ length: 10 }, (_, i) => `${i + 1}`)];
-    
+
 
     const getExamName = () => {
         if (getExamlist && getExamlist.length > 0) {

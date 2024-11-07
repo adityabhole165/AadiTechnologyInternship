@@ -23,7 +23,8 @@ const InboxMessageSlice = createSlice({
     trashUnReadMessage: null,
     FilterData: false,
     Loading: true,
-    ReadReceiptMessage: ''
+    ReadReceiptMessage: '',
+    TotalCountLabel: null
   },
   reducers: {
     getInboxList(state, action) {
@@ -43,6 +44,9 @@ const InboxMessageSlice = createSlice({
     },
     TrashMarkReadMessage(state, action) {
       state.trashUnReadMessage = action.payload;
+    },
+    getTotalCountLabel(state, action) {
+      state.TotalCountLabel = action.payload;
     },
     getFilterData(state, action) {
       state.FilterData = action.payload;
@@ -85,6 +89,7 @@ export const getListOfMessages =
         });
         let UnreadMessage = response.data.UnreadMessageTotalCount;
         dispatch(InboxMessageSlice.actions.MarkReadMessage(UnreadMessage));
+        dispatch(InboxMessageSlice.actions.getTotalCountLabel(response.data?.TotalCountLabel));
         if (Pagination == true) {
           dispatch(InboxMessageSlice.actions.NextMessages(data));
         }
@@ -161,6 +166,8 @@ export const getListOfMessages =
         console.log(response.data?.UnreadMessagesCount.UnreadMessageTotalCount, 'data-----');
         let UnreadMessage = response.data.UnreadMessagesCount;
         dispatch(InboxMessageSlice.actions.TrashMarkReadMessage(UnreadMessage));
+        dispatch(InboxMessageSlice.actions.getTotalCountLabel(response.data.TotalCountLabel));
+
         if (Pagination == true) {
           dispatch(InboxMessageSlice.actions.NextMessages(data));
         }

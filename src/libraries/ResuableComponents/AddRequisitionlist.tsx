@@ -80,9 +80,10 @@ function AddRequisitionlist({
               </TableCell>
 
 
+            
+              <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'left' }} align="left">
               <Tooltip title="Delete">  
 
-              <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'left' }} align="left">
                 <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)}
                   // sx={{
                   //   cursor: 'pointer',
@@ -99,8 +100,9 @@ function AddRequisitionlist({
                     }
                   }}
                 />
+                  </Tooltip>
               </TableCell>
-              </Tooltip>
+            
               
 
 

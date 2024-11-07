@@ -1,5 +1,5 @@
 
-import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupDetailsResult, IGetAddressBookGroupListBody, IGetAddressBookGroupListResult, IGetAddressBookListBody, IGetAddressBookListResult, IGetSentItemsBody, IGetSentItemsResult, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
+import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupDetailsResult, IGetAddressBookGroupListBody, IGetAddressBookGroupListResult, IGetAddressBookListBody, IGetAddressBookListResult, IGetDetailsOfGroupsBody, IGetDetailsOfGroupsResult, IGetSentItemsBody, IGetSentItemsResult, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSentItemsapi = (data: IGetSentItemsBody) => {
@@ -66,7 +66,7 @@ const CheckIfPersonalAddressGroupAlreadyExistsapi = (data: ICheckIfPersonalAddre
     data
   );
 };
-// Teacher/InsertPersonalAddressBookGroup
+//  Teacher/InsertPersonalAddressBookGroup
 const InsertPersonalAddressBookGroupapi = (data: IInsertPersonalAddressBookGroupBody) => {
   return http.post<string>(
     'Teacher/InsertPersonalAddressBookGroup',
@@ -80,7 +80,20 @@ const UpdatePersonalAddressBookGroupapi = (data: IUpdatePersonalAddressBookGroup
     data
   );
 };
-
+// IDeletePersonalAddressBookGroupBody Teacher/DeletePersonalAddressBookGroup
+const DeletePersonalAddressBookGroupapi = (data: IDeletePersonalAddressBookGroupBody) => {
+  return http.post<string>(
+    'Teacher/DeletePersonalAddressBookGroup',
+    data
+  );
+};
+// Teacher/GetDetailsOfGroups IGetDetailsOfGroupsResult IGetDetailsOfGroupsBody
+const GetDetailsOfGroupsapi = (data: IGetDetailsOfGroupsBody) => {
+  return http.post<IGetDetailsOfGroupsResult[]>(
+    'Teacher/GetDetailsOfGroups',
+    data
+  );
+};
 
 const ApiSentsms = {
   GetSentItemsapi,
@@ -93,7 +106,9 @@ const ApiSentsms = {
   GetAddressBookGroupDetailsapi,
   CheckIfPersonalAddressGroupAlreadyExistsapi,
   InsertPersonalAddressBookGroupapi,
-  UpdatePersonalAddressBookGroupapi
+  UpdatePersonalAddressBookGroupapi,
+  DeletePersonalAddressBookGroupapi,
+  GetDetailsOfGroupsapi
 };
 
 export default ApiSentsms;

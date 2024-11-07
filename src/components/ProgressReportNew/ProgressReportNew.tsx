@@ -1,17 +1,19 @@
+import { XMLParser } from "fast-xml-parser";
 
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
+import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressReportGradeView from './ProgressReportGradeView';
 import ProgressReportMarkView from './ProgressReportMarkView';
@@ -37,6 +39,9 @@ const ProgressReportNew = () => {
   );
 
 
+
+  let CanEdit = getSchoolConfigurations(79)
+
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission?.map((item) => {
@@ -45,7 +50,11 @@ const ProgressReportNew = () => {
     return perm;
   };
 
-  const [selectTeacher, SetselectTeacher] = useState(GetScreenPermission() == 'N' ? TeacherIdsession : '');
+
+
+
+
+  const [selectTeacher, SetselectTeacher] = useState(CanEdit == 'N' ? TeacherIdsession : '');
 
 
   const USlistTestDetailsArr: any = useSelector(
@@ -65,6 +74,16 @@ const ProgressReportNew = () => {
   const USStudentProgressReport: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISStudentProgressReport
   );
+  const AllStudentsProgressSheet: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.AllStudentsProgressSheet
+  );
+  useEffect(() => {
+    if (AllStudentsProgressSheet !== null) {
+      const parser = new XMLParser();
+      const jsonData = parser.parse(AllStudentsProgressSheet.listStudentsMarksDetiles[0].Tests);
+      console.log(jsonData, "AllStudentsProgressSheet", AllStudentsProgressSheet.listStudentsMarksDetiles[0].Header);
+    }
+  }, [AllStudentsProgressSheet])
 
   const USGetPassedAcademicYears: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears);
   const ThirdHeaderColumn: any = useSelector((state: RootState) => state.ProgressReportNew.ISThirdHeaderColumn);
@@ -100,13 +119,15 @@ const ProgressReportNew = () => {
   const HeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray1);
   const SubHeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray1);
 
-  console.log(MarkDetailsList1, "MarkDetailsList1");
+  const ShowOnlyGrades = EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true';
+
 
 
 
   useEffect(() => {
     if (UsGetSchoolSettings != null)
       setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+    // setIsTotalConsiderForProgressReport('True');
   }, [UsGetSchoolSettings])
 
 
@@ -132,17 +153,20 @@ const ProgressReportNew = () => {
   const StandardDivisionId = () => {
     let returnVal = 0
     USGetClassTeachers.map((item) => {
-      if (item.Value == item.NewValue) {
+      if (item.Value == selectTeacher) {
         returnVal = item.Id
       }
     })
     return returnVal
   };
 
+
+
+
   const Standard_Id = () => {
     let returnVal = 0
     USGetClassTeachers.map((item) => {
-      if (item.Value == item.NewValue) {
+      if (item.Value == selectTeacher) {
         returnVal = item.asStandardId
       }
     })
@@ -170,7 +194,7 @@ const ProgressReportNew = () => {
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asTeacherId: Number(GetScreenPermission() == 'Y' ? 0 : TeacherIdsession)
+    asTeacherId: Number(CanEdit == 'Y' ? 0 : TeacherIdsession)
   };
 
   const GetStudentNameDropdownBody: IGetStudentNameDropdownBody = {
@@ -179,13 +203,17 @@ const ProgressReportNew = () => {
     asStandardDivisionId: StandardDivisionId()
 
   };
-
+  const GetAllStudentsProgressSheetBody: IGetAllStudentsProgressSheetBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcadmicYearId: Number(asAcademicYearId),
+    asStdDivId: StandardDivisionId()
+  }
   const StudentProgressReportBody: IStudentProgressReportBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmeicYearId: Number(asAcademicYearId),
     asStudentId: Number(StudentId),
     asUserId: asUserId,
-    IsTotalConsiderForProgressReport: IsTotalConsiderForProgressReport
+    IsTotalConsiderForProgressReport: IsTotalConsiderForProgressReport,
 
   };
 
@@ -276,7 +304,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
-  }, [Standard_Id()]);
+  }, [Standard_Id(), selectTeacher, StudentId]);
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
@@ -296,7 +324,7 @@ const ProgressReportNew = () => {
 
 
   useEffect(() => {
-    if (GetScreenPermission() == 'Y') {
+    if (CanEdit == 'Y') {
       if (USGetClassTeachers.length > 0) {
         SetselectTeacher(USGetClassTeachers[0].Value);
       }
@@ -319,23 +347,22 @@ const ProgressReportNew = () => {
   }, [selectTeacher, StandardDivisionId()]);
 
   useEffect(() => {
-    dispatch(CDAStudentProgressReport(StudentProgressReportBody));
-
+    if (StudentId == '0') {
+      dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
+    }
+    dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
   }, [StudentId]);
 
   useEffect(() => {
     dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
-
   }, [StudentId]);
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
-
   }, [Standard_Id()]);
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
-
   }, [Standard_Id()]);
 
 
@@ -366,11 +393,11 @@ const ProgressReportNew = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#F0F0F0' : '', }}
+            sx={{ pl: 0, minWidth: '350px', backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
             ItemList={USGetClassTeachers}
             mandatory
             onChange={clickSelectClass}
-            disabled={GetScreenPermission() == 'N'}
+            disabled={CanEdit == 'N'}
             defaultValue={selectTeacher}
             size={"small"}
 
@@ -401,23 +428,19 @@ const ProgressReportNew = () => {
             </Tooltip>
           </Box>
 
-          <Box>
-            <Tooltip title={'Show'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-                onClick={ClickShow}>
-                <VisibilityTwoToneIcon />
-              </IconButton>
-            </Tooltip>
-
-
-          </Box>
+          <Tooltip title={'Show'}>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: blue[500],
+                '&:hover': {
+                  backgroundColor: blue[600]
+                }
+              }}
+              onClick={ClickShow}>
+              <VisibilityTwoToneIcon />
+            </IconButton>
+          </Tooltip>
 
         </>}
 
@@ -436,9 +459,9 @@ const ProgressReportNew = () => {
       {open && (
         <div>
 
-          {USIsTestPublishedForStdDiv === true || USIsTestPublishedForStudentIS === true ?
+          {USIsTestPublishedForStdDiv == true  ?
             <>
-              {USIsGradingStandard == true ?
+              {EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -535,9 +558,11 @@ const ProgressReportNew = () => {
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
                     <ProgressReportGradeView
+                      EntireDataList={EntireDataList}
+                      IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
                       HeaderArray1={HeaderArray1}
                       SubHeaderArray1={SubHeaderArray1}
-                      MarkDetailsList1={MarkDetailsList1}
+                      MarkDetailsList1={IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? MarkDetailsList : MarkDetailsList1}
                     />
                   </Box>
                 </>
@@ -652,7 +677,6 @@ const ProgressReportNew = () => {
                       ThirdHeaderRow={ThirdHeaderColumn}
                       EntireDataList={EntireDataList}
                     />
-
                   </Box>
                 </>
 

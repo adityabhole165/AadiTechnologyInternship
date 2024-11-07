@@ -13,6 +13,7 @@ const AddLessonPlanSlice = createSlice({
     saveApproverCommentmsg: '',
     updateLessonPlanDatemsg: '',
     GetEnableButtonList: [],
+    GetLessonPlanPhrasesList: [],
     Loading: true,
     ApproverDetails: [],
     ApprovalData: [],
@@ -33,6 +34,10 @@ const AddLessonPlanSlice = createSlice({
     getEnableButtonList(state, action) {
       state.Loading = false;
       state.GetEnableButtonList = action.payload;
+    },
+    getLessonPlanPhrasesList(state, action) {
+      state.Loading = false;
+      state.GetLessonPlanPhrasesList = action.payload;
     },
     getApproverDetails(state, action) {
       state.Loading = false;
@@ -211,6 +216,13 @@ export const GetAddOrEditLessonPlanDetails =
           })
 
         })
+      let lessonplanphaeslist = []
+      response.data.GetLessonPlanPhrasesList.map((Item, i) => {
+        lessonplanphaeslist.push({
+          text1: Item.Title,
+          text2: Item.IsPhrase
+        })
+      })
 
       dispatch(AddLessonPlanSlice.actions.getAddOrEditLessonPlanDetails(reponseData));
       dispatch(AddLessonPlanSlice.actions.getEnableButtonList(response.data.GetEnableButtonList));
@@ -220,6 +232,8 @@ export const GetAddOrEditLessonPlanDetails =
       dispatch(AddLessonPlanSlice.actions.getTeacherName(
         response.data.GetTeacherName.length > 0 ? response.data.GetTeacherName[0] : null
       ));
+      dispatch(AddLessonPlanSlice.actions.getLessonPlanPhrasesList(response.data.GetLessonPlanPhrasesList));
+      console.log(response.data.GetLessonPlanPhrasesList, "------------");
 
     };
 export const SaveLessonPlan =

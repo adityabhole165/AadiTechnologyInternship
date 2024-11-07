@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { IGetStudentPhotoBody } from 'src/interfaces/Student/GetStudentPhoto';
+import { IProfileBody } from 'src/interfaces/Student/dashboard';
+import { GetProfileDetails } from 'src/requests/Dashboard/Dashboard';
 import { GetAllowStudentPhotoUploadFromStudentLogin } from 'src/requests/SchoolSetting/schoolSetting';
 import { getstudentpic } from 'src/requests/StudentPhoto/RequestStudentPhoto';
 import { RootState } from 'src/store';
 import UserPhoto from '../UserPhoto/UserPhoto';
-import { ListStyle } from '../styled/CardStyle';
 import { ProfileDetail2, ProfileDetailHeader } from '../styled/ProfileStyled';
 import ProfileComponent from './ProfileComponent';
 
@@ -30,12 +31,26 @@ function Card6() {
   const MotherTongue = sessionStorage.getItem('MotherTongue');
   const DOB = sessionStorage.getItem('DOB');
   const birthPlace = sessionStorage.getItem('BirthPlace');
-  const asUserId = sessionStorage.getItem('UserId');
+  const asUserId = localStorage.getItem('UserId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const RoleId = sessionStorage.getItem('RoleId');
-
+  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const MobileNo = sessionStorage.getItem('MobileNumber');
+  const PermAddress = useSelector((state: RootState) => state.Dashboard.IsPermanentAddress);
+  const EmailAddress = useSelector((state: RootState) => state.Dashboard.IsEmailAddress);
+  const SubjectDetails = useSelector((state: RootState) => state.Dashboard.IsSUbjectDetails);
+  const StandardDetails = useSelector((state: RootState) => state.Dashboard.IsStandardDetails);
 
+  const ProfileDashBody: IProfileBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asTeacherID: TeacherId,
+    asUserId: Number(asUserId),
+  };
+
+  useEffect(() => {
+    dispatch(GetProfileDetails(ProfileDashBody));
+  }, []);
   const AllowStudentPhotoUpload: any = useSelector(
     (state: RootState) =>
       state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
@@ -79,7 +94,7 @@ function Card6() {
       : '/imges/defualtUser.jpg';
   const FamilyPhoto =
     GetStudentPic?.PhotoImage?.length != 0 &&
-    GetStudentPic?.PhotoImage !== undefined
+      GetStudentPic?.PhotoImage !== undefined
       ? 'data:image/png;base64,' + GetStudentPic?.PhotoImage
       : '';
   // const FamilyPhoto = FamilyPhotoFilePath.length != 0 ? localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
@@ -97,53 +112,59 @@ function Card6() {
 
   return (
     <>
-    <Card
-      sx={{
-        borderRadius: '7px',
-        boxShadow: 3,
-        overflow: 'hidden',
-        maxWidth: '70%',
-        mx: 'auto',
-        mb: 2, 
+      <Card
+        sx={{
+          borderRadius: '7px',
+          boxShadow: 3,
+          overflow: 'hidden',
+          maxWidth: '70%',
+          mx: 'auto',
+          mb: 2,
 
-      }}
-    >
-      <Card sx={{background: (theme) => theme.palette.secondary.main, borderRadius:'7px'}}>
-      <Box
-        sx={{  p:2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        }}
       >
-        <Box
-          ml={
-            RoleId === '3' && AllowStudentPhotoUpload && !DisableSubmit
-              ? '30px'
-              : '0px'    
-          }
-          
-        >
-          <UserPhoto
-            ImgUrl={userPhoto}
-            alt={'user.name'}
-            width={'140px'}
-            height={'160px'}
-          />
-        </Box>
-        {RoleId === '3' && AllowStudentPhotoUpload && !DisableSubmit && (
-          <Box sx={{ color: 'black' }} onClick={EditProfile}>
-            <EditIcon fontSize="small" />
-          </Box>
-        )}
-      </Box>
-      <ProfileDetailHeader  style={{ marginRight: '12px', textAlign: 'center', color:'white', fontSize:'20px'}}>
-        <b>{UserName}</b>
-      </ProfileDetailHeader>
+        <Card
+          sx={{
+            background: 'linear-gradient(to bottom, #98add5,#718dc5,#5577ba)', // Faint yellow to dark yellow
+            borderRadius: '7px',
+            padding: '20px',
+            color: '#000',
+          }}>
+          <Box
+            sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Box
+              ml={
+                RoleId === '3' && AllowStudentPhotoUpload && !DisableSubmit
+                  ? '30px'
+                  : '0px'
+              }
 
-      {RoleName == 'Student' && (
-        <ProfileDetail2 style={{ marginRight: '3px', textAlign: 'center' }}>
-          Roll No: {RollNo}
-        </ProfileDetail2>
-      )}
-</Card>
-{/* <ListStyle
+            >
+              <UserPhoto
+                ImgUrl={userPhoto}
+                alt={'user.name'}
+                width={'140px'}
+                height={'160px'}
+              />
+            </Box>
+            {RoleId === '3' && AllowStudentPhotoUpload && !DisableSubmit && (
+              <Box sx={{ color: 'black' }} onClick={EditProfile}>
+                <EditIcon fontSize="small" />
+              </Box>
+            )}
+          </Box>
+          <ProfileDetailHeader style={{ marginRight: '12px', textAlign: 'center', color: 'white', fontSize: '20px' }}>
+            <b>{UserName}</b>
+          </ProfileDetailHeader>
+
+          {RoleName == 'Student' && (
+            <ProfileDetail2 style={{ marginRight: '3px', textAlign: 'center' }}>
+              Roll No: {RollNo}
+            </ProfileDetail2>
+          )}
+        </Card>
+        {/* <ListStyle
   sx={{
     marginBottom: '0px',
     height: '100%',
@@ -151,166 +172,162 @@ function Card6() {
     borderRadius: '7px',
   }}
 > */}
-  <Grid container>
-    <Grid item xs={12}>
-      <Table>
-        <TableBody>
-          {RoleName === 'Teacher' || RoleName === 'Admin Staff' ? (
-            <>
-              <TableRow>
-                <TableCell >
-                  <ProfileComponent  Name="Designation :" Value={DesignationName} />
-                </TableCell>
-                <TableCell>
-                  <ProfileComponent Name="Address :" Value={Address} />
-                </TableCell>
-              </TableRow>
+        <Grid container>
+          <Grid item xs={12}>
+            <Table>
+              <TableBody>
+                {RoleName === 'Teacher' || RoleName === 'Admin Staff' ? (
+                  <>
+                    <TableRow>
+                      <TableCell >
+                        <ProfileComponent Name="Designation :" Value={DesignationName} />
+                      </TableCell>
+                      <TableCell>
+                        <ProfileComponent Name="Address :" Value={PermAddress} />
+                      </TableCell>
+                    </TableRow>
 
-              {RoleName === 'Teacher' && (
-                <TableRow>
-                  <TableCell>
-                    <ProfileComponent Name="Class Teacher :" Value={ClassTeacher} />
-                  </TableCell>
-                  <TableCell>
-                  <ProfileComponent Name="Date of Birth :" Value={newdate} />
-                </TableCell>
-                </TableRow>
-              )}
+                    {RoleName === 'Teacher' && (
+                      <TableRow>
+                        <TableCell>
+                          <ProfileComponent Name="Class Teacher :" Value={ClassTeacher} />
+                        </TableCell>
+                        <TableCell>
+                          <ProfileComponent Name="Date of Birth :" Value={newdate} />
+                        </TableCell>
+                      </TableRow>
+                    )}
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Mobile Number :" Value={MobileNo} />
-                </TableCell>
-                <TableCell>
-                  <ProfileComponent Name="Email Id :" Value={null} />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Mobile Number :" Value={MobileNo} />
+                      </TableCell>
+                      <TableCell>
+                        <ProfileComponent Name="Email Id :" Value={EmailAddress} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Joining Date :" Value={null} />
-                </TableCell>
-                <TableCell>
-                  <ProfileComponent Name="Subject Details :" Value={null} />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name=" Standard Details:" Value={null} />
-                </TableCell>
-                </TableRow>
-                
-             
-            </>
-          ) : RoleName === 'Student' ? (
-            <>
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Address :" Value={Address} />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell  style={{ verticalAlign: 'top' }}>
+                        <ProfileComponent  Name=" Standard Details:" Value={StandardDetails} />
+                      </TableCell>
+                      <TableCell  style={{ verticalAlign: 'top' }}>
+                        <ProfileComponent Name="Subject Details :" Value={SubjectDetails} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Residence Phone No :" Value={ResidencePhoneNumber} />
-                </TableCell>
-              </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Religion :" Value={Religion} />
-                </TableCell>
-              </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Caste & Sub-Caste :" Value={CasteAndSubCaste} />
-                </TableCell>
-              </TableRow>
+                  </>
+                ) : RoleName === 'Student' ? (
+                  <>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Address :" Value={Address} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Category Name :" Value={CategoryName} />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Residence Phone No :" Value={ResidencePhoneNumber} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="UDISE Number :" Value={UDISENumber} />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Religion :" Value={Religion} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent
-                    Name="Mobile Number :"
-                    Value={
-                      PhoneNumber === ''
-                        ? PhoneNumber2
-                        : PhoneNumber + ' , ' + PhoneNumber2
-                    }
-                  />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Caste & Sub-Caste :" Value={CasteAndSubCaste} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Place of Birth :" Value={birthPlace} />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Category Name :" Value={CategoryName} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Date of Birth :" Value={newdate} />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="UDISE Number :" Value={UDISENumber} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Nationality :" Value={Nationality} />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent
+                          Name="Mobile Number :"
+                          Value={
+                            PhoneNumber === ''
+                              ? PhoneNumber2
+                              : PhoneNumber + ' , ' + PhoneNumber2
+                          }
+                        />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Mother Tongue :" Value={MotherTongue} />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Place of Birth :" Value={birthPlace} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Blood Group :" Value={Blood_Group} />
-                </TableCell>
-              </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Date of Birth :" Value={newdate} />
+                      </TableCell>
+                    </TableRow>
 
-              <TableRow>
-                <TableCell>
-                  <ProfileComponent Name="Family Photo :" Value={''} />
-                  {ImgUrl && (
-                    <Avatar
-                      alt="user.name"
-                      src={FamilyPhoto}
-                      sx={{
-                        width: '180px',
-                        height: '160px',
-                        border: '2px solid gray',
-                        mt: 2,
-                      }}
-                      variant="square"
-                      aria-label="add"
-                    />
-                  )}
-                </TableCell>
-              </TableRow>
-            </>
-          ) : (
-            <></>
-          )}
-        </TableBody>
-      </Table>
-    </Grid>
-  </Grid>
-{/* </ListStyle> */}
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Nationality :" Value={Nationality} />
+                      </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Mother Tongue :" Value={MotherTongue} />
+                      </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Blood Group :" Value={Blood_Group} />
+                      </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                      <TableCell>
+                        <ProfileComponent Name="Family Photo :" Value={''} />
+                        {ImgUrl && (
+                          <Avatar
+                            alt="user.name"
+                            src={FamilyPhoto}
+                            sx={{
+                              width: '180px',
+                              height: '160px',
+                              border: '2px solid gray',
+                              mt: 2,
+                            }}
+                            variant="square"
+                            aria-label="add"
+                          />
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </TableBody>
+            </Table>
+          </Grid>
+        </Grid>
+        {/* </ListStyle> */}
       </Card>
     </>
   );

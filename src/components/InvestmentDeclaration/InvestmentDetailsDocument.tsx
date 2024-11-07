@@ -29,7 +29,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     const SiteURL = localStorage.getItem('SiteURL');
     let aFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
     const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
-    const MaxfileSize = 5000000;
+    const MaxfileSize = 3000000;
     // const debouncedFetch = useCallback(debounce((body) => {
     //     dispatch(getSaveInvestmentDocument(body));
     // }, 500), [dispatch]);

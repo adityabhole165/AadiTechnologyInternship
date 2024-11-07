@@ -90,9 +90,9 @@ const AddSchoolNoticeFT = () => {
     ];
 
     const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
-    const MaxfileSize = 10000000;
+    const MaxfileSize = 3000000;
     const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
-    const MaxfileSize2 = 10000000;
+    const MaxfileSize2 = 3000000;
     const ClassesAndDivisionss = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss);
     const ClassesAndDivisionss1 = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss1);
     const SaveNotice = useSelector((state: RootState) => state.SchoolNoticeForm.SaveSchoolNotice);

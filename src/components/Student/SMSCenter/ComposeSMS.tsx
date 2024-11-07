@@ -1,20 +1,23 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, FormControlLabel, Grid, NativeSelect, Paper, TextField, Typography, useTheme } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import SendIcon from '@mui/icons-material/Send';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Paper, TextField, Tooltip, Typography, useTheme } from '@mui/material';
+import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSMS';
 import { Styles } from 'src/assets/style/student-style';
-import { formatAMPM, isFutureDateTime } from 'src/components/Common/Util';
+import TimepickerTwofields from 'src/components/AddSchoolNitice/TimepickerTwofields';
+import { formatAMPM, getCalendarDateFormatDateNew, isFutureDateTime } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
-import ACompose_SendSMS, { GetSMSTemplates, MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
+import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { CardDetail2, ListStyle } from 'src/libraries/styled/CardStyle';
+import { CardDetail2 } from 'src/libraries/styled/CardStyle';
 import { getAComposeSMSTemplateList } from 'src/requests/AdminSMSCenter/AComposeSMS';
 import { RootState } from 'src/store';
 import AddReciepentsSMS from './AddReciepientSMS';
@@ -53,6 +56,7 @@ const ComposeSMSform = () => {
         setdisplayOfTo_RecipientsPage('block');
         setdisplayOfCompose_Page('none');
     };
+    const [StartTime, setStartTime] = useState('00:00');
 
     const TodayDate = new Date();
     const curTimeH = TodayDate.getHours() % 12 || 12;
@@ -82,6 +86,17 @@ const ComposeSMSform = () => {
     const [contentError, setcontentError] = useState<any>(); // For content Error
     const [initialMessage, setinitialMessage] = useState(0);
     const [initialCount, setCharacterCount] = useState(0);
+    const { AssignedDate } = useParams();
+    const [form, setForm] = useState({
+        scheduleSMS: false,
+        scheduledDate: null,
+        scheduledTime: null
+    });
+
+    const [errors, setErrors] = useState({
+        scheduledDate: false,
+        scheduledTime: false
+    });
     // Getting data from useNavigate state via useLocation
     const location = useLocation();
     const { state } = location;
@@ -349,6 +364,61 @@ const ComposeSMSform = () => {
         }
         setScheduledTime(value);
     };
+    const handleInputChange1 = (event) => {
+        const { name, value } = event.target;
+        setForm((prevForm) => ({
+            ...prevForm,
+            [name]: value
+        }));
+    };
+    const handleCheckboxChange1 = (event) => {
+        const isChecked = event.target.checked;
+        setForm((prevForm) => ({
+            ...prevForm,
+            scheduleSMS: isChecked,
+            // Reset date and time fields when unchecked
+            scheduledDate: isChecked ? prevForm.scheduledDate : null,
+            scheduledTime: isChecked ? prevForm.scheduledTime : null,
+        }));
+        setErrors({
+            scheduledDate: false,
+            scheduledTime: false
+        });
+    };
+
+    const validateForm = () => {
+        let isValid = true;
+        const newErrors = { scheduledDate: false, scheduledTime: false };
+
+        if (form.scheduleSMS) {
+            if (!form.scheduledDate) {
+                newErrors.scheduledDate = true;
+                isValid = false;
+            }
+            if (!form.scheduledTime) {
+                newErrors.scheduledTime = true;
+                isValid = false;
+            }
+        }
+
+        setErrors(newErrors);
+        return isValid;
+    };
+    const clickStartTime = (value) => {
+        setStartTime(value);
+    };
+
+
+    const [SelectDate, SetSelectDate] = useState(
+        AssignedDate == undefined
+            ? new Date().toISOString().split('T')[0]
+            : getCalendarDateFormatDateNew(AssignedDate)
+    );
+
+    const onSelectDate = (value) => {
+        SetSelectDate(value);
+    };
+
 
     return (
         <>
@@ -364,6 +434,33 @@ const ComposeSMSform = () => {
                     ]}
                     rightActions={
                         <>
+                            <Tooltip title={'Send SMS to individual student / teacher or the entire school. To send sms to other mobile numbers check Add Mobile Numbers Manually checkbox and enter mobile numbers separated by comma.'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        '&:hover': {
+                                            backgroundColor: grey[600]
+                                        }
+                                    }}
+                                >
+                                    <QuestionMark />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title={'Send SMS'}>
+                                <IconButton
+                                    onClick={formik.handleChange}
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: green[500],
+                                        '&:hover': {
+                                            backgroundColor: green[600]
+                                        }
+                                    }}
+                                >
+                                    <SendIcon />
+                                </IconButton>
+                            </Tooltip>
 
                         </>
                     }
@@ -386,9 +483,9 @@ const ComposeSMSform = () => {
                         </AccordionDetails>
                     </Accordion>
                 </Paper>
-                <Box>
-                    <ListStyle>
-                        {/* <Checkbox
+                <Box sx={{ backgroundColor: 'white' }} >
+                    {/* <ListStyle> */}
+                    {/* <Checkbox
                             onChange={scheduleMessageCheckBox}
                             onClick={() => setRequestSchedule(!requestSchedule)}
                             size="small"
@@ -421,131 +518,215 @@ const ComposeSMSform = () => {
                                 />
                             </Grid>
                         </Grid> */}
-                        <form onSubmit={formik.handleSubmit}>
-                            <Grid container>
-                                <Grid xs={3} mt={3.3} px={2} sm={3} md={3}>
-                                    <TextField
-                                        sx={{ marginTop: '20px' }}
-                                        variant="outlined"
+                    <form onSubmit={formik.handleSubmit}>
+                        <Grid container>
+                            <Grid xs={3} mt={3.3} px={2} sm={3} md={3}>
+                                <TextField
+                                    sx={{ marginTop: '20px' }}
+                                    variant="outlined"
+                                    fullWidth
+                                    name="From"
+                                    label={'From'}
+                                    id="from"
+                                    InputProps={{
+                                        readOnly: true
+                                    }}
+                                    value={senderUserName}
+                                />
+                            </Grid>
+                            <Grid xs={8} sm={8} md={7}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={isManualEntryEnabled}
+                                            onChange={handleCheckboxChange}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Add Mobile Numbers Manually"
+                                />
+                                {/* TextField for mobile numbers */}
+                                <TextField
+                                    disabled={!isManualEntryEnabled}
+                                    multiline
+                                    fullWidth
+                                    placeholder="Enter multiple mobile numbers separated by commas"
+                                    value={mobileNumbers}
+                                    onChange={handleInputChange}
+                                    error={!!error}
+                                    helperText={error || '(Enter multiple mobile numbers separated by comma. Max 10-digit numbers.)'}
+                                    sx={{
+                                        marginTop: '8px',
+                                        height: '50px',
+                                        // overflow: 'auto',
+                                        borderRadius: '5px',
+                                    }}
+                                />
+                            </Grid>
+                            <Grid xs={2} mt={6} sm={2} md={2} >
+                                <Box ml={2}>
+                                    <Button
                                         fullWidth
-                                        name="From"
-                                        label={'From'}
-                                        id="from"
+                                        // onClick={(e) => RecipientCCButton(e)}       
+                                        // onClick={() => handleOpenDialog(false)}
+                                        sx={{
+                                            color: '#38548A',
+                                            mt: 0.7,
+                                            width: '200px',
+                                            '&:hover': {
+                                                color: '#38548A',
+                                                backgroundColor: blue[100]
+                                            }
+                                        }}
+                                        onClick={() => {
+                                            // pass data via state > mobileNumbers
+                                            navigate('/extended-sidebar/teacher/PersonalAddressBook', { state: { mobileNumbers } })
+                                        }}
+                                    >
+                                        Personal Address book
+                                    </Button>
+                                </Box>
+                            </Grid>
+                        </Grid>
+
+                        <Grid container p={2}>
+                            <Grid xs={12}  sm={2} md={6} lg={10.1} >
+                                <Box sx={{ mt: "10px" }}>
+                                    <TextField
+                                        name="To"
+                                        placeholder='To'
+                                        multiline
+                                        className={classes.InputField}
+                                        onChange={ToFieldChange}
+                                        onBlur={ToFieldOnBlur}
+                                        onFocus={ToFieldFocus}
                                         InputProps={{
                                             readOnly: true
                                         }}
-                                        value={senderUserName}
-                                    />
-                                </Grid>
-                                <Grid xs={8} sm={8} md={7}>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={isManualEntryEnabled}
-                                                onChange={handleCheckboxChange}
-                                                color="primary"
-                                            />
-                                        }
-                                        label="Add Mobile Numbers Manually"
-                                    />
-                                    {/* TextField for mobile numbers */}
-                                    <TextField
-                                        disabled={!isManualEntryEnabled}
-                                        multiline
+                                        value={RecipientsArray.RecipientName}
+                                        variant="outlined"
+                                        id="body"
                                         fullWidth
-                                        placeholder="Enter multiple mobile numbers separated by commas"
-                                        value={mobileNumbers}
-                                        onChange={handleInputChange}
-                                        error={!!error}
-                                        helperText={error || '(Enter multiple mobile numbers separated by comma. Max 10-digit numbers.)'}
+                                        margin="normal"
+                                        style={{ scrollBehavior: 'auto' }}
                                         sx={{
-                                            marginTop: '8px',
-                                            height: '50px',
-                                            // overflow: 'auto',
-                                            borderRadius: '5px',
+                                            maxHeight: '60px',
+                                            // overflow: 'auto'
                                         }}
                                     />
-                                </Grid>
-                                <Grid xs={2} mt={6} sm={2} md={2} >
-                                    <Box ml={2}>
-                                        <Button
-                                            fullWidth
-                                            // onClick={(e) => RecipientCCButton(e)}       
-                                            // onClick={() => handleOpenDialog(false)}
-                                            sx={{
-                                                color: '#38548A',
-                                                mt: 0.7,
-                                                width: '200px',
-                                                '&:hover': {
-                                                    color: '#38548A',
-                                                    backgroundColor: blue[100]
-                                                }
-                                            }}
-                                            onClick={() => {
-                                                // pass data via state > mobileNumbers
-                                                navigate('/extended-sidebar/teacher/PersonalAddressBook', { state: { mobileNumbers } })
-                                            }}
-                                        >
-                                            Personal Address book
-                                        </Button>
-                                    </Box>
-                                </Grid>
+                                </Box>
+                                <div style={{ marginTop: '15px' }}>
+                                    <Errormessage Error={formik.errors.To} />
+                                </div>
                             </Grid>
+                            <Grid xs={1} mt={2} >
+                                <Box mt={2} ml={2}>
+                                    <Button
+                                        fullWidth
+                                        onClick={() => handleOpenDialog(true)}
+                                        sx={{
+                                            color: '#38548A',
 
-                            <Grid container px={2}>
-                                <Grid xs={10} sm={10} md={10}>
-                                    <Box sx={{ mt: "30px" }}>
-                                        <TextField
-                                            name="To"
-                                            placeholder='To'
-                                            multiline
-                                            className={classes.InputField}
-                                            onChange={ToFieldChange}
-                                            onBlur={ToFieldOnBlur}
-                                            onFocus={ToFieldFocus}
-                                            InputProps={{
-                                                readOnly: true
-                                            }}
-                                            value={RecipientsArray.RecipientName}
-                                            variant="outlined"
-                                            id="body"
-                                            fullWidth
-                                            margin="normal"
-                                            style={{ scrollBehavior: 'auto' }}
-                                            sx={{
-                                                maxHeight: '60px',
-                                                // overflow: 'auto'
-                                            }}
+                                            width: '200px',
+                                            '&:hover': {
+                                                color: '#38548A',
+                                                backgroundColor: blue[100]
+                                            }
+                                        }}>
+                                        Add Recipients
+                                    </Button>
+                                </Box>
+                            </Grid >
+                        </Grid>
+
+                        <Grid container spacing={2} p={2}>
+                            
+                            <Grid item xs={12} sm={6} md={4} lg={3}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name="scheduleSMS"
+                                            checked={form.scheduleSMS}
+                                            onChange={handleInputChange1}
                                         />
-                                    </Box>
-                                    <div style={{ marginTop: '15px' }}>
-                                        <Errormessage Error={formik.errors.To} />
-                                    </div>
-                                </Grid>
-                                <Grid xs={2} mt={4} >
-                                    <Box mt={2} ml={2}>
-                                        <Button
-                                            fullWidth
-                                            onClick={() => handleOpenDialog(true)}
-                                            sx={{
-                                                color: '#38548A',
-
-                                                width: '200px',
-                                                '&:hover': {
-                                                    color: '#38548A',
-                                                    backgroundColor: blue[100]
-                                                }
-                                            }}>
-                                            Add Recipients
-                                        </Button>
-                                    </Box>
-                                </Grid >
+                                    }
+                                    label="Schedule SMS"
+                                />
                             </Grid>
+                           
+                            {form.scheduleSMS && (
+                                <>
+                             {/* <Grid container spacing={2} pt={2} pl={2} alignItems="center"> */}
+                                <Grid item xs={12} sm={6} md={3} lg={3}>
+                                    <Datepicker
+                                        DateValue={SelectDate}
+                                        onDateChange={onSelectDate}
+                                        size={'medium'}
+                                        label={'Date'}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={3} lg={3}>
+                                    <TimepickerTwofields Item={StartTime} label={'Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6} lg={3}>
+                                    <Typography variant="body2" color="textSecondary">
+                                        e.g., 10:00 AM. SMS Schedule should be set after 1 hour
+                                        and within 7 days range from now.
+                                    </Typography>
+                                </Grid>
+                             {/* </Grid> */}
+                            </>
+                        )}
+                           <Grid item xs={12} sm={6} md={4} lg={3} px={2}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name="SendMessage"
+                                        // checked={form.scheduleSMS}
+                                        // onChange={handleInputChange1}
+                                        />
+                                    }
+                                    label="Send Message"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6} lg={3}>
+                                <TextField
+                                    name="TemplateId"
+                                    label="Template Id"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid xs={2} mt={2} sm={2} md={2} >
+                                <Box ml={2}>
+                                    <Button
+                                        fullWidth
+                                        // onClick={(e) => RecipientCCButton(e)}       
+                                        // onClick={() => handleOpenDialog(false)}
+                                        sx={{
+                                            color: '#38548A',
+                                            mt: 0.7,
+                                            width: '200px',
+                                            '&:hover': {
+                                                color: '#38548A',
+                                                backgroundColor: blue[100]
+                                            }
+                                        }}
+                                        onClick={() => {
+                                            // pass data via state > mobileNumbers
+                                            navigate('/extended-sidebar/teacher/PersonalAddressBook', { state: { mobileNumbers } })
+                                        }}
+                                    >
+                                        Use Template
+                                    </Button>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                       
 
 
-
-
-                            <Grid item md={3} >
+                        {/* <Grid item md={3} >
 
                             </Grid>
 
@@ -574,38 +755,39 @@ const ComposeSMSform = () => {
                                         }
                                     </FormControl>
                                 </Grid>
-                            </Grid>
+                            </Grid> */}
+                   <Box px={2}>
+                        <CardDetail2
+                            sx={{
+                                color: 'blue',
+                                marginTop: 1,
+                                marginBottom: 1.5,
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            {' '}
+                            Letters = {initialCount} Message = {initialMessage}{' '}
+                        </CardDetail2>
 
-                            <CardDetail2
-                                sx={{
-                                    color: 'blue',
-                                    marginTop: 1,
-                                    marginBottom: 1.5,
-                                    fontWeight: 'bold'
-                                }}
-                            >
-                                {' '}
-                                Letters = {initialCount} Message = {initialMessage}{' '}
-                            </CardDetail2>
-
-                            <TextField
-                                fullWidth
-                                multiline
-                                rows={4}
-                                margin="normal"
-                                name="Content"
-                                type="text"
-                                value={ContentTemplateDependent}
-                                onBlur={ContentFieldBlur}
-                                sx={{ marginTop: '1px' }}
-                                id="content"
-                                onChange={(e) => onContentChange(e.target.value)}
-                            />
-                            <div style={{ marginTop: '8px' }}>
-                                <Errormessage Error={formik.errors.Content} />
-                            </div>
-                            <br />
-                            <Grid container>
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows={4}
+                            margin="normal"
+                            name="Content"
+                            type="text"
+                            value={ContentTemplateDependent}
+                            onBlur={ContentFieldBlur}
+                            sx={{ marginTop: '1px' }}
+                            id="content"
+                            onChange={(e) => onContentChange(e.target.value)}
+                        />
+                        <Box style={{ marginTop: '8px' }}>
+                            <Errormessage Error={formik.errors.Content} />
+                        </Box>
+                        </Box>
+                       
+                        {/* <Grid container>
                                 <Grid item xs={12} >
                                     <ButtonPrimary
 
@@ -618,9 +800,9 @@ const ComposeSMSform = () => {
                                         Send
                                     </ButtonPrimary>
                                 </Grid>
-                            </Grid>
-                        </form>
-                    </ListStyle>
+                            </Grid> */}
+                    </form>
+                    {/* </ListStyle> */}
 
                 </Box>
                 <div style={{ display: displayOfTo_RecipientsPage }}>

@@ -55,6 +55,7 @@ export interface GetMessagesResult {
     }
   ];
   UnreadMessageTotalCount: number;
+  TotalCountLabel: string;
 }
 export interface GetScheduledSMSResult {
   GetScheduledSMSResult: [

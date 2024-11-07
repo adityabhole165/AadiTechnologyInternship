@@ -1,51 +1,833 @@
-import React from 'react';
-import { TextField, Box } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Visibility from '@mui/icons-material/Visibility';
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  TextField,
+  Tooltip,
+  Typography
+} from '@mui/material';
+import { blue, grey, red } from '@mui/material/colors';
+import { useState } from 'react';
+import { useParams } from 'react-router';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import SingleFile from 'src/libraries/File/SingleFile';
+import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-interface FamilyDetailsProps {
-  label1: string;
-  label2: string;
-  label3: string;
-  value1: string;
-  value2: string;
-  value3: string;
-  onChange: (index: number, value: string) => void;
-  error: boolean;
-}
+const FamilyDetails = ({ onSave }) => {
+  const { AssignedDate } = useParams();
+  const [form, setForm] = useState({
+    // Father's Information
+    fatherQualification: '',
+    fatherEmail: '',
+    fatherOfficeName: '',
+    fatherOfficeAddress: '',
+    fatherDesignation: '',
+    fatherDOB: '',
+    fatherPhoto: '',
+    fatherWeight: 0,
+    fatherHeight: 0,
+    fatherBloodGroup: '',
+    fatherAadharCard: '',
+    fatherAnnualIncome: 0,
 
-const FamilyDetails: React.FC<FamilyDetailsProps> = ({ label1, label2, label3, value1, value2, value3, onChange, error }) => {
+    // Mother's Information
+    motherOccupation: '',
+    motherQualification: '',
+    motherEmail: '',
+    motherOfficeName: '',
+    motherOfficeAddress: '',
+    motherDesignation: '',
+    motherDOB: '',
+    motherPhoto: '',
+    motherWeight: 0,
+    motherHeight: 0,
+    motherAadharCard: '',
+    motherBloodGroup: '',
+    motherAnnualIncome: 0,
+
+    // Family Information
+    marriageAnniversaryDate: '',
+    localGuardianPhoto: '',
+    familyMonthlyIncome: 0.0,
+    cwsn: '',
+    relativeFullName: '',
+    residencePhoneNumber: '',
+    familyPhoto: ''
+  });
+  const [siblings, setSiblings] = useState([
+    { name: '', age: 0, institution: '', standard: '' }
+  ]);
+
+  const ValidFileTypes = [
+    'BMP',
+    'DOC',
+    'DOCX',
+    'JPG',
+    'JPEG',
+    'PDF',
+    'XLS',
+    'XLSX'
+  ];
+  const MaxfileSize = 5000000;
+
+  const [SelectDate, SetSelectDate] = useState(
+    AssignedDate == undefined
+      ? new Date().toISOString().split('T')[0]
+      : getCalendarDateFormatDateNew(AssignedDate)
+  );
+
+  const [errors, setErrors] = useState({
+    fatherQualification: false,
+    fatherEmail: false,
+    fatherOfficeName: false,
+    fatherOfficeAddress: false,
+    fatherDesignation: false,
+    fatherDOB: false,
+    fatherPhoto: false,
+    fatherWeight: false,
+    fatherHeight: false,
+    fatherBloodGroup: false,
+    fatherAadharCard: false,
+    fatherAnnualIncome: false,
+
+    // Mother's Information
+    motherOccupation: false,
+    motherQualification: false,
+    motherEmail: false,
+    motherOfficeName: false,
+    motherOfficeAddress: false,
+    motherDesignation: false,
+    motherDOB: false,
+    motherPhoto: false,
+    motherWeight: false,
+    motherHeight: false,
+    motherAadharCard: false,
+    motherBloodGroup: false,
+    motherAnnualIncome: false,
+
+    // Family Information
+    marriageAnniversaryDate: false,
+    localGuardianPhoto: false,
+    familyMonthlyIncome: false,
+    cwsn: false,
+    relativeFullName: false,
+    residencePhoneNumber: false,
+    familyPhoto: false
+  });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked, files } = e.target;
+    const fieldValue =
+      type === 'checkbox'
+        ? checked
+        : type === 'file'
+        ? files
+          ? files[0]
+          : null
+        : value;
+    setForm({ ...form, [name]: fieldValue });
+
+    // Remove error when the user starts filling the field
+    setErrors({ ...errors, [name]: false });
+  };
+
+  const handleAddSibling = () => {
+    setSiblings([
+      ...siblings,
+      { name: '', age: 0, institution: '', standard: '' }
+    ]);
+  };
+
+  const handleRemoveSibling = (index) => {
+    const newSiblings = siblings.filter((_, i) => i !== index);
+    setSiblings(newSiblings);
+  };
+
+  const handleChange = (index, field, value) => {
+    const newSiblings = siblings.map((sibling, i) => {
+      if (i === index) {
+        return { ...sibling, [field]: value };
+      }
+      return sibling;
+    });
+    setSiblings(newSiblings);
+  };
+
+  const handleSave = () => {
+    // Call the onSave function passed as a prop
+    onSave(form);
+  };
+  const onSelectDate = (value) => {
+    SetSelectDate(value);
+  };
+
   return (
-    <Box>
-      <TextField
-        fullWidth
-        label={label1}
-        value={value1}
-        onChange={(e) => onChange(0, e.target.value)}
-        required
-        error={error}
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        fullWidth
-        label={label2}
-        value={value2}
-        onChange={(e) => onChange(1, e.target.value)}
-        required
-        error={error}
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        fullWidth
-        label={label3}
-        value={value3}
-        onChange={(e) => onChange(2, e.target.value)}
-        required
-        error={error}
-        sx={{ mb: 2 }}
-      />
+    <Box sx={{ backgroundColor: 'white', p: 2 }}>
+      <Typography variant="h4" color="initial" py={1} pb={1}>
+        Father's Details
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherQualification"
+            label="Father Qualification "
+            variant="outlined"
+            value={form.fatherQualification}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherEmail"
+            label="Father E-mail"
+            variant="outlined"
+            value={form.fatherEmail}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherOfficeName"
+            label="Father Office Name"
+            variant="outlined"
+            value={form.fatherOfficeName}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherOfficeAddress"
+            label="Father Office Address"
+            variant="outlined"
+            value={form.fatherOfficeAddress}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherDesignation"
+            label="Father Designation"
+            variant="outlined"
+            value={form.fatherDesignation}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <Datepicker
+            DateValue={SelectDate}
+            onDateChange={onSelectDate}
+            size={'medium'}
+           label="Father DOB"
+          />
+        </Grid>
+
+        {/* fatherPhoto */}
+        <Grid item xs={12} md={2}>
+          <SingleFile
+            ValidFileTypes={ValidFileTypes}
+            MaxfileSize={MaxfileSize}
+            FileName={form.fatherPhoto}
+            ChangeFile={handleInputChange}
+            FileLabel={'Father Photo'}
+            width={'100%'}
+            height={'52px'}
+            isMandatory={false}
+          />
+        </Grid>
+        <Grid item xs={1} md={1}>
+          <>
+            <Tooltip title={'View'}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: '#223354',
+                    cursor: 'pointer'
+                  }
+                }}
+              >
+                <Visibility />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={'Delete'}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
+              >
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherWeight"
+            label="Father Weight (Kg)"
+            variant="outlined"
+            type="number"
+            value={form.fatherWeight}
+            onChange={handleInputChange}
+            fullWidth
+            inputProps={{
+              min: 0,
+              step: '0.1'
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherHeight"
+            label="Father Height (Cm)"
+            variant="outlined"
+            type="number"
+            value={form.fatherHeight}
+            onChange={handleInputChange}
+            fullWidth
+            inputProps={{
+              min: 0,
+              step: '0.1'
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherBloodGroup"
+            label="Father Blood Group"
+            variant="outlined"
+            value={form.fatherBloodGroup}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherAadharCard"
+            label="Father Aadhar Card Number"
+            variant="outlined"
+            value={form.fatherAadharCard}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherAnnualIncome"
+            label="Father Annual Income"
+            variant="outlined"
+            value={form.fatherAnnualIncome}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+      </Grid>
+      <Typography variant="h4" color="initial" pt={2} pb={1}>
+        Mother's Details
+      </Typography>
+      {/* Mother's Information */}
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherOccupation"
+            label="Mother Occupation"
+            variant="outlined"
+            value={form.motherOccupation}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherQualification"
+            label="Mother Qualification"
+            variant="outlined"
+            value={form.motherQualification}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherEmail"
+            label="Mother E-mail"
+            variant="outlined"
+            value={form.motherEmail}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherOfficeName"
+            label="Mother Office Name"
+            variant="outlined"
+            value={form.motherOfficeName}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherOfficeAddress"
+            label="Mother Office Address"
+            variant="outlined"
+            value={form.motherOfficeAddress}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherDesignation"
+            label="Mother Designation"
+            variant="outlined"
+            value={form.motherDesignation}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+        <Datepicker
+            DateValue={SelectDate}
+            onDateChange={onSelectDate}
+            size={'medium'}
+           label="Mother DOB"
+          />
+        </Grid>
+
+        {/* motherPhoto */}
+        <Grid item xs={12} md={2}>
+          <SingleFile
+            ValidFileTypes={ValidFileTypes}
+            MaxfileSize={MaxfileSize}
+            FileName={form.motherPhoto}
+            ChangeFile={handleInputChange}
+            FileLabel={'Mother Photo'}
+            width={'100%'}
+            height={'52px'}
+            isMandatory={false}
+          />
+        </Grid>
+
+        <Grid item xs={1} md={1}>
+          <>
+            <Tooltip title={'View'}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: '#223354',
+                    cursor: 'pointer'
+                  }
+                }}
+              >
+                <Visibility />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={'Delete'}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
+              >
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherWeight"
+            label="Mother Weight (Kg)"
+            variant="outlined"
+            type="number"
+            value={form.motherWeight}
+            onChange={handleInputChange}
+            fullWidth
+            inputProps={{
+              min: 0,
+              step: '0.1'
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherHeight"
+            label="Mother Height (Cm)"
+            variant="outlined"
+            type="number"
+            value={form.motherHeight}
+            onChange={handleInputChange}
+            fullWidth
+            inputProps={{
+              min: 0,
+              step: '0.1'
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherBloodGroup"
+            label="Mother Blood Group"
+            variant="outlined"
+            value={form.motherBloodGroup}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherAadharCard"
+            label="Mother Aadhar Card Number"
+            variant="outlined"
+            value={form.motherAadharCard}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="motherAnnualIncome"
+            label="Mother Annual Income"
+            variant="outlined"
+            value={form.motherAnnualIncome}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+         
+           <Datepicker
+            DateValue={SelectDate}
+            onDateChange={onSelectDate}
+            size={'medium'}
+           label="Marriage Anniversary Date"
+          />
+        </Grid>
+
+        {/* localGuardianPhoto */}
+        <Grid item xs={12} md={2}>
+          <SingleFile
+            ValidFileTypes={ValidFileTypes}
+            MaxfileSize={MaxfileSize}
+            FileName={form.localGuardianPhoto}
+            ChangeFile={handleInputChange}
+            FileLabel={'Local Guadian Photo'}
+            width={'100%'}
+            height={'52px'}
+            isMandatory={false}
+          />
+        </Grid>
+        <Grid item xs={1} md={1}>
+          <>
+            <Tooltip title={'View'}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: '#223354',
+                    cursor: 'pointer'
+                  }
+                }}
+              >
+                <Visibility />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={'Delete'}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
+              >
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="familyMonthlyIncome"
+            label="Family Monthly Income"
+            variant="outlined"
+            value={form.familyMonthlyIncome}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="cwsn"
+            label="CWSN"
+            variant="outlined"
+            value={form.cwsn}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="relativeFullName"
+            label="Relative Full Name"
+            variant="outlined"
+            value={form.relativeFullName}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="residencePhoneNumber"
+            label="Residence Phone Number"
+            variant="outlined"
+            value={form.residencePhoneNumber}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="neighbourPhoneNumber"
+            label="Neighbour's Phone Number"
+            variant="outlined"
+            // value={form.neighbourPhoneNumber}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="OfficePhoneNumber"
+            label="Office Phone Number"
+            variant="outlined"
+            // value={form.neighbourPhoneNumber}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        {/* familyPhoto */}
+        <Grid item xs={12} md={2}>
+          <SingleFile
+            ValidFileTypes={ValidFileTypes}
+            MaxfileSize={MaxfileSize}
+            FileName={form.familyPhoto}
+            ChangeFile={handleInputChange}
+            FileLabel={'Family Photo'}
+            width={'100%'}
+            height={'52px'}
+            isMandatory={false}
+          />
+        </Grid>
+        <Grid item xs={1} md={1}>
+          <>
+            <Tooltip title={'View'}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: '#223354',
+                    cursor: 'pointer'
+                  }
+                }}
+              >
+                <Visibility />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={'Delete'}>
+              <IconButton
+                onClick={() => ''}
+                sx={{
+                  color: '#223354',
+                  mt: 0.7,
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
+              >
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        </Grid>
+      </Grid>
+
+      {/* Sibling Details */}
+      <Typography variant="h4" color="initial" pt={2} pb={1}>
+        Details of Brothers and Sisters of the Student
+      </Typography>
+
+      {siblings.map((sibling, index) => (
+        <Grid container spacing={2} sx={{ pb: 2 }}>
+          <Grid item xs={12} md={3}>
+            <TextField
+              name="name"
+              label="Name"
+              variant="outlined"
+              value={sibling.name}
+              onChange={(e) => handleChange(index, 'name', e.target.value)}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={2.5}>
+            <TextField
+              name="name"
+              label="Age"
+              variant="outlined"
+              value={sibling.age}
+              onChange={(e) =>
+                handleChange(index, 'age', parseInt(e.target.value) || 0)
+              }
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={3}>
+            <TextField
+              name="institution"
+              label="Institution"
+              variant="outlined"
+              value={sibling.institution}
+              onChange={(e) =>
+                handleChange(index, 'institution', e.target.value)
+              }
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={3}>
+            <TextField
+              name="standard"
+              label="Standard"
+              variant="outlined"
+              value={sibling.standard}
+              onChange={(e) => handleChange(index, 'standard', e.target.value)}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={0.5}>
+            {siblings.length > 1 && (
+              <Tooltip title={'Delete'}>
+                <IconButton
+                  onClick={() => handleRemoveSibling(index)}
+                  sx={{
+                    color: '#223354',
+                    mt: 0.7,
+                    '&:hover': {
+                      color: 'red',
+                      backgroundColor: red[100]
+                    }
+                  }}
+                >
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+          </Grid>
+        </Grid>
+      ))}
+
+      <Grid item xs={12} pt={2}>
+        <Button
+          sx={{
+            color: '#38548A',
+            backgroundColor: grey[100],
+            '&:hover': {
+              color: '#38548A',
+              backgroundColor: blue[100]
+            }
+          }}
+          onClick={handleAddSibling}
+        >
+          Add Sibling
+        </Button>
+      </Grid>
+
+      {/* Save & Next Button */}
+      {/* <Grid
+        item
+        xs={12}
+        pt={2}
+        sx={{ display: 'flex', justifyContent: 'flex-end' }}
+      >
+        <Button
+          sx={{
+            color: '#38548A',
+            backgroundColor: grey[100],
+            '&:hover': {
+              color: '#38548A',
+              backgroundColor: blue[100]
+            }
+          }}
+          onClick={handleSave}
+        >
+          Save And Next
+        </Button>
+      </Grid> */}
     </Box>
   );
 };
 
 export default FamilyDetails;
-
-

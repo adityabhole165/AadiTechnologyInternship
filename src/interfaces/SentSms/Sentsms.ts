@@ -85,6 +85,15 @@ export interface IGetAddressBookGroupListBody {
   asGroupMob: string
 }
 
+/**
+ * Represents the result of retrieving the address book group list.
+ * @interface IGetAddressBookGroupListResult
+ * @property {string} PersonalAddressBookGroupId - The unique identifier of the personal address book group.
+ * @property {string} User_Id - The identifier of the user associated with the address book group.
+ * @property {string} Name - The name of the address book group.
+ * @property {string} Is_Deleted - Indicates whether the address book group has been deleted.
+ * @property {string} Ischeck - Indicates whether the address book group is checked.
+ */
 export interface IGetAddressBookGroupListResult {
   PersonalAddressBookGroupId: string
   User_Id: string
@@ -94,6 +103,13 @@ export interface IGetAddressBookGroupListResult {
 }
 
 
+/**
+ * Represents the input parameters for retrieving the details of an address book group.
+ * @interface IGetAddressBookGroupDetailsBody
+ * @property {string} asSchoolId - The identifier of the school associated with the address book group.
+ * @property {string} asUserId - The identifier of the user associated with the address book group.
+ * @property {string} asGroupId - The unique identifier of the address book group.
+ */
 export interface IGetAddressBookGroupDetailsBody {
   asSchoolId: string
   asUserId: string
@@ -129,4 +145,28 @@ export interface IUpdatePersonalAddressBookGroupBody {
   asGroupName: string
   asGroupDetailXML: string
   asUserId: string
+}
+
+// Teacher/DeletePersonalAddressBookGroup
+// {
+//   "asSchoolId": "18",
+//   "asPersonalAddressBookGroupId": "6",
+//   "asUserId": "5902"
+// }
+export interface IDeletePersonalAddressBookGroupBody {
+  asSchoolId: string
+  asPersonalAddressBookGroupId: string
+  asUserId: string
+}
+
+export interface IGetDetailsOfGroupsBody {
+  asSchoolId: string
+  asGroupId: string
+}
+
+export interface IGetDetailsOfGroupsResult {
+  Mobile_No: string
+  User_Id: string
+  Name: string
+  PersonalAddressBookId: string
 }

@@ -65,7 +65,7 @@ function CardMessDeleteButtons({
                   <RestoreFromTrashIcon />}
                 fullWidth
                 sx={{
-                  borderRadius: '5px', color: '#38548A', '&:hover': {
+                  borderRadius: '0px', color: '#38548A', '&:hover': {
                     color: 'red',
                     backgroundColor: red[100]
                   }

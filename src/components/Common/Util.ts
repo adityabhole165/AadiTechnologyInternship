@@ -374,7 +374,7 @@ export const getDateFormat1 = (date) => {
   const Day = new Date(date).getDate();
   const Month = new Date(date).toLocaleString('default', { month: 'short' });
   const Year = new Date(date).getFullYear();
-  return `${Year}-${Month}-${Day}`;
+  return `${Year}-${Month.substring(0, 3)}-${Day}`;
 };
 export const getHomeworkDateFormatted = (date) => {
   date = date || new Date();

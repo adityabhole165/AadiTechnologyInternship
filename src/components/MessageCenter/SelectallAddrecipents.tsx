@@ -1,6 +1,5 @@
 import ListHeaderCard3ColSel from 'src/libraries/card/ListHeaderCard3ColSel';
 import CheckboxCard from 'src/libraries/list/CheckboxCard';
-
 const SelectallAddrecipents = ({
   Itemlist,
   onChange,
@@ -33,8 +32,12 @@ const SelectallAddrecipents = ({
         Item={{ text1: '', text2: 'Select All', isActive: isCheckAll }}
         onChange={ClickAll}
       />
+
       {Itemlist?.map((item, index) => (
-        <CheckboxCard Item={item} onClick={onClick} key={index} />
+        <>
+          <CheckboxCard Item={item} onClick={onClick} key={index} />
+
+        </>
       ))}
     </>
   );

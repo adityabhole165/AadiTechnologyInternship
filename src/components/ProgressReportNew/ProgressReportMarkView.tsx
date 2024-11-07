@@ -1,7 +1,8 @@
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
-
+ const [data, setData] = useState<any>([]);
     const getListDisplayName = (ShortName) => {
         let returnVal = "";
         ListDisplayNameDetails.map((Item) => {
@@ -10,6 +11,107 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
         });
         return returnVal;
     };
+        // f() to control visibility of Test Type Columns
+        function showTestTypeDetails() {
+            let flag = false;
+            if(data.ListTestTypeIdDetails?.length === 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'true' ) {
+                return false;
+            } else if (data.ListTestTypeIdDetails?.length === 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+                return true;
+            } else if (data.ListTestTypeIdDetails?.length > 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                return true;
+            }  else if (data.ListTestTypeIdDetails?.length > 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+                return true;
+            }      
+        }
+    function getColSpan(){
+        let colSpan = 1;
+        if(IsTotalConsiderForProgressReport.toLowerCase() === "true"){
+            colSpan = 1 + (showTestTypeDetails() ? data.ListTestTypeIdDetails?.length : 0);
+            return colSpan;
+        } else if(IsTotalConsiderForProgressReport.toLowerCase() === "false"){
+            colSpan = data.ListTestTypeIdDetails?.length;
+            return colSpan;
+        }
+    }
+    function parentSubColSpan(parentSubId){
+        let colSpan = 1;
+        let filteredArr = data.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === parentSubId);
+          if(IsTotalConsiderForProgressReport.toLowerCase() === "true"){
+            if(data.ListTestTypeIdDetails?.length === 1) {
+                colSpan = (filteredArr.length) + (data.ListTestTypeIdDetails?.length + 1);  // 3 + ( 1 + 1 ) 
+                return colSpan;
+            } else {
+                colSpan = (filteredArr.length + 1) * (data.ListTestTypeIdDetails?.length + 1);  // 3 + 1 * ( 1 + 1 ) 
+                return colSpan;
+            }
+          } else if(IsTotalConsiderForProgressReport.toLowerCase() === "false"){
+            colSpan = (filteredArr.length +1) * data.ListTestTypeIdDetails?.length;
+            return colSpan;
+          }
+    }
+    function findRow2() {
+        return data.listSubjectsDetails?.map((item) => {
+            if (item.Parent_Subject_Id === '0') { // Handle undefined or empty Parent_Subject_Id
+                return { ...item, Subject_Name: '', rowSpan: 1, colSpan: getColSpan() };//3 };
+            } else {
+                return { ...item, rowSpan: 1, colSpan: getColSpan() };//3 };
+            }
+        });
+    }
+    
+    function findRow1() {
+        let ParentSubArr = [];
+        let ans = [];
+        
+        data.listSubjectsDetails?.map((item) => {
+            if (item.Parent_Subject_Id === '0') { // For top-level subjects
+                ans.push({ ...item, rowSpan: 2, colSpan: getColSpan() }); // Corrected push syntax //3
+            } else if (!ParentSubArr.includes(item.Parent_Subject_Id)) { // For child subjects with unique Parent_Subject_Id
+                ParentSubArr.push(item.Parent_Subject_Id);
+                console.log(item.Parent_Subject_Id);
+                ans.push({ 
+                    ...item, 
+                    Subject_Name: findName(item.Parent_Subject_Id), 
+                    rowSpan: 1, 
+                    colSpan: parentSubColSpan(item.Parent_Subject_Id)
+                });
+            }
+            // No need for return since map is only used for iteration
+        });
+        console.log('ans ⭐⭐🦥🔥', ans);
+        return ans; 
+    }
+    
+console.log( findRow1()," findRow1()");
+
+
+    
+    function findName(Id) {
+        // Safeguard: Check if data.listTestIdDetails exists and filter properly
+        if (!Array.isArray(data.listTestidDetails)) return 'No Name Available';
+    
+        const list1 = data.listTestidDetails.filter((item) => item.Parent_Subject_Id === Id);
+        
+        if (list1.length >= 1 && list1[0].Parent_Subject_Name) {
+            return list1[0].Parent_Subject_Name; // Return the found Parent_Subject_Name
+        }
+        return 'No Name Available'; // Fallback if no valid name is found
+    }
+    useEffect(() => {
+        console.log('>>', EntireDataList);
+        if (Object.keys(EntireDataList).length > 0) {
+            setData(EntireDataList);
+            console.log('>>', EntireDataList);
+            let ans1 = findRow1();
+            console.log(`🤷‍♀️🤷‍♀️🤷‍♀️🤷‍♀️🤷‍♀️`, ans1);
+            console.log(findRow2());
+        }
+    }, [EntireDataList])
+    useEffect(() => {
+        console.log('🦥🦥🦥',MarkDetailsList);
+        
+    }, [MarkDetailsList]);
 
     let HeaderParent = [];
     let PrevParentId = "0", SubjectName = "";
@@ -37,15 +139,18 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
     // Track if there is any parent subject
     const hasParentSubjects = HeaderArray.some(item => item.ParentSubjectId !== "0");
     function showParentColumns() {
-
-    }
-    if (EntireDataList.length > 0) {
-        console.log('✨ EntireDataList >>>', EntireDataList);
     }
 
-    console.log('✨ HeaderParent', HeaderParent);
-    console.log('✨ SubHeaderArray', SubHeaderArray);
-    console.log('✨ MarkDetailsList', MarkDetailsList);
+    function getRemarkForGradeCell(cellRemark) {
+        // html element type
+        let result: any;
+        let remarkList = data?.ListDisplayNameDetails?.filter((item) => item.ShortName === cellRemark);
+        if (remarkList?.length > 0) {
+          result = <span style={{ color: `${remarkList[0]?.ForeColor}`, fontWeight: 'bold' }}>{remarkList[0]?.DisplayName}</span>;
+        }
+        return result;
+      }
+
 
     return (
         <Box>
@@ -54,7 +159,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                     {HeaderParent.length > 1 && (
                         <>
                             <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                                <TableCell rowSpan={2}>
+                                <TableCell rowSpan={3}>
                                     <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5}>
                                         Subjects &#9654;
                                     </Typography>
@@ -62,72 +167,80 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                         &#9660; Exam
                                     </Typography>
                                 </TableCell>
-
-                                {HeaderParent.map((item, index) => (
+                                {findRow1().map((item, index) => (
                                     <TableCell
                                         key={index}
-                                        colSpan={
-                                            item.SubjectName !== ''
-                                                ? item.colSpan + ListTestTypeIdDetails.length + (IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? 1 : 0)
-                                                : item.colSpan
-                                        }
+                                        colSpan={item.Total_Consideration == 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
                                         sx={{ border: '1px solid black', textAlign: 'center' }}
                                     >
-                                        <Typography color="black" textAlign={'left'} mr={5}>
-                                            <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
-                                        </Typography>
+                                        <Typography color="black" textAlign="left" mr={5}>
+                                             <b style={{ marginRight: "5px" }}>
+                                                 {item.Subject_Name} 
+                                         {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+                                                     </b>
+                                                </Typography>
+
                                     </TableCell>
                                 ))}
-
-                            </TableRow>
-
-                            <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                                {HeaderArray.map((item, index) => (
+                                     {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
                                     <>
-                                        {index > 0 && HeaderArray[index - 1].ParentSubjectId !== "0" && item.ParentSubjectId === '0' && (
-                                            <>
-                                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && ListTestTypeIdDetails?.map((item, i) => {
-                                                    return (
-                                                        <TableCell key={i} rowSpan={2} >  <Typography color="#38548A" textAlign={'center'} mr={5}>Total {item.Text2}</Typography></TableCell>
-                                                    )
-                                                })}
-                                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                                                    <TableCell rowSpan={2} >  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'center'} mr={5}>Total</Typography></TableCell>}
-                                            </>
-                                        )}
-                                        <TableCell key={index} colSpan={item.colSpan - (IsTotalConsiderForProgressReport.toLowerCase() === 'false' ? 1 : 0)} sx={{ border: '1px solid black', textAlign: 'center' }}>
-                                            <Typography color="black" textAlign={'left'} mr={5}>
-                                                <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
-                                            </Typography>
-                                        </TableCell>
-
-                                        {/* Check if the previous item has a parent and the current item doesn't */}
-
-                                    </>
-                                ))}
-                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                                    <>
-                                        <TableCell rowSpan={2}>
+                                        <TableCell rowSpan={3}>
                                             <Typography color="#38548A" textAlign={'center'} px={3}>
                                                 <b>Total</b>
                                             </Typography>
                                         </TableCell>
-                                        <TableCell rowSpan={2}>
+                                        <TableCell rowSpan={3}>
                                             <Typography color="#38548A" textAlign={'center'} px={3}>
                                                 <b>%</b>
                                             </Typography>
                                         </TableCell>
-                                        <TableCell rowSpan={2} >
+                                        <TableCell rowSpan={3} >
                                             <Typography color="#38548A" textAlign={'center'} px={5}>
                                                 <b>Grade</b>
                                             </Typography>
                                         </TableCell>
                                     </>}
                             </TableRow>
+                            <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+                                {findRow2()?.map((item, index) => (
+                                    <>
+                                        {index > 0 && findRow2()[index - 1].Parent_Subject_Id !== "0" && item.Parent_Subject_Id === '0' && (
+                                            <>
+                                            {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
+                                                {ListTestTypeIdDetails?.map((item1, i) => {
+                                                    return (
+                                                        <TableCell key={i} rowSpan={2} >  <Typography color="#38548A" textAlign={'center'} mr={5}>Total {item1.Text2}</Typography></TableCell>
+                                                    )
+                                                })}
+                                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                    <TableCell rowSpan={2} >  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'center'} mr={5}>Total</Typography></TableCell>}
+                                            </>
+                                        )}
+                                         {item.Subject_Name !== '' &&
+                                        <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                                            <Typography color="black" textAlign={'left'} mr={5}>
+                                                <b style={{ marginRight: "5px" }}>{item.Subject_Name}
+                                                {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
 
+
+                                                </b>
+
+
+                                            </Typography>
+                                        </TableCell>}
+
+                                        {/* Check if the previous item has a parent and the current item doesn't */}
+
+                                    </>
+                                ))}
+                           
+                            </TableRow>
                         </>
                     )}
-
                     {HeaderParent.length <= 1 && (
                         <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                             <TableCell rowSpan={2}>
@@ -138,26 +251,49 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                     &#9660; Exam
                                 </Typography>
                             </TableCell>
-                            {HeaderArray.map((item, index) => (
+                            {findRow1().map((item, index) => (
                                 <TableCell key={index} colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                     <Typography color="black" textAlign={'left'} mr={5}>
-                                        <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                                        <b style={{ marginRight: "5px" }}>{item.Subject_Name} 
+
+                                        {item.Is_CoCurricularActivity == "True" && (
+                                              <span style={{ color: 'red' }}>*</span>
+                                                   )}
+                                        </b>
                                     </Typography>
                                 </TableCell>
                             ))}
+                                   {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                    <>
+                                        <TableCell rowSpan={3}>
+                                            <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                <b>Total</b>
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell rowSpan={3}>
+                                            <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                <b>%</b>
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell rowSpan={3} >
+                                            <Typography color="#38548A" textAlign={'center'} px={5}>
+                                                <b>Grade</b>
+                                            </Typography>
+                                        </TableCell>
+                                    </>}
                         </TableRow>
                     )}
 
                     <TableRow>
-                        <TableCell></TableCell>
-                        {ThirdHeaderRow.map((item, index) => (
+                        {/* <TableCell></TableCell> */}
+                            {ThirdHeaderRow.map((item, index) => (
                             <>
                                 {/* Render the normal TableCell */}
-                                <TableCell key={index}>
+                                {showTestTypeDetails() && <TableCell key={index}>
                                     <Typography color="#38548A" textAlign={'center'} mr={9}>
                                         <b style={{ marginRight: "5px" }}>{item.ShortenTestType_Name}</b>
                                     </Typography>
-                                </TableCell>
+                                </TableCell>}
                                 {/* Add a 'Total' TableCell after every dynamic number of cells */}
                                 {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && (index + 1) % ListTestTypeIdDetails.length === 0 && (
                                     <TableCell key={`total-${index}`}>
@@ -166,36 +302,96 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                         </Typography>
                                     </TableCell>
                                 )}
-
                             </>
                         ))}
-                        <TableCell >
-                            <Typography color="#38548A" textAlign={'center'} mr={9}>
-                                <b>Grade</b>
-                            </Typography>
-                        </TableCell>
+                        {findRow1()?.map((item, i) => (
+                            <>
+                                {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' &&
+                                    <TableCell key={i} >
+                                        <Typography color="#38548A" textAlign={'center'} mr={9}>
+                                            <b>Grade</b>
+                                        </Typography>
+                                    </TableCell>
+                                }
+                            </>
+                        ))}
                     </TableRow>
-
                 </TableHead>
 
                 {MarkDetailsList.map((testItem, i) => (
-                    <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
-                        <TableRow>
-                            <TableCell>
-                                <b>{testItem.TestName}</b>
-                            </TableCell>
+    <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
+        <TableRow>
+            <TableCell>
+                <b>{testItem.TestName || '-'}</b>
+            </TableCell>
+            {testItem.MarksArr.map((MarkItem, index) => (
+                <TableCell key={index} sx={{ backgroundColor: 'white' }}>
+                    {MarkItem == null || MarkItem?.MarksScored == ''
+                        ? '-'   
+                        : (MarkItem?.IsAbsent !== 'N'
+                            ? getRemarkForGradeCell(MarkItem.IsAbsent)
+                            : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null
+                                ? '-'
+                                : MarkItem?.MarksScored + (MarkItem.TotalMarks === "-" ? "" : (" / " + MarkItem.TotalMarks))
+                            )
+                        )
+                    }
+                </TableCell>
+            ))}
+        </TableRow>
+    </TableBody>
+))}
 
-                            {testItem.MarksArr.map((MarkItem, index) => (
-                                <TableCell key={index} sx={{ backgroundColor: 'white' }}>
-                                    {MarkItem?.MarksScored + (MarkItem?.TotalMarks === "-" ? "" : (" / " + MarkItem?.TotalMarks))}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableBody>
-                ))}
             </Table>
         </Box>
     );
 };
 
 export default ProgressReportMarkView;
+
+
+// function findRow2() {
+//     return data.listSubjectsDetails.map((item) => {
+//         if (item.Parent_Subject_Id === '0') { // Handle undefined or empty Parent_Subject_Id
+//             return { ...item, Subject_Name: '', rowSpan: 1, colSpan: 4 };
+//         } else {
+//             return { ...item, rowSpan: 1, colSpan: 4 };
+//         }
+//     });
+// }
+
+// function findRow1() {
+//     let ParentSubArr = [];
+//     let ans = [];
+    
+//     data.listSubjectsDetails.map((item) => {
+//         if (item.Parent_Subject_Id === '0') { // For top-level subjects
+//             ans.push({ ...item, rowSpan: 2, colSpan: 4 }); // Corrected push syntax
+//         } else if (!ParentSubArr.includes(item.Parent_Subject_Id)) { // For child subjects with unique Parent_Subject_Id
+//             ParentSubArr.push(item.Parent_Subject_Id);
+//             console.log(item.Parent_Subject_Id);
+//             ans.push({ 
+//                 ...item, 
+//                 Subject_Name: findName(item.Parent_Subject_Id), 
+//                 rowSpan: 1, 
+//                 colSpan: 16 
+//             });
+//         }
+//         // No need for return since map is only used for iteration
+//     });
+    
+//     return ans; 
+// }
+
+
+// function findName(Id) {
+//     // Safeguard: Check if data.listTestIdDetails exists and filter properly
+//     if (!Array.isArray(data.listTestidDetails)) return 'No Name Available';
+
+//     const list1 = data.listTestidDetails.filter((item) => item.Parent_Subject_Id === Id);
+    
+//     if (list1.length >= 1 && list1[0].Parent_Subject_Name) {
+//         return list1[0].Parent_Subject_Name; // Return the found Parent_Subject_Name
+//     }
+//     return 'No Name Available'; // Fallback if no valid name is found
+// }

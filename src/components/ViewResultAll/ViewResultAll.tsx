@@ -11,7 +11,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
 import {
-  IClassTeacherBody,
   IGetAllStudentTestprogressBody,
   IGetStudentNameListBody,
   IGetsingleStudentBody,
@@ -20,10 +19,11 @@ import {
 } from 'src/interfaces/VeiwResultAll/IViewResultAll';
 
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
+import { IClassTeacherListBody } from 'src/interfaces/FinalResult/IFinalResult';
 import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
+import { ClassTechersList } from 'src/requests/FinalResult/RequestFinalResult';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import {
-  ClassTechersListt,
   GetStudentResultList,
   GetsingleStudentResultVA,
   StudentNameList,
@@ -36,11 +36,14 @@ const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { StandardDivisionId } = useParams();
+  const StandardDivisionIdse = (
+    sessionStorage.getItem('StandardDivisionId')
+  );
   const TeacherId = (sessionStorage.getItem('TeacherId'));
-  const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '')
+  const [selectTeacher, setSelectTeacher] = useState(StandardDivisionIdse)
   const [open, setOpen] = useState(false);
-  // console.log(TeacherId, " ----", selectTeacher);
   const [studentList, setStudentList] = useState();
+  const [teacherList, setTeacherList] = useState([]);
   const ScreensAccessPermission = JSON.parse(sessionStorage.getItem('ScreensAccessPermission'));
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -59,13 +62,14 @@ const ViewResultAll = (props: Props) => {
   const Usunpublishedexam: any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
 
+  const GetClassTeachers = useSelector(
+    (state: RootState) => state.FinalResult.ClassTeachers
+  );
+
   const Data3 = SubjectDetailsView.filter((item) => item.Grade == "")
   const Data4 = SubjectDetailsView.filter((item) => item.Marks == "")
   const showOnlyGrades = USSStudentsingleResult.some((item) => item.ShowOnlyGrades.trim() === 'true');
-  // console.log(showOnlyGrades, "showgradeess");
   const totalconsidration = SubjectDetailsView.filter((item) => item.Total_Consideration === "N")
-  //console.log(totalconsidration, "totalconsidrationdddd");
-
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
 
   const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
@@ -75,10 +79,18 @@ const ViewResultAll = (props: Props) => {
       setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
   }, [UsGetSchoolSettings])
 
-  const ClassTeachersBody: IClassTeacherBody = {
-    asSchoolId,
-    asAcademicYearId,
+  // const ClassTeachersBody: IClassTeacherBody = {
+  //   asSchoolId,
+  //   asAcademicYearId,
+  // };
+
+
+  const ClassTeachersNewBody: IClassTeacherListBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asTeacherId: TeacherId
   };
+
 
   const GetSchoolSettings: GetSchoolSettingsBody = {
     asSchoolId: Number(asSchoolId),
@@ -86,9 +98,9 @@ const ViewResultAll = (props: Props) => {
 
 
   const StudentListDropDowntBody: IGetStudentNameListBody = {
-    asSchoolId,
-    asAcademicYearId,
-    asStandardDivisionId,
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: Number(selectTeacher),
   };
 
   const StudentResultBody: IGetAllStudentTestprogressBody = {
@@ -117,7 +129,7 @@ const ViewResultAll = (props: Props) => {
     asAcademicYearId: asAcademicYearId,
     asStudentId: Number(studentList),
     asInsertedById: Number(asUserId),
-    asWithGrace: 0,
+    asWithGrace: 1,
 
 
   }
@@ -145,18 +157,35 @@ const ViewResultAll = (props: Props) => {
     setOpen(true)
   }
 
+  // useEffect(() => {
+  //   dispatch(ClassTechersListt(ClassTeachersBody));
+  // }, []);
   useEffect(() => {
-    dispatch(ClassTechersListt(ClassTeachersBody));
+    dispatch(ClassTechersList(ClassTeachersNewBody));
   }, []);
 
   useEffect(() => {
     dispatch(StudentNameList(StudentListDropDowntBody));
-  }, [dispatch]);
+  }, [selectTeacher]);
+
+
   useEffect(() => {
     //dispatch(StudentNameList(StudentListDropDowntBody));
     if (USStudentListDropDown.length > 0)
       setStudentList(USStudentListDropDown[0].Id)
   }, [USStudentListDropDown]);
+
+
+  useEffect(() => {
+    if (StandardDivisionId !== undefined && teacherList.length === 1)
+      setSelectTeacher(StandardDivisionId)
+  }, [USStudentListDropDown]);
+
+
+
+
+
+
 
   useEffect(() => {
     dispatch(GetStudentResultList(StudentResultBody));
@@ -174,7 +203,6 @@ const ViewResultAll = (props: Props) => {
     });
     return perm;
   };
-  //console.log("GetScreenPermission", GetScreenPermission())
 
   const getStudentName = () => {
     let classStudentName = '';
@@ -184,12 +212,41 @@ const ViewResultAll = (props: Props) => {
 
     return classStudentName;
   };
+  let classTeacherList = [];
+  const getClassTeacherName = () => {
+    USClassTeachers.map((item) => {
+      if (item.TeacherId == TeacherId) {
+        classTeacherList.push({
+          Id: item.Id,
+          Value: item.Value,
+          Name: item.Name
+        });
+      }
+    });
+    // if (classTeacherList.length > 1) {
+    setTeacherList(classTeacherList)
+    // }
+  };
   const isgenrate = getStudentName()
-  console.log(isgenrate, "genrate");
 
   const clickPrint = () => {
     window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
   };
+
+
+  useEffect(() => {
+    if (USClassTeachers != null)
+      setTeacherList(USClassTeachers);
+    getClassTeacherName();
+  }, [USClassTeachers])
+
+
+  useEffect(() => {
+    if (teacherList != null) {
+      if (teacherList.length > 0)
+        setSelectTeacher(teacherList[0].Id)
+    }
+  }, [teacherList]);
 
   return (
     <Box sx={{ px: 2 }}>
@@ -211,14 +268,14 @@ const ViewResultAll = (props: Props) => {
                 minWidth: '20vw'
                 , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
               }}
-              ItemList={USClassTeachers}
+              ItemList={GetClassTeachers}
               onChange={clickSelectClass}
               defaultValue={selectTeacher}
               size="small"
               label="Class Teacher"
               DisableClearable={GetScreenPermission() === 'N'}
               mandatory
-              disabled={TeacherId == selectTeacher}
+              disabled={GetClassTeachers.length === 2}
             />
           </Box>
 
@@ -379,7 +436,7 @@ const ViewResultAll = (props: Props) => {
                                 return (
                                   <>
                                     <TableCell sx={{ textAlign: 'center' }}>{totalData.TotalMarks}</TableCell>
-                                    <TableCell sx={{ textAlign: 'center' }}>{totalData.Percentage}</TableCell>
+                                    <TableCell sx={{ textAlign: 'center' }}>{totalData.Percentage}%</TableCell>
                                     <TableCell sx={{ textAlign: 'center' }}>
                                       <Typography variant="body2">
                                         {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}

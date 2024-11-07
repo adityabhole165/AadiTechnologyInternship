@@ -56,6 +56,7 @@ import MonthwiseAttendanceSlice from 'src/requests/Attendance/requestGetMonthWis
 import IndividualAttendanceSlice from 'src/requests/Attendance/requestIndividualAttendance';
 import Staffkidslice from 'src/requests/Authentication/StaffKidLogin';
 import SliceBirthdays from 'src/requests/Birthdays/RequestBirthdays';
+import ContactGroupSlice from 'src/requests/ContactGroup/ReqContactGroup';
 import SliceEditProfile from 'src/requests/EditProfile/RequestEditProfile';
 import EventDescriptionSlice from 'src/requests/EventManegment/RequestEventManegment';
 import UnPublishTestSlice from 'src/requests/ExamResultUnpublish/RequestExamResultUnpublish';
@@ -126,6 +127,7 @@ import SliceSentsms from '../requests/SentSms/ReqSentsms';
 import GetStandardwiseMinMaxDOBslice from '../requests/StudentDetails/RequestStudentDetails';
 import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudentRecords';
 import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
+import StudentUISlice from '../requests/Students/RequestStudentUI';
 import StudentsSlice from '../requests/Students/RequestStudents';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
@@ -267,7 +269,9 @@ const rootReducer = combineReducers({
   UpcomingEventDash: UpcomingEventDashslice,
   SchoolLibrary: SchoolLibraryslice,
   SentSms: SliceSentsms,
-  GetStandardwiseMinMaxDOB: GetStandardwiseMinMaxDOBslice
+  GetStandardwiseMinMaxDOB: GetStandardwiseMinMaxDOBslice,
+  ContactGroup: ContactGroupSlice,
+  StudentUI: StudentUISlice,
 });
 
 export default rootReducer;

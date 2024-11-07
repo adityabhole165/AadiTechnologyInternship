@@ -32,21 +32,25 @@ AddPersonalContactGroup.propTypes = {
     formType: PropTypes.string,
     isExistsError: PropTypes.string
 }
-function AddPersonalContactGroup({ isExistsError, formType, tooltipText = 'Add / update contact group details.', Value1, Value2, ValErrorMsgList = [], ValError = '', Open, OnClose, onSubmit, Heading = 'Add or Update Phone Book Contact Group', Label1 = 'Name', Label2 = 'Mobile Number', ItemList2 = [], OnChange1, Defaultvalue2 = '',
+function AddPersonalContactGroup({ clearForm, isExistsError, formType, tooltipText = 'Add / update contact group details.', Value1, Value2, ValErrorMsgList = [], ValError = '', Open, OnClose, onSubmit, Heading = 'Add or Update Phone Book Contact Group', Label1 = 'Name', Label2 = 'Mobile Number', ItemList2 = [], OnChange1, Defaultvalue2 = '',
     Defaultvalue3 = '', OnChange2, clickRow, ItemList3 = [], Defaultvalue4 = '', OnChange3 = () => { }, ItemList4 = [], Label3 = '' }) {
     const loading = useSelector((state: RootState) => state.WeeklyTimetable.Loading);
     const [ErrorMsg1, setErrorMsg1] = useState(false);
     const [ErrorMsg2, setErrorMsg2] = useState(false);
     const [ErrorMsg3, setErrorMsg3] = useState(false);
+    function isAnyActive(addressBookGroupList) {
+        return addressBookGroupList.some(item => item.IsActive === true);
+    }
     const handleSubmit = () => {
+        console.log('🚩', ItemList2);
+
         const isName = Boolean(Value1);
-        const isPhoneValid = Value2.length === 10;
+        const isGroupPhoneListChecked = isAnyActive(ItemList2);
 
         setErrorMsg1(!isName);
-        setErrorMsg2(!Value2);
-        setErrorMsg3(Boolean(Value2) && !isPhoneValid);
+        setErrorMsg2(!isGroupPhoneListChecked);
 
-        if (isName && isPhoneValid) {
+        if (isName && isGroupPhoneListChecked) {
             onSubmit();
         }
     };
@@ -55,6 +59,12 @@ function AddPersonalContactGroup({ isExistsError, formType, tooltipText = 'Add /
         setErrorMsg1(false);
         setErrorMsg2(false);
         setErrorMsg3(false);
+    }
+    function handleClearBtn() {
+        setErrorMsg1(false);
+        setErrorMsg2(false);
+        setErrorMsg3(false);
+        clearForm();
     }
     function clickRows(Value: any) {
         let returnValue = ItemList2.map((item: any) => {
@@ -130,17 +140,19 @@ function AddPersonalContactGroup({ isExistsError, formType, tooltipText = 'Add /
                         <Stack gap={2} mt={2}>
                             <Box sx={{ width: '100%' }}>
                                 <TextField
-                                    label={Label1}
+                                    label={<>{Label1}<span style={{ color: 'red' }}> *</span></>}
                                     value={Value1}
                                     sx={{ bgcolor: '#F0F0F0', minWidth: '100%' }}
                                     size="small"
-                                    required
                                     onChange={(e) => { OnChange1(e.target.value) }}
                                     InputProps={{
                                         readOnly: false
                                     }}
+                                    inputProps={{ maxLength: 100 }}
                                 />
                                 {ErrorMsg1 && <span style={{ color: 'red', fontSize: '12px' }}>Name should not be blank.</span>}
+
+                                {ErrorMsg2 && <div style={{ color: 'red', fontSize: '12px' }}>At least one mobile number should be selected for group.</div>}
                             </Box>
                         </Stack>
                     </Box>
@@ -168,6 +180,7 @@ function AddPersonalContactGroup({ isExistsError, formType, tooltipText = 'Add /
                                             pt: '5px',
                                             pb: '5px',
                                             top: 0,
+                                            fontWeight: '750',
                                             zIndex: 1
                                         }}
                                         align="left"
@@ -181,6 +194,7 @@ function AddPersonalContactGroup({ isExistsError, formType, tooltipText = 'Add /
                                             pt: '5px',
                                             pb: '5px',
                                             top: 0,
+                                            fontWeight: '750',
                                             zIndex: 1
                                         }}
                                         align="center"
@@ -210,6 +224,18 @@ function AddPersonalContactGroup({ isExistsError, formType, tooltipText = 'Add /
 
                 </DialogContent>
                 <DialogActions sx={{ py: 2, px: 3 }}>
+                    <Button
+                        onClick={handleClearBtn}
+                        sx={{
+                            color: 'red',
+                            '&:hover': {
+                                color: 'red',
+                                backgroundColor: red[100]
+                            }
+                        }}
+                    >
+                        Clear
+                    </Button>
                     <Button
                         onClick={handleClose}
                         sx={{

@@ -20,7 +20,9 @@ import { TeacherXseedSubjects } from 'src/requests/PrePrimaryResult/RequestPrePr
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { CDAAssessmentDropdown } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
+import { SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import { ResizableTextField1 } from './ResizableTextField1';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -54,12 +56,15 @@ const StudentwiseprogressreportEdit = () => {
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
     const USGetStandardwiseAssessmentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISGetStandardwiseAssessmentDetails);
-    console.log(USFillStudentsLearningOutcomes, "USFillStudentsLearningOutcomes");
     const FillStudentsLearningOutcomessortedOutcomes = [...USFillStudentsLearningOutcomes].sort((a, b) => {
         return parseInt(a.LearningOutcomeSortOrder) - parseInt(b.LearningOutcomeSortOrder);
     });
+
+
+
     const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
     const USFillStudentsLearningOutcomeObservations: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomeObservations);
+    console.log(USFillStudentsLearningOutcomeObservations, "USFillStudentsLearningOutcomeObservations");
 
     const USlistpublishstatusDetails = useSelector(
         (state: RootState) => state.PrePrimaryResult.ISlistpublishstatusDetails
@@ -67,7 +72,6 @@ const StudentwiseprogressreportEdit = () => {
 
     const IsPublished = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].IsPublished : "";
     const PublishStatus = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].PublishStatus : "";
-    console.log(USFillNonXseedSubjectGrades, "--");
 
     const UserDetail: any = useSelector((state: RootState) => state.getSchoolSettings.getUserDetails);
 
@@ -81,7 +85,6 @@ const StudentwiseprogressreportEdit = () => {
 
     const filteredOutcomes = USFillStudentsLearningOutcomes.map((outcome: any) => hasValidLearningOutcomeGrade(outcome));
     const allOutcomesValid = filteredOutcomes.every((outcomeValid: boolean) => outcomeValid);
-    console.log(allOutcomesValid, "allOutcomesValid");
 
     useEffect(() => {
         const remark = USFillXseedRemarks.filter(item => item.Remark);
@@ -236,7 +239,6 @@ const StudentwiseprogressreportEdit = () => {
         USFillNonXseedSubjectGrades.forEach((student) => {
             const learningOutcomeConfigId = student.GradeId;
             const gradeId = grades1[learningOutcomeConfigId]
-            console.log(gradeId, "gradeIddubmmd");
 
             const SubjectId = student.SubjectId;
             sXML += `<NonXseedSubjectGrades  GradeId='${gradeId}' Observation='' SubjectId='${SubjectId}'/>`
@@ -449,7 +451,6 @@ const StudentwiseprogressreportEdit = () => {
         }
     }, [USManageStudentWiseAssessmentGrades]);
 
-    console.log(AssessmentPublishStatus, "AssessmentPublishStatusAssessmentPublishStatus");
 
 
     return (
@@ -475,7 +476,7 @@ const StudentwiseprogressreportEdit = () => {
                             sx={{ minWidth: '15vw' }}
                             ItemList={USAssessmentDrop}
                             onChange={clickAssessmentId}
-                            label={'Assessment:'}
+                            label={'Assessment'}
                             defaultValue={AssessmentId}
                             size={"small"}
                         />
@@ -605,7 +606,7 @@ const StudentwiseprogressreportEdit = () => {
                         {USFillStudentDetails.map((detail) => (
                             <TableRow sx={{ bgcolor: '#38548A' }}>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No :  {detail.RollNo} </b></TableCell>
-                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name:  {detail.StudentName} </b></TableCell>
+                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name :  {detail.StudentName} </b></TableCell>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class :  {detail.Class} </b></TableCell>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year :  {detail.AcademicYear} </b></TableCell>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Assessment : {detail.Assessment} </b></TableCell>
@@ -676,6 +677,7 @@ const StudentwiseprogressreportEdit = () => {
                                 <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                     <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Sr. No.</TableCell>
                                     <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Learning Outcome</TableCell>
+
                                     {/* <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Grade</TableCell> */}
                                     <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
                                         <SearchableDropdown
@@ -690,6 +692,12 @@ const StudentwiseprogressreportEdit = () => {
                                             disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") || (IsPublished == 'Y' && PublishStatus == "Y")}
                                         />
                                     </TableCell>
+                                    {SchoolScreensAccessPermission() && (
+                                        <TableCell sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Facilitator's Observation</TableCell>
+
+
+                                    )}
+
                                 </TableRow>
                             </TableHead>
 
@@ -729,9 +737,41 @@ const StudentwiseprogressreportEdit = () => {
 
                                                                 </TableCell>
 
+
+
+
+
+
+
+
+
                                                             </TableRow>
                                                         )}
                                                     </TableBody>
+                                                    {SchoolScreensAccessPermission() && (
+                                                        <TableCell sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>
+                                                            {USFillStudentsLearningOutcomeObservations.find(
+                                                                item => item.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId
+                                                            ) ? (
+                                                                <ResizableTextField1
+                                                                    rows={1}
+                                                                    value={
+                                                                        USFillStudentsLearningOutcomeObservations.find(
+                                                                            item => item.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId
+                                                                        ).Observation
+                                                                    }
+                                                                    disabled
+
+                                                                    fullWidth
+                                                                    sx={{ width: '100%' }}
+                                                                />
+                                                            ) : (
+                                                                <span></span> // Placeholder when condition is not met
+                                                            )}
+                                                        </TableCell>
+
+                                                    )}
+
                                                 </TableRow>
                                             ))}
                                     </React.Fragment>
@@ -773,25 +813,29 @@ const StudentwiseprogressreportEdit = () => {
                                             />
                                         </TableCell>
 
-                                        <TableCell sx={{
-                                            textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                            py: 1
-                                        }}></TableCell>
 
-                                        {USFillNonXseedSubjectGrades.map((row, index) => (
-                                            row.Observation !== "" ? (
-                                                <TableCell
-                                                    key={index}
-                                                    sx={{
-                                                        textTransform: 'capitalize',
-                                                        color: (theme) => theme.palette.common.white,
-                                                        py: 1
-                                                    }}
-                                                >
-                                                    Facilitator's Observation
-                                                </TableCell>
-                                            ) : null
-                                        ))}
+                                        
+
+
+
+                                        {SchoolScreensAccessPermission() && (
+                                            <span>
+                                              
+                                                        <TableCell
+                                                            sx={{
+                                                                textTransform: 'capitalize',
+                                                                color: (theme) => theme.palette.common.white,
+                                                                py: 1
+                                                            }}
+                                                        >
+                                                            Facilitator's Observation
+                                                        </TableCell>
+                                                  
+                                            </span>
+
+
+
+                                        )}
 
 
 
@@ -816,7 +860,31 @@ const StudentwiseprogressreportEdit = () => {
 
                                                 />
                                             </TableCell>
-                                            <TableCell sx={{ py: 1 }}>{row.Observation}</TableCell>
+
+                                            {SchoolScreensAccessPermission() && (
+                                                <>
+                                                    <TableCell sx={{
+                                                        textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                                        py: 1, width: '100%',
+                                                    }}>
+                                                        <ResizableTextField1
+                                                            rows={1}
+                                                            value={row.Observation}
+
+                                                            fullWidth
+                                                            sx={{
+
+                                                                width: '100%',
+                                                            }}
+                                                        />
+                                                    </TableCell>
+
+                                                </>
+                                            )}
+
+
+
+
                                         </TableRow>
                                     ))}
                                 </TableBody>
