@@ -36,10 +36,12 @@ interface Group {
 }
 
 interface ContactGroupListProps {
-  onClose
+  onClose,
+  GPID: number
 }
 
-const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose }) => {
+const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0 }) => {
+  console.log('GPID', GPID);
   const dispatch = useDispatch();
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);

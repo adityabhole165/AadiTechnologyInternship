@@ -803,7 +803,7 @@ const AddReciepents = ({
 
         <DialogContent>
           <Box>
-            <ContactGroupList onClose={handleCloseDialog} />
+            <ContactGroupList onClose={handleCloseDialog} GPID={0} />
           </Box>
           {/* <Box>
             <DialogActions sx={{ py: 2, px: 3 }}>

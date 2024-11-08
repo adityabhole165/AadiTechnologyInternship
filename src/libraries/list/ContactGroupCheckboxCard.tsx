@@ -1,17 +1,22 @@
+import { QuestionMark } from '@mui/icons-material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, ClickAwayListener, Grid, IconButton, List, Tooltip } from '@mui/material';
+import { Avatar, Box, ClickAwayListener, Dialog, DialogContent, DialogTitle, Grid, IconButton, List, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { IDeleteMailGroupBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import { CDADeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup';
 //import { useState } from 'react';
+import { grey } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
+import ContactGroupList from 'src/components/MessageCenter/ContactGroupList';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import { ContactGroup } from 'src/requests/AdminSMSCenter/To1';
 import CheckboxImg from '../card/CheckboxImg';
 import { ItemSize } from '../styled/CardStyle';
 const ContactGroupCheckboxCard = ({ Item, onClick }) => {
     const [open, setOpen] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
     const dispatch = useDispatch();
     const schoolId = localStorage.getItem('localSchoolId');
     const asUserId = sessionStorage.getItem('Id');
@@ -44,7 +49,17 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
 
         dispatch(ContactGroup(ContactgroupBody));
     }
+    // const onEdit = (Id) => {
 
+    // }
+    const handleOpenDialog = (isRecipients) => {
+        // setIsConfirm1('');
+        // setShowRecipients(isRecipients);
+        setOpenDialog(true);
+    };
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
     // const OnShowEditDelete = () => {
 
     // };
@@ -113,7 +128,8 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                             <Grid container>
                                 <Grid item xs={3}>
                                     <IconButton
-                                    //onClickEdit={() => onClick({ Id: Item.Id, isActive: !Item.isActive })}
+                                        // onClick={() => onEdit(Item.Id)}
+                                        onClick={() => handleOpenDialog(true)}
                                     >
                                         <EditIcon />
                                     </IconButton>
@@ -127,6 +143,56 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
 
                                     </IconButton>
                                 </Grid>
+                                <Dialog
+                                    open={openDialog}
+                                    onClose={handleCloseDialog}
+                                    fullWidth
+                                    maxWidth="md"
+                                    PaperProps={{ sx: { borderRadius: '15px' } }}
+                                >
+                                    <DialogTitle sx={{ bgcolor: '#223354' }}>
+                                        <Tooltip
+                                            title={'Add/edit delete contact group(s).'}
+                                            placement="bottom-end"
+                                        >
+                                            <QuestionMark
+                                                sx={{
+                                                    color: 'white',
+                                                    // background:'white',
+                                                    borderRadius: '10px',
+                                                    position: 'absolute',
+                                                    top: '4px',
+                                                    right: '35px',
+                                                    cursor: 'pointer',
+                                                    '&:hover': { backgroundColor: grey[600] }
+                                                }}
+                                            />
+                                        </Tooltip>
+                                        <ClearIcon
+                                            onClick={handleCloseDialog}
+                                            sx={{
+                                                color: 'white',
+                                                borderRadius: '7px',
+                                                position: 'absolute',
+                                                top: '5px',
+                                                right: '8px',
+                                                cursor: 'pointer',
+                                                '&:hover': {
+                                                    color: 'red'
+                                                }
+                                            }}
+                                        />
+                                    </DialogTitle>
+                                    <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
+                                        Add Contact Group(s)
+                                    </Typography>
+
+                                    <DialogContent>
+                                        <Box>
+                                            <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} />
+                                        </Box>
+                                    </DialogContent>
+                                </Dialog>
                             </Grid>
                         </>
                     )}
