@@ -21,6 +21,8 @@ import { CardDetail2 } from 'src/libraries/styled/CardStyle';
 import { getAComposeSMSTemplateList } from 'src/requests/AdminSMSCenter/AComposeSMS';
 import { RootState } from 'src/store';
 import AddReciepentsSMS from './AddReciepientSMS';
+import InfoIcon from '@mui/icons-material/Info';
+
 
 const ComposeSMSform = () => {
     const classes = Styles();
@@ -590,7 +592,7 @@ const ComposeSMSform = () => {
                         </Grid>
 
                         <Grid container p={2}>
-                            <Grid xs={12}  sm={2} md={6} lg={10.1} >
+                            <Grid xs={12} sm={2} md={6} lg={10.1} >
                                 <Box sx={{ mt: "10px" }}>
                                     <TextField
                                         name="To"
@@ -640,7 +642,7 @@ const ComposeSMSform = () => {
                         </Grid>
 
                         <Grid container spacing={2} p={2}>
-                        <Grid item xs={12} sm={6} md={2} lg={2} px={2}>
+                            <Grid item xs={12} sm={6} md={2} lg={2} px={2}>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
@@ -652,7 +654,7 @@ const ComposeSMSform = () => {
                                     label="Send Message"
                                 />
                             </Grid>
-                            
+
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <FormControlLabel
                                     control={
@@ -664,33 +666,39 @@ const ComposeSMSform = () => {
                                     }
                                     label="Schedule SMS"
                                 />
+                                <Tooltip title="10:00 AM. SMS Schedule should be set after 1 hour
+                                        and within 7 days range from now.">
+                                    <IconButton size="small" style={{ marginLeft: 8, color:'#38548A' }}>
+                                        <InfoIcon fontSize="small" />
+                                    </IconButton>
+                                </Tooltip>
                             </Grid>
-                           
+
                             {form.scheduleSMS && (
                                 <>
-                             {/* <Grid container spacing={2} pt={2} pl={2} alignItems="center"> */}
-                                <Grid item xs={12} sm={6} md={3} lg={2}>
-                                    <Datepicker
-                                        DateValue={SelectDate}
-                                        onDateChange={onSelectDate}
-                                        size={'medium'}
-                                        label={'Date'}
+                                    {/* <Grid container spacing={2} pt={2} pl={2} alignItems="center"> */}
+                                    <Grid item xs={12} sm={6} md={3} lg={2}>
+                                        <Datepicker
+                                            DateValue={SelectDate}
+                                            onDateChange={onSelectDate}
+                                            size={'medium'}
+                                            label={'Date'}
 
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={3} lg={2}>
-                                    <TimepickerTwofields Item={StartTime} label={'Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
-                                </Grid>
-                                {/* <Grid item xs={12} sm={6} md={6} lg={3}>
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} md={3} lg={2}>
+                                        <TimepickerTwofields Item={StartTime} label={'Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
+                                    </Grid>
+                                    {/* <Grid item xs={12} sm={6} md={6} lg={3}>
                                     <Typography variant="body2" color="textSecondary">
                                         e.g., 10:00 AM. SMS Schedule should be set after 1 hour
                                         and within 7 days range from now.
                                     </Typography>
                                 </Grid> */}
-                             {/* </Grid> */}
-                            </>
-                        )}
-                           
+                                    {/* </Grid> */}
+                                </>
+                            )}
+
                             <Grid item xs={12} sm={6} md={6} lg={2}>
                                 <TextField
                                     name="TemplateId"
@@ -724,7 +732,7 @@ const ComposeSMSform = () => {
                                 </Box>
                             </Grid>
                         </Grid>
-                       
+
 
 
                         {/* <Grid item md={3} >
@@ -757,37 +765,37 @@ const ComposeSMSform = () => {
                                     </FormControl>
                                 </Grid>
                             </Grid> */}
-                   <Box px={2}>
-                        <CardDetail2
-                            sx={{
-                                color: 'blue',
-                                marginTop: 1,
-                                marginBottom: 1.5,
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            {' '}
-                            Letters = {initialCount} Message = {initialMessage}{' '}
-                        </CardDetail2>
+                        <Box px={2}>
+                            <CardDetail2
+                                sx={{
+                                    color: 'blue',
+                                    marginTop: 1,
+                                    marginBottom: 1.5,
+                                    fontWeight: 'bold'
+                                }}
+                            >
+                                {' '}
+                                Letters = {initialCount} Message = {initialMessage}{' '}
+                            </CardDetail2>
 
-                        <TextField
-                            fullWidth
-                            multiline
-                            rows={4}
-                            margin="normal"
-                            name="Content"
-                            type="text"
-                            value={ContentTemplateDependent}
-                            onBlur={ContentFieldBlur}
-                            sx={{ marginTop: '1px' }}
-                            id="content"
-                            onChange={(e) => onContentChange(e.target.value)}
-                        />
-                        <Box style={{ marginTop: '8px' }}>
-                            <Errormessage Error={formik.errors.Content} />
+                            <TextField
+                                fullWidth
+                                multiline
+                                rows={4}
+                                margin="normal"
+                                name="Content"
+                                type="text"
+                                value={ContentTemplateDependent}
+                                onBlur={ContentFieldBlur}
+                                sx={{ marginTop: '1px' }}
+                                id="content"
+                                onChange={(e) => onContentChange(e.target.value)}
+                            />
+                            <Box style={{ marginTop: '8px' }}>
+                                <Errormessage Error={formik.errors.Content} />
+                            </Box>
                         </Box>
-                        </Box>
-                       
+
                         {/* <Grid container>
                                 <Grid item xs={12} >
                                     <ButtonPrimary
