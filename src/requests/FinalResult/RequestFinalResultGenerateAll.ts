@@ -2,7 +2,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiFinalResultGenerateAll from "src/api/FinalResult/ApiFinalResultGenerateAll";
 import { IGetGenerateAllStudentBody, IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody } from "src/interfaces/FinalResult/IFinalResultGenerateAll";
+import { GetSchoolSettingsBody } from "src/interfaces/ProgressReport/IprogressReport";
 import { AppThunk } from "src/store";
+import { CDAGetSchoolSettings } from "../ProgressReport/ReqProgressReport";
 
 
 
@@ -118,10 +120,18 @@ const FinalResultGenerateAllSlice = createSlice({
     }
 
 });
-
+// ViewResultGA
 export const StudentDetailsGA =
-    (data: IGetStudentPrrogressReportBody, data1: string): AppThunk =>
-        async (dispatch) => {
+    (data: IGetStudentPrrogressReportBody, data12: string): AppThunk =>
+        async (dispatch, getState) => {
+            const asSchoolId = localStorage.getItem('localSchoolId');
+            const GetSchoolSettings: GetSchoolSettingsBody = {
+                asSchoolId: Number(asSchoolId),
+            };
+            // const data1 = 'True';
+            await dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+            const { IsGetSchoolSettings } = getState().ProgressReportNew;
+            const data1 = IsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport;
             const response = await ApiFinalResultGenerateAll.StudentPrrogressReport(data);
             dispatch(FinalResultGenerateAllSlice.actions.REntireDataList(response.data));
             let listSubjectsDetails = response.data.listSubjectsDetails
@@ -129,7 +139,6 @@ export const StudentDetailsGA =
                 let returnVal: any = ""
 
                 if (cell.Is_Absent === "N") {
-                    console.log('this is cell', cell);
                     if (response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true1') {
                         returnVal = cell.Grade
                     } else {
@@ -390,7 +399,7 @@ export const StudentDetailsGA =
                     })
 
                     //show grade column
-                    if (data1 === "True") {
+                    if (data1.toLowerCase() === "true") {
                         response.data.ListSchoolWiseTestNameDetail.map((Item) => {
                             if (Item.SchoolWise_Test_Id == Test.Test_Id) {
                                 const matchingMarksDetails = response.data.ListMarkssDetails.find(
@@ -455,19 +464,12 @@ export const StudentDetailsGA =
                 SubHeaderArray.push({ TestTypeName: "%" })
                 SubHeaderArray.push({ TestTypeName: "Grade" })
             }
-            console.log(HeaderArray, "HeaderArray", SubHeaderArray, "SubHeaderArray");
 
             dispatch(FinalResultGenerateAllSlice.actions.ShowHeader(HeaderArray));
             dispatch(FinalResultGenerateAllSlice.actions.ShowSubHeader(SubHeaderArray));
             dispatch(FinalResultGenerateAllSlice.actions.ShowData(rows));
-            console.log('following rows are going to be pushed', rows);
 
             dispatch(FinalResultGenerateAllSlice.actions.getListDisplayNameDetails(response.data.ListDisplayNameDetails));
-
-
-            response.data.ListSubjectidDetails.map((Item) => {
-
-            })
 
             let abc = response.data.listStudentsDetails.map((item, i) => {
                 return {

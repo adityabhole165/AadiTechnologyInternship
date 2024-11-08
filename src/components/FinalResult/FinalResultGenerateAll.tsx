@@ -7,12 +7,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
     IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
-import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import {
     StudentDetailsGA,
     UpdateStudentTestMarks, ViewResultGA
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
-import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -171,7 +169,7 @@ const GenerateAll = ({ }) => {
             asStudentId: Number(asStudentId),
             asUserId: Number(asUserId)
         };
-        dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+
         dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
     }, [IsTotalConsiderForProgressReport]);
 
@@ -185,9 +183,7 @@ const GenerateAll = ({ }) => {
         dispatch(ViewResultGA(GetViewResultBody));
     }, []);
 
-    const GetSchoolSettings: GetSchoolSettingsBody = {
-        asSchoolId: Number(asSchoolId),
-    };
+
 
     const onClickClose = () => {
         navigate('/extended-sidebar/Teacher/FinalResult');
