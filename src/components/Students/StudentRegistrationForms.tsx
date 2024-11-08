@@ -28,12 +28,11 @@ import {
 } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
-import { CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -51,6 +50,38 @@ const initialData = [
   { className: '10-B', date: '05-Nov-2024', description: 'qqq' }
   // Add more rows if needed
 ];
+interface IPersonalDetails {
+  aadharCardNumber?: string;
+  aadharCardScanCopy?: string;
+  address?: string;
+  birthDistrict?: string;
+  birthState?: string;
+  birthTaluka?: string;
+  bloodGroup?: string;
+  casteAndSubCaste?: string;
+  category?: string;
+  city?: string;
+  dateOfBirth?: string;
+  email?: string;
+  fatherNumber?: string;
+  firstName?: string;
+  gender?: string;
+  lastName?: string;
+  middleName?: string;
+  motherName?: string;
+  motherNumber?: string;
+  motherTongue?: string;
+  nameOnAadharCard?: string;
+  nationality?: string;
+  neighbourPhoneNumber?: string;
+  parentName?: string;
+  parentOccupation?: string;
+  photo?: string;
+  pin?: string;
+  placeOfBirth?: string;
+  religion?: string;
+  state?: string;
+}
 
 const StudentRegistrationForm = () => {
   const dispatch = useDispatch();
@@ -66,17 +97,18 @@ const StudentRegistrationForm = () => {
   const handleClosePopup = () => setIsPopupOpen(false);
   const [tableData, setTableData] = useState(initialData);
   const { AssignedDate } = useParams();
+
+  const [admissionDetails, setAdmissionDetails] = useState(false);
+  const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
+  //const [familyData, setFamilyData] = useState(false);
+
+
+
   const handleSave = (isSuccessful: boolean) => {
     if (currentTab === 0) {
-      setStatus((prevStatus) => ({
-        ...prevStatus,
-        admissionDetails: isSuccessful
-      }));
+      setStatus((prevStatus) => ({ ...prevStatus, admissionDetails: isSuccessful }));
     } else if (currentTab === 1) {
-      setStatus((prevStatus) => ({
-        ...prevStatus,
-        personalDetails: isSuccessful
-      }));
+      setStatus((prevStatus) => ({ ...prevStatus, personalDetails: isSuccessful }));
     }
 
     if (isSuccessful) {
@@ -88,6 +120,13 @@ const StudentRegistrationForm = () => {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
   };
+
+  const onTabChange = (updateddata) => {
+    setPersonalDetailsData(updateddata);
+    //console.log("TabChanged", updateddata);
+    console.log('personalDetails data:', personalDetailsData);
+  }
+
   const handleNextTab = () => {
     setCurrentTab((prevTab) => Math.min(prevTab + 1, 5)); // Move to the next tab
   };
@@ -142,90 +181,99 @@ const StudentRegistrationForm = () => {
       : getCalendarDateFormatDateNew(AssignedDate)
   );
 
-  const UpdateStudentBody: IUpdateStudentBody = {
-    asSchoolId: 18, // Missing
-    asStudentId: 3556, // Missing
-    asInsertedById: 4463, // Missing
-    asID: 0, // Missing
-    asAcademicYearId: 55, // Missing
-    asFormNumber: 4576, // Missing
-    asPhoto_file_Path: "", // Missing
-    asFirst_Name: "Pranjal",
-    asMiddle_Name: "Pritam",
-    asLast_Name: "Bajare",
-    asMother_Name: "Rohini",
-    asBlood_Group: "",
-    asEnrolment_Number: "2495",
-    asParent_Name: "Pritam",
-    asParent_Occupation: "1",
-    asOther_Occupation: "",
-    asAddress: "Tower no. 100, Flat no. 504, Gateway Tower, Amanora Park Town, Hadapsar.",
-    asCity: "Pune",
-    asState: "Maharashtra",
-    asPincode: "411028",
-    asResidence_Phone_Number: "9224286937",
-    asMobile_Number: "9224773766",
-    asMobile_Number2: "9527208383",
-    asOffice_Number: "9270362059",
-    asNeighbour_Number: "1001001001",
-    asUpdated_By_Id: "4463",
-    asUpdate_Date: "2024-10-10",
-    asDOB: "2011-03-21",
-    asBirth_Place: "Vashi, Navi Mumbai",
-    asNationality: "Indian",
-    asSex: "F",
-    asSalutation_Id: "6",
-    asCategory_Id: "1",
-    asCasteAndSubCaste: "Maratha",
-    asAdmission_Date: "2014-01-03",
-    asJoining_Date: "2014-06-09",
-    asDateOfBirthInText: "Twenty One March Two Thousand Eleven",
-    asOptional_Subject_Id: "0",
-    asMother_Tongue: "Pali",
-    asLastSchoolName: "",
-    asLastSchoolAddress: "",
-    asLastCompletedStd: "",
-    asLastSchoolUDISENo: "",
-    asLastCompletedBoard: "",
-    asIsRecognisedBoard: "True",
-    asAadharCardNo: "748788202981",
-    asNameOnAadharCard: "Pranjal Pritam Bajare",
-    asAadharCard_Photo_Copy_Path: "16837343102883781539044089618529202351021292145.jpg",
-    asFamily_Photo_Copy_Path: "",
-    asUDISENumber: "2014272505108050285",
-    asBoardRegistrationNo: "",
-    asIsRiseAndShine: "False",
-    asAdmissionSectionId: "0",
-    asGRNumber: "",
-    asStudentUniqueNo: "",
-    asSaralNo: "",
-    asIsOnlyChild: "False",
-    asMinority: "False",
-    asRoll_No: 1,
-    asRule_Id: 0,
-    asIsStaffKid: 0,
-    asHeight: 0,
-    asWeight: 0,
-    asUpdated_By_id: 4463,
-    asRTECategoryId: 0,
-    asSecondLanguageSubjectId: 1760,
-    asThirdLanguageSubjectId: 1763,
-    asIsForDayBoarding: false,
-    asFeeCategoryDetailsId: 0,
-    asRTEApplicationFormNo: "",
-    asAnnualIncome: 0,
-    asStandard_Id: 1082, // Missing
-    asDivision_Id: 1299, // Missing
-    asReligion: "Hindu",
-    asYearWise_Student_Id: 40467,
-    asParentUserId: 0
-  }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    dispatch(CDAUpdateStudent(UpdateStudentBody));
+  //   //   dispatch(CDAUpdateStudent(UpdateStudentBody));
+  //   console.log('personalDetails data:', personalDetailsData);
+  // }, []);
 
-  }, []);
+  const handleUpdate = () => {
+    const UpdateStudentBody: IUpdateStudentBody = {
+      //...personalDetailsData,
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asStudentId: 3556, // Missing
+      asInsertedById: 4463, // Missing
+      asID: 0, // Missing
+      asAcademicYearId: 55, // Missing
+      asFormNumber: 4576, // Missing
+      asPhoto_file_Path: personalDetailsData?.photo || "", // Missing
+      asFirst_Name: personalDetailsData?.firstName || "",
+      asMiddle_Name: personalDetailsData?.middleName || "",
+      asLast_Name: personalDetailsData?.lastName || "",
+      asMother_Name: personalDetailsData?.motherName || "",
+      asBlood_Group: personalDetailsData?.bloodGroup || "",
+      asEnrolment_Number: "2495",
+      asParent_Name: personalDetailsData?.parentName || "",
+      asParent_Occupation: personalDetailsData?.parentOccupation || "",
+      asOther_Occupation: "",
+      asAddress: personalDetailsData?.address || "",
+      asCity: personalDetailsData?.city || "",
+      asState: personalDetailsData?.state || "",
+      asPincode: personalDetailsData?.pin || "",
+      asResidence_Phone_Number: "9224286937",
+      asMobile_Number: personalDetailsData?.motherNumber || "",
+      asMobile_Number2: personalDetailsData?.fatherNumber || "",
+      asOffice_Number: "9270362059",
+      asNeighbour_Number: personalDetailsData?.neighbourPhoneNumber || "",
+      asUpdated_By_Id: "4463",
+      asUpdate_Date: "2024-10-10",
+      asDOB: personalDetailsData?.dateOfBirth || "",
+      asBirth_Place: personalDetailsData?.placeOfBirth || "",
+      asNationality: personalDetailsData?.nationality || "",
+      asSex: personalDetailsData?.gender || "",
+      asSalutation_Id: "6",
+      asCategory_Id: personalDetailsData?.category || "",
+      asCasteAndSubCaste: personalDetailsData?.casteAndSubCaste || "",
+      asAdmission_Date: "2014-01-03",
+      asJoining_Date: "2014-06-09",
+      asDateOfBirthInText: "Twenty One March Two Thousand Eleven",
+      asOptional_Subject_Id: "0",
+      asMother_Tongue: personalDetailsData.motherTongue || "",
+      asLastSchoolName: "",
+      asLastSchoolAddress: "",
+      asLastCompletedStd: "",
+      asLastSchoolUDISENo: "",
+      asLastCompletedBoard: "",
+      asIsRecognisedBoard: "True",
+      asAadharCardNo: personalDetailsData?.aadharCardNumber || "",
+      asNameOnAadharCard: personalDetailsData?.nameOnAadharCard || "",
+      asAadharCard_Photo_Copy_Path: personalDetailsData?.aadharCardScanCopy || "",
+      asFamily_Photo_Copy_Path: "",
+      asUDISENumber: "2014272505108050285",
+      asBoardRegistrationNo: "",
+      asIsRiseAndShine: "False",
+      asAdmissionSectionId: "0",
+      asGRNumber: "",
+      asStudentUniqueNo: "",
+      asSaralNo: "",
+      asIsOnlyChild: "False",
+      asMinority: "False",
+      asRoll_No: 1,
+      asRule_Id: 0,
+      asIsStaffKid: 0,
+      asHeight: 0,
+      asWeight: 0,
+      asUpdated_By_id: 4463,
+      asRTECategoryId: 0,
+      asSecondLanguageSubjectId: 1760,
+      asThirdLanguageSubjectId: 1763,
+      asIsForDayBoarding: false,
+      asFeeCategoryDetailsId: 0,
+      asRTEApplicationFormNo: "",
+      asAnnualIncome: 0,
+      asStandard_Id: 1082, // Missing
+      asDivision_Id: 1299, // Missing
+      asReligion: personalDetailsData?.religion || "",
+      asYearWise_Student_Id: 40467,
+      asParentUserId: 0
+    }
+
+    console.log('Sending update with data:', UpdateStudentBody);
+
+    // dispatch(CDAUpdateStudent(UpdateStudentBody));
+    //console.log('Saving data:', personalDetails);
+  };
 
   const onSelectDate = (value) => {
     SetSelectDate(value);
@@ -320,7 +368,7 @@ const StudentRegistrationForm = () => {
 
             <Tooltip title={'Save'}>
               <IconButton
-                onClick={() => handleOpenDialog1(true)}
+                onClick={handleUpdate}
                 sx={{
                   color: 'white',
                   backgroundColor: green[500],
@@ -461,7 +509,7 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <PersonalDetails onSave={handleSave} />
+              <PersonalDetails onTabChange={onTabChange} />
             </Grid>
           </Grid>
         )}

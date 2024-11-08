@@ -285,6 +285,7 @@ export const CDAUpdateStudent =
             if (response.status === 200) {
                 // The API call was successful
                 console.log('Student information updated successfully');
+                console.log('Response data:', response.data);
             }
         };
 

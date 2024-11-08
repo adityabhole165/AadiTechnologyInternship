@@ -22,7 +22,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetMasterData, CDAGetSingleStudentDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
-const PersonalDetails = ({ onSave }) => {
+const PersonalDetails = ({ onTabChange }) => {
   const location = useLocation();
   const { standardId, DivisionId } = location.state || {};
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const PersonalDetails = ({ onSave }) => {
     aadharCardScanCopy: '', // This will store the file object
     photo: null // This will store the file object
   });
-  console.log('form', form.parentOccupation);
+  //console.log('form', form.parentOccupation);
 
   const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
   const MaxfileSize = 5000000;
@@ -105,7 +105,7 @@ const PersonalDetails = ({ onSave }) => {
   const CategoryDropdown = useSelector((state: RootState) => state.StudentUI.ISCategoryDropdown);
 
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
-  console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
+  // console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -164,6 +164,10 @@ const PersonalDetails = ({ onSave }) => {
     }
   }, [USGetSingleStudentDetails]);
 
+  useEffect(() => {
+    onTabChange(form); // Sends the initial form state to the parent when component mounts
+  }, [form]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked, files } = e.target;
 
@@ -181,6 +185,7 @@ const PersonalDetails = ({ onSave }) => {
       [name]: fieldValue
     }));
 
+    //onTabChange({ firstName: fieldValue, })
     // Remove error when the user starts filling the field
     setErrors({ ...errors, [name]: false });
   };
@@ -237,7 +242,7 @@ const PersonalDetails = ({ onSave }) => {
 
   const handleSave = () => {
     const isValid = validateForm();
-    onSave(isValid);
+    // onSave(isValid);
     setMessage(
       isValid
         ? 'Draft saved successfully!'
@@ -747,9 +752,9 @@ const PersonalDetails = ({ onSave }) => {
                   fullWidth
                   select
                 >
-                  <MenuItem value="male">Male</MenuItem>
-                  <MenuItem value="female">Female</MenuItem>
-                  <MenuItem value="other">Other</MenuItem>
+                  <MenuItem value="M">Male</MenuItem>
+                  <MenuItem value="F">Female</MenuItem>
+                  {/* <MenuItem value="other">Other</MenuItem> */}
                 </TextField>
               </Grid>
             )}

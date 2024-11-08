@@ -87,7 +87,7 @@ const AdmissionDetails = ({
   const USGetSingleStudentDetails = useSelector(
     (state: RootState) => state.StudentUI.ISGetSingleStudentDetails
   );
-  console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
+  // console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
 
   // const GetStudentAdditionalDetails = useSelector(
   //   (state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails
@@ -157,7 +157,7 @@ const AdmissionDetails = ({
 
   useEffect(() => {
     // const roleId = form.staffUserRole === 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null;
-    console.log('staffUserRole', form.staffUserRole);
+    // console.log('staffUserRole', form.staffUserRole);
     // console.log('roleId', roleId);
 
     const GetStaffName: IStaffNameBody = {
@@ -165,7 +165,7 @@ const AdmissionDetails = ({
       asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
       asUserRoleId: Number(form.staffUserRole) //=== 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null
     }
-    console.log("GetStaffName", GetStaffName)
+    //  console.log("GetStaffName", GetStaffName)
     dispatch(CDAStaffName(GetStaffName));
 
   }, [form.staffUserRole]);
