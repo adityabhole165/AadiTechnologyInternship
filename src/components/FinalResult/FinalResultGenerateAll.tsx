@@ -303,17 +303,21 @@ const GenerateAll = ({ }) => {
                             <Box sx={{ background: 'white' }}>
                                 <Box>
                                     <hr />
-                                    <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
-                                        Pawar Public Charitable Trust's
-                                    </Typography>
-                                    <hr />
-                                    <Typography variant={"h3"} textAlign={'center'} color={"black"} mb={1}>
-                                        PAWAR PUBLIC SCHOOL
-                                    </Typography>
-                                    <hr />
-                                    <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
-                                        Progress Report
-                                    </Typography>
+                                    {StudentDetailsUS.map((item, index) => (
+                                        <div key={index}>
+                                            <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
+                                                {item.School_Orgn_Name}
+                                            </Typography>
+                                            <hr />
+                                            <Typography variant={"h3"} textAlign={'center'} color={"black"} mb={1}>
+                                                {item.School_Name}
+                                            </Typography>
+                                            <hr />
+                                            <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
+                                                Progress Report
+                                            </Typography>
+                                        </div>
+                                    ))}
                                     <Table>
                                         <TableBody>
                                             {StudentDetailsUS.map((item, i) => {
@@ -371,8 +375,8 @@ const GenerateAll = ({ }) => {
                                                                             <b>%</b>
                                                                         </Typography>
                                                                     </TableCell>
-                                                                    <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
-                                                                        <Typography color="#38548A" textAlign={'center'} px={1}>
+                                                                    <TableCell rowSpan={3} sx={{ minWidth: '160px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                                                                        <Typography color="#38548A" textAlign={'center'} px={0}>
                                                                             <b>Grade</b>
                                                                         </Typography>
                                                                     </TableCell>
@@ -386,11 +390,11 @@ const GenerateAll = ({ }) => {
                                                                             {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
                                                                             {dataList?.ListTestTypeIdDetails?.map((item1, i) => {
                                                                                 return (
-                                                                                    <TableCell key={i} rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography textAlign={'center'} mr={0} sx={{ color: '#38548A', fontWeight: '800' }}>Total {item1?.ShortenTestType_Name}</Typography></TableCell>
+                                                                                    <TableCell key={i} rowSpan={2} sx={{ minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography textAlign={'center'} mr={0} sx={{ color: '#38548A', fontWeight: '800' }}>Total {item1?.ShortenTestType_Name}</Typography></TableCell>
                                                                                 )
                                                                             })}
                                                                             {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                                                                                <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'center'} mr={4}>Total</Typography></TableCell>}
+                                                                                <TableCell rowSpan={2} sx={{ minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'center'} mr={4}>Total</Typography></TableCell>}
                                                                         </>
                                                                     )}
                                                                     {item.Subject_Name !== '' &&
@@ -466,7 +470,7 @@ const GenerateAll = ({ }) => {
                                                             {dataList.ListSubjectidDetails.map((item2, index) => (
                                                                 <>
                                                                     {item.Subject_Id === item2.Subject_Id &&
-                                                                        <TableCell key={index} sx={{ alignItems: 'center', minWidth: '100px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                        <TableCell key={index} sx={{ alignItems: 'center', minWidth: '120px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
                                                                             <Typography color="#38548A" textAlign={'center'} >
                                                                                 <b style={{ marginRight: "0px" }}>{item2.ShortenTestType_Name}</b>
                                                                             </Typography>
