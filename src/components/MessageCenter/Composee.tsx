@@ -326,19 +326,33 @@ function Form13() {
       'xlsx'
     ];
 
+    // if (fileExtension != undefined || null) {
+    //   if (!allowedFileTypes.includes(fileExtension)) {
+    //     setFilerror('Invalid file format.');
+    //     //setFilerror('File does not support. Please check note');
+    //     return false;
+    //   } else if (allowedFileTypes.includes(fileExtension)) {
+    //     setFilerror(null);
+    //     return true;
+    //   }
+    //   if (fileData?.size > 50e6) {
+    //     setFilerror('Total file size should be less than 50 MB.');
+    //     return false;
+    //   }
+    // }
+    
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
         setFilerror('Invalid file format.');
-        //setFilerror('File does not support. Please check note');
         return false;
-      } else if (allowedFileTypes.includes(fileExtension)) {
-        setFilerror(null);
-        return true;
       }
+
       if (fileData?.size > 50e6) {
         setFilerror('Total file size should be less than 50 MB.');
         return false;
       }
+      setFilerror(null);
+      return true;
     }
   };
 
