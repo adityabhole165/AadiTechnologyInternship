@@ -147,7 +147,7 @@ const SelectList3Col = ({
           {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
-        {showcolumn('Draft Date') && <Box sx={{ color: 'white', ml: 60, display: 'flex', pt: 0.5 }} onClick={() => { clickHeader('Insert_Date') }}>
+        {showcolumn('Draft Date') && <Box sx={{ color: 'white', ml: 61, display: 'flex', pt: 0.5 }} onClick={() => { clickHeader('Insert_Date') }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Draft Date
           </Typography>
