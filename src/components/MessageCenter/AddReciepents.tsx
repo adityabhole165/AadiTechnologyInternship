@@ -742,6 +742,7 @@ const AddReciepents = ({
                     <SelectallAddrecipents
                       Itemlist={list}
                       onChange={onChangeTeacher}
+                      ContactGP={techerStudent1}
                     />
                   )}
                 </Grid>

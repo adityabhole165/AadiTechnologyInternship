@@ -1,9 +1,11 @@
 import ListHeaderCard3ColSel from 'src/libraries/card/ListHeaderCard3ColSel';
 import CheckboxCard from 'src/libraries/list/CheckboxCard';
+import ContactGroupCheckboxCard from 'src/libraries/list/ContactGroupCheckboxCard';
 const SelectallAddrecipents = ({
   Itemlist,
   onChange,
-  isSingleSelect = false
+  isSingleSelect = false,
+  ContactGP = '0'
 }) => {
   const onClick = (value) => {
     Itemlist = Itemlist.map((obj) =>
@@ -35,7 +37,11 @@ const SelectallAddrecipents = ({
 
       {Itemlist?.map((item, index) => (
         <>
-          <CheckboxCard Item={item} onClick={onClick} key={index} />
+          {ContactGP === '9' ? (
+            <ContactGroupCheckboxCard Item={item} onClick={onClick} key={index} />)
+            : (
+              <CheckboxCard Item={item} onClick={onClick} key={index} />)}
+
 
         </>
       ))}
