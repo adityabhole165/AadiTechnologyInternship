@@ -1,11 +1,21 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, ClickAwayListener, Grid, IconButton, List, Tooltip } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { IDeleteMailGroupBody } from 'src/interfaces/ContactGroup/IContactGroup';
+import { CDADeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup';
+import { RootState } from 'src/store';
 import CheckboxImg from '../card/CheckboxImg';
 import { ItemSize } from '../styled/CardStyle';
 const ContactGroupCheckboxCard = ({ Item, onClick }) => {
     const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
+    const schoolId = localStorage.getItem('localSchoolId');
+
+
+    const USDeleteContactGroup: any = useSelector((state: RootState) => state.ContactGroup.IDeleteMailGroupMsg);
 
     const handleClickAway = () => {
         setOpen(false);
@@ -16,6 +26,22 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
     const onChange = () => {
         onClick({ Id: Item.Id, isActive: !Item.isActive });
     };
+    function onDelete(Id) {
+        const DeleteMailGroupBody: IDeleteMailGroupBody = {
+            asSchoolId: Number(schoolId),
+            asGroupId: Id,
+            asInsertedById: Item.asInsertedById
+        }
+        dispatch(CDADeleteMailGroupMsg(DeleteMailGroupBody));
+    }
+    useEffect(() => {
+        if (USDeleteContactGroup !== '') {
+            toast.success(USDeleteContactGroup);
+            // dispatch(resetDeleteMailGroupMsg());
+            // dispatch(CDAaddUpdateGroup);
+        }
+    }, [USDeleteContactGroup]);
+
     // const OnShowEditDelete = () => {
 
     // };
@@ -90,7 +116,9 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                     </IconButton>
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <IconButton onClick={() => onClick({ Id: Item.Id, isActive: !Item.isActive })}>
+                                    <IconButton
+                                        onClick={() => onDelete(Item.Id)}
+                                    >
 
                                         <DeleteForeverIcon />
 
