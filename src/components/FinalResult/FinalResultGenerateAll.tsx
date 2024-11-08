@@ -333,12 +333,12 @@ const GenerateAll = ({ }) => {
                                             <TableHead>
                                                 {hasParentHeader && (
                                                     <>
-                                                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'left' }}>
+                                                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                                                             <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5}>
+                                                                <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={6}>
                                                                     Subjects &#9654;
                                                                 </Typography>
-                                                                <Typography variant={"h3"} textAlign={'left'} color={"black"}>
+                                                                <Typography variant={"h3"} textAlign={'center'} color={"black"}>
                                                                     &#9660; Exam
                                                                 </Typography>
                                                             </TableCell>
@@ -346,9 +346,9 @@ const GenerateAll = ({ }) => {
                                                                 <TableCell
                                                                     key={index}
                                                                     colSpan={item.Total_Consideration == 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
-                                                                    sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'left', minWidth: '130px' }}
+                                                                    sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center' }}
                                                                 >
-                                                                    <Typography color="black" textAlign="left" mr={0}>
+                                                                    <Typography color="black" textAlign="center" mr={0}>
                                                                         <b style={{ marginRight: "0px" }}>
                                                                             {item.Subject_Name}
                                                                             {item.Is_CoCurricularActivity == "True" && (
@@ -362,23 +362,23 @@ const GenerateAll = ({ }) => {
                                                             {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
                                                                 <>
                                                                     <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                        <Typography color="#38548A" textAlign={'left'} px={3}>
+                                                                        <Typography color="#38548A" textAlign={'center'} px={3}>
                                                                             <b>Total</b>
                                                                         </Typography>
                                                                     </TableCell>
                                                                     <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                        <Typography color="#38548A" textAlign={'left'} px={1}>
+                                                                        <Typography color="#38548A" textAlign={'center'} px={1}>
                                                                             <b>%</b>
                                                                         </Typography>
                                                                     </TableCell>
                                                                     <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
-                                                                        <Typography color="#38548A" textAlign={'left'} px={1}>
+                                                                        <Typography color="#38548A" textAlign={'center'} px={1}>
                                                                             <b>Grade</b>
                                                                         </Typography>
                                                                     </TableCell>
                                                                 </>}
                                                         </TableRow>
-                                                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'left' }}>
+                                                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                                                             {findRow2()?.map((item, index) => (
                                                                 <>
                                                                     {index > 0 && findRow2()[index - 1].Parent_Subject_Id !== "0" && item.Parent_Subject_Id === '0' && (
@@ -386,16 +386,16 @@ const GenerateAll = ({ }) => {
                                                                             {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
                                                                             {dataList?.ListTestTypeIdDetails?.map((item1, i) => {
                                                                                 return (
-                                                                                    <TableCell key={i} rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography textAlign={'left'} mr={0} sx={{ color: '#38548A', fontWeight: '800' }}>Total {item1?.ShortenTestType_Name}</Typography></TableCell>
+                                                                                    <TableCell key={i} rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography textAlign={'center'} mr={0} sx={{ color: '#38548A', fontWeight: '800' }}>Total {item1?.ShortenTestType_Name}</Typography></TableCell>
                                                                                 )
                                                                             })}
                                                                             {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                                                                                <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'left'} mr={4}>Total</Typography></TableCell>}
+                                                                                <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'center'} mr={4}>Total</Typography></TableCell>}
                                                                         </>
                                                                     )}
                                                                     {item.Subject_Name !== '' &&
-                                                                        <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'left', }}>
-                                                                            <Typography color="black" textAlign={'left'} mr={0}>
+                                                                        <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', }}>
+                                                                            <Typography color="black" textAlign={'center'} mr={0}>
                                                                                 <b style={{ marginRight: "5px" }}>{item.Subject_Name}
                                                                                     {item.Is_CoCurricularActivity == "True" && (
                                                                                         <span style={{ color: 'red' }}>*</span>
@@ -416,18 +416,18 @@ const GenerateAll = ({ }) => {
                                                     </>
                                                 )}
                                                 {!hasParentHeader && (
-                                                    <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'left' }}>
+                                                    <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                                                         <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                            <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5}>
+                                                            <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={5}>
                                                                 Subjects &#9654;
                                                             </Typography>
-                                                            <Typography variant={"h3"} textAlign={'left'} color={"black"}>
+                                                            <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={5}>
                                                                 &#9660; Exam
                                                             </Typography>
                                                         </TableCell>
                                                         {findRow1().map((item, index) => (
-                                                            <TableCell key={index} colSpan={item.colSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'left', minWidth: '180px' }}>
-                                                                <Typography color="black" textAlign={'left'} mr={0}>
+                                                            <TableCell key={index} colSpan={item.colSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth: '180px' }}>
+                                                                <Typography color="black" textAlign={'center'} mr={0}>
                                                                     <b style={{ marginRight: "5px" }}>{item.Subject_Name}
 
                                                                         {item.Is_CoCurricularActivity == "True" && (
@@ -440,17 +440,17 @@ const GenerateAll = ({ }) => {
                                                         {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
                                                             <>
                                                                 <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                    <Typography color="#38548A" textAlign={'left'} px={3}>
+                                                                    <Typography color="#38548A" textAlign={'center'} px={3}>
                                                                         <b>Total</b>
                                                                     </Typography>
                                                                 </TableCell>
                                                                 <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                    <Typography color="#38548A" textAlign={'left'} px={3}>
+                                                                    <Typography color="#38548A" textAlign={'center'} px={3}>
                                                                         <b>%</b>
                                                                     </Typography>
                                                                 </TableCell>
                                                                 <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                    <Typography color="#38548A" textAlign={'left'} px={5}>
+                                                                    <Typography color="#38548A" textAlign={'center'} px={5}>
                                                                         <b>Grade</b>
                                                                     </Typography>
                                                                 </TableCell>
@@ -466,9 +466,9 @@ const GenerateAll = ({ }) => {
                                                             {dataList.ListSubjectidDetails.map((item2, index) => (
                                                                 <>
                                                                     {item.Subject_Id === item2.Subject_Id &&
-                                                                        <TableCell key={index} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
-                                                                            <Typography color="#38548A" textAlign={'left'} mr={0}>
-                                                                                <b style={{ marginRight: "5px" }}>{item2.ShortenTestType_Name}</b>
+                                                                        <TableCell key={index} sx={{alignItems: 'center', minWidth:'100px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                            <Typography color="#38548A" textAlign={'center'} >
+                                                                                <b style={{ marginRight: "0px" }}>{item2.ShortenTestType_Name}</b>
                                                                             </Typography>
                                                                         </TableCell>
                                                                     }
@@ -476,14 +476,14 @@ const GenerateAll = ({ }) => {
                                                             ))}
                                                             {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && dataList.ListSubjectidDetails.filter((itemFind) => itemFind.Subject_Id === item.Subject_Id).length > 1 && (
                                                                 <TableCell key={`total-${index1}`} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
-                                                                    <Typography color="#38548A" textAlign={'left'} mr={0}>
+                                                                    <Typography color="#38548A" textAlign={'center'} px={2}>
                                                                         <b>Total</b>
                                                                     </Typography>
                                                                 </TableCell>
                                                             )}
                                                             {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' && !Boolean(dataList.ListSubjectidDetails.find((itemFind) => itemFind.Subject_Id === item.Subject_Id)) &&
                                                                 <TableCell key={index1} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
-                                                                    <Typography color="#38548A" textAlign={'left'} mr={0}>
+                                                                    <Typography color="#38548A" textAlign={'center'} mr={0}>
                                                                         <b>Grade</b>
                                                                     </Typography>
                                                                 </TableCell>
@@ -495,13 +495,13 @@ const GenerateAll = ({ }) => {
 
                                             {MarkDetailsList.map((testItem, i) => (
                                                 <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center', }}>
-                                                    <TableRow sx={{}}>
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                    <TableRow>
+                                                        <TableCell sx={{alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                                             <b> {testItem.TestName}</b>
                                                         </TableCell>
 
                                                         {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell sx={{ backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
+                                                            <TableCell sx={{alignItems:'center', pl:3, backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
                                                                 {MarkItem == null || MarkItem?.MarksScored == ''
                                                                     ? '-'
                                                                     : (MarkItem?.IsAbsent !== 'N'
