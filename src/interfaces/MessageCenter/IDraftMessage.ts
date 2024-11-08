@@ -42,6 +42,7 @@ export interface IGetAllDraftMessageResult {
 
 export interface IGetAllDraftResult {
   GetAllDraftMessageDetails: [IGetAllDraftMessageResult];
+  TotalCountLabel: string;
 }
 
 export interface IGetDraftMessageBody {

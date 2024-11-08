@@ -191,6 +191,7 @@ export const getListOfMessages =
             ReceiverDetailsId: item.Id
           };
         });
+        dispatch(InboxMessageSlice.actions.getTotalCountLabel(response.data.TotalCountLabel));
         if (Pagination == true) {
           dispatch(InboxMessageSlice.actions.NextMessages(data));
         }
