@@ -124,23 +124,6 @@ export const StudentDetailsGA =
         async (dispatch) => {
             const response = await ApiFinalResultGenerateAll.StudentPrrogressReport(data);
             dispatch(FinalResultGenerateAllSlice.actions.REntireDataList(response.data));
-            // const { IsGradingStandarBodyIS } = getState().ProgressReportNew;
-
-            let listStudentsDetails = response.data.listStudentsDetails.map((item, i) => {
-                return {
-                    Id: item.YearWise_Student_Id,
-                    Student_Name: item.Student_Name,
-                    Roll_No: item.Roll_No,
-                    Standard_Name: item.Standard_Name,
-                    Division_Name: item.Division_Name,
-                    Academic_Year: item.Academic_Year,
-                    School_Name: item.School_Name,
-                    School_Orgn_Name: item.School_Orgn_Name,
-                    Standard_Id: item.Standard_Id,
-                    Standard_Division_Id: item.Standard_Division_Id
-
-                };
-            });
             let listSubjectsDetails = response.data.listSubjectsDetails
             const getListDisplayName = (cell) => {
                 let returnVal: any = ""
@@ -156,22 +139,6 @@ export const StudentDetailsGA =
                 else {
                     response.data.ListDisplayNameDetails.map((Item) => {
                         if (Item.ShortName === cell.Is_Absent)
-                            returnVal = Item.DisplayName
-                    })
-                }
-                return returnVal
-            }
-
-
-            const getListDisplayName1 = (cell) => {
-                let returnVal = ""
-
-                if (cell.Is_Absent == "N") {
-                    returnVal = cell.Grade
-                }
-                else {
-                    response.data.ListDisplayNameDetails.map((Item) => {
-                        if (Item.ShortName == cell.Is_Absent)
                             returnVal = Item.DisplayName
                     })
                 }
@@ -254,18 +221,6 @@ export const StudentDetailsGA =
                         let arrTemp = response.data.ListSubjectidDetails
                             .filter((obj) => { return obj.Subject_Id === Subject.Subject_Id })
                         // f() to control visibility of Test Type Columns
-                        function showTestTypeDetails() {
-                            let flag = false;
-                            if (subIdDetailsLength(Subject.Subject_Id) === 1 && data1.toLowerCase() === 'true') {
-                                return false;
-                            } else if (subIdDetailsLength(Subject.Subject_Id) === 1 && data1.toLowerCase() === 'false') {
-                                return true;
-                            } else if (subIdDetailsLength(Subject.Subject_Id) > 1 && data1.toLowerCase() === 'true') {
-                                return true;
-                            } else if (subIdDetailsLength(Subject.Subject_Id) > 1 && data1.toLowerCase() === 'false') {
-                                return true;
-                            }
-                        }
                         Arraytemp = arrTemp;
                         let TestTypeCount = arrTemp.length;
                         let temp = "";
@@ -346,10 +301,6 @@ export const StudentDetailsGA =
 
                                 // Usage
                                 totalMarks = calculateTotalMarks(data, Subject, cell);
-                                const isConsideredForReport = data1 === "True";
-                                const isSingleSubject = subIdDetailsLength(Subject.Subject_Id) === 1;
-                                const isGrade = cell?.Grade_Or_Marks?.trim().toLowerCase() === 'g';
-
 
                             }
 
@@ -438,72 +389,10 @@ export const StudentDetailsGA =
                         }
                     })
 
-
-                    // const matchingTestId = response.data.Listtestid2Details.find(testDetail =>
-                    //     testDetail.Test_Id
-                    // )?.Test_Id;
-
-                    // Find the matching test in listTestDetails
-                    // const matchingTest = response.data.listTestDetails.find(item =>
-                    //     Number(item.Test_Id) === Number(matchingTestId)
-                    // );
-
-                    // Find the matching TestType_Id from Listtestid2Details
-                    // const matchingTestType_Id = response.data.Listtestid2Details.find(testDetail =>
-                    //     testDetail.TestType_Id
-                    // )?.TestType_Id;
-
-                    // Find the matching test type in ListTestTypeIdDetails
-                    // const matchingTestType = response.data.ListTestTypeIdDetails.find(item =>
-                    //     Number(item.TestType_Id) === Number(matchingTestType_Id)
-                    // );
-
-                    // Ensure matchingTest and matchingTestType exist before using them
-                    // if (matchingTest && matchingTestType) {
-                    //     // Add the TestTypeName to SubHeaderArray
-                    //     SubHeaderArray.push({ TestTypeName: matchingTestType.ShortenTestType_Name });
-
-                    //     // Find the matching test detail from Listtestid2Details
-                    //     const matchingTestDetail = response.data.Listtestid2Details.find(testDetail =>
-                    //         Number(testDetail.Test_Id) === Number(matchingTestId)
-                    //     );
-
-                    // if (matchingTestDetail) {
-                    //   // Push columns data for the matching test detail
-                    //   columns.push({
-                    //     MarksScored: `${matchingTestDetail.TestType_Total_Marks_Scored}/${matchingTestDetail.TestType_Total_Marks}`,
-                    //     TotalMarks: "-",
-                    //     IsAbsent: "N"
-                    //   });
-                    // }
-                    // }
-
-
-
-
                     //show grade column
                     if (data1 === "True") {
                         response.data.ListSchoolWiseTestNameDetail.map((Item) => {
-                            let testTypeLength = response.data.ListTestTypeIdDetails.length;
                             if (Item.SchoolWise_Test_Id == Test.Test_Id) {
-                                let isDataPushed = false; // Flag to track if data has been pushed
-
-                                // response.data.listTestidDetails.map((Item) => {
-                                //   // Check if the IDs match and data has not been pushed yet
-                                //   if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
-                                //     const insertIndex = columns.length > 0 ? columns.length - (testTypeLength + 1) : 0;
-                                //     columns.splice(insertIndex, 0, {
-                                //       MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
-                                //       TotalMarks: Item.ChildSubject_Marks_Total,
-                                //       IsAbsent: "N",
-                                //     });
-
-                                //     isDataPushed = true;
-                                //   }
-                                // });
-
-
-
                                 const matchingMarksDetails = response.data.ListMarkssDetails.find(
                                     (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
                                 );

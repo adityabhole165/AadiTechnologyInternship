@@ -463,8 +463,6 @@ const GenerateAll = ({ }) => {
                                                 )}
                                                 <TableRow>
                                                     {/* <TableCell></TableCell> ListTestTypeIdDetails */}
-
-
                                                     {dataList.listSubjectsDetails?.map((item, index1) => (
                                                         <>
                                                             {dataList.ListSubjectidDetails.map((item2, index) => (
@@ -497,7 +495,7 @@ const GenerateAll = ({ }) => {
                                                 </TableRow>
                                             </TableHead>
 
-                                            {MarkDetailsList.map((testItem, i) => (
+                                            {MarkDetailsList.length > 0 && MarkDetailsList.map((testItem, i) => (
                                                 <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center', }}>
                                                     <TableRow>
                                                         <TableCell sx={{ alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
