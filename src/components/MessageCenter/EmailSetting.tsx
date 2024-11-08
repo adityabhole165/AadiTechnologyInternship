@@ -83,9 +83,9 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
       dispatch(ResetUpdateUserEmailSetting());
 
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000);
     }
   }, [UpdationMessage, dispatch, setOpen]);
 
@@ -140,7 +140,7 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
 
   const handleClose = () => {
     setOpen(false);
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (

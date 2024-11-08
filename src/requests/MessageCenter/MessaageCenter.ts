@@ -184,7 +184,7 @@ export const getAdminstaffList =
 export const GetEmailSettings =
   (data: IGetUserEmailSettingsBody): AppThunk =>
     async (dispatch) => {
-      dispatch(MessageCenterSlice.actions.getLoading(true));
+      // dispatch(MessageCenterSlice.actions.getLoading(true));
       const response = await MessageCenterApi.EmailSettingsapi(data);
       dispatch(MessageCenterSlice.actions.GetEmailSettings(response.data));
     };
