@@ -20,8 +20,8 @@ const CheckboxCard = ({ Item, onClick }) => {
 
   return (
     <Box>
-      <List sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, py: 0.2, }}>
-        <Box sx={{ display: 'flex' }}>
+      <List sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, py: 0.2 }}>
+        <Box sx={{ display: 'flex', mt: 0 }}>
           <CheckboxImg
             name={Item.Name}
             value={Item.Value}
@@ -31,7 +31,9 @@ const CheckboxCard = ({ Item, onClick }) => {
             IsExamSubmitted={Item.IsExamSubmitted}
           />
           {Item.IsAllDeactivated ? (
-            <ItemSize>{Item.Name}</ItemSize>
+            // <ItemSize>{Item.Name}</ItemSize>
+            <Box sx={{ display: 'flex', mt: 1 }}>
+              {Item.Name} </Box>
           ) : (
             <>
               <Grid item container xs={12}>
