@@ -588,6 +588,8 @@ export const StudentDetailsGA =
                     Text3: item.Standard_Name,
                     Text4: item.Division_Name,
                     Text5: item.Academic_Year,
+                    School_Name: item.School_Name,
+                    School_Orgn_Name: item.School_Orgn_Name,
                     standardDivId: item.Standard_Division_Id
                 };
             });
