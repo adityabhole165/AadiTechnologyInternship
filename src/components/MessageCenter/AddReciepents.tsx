@@ -3,7 +3,6 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import SquareIcon from '@mui/icons-material/Square';
 import {
   Box,
-  Card,
   Chip,
   Dialog,
   DialogContent,
@@ -19,6 +18,7 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   GetAdminAndprincipalUsers,
   IGetStudentsUser,
@@ -36,7 +36,7 @@ import {
   GetStudent,
   GetUser
 } from 'src/requests/AdminSMSCenter/To1';
-import { CDAaddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
+import { CDAaddUpdateGroup, resetDeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import ContactGroupList from './ContactGroupList';
@@ -117,7 +117,13 @@ const AddReciepents = ({
   const getPTAOption: any = useSelector(
     (state: RootState) => state.getuser1.PTAOption
   );
-
+  const USDeleteContactGroup: any = useSelector((state: RootState) => state.ContactGroup.IDeleteMailGroupMsg);
+  useEffect(() => {
+    if (USDeleteContactGroup !== '') {
+      toast.success(USDeleteContactGroup);
+      dispatch(resetDeleteMailGroupMsg());
+    }
+  }, [USDeleteContactGroup]);
   // const Student = getstudentlist.GetStudentsUserResult;
 
   const adminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
@@ -602,37 +608,37 @@ const AddReciepents = ({
                 <Grid item xs={12} sm={6}>
                   <Grid container spacing={1}>
                     <Grid item xs={6} sm={12}>
-                      <Card>
-                        <Box
-                          sx={{
-                            border: (theme) =>
-                              `1px solid ${theme.palette.grey[300]}`
-                          }}
-                          height={
-                            RoleId === '3'
-                              ? '50px'
-                              : RoleId === '2'
-                                ? '95px'
-                                : '180px'
-                          }
-                        >
-                          <ListSelect
-                            Itemlist={staffAndAdmin}
-                            onChange={adminandSWChange}
-                          />
-                        </Box>
-                      </Card>
+                      {/* <Card> */}
+                      <Box
+                      // sx={{
+                      //   border: (theme) =>
+                      //     `1px solid ${theme.palette.grey[300]}`
+                      // }}
+                      // height={
+                      //   RoleId === '3'
+                      //     ? '50px'
+                      //     : RoleId === '2'
+                      //       ? '95px'
+                      //       : '180px'
+                      // }
+                      >
+                        <ListSelect
+                          Itemlist={staffAndAdmin}
+                          onChange={adminandSWChange}
+                        />
+                      </Box>
+                      {/* </Card> */}
                     </Grid>
                     <Grid item xs={6} sm={12}>
-                      <Card>
-                        <Box>
-                          <ListSelect
-                            Itemlist={teacherStudent}
-                            onChange={teacherStudentChange}
-                            isSingleSelect={true}
-                          />
-                        </Box>
-                      </Card>
+                      {/* <Card> */}
+                      <Box>
+                        <ListSelect
+                          Itemlist={teacherStudent}
+                          onChange={teacherStudentChange}
+                          isSingleSelect={true}
+                        />
+                      </Box>
+                      {/* </Card> */}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -742,6 +748,7 @@ const AddReciepents = ({
                     <SelectallAddrecipents
                       Itemlist={list}
                       onChange={onChangeTeacher}
+                      ContactGP={techerStudent1}
                     />
                   )}
                 </Grid>
@@ -796,7 +803,7 @@ const AddReciepents = ({
 
         <DialogContent>
           <Box>
-            <ContactGroupList onClose={handleCloseDialog} />
+            <ContactGroupList onClose={handleCloseDialog} GPID={0} />
           </Box>
           {/* <Box>
             <DialogActions sx={{ py: 2, px: 3 }}>

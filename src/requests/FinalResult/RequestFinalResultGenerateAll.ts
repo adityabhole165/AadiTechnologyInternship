@@ -2,7 +2,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiFinalResultGenerateAll from "src/api/FinalResult/ApiFinalResultGenerateAll";
 import { IGetGenerateAllStudentBody, IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody } from "src/interfaces/FinalResult/IFinalResultGenerateAll";
+import { GetSchoolSettingsBody } from "src/interfaces/ProgressReport/IprogressReport";
 import { AppThunk } from "src/store";
+import { CDAGetSchoolSettings } from "../ProgressReport/ReqProgressReport";
 
 
 
@@ -27,6 +29,7 @@ const FinalResultGenerateAllSlice = createSlice({
         ListDisplayNameDetails: [],
         HeaderArray: [],
         SubHeaderArray: [],
+        EntireDataList: [],
         Loading: true
     },
 
@@ -38,6 +41,10 @@ const FinalResultGenerateAllSlice = createSlice({
         ShowData(state, action) {
             state.Loading = false;
             state.MarkDetailsList = action.payload;
+        },
+        REntireDataList(state, action) {
+            state.Loading = false;
+            state.EntireDataList = action.payload;
         },
         ShowHeader(state, action) {
             state.Loading = false;
@@ -113,76 +120,356 @@ const FinalResultGenerateAllSlice = createSlice({
     }
 
 });
-
+// ViewResultGA
 export const StudentDetailsGA =
-    (data: IGetStudentPrrogressReportBody): AppThunk =>
-        async (dispatch) => {
+    (data: IGetStudentPrrogressReportBody, data12: string): AppThunk =>
+        async (dispatch, getState) => {
+            const asSchoolId = localStorage.getItem('localSchoolId');
+            const GetSchoolSettings: GetSchoolSettingsBody = {
+                asSchoolId: Number(asSchoolId),
+            };
+            // const data1 = 'True';
+            await dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+            const { IsGetSchoolSettings } = getState().ProgressReportNew;
+            const data1 = IsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport;
             const response = await ApiFinalResultGenerateAll.StudentPrrogressReport(data);
+            dispatch(FinalResultGenerateAllSlice.actions.REntireDataList(response.data));
+            let listSubjectsDetails = response.data.listSubjectsDetails
+            const getListDisplayName = (cell) => {
+                let returnVal: any = ""
 
-            let rows = []
+                if (cell.Is_Absent === "N") {
+                    if (response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true1') {
+                        returnVal = cell.Grade
+                    } else {
+                        returnVal = parseFloat(cell.Marks_Scored)
+                    }
+                }
+                else {
+                    response.data.ListDisplayNameDetails.map((Item) => {
+                        if (Item.ShortName === cell.Is_Absent)
+                            returnVal = Item.DisplayName
+                    })
+                }
+                return returnVal
+            }
+
             const getMatch = (TestId, SubjectId, TestTypeId) => {
                 let returnVal = null
                 response.data.listSubjectIdDetails.map((Item) => {
-                    if (Item.Original_SchoolWise_Test_Id == TestId &&
-                        Item.Subject_Id == SubjectId &&
-                        Item.TestType_Id == TestTypeId
+                    if (Item.Original_SchoolWise_Test_Id === TestId &&
+                        Item.Subject_Id === SubjectId &&
+                        Item.TestType_Id === TestTypeId
 
-                    )
+                    ) {
                         returnVal = Item
+                    }
                 })
                 return returnVal
             }
+            const getParentHeader = (listSubjectsDetails, Subject, TestId) => {
+                let returnVal = ""
+                let colsPan = 0
+                if (Subject.Parent_Subject_Id != '0') {
+                    colsPan = listSubjectsDetails.filter((obj) => { return obj.Parent_Subject_Id == Subject.Parent_Subject_Id }).length
+
+                    response.data.listTestidDetails
+                        .filter((obj) => { return obj.Test_Id == TestId && obj.Parent_Subject_Id == Subject.Parent_Subject_Id })
+                        .map((Item) => {
+                            returnVal = Item.Parent_Subject_Name
+                        })
+                }
+                return { parent: returnVal, colsPan: colsPan }
+            }
+            function subIdDetailsLength(subId) {
+                let result = response.data.ListSubjectidDetails.filter((item) => item.Subject_Id === subId).length;
+                return result
+            }
+
+
+            let rows = []
             let HeaderArray = []
             let SubHeaderArray = []
             let HeaderCount = 0
-            response.data.listTestDetails.map((Test, TestIndex) => {
-                let columns = []
-                response.data.listSubjectsDetails.map((Subject) => {
-                    HeaderCount = 0
-                    response.data.ListSubjectidDetails
-                        .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
-                        .map((TestType) => {
-                            HeaderCount += 1
-                            if (TestIndex == 0) {
+            let countOne = 0
+            let Arraytemp = [];
+            // listTestDetails []
+            // list1 = []
+            function findCellValue(list, psId, testTypeId, testId) {
+                let filter1 = list.filter(item => {
+                    return item.Parent_Subject_Id == psId &&
+                        item.TestType_Id == testTypeId &&
+                        item.Test_Id == testId;  // Use loose equality (==)
+                });
+                if (filter1.length >= 1) {
+                    return parseFloat(filter1[0].TestType_Total_Marks); // Correct property name
+                }
 
-                                SubHeaderArray.push({
-                                    TestTypeName: TestType.ShortenTestType_Name,
+                return '-';
+            }
+            function findCellValue1(list, psId, testTypeId, testId) {
+                let filter1 = list.filter(item => {
+                    return item.Parent_Subject_Id == psId &&
+                        item.TestType_Id == testTypeId &&
+                        item.Test_Id == testId;  // Use loose equality (==)
+                });
+                if (filter1.length >= 1) {
+                    return parseFloat(filter1[0].TestType_Total_Marks_Scored); // Correct property name
+                }
+
+                return '-';
+            }
+            response.data.listTestDetails
+                .map((Test, TestIndex) => {
+                    let columns = []
+                    // list2 = []
+                    let SubjectArray = response.data.listSubjectsDetails;
+                    response.data.listSubjectsDetails.map((Subject, SubjectIndex) => {
+                        HeaderCount = 0
+                        // list3 = []
+                        let arrTemp = response.data.ListSubjectidDetails
+                            .filter((obj) => { return obj.Subject_Id === Subject.Subject_Id })
+                        // f() to control visibility of Test Type Columns
+                        Arraytemp = arrTemp;
+                        let TestTypeCount = arrTemp.length;
+                        let temp = "";
+                        let totalMarks = null;
+
+                        arrTemp.map((TestType, TestTypeIndex) => {
+                            // if (TestType.Subject_Id == "2397")
+
+                            HeaderCount += 1
+                            let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
+                            // if (showTestTypeDetails()) {  // 3 > !==1
+                            // Flag > 🚩
+                            // let Flag = SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' ? true : false;
+                            if (SubjectArray[SubjectIndex].Parent_Subject_Id === '0') {
+                                // if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
+                                //   returnVal = cell.Grade
+                                // } else {
+                                columns.push({
+                                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                                    TotalMarks: cell ? cell.Is_Absent == "N" ? response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true1' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
+                                    IsAbsent: cell ? cell.Is_Absent : "N"
+                                })
+                            } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
+                                columns.push({
+                                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                                    TotalMarks: cell ? cell.Is_Absent == "N" ? response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true1' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
+                                    IsAbsent: cell ? cell.Is_Absent : "N"
                                 })
                             }
-                            let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
-                            console.log('this was cell 🟧', cell);
+                            //#region  check
+                            // }
 
+                            if (TestIndex == 0) {
+                                SubHeaderArray.push({
+                                    TestTypeName: (data1 == "True" && TestTypeCount == 1)
+                                        ? "Total" : TestType.ShortenTestType_Name
+                                })
+                            }
+
+                            if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
+                                temp = Subject.Subject_Id + "--" + Test.Test_Id
+                                // Flag 🟥 
+                                // Helper function to handle grade or marks
+                                const getGradeOrMarks = (cell, isGrade, totalGrade) => {
+                                    if (!cell) return "-";
+                                    return isGrade ? `${totalGrade}` : `${parseFloat(cell.Total_Marks_Scored)}`;
+                                };
+
+                                // Main calculation function
+                                const calculateTotalMarks = (data, Subject, cell) => {
+                                    if (!cell) {
+                                        return {
+                                            MarksScored: " ",
+                                            TotalMarks: "-",
+                                            IsAbsent: "N"
+                                        };
+                                    }
+
+                                    const isConsiderForReport = data.IsTotalConsiderForProgressReport === "True";
+                                    const isSingleSubject = subIdDetailsLength(Subject.Subject_Id) === 1;
+                                    const isGradeFormat = response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true1'
+
+                                    // Determine marks or grade based on conditions
+                                    const marksScored = isConsiderForReport && isSingleSubject
+                                        ? isGradeFormat ? `${cell.TotalGrade}` : `${parseFloat(cell.Total_Marks_Scored)}`
+                                        : getGradeOrMarks(cell, isGradeFormat, cell.TotalGrade);
+
+                                    const totalMarks = isConsiderForReport && isSingleSubject
+                                        ? isGradeFormat ? `${cell.TotalGrade}` : `${parseFloat(cell.Subject_Total_Marks)}`
+                                        : isGradeFormat ? `${cell.TotalGrade}` : cell.Subject_Total_Marks;
+
+                                    return {
+                                        MarksScored: `${marksScored}`,
+                                        TotalMarks: `${totalMarks}`,
+                                        IsAbsent: cell.Is_Absent
+                                    };
+                                };
+
+                                // Usage
+                                totalMarks = calculateTotalMarks(data, Subject, cell);
+
+                            }
+
+                            if (TestTypeIndex == TestTypeCount - 1 && data1.toLowerCase() == "true" && subIdDetailsLength(Subject.Subject_Id) > 1) {
+                                columns.push(totalMarks);
+                            }
+
+                            if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' && TestTypeIndex === arrTemp.length - 1) {
+                                // response.data.ListTestTypeIdDetails.map((list1, i1) => {
+                                // response.data.Listtestid2Details.map((list2, i2) => {
+                                // if (list2.Test_Id !== '-1') {
+                                // if (list2.Test_Id === Test.Test_Id && list2.TestType_Id === list1.TestType_Id && list2.Parent_Subject_Id === SubjectArray[SubjectIndex].Parent_Subject_Id) {
+                                response.data.ListTestTypeIdDetails.map((itemArr) => {
+                                    columns.push({
+                                        MarksScored: findCellValue1(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id), //list2.TestType_Total_Marks,
+                                        //  function findIts(list, psId, testTypeId, testId) {
+                                        TotalMarks: findCellValue(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id),
+                                        IsAbsent: "N"
+                                    })
+                                })
+                                // }
+                                // }
+                                // })
+                                // })
+                                if (data1 == "True") {
+                                    let isDataPushed = false;
+
+                                    response.data.listTestidDetails.map((Item) => {
+                                        // Check if the IDs match and data has not been pushed yet
+                                        if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
+                                            // const insertIndex = columns.length > 0 ? columns.length - (testTypeLength + 1) : 0;
+                                            columns.push({
+                                                MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
+                                                TotalMarks: `${Item.ChildSubject_Marks_Total}`,
+                                                IsAbsent: "N",
+                                            });
+
+                                            isDataPushed = true;
+                                        }
+                                    });
+                                }
+                            }
+
+
+
+                        })
+
+
+                        if (TestIndex == 0) {
+                            if (HeaderCount > 1) {
+                                SubHeaderArray.push({ TestTypeName: "Total" })
+
+                            }
+                            HeaderArray.push({
+                                SubjectName: Subject.Subject_Name,
+                                colSpan: HeaderCount > 1 ? HeaderCount + 1 : HeaderCount,
+                                ParentSubjectId: Subject.Parent_Subject_Id,
+                                ParentSubjectName: getParentHeader(listSubjectsDetails, Subject, Test.Test_Id).parent,
+                            })
+                        }
+                        if (Subject.Is_CoCurricularActivity === 'True') {
+                            let valArr = response.data.listSubjectIdDetails.filter(item => item.Original_SchoolWise_Test_Id === Test.Original_SchoolWise_Test_Id && item.Is_CoCurricularActivity.toLowerCase() === 'true' && item.Subject_Id === Subject.Subject_Id)
+                            // let data = response.data.listSubjectIdDetails.filter((item) => )
+                            function showGradeHeader(subId) {
+                                let flag = true;
+                                let filter = [];
+                                filter = response?.data?.ListSubjectidDetails?.filter((item) => item.Subject_Id === subId)
+                                if (filter?.length > 0) {
+                                    flag = false;
+                                }
+                                return flag;
+                            }
+                            if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() === 'true1' && showGradeHeader(Subject.Subject_Id)) {
+                                columns.push({
+                                    MarksScored: valArr.length > 0 ? `${valArr[0].Marks}` : '-',
+                                    TotalMarks: "-",
+                                    IsAbsent: "N"
+                                })
+                            } else if (showGradeHeader(Subject.Subject_Id)) {
+                                columns.push({
+                                    MarksScored: valArr.length > 0 ? `${valArr[0].Marks}` : '-',
+                                    TotalMarks: "-",
+                                    IsAbsent: "N"
+                                })
+                            }
+                        }
+                    })
+
+                    //show grade column
+                    if (data1.toLowerCase() === "true") {
+                        response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+                            if (Item.SchoolWise_Test_Id == Test.Test_Id) {
+                                const matchingMarksDetails = response.data.ListMarkssDetails.find(
+                                    (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
+                                );
+
+                                // if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() !== 'true') {
+                                columns.push({
+                                    MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
+                                    TotalMarks: Item.Subjects_Total_Marks,
+                                    IsAbsent: "N"
+                                })
+
+                                columns.push({
+                                    MarksScored: Item.Percentage + "%",
+                                    TotalMarks: "-",
+                                    IsAbsent: "N"
+                                })
+                                // }
+
+                                columns.push({
+                                    MarksScored: `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
+                                    TotalMarks: "-",
+                                    IsAbsent: "N"
+                                })
+                            }
+
+                        })
+                        if (Test.Test_Id === `-1`) {
                             columns.push({
-                                MarksScored: cell ? parseFloat(cell.Marks_Scored) : "-",
-                                TotalMarks: cell ? parseFloat(cell.TestType_Total_Marks) : "-",
-                                IsAbsent: cell ? cell.Is_Absent : "N"
+                                MarksScored: `-`,
+                                TotalMarks: '-',
+                                IsAbsent: "N"
                             })
 
-                        })
-                    if (TestIndex == 0) {
-                        HeaderArray.push({
-                            SubjectName: Subject.Subject_Name,
-                            colSpan: HeaderCount
-                        })
-                    }
-                })
+                            columns.push({
+                                MarksScored: "-",
+                                TotalMarks: "-",
+                                IsAbsent: "N"
+                            })
+                            // }
 
-                rows.push({
-                    TestName: Test.Test_Name,
-                    MarksArr: columns
+                            columns.push({
+                                MarksScored: `-`,
+                                TotalMarks: "-",
+                                IsAbsent: "N"
+                            })
+                        }
+                    }
+
+
+                    // }
+                    rows.push({
+                        TestName: Test.Test_Name,
+                        MarksArr: columns
+                    })
                 })
-            })
-            console.log(HeaderArray, "HeaderArray", SubHeaderArray, "SubHeaderArray");
+            //show grade column
+            if (data1 == "True") {
+                SubHeaderArray.push({ TestTypeName: "Total" })
+                SubHeaderArray.push({ TestTypeName: "Total" })
+                SubHeaderArray.push({ TestTypeName: "%" })
+                SubHeaderArray.push({ TestTypeName: "Grade" })
+            }
 
             dispatch(FinalResultGenerateAllSlice.actions.ShowHeader(HeaderArray));
             dispatch(FinalResultGenerateAllSlice.actions.ShowSubHeader(SubHeaderArray));
             dispatch(FinalResultGenerateAllSlice.actions.ShowData(rows));
+
             dispatch(FinalResultGenerateAllSlice.actions.getListDisplayNameDetails(response.data.ListDisplayNameDetails));
-
-
-            response.data.ListSubjectidDetails.map((Item) => {
-
-            })
 
             let abc = response.data.listStudentsDetails.map((item, i) => {
                 return {
@@ -192,6 +479,8 @@ export const StudentDetailsGA =
                     Text3: item.Standard_Name,
                     Text4: item.Division_Name,
                     Text5: item.Academic_Year,
+                    School_Name: item.School_Name,
+                    School_Orgn_Name: item.School_Orgn_Name,
                     standardDivId: item.Standard_Division_Id
                 };
             });

@@ -32,6 +32,7 @@ import {
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
+import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import { IGetUserDetailsBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import {
   ClassTechersList,
@@ -51,14 +52,13 @@ import {
   resetPublishResult,
   resetUnpublishResult
 } from 'src/requests/FinalResult/RequestFinalResult';
+import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { Column } from '../DataTable';
 import FinalResultTable from './FinalResultTable';
-import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
-import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 const FinalResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -147,9 +147,9 @@ const FinalResult = () => {
 
   );
 
-  const [StandardDivisionId, setStandardDivisionId] = useState((FinalResultFullAccess === 'Y' ? '0' : StandardDivisionIdse) );
+  const [StandardDivisionId, setStandardDivisionId] = useState((FinalResultFullAccess === 'Y' ? '0' : StandardDivisionIdse));
 
-  
+
   const buttonsDisabled = StandardDivisionId === '0';
   const HeaderList = [
     'Roll No.',
@@ -238,7 +238,7 @@ const FinalResult = () => {
       renderCell: (row) => row.grace
     }
   ], [GetResultGenerated, buttonsDisabled]);
-  
+
   const IconList = [
     {
       Id: 1,
@@ -255,7 +255,7 @@ const FinalResult = () => {
   // const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   // const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
-  
+
   const GetStudentLists = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList
   );
@@ -265,18 +265,18 @@ const FinalResult = () => {
   const GeneratedNA = GetStudentLists.map((item) => item.Is_ResultGenrated)
   const Bot = GeneratedNA[0];
 
-  const GetStudentLists1 : any  = useSelector(
+  const GetStudentLists1: any = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList1
   );
 
   const notGeneratedCount = GetStudentLists1.NotGenratedResultCount;
-  
+
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
 
   const BlockExamPublish = UsGetSchoolSettings?.GetSchoolSettingsResult?.BlockExamPublish || '';
   const ShowTopppers = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowTopppers || '';
 
-console.log(BlockExamPublish,"-Test-",ShowTopppers);
+  console.log(BlockExamPublish, "-Test-", ShowTopppers);
 
 
   const PublishResult = useSelector(
@@ -539,12 +539,12 @@ console.log(BlockExamPublish,"-Test-",ShowTopppers);
 
   const standardId = getstandardId();
 
- 
+
 
   useEffect(() => {
     if (StandardDivisionId1 !== undefined)
       setStandardDivisionId(StandardDivisionId1);
-  }, [GetClassTeachers]);
+  }, []);
 
 
 
@@ -554,10 +554,10 @@ console.log(BlockExamPublish,"-Test-",ShowTopppers);
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
   }, []);
 
- 
 
-  console.log(GetResultGenerated ,"-t-" ,GetAtleastOneResultGenerated.AllowPublish );
-  
+
+  console.log(GetResultGenerated, "-t-", GetAtleastOneResultGenerated.AllowPublish);
+
 
   const Toppers = (value) => {
     navigate('/extended-sidebar/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
@@ -868,10 +868,10 @@ console.log(BlockExamPublish,"-Test-",ShowTopppers);
                     <span>
                       <IconButton
                         onClick={() => onClickPublish(true)}
-                        disabled={(GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false )||(BlockExamPublish || buttonsDisabled  ) }
+                        disabled={(GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false) || (BlockExamPublish || buttonsDisabled)}
                         sx={{
                           color: 'white',
-                          backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false )||(BlockExamPublish || buttonsDisabled  ) ? blue[200] : blue[500],
+                          backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false) || (BlockExamPublish || buttonsDisabled) ? blue[200] : blue[500],
                           '&:hover': {
                             backgroundColor: blue[600]
                           },
@@ -915,29 +915,29 @@ console.log(BlockExamPublish,"-Test-",ShowTopppers);
 
             {
               ShowTopppers == true ?
-              <Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
-              <span>
-                <IconButton
-                  onClick={Toppers}
-                  disabled={(GetResultGenerated == false && GetAtleastOneResultGenerated.AllowPublish == false) || buttonsDisabled }
-                  sx={{
-                    color: 'white',
-                    backgroundColor: blue[500],
-                    '&:hover': {
-                      backgroundColor: blue[600]
-                    },
-                    ...((GetResultGenerated == false && GetAtleastOneResultGenerated.AllowPublish == false)|| buttonsDisabled  ) && {
-                      pointerEvents: 'none'
-                    }
-                  }}
-                >
+                <Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
+                  <span>
+                    <IconButton
+                      onClick={Toppers}
+                      disabled={(GetResultGenerated == false && GetAtleastOneResultGenerated.AllowPublish == false) || buttonsDisabled}
+                      sx={{
+                        color: 'white',
+                        backgroundColor: blue[500],
+                        '&:hover': {
+                          backgroundColor: blue[600]
+                        },
+                        ...((GetResultGenerated == false && GetAtleastOneResultGenerated.AllowPublish == false) || buttonsDisabled) && {
+                          pointerEvents: 'none'
+                        }
+                      }}
+                    >
 
-                  <WorkspacePremiumIcon />
-                </IconButton>
-              </span>
-            </Tooltip> : <span></span>
+                      <WorkspacePremiumIcon />
+                    </IconButton>
+                  </span>
+                </Tooltip> : <span></span>
             }
-           
+
 
 
 

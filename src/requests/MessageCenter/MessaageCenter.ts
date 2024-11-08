@@ -112,115 +112,115 @@ const MessageCenterSlice = createSlice({
 
 export const getTrashList =
   (data?: IgetList): AppThunk =>
-  async (dispatch) => {
-    dispatch(MessageCenterSlice.actions.getLoading(true));
-    dispatch(MessageCenterSlice.actions.getFilterData(false));
-    const response = await MessageCenterApi.GetTrashList(data);
-    dispatch(MessageCenterSlice.actions.getTrashList(response.data));
-  };
+    async (dispatch) => {
+      dispatch(MessageCenterSlice.actions.getLoading(true));
+      dispatch(MessageCenterSlice.actions.getFilterData(false));
+      const response = await MessageCenterApi.GetTrashList(data);
+      dispatch(MessageCenterSlice.actions.getTrashList(response.data));
+    };
 
 export const getNextPageTrashList =
   (data: IgetList): AppThunk =>
-  async (dispatch) => {
-    dispatch(MessageCenterSlice.actions.getLoading(true));
-    dispatch(MessageCenterSlice.actions.getFilterData(true));
-    const response = await MessageCenterApi.GetTrashList(data);
-    dispatch(MessageCenterSlice.actions.getTrashList(response.data));
-  };
+    async (dispatch) => {
+      dispatch(MessageCenterSlice.actions.getLoading(true));
+      dispatch(MessageCenterSlice.actions.getFilterData(true));
+      const response = await MessageCenterApi.GetTrashList(data);
+      dispatch(MessageCenterSlice.actions.getTrashList(response.data));
+    };
 
 export const getYearsList =
   (data: Iyears): AppThunk =>
-  async (dispatch) => {
-    const response = await filterApi.getyears(data);
-    dispatch(MessageCenterSlice.actions.getYearsList(response.data));
-  };
+    async (dispatch) => {
+      const response = await filterApi.getyears(data);
+      dispatch(MessageCenterSlice.actions.getYearsList(response.data));
+    };
 export const getAcademicYearList =
   (data: Iyears): AppThunk =>
-  async (dispatch) => {
-    const response = await filterApi.getyears(data);
-    const data2 = response.data.GetAcademicYearsResult.map((item) => {
-      return {
-        Name: item.AcademicYearName,
-        Value: item.AcademicYearId
-      };
-    });
-    dispatch(MessageCenterSlice.actions.getAcademicYearList(data2));
-  };
+    async (dispatch) => {
+      const response = await filterApi.getyears(data);
+      const data2 = response.data.GetAcademicYearsResult.map((item) => {
+        return {
+          Name: item.AcademicYearName,
+          Value: item.AcademicYearId
+        };
+      });
+      dispatch(MessageCenterSlice.actions.getAcademicYearList(data2));
+    };
 
 export const getAllMonthList =
   (data: IGetAllMonths): AppThunk =>
-  async (dispatch) => {
-    const response = await filterApi.getmonths(data);
-    dispatch(MessageCenterSlice.actions.getAllMonthList(response.data));
-  };
+    async (dispatch) => {
+      const response = await filterApi.getmonths(data);
+      dispatch(MessageCenterSlice.actions.getAllMonthList(response.data));
+    };
 
 export const getMonthYearList =
   (data: IGetAllMonths): AppThunk =>
-  async (dispatch) => {
-    const response = await filterApi.getmonths(data);
-    const data2 = response.data.GetAllMonthDetailsResult.map((item) => {
-      return {
-        Name: item.Name,
-        Value: item.MonthId
-      };
-    });
-    dispatch(MessageCenterSlice.actions.getMonthYearList(data2));
-  };
+    async (dispatch) => {
+      const response = await filterApi.getmonths(data);
+      const data2 = response.data.GetAllMonthDetailsResult.map((item) => {
+        return {
+          Name: item.Name,
+          Value: item.MonthId
+        };
+      });
+      dispatch(MessageCenterSlice.actions.getMonthYearList(data2));
+    };
 
 export const getTeacherList =
   (data: IUserGroupList): AppThunk =>
-  async (dispatch) => {
-    const response = await MessageCenterApi.GetUsegroupList(data);
-    dispatch(MessageCenterSlice.actions.getTeacherList(response.data));
-  };
+    async (dispatch) => {
+      const response = await MessageCenterApi.GetUsegroupList(data);
+      dispatch(MessageCenterSlice.actions.getTeacherList(response.data));
+    };
 
 export const getAdminstaffList =
   (data: IUserGroupList): AppThunk =>
-  async (dispatch) => {
-    const response = await MessageCenterApi.GetUsegroupList(data);
-    dispatch(MessageCenterSlice.actions.getAdminstaffList(response.data));
-  };
+    async (dispatch) => {
+      const response = await MessageCenterApi.GetUsegroupList(data);
+      dispatch(MessageCenterSlice.actions.getAdminstaffList(response.data));
+    };
 
 export const GetEmailSettings =
   (data: IGetUserEmailSettingsBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(MessageCenterSlice.actions.getLoading(true));
-    const response = await MessageCenterApi.EmailSettingsapi(data);
-    dispatch(MessageCenterSlice.actions.GetEmailSettings(response.data));
-  };
+    async (dispatch) => {
+      // dispatch(MessageCenterSlice.actions.getLoading(true));
+      const response = await MessageCenterApi.EmailSettingsapi(data);
+      dispatch(MessageCenterSlice.actions.GetEmailSettings(response.data));
+    };
 
 export const UpdateUserEmailSetting =
   (data: IUpdateUserEmailSettingBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(MessageCenterSlice.actions.getLoading(true));
-    const response = await MessageCenterApi.UpdateUserEmailSettingapi(data);
-    dispatch(MessageCenterSlice.actions.UpdateUserEmailSetting(response.data));
-  };
+    async (dispatch) => {
+      // dispatch(MessageCenterSlice.actions.getLoading(true));
+      const response = await MessageCenterApi.UpdateUserEmailSettingapi(data);
+      dispatch(MessageCenterSlice.actions.UpdateUserEmailSetting(response.data));
+    };
 export const ResetUpdateUserEmailSetting = (): AppThunk => async (dispatch) => {
   dispatch(MessageCenterSlice.actions.ResetUpdateUserEmailSetting());
 };
 export const ContactGroupUsers =
   (data: IContactGRPUsersBody): AppThunk =>
-  async (dispatch) => {
-    const response = await MessageCenterApi.ContactGRPUsers(data);
-    dispatch(
-      MessageCenterSlice.actions.getContactgrpUsers(
-        response.data.ContactGroupUserIds
-      )
-    );
-  };
+    async (dispatch) => {
+      const response = await MessageCenterApi.ContactGRPUsers(data);
+      dispatch(
+        MessageCenterSlice.actions.getContactgrpUsers(
+          response.data.ContactGroupUserIds
+        )
+      );
+    };
 export const ReadReceiptDetail =
   (data: IGetReadReceiptDetailsBody): AppThunk =>
-  async (dispatch) => {
-    const response = await MessageCenterApi.GetReadReceiptDetails(data);
-    dispatch(MessageCenterSlice.actions.getReadReceiptDetails(response.data));
-  };
+    async (dispatch) => {
+      const response = await MessageCenterApi.GetReadReceiptDetails(data);
+      dispatch(MessageCenterSlice.actions.getReadReceiptDetails(response.data));
+    };
 export const ReadUnReadstatus =
   (data: IUpdateMessageReadUnreadStatusBody): AppThunk =>
-  async (dispatch) => {
-    const response = await MessageCenterApi.GetReadUnReadStatus(data);
-    dispatch(MessageCenterSlice.actions.getReadUnReadStatus(response.data));
-  };
+    async (dispatch) => {
+      const response = await MessageCenterApi.GetReadUnReadStatus(data);
+      dispatch(MessageCenterSlice.actions.getReadUnReadStatus(response.data));
+    };
 export const resetMessageReadUnReadstatus =
   (): AppThunk => async (dispatch) => {
     dispatch(MessageCenterSlice.actions.resetMessage());

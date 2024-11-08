@@ -159,12 +159,12 @@ console.log( findRow1()," findRow1()");
                 <TableHead>
                     {HeaderParent.length > 1 && (
                         <>
-                            <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'left' }}>
+                            <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                                 <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
-                                    <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5}>
+                                    <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={0}>
                                         Subjects &#9654;
                                     </Typography>
-                                    <Typography variant={"h3"} textAlign={'left'} color={"black"}>
+                                    <Typography variant={"h3"} textAlign={'center'} color={"black"}>
                                         &#9660; Exam
                                     </Typography>
                                 </TableCell>
@@ -172,9 +172,9 @@ console.log( findRow1()," findRow1()");
                                     <TableCell
                                         key={index}
                                         colSpan={item.Total_Consideration == 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
-                                        sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'left', minWidth:'130px' }}
+                                        sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth:'130px' }}
                                     >
-                                        <Typography color="black" textAlign="left" mr={0}>
+                                        <Typography color="black" textAlign="center" mx={0}>
                                              <b style={{ marginRight: "0px" }}>
                                                  {item.Subject_Name} 
                                          {item.Is_CoCurricularActivity == "True" && (
@@ -188,23 +188,23 @@ console.log( findRow1()," findRow1()");
                                      {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
                                     <>
                                         <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
-                                            <Typography color="#38548A" textAlign={'left'} px={3}>
+                                            <Typography color="black" textAlign={'center'} px={3}>
                                                 <b>Total</b>
                                             </Typography>
                                         </TableCell>
                                         <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
-                                            <Typography color="#38548A" textAlign={'left'} px={1}>
+                                            <Typography color="black" textAlign={'center'} px={1}>
                                                 <b>%</b>
                                             </Typography>
                                         </TableCell>
-                                        <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}} >
-                                            <Typography color="#38548A" textAlign={'left'} px={1}>
+                                        <TableCell rowSpan={3} sx={{minWidth:'140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`}} >
+                                            <Typography color="black" textAlign={'center'} px={0}>
                                                 <b>Grade</b>
                                             </Typography>
                                         </TableCell>
                                     </>}
                             </TableRow>
-                            <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'left' }}>
+                            <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                                 {findRow2()?.map((item, index) => (
                                     <>
                                         {index > 0 && findRow2()[index - 1].Parent_Subject_Id !== "0" && item.Parent_Subject_Id === '0' && (
@@ -212,16 +212,17 @@ console.log( findRow1()," findRow1()");
                                             {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
                                                 {ListTestTypeIdDetails?.map((item1, i) => {
                                                     return (
-                                                        <TableCell key={i} rowSpan={2} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography  textAlign={'left'} mr={0} sx={{color:'#38548A', fontWeight: '800' }}>Total {item1.Text2}</Typography></TableCell>
+                                                        <TableCell key={i} rowSpan={2}   sx={{ minWidth:'120px',textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  
+                                                        <Typography  textAlign={'center'} sx={{color:'black', fontWeight: '700' }}>Total {item1.Text2}</Typography></TableCell>
                                                     )
                                                 })}
                                                 {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                                                    <TableCell rowSpan={2} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'left'} mr={4}>Total</Typography></TableCell>}
+                                                    <TableCell rowSpan={2} sx={{textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>  <Typography sx={{ fontWeight: '700' }} color="black" textAlign={'center'} mr={4}>Total</Typography></TableCell>}
                                             </>
                                         )}
                                          {item.Subject_Name !== '' &&
-                                        <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'left',  }}>
-                                            <Typography color="black" textAlign={'left'} mr={0}>
+                                        <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`,   }}>
+                                            <Typography color="black" textAlign={'center'} mr={0}>
                                                 <b style={{ marginRight: "5px" }}>{item.Subject_Name}
                                                 {item.Is_CoCurricularActivity == "True" && (
                                               <span style={{ color: 'red' }}>*</span>
@@ -243,18 +244,18 @@ console.log( findRow1()," findRow1()");
                         </>
                     )}
                     {HeaderParent.length <= 1 && (
-                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'left' }}>
+                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                             <TableCell rowSpan={2} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
-                                <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5}>
+                                <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={0}>
                                     Subjects &#9654;
                                 </Typography>
-                                <Typography variant={"h3"} textAlign={'left'} color={"black"}>
+                                <Typography variant={"h3"} textAlign={'center'} color={"black"}>
                                     &#9660; Exam
                                 </Typography>
                             </TableCell>
                             {findRow1().map((item, index) => (
-                                <TableCell key={index} colSpan={item.colSpan} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'left', minWidth:'180px' }}>
-                                    <Typography color="black" textAlign={'left'} mr={0}>
+                                <TableCell key={index} colSpan={item.colSpan} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth:'180px' }}>
+                                    <Typography color="black" textAlign={'center'} mr={0}>
                                         <b style={{ marginRight: "5px" }}>{item.Subject_Name} 
 
                                         {item.Is_CoCurricularActivity == "True" && (
@@ -267,17 +268,17 @@ console.log( findRow1()," findRow1()");
                                    {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
                                     <>
                                         <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
-                                            <Typography color="#38548A" textAlign={'left'} px={3}>
+                                            <Typography color="black" textAlign={'center'} px={2}>
                                                 <b>Total</b>
                                             </Typography>
                                         </TableCell>
                                         <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
-                                            <Typography color="#38548A" textAlign={'left'} px={3}>
+                                            <Typography color="black" textAlign={'center'} px={2}>
                                                 <b>%</b>
                                             </Typography>
                                         </TableCell>
                                         <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
-                                            <Typography color="#38548A" textAlign={'left'} px={5}>
+                                            <Typography color="black" textAlign={'center'} px={2}>
                                                 <b>Grade</b>
                                             </Typography>
                                         </TableCell>
@@ -291,14 +292,14 @@ console.log( findRow1()," findRow1()");
                             <>
                                 {/* Render the normal TableCell */}
                                 {showTestTypeDetails() && <TableCell key={index} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`,  backgroundColor: blue[50]}}>
-                                    <Typography color="#38548A" textAlign={'left'} mr={0}>
+                                    <Typography color="#38548A" textAlign={'center'} mr={0}>
                                         <b style={{ marginRight: "5px" }}>{item.ShortenTestType_Name}</b>
                                     </Typography>
                                 </TableCell>}
                                 {/* Add a 'Total' TableCell after every dynamic number of cells */}
                                 {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && (index + 1) % ListTestTypeIdDetails.length === 0 && (
                                     <TableCell key={`total-${index}`} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`,  backgroundColor: blue[50]}}>
-                                        <Typography color="#38548A" textAlign={'left'} mr={0}>
+                                        <Typography color="#38548A" textAlign={'center'} mr={0}>
                                             <b>Total</b>
                                         </Typography>
                                     </TableCell>
@@ -309,7 +310,7 @@ console.log( findRow1()," findRow1()");
                             <>
                                 {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' &&
                                     <TableCell key={i} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`,  backgroundColor: blue[50]}}>
-                                        <Typography color="#38548A" textAlign={'left'} mr={0}>
+                                        <Typography color="#38548A" textAlign={'center'} mr={0}>
                                             <b>Grade</b>
                                         </Typography>
                                     </TableCell>
@@ -320,13 +321,13 @@ console.log( findRow1()," findRow1()");
                 </TableHead>
 
                 {MarkDetailsList.map((testItem, i) => (
-    <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'left',  }}>
+    <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center',  }}>
         <TableRow >
-            <TableCell sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>
+            <TableCell sx={{minWidth:'200px', textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`,  }}>
                 <b>{testItem.TestName || '-'}</b>
             </TableCell>
             {testItem.MarksArr.map((MarkItem, index) => (
-                <TableCell key={index} sx={{ backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`}} >
+                <TableCell key={index} sx={{textAlign:'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`}} >
                     {MarkItem == null || MarkItem?.MarksScored == ''
                         ? '-'   
                         : (MarkItem?.IsAbsent !== 'N'

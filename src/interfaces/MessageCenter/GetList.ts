@@ -96,6 +96,7 @@ export interface GetScheduledSMSResult {
       Id: number;
       PageLabel: string;
       CcUserName: string;
+      TotalCountLabel: string;
     }
   ];
   UnreadMessagesCount: {
@@ -103,7 +104,8 @@ export interface GetScheduledSMSResult {
     IsBdayApplicable: boolean
     CurrentYearDOB: string
     IsLockedUser: boolean
-  }
+  },
+  TotalCountLabel: string
 }
 export interface IUpdateReadReceiptStatusBody {
   asSchoolId: string;

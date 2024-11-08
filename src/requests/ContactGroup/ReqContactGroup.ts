@@ -47,9 +47,17 @@ const ContactGroupSlice = createSlice({
         RlistGetUserNameCount(state, action) {
             state.IlistGetUserNameCount = action.payload;
         },
+        // RDeleteMailGroupMsg(state, action) {
+        //     state.Loading = false;
+        //     state.IDeleteMailGroupMsg = action.payload;
+        // },
         RDeleteMailGroupMsg(state, action) {
             state.Loading = false;
             state.IDeleteMailGroupMsg = action.payload;
+        },
+        resetDeleteMailGroupMsg(state) {
+            state.Loading = false;
+            state.IDeleteMailGroupMsg = '';
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -137,12 +145,21 @@ export const resetAddUpdateGroup = (): AppThunk => async (dispatch) => {
     dispatch(ContactGroupSlice.actions.resetAddUpdateGroup());
 };
 
-export const CDADeleteMailGroup = (data: IDeleteMailGroupBody): AppThunk => async (dispatch) => {
+// export const CDADeleteMailGroup = (data: IDeleteMailGroupBody): AppThunk => async (dispatch) => {
+//     dispatch(ContactGroupSlice.actions.getLoading(true));
+//     const response = await ContactGroupApi.DeleteGroupApi(data);
+//     dispatch(ContactGroupSlice.actions.RDeleteMailGroupMsg(response.data));
+// };
+
+export const CDADeleteMailGroupMsg = (data: IDeleteMailGroupBody): AppThunk => async (dispatch) => {
     dispatch(ContactGroupSlice.actions.getLoading(true));
     const response = await ContactGroupApi.DeleteGroupApi(data);
     dispatch(ContactGroupSlice.actions.RDeleteMailGroupMsg(response.data));
 };
 
+export const resetDeleteMailGroupMsg = (): AppThunk => async (dispatch) => {
+    dispatch(ContactGroupSlice.actions.resetDeleteMailGroupMsg());
+};
 
 
 export default ContactGroupSlice.reducer;

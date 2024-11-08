@@ -1,6 +1,4 @@
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, ClickAwayListener, Grid, IconButton, List, Tooltip } from '@mui/material';
+import { Avatar, Box, ClickAwayListener, Grid, List, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import CheckboxImg from '../card/CheckboxImg';
 import { ItemSize } from '../styled/CardStyle';
@@ -16,11 +14,14 @@ const CheckboxCard = ({ Item, onClick }) => {
   const onChange = () => {
     onClick({ Id: Item.Id, isActive: !Item.isActive });
   };
+  // const OnShowEditDelete = () => {
+
+  // };
 
   return (
     <Box>
-      <List sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, py: 0.2, }}>
-        <Box sx={{ display: 'flex' }}>
+      <List sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, py: 0.2 }}>
+        <Box sx={{ display: 'flex', mt: 0 }}>
           <CheckboxImg
             name={Item.Name}
             value={Item.Value}
@@ -30,7 +31,9 @@ const CheckboxCard = ({ Item, onClick }) => {
             IsExamSubmitted={Item.IsExamSubmitted}
           />
           {Item.IsAllDeactivated ? (
-            <ItemSize>{Item.Name}</ItemSize>
+            // <ItemSize>{Item.Name}</ItemSize>
+            <Box sx={{ display: 'flex', mt: 1 }}>
+              {Item.Name} </Box>
           ) : (
             <>
               <Grid item container xs={12}>
@@ -77,19 +80,22 @@ const CheckboxCard = ({ Item, onClick }) => {
                 </ClickAwayListener>
 
               </Grid>
-              <Grid container>
+              {/* <Grid container>
                 <Grid item xs={3}>
                   <IconButton
-                  // onClickEdit={() => onClick({ Id: Item.Id, isActive: !Item.isActive })}
-                  ><EditIcon /></IconButton>
-                </Grid>
-                <Grid item xs={3}>
-                  <IconButton
-                  // onClickDelete={() => onClick({ Id: Item.Id, isActive: !Item.isActive })}
+                  //onClickEdit={() => onClick({ Id: Item.Id, isActive: !Item.isActive })}
                   >
-                    <DeleteForeverIcon /></IconButton>
+                    <EditIcon />
+                  </IconButton>
                 </Grid>
-              </Grid>
+                <Grid item xs={3}>
+                  <IconButton onClick={() => onClick({ Id: Item.Id, isActive: !Item.isActive })}>
+
+                    <DeleteForeverIcon />
+
+                  </IconButton>
+                </Grid>
+              </Grid> */}
             </>
           )}
         </Box>

@@ -129,11 +129,12 @@ export const getListOfMessages =
             ReceiverDetailsId: item.ReceiverDetailsId,
             IsSchedule: isFutureDateTime(msgDate),
             HasReadReceipt: item.HasReadReceipt,
-            RequestReadReceipt: item.RequestReadReceipt
+            RequestReadReceipt: item.RequestReadReceipt,
+            TotalCountLabel: item.TotalCountLabel
           };
         });
         data = data === undefined ? [] : data;
-
+        dispatch(InboxMessageSlice.actions.getTotalCountLabel(response.data?.TotalCountLabel));
         if (Pagination == true) {
           dispatch(InboxMessageSlice.actions.NextMessages(data));
         }
@@ -159,7 +160,8 @@ export const getListOfMessages =
               ReceiverDetailsId:
                 item.ReceiverDetailsId === '0'
                   ? item.DetailsId
-                  : item.ReceiverDetailsId
+                  : item.ReceiverDetailsId,
+              TotalCountLabel: item.TotalCountLabel
             };
           });
         }
@@ -189,6 +191,7 @@ export const getListOfMessages =
             ReceiverDetailsId: item.Id
           };
         });
+        dispatch(InboxMessageSlice.actions.getTotalCountLabel(response.data.TotalCountLabel));
         if (Pagination == true) {
           dispatch(InboxMessageSlice.actions.NextMessages(data));
         }

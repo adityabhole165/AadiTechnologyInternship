@@ -1,5 +1,5 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,12 +7,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
     IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
-import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import {
     StudentDetailsGA,
     UpdateStudentTestMarks, ViewResultGA
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
-import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -38,6 +36,7 @@ const GenerateAll = ({ }) => {
     const HeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.HeaderArray);
     const SubHeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.SubHeaderArray);
     const ShortenTestDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getShortenTestDetails);
+    const EntireDataList: any = useSelector((state: RootState) => state.FinalResultGenerateAll.EntireDataList);
     const ListDisplayNameDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.ListDisplayNameDetails);
     console.log(ListDisplayNameDetails, "rows");
 
@@ -55,6 +54,8 @@ const GenerateAll = ({ }) => {
     useEffect(() => {
         if (UsGetSchoolSettings != null)
             setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+        console.log(IsTotalConsiderForProgressReport, "IsTotalConsiderForProgressReport ✅✅✅✅");
+        // setIsTotalConsiderForProgressReport('False');
     }, [UsGetSchoolSettings])
 
     const getListDisplayName = (ShortName) => {
@@ -66,6 +67,101 @@ const GenerateAll = ({ }) => {
         return returnVal
 
     }
+
+    // #region Parent Header 
+    const [dataList, setDataList] = useState<any>({});
+    const [hasParentHeader, setHasParentHeader] = useState(false);
+    useEffect(() => {
+        setDataList(EntireDataList);
+        console.log(dataList, "dataList");
+        if (EntireDataList?.listSubjectsDetails?.find((item) => item.Parent_Subject_Id !== '0')) {
+            setHasParentHeader(true);
+        } else {
+            setHasParentHeader(false);
+        }
+    }, [EntireDataList]);
+    function showTestTypeDetails() {
+        let flag = false;
+        if (dataList.ListTestTypeIdDetails?.length === 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+            return false;
+        } else if (dataList.ListTestTypeIdDetails?.length === 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+            return true;
+        } else if (dataList.ListTestTypeIdDetails?.length > 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+            return true;
+        } else if (dataList.ListTestTypeIdDetails?.length > 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+            return true;
+        }
+    }
+    function getColSpan(subId) {
+        let colSpan = 1;
+        let subMatchLength = dataList.ListSubjectidDetails.filter((itemFind) => itemFind.Subject_Id === subId).length
+        if (IsTotalConsiderForProgressReport.toLowerCase() === "true") {
+            colSpan = (showTestTypeDetails() ? subMatchLength : 0) + (subMatchLength !== 1 && 1);  // 🚩
+            return colSpan;
+        } else if (IsTotalConsiderForProgressReport.toLowerCase() === "false") {
+            colSpan = subMatchLength;
+            return colSpan;
+        }
+    }
+    function findName(Id) {
+        // Safeguard: Check if data.listTestIdDetails exists and filter properly
+        if (!Array.isArray(dataList.listTestidDetails)) return 'No Name Available';
+
+        const list1 = dataList.listTestidDetails.filter((item) => item.Parent_Subject_Id === Id);
+
+        if (list1.length >= 1 && list1[0].Parent_Subject_Name) {
+            return list1[0].Parent_Subject_Name; // Return the found Parent_Subject_Name
+        }
+        return 'No Name Available'; // Fallback if no valid name is found
+    }
+    function parentSubColSpan(parentSubId) {
+        let colSpan = 1;
+        let filteredArr = dataList.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === parentSubId);
+        if (IsTotalConsiderForProgressReport.toLowerCase() === "true") {
+            if (dataList.ListTestTypeIdDetails?.length === 1) {
+                colSpan = (filteredArr.length) + (dataList.ListTestTypeIdDetails?.length + 1);  // 3 + ( 1 + 1 ) 
+                return colSpan;
+            } else {
+                colSpan = (filteredArr.length + 1) * (dataList.ListTestTypeIdDetails?.length + 1);  // 3 + 1 * ( 1 + 1 ) 
+                return colSpan;
+            }
+        } else if (IsTotalConsiderForProgressReport.toLowerCase() === "false") {
+            colSpan = (filteredArr.length + 1) * dataList.ListTestTypeIdDetails?.length;
+            return colSpan;
+        }
+    }
+    function findRow1() {
+        let ParentSubArr = [];
+        let ans = [];
+
+        dataList.listSubjectsDetails?.map((item) => {
+            if (item.Parent_Subject_Id === '0') { // For top-level subjects
+                ans.push({ ...item, rowSpan: 2, colSpan: getColSpan(item.Subject_Id) }); // Corrected push syntax //3
+            } else if (!ParentSubArr.includes(item.Parent_Subject_Id)) { // For child subjects with unique Parent_Subject_Id
+                ParentSubArr.push(item.Parent_Subject_Id);
+                console.log(item.Parent_Subject_Id);
+                ans.push({
+                    ...item,
+                    Subject_Name: findName(item.Parent_Subject_Id),
+                    rowSpan: 1,
+                    colSpan: parentSubColSpan(item.Parent_Subject_Id)
+                });
+            }
+            // No need for return since map is only used for iteration
+        });
+        console.log('ans ⭐⭐🦥🔥', ans);
+        return ans;
+    }
+    function findRow2() {
+        return dataList.listSubjectsDetails?.map((item) => {
+            if (item.Parent_Subject_Id === '0') { // Handle undefined or empty Parent_Subject_Id
+                return { ...item, Subject_Name: '', rowSpan: 1, colSpan: getColSpan(item.Subject_Id) };//3 };
+            } else {
+                return { ...item, rowSpan: 1, colSpan: getColSpan(item.Subject_Id) };//3 };
+            }
+        });
+    }
+    // #endregion
     useEffect(() => {
         const GetStudentPrrogressReportBody: IGetStudentPrrogressReportBody = {
             asSchoolId: Number(asSchoolId),
@@ -73,8 +169,9 @@ const GenerateAll = ({ }) => {
             asStudentId: Number(asStudentId),
             asUserId: Number(asUserId)
         };
-        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody));
-    }, []);
+
+        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
+    }, [IsTotalConsiderForProgressReport]);
 
     useEffect(() => {
         const GetViewResultBody: IViewBody = {
@@ -86,12 +183,8 @@ const GenerateAll = ({ }) => {
         dispatch(ViewResultGA(GetViewResultBody));
     }, []);
 
-    const GetSchoolSettings: GetSchoolSettingsBody = {
-        asSchoolId: Number(asSchoolId),
-    };
-    useEffect(() => {
-        dispatch(CDAGetSchoolSettings(GetSchoolSettings));
-    }, []);
+
+
     const onClickClose = () => {
         navigate('/extended-sidebar/Teacher/FinalResult');
     };
@@ -156,7 +249,15 @@ const GenerateAll = ({ }) => {
         })
         return returnVal
     }
-
+    function getRemarkForGradeCell(cellRemark) {
+        // html element type
+        let result: any;
+        let remarkList = dataList.ListDisplayNameDetails?.filter((item) => item.ShortName === cellRemark);
+        if (remarkList?.length > 0) {
+            result = <span style={{ color: `${remarkList[0]?.ForeColor}`, fontWeight: 'bold' }}>{remarkList[0]?.DisplayName}</span>;
+        }
+        return result;
+    }
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -198,17 +299,21 @@ const GenerateAll = ({ }) => {
                             <Box sx={{ background: 'white' }}>
                                 <Box>
                                     <hr />
-                                    <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
-                                        Pawar Public Charitable Trust's
-                                    </Typography>
-                                    <hr />
-                                    <Typography variant={"h3"} textAlign={'center'} color={"black"} mb={1}>
-                                        PAWAR PUBLIC SCHOOL
-                                    </Typography>
-                                    <hr />
-                                    <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
-                                        Progress Report
-                                    </Typography>
+                                    {StudentDetailsUS.map((item, index) => (
+                                        <div key={index}>
+                                            <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
+                                                {item.School_Orgn_Name}
+                                            </Typography>
+                                            <hr />
+                                            <Typography variant={"h3"} textAlign={'center'} color={"black"} mb={1}>
+                                                {item.School_Name}
+                                            </Typography>
+                                            <hr />
+                                            <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
+                                                Progress Report
+                                            </Typography>
+                                        </div>
+                                    ))}
                                     <Table>
                                         <TableBody>
                                             {StudentDetailsUS.map((item, i) => {
@@ -226,51 +331,190 @@ const GenerateAll = ({ }) => {
                                     <Box sx={{ overflowX: 'auto', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                         <Table>
                                             <TableHead>
-                                                <TableRow sx={{ bgcolor: '#F0F0F0' }}>
-                                                    <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                        <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={6} >
-                                                            Subjects &#9654;
-                                                        </Typography>
-                                                        <Typography variant={"h3"} textAlign={'left'} color={"black"}>
-                                                            &#9660; Exam
-                                                        </Typography></TableCell>
-                                                    {/* {SubjectDetails.map((item) => ( */}
-                                                    {HeaderArray.map((item) => (
-                                                        // <TableCell><b>{item.Name}</b></TableCell>
-                                                        <TableCell colSpan={item.colSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                            <Typography color="black" textAlign={'left'} mr={0}  >
-                                                                <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
-                                                            </Typography></TableCell>
-                                                    ))}
-                                                </TableRow>
-                                                <TableRow>
-                                                    {/* {ShortenTestDetails.map((item) => ( */}
-                                                    {SubHeaderArray.map((item) => (
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
-                                                            <Typography color="#38548A" textAlign={'left'} mr={2}  >
-                                                                <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
-                                                            </Typography>   
+                                                {hasParentHeader && (
+                                                    <>
+                                                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+                                                            <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={6}>
+                                                                    Subjects &#9654;
+                                                                </Typography>
+                                                                <Typography variant={"h3"} textAlign={'center'} color={"black"}>
+                                                                    &#9660; Exam
+                                                                </Typography>
+                                                            </TableCell>
+                                                            {findRow1().map((item, index) => (
+                                                                <TableCell
+                                                                    key={index}
+                                                                    colSpan={item.Total_Consideration == 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
+                                                                    sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center' }}
+                                                                >
+                                                                    <Typography color="black" textAlign="center" mr={0}>
+                                                                        <b style={{ marginRight: "0px" }}>
+                                                                            {item.Subject_Name}
+                                                                            {item.Is_CoCurricularActivity == "True" && (
+                                                                                <span style={{ color: 'red' }}>*</span>
+                                                                            )}
+                                                                        </b>
+                                                                    </Typography>
+
+                                                                </TableCell>
+                                                            ))}
+                                                            {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                                <>
+                                                                    <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                        <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                                            <b>Total</b>
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                    <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                        <Typography color="#38548A" textAlign={'center'} px={1}>
+                                                                            <b>%</b>
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                    <TableCell rowSpan={3} sx={{ minWidth: '160px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                                                                        <Typography color="#38548A" textAlign={'center'} px={0}>
+                                                                            <b>Grade</b>
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                </>}
+                                                        </TableRow>
+                                                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+                                                            {findRow2()?.map((item, index) => (
+                                                                <>
+                                                                    {index > 0 && findRow2()[index - 1].Parent_Subject_Id !== "0" && item.Parent_Subject_Id === '0' && (
+                                                                        <>
+                                                                            {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
+                                                                            {dataList?.ListTestTypeIdDetails?.map((item1, i) => {
+                                                                                return (
+                                                                                    <TableCell key={i} rowSpan={2} sx={{ minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography textAlign={'center'} mr={0} sx={{ color: '#38548A', fontWeight: '800' }}>Total {item1?.ShortenTestType_Name}</Typography></TableCell>
+                                                                                )
+                                                                            })}
+                                                                            {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                                                <TableCell rowSpan={2} sx={{ minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'center'} mr={4}>Total</Typography></TableCell>}
+                                                                        </>
+                                                                    )}
+                                                                    {item.Subject_Name !== '' &&
+                                                                        <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', }}>
+                                                                            <Typography color="black" textAlign={'center'} mr={0}>
+                                                                                <b style={{ marginRight: "5px" }}>{item.Subject_Name}
+                                                                                    {item.Is_CoCurricularActivity == "True" && (
+                                                                                        <span style={{ color: 'red' }}>*</span>
+                                                                                    )}
+
+
+                                                                                </b>
+
+
+                                                                            </Typography>
+                                                                        </TableCell>}
+
+                                                                    {/* Check if the previous item has a parent and the current item doesn't */}
+
+                                                                </>
+                                                            ))}
+                                                        </TableRow>
+                                                    </>
+                                                )}
+                                                {!hasParentHeader && (
+                                                    <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+                                                        <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                            <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={5}>
+                                                                Subjects &#9654;
+                                                            </Typography>
+                                                            <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={5}>
+                                                                &#9660; Exam
+                                                            </Typography>
                                                         </TableCell>
+                                                        {findRow1().map((item, index) => (
+                                                            <TableCell key={index} colSpan={item.colSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth: '180px' }}>
+                                                                <Typography color="black" textAlign={'center'} mr={0}>
+                                                                    <b style={{ marginRight: "5px" }}>{item.Subject_Name}
+
+                                                                        {item.Is_CoCurricularActivity == "True" && (
+                                                                            <span style={{ color: 'red' }}>*</span>
+                                                                        )}
+                                                                    </b>
+                                                                </Typography>
+                                                            </TableCell>
+                                                        ))}
+                                                        {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                            <>
+                                                                <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                    <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                                        <b>Total</b>
+                                                                    </Typography>
+                                                                </TableCell>
+                                                                <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                    <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                                        <b>%</b>
+                                                                    </Typography>
+                                                                </TableCell>
+                                                                <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                    <Typography color="#38548A" textAlign={'center'} px={5}>
+                                                                        <b>Grade</b>
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            </>}
+                                                    </TableRow>
+                                                )}
+                                                <TableRow>
+                                                    {/* <TableCell></TableCell> ListTestTypeIdDetails */}
+                                                    {dataList.listSubjectsDetails?.map((item, index1) => (
+                                                        <>
+                                                            {dataList.ListSubjectidDetails.map((item2, index) => (
+                                                                <>
+                                                                    {item.Subject_Id === item2.Subject_Id &&
+                                                                        <TableCell key={index} sx={{ alignItems: 'center', minWidth: '120px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                            <Typography color="#38548A" textAlign={'center'} >
+                                                                                <b style={{ marginRight: "0px" }}>{item2.ShortenTestType_Name}</b>
+                                                                            </Typography>
+                                                                        </TableCell>
+                                                                    }
+                                                                </>
+                                                            ))}
+                                                            {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && dataList.ListSubjectidDetails.filter((itemFind) => itemFind.Subject_Id === item.Subject_Id).length > 1 && (
+                                                                <TableCell key={`total-${index1}`} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                    <Typography color="#38548A" textAlign={'center'} px={2}>
+                                                                        <b>Total</b>
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            )}
+                                                            {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' && !Boolean(dataList.ListSubjectidDetails.find((itemFind) => itemFind.Subject_Id === item.Subject_Id)) &&
+                                                                <TableCell key={index1} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                    <Typography color="#38548A" textAlign={'center'} mr={0}>
+                                                                        <b>Grade</b>
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            }
+                                                        </>
                                                     ))}
                                                 </TableRow>
                                             </TableHead>
 
-                                            {MarkDetailsList.map((testItem, i) => (
+                                            {MarkDetailsList.length > 0 && MarkDetailsList.map((testItem, i) => (
                                                 <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center', }}>
-                                                    <TableRow sx={{}}>
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                    <TableRow>
+                                                        <TableCell sx={{ alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                                             <b> {testItem.TestName}</b>
                                                         </TableCell>
 
                                                         {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell sx={{ backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
+                                                            <TableCell sx={{ alignItems: 'center', pl: 3, backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
                                                                 {
-                                                                    MarkItem.IsAbsent == "N" ? MarkItem.MarksScored === '-' ? '-' :
-                                                                        MarkItem.MarksScored + " / " + MarkItem.TotalMarks :
-                                                                        MarkItem.IsAbsent == "Y" ?
-                                                                            <TextField></TextField>
-                                                                            :
-                                                                            getListDisplayName(MarkItem.IsAbsent)}
+                                                                    !MarkItem
+                                                                        ? '-'
+                                                                        : (MarkItem?.MarksScored === ''
+                                                                            ? '-'
+                                                                            : (MarkItem?.IsAbsent !== 'N'
+                                                                                ? getRemarkForGradeCell(MarkItem.IsAbsent)
+                                                                                : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null
+                                                                                    ? '-'
+                                                                                    : MarkItem.MarksScored + (MarkItem.TotalMarks === "-" ? "" : (" / " + MarkItem.TotalMarks))
+                                                                                )
+                                                                            )
+                                                                        )
+                                                                }
+
                                                             </TableCell>
                                                         ))}
                                                     </TableRow>
@@ -349,11 +593,11 @@ const GenerateAll = ({ }) => {
                                 <Box sx={{ overflowX: 'auto', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                     <Table sx={{}}>
                                         <TableBody >
-                                            <TableRow sx={{bgcolor: '#F0F0F0'}}>
-                                                <TableCell sx={{  border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                <Typography variant={"h4"} textAlign={'center'} color={"black"}  ml={2}>
-                                                    Subjects
-                                                </Typography>
+                                            <TableRow sx={{ bgcolor: '#F0F0F0' }}>
+                                                <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                    <Typography variant={"h4"} textAlign={'center'} color={"black"} ml={2}>
+                                                        Subjects
+                                                    </Typography>
                                                 </TableCell>
                                                 {SubjectDetailsView.map((subject, i) => (
 
@@ -389,7 +633,7 @@ const GenerateAll = ({ }) => {
 
                                                         {IsTotalConsiderForProgressReport === "True" && TotalPerGradeView.map((totalData, index) => {
                                                             if (index === 0) {
-                                                                const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
+                                                                const matchingRemark = PercentageDetails?.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
                                                                 return (
                                                                     <>
                                                                         <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}>{totalData.TotalMarks}</TableCell>
