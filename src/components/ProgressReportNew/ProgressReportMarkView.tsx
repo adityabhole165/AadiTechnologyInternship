@@ -212,7 +212,8 @@ console.log( findRow1()," findRow1()");
                                             {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
                                                 {ListTestTypeIdDetails?.map((item1, i) => {
                                                     return (
-                                                        <TableCell key={i} rowSpan={2}   sx={{textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography  textAlign={'center'} mr={0} sx={{color:'black', fontWeight: '700' }}>Total {item1.Text2}</Typography></TableCell>
+                                                        <TableCell key={i} rowSpan={2}   sx={{ minWidth:'120px',textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  
+                                                        <Typography  textAlign={'center'} sx={{color:'black', fontWeight: '700' }}>Total {item1.Text2}</Typography></TableCell>
                                                     )
                                                 })}
                                                 {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
