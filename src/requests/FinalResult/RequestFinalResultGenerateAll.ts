@@ -147,7 +147,7 @@ export const StudentDetailsGA =
 
                 if (cell.Is_Absent === "N") {
                     console.log('this is cell', cell);
-                    if (response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true') {
+                    if (response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true1') {
                         returnVal = cell.Grade
                     } else {
                         returnVal = parseFloat(cell.Marks_Scored)
@@ -276,27 +276,27 @@ export const StudentDetailsGA =
 
                             HeaderCount += 1
                             let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
-                            if (showTestTypeDetails()) {  // 3 > !==1
-                                // Flag > 🚩
-                                // let Flag = SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' ? true : false;
-                                if (SubjectArray[SubjectIndex].Parent_Subject_Id === '0') {
-                                    // if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
-                                    //   returnVal = cell.Grade
-                                    // } else {
-                                    columns.push({
-                                        MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                                        TotalMarks: cell ? cell.Is_Absent == "N" ? response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
-                                        IsAbsent: cell ? cell.Is_Absent : "N"
-                                    })
-                                } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
-                                    columns.push({
-                                        MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
-                                        TotalMarks: cell ? cell.Is_Absent == "N" ? response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
-                                        IsAbsent: cell ? cell.Is_Absent : "N"
-                                    })
-                                }
-                                //#region  check
+                            // if (showTestTypeDetails()) {  // 3 > !==1
+                            // Flag > 🚩
+                            // let Flag = SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' ? true : false;
+                            if (SubjectArray[SubjectIndex].Parent_Subject_Id === '0') {
+                                // if (cell.Grade_Or_Marks.trim().toLowerCase() === 'g') {
+                                //   returnVal = cell.Grade
+                                // } else {
+                                columns.push({
+                                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                                    TotalMarks: cell ? cell.Is_Absent == "N" ? response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true1' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
+                                    IsAbsent: cell ? cell.Is_Absent : "N"
+                                })
+                            } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
+                                columns.push({
+                                    MarksScored: cell ? `${getListDisplayName(cell)}` : "-",
+                                    TotalMarks: cell ? cell.Is_Absent == "N" ? response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true1' ? cell.Grade : parseFloat(cell.TestType_Total_Marks) : "" : "-",
+                                    IsAbsent: cell ? cell.Is_Absent : "N"
+                                })
                             }
+                            //#region  check
+                            // }
 
                             if (TestIndex == 0) {
                                 SubHeaderArray.push({
@@ -326,7 +326,7 @@ export const StudentDetailsGA =
 
                                     const isConsiderForReport = data.IsTotalConsiderForProgressReport === "True";
                                     const isSingleSubject = subIdDetailsLength(Subject.Subject_Id) === 1;
-                                    const isGradeFormat = response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true'
+                                    const isGradeFormat = response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true1'
 
                                     // Determine marks or grade based on conditions
                                     const marksScored = isConsiderForReport && isSingleSubject
@@ -338,8 +338,8 @@ export const StudentDetailsGA =
                                         : isGradeFormat ? `${cell.TotalGrade}` : cell.Subject_Total_Marks;
 
                                     return {
-                                        MarksScored: marksScored,
-                                        TotalMarks: totalMarks,
+                                        MarksScored: `${marksScored}`,
+                                        TotalMarks: `${totalMarks}`,
                                         IsAbsent: cell.Is_Absent
                                     };
                                 };
@@ -353,7 +353,7 @@ export const StudentDetailsGA =
 
                             }
 
-                            if (TestTypeIndex == TestTypeCount - 1 && data1.toLowerCase() == "true") {
+                            if (TestTypeIndex == TestTypeCount - 1 && data1.toLowerCase() == "true" && subIdDetailsLength(Subject.Subject_Id) > 1) {
                                 columns.push(totalMarks);
                             }
 
@@ -422,7 +422,7 @@ export const StudentDetailsGA =
                                 }
                                 return flag;
                             }
-                            if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() === 'true' && showGradeHeader(Subject.Subject_Id)) {
+                            if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() === 'true1' && showGradeHeader(Subject.Subject_Id)) {
                                 columns.push({
                                     MarksScored: valArr.length > 0 ? `${valArr[0].Marks}` : '-',
                                     TotalMarks: "-",
@@ -508,19 +508,19 @@ export const StudentDetailsGA =
                                     (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
                                 );
 
-                                if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() !== 'true') {
-                                    columns.push({
-                                        MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
-                                        TotalMarks: Item.Subjects_Total_Marks,
-                                        IsAbsent: "N"
-                                    })
+                                // if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() !== 'true') {
+                                columns.push({
+                                    MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
+                                    TotalMarks: Item.Subjects_Total_Marks,
+                                    IsAbsent: "N"
+                                })
 
-                                    columns.push({
-                                        MarksScored: Item.Percentage + "%",
-                                        TotalMarks: "-",
-                                        IsAbsent: "N"
-                                    })
-                                }
+                                columns.push({
+                                    MarksScored: Item.Percentage + "%",
+                                    TotalMarks: "-",
+                                    IsAbsent: "N"
+                                })
+                                // }
 
                                 columns.push({
                                     MarksScored: `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
@@ -528,8 +528,31 @@ export const StudentDetailsGA =
                                     IsAbsent: "N"
                                 })
                             }
+
                         })
+                        if (Test.Test_Id === `-1`) {
+                            columns.push({
+                                MarksScored: `-`,
+                                TotalMarks: '-',
+                                IsAbsent: "N"
+                            })
+
+                            columns.push({
+                                MarksScored: "-",
+                                TotalMarks: "-",
+                                IsAbsent: "N"
+                            })
+                            // }
+
+                            columns.push({
+                                MarksScored: `-`,
+                                TotalMarks: "-",
+                                IsAbsent: "N"
+                            })
+                        }
                     }
+
+
                     // }
                     rows.push({
                         TestName: Test.Test_Name,

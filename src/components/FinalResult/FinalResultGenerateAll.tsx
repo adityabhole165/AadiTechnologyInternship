@@ -466,7 +466,7 @@ const GenerateAll = ({ }) => {
                                                             {dataList.ListSubjectidDetails.map((item2, index) => (
                                                                 <>
                                                                     {item.Subject_Id === item2.Subject_Id &&
-                                                                        <TableCell key={index} sx={{alignItems: 'center', minWidth:'100px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                        <TableCell key={index} sx={{ alignItems: 'center', minWidth: '100px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
                                                                             <Typography color="#38548A" textAlign={'center'} >
                                                                                 <b style={{ marginRight: "0px" }}>{item2.ShortenTestType_Name}</b>
                                                                             </Typography>
@@ -496,22 +496,27 @@ const GenerateAll = ({ }) => {
                                             {MarkDetailsList.map((testItem, i) => (
                                                 <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center', }}>
                                                     <TableRow>
-                                                        <TableCell sx={{alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                        <TableCell sx={{ alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                                             <b> {testItem.TestName}</b>
                                                         </TableCell>
 
                                                         {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell sx={{alignItems:'center', pl:3, backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
-                                                                {MarkItem == null || MarkItem?.MarksScored == ''
-                                                                    ? '-'
-                                                                    : (MarkItem?.IsAbsent !== 'N'
-                                                                        ? getRemarkForGradeCell(MarkItem.IsAbsent)
-                                                                        : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null
+                                                            <TableCell sx={{ alignItems: 'center', pl: 3, backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
+                                                                {
+                                                                    !MarkItem
+                                                                        ? '-'
+                                                                        : (MarkItem?.MarksScored === ''
                                                                             ? '-'
-                                                                            : MarkItem?.MarksScored + (MarkItem.TotalMarks === "-" ? "" : (" / " + MarkItem.TotalMarks))
+                                                                            : (MarkItem?.IsAbsent !== 'N'
+                                                                                ? getRemarkForGradeCell(MarkItem.IsAbsent)
+                                                                                : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null
+                                                                                    ? '-'
+                                                                                    : MarkItem.MarksScored + (MarkItem.TotalMarks === "-" ? "" : (" / " + MarkItem.TotalMarks))
+                                                                                )
+                                                                            )
                                                                         )
-                                                                    )
                                                                 }
+
                                                             </TableCell>
                                                         ))}
                                                     </TableRow>
