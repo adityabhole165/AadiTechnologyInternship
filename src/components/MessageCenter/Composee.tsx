@@ -822,19 +822,23 @@ function Form13() {
         </span> */}
         <Box sx={{ backgroundColor: 'white', px: 2, minHeight: '85vh' }}>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
+            <Grid container spacing={2}>
+              {/* <Grid item xs={12}>
                 <Typography variant="h4" pl={1}>
                   Form
                 </Typography>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} sm={8} md={9.5}>
                 {/* <FormControl fullWidth> */}
                 <TextField
                   multiline
                   id=""
                   fullWidth
-                  // rows={3}
+                  label={
+                    <span >
+                      Form
+                    </span>
+                  }
                   InputProps={{
                     readOnly: true
                   }}
@@ -843,19 +847,19 @@ function Form13() {
                   //   obj?.trim()
                   // ).join('; ')}
                   onChange={formik.handleChange}
-                  sx={{
-                    height: '50px',
-                    overflow: 'auto',
-                    border: '0.1px solid #c4c5c5',
-                    borderRadius: '7px'
-                  }}
+                // sx={{
+                //   height: '50px',
+                //   overflow: 'auto',
+                //   border: '0.1px solid #c4c5c5',
+                //   borderRadius: '7px'
+                // }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Typography variant="h4" pl={1}>
                   To
                 </Typography>
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} sm={8} md={9.5}>
                 {/* <FormControl fullWidth> */}
@@ -864,9 +868,9 @@ function Form13() {
                   // id=""
                   fullWidth
                   label={
-
-                    <span style={{ color: 'red' }}>*</span>
-
+                    <span>
+                      To <span style={{ color: 'red' }}>*</span>
+                    </span>
                   }
                   InputProps={{
                     startAdornment: (
@@ -1030,7 +1034,6 @@ function Form13() {
               <Grid item xs={12} px={1}>
                 <TextField
                   fullWidth
-                  margin="normal"
                   label={
                     <span>
                       Subject <span style={{ color: 'red' }}>*</span>
@@ -1225,7 +1228,11 @@ function Form13() {
                 lg={1.5}
                 sx={{ mt: -1, display: scheduleMessage }}
               >
-                <TimePicker value={value} onChange={clickTime} />
+                <TimePicker value={value} onChange={clickTime} slotProps={{
+                  actionBar: {
+                    actions: []
+                  }
+                }} />
               </Grid>
               <Grid item xs={6} sx={{ mt: 0, mb: '6px', ml: '1px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
