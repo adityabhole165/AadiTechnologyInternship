@@ -27,6 +27,7 @@ const FinalResultGenerateAllSlice = createSlice({
         ListDisplayNameDetails: [],
         HeaderArray: [],
         SubHeaderArray: [],
+        EntireDataList: [],
         Loading: true
     },
 
@@ -38,6 +39,10 @@ const FinalResultGenerateAllSlice = createSlice({
         ShowData(state, action) {
             state.Loading = false;
             state.MarkDetailsList = action.payload;
+        },
+        REntireDataList(state, action) {
+            state.Loading = false;
+            state.EntireDataList = action.payload;
         },
         ShowHeader(state, action) {
             state.Loading = false;
@@ -115,9 +120,11 @@ const FinalResultGenerateAllSlice = createSlice({
 });
 
 export const StudentDetailsGA =
-    (data: IGetStudentPrrogressReportBody): AppThunk =>
+    (data: IGetStudentPrrogressReportBody, data1: string): AppThunk =>
         async (dispatch) => {
             const response = await ApiFinalResultGenerateAll.StudentPrrogressReport(data);
+            console.log('🚩✅⭐', response.data); //REntireDataList
+            dispatch(FinalResultGenerateAllSlice.actions.REntireDataList(response.data));
 
             let rows = []
             const getMatch = (TestId, SubjectId, TestTypeId) => {
@@ -166,6 +173,78 @@ export const StudentDetailsGA =
                         })
                     }
                 })
+                //show grade column
+                console.log('data1 checkthis', data1);
+
+                if (data1 == "True") {
+                    let isDataPushed = false;
+
+                    response.data.listTestidDetails.map((Item) => {
+                        // Check if the IDs match and data has not been pushed yet
+                        if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
+                            // const insertIndex = columns.length > 0 ? columns.length - (testTypeLength + 1) : 0;
+                            columns.push({
+                                MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
+                                TotalMarks: `${Item.ChildSubject_Marks_Total}`,
+                                IsAbsent: "N",
+                            });
+
+                            isDataPushed = true;
+                        }
+                    });
+                }
+
+
+                if (data1 === "True") {
+                    console.log('atleast condition is being touched ');
+
+                    response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+                        let testTypeLength = response.data.ListTestTypeIdDetails.length;
+                        if (Item.SchoolWise_Test_Id == Test.Test_Id) {
+                            let isDataPushed = false; // Flag to track if data has been pushed
+
+                            // response.data.listTestidDetails.map((Item) => {
+                            //   // Check if the IDs match and data has not been pushed yet
+                            //   if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
+                            //     const insertIndex = columns.length > 0 ? columns.length - (testTypeLength + 1) : 0;
+                            //     columns.splice(insertIndex, 0, {
+                            //       MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
+                            //       TotalMarks: Item.ChildSubject_Marks_Total,
+                            //       IsAbsent: "N",
+                            //     });
+
+                            //     isDataPushed = true;
+                            //   }
+                            // });
+
+
+
+                            const matchingMarksDetails = response.data.ListMarkssDetails.find(
+                                (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
+                            );
+
+                            // if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() !== 'true') {
+                            columns.push({
+                                MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
+                                TotalMarks: Item.Subjects_Total_Marks,
+                                IsAbsent: "N"
+                            })
+
+                            columns.push({
+                                MarksScored: Item.Percentage + "%",
+                                TotalMarks: "-",
+                                IsAbsent: "N"
+                            })
+                            // }
+
+                            columns.push({
+                                MarksScored: `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
+                                TotalMarks: "-",
+                                IsAbsent: "N"
+                            })
+                        }
+                    })
+                }
 
                 rows.push({
                     TestName: Test.Test_Name,
@@ -177,6 +256,8 @@ export const StudentDetailsGA =
             dispatch(FinalResultGenerateAllSlice.actions.ShowHeader(HeaderArray));
             dispatch(FinalResultGenerateAllSlice.actions.ShowSubHeader(SubHeaderArray));
             dispatch(FinalResultGenerateAllSlice.actions.ShowData(rows));
+            console.log('following rows are going to be pushed', rows);
+
             dispatch(FinalResultGenerateAllSlice.actions.getListDisplayNameDetails(response.data.ListDisplayNameDetails));
 
 
