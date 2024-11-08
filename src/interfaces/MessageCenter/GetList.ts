@@ -96,6 +96,7 @@ export interface GetScheduledSMSResult {
       Id: number;
       PageLabel: string;
       CcUserName: string;
+      TotalCountLabel: string;
     }
   ];
   UnreadMessagesCount: {
