@@ -134,7 +134,7 @@ export const getListOfMessages =
           };
         });
         data = data === undefined ? [] : data;
-
+        dispatch(InboxMessageSlice.actions.getTotalCountLabel(response.data?.TotalCountLabel));
         if (Pagination == true) {
           dispatch(InboxMessageSlice.actions.NextMessages(data));
         }

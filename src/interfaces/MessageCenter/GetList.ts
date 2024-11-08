@@ -104,7 +104,8 @@ export interface GetScheduledSMSResult {
     IsBdayApplicable: boolean
     CurrentYearDOB: string
     IsLockedUser: boolean
-  }
+  },
+  TotalCountLabel: string
 }
 export interface IUpdateReadReceiptStatusBody {
   asSchoolId: string;
