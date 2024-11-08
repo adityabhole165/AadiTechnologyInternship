@@ -967,7 +967,7 @@ const MessageList = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
                   {open && (
                     <EmailSettingsDialog
-                      open={ClickOpenDialogbox}
+                      open={open}
                       setOpen={setOpen}
                     />
                   )}
