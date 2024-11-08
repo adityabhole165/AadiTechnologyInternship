@@ -466,10 +466,10 @@ function Form13() {
           valid = true;
         }
         if (scheduleDate.length == 0) {
-          setRequestScheduleMsg('Schedule Date and Time should not be blank');
+          setRequestScheduleMsg('Schedule Date and Time should not be blank.');
           valid = false;
         } else if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
-          setSchTimeerror('Please select future time');
+          setSchTimeerror('Message schedule time should be in future.');
           valid = false;
         } else {
           setRequestScheduleMsg('');
@@ -636,7 +636,7 @@ function Form13() {
     if (isFutureDateTime(DateTime)) {
       setSchTimeerror('');
     } else {
-      setSchTimeerror('Please select future time');
+      setSchTimeerror('Message schedule time should be in future.');
     }
   };
   const [showCC, setShowCC] = useState(false);
