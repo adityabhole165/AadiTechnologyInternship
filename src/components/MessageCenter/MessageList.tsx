@@ -115,7 +115,7 @@ const MessageList = () => {
   const TrashMarkAsUnRead = useSelector(
     (state: RootState) => state.InboxMessage.trashUnReadMessage
   )
-  const TotalCountLabel = useSelector(
+  const totalCountLabelInbox = useSelector(
     (state: RootState) => state.InboxMessage.TotalCountLabel
   )
 
@@ -138,6 +138,37 @@ const MessageList = () => {
   );
 
   const IfMonthEmpty = monthYear == '' ? '0' : monthYear;
+
+
+
+  let displayedList = [];
+  let totalCountLabel = 0;
+
+  switch (activeTab) {
+    case 'Inbox':
+      displayedList = inboxListData;
+      totalCountLabel = totalCountLabelInbox || 0;
+      break;
+
+    case 'Sent':
+      displayedList = inboxListData;
+      totalCountLabel = inboxListData[0]?.TotalCountLabel || 0;
+      break;
+
+    case 'Trash':
+      displayedList = inboxListData;
+      totalCountLabel = inboxListData[0]?.TotalCountLabel || totalCountLabelInbox || 0;
+      break;
+
+    case 'Draft':
+      displayedList = inboxListData;
+      totalCountLabel = totalCountLabelInbox || 0;
+      break;
+
+    default:
+      displayedList = inboxListData;
+      totalCountLabel = totalCountLabelInbox || 0;
+  }
 
   const [SortExp, setSortExp] = useState('Insert_Date')
   const [SortDirection, setSortDirection] = useState('DESC')
@@ -892,7 +923,7 @@ const MessageList = () => {
                       // </Grid>
                     ) : (<Grid container>
                       <Grid xs={12} sm={12} md={12} sx={{ textAlign: 'right' }}>
-                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', padding: 1, borderRadius: 2, backgroundColor: 'White' }} >{inboxListData.length} Out of {TotalCountLabel}</Typography>
+                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', padding: 1, borderRadius: 2, backgroundColor: 'White' }} >{inboxListData.length} Out of {totalCountLabel}</Typography>
                       </Grid>
                       <Grid xs={12} sm={12} md={12}>
                         <SelectList3Col
