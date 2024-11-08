@@ -192,7 +192,7 @@ export const GetEmailSettings =
 export const UpdateUserEmailSetting =
   (data: IUpdateUserEmailSettingBody): AppThunk =>
     async (dispatch) => {
-      dispatch(MessageCenterSlice.actions.getLoading(true));
+      // dispatch(MessageCenterSlice.actions.getLoading(true));
       const response = await MessageCenterApi.UpdateUserEmailSettingapi(data);
       dispatch(MessageCenterSlice.actions.UpdateUserEmailSetting(response.data));
     };
