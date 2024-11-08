@@ -19,6 +19,7 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   GetAdminAndprincipalUsers,
   IGetStudentsUser,
@@ -36,7 +37,7 @@ import {
   GetStudent,
   GetUser
 } from 'src/requests/AdminSMSCenter/To1';
-import { CDAaddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
+import { CDAaddUpdateGroup, resetDeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import ContactGroupList from './ContactGroupList';
@@ -117,7 +118,13 @@ const AddReciepents = ({
   const getPTAOption: any = useSelector(
     (state: RootState) => state.getuser1.PTAOption
   );
-
+  const USDeleteContactGroup: any = useSelector((state: RootState) => state.ContactGroup.IDeleteMailGroupMsg);
+  useEffect(() => {
+    if (USDeleteContactGroup !== '') {
+      toast.success(USDeleteContactGroup);
+      dispatch(resetDeleteMailGroupMsg());
+    }
+  }, [USDeleteContactGroup]);
   // const Student = getstudentlist.GetStudentsUserResult;
 
   const adminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
