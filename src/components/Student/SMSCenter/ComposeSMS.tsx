@@ -627,7 +627,7 @@ const ComposeSMSform = () => {
                                         sx={{
                                             color: '#38548A',
 
-                                            width: '200px',
+                                            width: '140px',
                                             '&:hover': {
                                                 color: '#38548A',
                                                 backgroundColor: blue[100]
@@ -640,8 +640,20 @@ const ComposeSMSform = () => {
                         </Grid>
 
                         <Grid container spacing={2} p={2}>
+                        <Grid item xs={12} sm={6} md={2} lg={2} px={2}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name="SendMessage"
+                                        // checked={form.scheduleSMS}
+                                        // onChange={handleInputChange1}
+                                        />
+                                    }
+                                    label="Send Message"
+                                />
+                            </Grid>
                             
-                            <Grid item xs={12} sm={6} md={4} lg={3}>
+                            <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
@@ -657,7 +669,7 @@ const ComposeSMSform = () => {
                             {form.scheduleSMS && (
                                 <>
                              {/* <Grid container spacing={2} pt={2} pl={2} alignItems="center"> */}
-                                <Grid item xs={12} sm={6} md={3} lg={3}>
+                                <Grid item xs={12} sm={6} md={3} lg={2}>
                                     <Datepicker
                                         DateValue={SelectDate}
                                         onDateChange={onSelectDate}
@@ -666,31 +678,20 @@ const ComposeSMSform = () => {
 
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={6} md={3} lg={3}>
+                                <Grid item xs={12} sm={6} md={3} lg={2}>
                                     <TimepickerTwofields Item={StartTime} label={'Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
                                 </Grid>
-                                <Grid item xs={12} sm={6} md={6} lg={3}>
+                                {/* <Grid item xs={12} sm={6} md={6} lg={3}>
                                     <Typography variant="body2" color="textSecondary">
                                         e.g., 10:00 AM. SMS Schedule should be set after 1 hour
                                         and within 7 days range from now.
                                     </Typography>
-                                </Grid>
+                                </Grid> */}
                              {/* </Grid> */}
                             </>
                         )}
-                           <Grid item xs={12} sm={6} md={4} lg={3} px={2}>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            name="SendMessage"
-                                        // checked={form.scheduleSMS}
-                                        // onChange={handleInputChange1}
-                                        />
-                                    }
-                                    label="Send Message"
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={3}>
+                           
+                            <Grid item xs={12} sm={6} md={6} lg={2}>
                                 <TextField
                                     name="TemplateId"
                                     label="Template Id"
@@ -707,7 +708,7 @@ const ComposeSMSform = () => {
                                         sx={{
                                             color: '#38548A',
                                             mt: 0.7,
-                                            width: '200px',
+                                            width: '130px',
                                             '&:hover': {
                                                 color: '#38548A',
                                                 backgroundColor: blue[100]
