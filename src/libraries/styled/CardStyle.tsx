@@ -439,6 +439,7 @@ export const ItemSize = styled(Box)(
   ({ theme }) => `
   font-size: 13px;
   color: #38548A;
+  padding-top: 3px;
  
  cursor: pointer;
  margin-left:5px;
