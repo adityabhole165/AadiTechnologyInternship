@@ -348,7 +348,7 @@ function Form13() {
         return false;
       }
 
-      if (fileData?.size > 50e6) {
+      if (fileData?.size >= 50e6) {
         setFilerror('Total file size should be less than 50 MB.');
         return false;
       }
