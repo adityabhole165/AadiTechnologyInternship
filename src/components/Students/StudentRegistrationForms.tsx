@@ -33,6 +33,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
+import { CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -101,7 +102,6 @@ const StudentRegistrationForm = () => {
   const [admissionDetails, setAdmissionDetails] = useState(false);
   const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
   //const [familyData, setFamilyData] = useState(false);
-
 
 
   const handleSave = (isSuccessful: boolean) => {
@@ -188,90 +188,109 @@ const StudentRegistrationForm = () => {
   //   console.log('personalDetails data:', personalDetailsData);
   // }, []);
 
-  const handleUpdate = () => {
-    const UpdateStudentBody: IUpdateStudentBody = {
-      //...personalDetailsData,
-      asSchoolId: Number(localStorage.getItem('localSchoolId')),
-      asStudentId: 3556, // Missing
-      asInsertedById: 4463, // Missing
-      asID: 0, // Missing
-      asAcademicYearId: 55, // Missing
-      asFormNumber: 4576, // Missing
-      asPhoto_file_Path: personalDetailsData?.photo || "", // Missing
-      asFirst_Name: personalDetailsData?.firstName || "",
-      asMiddle_Name: personalDetailsData?.middleName || "",
-      asLast_Name: personalDetailsData?.lastName || "",
-      asMother_Name: personalDetailsData?.motherName || "",
-      asBlood_Group: personalDetailsData?.bloodGroup || "",
-      asEnrolment_Number: "2495",
-      asParent_Name: personalDetailsData?.parentName || "",
-      asParent_Occupation: personalDetailsData?.parentOccupation || "",
-      asOther_Occupation: "",
-      asAddress: personalDetailsData?.address || "",
-      asCity: personalDetailsData?.city || "",
-      asState: personalDetailsData?.state || "",
-      asPincode: personalDetailsData?.pin || "",
-      asResidence_Phone_Number: "9224286937",
-      asMobile_Number: personalDetailsData?.motherNumber || "",
-      asMobile_Number2: personalDetailsData?.fatherNumber || "",
-      asOffice_Number: "9270362059",
-      asNeighbour_Number: personalDetailsData?.neighbourPhoneNumber || "",
-      asUpdated_By_Id: "4463",
-      asUpdate_Date: "2024-10-10",
-      asDOB: personalDetailsData?.dateOfBirth || "",
-      asBirth_Place: personalDetailsData?.placeOfBirth || "",
-      asNationality: personalDetailsData?.nationality || "",
-      asSex: personalDetailsData?.gender || "",
-      asSalutation_Id: "6",
-      asCategory_Id: personalDetailsData?.category || "",
-      asCasteAndSubCaste: personalDetailsData?.casteAndSubCaste || "",
-      asAdmission_Date: "2014-01-03",
-      asJoining_Date: "2014-06-09",
-      asDateOfBirthInText: "Twenty One March Two Thousand Eleven",
-      asOptional_Subject_Id: "0",
-      asMother_Tongue: personalDetailsData.motherTongue || "",
-      asLastSchoolName: "",
-      asLastSchoolAddress: "",
-      asLastCompletedStd: "",
-      asLastSchoolUDISENo: "",
-      asLastCompletedBoard: "",
-      asIsRecognisedBoard: "True",
-      asAadharCardNo: personalDetailsData?.aadharCardNumber || "",
-      asNameOnAadharCard: personalDetailsData?.nameOnAadharCard || "",
-      asAadharCard_Photo_Copy_Path: personalDetailsData?.aadharCardScanCopy || "",
-      asFamily_Photo_Copy_Path: "",
-      asUDISENumber: "2014272505108050285",
-      asBoardRegistrationNo: "",
-      asIsRiseAndShine: "False",
-      asAdmissionSectionId: "0",
-      asGRNumber: "",
-      asStudentUniqueNo: "",
-      asSaralNo: "",
-      asIsOnlyChild: "False",
-      asMinority: "False",
-      asRoll_No: 1,
-      asRule_Id: 0,
-      asIsStaffKid: 0,
-      asHeight: 0,
-      asWeight: 0,
-      asUpdated_By_id: 4463,
-      asRTECategoryId: 0,
-      asSecondLanguageSubjectId: 1760,
-      asThirdLanguageSubjectId: 1763,
-      asIsForDayBoarding: false,
-      asFeeCategoryDetailsId: 0,
-      asRTEApplicationFormNo: "",
-      asAnnualIncome: 0,
-      asStandard_Id: 1082, // Missing
-      asDivision_Id: 1299, // Missing
-      asReligion: personalDetailsData?.religion || "",
-      asYearWise_Student_Id: 40467,
-      asParentUserId: 0
-    }
+  //#region Date Formation
+  const formatDOB = (date) => {
+    try {
+      // Handle DD-MM-YYYY format with or without time
+      if (date.includes('-')) {
+        const [day, month, year] = date.split(' ')[0].split('-');
+        if (day.length === 2) {
+          return `${year}-${month}-${day}`;
+        }
+      }
 
+      // If already in YYYY-MM-DD format or needs conversion
+      const d = new Date(date);
+      return d.toISOString().split('T')[0];
+    } catch {
+      return '';
+    }
+  };//#endregion
+
+  const UpdateStudentBody: IUpdateStudentBody = {
+    //...personalDetailsData,
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asStudentId: 3556, // Missing
+    asInsertedById: 4463, // Missing
+    asID: 0, // Missing
+    asAcademicYearId: 55, // Missing
+    asFormNumber: 4576, // Missing
+    asPhoto_file_Path: "", // Missing
+    asFirst_Name: personalDetailsData?.firstName || "",
+    asMiddle_Name: personalDetailsData?.middleName || "",
+    asLast_Name: personalDetailsData?.lastName || "",
+    asMother_Name: personalDetailsData?.motherName || "",
+    asBlood_Group: personalDetailsData?.bloodGroup || "",
+    asEnrolment_Number: "2495",
+    asParent_Name: personalDetailsData?.parentName || "",
+    asParent_Occupation: personalDetailsData?.parentOccupation || "",
+    asOther_Occupation: "",
+    asAddress: personalDetailsData?.address || "",
+    asCity: personalDetailsData?.city || "",
+    asState: personalDetailsData?.state || "",
+    asPincode: personalDetailsData?.pin || "",
+    asResidence_Phone_Number: "9224286937",
+    asMobile_Number: personalDetailsData?.motherNumber || "",
+    asMobile_Number2: personalDetailsData?.fatherNumber || "",
+    asOffice_Number: "9270362059",
+    asNeighbour_Number: personalDetailsData?.neighbourPhoneNumber || "",
+    asUpdated_By_Id: "4463",
+    asUpdate_Date: "2024-10-10",
+    asDOB: formatDOB(personalDetailsData?.dateOfBirth) || "2011-03-29",
+    asBirth_Place: personalDetailsData?.placeOfBirth || "",
+    asNationality: personalDetailsData?.nationality || "",
+    asSex: personalDetailsData?.gender || "",
+    asSalutation_Id: "6",
+    asCategory_Id: personalDetailsData?.category || "",
+    asCasteAndSubCaste: personalDetailsData?.casteAndSubCaste || "",
+    asAdmission_Date: "2014-01-03",
+    asJoining_Date: "2014-06-09",
+    asDateOfBirthInText: "Twenty One March Two Thousand Eleven",
+    asOptional_Subject_Id: "0",
+    asMother_Tongue: personalDetailsData.motherTongue || "",
+    asLastSchoolName: "",
+    asLastSchoolAddress: "",
+    asLastCompletedStd: "",
+    asLastSchoolUDISENo: "",
+    asLastCompletedBoard: "",
+    asIsRecognisedBoard: "True",
+    asAadharCardNo: personalDetailsData?.aadharCardNumber || "",
+    asNameOnAadharCard: personalDetailsData?.nameOnAadharCard || "",
+    asAadharCard_Photo_Copy_Path: personalDetailsData?.aadharCardScanCopy || "",
+    asFamily_Photo_Copy_Path: "",
+    asUDISENumber: "2014272505108050285",
+    asBoardRegistrationNo: "",
+    asIsRiseAndShine: "False",
+    asAdmissionSectionId: "0",
+    asGRNumber: "",
+    asStudentUniqueNo: "",
+    asSaralNo: "",
+    asIsOnlyChild: "False",
+    asMinority: "False",
+    asRoll_No: 1,
+    asRule_Id: 0,
+    asIsStaffKid: 0,
+    asHeight: 0,
+    asWeight: 0,
+    asUpdated_By_id: 4463,
+    asRTECategoryId: 0,
+    asSecondLanguageSubjectId: 1760,
+    asThirdLanguageSubjectId: 1763,
+    asIsForDayBoarding: false,
+    asFeeCategoryDetailsId: 0,
+    asRTEApplicationFormNo: "",
+    asAnnualIncome: 0,
+    asStandard_Id: 1082, // Missing
+    asDivision_Id: 1299, // Missing
+    asReligion: personalDetailsData?.religion || "",
+    asYearWise_Student_Id: 40467,
+    asParentUserId: 0
+  }
+
+  const handleUpdate = () => {
     console.log('Sending update with data:', UpdateStudentBody);
 
-    // dispatch(CDAUpdateStudent(UpdateStudentBody));
+    dispatch(CDAUpdateStudent(UpdateStudentBody));
     //console.log('Saving data:', personalDetails);
   };
 
