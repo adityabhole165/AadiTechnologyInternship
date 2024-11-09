@@ -834,7 +834,7 @@ function Form13() {
             <ReplyIcon />
           </Fab> 
         </span> */}
-        <Box sx={{ backgroundColor: 'white', px: 2, minHeight: '85vh' }}>
+        <Box sx={{ backgroundColor: 'white', px: 2, minHeight: '85vh', mt: 2 }}>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
               {/* <Grid item xs={12}>
@@ -849,7 +849,7 @@ function Form13() {
                   id=""
                   fullWidth
                   label={
-                    <span >
+                    <span style={{ color: '#38548A' }}>
                       Form
                     </span>
                   }
@@ -882,7 +882,7 @@ function Form13() {
                   // id=""
                   fullWidth
                   label={
-                    <span>
+                    <span style={{ color: '#38548A' }}>
                       To <span style={{ color: 'red' }}>*</span>
                     </span>
                   }
