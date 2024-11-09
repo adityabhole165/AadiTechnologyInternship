@@ -1,7 +1,8 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import InfoIcon from '@mui/icons-material/Info';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SendIcon from '@mui/icons-material/Send';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Paper, TextField, Tooltip, Typography, useTheme } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Paper, TextField, Tooltip, Typography, useTheme } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
@@ -21,7 +22,7 @@ import { CardDetail2 } from 'src/libraries/styled/CardStyle';
 import { getAComposeSMSTemplateList } from 'src/requests/AdminSMSCenter/AComposeSMS';
 import { RootState } from 'src/store';
 import AddReciepentsSMS from './AddReciepientSMS';
-import InfoIcon from '@mui/icons-material/Info';
+import UserTemplateIdForm from './UserTemplateIdForm';
 
 
 const ComposeSMSform = () => {
@@ -33,6 +34,7 @@ const ComposeSMSform = () => {
     const [mobileNumbers, setMobileNumbers] = useState('');
     const [error, setError] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
+    const [openDialog1, setOpenDialog1] = useState(false);
     const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] = useState<any>('none');
     const [displayOfCompose_Page, setdisplayOfCompose_Page] = useState<any>('block');
     const [schTimeerror, setSchTimeerror] = useState('');
@@ -154,6 +156,9 @@ const ComposeSMSform = () => {
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
+    const handleCloseDialog1 = () => {
+        setOpenDialog1(false);
+    };
 
 
     const ContentFieldBlur = (e) => {
@@ -196,6 +201,9 @@ const ComposeSMSform = () => {
     const handleOpenDialog = (isRecipients) => {
         setOpenDialog(true);
     };
+    const handleOpenDialog1 = (p0: boolean) => {
+        setOpenDialog1(true);
+    };
 
 
     // Validate numbers - check if each is 10 digits long
@@ -229,6 +237,32 @@ const ComposeSMSform = () => {
             setError('');
         }
     };
+    const rows = [
+        {
+            registrationNo: "1007006514077798929",
+            name: "AdmissionLotterySMS",
+            template:
+                "Congratulations!!! Your child has been selected in admission lottery of Pawar Public School. Please pay the fees by %DATE% to confirm the admission.",
+        },
+        {
+            registrationNo: "1007271844150293720",
+            name: "ChequePaymentSMS",
+            template:
+                "We have successfully received your fee payment of Rs. %Amount% through %PaymentMode%. Regards, PPS Pune. *Subject To Cheque Realization.",
+        },
+        {
+            registrationNo: "1007328126928263539",
+            name: "Holiday SMS",
+            template:
+                "Dear Parents, The school will remain closed on {#var#} on account of {#var#}. Regards, PPS Hadapsar",
+        },
+        {
+            registrationNo: "1007743695402120671",
+            name: "QuarterlyPendingFeeSMS",
+            template:
+                "Fees for {#var#} is due on {#var#}. Pay using online facility thru RTE login. Cheque box available in school. Kindly Ignore, if paid. – PPS, Accounts Dept",
+        },
+    ];
 
     // Api body of Admin SMS Template
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -522,7 +556,7 @@ const ComposeSMSform = () => {
                         </Grid> */}
                     <form onSubmit={formik.handleSubmit}>
                         <Grid container>
-                            <Grid xs={3} mt={3.3} px={2} sm={3} md={3}>
+                            <Grid xs={12} mt={3.3} px={2} sm={3} md={3} lg={3}>
                                 <TextField
                                     sx={{ marginTop: '20px' }}
                                     variant="outlined"
@@ -536,7 +570,7 @@ const ComposeSMSform = () => {
                                     value={senderUserName}
                                 />
                             </Grid>
-                            <Grid xs={8} sm={8} md={7}>
+                            <Grid xs={12} sm={8} md={7} lg={7.1}>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
@@ -565,7 +599,7 @@ const ComposeSMSform = () => {
                                     }}
                                 />
                             </Grid>
-                            <Grid xs={2} mt={6} sm={2} md={2} >
+                            <Grid xs={12} mt={6} sm={2} md={2} lg={1.9}>
                                 <Box ml={2}>
                                     <Button
                                         fullWidth
@@ -591,8 +625,8 @@ const ComposeSMSform = () => {
                             </Grid>
                         </Grid>
 
-                        <Grid container p={2}>
-                            <Grid xs={12} sm={2} md={6} lg={10.1} >
+                        <Grid container px={2}>
+                            <Grid xs={10.2}  >
                                 <Box sx={{ mt: "10px" }}>
                                     <TextField
                                         name="To"
@@ -621,14 +655,14 @@ const ComposeSMSform = () => {
                                     <Errormessage Error={formik.errors.To} />
                                 </div>
                             </Grid>
-                            <Grid xs={1} mt={2} >
+                            <Grid xs={1.2} mt={2} >
                                 <Box mt={2} ml={2}>
                                     <Button
                                         fullWidth
                                         onClick={() => handleOpenDialog(true)}
                                         sx={{
                                             color: '#38548A',
-
+                                            ml: 1,
                                             width: '140px',
                                             '&:hover': {
                                                 color: '#38548A',
@@ -641,7 +675,7 @@ const ComposeSMSform = () => {
                             </Grid >
                         </Grid>
 
-                        <Grid container spacing={2} p={2}>
+                        <Grid container spacing={2} px={2} mt={0}>
                             <Grid item xs={12} sm={6} md={2} lg={2} px={2}>
                                 <FormControlLabel
                                     control={
@@ -668,7 +702,7 @@ const ComposeSMSform = () => {
                                 />
                                 <Tooltip title="10:00 AM. SMS Schedule should be set after 1 hour
                                         and within 7 days range from now.">
-                                    <IconButton size="small" style={{ marginLeft: 8, color:'#38548A' }}>
+                                    <IconButton size="small" style={{ marginLeft: 8, color: '#38548A' }}>
                                         <InfoIcon fontSize="small" />
                                     </IconButton>
                                 </Tooltip>
@@ -677,7 +711,7 @@ const ComposeSMSform = () => {
                             {form.scheduleSMS && (
                                 <>
                                     {/* <Grid container spacing={2} pt={2} pl={2} alignItems="center"> */}
-                                    <Grid item xs={12} sm={6} md={3} lg={2}>
+                                    <Grid item xs={12} sm={6} md={3} lg={2.1}>
                                         <Datepicker
                                             DateValue={SelectDate}
                                             onDateChange={onSelectDate}
@@ -699,7 +733,7 @@ const ComposeSMSform = () => {
                                 </>
                             )}
 
-                            <Grid item xs={12} sm={6} md={6} lg={2}>
+                            <Grid item xs={12} sm={6} md={6} lg={2.1}>
                                 <TextField
                                     name="TemplateId"
                                     label="Template Id"
@@ -707,7 +741,7 @@ const ComposeSMSform = () => {
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid xs={2} mt={2} sm={2} md={2} >
+                            <Grid xs={2} mt={2} sm={2} md={1.7} >
                                 <Box ml={2}>
                                     <Button
                                         fullWidth
@@ -716,16 +750,14 @@ const ComposeSMSform = () => {
                                         sx={{
                                             color: '#38548A',
                                             mt: 0.7,
+                                            ml: 2,
                                             width: '130px',
                                             '&:hover': {
                                                 color: '#38548A',
                                                 backgroundColor: blue[100]
                                             }
                                         }}
-                                        onClick={() => {
-                                            // pass data via state > mobileNumbers
-                                            navigate('/extended-sidebar/teacher/PersonalAddressBook', { state: { mobileNumbers } })
-                                        }}
+                                        onClick={() => handleOpenDialog1(true)}
                                     >
                                         Use Template
                                     </Button>
@@ -769,7 +801,7 @@ const ComposeSMSform = () => {
                             <CardDetail2
                                 sx={{
                                     color: 'blue',
-                                    marginTop: 1,
+                                    marginTop: 0,
                                     marginBottom: 1.5,
                                     fontWeight: 'bold'
                                 }}
@@ -859,6 +891,60 @@ const ComposeSMSform = () => {
                             />
                         </Box>
                     </DialogContent>
+                </Dialog>
+
+                <Dialog
+                    open={openDialog1}
+                    onClose={handleCloseDialog1}
+                    fullWidth
+                    maxWidth="md"
+                    PaperProps={{
+                        sx: {
+                            borderRadius: "15px",
+                        }
+                    }}
+                >
+                    <DialogTitle sx={{ bgcolor: '#223354' }}>
+                        <ClearIcon onClick={handleCloseDialog1}
+                            sx={{
+                                color: 'white',
+                                borderRadius: '7px',
+                                position: 'absolute',
+                                top: '5px',
+                                right: '8px',
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    color: 'red',
+                                }
+                            }} />
+
+                    </DialogTitle>
+                    <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
+                        Use Template
+                    </Typography>
+
+                    <DialogContent>
+                        <Box>
+                            <UserTemplateIdForm rows={rows} />
+                        </Box>
+                    </DialogContent>
+                    <DialogActions sx={{ m: 2 }}>
+                        <Button onClick={handleCloseDialog1} color={'error'}>
+                            Close
+                        </Button>
+                        <Button
+                            onClick={undefined}
+                            sx={{
+                                color: 'green',
+                                '&:hover': {
+                                    color: 'green',
+                                    backgroundColor: green[100]
+                                }
+                            }}
+                        >
+                            Confirm
+                        </Button>
+                    </DialogActions>
                 </Dialog>
 
 
