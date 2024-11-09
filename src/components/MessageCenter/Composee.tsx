@@ -68,6 +68,7 @@ import { formatAMPM, getDateFormat1, isFutureDateTime } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
+import { TimepickerTwofields1 } from './TimeField';
 function Form13() {
   const [openDialog, setOpenDialog] = useState(false);
   const [showRecipients, setShowRecipients] = useState(false);
@@ -211,10 +212,10 @@ function Form13() {
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [scheduleMessage, setscheduleMessage] = useState('none');
   const [requestReadReceipt, setRequestReadReceipt] = useState(false);
-  const [scheduleDate, setscheduleDate] = useState<string>('');
+  // const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
-  const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
-  const [schTimeerror, setSchTimeerror] = useState('');
+  // const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
+  // const [schTimeerror, setSchTimeerror] = useState('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
   const [subjecterror, setSubjecterror] = useState('');
   const [contenterror, setContenterror] = useState('');
@@ -587,7 +588,11 @@ function Form13() {
       RecipientId: prev.RecipientId.filter((recipient, i) => i !== index),
     }));
   };
-
+  const formatTime = (date) => {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
   useEffect(() => {
     if (
       !(
@@ -621,7 +626,45 @@ function Form13() {
     );
     aRef.current.value = null;
   };
-  const [value, setValue] = React.useState(new Date());
+// 
+const [value, setValue] = useState(new Date());
+const [scheduleDate, setScheduleDate] = useState('');
+const [schTimeerror, setSchTimeerror] = useState('');
+const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
+
+const clickTime = (timeValue) => {
+  console.log(timeValue);
+  if (scheduleDate !== '') {
+    checkScheduleValidation(scheduleDate + ' ' + timeValue);
+  }
+  // Convert timeValue (HH:mm) to Date object for state
+  const [hours, minutes] = timeValue.split(':').map(Number);
+  const newDate = new Date(value);
+  newDate.setHours(hours, minutes);
+  setValue(newDate);
+};
+
+const scheduleDateAndTime = (dateValue) => {
+  if (scheduleDate !== '') {
+    setRequestScheduleMsg('');
+  }
+  const timeString = formatTime(value);
+  if (scheduleDate !== '') {
+    checkScheduleValidation(getDateFormat1(dateValue) + ' ' + timeString);
+  }
+  setScheduleDate(getDateFormat1(dateValue));
+};
+
+const checkScheduleValidation = (DateTime) => {
+  if (isFutureDateTime(DateTime)) {
+    setSchTimeerror('');
+  } else {
+    setSchTimeerror('Message schedule time should be in future.');
+  }
+};
+// 
+
+  // const [value, setValue] = React.useState(new Date());
   let hours = value.getHours();
   let minutes = value.getMinutes();
   let ampm = hours >= 12 ? 'PM' : 'AM';
@@ -629,30 +672,30 @@ function Form13() {
   hours = hours ? hours : 12;
   let strTime = hours + ':' + minutes + ' ' + ampm;
 
-  const clickTime = (value) => {
-    const time = formatAMPM(value);
-    if (scheduleDate !== '') {
-      checkScheduleValidation(scheduleDate + ' ' + time);
-    }
-    setValue(value);
-  };
+  // const clickTime = (value) => {
+  //   const time = formatAMPM(value);
+  //   if (scheduleDate !== '') {
+  //     checkScheduleValidation(scheduleDate + ' ' + time);
+  //   }
+  //   setValue(value);
+  // };
 
-  const scheduleDateAndTime = (value) => {
-    if (scheduleDate !== '') {
-      setRequestScheduleMsg('');
-    }
-    if (scheduleDate !== '') {
-      checkScheduleValidation(getDateFormat1(value) + ' ' + strTime);
-    }
-    setscheduleDate(getDateFormat1(value));
-  };
-  const checkScheduleValidation = (DateTime) => {
-    if (isFutureDateTime(DateTime)) {
-      setSchTimeerror('');
-    } else {
-      setSchTimeerror('Message schedule time should be in future.');
-    }
-  };
+  // const scheduleDateAndTime = (value) => {
+  //   if (scheduleDate !== '') {
+  //     setRequestScheduleMsg('');
+  //   }
+  //   if (scheduleDate !== '') {
+  //     checkScheduleValidation(getDateFormat1(value) + ' ' + strTime);
+  //   }
+  //   setscheduleDate(getDateFormat1(value));
+  // };
+  // const checkScheduleValidation = (DateTime) => {
+  //   if (isFutureDateTime(DateTime)) {
+  //     setSchTimeerror('');
+  //   } else {
+  //     setSchTimeerror('Message schedule time should be in future.');
+  //   }
+  // };
   const [showCC, setShowCC] = useState(false);
   const clickHide = () => {
     setShowCC(!showCC);
@@ -1242,11 +1285,19 @@ function Form13() {
                 lg={1.5}
                 sx={{ mt: -1, display: scheduleMessage }}
               >
-                <TimePicker value={value} onChange={clickTime} slotProps={{
+                {/* <TimePicker value={value} onChange={clickTime} slotProps={{
                   actionBar: {
                     actions: []
                   }
-                }} />
+                }} /> */}
+                  <TimepickerTwofields1
+                  Item={formatTime(value)}
+                  label={'Time'}
+                  isMandatory={false}
+                  ClickItem={clickTime}
+                  size={"medium"}
+                  // tooltipMessage="e.g. 14:00"
+                />
               </Grid>
               <Grid item xs={6} sx={{ mt: 0, mb: '6px', ml: '1px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
