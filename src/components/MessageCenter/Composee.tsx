@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { blue, green, grey } from '@mui/material/colors';
-import { ClearIcon, TimePicker } from '@mui/x-date-pickers';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import JoditEditor from 'jodit-react';
 import React, { useEffect, useRef, useState } from 'react';
@@ -64,7 +64,7 @@ import {
   AttachmentFile,
   ISendMessage
 } from '../../interfaces/MessageCenter/MessageCenter';
-import { formatAMPM, getDateFormat1, isFutureDateTime } from '../Common/Util';
+import { getDateFormat1, isFutureDateTime } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
@@ -421,11 +421,11 @@ function Form13() {
             scheduleDate !== '' &&
             value !== undefined
           ) {
-            toast.success('Message scheduled successfully', {
+            toast.success('Message scheduled successfully.', {
               toastId: 'success1'
             });
           } else {
-            toast.success('Message sent successfully', { toastId: 'success1' });
+            toast.success('Message sent successfully.', { toastId: 'success1' });
           }
           localStorage.setItem('messageBody', '');
           setTimeout(RediretToSentPage, 100);
@@ -433,7 +433,7 @@ function Form13() {
         }
       })
       .catch((err) => {
-        toast.error('Message did not sent successfully', { toastId: 'error1' });
+        toast.error('Message did not sent successfully.', { toastId: 'error1' });
         localStorage.setItem('messageBody', '');
         setdisabledStateOfSend(false);
         setLoading(false);
@@ -626,43 +626,43 @@ function Form13() {
     );
     aRef.current.value = null;
   };
-// 
-const [value, setValue] = useState(new Date());
-const [scheduleDate, setScheduleDate] = useState('');
-const [schTimeerror, setSchTimeerror] = useState('');
-const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
+  // 
+  const [value, setValue] = useState(new Date());
+  const [scheduleDate, setScheduleDate] = useState('');
+  const [schTimeerror, setSchTimeerror] = useState('');
+  const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
 
-const clickTime = (timeValue) => {
-  console.log(timeValue);
-  if (scheduleDate !== '') {
-    checkScheduleValidation(scheduleDate + ' ' + timeValue);
-  }
-  // Convert timeValue (HH:mm) to Date object for state
-  const [hours, minutes] = timeValue.split(':').map(Number);
-  const newDate = new Date(value);
-  newDate.setHours(hours, minutes);
-  setValue(newDate);
-};
+  const clickTime = (timeValue) => {
+    console.log(timeValue);
+    if (scheduleDate !== '') {
+      checkScheduleValidation(scheduleDate + ' ' + timeValue);
+    }
+    // Convert timeValue (HH:mm) to Date object for state
+    const [hours, minutes] = timeValue.split(':').map(Number);
+    const newDate = new Date(value);
+    newDate.setHours(hours, minutes);
+    setValue(newDate);
+  };
 
-const scheduleDateAndTime = (dateValue) => {
-  if (scheduleDate !== '') {
-    setRequestScheduleMsg('');
-  }
-  const timeString = formatTime(value);
-  if (scheduleDate !== '') {
-    checkScheduleValidation(getDateFormat1(dateValue) + ' ' + timeString);
-  }
-  setScheduleDate(getDateFormat1(dateValue));
-};
+  const scheduleDateAndTime = (dateValue) => {
+    if (scheduleDate !== '') {
+      setRequestScheduleMsg('');
+    }
+    const timeString = formatTime(value);
+    if (scheduleDate !== '') {
+      checkScheduleValidation(getDateFormat1(dateValue) + ' ' + timeString);
+    }
+    setScheduleDate(getDateFormat1(dateValue));
+  };
 
-const checkScheduleValidation = (DateTime) => {
-  if (isFutureDateTime(DateTime)) {
-    setSchTimeerror('');
-  } else {
-    setSchTimeerror('Message schedule time should be in future.');
-  }
-};
-// 
+  const checkScheduleValidation = (DateTime) => {
+    if (isFutureDateTime(DateTime)) {
+      setSchTimeerror('');
+    } else {
+      setSchTimeerror('Message schedule time should be in future.');
+    }
+  };
+  // 
 
   // const [value, setValue] = React.useState(new Date());
   let hours = value.getHours();
@@ -1290,13 +1290,13 @@ const checkScheduleValidation = (DateTime) => {
                     actions: []
                   }
                 }} /> */}
-                  <TimepickerTwofields1
+                <TimepickerTwofields1
                   Item={formatTime(value)}
                   label={'Time'}
                   isMandatory={false}
                   ClickItem={clickTime}
                   size={"medium"}
-                  // tooltipMessage="e.g. 14:00"
+                // tooltipMessage="e.g. 14:00"
                 />
               </Grid>
               <Grid item xs={6} sx={{ mt: 0, mb: '6px', ml: '1px' }}>
