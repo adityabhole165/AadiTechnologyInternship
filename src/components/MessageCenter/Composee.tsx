@@ -376,7 +376,7 @@ function Form13() {
   };
 
   const sendMessage = () => {
-    setLoading(true);
+    setLoading(false);
     const sendMessageAPIBody: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
