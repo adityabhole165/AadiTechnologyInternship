@@ -223,7 +223,7 @@ function Form13() {
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 50 MB.';
   const NoteSchedule: string =
-    'e.g. 07:00 AM. You can schedule message for next 7 days. For scheduled message, recipients wont get notification on mobile.';
+    'Messages can be scheduled for the upcoming seven days. Recipients will not receive notifications on their mobile devices for scheduled messages.';
 
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const localschoolId = localStorage.getItem('localSchoolId');
@@ -732,7 +732,6 @@ function Form13() {
   const MaxfileSize = 50000000;
   // const ValidFileTypes2 =  ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
   const ValidFileTypes2 = [
-    'BMP',
     'DOC',
     'DOCX',
     'JPG',
