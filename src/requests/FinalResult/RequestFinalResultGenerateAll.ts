@@ -491,7 +491,8 @@ export const StudentDetailsGA =
                 Subjects.push({
                     Id: item.Subject_Id,
                     Name: item.Subject_Name,
-                    Value: item.Subject_Id
+                    Value: item.Subject_Id,
+                    Total_Consideration: item.Total_Consideration
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.SubjectDetails(Subjects));
@@ -501,7 +502,7 @@ export const StudentDetailsGA =
                 ShortenTestType.push({
                     Id: item.Subject_Id,
                     Name: item.ShortenTestType_Name,
-                    Value: item.Subject_Id,
+                    Value: item.Subject_Id
 
                 });
             });

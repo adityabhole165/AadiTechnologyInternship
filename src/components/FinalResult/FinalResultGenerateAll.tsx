@@ -46,6 +46,7 @@ const GenerateAll = ({ }) => {
     const GradesDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getGradesDetailsView);
     const showOnlyGrades = ViewProgress.some((item) => item.ShowOnlyGrades.trim() === 'true');
     const totalconsidration = SubjectDetailsView.filter((item) => item.Total_Consideration === "N")
+    const TotalconsidrationProgressReport = SubjectDetails.filter((item) => item.Total_Consideration === "N")
     const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
     const TotalPerGradeView = useSelector((state: RootState) => state.FinalResultGenerateAll.getTotalPerGradeView);
     const PercentageDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getPerDetails);
@@ -328,6 +329,18 @@ const GenerateAll = ({ }) => {
                                             })}
                                         </TableBody>
                                     </Table>
+                                    <Table>
+                                        <TableBody>
+                                            {TotalconsidrationProgressReport.length > 0 && (
+                                                <>
+                                                    <TableRow sx={{ bgcolor: 'white', p: 2, }}>
+                                                        <TableCell><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
+                                                    </TableRow>
+                                                </>
+                                            )}
+
+                                        </TableBody>
+                                    </Table>
                                     <Box sx={{ overflowX: 'auto', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                         <Table>
                                             <TableHead>
@@ -583,7 +596,7 @@ const GenerateAll = ({ }) => {
                                         {totalconsidration.length > 0 && (
                                             <>
                                                 <TableRow sx={{ bgcolor: 'white', p: 2 }}>
-                                                    <TableCell sx={{ pl: 10 }}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks </TableCell>
+                                                    <TableCell sx={{ pl: 10 }}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
                                                 </TableRow>
                                             </>
                                         )}

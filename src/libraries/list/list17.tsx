@@ -106,7 +106,7 @@ function List17({ Name, BirthDate, Designation, EmailAddress, MobileNumber, Bina
         {...(checked ? { timeout: 1500 } : {})}
       >
         <ListStyle sx={{
-          background: IsHighlight == 1 ? "#e9a69a" : IsHighlight == 2 ? "#C0C0C0" :
+          background: IsHighlight == 1 ? "#EFDCC9" : IsHighlight == 2 ? "#d3d3d3" :
             `${theme.colors.gradients.pink1}`,
         }}>
 
