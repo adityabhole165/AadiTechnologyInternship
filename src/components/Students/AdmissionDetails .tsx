@@ -30,11 +30,7 @@ import {
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const AdmissionDetails = ({
-  onSave
-}: {
-  onSave: (isSuccessful: boolean) => void;
-}) => {
+const AdmissionDetails = ({ onTabChange }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId } = location.state || {};
@@ -170,6 +166,12 @@ const AdmissionDetails = ({
 
   }, [form.staffUserRole]);
 
+  //#region DataTransfer 
+  useEffect(() => {
+    onTabChange(form); // Sends the initial form state to the parent when component mounts
+  }, [form]);
+  //#endregion
+
   const [errors, setErrors] = useState({
     userName: false,
     formNumber: false,
@@ -259,7 +261,7 @@ const AdmissionDetails = ({
 
   const handleSave = () => {
     const isValid = validateForm();
-    onSave(isValid);
+    //onSave(isValid);
     setMessage(
       isValid
         ? 'Draft saved successfully!'

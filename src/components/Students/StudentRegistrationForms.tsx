@@ -99,7 +99,7 @@ const StudentRegistrationForm = () => {
   const [tableData, setTableData] = useState(initialData);
   const { AssignedDate } = useParams();
 
-  const [admissionDetails, setAdmissionDetails] = useState(false);
+  const [admissionDetailsData, setAdmissionDetailsData] = useState({});
   const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
   //const [familyData, setFamilyData] = useState(false);
 
@@ -123,8 +123,10 @@ const StudentRegistrationForm = () => {
 
   const onTabChange = (updateddata) => {
     setPersonalDetailsData(updateddata);
+    setAdmissionDetailsData(updateddata);
     //console.log("TabChanged", updateddata);
     console.log('personalDetails data:', personalDetailsData);
+    console.log('admissionDetails data:', admissionDetailsData);
   }
 
   const handleNextTab = () => {
@@ -514,7 +516,7 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <AdmissionDetails onSave={handleSave} />
+              <AdmissionDetails onTabChange={onTabChange} />
             </Grid>
           </Grid>
         )}

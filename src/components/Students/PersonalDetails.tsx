@@ -164,9 +164,11 @@ const PersonalDetails = ({ onTabChange }) => {
     }
   }, [USGetSingleStudentDetails]);
 
+  //#region DataTransfer 
   useEffect(() => {
     onTabChange(form); // Sends the initial form state to the parent when component mounts
   }, [form]);
+  //#endregion
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked, files } = e.target;
