@@ -897,7 +897,7 @@ const ComposeSMSform = () => {
                     open={openDialog1}
                     onClose={handleCloseDialog1}
                     fullWidth
-                    maxWidth="md"
+                    maxWidth="lg"
                     PaperProps={{
                         sx: {
                             borderRadius: "15px",

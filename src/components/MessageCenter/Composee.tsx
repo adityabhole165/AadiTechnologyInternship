@@ -1,6 +1,6 @@
 import { QuestionMark } from '@mui/icons-material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import InfoIcon from '@mui/icons-material/Info';
@@ -25,8 +25,8 @@ import {
   useTheme
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { blue, green, grey } from '@mui/material/colors';
-import { ClearIcon, TimePicker } from '@mui/x-date-pickers';
+import { blue, green, grey, red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import JoditEditor from 'jodit-react';
 import React, { useEffect, useRef, useState } from 'react';
@@ -64,10 +64,11 @@ import {
   AttachmentFile,
   ISendMessage
 } from '../../interfaces/MessageCenter/MessageCenter';
-import { formatAMPM, getDateFormat1, isFutureDateTime } from '../Common/Util';
+import { getDateFormat1, isFutureDateTime } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
+import { TimepickerTwofields1 } from './TimeField';
 function Form13() {
   const [openDialog, setOpenDialog] = useState(false);
   const [showRecipients, setShowRecipients] = useState(false);
@@ -211,10 +212,10 @@ function Form13() {
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [scheduleMessage, setscheduleMessage] = useState('none');
   const [requestReadReceipt, setRequestReadReceipt] = useState(false);
-  const [scheduleDate, setscheduleDate] = useState<string>('');
+  // const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
-  const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
-  const [schTimeerror, setSchTimeerror] = useState('');
+  // const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
+  // const [schTimeerror, setSchTimeerror] = useState('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
   const [subjecterror, setSubjecterror] = useState('');
   const [contenterror, setContenterror] = useState('');
@@ -222,7 +223,7 @@ function Form13() {
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 50 MB.';
   const NoteSchedule: string =
-    'e.g. 07:00 AM. You can schedule message for next 7 days. For scheduled message, recipients wont get notification on mobile.';
+    'Messages can be scheduled for the upcoming seven days. Recipients will not receive notifications on their mobile devices for scheduled messages.';
 
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const localschoolId = localStorage.getItem('localSchoolId');
@@ -298,7 +299,6 @@ function Form13() {
     const fileExtension = fileData?.name?.split('.').at(-1);
     setfileExtension(fileExtension);
     const allowedFileTypes = [
-      'BMP',
       'DOC',
       'DOCX',
       'JPG',
@@ -311,7 +311,6 @@ function Form13() {
       'PPTX',
       'XLS',
       'XLSX',
-      'bmp',
       'doc',
       'docx',
       'jpg',
@@ -347,7 +346,7 @@ function Form13() {
         return false;
       }
 
-      if (fileData?.size > 50e6) {
+      if (fileData?.size >= 50e6) {
         setFilerror('Total file size should be less than 50 MB.');
         return false;
       }
@@ -375,7 +374,7 @@ function Form13() {
   };
 
   const sendMessage = () => {
-    setLoading(true);
+    setLoading(false);
     const sendMessageAPIBody: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -420,11 +419,11 @@ function Form13() {
             scheduleDate !== '' &&
             value !== undefined
           ) {
-            toast.success('Message scheduled successfully', {
+            toast.success('Message scheduled successfully.', {
               toastId: 'success1'
             });
           } else {
-            toast.success('Message sent successfully', { toastId: 'success1' });
+            toast.success('Message sent successfully.', { toastId: 'success1' });
           }
           localStorage.setItem('messageBody', '');
           setTimeout(RediretToSentPage, 100);
@@ -432,7 +431,7 @@ function Form13() {
         }
       })
       .catch((err) => {
-        toast.error('Message did not sent successfully', { toastId: 'error1' });
+        toast.error('Message did not sent successfully.', { toastId: 'error1' });
         localStorage.setItem('messageBody', '');
         setdisabledStateOfSend(false);
         setLoading(false);
@@ -480,7 +479,7 @@ function Form13() {
           valid = true;
         }
         if (scheduleDate.length == 0) {
-          setRequestScheduleMsg('Schedule Date and Time should not be blank.');
+          setRequestScheduleMsg('Schedule date should not be blank.');
           valid = false;
         } else if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
           setSchTimeerror('Message schedule time should be in future.');
@@ -587,7 +586,11 @@ function Form13() {
       RecipientId: prev.RecipientId.filter((recipient, i) => i !== index),
     }));
   };
-
+  const formatTime = (date) => {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
   useEffect(() => {
     if (
       !(
@@ -621,31 +624,35 @@ function Form13() {
     );
     aRef.current.value = null;
   };
-  const [value, setValue] = React.useState(new Date());
-  let hours = value.getHours();
-  let minutes = value.getMinutes();
-  let ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  let strTime = hours + ':' + minutes + ' ' + ampm;
+  // 
+  const [value, setValue] = useState(new Date());
+  const [scheduleDate, setScheduleDate] = useState('');
+  const [schTimeerror, setSchTimeerror] = useState('');
+  const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
 
-  const clickTime = (value) => {
-    const time = formatAMPM(value);
+  const clickTime = (timeValue) => {
+    console.log(timeValue);
     if (scheduleDate !== '') {
-      checkScheduleValidation(scheduleDate + ' ' + time);
+      checkScheduleValidation(scheduleDate + ' ' + timeValue);
     }
-    setValue(value);
+    // Convert timeValue (HH:mm) to Date object for state
+    const [hours, minutes] = timeValue.split(':').map(Number);
+    const newDate = new Date(value);
+    newDate.setHours(hours, minutes);
+    setValue(newDate);
   };
 
-  const scheduleDateAndTime = (value) => {
+  const scheduleDateAndTime = (dateValue) => {
     if (scheduleDate !== '') {
       setRequestScheduleMsg('');
     }
+    const timeString = formatTime(value);
     if (scheduleDate !== '') {
-      checkScheduleValidation(getDateFormat1(value) + ' ' + strTime);
+      checkScheduleValidation(getDateFormat1(dateValue) + ' ' + timeString);
     }
-    setscheduleDate(getDateFormat1(value));
+    setScheduleDate(getDateFormat1(dateValue));
   };
+
   const checkScheduleValidation = (DateTime) => {
     if (isFutureDateTime(DateTime)) {
       setSchTimeerror('');
@@ -653,6 +660,40 @@ function Form13() {
       setSchTimeerror('Message schedule time should be in future.');
     }
   };
+  // 
+
+  // const [value, setValue] = React.useState(new Date());
+  let hours = value.getHours();
+  let minutes = value.getMinutes();
+  let ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  let strTime = hours + ':' + minutes + ' ' + ampm;
+
+  // const clickTime = (value) => {
+  //   const time = formatAMPM(value);
+  //   if (scheduleDate !== '') {
+  //     checkScheduleValidation(scheduleDate + ' ' + time);
+  //   }
+  //   setValue(value);
+  // };
+
+  // const scheduleDateAndTime = (value) => {
+  //   if (scheduleDate !== '') {
+  //     setRequestScheduleMsg('');
+  //   }
+  //   if (scheduleDate !== '') {
+  //     checkScheduleValidation(getDateFormat1(value) + ' ' + strTime);
+  //   }
+  //   setscheduleDate(getDateFormat1(value));
+  // };
+  // const checkScheduleValidation = (DateTime) => {
+  //   if (isFutureDateTime(DateTime)) {
+  //     setSchTimeerror('');
+  //   } else {
+  //     setSchTimeerror('Message schedule time should be in future.');
+  //   }
+  // };
   const [showCC, setShowCC] = useState(false);
   const clickHide = () => {
     setShowCC(!showCC);
@@ -689,7 +730,6 @@ function Form13() {
   const MaxfileSize = 50000000;
   // const ValidFileTypes2 =  ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
   const ValidFileTypes2 = [
-    'BMP',
     'DOC',
     'DOCX',
     'JPG',
@@ -850,7 +890,7 @@ function Form13() {
                   fullWidth
                   label={
                     <span style={{ color: '#38548A' }}>
-                      Form
+                      From
                     </span>
                   }
                   InputProps={{
@@ -1060,7 +1100,7 @@ function Form13() {
                   onChange={formik.handleChange}
                 />
                 <Errormessages Error={subjecterror} />
-                <Box>
+                <Box sx={{ mt: 1.5 }}>
                   {formik.touched.Subject && formik.errors.Subject ? (
                     <ErrorMessage1 Error={formik.errors.Subject} />
                   ) : null}
@@ -1141,18 +1181,29 @@ function Form13() {
                             <CardDetail8 sx={{ mt: '1px' }}>
                               {obj.FileName.slice(0, 25)}
                             </CardDetail8>
-                            <IconButton
-                              aria-label="delete"
-                              title="Delete"
-                              onClick={() =>
-                                handleRemoveListItems(
-                                  obj.FileName,
-                                  obj.Base64URL
-                                )
-                              }
-                            >
-                              <DeleteIcon sx={{ color: 'red', mt: '-4px' }} />
-                            </IconButton>
+                            <Tooltip title={'Delete'}>
+                              <IconButton
+                                aria-label="delete"
+                                // title="Delete"
+                                onClick={() =>
+                                  handleRemoveListItems(
+                                    obj.FileName,
+                                    obj.Base64URL
+                                  )
+                                }
+                                sx={{
+                                  color: '#38548A	',
+                                  ml: 2,
+                                  mt: -0.7,
+                                  '&:hover': {
+                                    color: 'red',
+                                    backgroundColor: red[100]
+                                  }
+                                }}
+                              >
+                                <DeleteForeverIcon />
+                              </IconButton>
+                            </Tooltip>
                           </Box>
                         </div>
                       );
@@ -1219,9 +1270,9 @@ function Form13() {
               <Grid
                 item
                 xs={12}
-                sm={3.5}
-                md={3.5}
-                lg={1.5}
+                sm={4}
+                md={4}
+                lg={2}
                 sx={{ ml: -5, mt: -1, messageCenterCale }}
               >
                 <Datepicker
@@ -1237,16 +1288,24 @@ function Form13() {
               <Grid
                 item
                 xs={12}
-                sm={3.5}
-                md={3.5}
-                lg={1.5}
+                sm={4}
+                md={4}
+                lg={2}
                 sx={{ mt: -1, display: scheduleMessage }}
               >
-                <TimePicker value={value} onChange={clickTime} slotProps={{
+                {/* <TimePicker value={value} onChange={clickTime} slotProps={{
                   actionBar: {
                     actions: []
                   }
-                }} />
+                }} /> */}
+                <TimepickerTwofields1
+                  Item={formatTime(value)}
+                  label={'Time'}
+                  isMandatory={false}
+                  ClickItem={clickTime}
+                  size={"medium"}
+                // tooltipMessage="e.g. 14:00"
+                />
               </Grid>
               <Grid item xs={6} sx={{ mt: 0, mb: '6px', ml: '1px' }}>
                 <ErrorMessage1 Error={schTimeerror} />

@@ -267,7 +267,7 @@ function SmsCenter() {
               </Tooltip>
             </Box>
             <Box>
-              <Tooltip title={`Displays received SMS list.`}>
+              <Tooltip title={`Displays recived sms/ send sms/ scheduled sms/all send sms list.`}>
                 <IconButton
                   sx={{
                     color: 'white',
