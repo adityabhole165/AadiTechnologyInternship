@@ -340,7 +340,7 @@ function Form13() {
     //     return false;
     //   }
     // }
-    
+
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
         setFilerror('Invalid file format.');
@@ -706,16 +706,16 @@ function Form13() {
 
   const SaveDraft = () => {
     let isError = false;
-    if (formik.values.Subject === '') {
-      setSubjecterror('Subject is required');
-      isError = true;
-    }
-    if (formik.values.Content === '') {
-      setContenterror('Content is required');
-      isError = true;
-    } else {
-      dispatch(getSaveDraftMessage(SaveDraftBody));
-    }
+    // if (formik.values.Subject === '') {
+    //   setSubjecterror('Subject is required');
+    //   isError = true;
+    // }
+    // if (formik.values.Content === '') {
+    //   setContenterror('Content is required');
+    //   isError = true;
+    // } else {
+    dispatch(getSaveDraftMessage(SaveDraftBody));
+    // }
   };
 
   useEffect(() => {

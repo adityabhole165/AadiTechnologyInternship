@@ -400,7 +400,7 @@ export const Styles = makeStyles({
   },
 
   checkboxSize: {
-    fontSize: '26px !important',
+    fontSize: '24px !important',
 
     '@media (max-width: 280px)': {
       fontSize: '16px !important'
