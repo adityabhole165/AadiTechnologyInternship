@@ -1,6 +1,6 @@
 import { QuestionMark } from '@mui/icons-material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import InfoIcon from '@mui/icons-material/Info';
@@ -25,7 +25,7 @@ import {
   useTheme
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { blue, green, grey } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import JoditEditor from 'jodit-react';
@@ -1103,7 +1103,7 @@ function Form13() {
                   onChange={formik.handleChange}
                 />
                 <Errormessages Error={subjecterror} />
-                <Box>
+                <Box sx={{ mt: 1.5 }}>
                   {formik.touched.Subject && formik.errors.Subject ? (
                     <ErrorMessage1 Error={formik.errors.Subject} />
                   ) : null}
@@ -1184,18 +1184,29 @@ function Form13() {
                             <CardDetail8 sx={{ mt: '1px' }}>
                               {obj.FileName.slice(0, 25)}
                             </CardDetail8>
-                            <IconButton
-                              aria-label="delete"
-                              title="Delete"
-                              onClick={() =>
-                                handleRemoveListItems(
-                                  obj.FileName,
-                                  obj.Base64URL
-                                )
-                              }
-                            >
-                              <DeleteIcon sx={{ color: 'red', mt: '-4px' }} />
-                            </IconButton>
+                            <Tooltip title={'Delete'}>
+                              <IconButton
+                                aria-label="delete"
+                                // title="Delete"
+                                onClick={() =>
+                                  handleRemoveListItems(
+                                    obj.FileName,
+                                    obj.Base64URL
+                                  )
+                                }
+                                sx={{
+                                  color: '#38548A	',
+                                  ml: 2,
+                                  mt: -0.7,
+                                  '&:hover': {
+                                    color: 'red',
+                                    backgroundColor: red[100]
+                                  }
+                                }}
+                              >
+                                <DeleteForeverIcon />
+                              </IconButton>
+                            </Tooltip>
                           </Box>
                         </div>
                       );
