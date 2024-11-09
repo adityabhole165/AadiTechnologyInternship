@@ -37,17 +37,18 @@ const AdmissionDetails = ({ onTabChange }) => {
   const { AssignedDate } = useParams();
 
   const [form, setForm] = useState({
+    userName: '',
+    sendSMS: false,
     newAdmission: false,
     isRTEApplicable: false,
-    userName: '',
+    rteCategory: '',
+    rteApplicationForm: '',
     formNumber: '',
     registrationNumber: '',
     admissionDate: '',
     joiningDate: '',
     studentRollNumber: '',
-    sendSMS: false,
-    rteCategory: '',
-    rteApplicationForm: '',
+    UDISENumber: '',
     BoardRegistrationNumber: '',
     SaralNo: '',
     PENNumber: '',
@@ -56,7 +57,16 @@ const AdmissionDetails = ({ onTabChange }) => {
     applicableRules: '',
     staffUserRole: '',
     staffName: '',
-    residenceTypes: ''
+    residenceTypes: '',
+    feeCategoryDetailsId: '',
+    RFID: '',
+    isStaffKid: false,
+    isOnlyChild: false,
+    isRiseAndShine: false,
+    isMinority: false,
+    isForDayBoarding: false,
+    isDayBoardingFeePaid: false,
+    isHandicapped: false,
   });
 
   const ResidenceTypesDropdown = useSelector(
@@ -125,26 +135,36 @@ const AdmissionDetails = ({ onTabChange }) => {
       const studentData = USGetSingleStudentDetails[0]; // Get first item from array
       setForm(prevForm => ({
         ...prevForm,
+        userName: studentData.User_Login || '',
+        sendSMS: studentData.Send_SMS === 'False' ? false : true,
         newAdmission: studentData.Is_New_Student === 'False' ? false : true,
         isRTEApplicable: studentData.Is_RTE_Student === 'False' ? false : true,
-        userName: studentData.User_Id || '',
+        rteCategory: studentData.RTECategoryId || '',
+        rteApplicationForm: studentData.RTEApplicationFormNo || '',
         formNumber: studentData.Enrolment_Number || '',
         registrationNumber: studentData.Enrolment_Number || '',
         admissionDate: studentData.Admission_date || '',
         joiningDate: studentData.Joining_Date || '',
         studentRollNumber: studentData.Roll_No || '',
-        sendSMS: false,
-        rteCategory: studentData.RTECategoryId || '',
-        rteApplicationForm: studentData.RTEApplicationFormNo || '',
+        UDISENumber: studentData.UDISENumber || '',
         BoardRegistrationNumber: studentData.BoardRegistrationNo || '',
         SaralNo: studentData.SaralNo || '',
-        PENNumber: studentData.PENNumber || '',
+        PENNumber: studentData.PENNumber || '', // Not found
         secondlanguage: studentData.SecondLanguageSubjectId || '',
         thirdlanguage: studentData.ThirdLanguageSubjectId || '',
         applicableRules: studentData.Rule_Id || '',
-        staffUserRole: studentData.Roll_No || '',
-        staffName: studentData.User_Id || '',
-        residenceTypes: studentData.ResidenceTypeId || ''
+        staffUserRole: studentData.staffUserRole || '',
+        staffName: studentData.staffName || '',
+        residenceTypes: studentData.ResidenceTypeId || '',
+        feeCategoryDetailsId: studentData.FeeCategoryDetailsId || '',
+        RFID: 'Hello there', // not found
+        isStaffKid: studentData.IsStaffKid === 'False' ? false : true,
+        isOnlyChild: studentData.IsOnlyChild === 'False' ? false : true,
+        isRiseAndShine: studentData.IsRiseAndShine === 'False' ? false : true,
+        isMinority: studentData.Minority === 'False' ? false : true,
+        isForDayBoarding: studentData.IsForDayBoarding === 'False' ? false : true,
+        isDayBoardingFeePaid: studentData.IsDayBoardingFeePaid === 'False' ? false : true,
+        isHandicapped: false, // not found
 
       }));
     }
@@ -199,25 +219,31 @@ const AdmissionDetails = ({ onTabChange }) => {
       ...prevForm,
       [name]: value,
 
-      ...(name === 'staffUserRole' && { staffName: '' })
+      //...(name === 'staffUserRole' && { staffName: '' })
     }));
     setErrors((prev) => ({ ...prev, [name]: false }));
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked, type } = event.target;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked, files } = e.target;
+
+    let fieldValue;
+    if (type === 'checkbox') {
+      fieldValue = checked;
+    } else if (type === 'file') {
+      fieldValue = files ? files[0] : null;
+    } else {
+      fieldValue = value;
+    }
+
     setForm((prevForm) => ({
       ...prevForm,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: fieldValue
     }));
 
-    // Update error state when user types
-    if (value) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: false
-      }));
-    }
+    //onTabChange({ firstName: fieldValue, })
+    // Remove error when the user starts filling the field
+    setErrors({ ...errors, [name]: false });
   };
 
   const validateForm = () => {
@@ -524,7 +550,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             name="StudentUDISEnumber"
             label="Student UDISE number"
             variant="outlined"
-            value={form.studentRollNumber}
+            value={form.UDISENumber}
             onChange={handleInputChange}
             fullWidth
           />
@@ -563,11 +589,7 @@ const AdmissionDetails = ({ onTabChange }) => {
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={
-              SecondLangDropdown.length > 0
-                ? SecondLangDropdown
-                : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]
-            }
+            ItemList={SecondLangDropdown.length > 0 ? SecondLangDropdown : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]}
             onChange={(value) => handleDropdownChange('secondlanguage', value)}
             label={'Second Language'}
             defaultValue={form.secondlanguage}
@@ -577,13 +599,8 @@ const AdmissionDetails = ({ onTabChange }) => {
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={
-              ThirdLangDropdown.length > 0
-                ? ThirdLangDropdown
-                : SecondLangDropdown.length > 0
-                  ? SecondLangDropdown
-                  : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]
-            }
+            ItemList={ThirdLangDropdown.length > 0 ? ThirdLangDropdown : SecondLangDropdown.length > 0 ? SecondLangDropdown :
+              [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]}
             onChange={(value) => handleDropdownChange('thirdlanguage', value)}
             label={'Third Language'}
             defaultValue={form.thirdlanguage}
@@ -643,19 +660,20 @@ const AdmissionDetails = ({ onTabChange }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
-            name="userName"
+            name="RFID"
             label="RFID"
             variant="outlined"
+            value={form.RFID}
+            onChange={handleInputChange}
             fullWidth
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
-                name="newAdmission"
-                checked={form.newAdmission}
+                name="isStaffKid"
+                checked={form.isStaffKid}
                 onChange={handleInputChange}
               />
             }
@@ -666,8 +684,8 @@ const AdmissionDetails = ({ onTabChange }) => {
           <FormControlLabel
             control={
               <Checkbox
-                name="newAdmission"
-                checked={form.newAdmission}
+                name="isOnlyChild"
+                checked={form.isOnlyChild}
                 onChange={handleInputChange}
               />
             }
@@ -678,8 +696,8 @@ const AdmissionDetails = ({ onTabChange }) => {
           <FormControlLabel
             control={
               <Checkbox
-                name="newAdmission"
-                checked={form.newAdmission}
+                name="isRiseAndShine"
+                checked={form.isRiseAndShine}
                 onChange={handleInputChange}
               />
             }
@@ -690,8 +708,8 @@ const AdmissionDetails = ({ onTabChange }) => {
           <FormControlLabel
             control={
               <Checkbox
-                name="newAdmission"
-                checked={form.newAdmission}
+                name="isMinority"
+                checked={form.isMinority}
                 onChange={handleInputChange}
               />
             }
@@ -702,8 +720,8 @@ const AdmissionDetails = ({ onTabChange }) => {
           <FormControlLabel
             control={
               <Checkbox
-                name="newAdmission"
-                checked={form.newAdmission}
+                name="isForDayBoarding"
+                checked={form.isForDayBoarding}
                 onChange={handleInputChange}
               />
             }
@@ -714,12 +732,12 @@ const AdmissionDetails = ({ onTabChange }) => {
           <FormControlLabel
             control={
               <Checkbox
-                name="newAdmission"
-                checked={form.newAdmission}
+                name="isDayBoardingFeePaid"
+                checked={form.isDayBoardingFeePaid}
                 onChange={handleInputChange}
               />
             }
-            label="Is For Day Boarding?"
+            label="Is Day Boarding Fee Paid?"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -727,7 +745,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="isHandicapped"
-                checked={form.newAdmission}
+                checked={form.isHandicapped}
                 onChange={handleInputChange}
               />
             }

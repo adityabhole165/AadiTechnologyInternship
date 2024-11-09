@@ -121,12 +121,17 @@ const StudentRegistrationForm = () => {
     setCurrentTab(newValue);
   };
 
-  const onTabChange = (updateddata) => {
-    setPersonalDetailsData(updateddata);
+  //#region CallBack
+  const onAdmissionTab = (updateddata) => {
     setAdmissionDetailsData(updateddata);
-    //console.log("TabChanged", updateddata);
-    console.log('personalDetails data:', personalDetailsData);
     console.log('admissionDetails data:', admissionDetailsData);
+  }
+
+  const onPersonalTab = (updateddata) => {
+    setPersonalDetailsData(updateddata);
+    // setAdmissionDetailsData(updateddata);
+    console.log('personalDetails data:', personalDetailsData);
+    // console.log('admissionDetails data:', admissionDetailsData);
   }
 
   const handleNextTab = () => {
@@ -516,7 +521,7 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <AdmissionDetails onTabChange={onTabChange} />
+              <AdmissionDetails onTabChange={onAdmissionTab} />
             </Grid>
           </Grid>
         )}
@@ -530,7 +535,7 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <PersonalDetails onTabChange={onTabChange} />
+              <PersonalDetails onTabChange={onPersonalTab} />
             </Grid>
           </Grid>
         )}
