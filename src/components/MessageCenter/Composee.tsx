@@ -481,7 +481,7 @@ function Form13() {
           valid = true;
         }
         if (scheduleDate.length == 0) {
-          setRequestScheduleMsg('Schedule Date and Time should not be blank.');
+          setRequestScheduleMsg('Schedule date should not be blank.');
           valid = false;
         } else if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
           setSchTimeerror('Message schedule time should be in future.');
@@ -1272,9 +1272,9 @@ function Form13() {
               <Grid
                 item
                 xs={12}
-                sm={3.5}
-                md={3.5}
-                lg={1.5}
+                sm={4}
+                md={4}
+                lg={2}
                 sx={{ ml: -5, mt: -1, messageCenterCale }}
               >
                 <Datepicker
@@ -1290,9 +1290,9 @@ function Form13() {
               <Grid
                 item
                 xs={12}
-                sm={3.5}
-                md={3.5}
-                lg={1.5}
+                sm={4}
+                md={4}
+                lg={2}
                 sx={{ mt: -1, display: scheduleMessage }}
               >
                 {/* <TimePicker value={value} onChange={clickTime} slotProps={{
