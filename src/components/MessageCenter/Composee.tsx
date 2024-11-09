@@ -299,7 +299,6 @@ function Form13() {
     const fileExtension = fileData?.name?.split('.').at(-1);
     setfileExtension(fileExtension);
     const allowedFileTypes = [
-      'BMP',
       'DOC',
       'DOCX',
       'JPG',
@@ -312,7 +311,6 @@ function Form13() {
       'PPTX',
       'XLS',
       'XLSX',
-      'bmp',
       'doc',
       'docx',
       'jpg',
