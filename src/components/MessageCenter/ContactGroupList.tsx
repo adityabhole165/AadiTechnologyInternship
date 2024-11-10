@@ -37,11 +37,12 @@ interface Group {
 
 interface ContactGroupListProps {
   onClose,
-  GPID: number
+  GPID: number,
+  GPName: string
 }
 
-const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0 }) => {
-  console.log('GPID', GPID);
+const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, GPName = '' }) => {
+  console.log('G99999999PID', GPID, GPName);
   const dispatch = useDispatch();
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
@@ -56,19 +57,21 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0 }
   const [openDialog, setOpenDialog] = useState(false);
   const [UsersRole, setUserRole] = useState('1');
   const [StandardClass, setStandardClass] = useState('1293');
-  const [GroupName, setGroupName] = useState('');
+  const [GroupName, setGroupName] = useState(GPName);
   const [ErrorUserRole, setErrorUserRole] = useState('');
   const [ErrorSelectedUser, setErrorSelectedUser] = useState('');
   const [ErrorGroupName, setErrorGroupName] = useState('');
-  // const [ErrorGroupName, setErrorGroupName] = useState('');
-
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = Number(localStorage.getItem('UserId'));
 
-  //console.log(USGetUserRole, "###########")
+  const getuserlist: any = useSelector(
+    (state: RootState) => state.getuser1.GetUser
+  );
+  console.log(getuserlist, 'getuserlist');
+
 
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
   console.log(USGetUserRole, "###########")
@@ -119,6 +122,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0 }
     dispatch(CDAGetUserName(UserName));
   }, [dispatch, page, rowsPerPage, UsersRole, StandardClass]);
 
+
+  useEffect(() => {
+    setGroupName(GPName);
+  }, [GPName]);
 
 
 
@@ -283,7 +290,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0 }
   const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
 
 
-  console.log(selectedd, '77777777777')
+
   return (
     <>
       <Box>
@@ -294,11 +301,15 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0 }
             <TextField label={
               <span>
                 Group Name<span style={{ color: 'red' }}> *
-                  <ErrorMessage1 Error={ErrorGroupName}></ErrorMessage1>
+
                 </span>
               </span>
             }
+              defaultValue={GroupName}
               fullWidth onChange={(e) => clickGroupName(e.target.value)} />
+            <ErrorMessage1 Error={ErrorGroupName}></ErrorMessage1>
+            <ErrorMessage1 Error={ErrorSelectedUser}></ErrorMessage1>
+            <ErrorMessage1 Error={ErrorUserRole}></ErrorMessage1>
           </Grid>
         </Grid>
 
@@ -324,7 +335,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0 }
                       label={item.Name}
 
                     />
-                    <ErrorMessage1 Error={ErrorUserRole}></ErrorMessage1>
+                    {/* <ErrorMessage1 Error={ErrorUserRole}></ErrorMessage1> */}
                   </Grid>
                 )
               )}
@@ -427,7 +438,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0 }
                       <Checkbox
                         checked={selected.includes(item.UserId)}
                         onChange={() => handleCheckboxChange(item.UserId)} />
-                      <ErrorMessage1 Error={ErrorSelectedUser}></ErrorMessage1>
+
                     </TableCell>
                     <TableCell sx={{ py: 0.5 }}>{item.UserName}</TableCell>
                   </TableRow>

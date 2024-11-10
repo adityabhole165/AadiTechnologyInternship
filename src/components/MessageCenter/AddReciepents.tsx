@@ -101,6 +101,7 @@ const AddReciepents = ({
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
   );
+  console.log(getuserlist, 'getuserlist');
 
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
@@ -117,7 +118,8 @@ const AddReciepents = ({
   const getPTAOption: any = useSelector(
     (state: RootState) => state.getuser1.PTAOption
   );
-  const USDeleteContactGroup: any = useSelector((state: RootState) => state.ContactGroup.IDeleteMailGroupMsg);
+  const USDeleteContactGroup: any = useSelector(
+    (state: RootState) => state.ContactGroup.IDeleteMailGroupMsg);
   useEffect(() => {
     if (USDeleteContactGroup !== '') {
       toast.success(USDeleteContactGroup);
@@ -155,13 +157,13 @@ const AddReciepents = ({
     asScholId: schoolId,
     asAcademicYearId: academicYearId,
     asGroupId: '0',
-    asUserRoleId: '3',
+    asUserRoleId: '2',
     asUserId: asUserId
   };
   useEffect(() => {
     dispatch(getShowPTA(showPTA));
   }, []);
-
+  console.log(asUserId, "$$$$$4444")
   const handleDelete = (recipient) => {
     const updatedRecipients = selectedRecipents.filter((r) => r !== recipient);
     const updatedRecipientIds = selectedRecipentsId.filter(
@@ -803,7 +805,7 @@ const AddReciepents = ({
 
         <DialogContent>
           <Box>
-            <ContactGroupList onClose={handleCloseDialog} GPID={0} />
+            <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} />
           </Box>
           {/* <Box>
             <DialogActions sx={{ py: 2, px: 3 }}>

@@ -17,11 +17,12 @@ import { ItemSize } from '../styled/CardStyle';
 const ContactGroupCheckboxCard = ({ Item, onClick }) => {
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [EditGroupName, setEditGroupName] = useState([]);
     const dispatch = useDispatch();
     const schoolId = localStorage.getItem('localSchoolId');
     const asUserId = sessionStorage.getItem('Id');
     const academicYearId = sessionStorage.getItem('AcademicYearId');
-
+    console.log(EditGroupName, "Item90909900090");
     const handleClickAway = () => {
         setOpen(false);
     };
@@ -43,15 +44,15 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
             asScholId: schoolId,
             asAcademicYearId: academicYearId,
             asGroupId: '0',
-            asUserRoleId: '3',
+            asUserRoleId: '2',
             asUserId: asUserId
         };
 
         dispatch(ContactGroup(ContactgroupBody));
     }
-    // const onEdit = (Id) => {
-
-    // }
+    const onEdit = (Name) => {
+        setEditGroupName(Name)
+    }
     const handleOpenDialog = (isRecipients) => {
         // setIsConfirm1('');
         // setShowRecipients(isRecipients);
@@ -128,8 +129,8 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                             <Grid container>
                                 <Grid item xs={3}>
                                     <IconButton
-                                        // onClick={() => onEdit(Item.Id)}
-                                        onClick={() => handleOpenDialog(true)}
+                                        //onClick={() => onEdit(Item.Id)}
+                                        onClick={() =>  handleOpenDialog(true) } 
                                     >
                                         <EditIcon />
                                     </IconButton>
@@ -189,7 +190,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
 
                                     <DialogContent>
                                         <Box>
-                                            <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} />
+                                            <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} GPName={Item.Name} />
                                         </Box>
                                     </DialogContent>
                                 </Dialog>
