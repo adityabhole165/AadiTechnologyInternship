@@ -1,4 +1,4 @@
-import { GetSchoolSettingsBody, GetSchoolSettingsResult, IGetAcademicYearsOfStudentBody, IGetAcademicYearsOfStudentResult, IGetAllMarksGradeConfigurationBody, IGetAllMarksGradeConfigurationResult, IGetAllStudentsProgressSheetBody, IGetAllStudentsProgressSheetResult, IGetClassTeachersBody, IGetClassTeachersResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetPassedAcademicYearsBody, IGetPassedAcademicYearsResult, IGetStudentNameDropdownBody, IGetStudentNameDropdownResult, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody, IStudentProgressReportResult } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, GetSchoolSettingsResult, IGetAcademicYearsOfStudentBody, IGetAcademicYearsOfStudentResult, IGetAllMarksGradeConfigurationBody, IGetAllMarksGradeConfigurationResult, IGetAllStudentsProgressSheetBody, IGetAllStudentsProgressSheetResult, IGetClassTeachersBody, IGetClassTeachersResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetPassedAcademicYearsBody, IGetPassedAcademicYearsResult, IGetSchoolSettingValuesBody, IGetSchoolSettingValuesResult, IGetStudentNameDropdownBody, IGetStudentNameDropdownResult, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody, IStudentProgressReportResult } from "src/interfaces/ProgressReport/IprogressReport";
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetClassTeachers = (data: IGetClassTeachersBody) => {
@@ -93,6 +93,13 @@ const GetOldStudentDetails = (data: IGetOldStudentDetailsBody) => {
 };
 
 
+const GetSchoolSettingValues = (data: IGetSchoolSettingValuesBody) => {
+  return http.post<IGetSchoolSettingValuesResult>(
+    'School/GetSchoolSettingValues',
+    data
+  );
+};
+
 const ApiProgressReport = {
   GetClassTeachers,
   GetStudentNameDropdown,
@@ -105,6 +112,7 @@ const ApiProgressReport = {
   GetSchoolSettings,
   GetAllStudentsProgressSheet,
   GetAcademicYearsOfStudent,
-  GetOldStudentDetails
+  GetOldStudentDetails,
+  GetSchoolSettingValues
 };
 export default ApiProgressReport;

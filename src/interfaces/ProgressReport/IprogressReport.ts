@@ -388,3 +388,15 @@ export interface IGetOldStudentDetailsBody {
     }
 }
   
+
+export interface IGetSchoolSettingValuesBody {
+    asSchoolId: string,
+    asAcademicYearId: string,
+    asKey: string
+}
+
+
+export interface IGetSchoolSettingValuesResult {
+    Key: string,
+    Value: string,
+}

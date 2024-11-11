@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -40,7 +40,8 @@ const ProgressReportSlice = createSlice({
     SubHeaderArray1: [],
     AllStudentsProgressSheet: null,
     IsAcademicYearsOfStudent:[],
-    ISGetOldStudentDetails:{}
+    ISGetOldStudentDetails:{},
+    SchoolSettingValues:[]
   },
   reducers: {
     ShowData(state, action) {
@@ -159,6 +160,10 @@ const ProgressReportSlice = createSlice({
 
     RgetOldStudentDetails(state, action) {
       state.ISGetOldStudentDetails = action.payload;
+    },
+
+    getSchoolSettingValues(state,action){
+      state.SchoolSettingValues = action.payload;
     },
     
   }
@@ -392,7 +397,7 @@ export const CDAStudentProgressReport =
 
               if (TestIndex == 0) {
                 SubHeaderArray.push({
-                  TestTypeName: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1)
+                  TestTypeName: (data.IsTotalConsiderForProgressReport.toLowerCase() === "true" && TestTypeCount == 1)
                     ? "Total" : TestType.ShortenTestType_Name
                 })
               }
@@ -416,7 +421,7 @@ export const CDAStudentProgressReport =
                     };
                   }
 
-                  const isConsiderForReport = data.IsTotalConsiderForProgressReport === "True";
+                  const isConsiderForReport = data.IsTotalConsiderForProgressReport.toLowerCase() === "true";
                   const isSingleSubject = subIdDetailsLength(Subject.Subject_Id) === 1;
                   const isGradeFormat = response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true'
 
@@ -438,7 +443,7 @@ export const CDAStudentProgressReport =
 
                 // Usage
                 totalMarks = calculateTotalMarks(data, Subject, cell);
-                const isConsideredForReport = data.IsTotalConsiderForProgressReport === "True";
+                const isConsideredForReport = data.IsTotalConsiderForProgressReport.toLowerCase() === "true";
                 const isSingleSubject = subIdDetailsLength(Subject.Subject_Id) === 1;
                 const isGrade = cell?.Grade_Or_Marks?.trim().toLowerCase() === 'g';
 
@@ -466,7 +471,7 @@ export const CDAStudentProgressReport =
                 // }
                 // })
                 // })
-                if (data.IsTotalConsiderForProgressReport == "True") {
+                if (data.IsTotalConsiderForProgressReport.toLowerCase() == "true") {
                   let isDataPushed = false;
 
                   response.data.listTestidDetails.map((Item) => {
@@ -574,7 +579,7 @@ export const CDAStudentProgressReport =
 
 
           //show grade column
-          if (data.IsTotalConsiderForProgressReport === "True") {
+          if (data.IsTotalConsiderForProgressReport.toLowerCase() === "true") {
             response.data.ListSchoolWiseTestNameDetail.map((Item) => {
               let testTypeLength = response.data.ListTestTypeIdDetails.length;
               if (Item.SchoolWise_Test_Id == Test.Test_Id) {
@@ -629,7 +634,7 @@ export const CDAStudentProgressReport =
           })
         })
       //show grade column
-      if (data.IsTotalConsiderForProgressReport == "True") {
+      if (data.IsTotalConsiderForProgressReport.toLowerCase() == "true") {
         SubHeaderArray.push({ TestTypeName: "Total" })
         SubHeaderArray.push({ TestTypeName: "Total" })
         SubHeaderArray.push({ TestTypeName: "%" })
@@ -684,7 +689,7 @@ export const CDAStudentProgressReport =
 
               if (TestIndex == 0) {
                 SubHeaderArray1.push({
-                  TestTypeName: (data.IsTotalConsiderForProgressReport == "True" && TestTypeCount == 1)
+                  TestTypeName: (data.IsTotalConsiderForProgressReport.toLowerCase() == "true" && TestTypeCount == 1)
                     ? "Total" : TestType.ShortenTestType_Name
                 })
               }
@@ -692,8 +697,8 @@ export const CDAStudentProgressReport =
               if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
                 temp = Subject.Subject_Id + "--" + Test.Test_Id;
                 totalMarks = {
-                  MarksScored: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount === 1) ? `${cell.Grade}` : `${cell.TotalGrade}`,
-                  TotalMarks: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount === 1) ? cell.Grade : "-",
+                  MarksScored: (data.IsTotalConsiderForProgressReport.toLowerCase() === "true" && TestTypeCount === 1) ? `${cell.Grade}` : `${cell.TotalGrade}`,
+                  TotalMarks: (data.IsTotalConsiderForProgressReport.toLowerCase() === "true" && TestTypeCount === 1) ? cell.Grade : "-",
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 }
               }
@@ -723,7 +728,7 @@ export const CDAStudentProgressReport =
 
 
             if (TestIndex == 0) {
-              if (HeaderCount1 > 1 && data.IsTotalConsiderForProgressReport == "True") {
+              if (HeaderCount1 > 1 && data.IsTotalConsiderForProgressReport.toLowerCase() == "true") {
                 columns.push(totalMarks)
                 SubHeaderArray1.push({ TestTypeName: "Total" })
 
@@ -731,7 +736,7 @@ export const CDAStudentProgressReport =
 
               HeaderArray1.push({
                 SubjectName: Subject.Subject_Name,
-                colSpan: HeaderCount1 > 1 ? HeaderCount1 + (data.IsTotalConsiderForProgressReport == "True" ? 1 : 0) : HeaderCount1,
+                colSpan: HeaderCount1 > 1 ? HeaderCount1 + (data.IsTotalConsiderForProgressReport.toLowerCase() == "true" ? 1 : 0) : HeaderCount1,
                 ParentSubjectId: Subject.Parent_Subject_Id,
                 ParentSubjectName: getParentHeader(listSubjectsDetails, Subject, Test.Test_Id).parent,
                 Is_CoCurricularActivity: Subject.Is_CoCurricularActivity
@@ -744,7 +749,7 @@ export const CDAStudentProgressReport =
             }
           })
           //show grade column |  Last Three Columns
-          if (data.IsTotalConsiderForProgressReport == "True") {
+          if (data.IsTotalConsiderForProgressReport.toLowerCase() == "true") {
             response.data.ListSchoolWiseTestNameDetail.map((Item) => {
 
               if (Item.SchoolWise_Test_Id == Test.Test_Id) {
@@ -816,7 +821,7 @@ export const CDAStudentProgressReport =
 
           });
           //show grade column
-          if (data.IsTotalConsiderForProgressReport == "True") {
+          if (data.IsTotalConsiderForProgressReport.toLowerCase() == "true") {
             let tempGrade = response.data.ListSchoolWiseTestNameDetail
               .filter(item => (item.SchoolWise_Test_Id == Tests.Test_Id))
             arr.push({
@@ -905,7 +910,7 @@ export const CDAStudentProgressReport =
         };
       });
       //show grade column
-      if (data.IsTotalConsiderForProgressReport == "True") {
+      if (data.IsTotalConsiderForProgressReport.toLowerCase() == "true") {
         ListSubjectidDetails.push({
           Subject_Id: "-1",
           ShortenTestType_Name: "Grade",
@@ -1074,6 +1079,14 @@ export const CDAresetGetSchoolSettings =
       dispatch(ProgressReportSlice.actions.RgetOldStudentDetails(response.data?.OldStudentDetails));
     };
   
+
+    export const GetSchoolSettingValues =
+  (data: IGetSchoolSettingValuesBody): AppThunk =>
+  async (dispatch) => {
+   
+    const response = await ApiProgressReport.GetSchoolSettingValues(data);
+    dispatch(ProgressReportSlice.actions.getSchoolSettingValues(response.data));
+  };
 
     
 

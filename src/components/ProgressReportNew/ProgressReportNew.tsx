@@ -7,11 +7,11 @@ import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Tabl
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -31,11 +31,17 @@ const ProgressReportNew = () => {
   const [Error, SetError] = useState('');
   const [StudentId, SetStudentId] = useState('');
   const [AcademicYear, SetAcademicYear] = useState('');
-
-  
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
 
+
+  const [AllowProgressReportDownloadAtStudentLogin, setAllowProgressReportDownloadAtStudentLogin] = useState("")
+  const [ShowProgressReportGraphOnMobileApp, setShowProgressReportGraphOnMobileApp] = useState("")
+  const [ShowTotalAsPerOutOfMarks,setShowTotalAsPerOutOfMarks] = useState("");
+  const [IsTotalConsiderForProgressReport,setIsTotalConsiderForProgressReport] = useState("");
+  const [BlockProgressReportIfFeesArePending, setBlockProgressReportIfFeesArePending] = useState("")
+  const [ShowProgressSheetNote, setShowProgressSheetNote] = useState("")
+  const [ProgressSheetNote, setProgressSheetNote] = useState("")
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -111,7 +117,7 @@ const ProgressReportNew = () => {
   const USIsTestPublishedForStudentIS: any = useSelector((state: RootState) => state.ProgressReportNew.RIsTestPublishedForStudentIS);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const hasTotalConsiderationN = USlistSubjectsDetails.some(subject => subject.Total_Consideration === "N");
-  const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
+  // const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
   const MarkDetailsList: any = useSelector((state: RootState) => state.ProgressReportNew.MarkDetailsList);
   const HeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray);
   const SubHeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray);
@@ -125,14 +131,16 @@ const ProgressReportNew = () => {
 
   const UsAcademicYearsOfStudent: any = useSelector((state: RootState) => state.ProgressReportNew.IsAcademicYearsOfStudent);
   const GetOldStudentDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetOldStudentDetails);
-console.log(GetOldStudentDetails,"GetOldStudentDetails");
+
+  const SchoolSettingValues: any = useSelector((state: RootState) => state.ProgressReportNew.SchoolSettingValues);
+console.log(GetOldStudentDetails.StudentId,"StudentId");
 
 
-  useEffect(() => {
-    if (UsGetSchoolSettings != null)
-      setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
-    // setIsTotalConsiderForProgressReport('False');
-  }, [UsGetSchoolSettings])
+  // useEffect(() => {
+  //   if (UsGetSchoolSettings != null)
+  //     setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+  //   // setIsTotalConsiderForProgressReport('False');
+  // }, [UsGetSchoolSettings])
 
 
 
@@ -214,8 +222,8 @@ console.log(GetOldStudentDetails,"GetOldStudentDetails");
   }
   const StudentProgressReportBody: IStudentProgressReportBody = {
     asSchoolId: Number(asSchoolId),
-    asAcadmeicYearId: Number(asAcademicYearId),
-    asStudentId: Number(StudentId),
+    asAcadmeicYearId:Number(AcademicYear),
+    asStudentId: GetOldStudentDetails.StudentId,
     asUserId: asUserId,
     IsTotalConsiderForProgressReport: IsTotalConsiderForProgressReport,
 
@@ -283,6 +291,14 @@ console.log(GetOldStudentDetails,"GetOldStudentDetails");
     aiSchoolId: asSchoolId,
     aiAcademicYearId: AcademicYear,
     aiStudentId: StudentId
+  }
+
+
+  const GetSchoolSettingValuesBody:IGetSchoolSettingValuesBody = {
+    asSchoolId:asSchoolId,
+    asAcademicYearId:AcademicYear,
+    asKey: "BlockProgressReportIfFeesArePending,ShowProgressSheetNote,ProgressSheetNote,AllowProgressReportDownloadAtStudentLogin,ShowTotalAsPerOutOfMarks,IsTotalConsiderForProgressReport,ShowProgressReportGraphOnMobileApp"
+    
   }
 
   const clickSelectClass = (value) => {
@@ -372,7 +388,7 @@ console.log(GetOldStudentDetails,"GetOldStudentDetails");
       dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
     }
     dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
-  }, [StudentId]);
+  }, [AcademicYear, GetOldStudentDetails.StudentId,IsTotalConsiderForProgressReport]);
 
   useEffect(() => {
     dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
@@ -390,6 +406,39 @@ console.log(GetOldStudentDetails,"GetOldStudentDetails");
     dispatch(CDAgetOldstudentDetails(OldStudentDetailsBody));
   }, [StudentId,AcademicYear]);
 
+  useEffect(() => {
+    dispatch(GetSchoolSettingValues(GetSchoolSettingValuesBody));
+  }, [AcademicYear]);
+
+
+
+  useEffect(() => {
+    if(SchoolSettingValues.length>0){
+      SchoolSettingValues.map((Item)=>{
+        if(Item.Key=="BlockProgressReportIfFeesArePending"){
+          setBlockProgressReportIfFeesArePending(Item.Value)
+        }
+        else if(Item.Key=="ShowProgressSheetNote"){
+          setShowProgressSheetNote(Item.Value)
+        }
+        else if(Item.Key=="ProgressSheetNote"){
+          setProgressSheetNote(Item.Value)
+        }
+        else if(Item.Key=="AllowProgressReportDownloadAtStudentLogin"){
+          setAllowProgressReportDownloadAtStudentLogin(Item.Value)
+        }
+        else if(Item.Key=="ShowProgressReportGraphOnMobileApp"){
+          setShowProgressReportGraphOnMobileApp(Item.Value)
+        }else if(Item.Key=="ShowTotalAsPerOutOfMarks"){
+          setShowTotalAsPerOutOfMarks(Item.Value)
+        }
+        else if(Item.Key=="IsTotalConsiderForProgressReport"){
+          setIsTotalConsiderForProgressReport(Item.Value)
+        }
+      })
+    }
+  },[SchoolSettingValues])
+ 
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
