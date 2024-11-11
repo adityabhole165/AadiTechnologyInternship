@@ -180,19 +180,19 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     try {
       if (!GroupName.trim()) {
         //toast.error("Please enter a group name");
-        setErrorGroupName('Please enter a group name');
+        setErrorGroupName('Group Name should not be blank.');
         return;
       }
 
       if (selectedd.length === 0) {
         //toast.error("Please select at least one user role");
-        setErrorUserRole("Please select at least one user role");
+        setErrorUserRole("At least one applicable role should be selected.");
         return;
       }
 
       if (selected.length === 0) {
         //toast.error("Please select at least one user");
-        setErrorSelectedUser("Please select at least one user");
+        setErrorSelectedUser("At least one user should be selected for the Group.");
         return;
       }
 
