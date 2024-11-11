@@ -51,6 +51,8 @@ const initialData = [
   { className: '10-B', date: '05-Nov-2024', description: 'qqq' }
   // Add more rows if needed
 ];
+//#region TabBodies 
+//need to transfer from here
 interface IPersonalDetails {
   aadharCardNumber?: string;
   aadharCardScanCopy?: string;
@@ -84,6 +86,40 @@ interface IPersonalDetails {
   state?: string;
 }
 
+interface RAdmissionDetails {
+  PENNumber?: string;
+  RFID?: string;
+  UDISENumber?: string;
+  admissionDate?: string;
+  applicableRules?: string;
+  boardRegistrationNumber?: string;
+  feeCategoryDetailsId?: string;
+  formNumber?: string;
+  isDayBoardingFeePaid?: boolean;
+  isForDayBoarding?: boolean;
+  isHandicapped?: boolean;
+  isMinority?: boolean;
+  isOnlyChild?: boolean;
+  isRTEApplicable?: boolean;
+  isRiseAndShine?: boolean;
+  isStaffKid?: boolean;
+  joiningDate?: string;
+  newAdmission?: boolean;
+  registrationNumber?: string;
+  residenceTypes?: string;
+  rteApplicationForm?: string;
+  rteCategory?: number;
+  saralNo?: string;
+  secondlanguage?: string;
+  sendSMS?: boolean;
+  staffName?: string;
+  staffUserRole?: string;
+  studentRollNumber?: string;
+  thirdlanguage?: string;
+  userName?: string;
+}
+//#endRegion
+
 const StudentRegistrationForm = () => {
   const dispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState(0);
@@ -99,7 +135,7 @@ const StudentRegistrationForm = () => {
   const [tableData, setTableData] = useState(initialData);
   const { AssignedDate } = useParams();
 
-  const [admissionDetailsData, setAdmissionDetailsData] = useState({});
+  const [admissionDetailsData, setAdmissionDetailsData] = useState<RAdmissionDetails>({});
   const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
   //const [familyData, setFamilyData] = useState(false);
 
@@ -228,7 +264,7 @@ const StudentRegistrationForm = () => {
     asLast_Name: personalDetailsData?.lastName || "",
     asMother_Name: personalDetailsData?.motherName || "",
     asBlood_Group: personalDetailsData?.bloodGroup || "",
-    asEnrolment_Number: "2495",
+    asEnrolment_Number: admissionDetailsData?.registrationNumber || "",
     asParent_Name: personalDetailsData?.parentName || "",
     asParent_Occupation: personalDetailsData?.parentOccupation || "",
     asOther_Occupation: "",
@@ -250,8 +286,8 @@ const StudentRegistrationForm = () => {
     asSalutation_Id: "6",
     asCategory_Id: personalDetailsData?.category || "",
     asCasteAndSubCaste: personalDetailsData?.casteAndSubCaste || "",
-    asAdmission_Date: "2014-01-03",
-    asJoining_Date: "2014-06-09",
+    asAdmission_Date: formatDOB(admissionDetailsData?.admissionDate) || "",
+    asJoining_Date: formatDOB(admissionDetailsData?.joiningDate) || "",
     asDateOfBirthInText: "Twenty One March Two Thousand Eleven",
     asOptional_Subject_Id: "0",
     asMother_Tongue: personalDetailsData.motherTongue || "",
@@ -265,27 +301,27 @@ const StudentRegistrationForm = () => {
     asNameOnAadharCard: personalDetailsData?.nameOnAadharCard || "",
     asAadharCard_Photo_Copy_Path: personalDetailsData?.aadharCardScanCopy || "",
     asFamily_Photo_Copy_Path: "",
-    asUDISENumber: "2014272505108050285",
-    asBoardRegistrationNo: "",
-    asIsRiseAndShine: "False",
+    asUDISENumber: admissionDetailsData?.UDISENumber || "",
+    asBoardRegistrationNo: admissionDetailsData?.boardRegistrationNumber || "",
+    asIsRiseAndShine: admissionDetailsData?.isRiseAndShine === false ? "False" : "True",
     asAdmissionSectionId: "0",
     asGRNumber: "",
     asStudentUniqueNo: "",
-    asSaralNo: "",
-    asIsOnlyChild: "False",
-    asMinority: "False",
-    asRoll_No: 1,
-    asRule_Id: 0,
-    asIsStaffKid: 0,
+    asSaralNo: admissionDetailsData?.saralNo || "",
+    asIsOnlyChild: admissionDetailsData?.isOnlyChild === false ? "False" : "True",
+    asMinority: admissionDetailsData?.isMinority === false ? "False" : "True",
+    asRoll_No: admissionDetailsData?.studentRollNumber || "",
+    asRule_Id: admissionDetailsData?.applicableRules || "",
+    asIsStaffKid: admissionDetailsData?.isStaffKid === false ? false : true,
     asHeight: 0,
     asWeight: 0,
     asUpdated_By_id: 4463,
-    asRTECategoryId: 0,
-    asSecondLanguageSubjectId: 1760,
-    asThirdLanguageSubjectId: 1763,
-    asIsForDayBoarding: false,
-    asFeeCategoryDetailsId: 0,
-    asRTEApplicationFormNo: "",
+    asRTECategoryId: admissionDetailsData?.rteCategory || 0,
+    asSecondLanguageSubjectId: admissionDetailsData?.secondlanguage || "",
+    asThirdLanguageSubjectId: admissionDetailsData?.thirdlanguage || "",
+    asIsForDayBoarding: admissionDetailsData?.isForDayBoarding === false ? false : true,
+    asFeeCategoryDetailsId: admissionDetailsData?.feeCategoryDetailsId || "",
+    asRTEApplicationFormNo: admissionDetailsData?.rteApplicationForm || "",
     asAnnualIncome: 0,
     asStandard_Id: 1082, // Missing
     asDivision_Id: 1299, // Missing

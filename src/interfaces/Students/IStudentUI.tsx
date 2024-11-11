@@ -381,17 +381,17 @@ export interface IUpdateStudentBody {
     asSaralNo: string
     asIsOnlyChild: string
     asMinority: string
-    asRoll_No: number
-    asRule_Id: number
-    asIsStaffKid: number
+    asRoll_No: string
+    asRule_Id: string
+    asIsStaffKid: boolean
     asHeight: number
     asWeight: number
     asUpdated_By_id: number
     asRTECategoryId: number
-    asSecondLanguageSubjectId: number
-    asThirdLanguageSubjectId: number
+    asSecondLanguageSubjectId: string
+    asThirdLanguageSubjectId: string
     asIsForDayBoarding: boolean
-    asFeeCategoryDetailsId: number
+    asFeeCategoryDetailsId: string
     asRTEApplicationFormNo: string
     asAnnualIncome: number
     asStandard_Id: number

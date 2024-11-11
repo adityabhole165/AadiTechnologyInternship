@@ -153,7 +153,7 @@ const AdmissionDetails = ({ onTabChange }) => {
         secondlanguage: studentData.SecondLanguageSubjectId || '',
         thirdlanguage: studentData.ThirdLanguageSubjectId || '',
         applicableRules: studentData.Rule_Id || '',
-        staffUserRole: studentData.staffUserRole || '',
+        staffUserRole: studentData.User_Role_Id || '',
         staffName: studentData.staffName || '',
         residenceTypes: studentData.ResidenceTypeId || '',
         feeCategoryDetailsId: studentData.FeeCategoryDetailsId || '',
