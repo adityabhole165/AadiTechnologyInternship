@@ -512,7 +512,7 @@ const GenerateAll = ({ }) => {
                                                         </TableCell>
 
                                                         {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell sx={{ alignItems: 'center', pl: 3, backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
+                                                            <TableCell sx={{ alignItems: 'center', textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
                                                                 {
                                                                     !MarkItem
                                                                         ? '-'
