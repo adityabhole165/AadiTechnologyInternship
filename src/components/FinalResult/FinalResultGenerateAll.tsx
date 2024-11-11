@@ -649,13 +649,17 @@ const GenerateAll = ({ }) => {
                                                                 const matchingRemark = PercentageDetails?.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
                                                                 return (
                                                                     <>
-                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}>{totalData.TotalMarks}</TableCell>
-                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}>{totalData.Percentage}%</TableCell>
-                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}>
+                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.TotalMarks}</TableCell>
+                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.Percentage}%</TableCell>
+                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }} >
                                                                             <Typography variant="body2">
-                                                                                {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}
+                                                                                <Typography component="span" fontWeight="bold">
+                                                                                    {totalData.GradeName}
+                                                                                </Typography>
+                                                                                {matchingRemark && ` (${matchingRemark})`}
                                                                             </Typography>
                                                                         </TableCell>
+
                                                                     </>
                                                                 );
                                                             }
