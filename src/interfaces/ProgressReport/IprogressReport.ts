@@ -400,3 +400,54 @@ export interface IGetSchoolSettingValuesResult {
     Key: string,
     Value: string,
 }
+
+
+export  interface  IProgressReportBody
+{
+    aiSchoolId: number,
+    aiAcademicYearId: number,
+    aiStandardId:number,
+    aiStandardDivisionId:number,
+    aiStudentId:number,
+    aiTermId:number,
+    aiLoginUserId:number,
+}
+
+export interface IGetProgressReportFileNameResult{
+    FilePath: string,
+    Message: string
+    // GetProgressReportFileNameResult : string
+}
+
+export interface GetIsPrePrimaryBody {
+    asSchoolId: string
+    asAcademicYearId: string
+    asStandardId: number
+  }
+  export interface IGetPrePrimaryExamPublishStatusBody {
+    asSchoolId: string
+    asAcademicYearId: string
+    aiYearwiseStudentId: string
+  }
+
+  export interface DownloadButtonStateDetailsResult {
+    StandardId: number
+    StandardDivisionId: number
+    IsPrimaryReport: boolean
+    ShowDownloadButton: boolean
+    IsTerm1AssessmentPublished: boolean
+    IsTerm2AssessmentPublished: boolean
+  }
+
+  export interface IgetIsTermExamPublishedBody {
+    asSchoolId: string
+    asAcademicYearId: string
+    asStandardDivisionId: string
+  }
+
+  export interface IgetIsFinalResultPublishedBody {
+    asSchoolId: string
+    asAcademicYearId: string
+    asStandardDivisionId: string
+  }
+  

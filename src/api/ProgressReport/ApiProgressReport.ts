@@ -1,4 +1,4 @@
-import { GetSchoolSettingsBody, GetSchoolSettingsResult, IGetAcademicYearsOfStudentBody, IGetAcademicYearsOfStudentResult, IGetAllMarksGradeConfigurationBody, IGetAllMarksGradeConfigurationResult, IGetAllStudentsProgressSheetBody, IGetAllStudentsProgressSheetResult, IGetClassTeachersBody, IGetClassTeachersResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetPassedAcademicYearsBody, IGetPassedAcademicYearsResult, IGetSchoolSettingValuesBody, IGetSchoolSettingValuesResult, IGetStudentNameDropdownBody, IGetStudentNameDropdownResult, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody, IStudentProgressReportResult } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, GetSchoolSettingsResult, IGetAcademicYearsOfStudentBody,IProgressReportBody, IGetAcademicYearsOfStudentResult, IGetAllMarksGradeConfigurationBody, IGetAllMarksGradeConfigurationResult, IGetAllStudentsProgressSheetBody, IGetAllStudentsProgressSheetResult, IGetClassTeachersBody, IGetClassTeachersResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetPassedAcademicYearsBody, IGetPassedAcademicYearsResult, IGetProgressReportFileNameResult, IGetSchoolSettingValuesBody, IGetSchoolSettingValuesResult, IGetStudentNameDropdownBody, IGetStudentNameDropdownResult, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody, IStudentProgressReportResult, GetIsPrePrimaryBody, DownloadButtonStateDetailsResult, IGetPrePrimaryExamPublishStatusBody } from "src/interfaces/ProgressReport/IprogressReport";
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetClassTeachers = (data: IGetClassTeachersBody) => {
@@ -100,6 +100,27 @@ const GetSchoolSettingValues = (data: IGetSchoolSettingValuesBody) => {
   );
 };
 
+
+const GetProgressReport = (data:IProgressReportBody) => {
+  return http.post<IGetProgressReportFileNameResult>('Student/GetFileNameForProgressReport',data);
+};
+const GetIsPrePrimary = (data: GetIsPrePrimaryBody) => {
+  return http.post(
+    'School/GetIsPrePrimary',
+    data
+  );
+};
+
+
+
+const GetPrePrimaryExamPublishStatus = (data: IGetPrePrimaryExamPublishStatusBody) => {
+  return http.post<DownloadButtonStateDetailsResult>(
+    'ProgressReport/GetPrePrimaryExamPublishStatus',
+    data
+  );
+};
+
+
 const ApiProgressReport = {
   GetClassTeachers,
   GetStudentNameDropdown,
@@ -113,6 +134,9 @@ const ApiProgressReport = {
   GetAllStudentsProgressSheet,
   GetAcademicYearsOfStudent,
   GetOldStudentDetails,
-  GetSchoolSettingValues
+  GetSchoolSettingValues,
+  GetProgressReport,
+  GetIsPrePrimary,
+  GetPrePrimaryExamPublishStatus
 };
 export default ApiProgressReport;

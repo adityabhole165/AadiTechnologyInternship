@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IProgressReportBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -41,7 +41,11 @@ const ProgressReportSlice = createSlice({
     AllStudentsProgressSheet: null,
     IsAcademicYearsOfStudent:[],
     ISGetOldStudentDetails:{},
-    SchoolSettingValues:[]
+    SchoolSettingValues:[],
+    GetTerms:{},
+    ProgressReportDownload:null,
+    IsPrePrimary:false,
+    ISPrePrimaryExamPublishStatus:{},
   },
   reducers: {
     ShowData(state, action) {
@@ -165,6 +169,21 @@ const ProgressReportSlice = createSlice({
     getSchoolSettingValues(state,action){
       state.SchoolSettingValues = action.payload;
     },
+    RGetTerms(state,action){
+      state.GetTerms = action.payload;
+    },
+    getProgressReport(state,action){
+      state.ProgressReportDownload = action.payload;
+    },
+    RGetIsPrePrimary(state,action){
+      state.IsPrePrimary = action.payload;
+    },
+    RGetPrePrimaryExamPublishStatus(state,action){
+      state.ISPrePrimaryExamPublishStatus = action.payload;
+    },
+    
+    
+    
     
   }
 });
@@ -1067,8 +1086,16 @@ export const CDAresetGetSchoolSettings =
       Name: item.AcademicYear,
       Value: item.Id,
     }));
+    const GetTerms = response.data.GetTerms.map((item) => ({
+      Id: item.Id,
+      TermName: item.TermName
+     
+    }));
+
+    
 
     dispatch(ProgressReportSlice.actions.RAcademicYearsOfStudent(AcademicYearsOfStudent));
+    dispatch(ProgressReportSlice.actions.RGetTerms(GetTerms));
   };
 
 
@@ -1088,6 +1115,26 @@ export const CDAresetGetSchoolSettings =
     dispatch(ProgressReportSlice.actions.getSchoolSettingValues(response.data));
   };
 
-    
 
+  export const CDAGetProgressReport =
+  (data: IProgressReportBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiProgressReport.GetProgressReport(data);
+    dispatch(ProgressReportSlice.actions.getProgressReport(response.data));
+  };
+
+
+  export const CDAGetIsPrePrimary =
+  (data: GetIsPrePrimaryBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiProgressReport.GetIsPrePrimary(data);
+    dispatch(ProgressReportSlice.actions.RGetIsPrePrimary(response.data));
+  };
+    
+  export const CDAGetPrePrimaryExamPublishStatus =
+  (data: IGetPrePrimaryExamPublishStatusBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiProgressReport.GetPrePrimaryExamPublishStatus(data);
+    dispatch(ProgressReportSlice.actions.RGetPrePrimaryExamPublishStatus(response.data));
+  };
 export default ProgressReportSlice.reducer;
