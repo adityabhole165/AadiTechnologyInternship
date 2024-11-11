@@ -41,7 +41,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 const AdmissionDetails = ({ onTabChange }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { standardId, DivisionId } = location.state || {};
+  const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
   const { AssignedDate } = useParams();
 
   const [form, setForm] = useState({

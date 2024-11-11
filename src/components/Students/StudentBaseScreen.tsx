@@ -307,6 +307,9 @@ const StudentBaseScreen = () => {
                                                                             state: {
                                                                                 standardId: standardId,
                                                                                 DivisionId: divId,
+                                                                                YearWise_Student_Id: item.Text12,
+                                                                                SchoolWise_Student_Id: item.Text13,
+                                                                                StandardDivision_Id: item.Text14,
                                                                             }
                                                                         })} />
                                                                 </Tooltip>
