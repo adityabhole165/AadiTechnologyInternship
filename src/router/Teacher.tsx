@@ -271,11 +271,18 @@ const DashBoard = Loader(
 const ExamScheduleBasescreen = Loader(
   lazy(() => import('src/components/FullAccessPages/ExamScheduleBasescreen'))
 );
+const ViewExamSchedule = Loader(
+  lazy(() => import('src/components/FullAccessPages/ViewExamSchedule'))
+);
 const ReceivedSMSOwn = Loader(
   lazy(() => import('src/components/Student/SMSCenter/RecievedSms'))
 );
+
 const StudentRegistrationForms = Loader(
   lazy(() => import('src/components/Students/StudentRegistrationForms'))
+);
+const StandardwiseExamSchedule = Loader(
+  lazy(() => import('src/components/FullAccessPages/StandardwiseExamSchedule'))
 );
 
 const teacherRoutes = [
@@ -797,6 +804,16 @@ const teacherRoutes = [
     path: 'ExamScheduleBasescreen',
     element: <ExamScheduleBasescreen />
   },
+  {
+    path: 'StandardwiseExamSchedule',
+    element: <StandardwiseExamSchedule />
+  },
+  
+  {
+    path: 'ViewExamSchedule',
+    element: <ViewExamSchedule />
+  },
+
   {
     path: 'ReceivedSMSOwn',
     element: <ReceivedSMSOwn />

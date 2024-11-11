@@ -1,6 +1,7 @@
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-
+import { Box, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { useNavigate } from 'react-router';
 const ExamScheduleTable = ({ headerArray, subHeaderArray, markDetailsList }) => (
+    
     <Box sx={{ overflowX: 'auto', maxWidth: '100%',  }}>
         {/* Wrapper Box to enable horizontal scrolling */}
         <Table aria-label="simple table" sx={{ background: (theme) => theme.palette.secondary.main, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
@@ -37,7 +38,7 @@ const ExamScheduleTable = ({ headerArray, subHeaderArray, markDetailsList }) => 
                         {/* Map over MarkDetailsList to render corresponding values */}
                         {markDetailsList.map((markDetail, colIndex) => (
                             <TableCell key={`${rowIndex}-${colIndex}`} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                {markDetail.Name} {/* Displaying the mark details dynamically */}
+                             <a href='/extended-sidebar/Teacher/StandardwiseExamSchedule'> {markDetail.Name}</a> {/* Displaying the mark details dynamically */}
                             </TableCell>
                         ))}
                     </TableRow>

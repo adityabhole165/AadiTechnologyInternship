@@ -5,6 +5,7 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { blue, green, grey } from "@mui/material/colors";
 import CommonPageHeader from "../CommonPageHeader";
 import ExamScheduleTable from './ExamScheduleTable';
+import { useNavigate } from 'react-router';
 
 const HeaderArray1 = [
     { Name: "C.C.A. - I", field: "cca1" },
@@ -70,6 +71,8 @@ const MarkDetailsList1 = [
     { Name: "N/A", field: "na14" }
 ];
 const ExamScheduleBasescreen = () => {
+    const navigate = useNavigate();
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -103,6 +106,10 @@ const ExamScheduleBasescreen = () => {
                                         backgroundColor: blue[600]
                                     }
                                 }}
+                                onClick={() => {
+                                    // pass data via state > mobileNumbers
+                                    navigate('/extended-sidebar/teacher/ViewExamSchedule')
+                                }}
                             >
                                 <CalendarViewMonthIcon />
                             </IconButton>
@@ -130,7 +137,7 @@ const ExamScheduleBasescreen = () => {
                     </Box>
                 </Box>
             </Box>
-            <Box mt={2} sx={{backgroundColor:'white', p:2}}>
+            <Box mt={1} sx={{backgroundColor:'white', p:2}}>
                 <ExamScheduleTable
                     headerArray={HeaderArray1}
                     subHeaderArray={SubHeaderArray1}
