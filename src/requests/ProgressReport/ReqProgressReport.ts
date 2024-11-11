@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IProgressReportBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IProgressReportBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -46,6 +46,8 @@ const ProgressReportSlice = createSlice({
     ProgressReportDownload:null,
     IsPrePrimary:false,
     ISPrePrimaryExamPublishStatus:{},
+    ISgetIsTermExamPublished:null,
+    ISgetIsFinalResultPublished:null,
   },
   reducers: {
     ShowData(state, action) {
@@ -182,7 +184,13 @@ const ProgressReportSlice = createSlice({
       state.ISPrePrimaryExamPublishStatus = action.payload;
     },
     
+    RgetIsTermExamPublished(state,action){
+      state.ISgetIsTermExamPublished = action.payload;
+    },
     
+    RgetIsFinalResultPublished(state,action){
+      state.ISgetIsFinalResultPublished = action.payload;
+    },
     
     
   }
@@ -1079,7 +1087,6 @@ export const CDAresetGetSchoolSettings =
   (data: IGetAcademicYearsOfStudentBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiProgressReport.GetAcademicYearsOfStudent(data);
-    console.log(response.data.GetAcademicYears, "test", response.data.GetTerms);
 
     const AcademicYearsOfStudent = response.data.GetAcademicYears.map((item) => ({
       Id: item.Id,
@@ -1137,4 +1144,23 @@ export const CDAresetGetSchoolSettings =
     const response = await ApiProgressReport.GetPrePrimaryExamPublishStatus(data);
     dispatch(ProgressReportSlice.actions.RGetPrePrimaryExamPublishStatus(response.data));
   };
+
+
+  export const CDAgetIsTermExamPublished =
+  (data: IgetIsTermExamPublishedBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiProgressReport.getIsTermExamPublished(data);
+    dispatch(ProgressReportSlice.actions.RgetIsTermExamPublished(response.data));
+  };
+
+
+  export const CDAgetIsFinalResultPublished =
+  (data: IgetIsFinalResultPublishedBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiProgressReport.getIsFinalResultPublished(data);
+    dispatch(ProgressReportSlice.actions.RgetIsFinalResultPublished(response.data));
+  };
+
+  
+
 export default ProgressReportSlice.reducer;

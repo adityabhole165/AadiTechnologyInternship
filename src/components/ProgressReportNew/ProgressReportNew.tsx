@@ -7,12 +7,12 @@ import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Tabl
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Card5 from 'src/libraries/mainCard/Card5';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAGetIsPrePrimary, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -136,8 +136,13 @@ const ProgressReportNew = () => {
   const academictermsResult = useSelector((state: RootState) => state.ProgressReportNew.GetTerms);
   const IsPrePrimary = useSelector((state: RootState) => state.ProgressReportNew.IsPrePrimary);
   const PrePrimaryExamPublishStatus = useSelector((state: RootState) => state.ProgressReportNew.ISPrePrimaryExamPublishStatus);
+  const ISPrePrimaryExamPublishStatus = useSelector((state: RootState) => state.ProgressReportNew.ISPrePrimaryExamPublishStatus);
+  const getIsTermExamPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsTermExamPublished);
 
-  console.log(PrePrimaryExamPublishStatus, "PrePrimaryExamPublishStatus");
+  const getIsFinalResultPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsFinalResultPublished);
+  
+
+  
 
 
   // useEffect(() => {
@@ -318,9 +323,24 @@ const ProgressReportNew = () => {
     aiYearwiseStudentId:  GetOldStudentDetails.StudentId,
   }
 
+  const getIsTermExamPublishedBody: IgetIsTermExamPublishedBody = {
+    asSchoolId:asSchoolId,
+    asAcademicYearId:AcademicYear,
+    asStandardDivisionId:GetOldStudentDetails.StandardDivisionId,
+  }
+
+  const getIsFinalResultPublishedBody: IgetIsFinalResultPublishedBody = {
+    asSchoolId:asSchoolId,
+    asAcademicYearId:AcademicYear,
+    asStandardDivisionId:GetOldStudentDetails.StandardDivisionId,
+  }
+
+  
+
+  
+
 
   const downloadProgress = (termId) => {
-    console.log(termId, "termId");
 
     // const getProgressReportBody: any = {
     //   aiSchoolId: asSchoolId,
@@ -334,7 +354,7 @@ const ProgressReportNew = () => {
     // dispatch(CDAGetProgressReport(getProgressReportBody));
   };
 
-  console.log(downloadProgress(1));
+  
 
   const clickSelectClass = (value) => {
     setOpen(false);
@@ -452,6 +472,17 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAGetPrePrimaryExamPublishStatus(GetPrePrimaryExamPublishStatus));
   }, [AcademicYear,GetOldStudentDetails.StudentId]);
+
+
+  useEffect(() => {
+    dispatch(CDAgetIsTermExamPublished(getIsTermExamPublishedBody));
+  }, [AcademicYear,GetOldStudentDetails.StandardDivisionId]);
+
+  
+  useEffect(() => {
+    dispatch(CDAgetIsFinalResultPublished(getIsFinalResultPublishedBody));
+  }, [AcademicYear,GetOldStudentDetails.StandardDivisionId]);
+
   
 
   
