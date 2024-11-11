@@ -559,13 +559,13 @@ const AddReciepents = ({
               margin="normal"
               InputProps={{
                 startAdornment: (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', overflowY: 'scroll', minWidth: '100%', height: '110px' }}>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', overflowY: 'scroll', minWidth: '100%', height: '115px' }}>
                     {selectedRecipents.map((recipient, index) => (
                       <Chip
                         key={index}
                         label={recipient?.trim()}
                         onDelete={() => handleDelete(recipient)} // Handle chip deletion
-                        sx={{ margin: '2px 4px' }}
+                        sx={{ margin: '4px 4px' }}
                       />
                     ))}
                   </Box>
