@@ -204,7 +204,7 @@ export const GetAllStudentsProgressSheet =
 export const CDAStudentProgressReport =
   (data: IStudentProgressReportBody, IsGradingStandardFlag): AppThunk =>
     async (dispatch, getState) => {
-      const response = await ApiProgressReport.StudentProgressReport(data);
+      const response = await ApiProgressReport.StudentProgressReport(data); // dataList2; //
       dispatch(ProgressReportSlice.actions.REntireDataList(response.data));
       const { IsGradingStandarBodyIS } = getState().ProgressReportNew;
 
@@ -593,20 +593,20 @@ export const CDAStudentProgressReport =
 
                 if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() !== 'true') {
                   columns.push({
-                    MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
+                    MarksScored: Item.FailCount !== '' ? `${parseFloat(Item.Total_Marks_Scored)}` : '',
                     TotalMarks: Item.Subjects_Total_Marks,
                     IsAbsent: "N"
                   })
 
                   columns.push({
-                    MarksScored: Item.Percentage + "%",
+                    MarksScored: Item.FailCount !== '' ? Item.Percentage + "%" : '-',
                     TotalMarks: "-",
                     IsAbsent: "N"
                   })
                 }
 
                 columns.push({
-                  MarksScored: `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
+                  MarksScored: Item.FailCount !== '' ? `${Item.Grade_Name} [${matchingMarksDetails?.Remarks}]` : '-',
                   TotalMarks: "-",
                   IsAbsent: "N"
                 })
@@ -766,7 +766,7 @@ export const CDAStudentProgressReport =
 
 
                 columns.push({
-                  MarksScored: `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
+                  MarksScored: `${Item.Grade_Name} [${matchingMarksDetails?.Remarks}]`,
                   TotalMarks: "-",
                   IsAbsent: "N"
                 })

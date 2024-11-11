@@ -13,7 +13,20 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
         return returnVal;
     };
         // f() to control visibility of Test Type Columns
-        function showTestTypeDetails() {
+        function showTestTypeDetails(subId) {
+            let subMatchLength = data.ListSubjectidDetails.filter((itemFind) => itemFind.Subject_Id === subId).length
+            let flag = false;
+            if(subMatchLength === 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'true' ) {
+                return false;
+            } else if (subMatchLength === 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+                return true;
+            } else if (subMatchLength > 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                return true;
+            }  else if (subMatchLength > 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'false') {
+                return true;
+            }      
+        }
+        function showTestTypeDetails1 () {
             let flag = false;
             if(data.ListTestTypeIdDetails?.length === 1 && IsTotalConsiderForProgressReport.toLowerCase() === 'true' ) {
                 return false;
@@ -25,16 +38,17 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                 return true;
             }      
         }
-    function getColSpan(){
-        let colSpan = 1;
-        if(IsTotalConsiderForProgressReport.toLowerCase() === "true"){
-            colSpan = 1 + (showTestTypeDetails() ? data.ListTestTypeIdDetails?.length : 0);
-            return colSpan;
-        } else if(IsTotalConsiderForProgressReport.toLowerCase() === "false"){
-            colSpan = data.ListTestTypeIdDetails?.length;
-            return colSpan;
+        function getColSpan(subId) {
+            let colSpan = 1;
+            let subMatchLength = data.ListSubjectidDetails.filter((itemFind) => itemFind.Subject_Id === subId).length
+            if (IsTotalConsiderForProgressReport.toLowerCase() === "true") {
+                colSpan = (showTestTypeDetails1() ? subMatchLength : 0) + (subMatchLength !== 1 && 1);  // 🚩
+                return colSpan;
+            } else if (IsTotalConsiderForProgressReport.toLowerCase() === "false") {
+                colSpan = subMatchLength;
+                return colSpan;
+            }
         }
-    }
     function parentSubColSpan(parentSubId){
         let colSpan = 1;
         let filteredArr = data.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === parentSubId);
@@ -54,9 +68,9 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
     function findRow2() {
         return data.listSubjectsDetails?.map((item) => {
             if (item.Parent_Subject_Id === '0') { // Handle undefined or empty Parent_Subject_Id
-                return { ...item, Subject_Name: '', rowSpan: 1, colSpan: getColSpan() };//3 };
+                return { ...item, Subject_Name: '', rowSpan: 1, colSpan: getColSpan(item.Subject_Id) };//3 };
             } else {
-                return { ...item, rowSpan: 1, colSpan: getColSpan() };//3 };
+                return { ...item, rowSpan: 1, colSpan: getColSpan(item.Subject_Id) };//3 };
             }
         });
     }
@@ -67,7 +81,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
         
         data.listSubjectsDetails?.map((item) => {
             if (item.Parent_Subject_Id === '0') { // For top-level subjects
-                ans.push({ ...item, rowSpan: 2, colSpan: getColSpan() }); // Corrected push syntax //3
+                ans.push({ ...item, rowSpan: 2, colSpan: getColSpan(item.Subject_Id) }); // Corrected push syntax //3
             } else if (!ParentSubArr.includes(item.Parent_Subject_Id)) { // For child subjects with unique Parent_Subject_Id
                 ParentSubArr.push(item.Parent_Subject_Id);
                 console.log(item.Parent_Subject_Id);
@@ -151,6 +165,29 @@ console.log( findRow1()," findRow1()");
         }
         return result;
       }
+
+      let ThirdHeaderList = data.listSubjectsDetails?.map((item, i) => {
+        let finalList = [];
+        let filterList = data.ListSubjectidDetails.filter((item1) => item1.Subject_Id === item.Subject_Id);
+        if(filterList.length > 1) {
+                finalList =  filterList.map(item2 => finalList = item2.ShortenTestType_Name );
+        }
+        if(filterList.length === 1) {
+            if(IsTotalConsiderForProgressReport.toLowerCase() === 'false' ) {
+                finalList =  filterList.map(item2 => finalList = item2.ShortenTestType_Name );
+            }
+        }
+        if(IsTotalConsiderForProgressReport.toLowerCase() === 'true'  && filterList.length > 0) {
+            finalList.push('Total')
+        }
+        if (IsTotalConsiderForProgressReport.toLowerCase() === 'true'  && filterList.length === 0 && item.Is_CoCurricularActivity === 'True') {
+            finalList.push('Grade')
+        }
+        if (IsTotalConsiderForProgressReport.toLowerCase() === 'false'  && filterList.length === 0 && item.Is_CoCurricularActivity === 'True') {
+            finalList.push('Grade')
+        }
+        return finalList;
+    })
 
 
     return (
@@ -287,36 +324,20 @@ console.log( findRow1()," findRow1()");
                     )}
 
                     <TableRow>
-                        {/* <TableCell></TableCell> */}
-                            {ThirdHeaderRow.map((item, index) => (
-                            <>
-                                {/* Render the normal TableCell */}
-                                {showTestTypeDetails() && <TableCell key={index} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`,  backgroundColor: blue[50]}}>
-                                    <Typography color="#38548A" textAlign={'center'} mr={0}>
-                                        <b style={{ marginRight: "5px" }}>{item.ShortenTestType_Name}</b>
-                                    </Typography>
-                                </TableCell>}
-                                {/* Add a 'Total' TableCell after every dynamic number of cells */}
-                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && (index + 1) % ListTestTypeIdDetails.length === 0 && (
-                                    <TableCell key={`total-${index}`} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`,  backgroundColor: blue[50]}}>
-                                        <Typography color="#38548A" textAlign={'center'} mr={0}>
-                                            <b>Total</b>
-                                        </Typography>
-                                    </TableCell>
-                                )}
-                            </>
-                        ))}
-                        {findRow1()?.map((item, i) => (
-                            <>
-                                {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' &&
-                                    <TableCell key={i} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`,  backgroundColor: blue[50]}}>
-                                        <Typography color="#38548A" textAlign={'center'} mr={0}>
-                                            <b>Grade</b>
-                                        </Typography>
-                                    </TableCell>
-                                }
-                            </>
-                        ))}
+                        <>
+                            {ThirdHeaderList?.length > 0 && ThirdHeaderList?.map((item7, index) => (
+                                <>
+                                    {item7.length > 0 && item7.map((header, h) => (
+                                        <TableCell key={`${index}-${h}`} sx={{ alignItems: 'center', minWidth: '120px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                            <Typography color="#38548A" textAlign={'center'} >
+                                                <b style={{ marginRight: "0px" }}>{header}</b>
+                                            </Typography>
+                                        </TableCell>
+                                    ))
+                                    }
+                                </>
+                            ))}
+                        </>
                     </TableRow>
                 </TableHead>
 

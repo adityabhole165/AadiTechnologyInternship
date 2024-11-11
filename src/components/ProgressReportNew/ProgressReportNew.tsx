@@ -127,7 +127,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     if (UsGetSchoolSettings != null)
       setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
-    // setIsTotalConsiderForProgressReport('True');
+    // setIsTotalConsiderForProgressReport('False');
   }, [UsGetSchoolSettings])
 
 
@@ -459,7 +459,7 @@ const ProgressReportNew = () => {
       {open && (
         <div>
 
-          {USIsTestPublishedForStdDiv == true  ?
+          {USIsTestPublishedForStdDiv == true ?
             <>
               {EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>
