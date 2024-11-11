@@ -800,7 +800,7 @@ const AddReciepents = ({
           />
         </DialogTitle>
         <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-          Add Contact Group(s)
+          Add/edit delete contact group(s).
         </Typography>
 
         <DialogContent>
