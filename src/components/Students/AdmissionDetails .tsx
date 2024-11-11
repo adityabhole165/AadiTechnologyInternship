@@ -14,16 +14,24 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import {
+  ICheckIfAttendanceMarkedBody,
   IGetAllUserRolesBody,
+  IGetFeeAreaNamesBody,
   IGetSingleStudentDetailsBody,
+  IIsAnyExamPublishedBody,
+  IIsOnLeaveBody,
   IMasterDatastudentBody,
   IStaffNameBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
+  CDAAnyExamPublished,
+  CDACheckIfAttendanceMarked,
+  CDAFeeAreaNames,
   CDAGetMasterData,
   CDAGetSingleStudentDetails,
+  CDAIsOnLeave,
   CDAStaffName,
   CDAUserRoles
 } from 'src/requests/Students/RequestStudentUI';
@@ -122,12 +130,38 @@ const AdmissionDetails = ({ onTabChange }) => {
     asStudentId: 3556 // Number(sessionStorage.getItem('Id'))
   };
 
+  const IsOnLeaveBody: IIsOnLeaveBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asYearwiseStudentId: 40467
+  };
+
+  const AnyExamPublishedBody: IIsAnyExamPublishedBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asStandardId: standardId,
+    asDivisionId: DivisionId,
+    asIsExamPublished: 0
+  };
+
+  const CheckAttendanceMarkedBody: ICheckIfAttendanceMarkedBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    dateTime: "2014-06-09",
+    asDivisionId: 1299,
+    asStandardId: 1082
+  };
+
+  const FeeAreaNamesBody: IGetFeeAreaNamesBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  };
   useEffect(() => {
     dispatch(CDAGetMasterData(GetStudentRecordDataResult));
     dispatch(CDAUserRoles(GetAllUserRoles));
     dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
-    //dispatch(CDAGetStudentAdditionalDetails(GetSingleStudentDetails))
-
+    dispatch(CDAIsOnLeave(IsOnLeaveBody));
+    dispatch(CDAAnyExamPublished(AnyExamPublishedBody));
+    dispatch(CDACheckIfAttendanceMarked(CheckAttendanceMarkedBody));
+    dispatch(CDAFeeAreaNames(FeeAreaNamesBody));
   }, []);
 
   useEffect(() => {

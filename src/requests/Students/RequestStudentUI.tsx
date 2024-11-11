@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
+import { ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -27,6 +27,11 @@ const StudentUISlice = createSlice({
         ISGetStreamwiseSubjectDetails: [],
         //UpdateStudent
         ISUpdateStudent: {},
+        //IsOnLeave
+        ISOnLeave: {},
+        ISAnyExamPublished: [],
+        ISCheckIfAttendanceMarked: [],
+        ISFeeAreaNames: [],
         Loading: true
     },
     reducers: {
@@ -94,6 +99,22 @@ const StudentUISlice = createSlice({
         },
         RUpdateStudent(state, action) {
             state.ISUpdateStudent = action.payload;
+            state.Loading = false;
+        },
+        RISOnLeave(state, action) {
+            state.ISOnLeave = action.payload;
+            state.Loading = false;
+        },
+        RAnyExamPublished(state, action) {
+            state.ISAnyExamPublished = action.payload;
+            state.Loading = false;
+        },
+        RCheckIfAttendanceMarked(state, action) {
+            state.ISCheckIfAttendanceMarked = action.payload;
+            state.Loading = false;
+        },
+        RFeeAreaNames(state, action) {
+            state.ISFeeAreaNames = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -284,9 +305,62 @@ export const CDAUpdateStudent =
             dispatch(StudentUISlice.actions.RUpdateStudent(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('Student information updated successfully');
-                console.log('Response data:', response.data);
+                // console.log('Student information updated successfully');
+                // console.log('Response data:', response.data);
             }
         };
 
+export const CDAIsOnLeave =
+    (data: IIsOnLeaveBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.IsOnLeaveApi(data);
+            dispatch(StudentUISlice.actions.RISOnLeave(response.data));
+            // console.log('Response data CDAIsOnLeave:', response.data);
+        };
+
+export const CDAAnyExamPublished =
+    (data: IIsAnyExamPublishedBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.IsAnyExamPublishedApi(data);
+
+            let examListResult = []
+            response.data.examListResult.map((item, i) => {
+                examListResult.push({
+                    IsExamPublishedStatus: item.IsExamPublishedStatus
+                });
+            });
+
+            dispatch(StudentUISlice.actions.RAnyExamPublished(examListResult));
+            //console.log('Response data CDAAnyExamPublished:', examListResult);
+        };
+
+
+export const CDACheckIfAttendanceMarked =
+    (data: ICheckIfAttendanceMarkedBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.CheckIfAttendanceMarkedApi(data);
+            dispatch(StudentUISlice.actions.RCheckIfAttendanceMarked(response.data));
+            //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
+        };
+
+export const CDAFeeAreaNames =
+    (data: IGetFeeAreaNamesBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.GetFeeAreaNamesApi(data);
+
+            const responseData = response.data.map((item, i) => {
+                return ({
+                    Id: item.FeeAreaNameId,
+                    Name: item.FeeAreaName,
+                    Value: item.FeeAreaNameId,
+                })
+            })
+
+            dispatch(StudentUISlice.actions.RFeeAreaNames(responseData));
+            console.log('CDAFeeAreaNames:', responseData);
+        };
 export default StudentUISlice.reducer;

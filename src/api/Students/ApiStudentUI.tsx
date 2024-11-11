@@ -1,4 +1,4 @@
-import { IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentResult } from 'src/interfaces/Students/IStudentUI';
+import { ICheckIfAttendanceMarkedBody, ICheckIfAttendanceMarkedResult, IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetFeeAreaNamesBody, IGetFeeAreaNamesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IIsAnyExamPublishedBody, IIsAnyExamPublishedResult, IIsOnLeaveBody, IIsOnLeaveResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentResult } from 'src/interfaces/Students/IStudentUI';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
@@ -42,6 +42,19 @@ const GetStreamwiseSubjectDetailsApi = (data: IGetStreamwiseSubjectDetailsBody) 
 const UpdateStudentApi = (data: IUpdateStudentBody) => {
     return http.post<IUpdateStudentResult>('Teacher/UpdateStudent', data);
 };
+//IsOnLeave
+const IsOnLeaveApi = (data: IIsOnLeaveBody) => {
+    return http.post<IIsOnLeaveResult>('Teacher/IsOnLeave', data);
+};
+const IsAnyExamPublishedApi = (data: IIsAnyExamPublishedBody) => {
+    return http.post<IIsAnyExamPublishedResult>('School/IsAnyExamPublished', data);
+};
+const CheckIfAttendanceMarkedApi = (data: ICheckIfAttendanceMarkedBody) => {
+    return http.post<ICheckIfAttendanceMarkedResult[]>('School/CheckIfAttendanceMarked', data);
+};
+const GetFeeAreaNamesApi = (data: IGetFeeAreaNamesBody) => {
+    return http.post<IGetFeeAreaNamesResult[]>('Teacher/GetFeeAreaNames', data);
+};
 
 
 const GetStudentUIAPI = {
@@ -52,6 +65,10 @@ const GetStudentUIAPI = {
     GetAllUserRolesApi,
     StandrdwiseStudentsDocumentApi,
     GetAllStreamsApi, GetAllGroupsOfStreamApi, GetStreamwiseSubjectDetailsApi,
-    UpdateStudentApi
+    UpdateStudentApi,
+    IsOnLeaveApi,
+    IsAnyExamPublishedApi,
+    CheckIfAttendanceMarkedApi,
+    GetFeeAreaNamesApi
 };
 export default GetStudentUIAPI;

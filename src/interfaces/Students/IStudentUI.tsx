@@ -410,6 +410,56 @@ export interface IUpdateStudentResult {
     CheckIsRFormNumberDuplicate: boolean
 }
 
+//ISOnLeave
+export interface IIsOnLeaveBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asYearwiseStudentId: number
+}
+
+export interface IIsOnLeaveResult {
+    IsStudentOnLeave: string
+}
+//IsAnyExamPublished
+export interface IIsAnyExamPublishedBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asStandardId: number
+    asDivisionId: number
+    asIsExamPublished: number
+}
+
+export interface IIsAnyExamPublishedResult {
+    examListResult: [{
+        IsExamPublishedStatus: string
+    }]
+}
+//Attendance
+export interface ICheckIfAttendanceMarkedBody {
+    asSchoolId: number
+    dateTime: string
+    asDivisionId: number
+    asStandardId: number
+}
+
+export interface ICheckIfAttendanceMarkedResult {
+    AttendanceCount: string
+}
+//FeeAreaNames
+export interface IGetFeeAreaNamesBody {
+    asSchoolId: number
+}
+
+export interface IGetFeeAreaNamesResult {
+    FeeAreaNameId: string
+    FeeAreaName: string
+}
+
+
+
+
+
+
 
 
 
