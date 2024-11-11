@@ -1,5 +1,6 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+
   TextField,
   Typography
 } from '@mui/material';
@@ -29,6 +31,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAaddUpdateGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 import ContactGroup from '../SMSCenter/ContactGroup';
+import ContactGroupEditTable from './ContactGroupEditTable';
 
 interface Group {
   GroupId: string;
@@ -61,6 +64,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const [ErrorUserRole, setErrorUserRole] = useState('');
   const [ErrorSelectedUser, setErrorSelectedUser] = useState('');
   const [ErrorGroupName, setErrorGroupName] = useState('');
+  const [SearchByUserName, setSearchByUserName] = useState('');
+  const [SearchUser, setSearchUser] = useState([]);
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
@@ -70,7 +75,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
   );
-  console.log(getuserlist, 'getuserlist');
+  console.log(SearchUser, 'filter99999');
 
 
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
@@ -284,6 +289,31 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
     // Sorting logic can be implemented here
   };
+  const handleSearchByUserName = (value) => {
+    setSearchByUserName(value);
+  };
+  const clickSearch = () => {
+    if (SearchByUserName === '') {
+      setSearchUser(USGetUserName);
+    } else {
+      const filteredSMS = USGetUserName.filter((item) => {
+        const text1Match = item.UserName.toLowerCase().includes(
+          SearchByUserName.toLowerCase()
+        );
+        const text2Match = item.UserName.toLowerCase().includes(
+          SearchByUserName.toLowerCase()
+        )
+        return text1Match || text2Match;
+      });
+      setSearchUser(filteredSMS);
+    }
+  };
+
+
+  useEffect(() => {
+
+    setSearchUser(USGetUserName);
+  }, [USGetUserName]);
 
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
@@ -344,6 +374,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
           </FormControl>
         </Grid>
       </Box>
+      {GPID !== 0 && (
+        <ContactGroupEditTable />
+      )}
       <Grid container direction="row" alignItems="center" spacing={2} sx={{ pt: 1 }}>
         <Grid item xs={4}>
           <SearchableDropdown
@@ -370,8 +403,34 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         <Grid item xs={4}>
           <TextField
             label="Search By Name"
-            fullWidth />
+            fullWidth
+            onChange={(e) => {
+              handleSearchByUserName(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === 'Tab') {
+                clickSearch();
+              }
+            }}
+
+          />
+
         </Grid>
+        <Grid item xs={4}>
+          <IconButton
+            onClick={clickSearch}
+            sx={{
+              background: (theme) => theme.palette.primary.main,
+              color: 'white',
+              '&:hover': {
+                backgroundColor: (theme) => theme.palette.primary.dark
+              }
+            }}
+          >
+            <SearchTwoTone />
+          </IconButton>
+        </Grid>
+
       </Grid>
       <Box py={1}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 0.5 }}>
@@ -380,7 +439,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
               Select Users To Add In Selected Group
             </Typography>
           </Box>
-          {USGetUserName.length !== 0 ? (
+          {SearchUser.length !== 0 ? (
             <Box style={{ flex: 1, textAlign: 'center' }}>
               <Typography
                 variant='subtitle1'
@@ -399,7 +458,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
           ) : null}
         </Box>
       </Box>
-      {USGetUserName.length !== 0 ? (
+      {SearchUser.length !== 0 ? (
         <Box>
           <TableContainer component={Box} sx={{ overflow: 'auto', }}>
             <Table aria-label="simple table"
@@ -432,7 +491,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                 </TableRow>
               </TableHead>
               <TableBody>
-                {USGetUserName.map((item) => (
+                {SearchUser.map((item) => (
                   <TableRow key={item.UserId}>
                     <TableCell padding="checkbox" sx={{ py: 0.5 }}>
                       <Checkbox
