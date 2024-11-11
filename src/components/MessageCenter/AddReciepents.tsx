@@ -501,7 +501,7 @@ const AddReciepents = ({
   return (
     <>
       <Box>
-        <Grid xs={12} sm={12} item>
+        <Grid xs={12} sm={12} mt={0.7} item>
           {/* Searchable Dropdown For Search Teacher  */}
 
           {/* <SearchableDropdown
