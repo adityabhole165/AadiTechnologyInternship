@@ -7,11 +7,11 @@ import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Tabl
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -124,8 +124,8 @@ const ProgressReportNew = () => {
   const ShowOnlyGrades = EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true';
 
   const UsAcademicYearsOfStudent: any = useSelector((state: RootState) => state.ProgressReportNew.IsAcademicYearsOfStudent);
-
-console.log(UsAcademicYearsOfStudent,"UsAcademicYearsOfStudent",AcademicYear,"---");
+  const GetOldStudentDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetOldStudentDetails);
+console.log(GetOldStudentDetails,"GetOldStudentDetails");
 
 
   useEffect(() => {
@@ -279,7 +279,11 @@ console.log(UsAcademicYearsOfStudent,"UsAcademicYearsOfStudent",AcademicYear,"--
 
   };
 
-
+  const OldStudentDetailsBody:IGetOldStudentDetailsBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: AcademicYear,
+    aiStudentId: StudentId
+  }
 
   const clickSelectClass = (value) => {
     setOpen(false);
@@ -382,7 +386,9 @@ console.log(UsAcademicYearsOfStudent,"UsAcademicYearsOfStudent",AcademicYear,"--
     dispatch(CDAGetAcademicYearsOfStudent(AcademicYearsOfStudentBody));
   }, [StudentId]);
 
-
+  useEffect(() => {
+    dispatch(CDAgetOldstudentDetails(OldStudentDetailsBody));
+  }, [StudentId,AcademicYear]);
 
 
   useEffect(() => {

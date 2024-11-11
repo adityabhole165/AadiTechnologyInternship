@@ -374,9 +374,17 @@ export interface IGetAcademicYearsOfStudentBody {
 
 
 }
-// export interface IGetAcademicYearsOfStudentResult {
-//     AcademicYear: string
-//     Id: string
+export interface IGetOldStudentDetailsBody {
+    aiSchoolId: string
+    aiAcademicYearId: string
+    aiStudentId: string
+  }
 
-//   }
+  export interface IGetOldStudentDetailsResult {
+    OldStudentDetails: {
+        StudentId: string
+        StandardDivisionId: string
+        StandardId: string
+    }
+}
   

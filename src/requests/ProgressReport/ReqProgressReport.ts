@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -39,7 +39,8 @@ const ProgressReportSlice = createSlice({
     HeaderArray1: [],
     SubHeaderArray1: [],
     AllStudentsProgressSheet: null,
-    IsAcademicYearsOfStudent:[]
+    IsAcademicYearsOfStudent:[],
+    ISGetOldStudentDetails:{}
   },
   reducers: {
     ShowData(state, action) {
@@ -156,6 +157,10 @@ const ProgressReportSlice = createSlice({
       state.IsAcademicYearsOfStudent = action.payload;
     },
 
+    RgetOldStudentDetails(state, action) {
+      state.ISGetOldStudentDetails = action.payload;
+    },
+    
   }
 });
 
@@ -1061,7 +1066,15 @@ export const CDAresetGetSchoolSettings =
     dispatch(ProgressReportSlice.actions.RAcademicYearsOfStudent(AcademicYearsOfStudent));
   };
 
+
+  export const CDAgetOldstudentDetails =
+  (data: IGetOldStudentDetailsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.GetOldStudentDetails(data);
+      dispatch(ProgressReportSlice.actions.RgetOldStudentDetails(response.data?.OldStudentDetails));
+    };
   
 
+    
 
 export default ProgressReportSlice.reducer;
