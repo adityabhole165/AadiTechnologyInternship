@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -38,7 +38,9 @@ const ProgressReportSlice = createSlice({
     MarkDetailsList1: [],
     HeaderArray1: [],
     SubHeaderArray1: [],
-    AllStudentsProgressSheet: null
+    AllStudentsProgressSheet: null,
+    IsAcademicYearsOfStudent:[],
+    ISGetOldStudentDetails:{}
   },
   reducers: {
     ShowData(state, action) {
@@ -151,7 +153,14 @@ const ProgressReportSlice = createSlice({
     RresetGetSchoolSettings(state) {
       state.IsGetSchoolSettings = {};
     },
+    RAcademicYearsOfStudent(state, action) {
+      state.IsAcademicYearsOfStudent = action.payload;
+    },
 
+    RgetOldStudentDetails(state, action) {
+      state.ISGetOldStudentDetails = action.payload;
+    },
+    
   }
 });
 
@@ -228,7 +237,7 @@ export const CDAStudentProgressReport =
         let returnVal: any = ""
 
         if (cell.Is_Absent === "N") {
-          console.log('this is cell', cell);
+      
           if (response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true') {
             returnVal = cell.Grade
           } else {
@@ -649,7 +658,7 @@ export const CDAStudentProgressReport =
             HeaderCount1 = 0
             let arrTemp = response.data.ListSubjectidDetails
               .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
-            console.log('🔥🔥🔥🔥🔥', arrTemp);
+          
 
             let TestTypeCount = arrTemp.length
             let temp = ""
@@ -1008,7 +1017,7 @@ export const CDAIsGradingStandard =
   (data: IsGradingStandarBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.IsGradingStandard(data);
-      console.log('/ Check this out >>> ', response.data);
+     
 
       dispatch(ProgressReportSlice.actions.RIsGradingStandard(response.data));
     };
@@ -1042,8 +1051,30 @@ export const CDAresetGetSchoolSettings =
       dispatch(ProgressReportSlice.actions.RresetGetSchoolSettings());// Dispatching action to reset the message
     };
 
+    export const CDAGetAcademicYearsOfStudent =
+  (data: IGetAcademicYearsOfStudentBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiProgressReport.GetAcademicYearsOfStudent(data);
+    console.log(response.data.GetAcademicYears, "test", response.data.GetTerms);
+
+    const AcademicYearsOfStudent = response.data.GetAcademicYears.map((item) => ({
+      Id: item.Id,
+      Name: item.AcademicYear,
+      Value: item.Id,
+    }));
+
+    dispatch(ProgressReportSlice.actions.RAcademicYearsOfStudent(AcademicYearsOfStudent));
+  };
 
 
+  export const CDAgetOldstudentDetails =
+  (data: IGetOldStudentDetailsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.GetOldStudentDetails(data);
+      dispatch(ProgressReportSlice.actions.RgetOldStudentDetails(response.data?.OldStudentDetails));
+    };
+  
 
+    
 
 export default ProgressReportSlice.reducer;

@@ -347,3 +347,44 @@ export interface ListDisplaynameDetile {
     ForeColor: string
     BackColor: string
 }
+
+
+export interface IGetAcademicYearsOfStudentBody {
+    aiSchoolId: string
+    asAcademicYearId: string
+    aiStudentId: string
+  }
+
+
+  export interface IGetAcademicYearsOfStudentResult {
+    GetAcademicYears: [
+        {
+            AcademicYear: string
+            Id: string
+        }
+    ],
+    GetTerms: [
+        {
+            TermName: string;
+            Id: string;
+           
+        }
+    ],
+
+
+
+}
+export interface IGetOldStudentDetailsBody {
+    aiSchoolId: string
+    aiAcademicYearId: string
+    aiStudentId: string
+  }
+
+  export interface IGetOldStudentDetailsResult {
+    OldStudentDetails: {
+        StudentId: string
+        StandardDivisionId: string
+        StandardId: string
+    }
+}
+  

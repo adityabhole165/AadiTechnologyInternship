@@ -1,4 +1,4 @@
-import { GetSchoolSettingsBody, GetSchoolSettingsResult, IGetAllMarksGradeConfigurationBody, IGetAllMarksGradeConfigurationResult, IGetAllStudentsProgressSheetBody, IGetAllStudentsProgressSheetResult, IGetClassTeachersBody, IGetClassTeachersResult, IGetPassedAcademicYearsBody, IGetPassedAcademicYearsResult, IGetStudentNameDropdownBody, IGetStudentNameDropdownResult, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody, IStudentProgressReportResult } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, GetSchoolSettingsResult, IGetAcademicYearsOfStudentBody, IGetAcademicYearsOfStudentResult, IGetAllMarksGradeConfigurationBody, IGetAllMarksGradeConfigurationResult, IGetAllStudentsProgressSheetBody, IGetAllStudentsProgressSheetResult, IGetClassTeachersBody, IGetClassTeachersResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetPassedAcademicYearsBody, IGetPassedAcademicYearsResult, IGetStudentNameDropdownBody, IGetStudentNameDropdownResult, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody, IStudentProgressReportResult } from "src/interfaces/ProgressReport/IprogressReport";
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetClassTeachers = (data: IGetClassTeachersBody) => {
@@ -78,6 +78,20 @@ const GetSchoolSettings = (data: GetSchoolSettingsBody) => {
 };
 
 
+const GetAcademicYearsOfStudent = (data: IGetAcademicYearsOfStudentBody) => {
+  return http.post<IGetAcademicYearsOfStudentResult>(
+    'GetAcademicYearsOfStudent',
+    data
+  );
+};
+
+const GetOldStudentDetails = (data: IGetOldStudentDetailsBody) => {
+  return http.post<IGetOldStudentDetailsResult>(
+    'Student/GetOldStudentDetails',
+    data
+  );
+};
+
 
 const ApiProgressReport = {
   GetClassTeachers,
@@ -89,6 +103,8 @@ const ApiProgressReport = {
   IsTestPublishedForStdDiv,
   IsTestPublishedForStudent,
   GetSchoolSettings,
-  GetAllStudentsProgressSheet
+  GetAllStudentsProgressSheet,
+  GetAcademicYearsOfStudent,
+  GetOldStudentDetails
 };
 export default ApiProgressReport;
