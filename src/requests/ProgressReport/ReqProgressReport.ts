@@ -48,6 +48,7 @@ const ProgressReportSlice = createSlice({
     ISPrePrimaryExamPublishStatus:{},
     ISgetIsTermExamPublished:null,
     ISgetIsFinalResultPublished:null,
+    
   },
   reducers: {
     ShowData(state, action) {
@@ -88,9 +89,11 @@ const ProgressReportSlice = createSlice({
       state.ISGetStudentNameDropdown = action.payload;
     },
     RStudentProgressReport(state, action) {
+      state.Loading = false;
       state.ISStudentProgressReport = action.payload;
     },
     GetAllStudentsProgressSheet(state, action) {
+      state.Loading = false;
       state.AllStudentsProgressSheet = action.payload;
     },
 
@@ -161,34 +164,43 @@ const ProgressReportSlice = createSlice({
       state.IsGetSchoolSettings = {};
     },
     RAcademicYearsOfStudent(state, action) {
+      state.Loading = false;
       state.IsAcademicYearsOfStudent = action.payload;
     },
 
     RgetOldStudentDetails(state, action) {
+      state.Loading = false;
       state.ISGetOldStudentDetails = action.payload;
     },
 
     getSchoolSettingValues(state,action){
+      state.Loading = false;
       state.SchoolSettingValues = action.payload;
     },
     RGetTerms(state,action){
+      state.Loading = false;
       state.GetTerms = action.payload;
     },
     getProgressReport(state,action){
+      state.Loading = false;
       state.ProgressReportDownload = action.payload;
     },
     RGetIsPrePrimary(state,action){
+      state.Loading = false;
       state.IsPrePrimary = action.payload;
     },
     RGetPrePrimaryExamPublishStatus(state,action){
+      state.Loading = false;
       state.ISPrePrimaryExamPublishStatus = action.payload;
     },
     
     RgetIsTermExamPublished(state,action){
+      state.Loading = false;
       state.ISgetIsTermExamPublished = action.payload;
     },
     
     RgetIsFinalResultPublished(state,action){
+      state.Loading = false;
       state.ISgetIsFinalResultPublished = action.payload;
     },
     resetProgressReportFileName(state) {
@@ -196,7 +208,9 @@ const ProgressReportSlice = createSlice({
      
     },
     
-    
+    setLoading(state){
+      state.Loading=true;
+    }
   }
 });
 
@@ -249,6 +263,7 @@ export const GetAllStudentsProgressSheet =
 export const CDAStudentProgressReport =
   (data: IStudentProgressReportBody, IsGradingStandardFlag): AppThunk =>
     async (dispatch, getState) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.StudentProgressReport(data); // dataList2; //
       dispatch(ProgressReportSlice.actions.REntireDataList(response.data));
       const { IsGradingStandarBodyIS } = getState().ProgressReportNew;
@@ -1113,6 +1128,7 @@ export const CDAresetGetSchoolSettings =
   export const CDAgetOldstudentDetails =
   (data: IGetOldStudentDetailsBody): AppThunk =>
     async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.GetOldStudentDetails(data);
       dispatch(ProgressReportSlice.actions.RgetOldStudentDetails(response.data?.OldStudentDetails));
     };
@@ -1121,7 +1137,7 @@ export const CDAresetGetSchoolSettings =
     export const GetSchoolSettingValues =
   (data: IGetSchoolSettingValuesBody): AppThunk =>
   async (dispatch) => {
-   
+    dispatch(ProgressReportSlice.actions.setLoading());
     const response = await ApiProgressReport.GetSchoolSettingValues(data);
     dispatch(ProgressReportSlice.actions.getSchoolSettingValues(response.data));
   };
@@ -1130,6 +1146,7 @@ export const CDAresetGetSchoolSettings =
   export const CDAGetProgressReport =
   (data: IProgressReportBody): AppThunk =>
   async (dispatch) => {
+    dispatch(ProgressReportSlice.actions.setLoading());
     const response = await ApiProgressReport.GetProgressReport(data);
     dispatch(ProgressReportSlice.actions.getProgressReport(response.data));
   };
@@ -1143,6 +1160,7 @@ export const CDAresetGetSchoolSettings =
   export const CDAGetIsPrePrimary =
   (data: GetIsPrePrimaryBody): AppThunk =>
   async (dispatch) => {
+    dispatch(ProgressReportSlice.actions.setLoading());
     const response = await ApiProgressReport.GetIsPrePrimary(data);
     dispatch(ProgressReportSlice.actions.RGetIsPrePrimary(response.data));
   };
@@ -1150,6 +1168,7 @@ export const CDAresetGetSchoolSettings =
   export const CDAGetPrePrimaryExamPublishStatus =
   (data: IGetPrePrimaryExamPublishStatusBody): AppThunk =>
   async (dispatch) => {
+    dispatch(ProgressReportSlice.actions.setLoading());
     const response = await ApiProgressReport.GetPrePrimaryExamPublishStatus(data);
     dispatch(ProgressReportSlice.actions.RGetPrePrimaryExamPublishStatus(response.data.DownloadButtonStateDetailsResult));
   };
@@ -1158,6 +1177,7 @@ export const CDAresetGetSchoolSettings =
   export const CDAgetIsTermExamPublished =
   (data: IgetIsTermExamPublishedBody): AppThunk =>
   async (dispatch) => {
+    dispatch(ProgressReportSlice.actions.setLoading());
     const response = await ApiProgressReport.getIsTermExamPublished(data);
     dispatch(ProgressReportSlice.actions.RgetIsTermExamPublished(response.data));
   };
@@ -1166,6 +1186,7 @@ export const CDAresetGetSchoolSettings =
   export const CDAgetIsFinalResultPublished =
   (data: IgetIsFinalResultPublishedBody): AppThunk =>
   async (dispatch) => {
+    dispatch(ProgressReportSlice.actions.setLoading());
     const response = await ApiProgressReport.getIsFinalResultPublished(data);
     dispatch(ProgressReportSlice.actions.RgetIsFinalResultPublished(response.data));
   };
