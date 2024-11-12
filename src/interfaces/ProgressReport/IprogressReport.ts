@@ -430,14 +430,18 @@ export interface GetIsPrePrimaryBody {
     aiYearwiseStudentId: string
   }
 
-  export interface DownloadButtonStateDetailsResult {
-    StandardId: number
-    StandardDivisionId: number
-    IsPrimaryReport: boolean
-    ShowDownloadButton: boolean
-    IsTerm1AssessmentPublished: boolean
-    IsTerm2AssessmentPublished: boolean
-  }
+ 
+
+
+  export  interface  DownloadButtonStateDetailsResult{
+    DownloadButtonStateDetailsResult:{
+        StandardId: number
+        StandardDivisionId: number
+        IsPrimaryReport: boolean
+        ShowDownloadButton: boolean
+        IsTerm1AssessmentPublished: boolean
+        IsTerm2AssessmentPublished: boolean
+}}
 
   export interface IgetIsTermExamPublishedBody {
     asSchoolId: string

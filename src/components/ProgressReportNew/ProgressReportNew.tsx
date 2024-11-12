@@ -135,14 +135,13 @@ const ProgressReportNew = () => {
   const SchoolSettingValues: any = useSelector((state: RootState) => state.ProgressReportNew.SchoolSettingValues);
   const academictermsResult = useSelector((state: RootState) => state.ProgressReportNew.GetTerms);
   const IsPrePrimary = useSelector((state: RootState) => state.ProgressReportNew.IsPrePrimary);
-  const PrePrimaryExamPublishStatus = useSelector((state: RootState) => state.ProgressReportNew.ISPrePrimaryExamPublishStatus);
+  const PrePrimaryExamPublishStatus : any  = useSelector((state: RootState) => state.ProgressReportNew.ISPrePrimaryExamPublishStatus);
   const ISPrePrimaryExamPublishStatus = useSelector((state: RootState) => state.ProgressReportNew.ISPrePrimaryExamPublishStatus);
   const getIsTermExamPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsTermExamPublished);
 
   const getIsFinalResultPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsFinalResultPublished);
 
-
-
+  
 
 
   // useEffect(() => {
@@ -625,18 +624,24 @@ const ProgressReportNew = () => {
 
 
 
-      <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
-        <Card5
-          text1={academictermsResult[0]?.TermName}
-          text2=""
-          clickIcon={() => { downloadProgress(1); }}
-        />
-        <Card5
-          text1={academictermsResult[1]?.TermName}
-          text2=""
-          clickIcon={() => { downloadProgress(2); }}
-        />
-      </Stack>
+<Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
+  {(IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished) && (
+    <Card5
+      text1={academictermsResult[0]?.TermName}
+      text2=""
+      clickIcon={() => { downloadProgress(1); }}
+    />
+  )}
+
+  {(IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished) && (
+    <Card5
+      text1={academictermsResult[1]?.TermName}
+      text2=""
+      clickIcon={() => { downloadProgress(2); }}
+    />
+  )}
+</Stack>
+
 
 
       {open && (

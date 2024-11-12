@@ -1142,7 +1142,7 @@ export const CDAresetGetSchoolSettings =
   (data: IGetPrePrimaryExamPublishStatusBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiProgressReport.GetPrePrimaryExamPublishStatus(data);
-    dispatch(ProgressReportSlice.actions.RGetPrePrimaryExamPublishStatus(response.data));
+    dispatch(ProgressReportSlice.actions.RGetPrePrimaryExamPublishStatus(response.data.DownloadButtonStateDetailsResult));
   };
 
 
