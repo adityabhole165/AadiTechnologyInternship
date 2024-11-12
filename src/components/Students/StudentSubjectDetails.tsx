@@ -6,13 +6,16 @@
 // }
 
 // export default StudentSubjectDetails
-
-import { Box, Button, Grid, TextField } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
-import { useState } from 'react';
+import { Box, Grid, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { CDAGetAllGroupsOfStream, CDAGetAllStreams, CDAStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
+import { RootState } from 'src/store';
 
 const StudentSubjectDetails = ({ onSave }) => {
+  const dispatch = useDispatch();
   // State to manage the selected stream, group, and optional subjects
   const [selectedStream, setSelectedStream] = useState('science');
   const [selectedGroup, setSelectedGroup] = useState('groupA');
@@ -21,7 +24,35 @@ const StudentSubjectDetails = ({ onSave }) => {
   const [message, setMessage] = useState('');
 
   const [errors, setErrors] = useState({});
+  //#region API Calls
+  const GetAllStreamsDrop = useSelector((state: RootState) => state.StudentUI.ISGetAllStreams);
+  //console.log('GetAllStreamsDrop:', GetAllStreamsDrop);
+  const GetAllGroupsOfStreamDrop = useSelector((state: RootState) => state.StudentUI.ISGetAllGroupsOfStream);
+  //console.log('GetAllGroupsOfStream:', GetAllGroupsOfStreamDrop);
+  //const GetStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStreamwiseSubjectDetails);
 
+  const GetAllStremsBody: IGetAllStreamsBody = {
+    asSchoolId: 122,
+  }
+
+  const GetAllGroupsOfStreamBody: IGetAllGroupsOfStreamBody = {
+    asSchoolId: 122,
+    asStreamId: 1
+  }
+
+  const CDAStreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
+    asSchoolId: 122,
+    asStreamGroupId: 4,
+    asAcademicYearId: 10
+  }
+  useEffect(() => {
+    dispatch(CDAGetAllStreams(GetAllStremsBody));
+    dispatch(CDAGetAllGroupsOfStream(GetAllGroupsOfStreamBody));
+    dispatch(CDAStreamwiseSubjectDetails(CDAStreamwiseSubjectDetailsBody));
+
+  }, []);
+
+  //#endregion
   const streamList = [
     { id: 1, Name: 'Science', value: 'science' },
     { id: 2, Name: 'Commerce', value: 'commerce' },
@@ -82,7 +113,7 @@ const StudentSubjectDetails = ({ onSave }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={streamList}
+            ItemList={GetAllStreamsDrop}
             onChange={handleStreamChange}
             label={'Stream'}
             size={'medium'}
@@ -92,7 +123,7 @@ const StudentSubjectDetails = ({ onSave }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={groupList}
+            ItemList={GetAllGroupsOfStreamDrop}
             onChange={handleGroupChange}
             label={'Group'}
             size={'medium'}

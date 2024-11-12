@@ -158,6 +158,7 @@ export const CDAStreamwiseSubjectDetails =
         const response = await GetStudentUIAPI.GetStreamwiseSubjectDetailsApi(data);
 
         dispatch(StudentUISlice.actions.RGetStreamwiseSubjectDetails(response.data));
+        console.log('CDAStreamwiseSubjectDetails:', response.data);
     };
 export const CDAGetMasterData =
     (data: IMasterDatastudentBody): AppThunk =>
