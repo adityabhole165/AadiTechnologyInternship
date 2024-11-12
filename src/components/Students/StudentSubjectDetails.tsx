@@ -9,9 +9,9 @@
 import { Box, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetStreamwiseSubjectDetailsBody, IRetriveStudentStreamwiseSubjectBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAllGroupsOfStream, CDAGetAllStreams, CDAStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
+import { CDAGetAllGroupsOfStream, CDAGetAllStreams, CDARetriveStudentStreamwiseSubject, CDAStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
 const StudentSubjectDetails = ({ onSave }) => {
@@ -40,15 +40,21 @@ const StudentSubjectDetails = ({ onSave }) => {
     asStreamId: 1
   }
 
-  const CDAStreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
+  const StreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
     asSchoolId: 122,
     asStreamGroupId: 4,
     asAcademicYearId: 10
   }
+  const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
+    asSchoolId: 122,
+    asAcademicYearId: 10,
+    asStudentId: 4564
+  }
   useEffect(() => {
     dispatch(CDAGetAllStreams(GetAllStremsBody));
     dispatch(CDAGetAllGroupsOfStream(GetAllGroupsOfStreamBody));
-    dispatch(CDAStreamwiseSubjectDetails(CDAStreamwiseSubjectDetailsBody));
+    dispatch(CDAStreamwiseSubjectDetails(StreamwiseSubjectDetailsBody));
+    dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));
 
   }, []);
 

@@ -1,4 +1,4 @@
-import { ICheckIfAttendanceMarkedBody, ICheckIfAttendanceMarkedResult, IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetFeeAreaNamesBody, IGetFeeAreaNamesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IIsAnyExamPublishedBody, IIsAnyExamPublishedResult, IIsOnLeaveBody, IIsOnLeaveResult, IMasterDatastudentBody, IMasterDataStudentResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentResult } from 'src/interfaces/Students/IStudentUI';
+import { ICheckIfAttendanceMarkedBody, ICheckIfAttendanceMarkedResult, IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetFeeAreaNamesBody, IGetFeeAreaNamesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IIsAnyExamPublishedBody, IIsAnyExamPublishedResult, IIsOnLeaveBody, IIsOnLeaveResult, IMasterDatastudentBody, IMasterDataStudentResult, IRetriveStudentStreamwiseSubjectBody, IRetriveStudentStreamwiseSubjectResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentResult } from 'src/interfaces/Students/IStudentUI';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
@@ -38,6 +38,11 @@ const GetAllGroupsOfStreamApi = (data: IGetAllGroupsOfStreamBody) => {
 const GetStreamwiseSubjectDetailsApi = (data: IGetStreamwiseSubjectDetailsBody) => {
     return http.post<IGetStreamwiseSubjectDetailsResult>('Teacher/GetStreamwiseSubjectDetails', data);
 };
+//4
+const RetriveStudentStreamwiseSubjectApi = (data: IRetriveStudentStreamwiseSubjectBody) => {
+    return http.post<IRetriveStudentStreamwiseSubjectResult>('Teacher/RetriveStudentStreamwiseSubject', data);
+};
+
 //Update Student
 const UpdateStudentApi = (data: IUpdateStudentBody) => {
     return http.post<IUpdateStudentResult>('Teacher/UpdateStudent', data);
@@ -64,7 +69,7 @@ const GetStudentUIAPI = {
     StaffNameApi,
     GetAllUserRolesApi,
     StandrdwiseStudentsDocumentApi,
-    GetAllStreamsApi, GetAllGroupsOfStreamApi, GetStreamwiseSubjectDetailsApi,
+    GetAllStreamsApi, GetAllGroupsOfStreamApi, GetStreamwiseSubjectDetailsApi, RetriveStudentStreamwiseSubjectApi,
     UpdateStudentApi,
     IsOnLeaveApi,
     IsAnyExamPublishedApi,

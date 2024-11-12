@@ -321,6 +321,28 @@ export interface IGetStreamwiseSubjectDetailsResult {
         Subject_Name: string
     }[]
 }
+//4
+export interface IRetriveStudentStreamwiseSubjectBody {
+    asSchoolId: number
+    asStudentId: number
+    asAcademicYearId: number
+}
+
+export interface IRetriveStudentStreamwiseSubjectResult {
+    GetStudentStreamwiseSubjectDetails: {
+        Id: string
+        StreamId: string
+        GroupId: string
+        CompulsorySubjects: string
+        OptionalSubjects: string
+        CompitativeExam: string
+    }[]
+    StudentStreamDetails: {
+        IsSecondary: boolean
+        IsMidYear: boolean
+    }[]
+}
+
 //Update Student
 export interface IUpdateStudentBody {
     asSchoolId: number

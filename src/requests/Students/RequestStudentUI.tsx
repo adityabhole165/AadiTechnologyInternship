@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
+import { ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -24,7 +24,14 @@ const StudentUISlice = createSlice({
         //streamwise Subject
         ISGetAllStreams: [],
         ISGetAllGroupsOfStream: [],
-        ISGetStreamwiseSubjectDetails: [],
+        //StreamwiseSubjectDetails
+        ISStudentCompulsarySubjects: [],
+        ISFillOptionalSubjects: [],
+        ISFillCompitativeExams: [],
+        ISFillOptionalSubjectArts: [],
+        //RetriveStudentStreamwiseSubject
+        ISGetStudentStreamwiseSubjectDetails: [],
+        ISStudentStreamDetails: [],
         //UpdateStudent
         ISUpdateStudent: {},
         //IsOnLeave
@@ -84,7 +91,7 @@ const StudentUISlice = createSlice({
             state.ISGetStudentAdditionalDetails = action.payload;
             state.Loading = false;
         },
-        //
+        //Start --StreamwiseSubject tab
         RGetAllStreams(state, action) {
             state.ISGetAllStreams = action.payload;
             state.Loading = false;
@@ -93,10 +100,33 @@ const StudentUISlice = createSlice({
             state.ISGetAllGroupsOfStream = action.payload;
             state.Loading = false;
         },
-        RGetStreamwiseSubjectDetails(state, action) {
-            state.ISGetStreamwiseSubjectDetails = action.payload;
+        //StreamwiseSubjectDetails
+        RStudentCompulsarySubjects(state, action) {
+            state.ISStudentCompulsarySubjects = action.payload;
             state.Loading = false;
         },
+        RFillOptionalSubjects(state, action) {
+            state.ISFillOptionalSubjects = action.payload;
+            state.Loading = false;
+        },
+        RFillCompitativeExams(state, action) {
+            state.ISFillCompitativeExams = action.payload;
+            state.Loading = false;
+        },
+        RFillOptionalSubjectArts(state, action) {
+            state.ISFillOptionalSubjectArts = action.payload;
+            state.Loading = false;
+        },
+        //RetriveStudentStreamwiseSubject
+        RGetStudentStreamwiseSubjectDetails(state, action) {
+            state.ISGetStudentStreamwiseSubjectDetails = action.payload;
+            state.Loading = false;
+        },
+        RStudentStreamDetails(state, action) {
+            state.ISStudentStreamDetails = action.payload;
+            state.Loading = false;
+        },
+        // end
         RUpdateStudent(state, action) {
             state.ISUpdateStudent = action.payload;
             state.Loading = false;
@@ -157,9 +187,89 @@ export const CDAStreamwiseSubjectDetails =
     (data: IGetStreamwiseSubjectDetailsBody): AppThunk => async (dispatch) => {
         const response = await GetStudentUIAPI.GetStreamwiseSubjectDetailsApi(data);
 
-        dispatch(StudentUISlice.actions.RGetStreamwiseSubjectDetails(response.data));
-        console.log('CDAStreamwiseSubjectDetails:', response.data);
+        let StudentCompulsarySubjects = []
+        response.data.StudentCompulsarySubjects.map((item, i) => {
+            StudentCompulsarySubjects.push({
+                SubjectDetails: item.SubjectDetails,
+            });
+        });
+        dispatch(StudentUISlice.actions.RStudentCompulsarySubjects(StudentCompulsarySubjects));
+        //console.log('StudentCompulsarySubjects:', StudentCompulsarySubjects);
+
+        let FillOptionalSubjects = []
+        response.data.FillOptionalSubjects.map((item, i) => {
+            FillOptionalSubjects.push({
+
+                Id: item.SubjectId,
+                Name: item.SubjectName,
+                Value: item.SubjectId
+
+            });
+        });
+        dispatch(StudentUISlice.actions.RFillOptionalSubjects(FillOptionalSubjects));
+        //console.log('FillOptionalSubjects:', FillOptionalSubjects);
+
+        let FillCompitativeExams = []
+        response.data.FillCompitativeExams.map((item, i) => {
+            FillCompitativeExams.push({
+
+                Id: item.Id,
+                Name: item.ExamName,
+                Value: item.Id
+
+            });
+        });
+        dispatch(StudentUISlice.actions.RFillCompitativeExams(FillCompitativeExams));
+        // console.log('FillCompitativeExams:', FillCompitativeExams);
+
+        let FillOptionalSubjectArts = []
+        response.data.FillOptionalSubjectArts.map((item, i) => {
+            FillOptionalSubjectArts.push({
+
+                Id: item.SubjectId,
+                Name: item.Subject_Name,
+                Value: item.SubjectId
+
+            });
+        });
+        dispatch(StudentUISlice.actions.RFillCompitativeExams(FillOptionalSubjectArts));
+        // console.log('FillOptionalSubjectArts:', FillOptionalSubjectArts);
+
     };
+
+export const CDARetriveStudentStreamwiseSubject =
+    (data: IRetriveStudentStreamwiseSubjectBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.RetriveStudentStreamwiseSubjectApi(data);
+
+            let GetStudentStreamwiseSubjectDetails = []
+            response.data.GetStudentStreamwiseSubjectDetails.map((item, i) => {
+                GetStudentStreamwiseSubjectDetails.push({
+                    Id: item.Id,
+                    StreamId: item.StreamId,
+                    GroupId: item.GroupId,
+                    CompulsorySubjects: item.CompulsorySubjects,
+                    OptionalSubjects: item.OptionalSubjects,
+                    CompitativeExam: item.CompitativeExam,
+                });
+            });
+
+            dispatch(StudentUISlice.actions.RGetStudentStreamwiseSubjectDetails(GetStudentStreamwiseSubjectDetails));
+            console.log('GetStudentStreamwiseSubjectDetails:', GetStudentStreamwiseSubjectDetails);
+
+            let StudentStreamDetails = []
+            response.data.StudentStreamDetails.map((item, i) => {
+                StudentStreamDetails.push({
+                    IsSecondary: item.IsSecondary,
+                    IsMidYear: item.IsMidYear,
+                });
+            });
+
+            dispatch(StudentUISlice.actions.RStudentStreamDetails(StudentStreamDetails));
+            console.log('StudentStreamDetails:', StudentStreamDetails);
+        };
+
 export const CDAGetMasterData =
     (data: IMasterDatastudentBody): AppThunk =>
         async (dispatch) => {
