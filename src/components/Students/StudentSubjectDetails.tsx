@@ -60,7 +60,7 @@ const StudentSubjectDetails = ({ onSave }) => {
 
   const StreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
     asSchoolId: 122,
-    asStreamGroupId: 4,
+    asStreamGroupId: Number(selectedGroup),
     asAcademicYearId: 10
   }
   const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {

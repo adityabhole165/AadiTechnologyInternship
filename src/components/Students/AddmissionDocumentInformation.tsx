@@ -31,20 +31,33 @@ import {
   Typography
 } from '@mui/material';
 import green from '@mui/material/colors/green';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
+import { IGetUserInvestmentMethodDetailsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
 import { IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile';
+import { deleteresetInvestMessage, getDeleteInvestmentDocument, getSaveInvestmentDocument, resetSaveInvestmentMessage } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
+import { CDAGetAllDocumentsList, CDAGetUserInvestmentMethodDetails } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
 import { CDAGetStudentDocuments } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
-import StudentDocumentUpload from './StudentDetailsDoc';
+//import StudentDocumentUpload from './StudentDetailsDoc';
+import { toast } from 'react-toastify';
+import UploadDocList from 'src/components/PerformanceGradeAssignment/UploadDocList';
+import { AlertContext } from 'src/contexts/AlertContext';
 
 
 const AdmissionDocumentInformation = ({ onSave }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { standardId, DivisionId } = location.state || {};
+  const schoolId = localStorage.getItem('SchoolId');
+  const financialYearId = sessionStorage.getItem('FinancialYearId');
+  const asUserId = Number(localStorage.getItem('UserId'));
+  const asFolderName = localStorage.getItem('FolderName');
+
+  const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
+  const { showAlert, closeAlert } = useContext(AlertContext);
 
   const [documents, setDocuments] = useState([
     { documentName: 'Two Photographs 2', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
@@ -57,23 +70,25 @@ const AdmissionDocumentInformation = ({ onSave }) => {
   const [open, setOpen] = useState(false);
   const [selectedDocumentIndex, setSelectedDocumentIndex] = useState(null);
   const [fileName, setFileName] = useState('');
+  const [base64URL, setbase64URL] = useState('');
+  const [newFile, setNewFile] = useState(false);
   const [fileNameError, setFileNameError] = useState('');
   const [studentName, setStudentName] = useState(''); // State for Student Name
   const [documentName, setDocumentName] = useState(''); // State for Document Name
+  const [documentId, setDocumentId] = useState(''); // State for Document Name
   const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
   const MaxfileSize = 5000000;
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState({});
-
-  const GetStudentDocumentsList = useSelector(
-    (state: RootState) => state.StudentUI.ISGetStudentDocuments
-  );
+  //console.log('documentId', documentId);
+  //#region DocBase
+  const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
   console.log('GetStudentDocumentsList', GetStudentDocumentsList);
 
   const GetStudentDocuments: IStandrdwiseStudentsDocumentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
     asStandardId: standardId,
-    asStudentId: 3556,
+    asStudentId: SchoolWise_Student_Id,
     asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
   };
 
@@ -87,15 +102,170 @@ const AdmissionDocumentInformation = ({ onSave }) => {
     //setDocuments(updatedDocuments);
   };
 
+  //#endregion
+
+  //#region DocPop
+  const HeaderList = [
+    { Id: 1, Header: 'File Name' },
+    { Id: 2, Header: 'View', align: "center" },
+    { Id: 3, Header: 'Delete', align: "center" },
+
+  ];
+  const UserInvestmentMethodDetails: any = useSelector((state: RootState) => state.PerformanceGradeAssignment.ISUserInvestmentMethodDetails);
+  const GetAllDocumentsList: any = useSelector((state: RootState) => state.PerformanceGradeAssignment.ISGetAllDocumentsList);
+  //console.log('UserInvestmentMethodDetails', UserInvestmentMethodDetails);
+  //console.log('GetAllDocumentsList', GetAllDocumentsList);
+
+  const USDeleteInvestmentDocument: any = useSelector((state: RootState) => state.AddInvestmentDetailsDoc.ISDeleteInvestmentDocument);
+  const USSaveInvestmentDocument: any = useSelector((state: RootState) => state.AddInvestmentDetailsDoc.ISSaveInvestmentDocument);
+  const USGetAllDocumentsList: any = useSelector((state: RootState) => state.AddInvestmentDetailsDoc.ISGetAllDocumentsList);
+  console.log('USGetAllDocumentsList', GetAllDocumentsList);
+
+  const GetUserInvestmentMethodDetailsBody: IGetUserInvestmentMethodDetailsBody = {
+    asSchoolId: Number(schoolId),
+    asFinancialYearId: Number(financialYearId),
+    asUserId: 3856,
+    asDocumentId: documentId,
+    asDocumentTypeId: 2
+  }
+
+  const IGetAllDocumentsListBody: IGetAllDocumentsListBody = {
+    asSchoolId: Number(schoolId),
+    asUserId: 3856,
+    asFinancialYearId: 1,
+    asDocumentTypeId: 2,
+    asAcademicYearId: 0,// Number(yearId),
+    asDocumentId: Number(documentId),
+    asReportingUserId: 0,// Number(ReportingUserId),
+    asLoginUserId: Number(sessionStorage.getItem('Id'))
+  }
+
+  useEffect(() => {
+    // if (Id !== '0' && ReportingUserId !== '0') {
+    dispatch(CDAGetUserInvestmentMethodDetails(GetUserInvestmentMethodDetailsBody));
+    dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
+    setFileNameError('')
+    // }
+  }, [open])
+
+  const ClickUpload = () => {
+    let isError = false;
+
+    const SaveInvestmentDocumentBody: ISaveInvestmentDocumentBody = {
+      asSchoolId: Number(schoolId),
+      asAcademicYearId: 0,//Number(yearId),
+      asFinancialYearId: Number(financialYearId),
+      asDocumentId: Number(documentId),
+      asFileName: fileName === '' ? null : fileName,
+      asUserId: 3856,
+      asInsertedById: asUserId,
+      asDocumnetTypeId: 2,
+      asReportingUserId: 0,// Number(ReportingUserId),
+      asSaveFeature: UserInvestmentMethodDetails?.DocumentName,
+      asFolderName: asFolderName.toString(),
+      asBase64String: base64URL == '' ? null : base64URL
+    }
+    // const fileExtension = fileName.split('.').pop().toUpperCase();
+
+    // // Check for valid file type
+    // if (!ValidFileTypes.includes(fileExtension)) {
+    //     setValidFile('Please select a valid file type.');
+    //     isError = true;
+    // } else {
+    //     setValidFile('');
+    // }
+    console.log('SaveInvestmentDocumentBody', SaveInvestmentDocumentBody);
+
+    if (!fileName || fileName === '') {
+      setFileNameError('Please select file to upload.');
+      isError = true;
+    } else {
+      setFileNameError('');
+    }
+    if (!isError) {
+      // console.log(`Following is the Body for the save document -`, SaveInvestmentDocumentBody)
+      dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody));
+      //ResetForm();
+    }
+    // dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
+  }
+
+  useEffect(() => {
+    if (USSaveInvestmentDocument != '') {
+      toast.success(USSaveInvestmentDocument);
+      dispatch(resetSaveInvestmentMessage());
+      setNewFile(true);
+      // dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+      dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
+      //RefreshList()
+    }
+  }, [USSaveInvestmentDocument]);
+
+  const ClickView = (fileName) => {
+    window.open(
+      localStorage.getItem('SiteURL') +
+      '/RITESCHOOL/DOWNLOADS/Student Documents/' +
+      fileName
+      // \\PPSN Website\RITESCHOOL\DOWNLOADS\Performance Evaluation\MCAResult12320240906143621.pdf
+      // http://web.aaditechnology.info/RITeSchool//downloads//Performance%20Evaluation//Screenshot%202024-09-05%20095824.pdf
+    );
+    // RITESchool_PPS_API\PPSN Website\RITESCHOOL\DOWNLOADS\Performance Evaluation
+  }
+
+  const ClickDelete = (Id) => {
+    const DeleteInvestmentDocumentBody: IDeleteInvestmentDocumentBody = {
+      asSchoolId: Number(schoolId),
+      asFinancialYearId: Number(financialYearId),
+      asUpdatedById: asUserId,
+      asDocumentId: Number(Id),
+      asDocumnetTypeId: 2
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete this record?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(getDeleteInvestmentDocument(DeleteInvestmentDocumentBody))
+        closeAlert();
+      }
+    });
+  };
+  useEffect(() => {
+    if (USDeleteInvestmentDocument !== '') {
+      toast.success("Document deleted successfully.");
+      dispatch(deleteresetInvestMessage());
+      //setNewFile(true);
+      // dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+      dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
+      // RefreshList()
+    }
+  }, [USDeleteInvestmentDocument]);
+
+  const ResetForm = () => {
+    setFileName('');
+    setbase64URL('');
+
+  };
+
+  //endregion
   const ChangeFile = (value) => {
     setFileName(value.Name);
+    setbase64URL(value.Value);
+
     setFileNameError(value.ErrorMsg);
   };
 
   const handleOpenDialog = (index) => {
     setSelectedDocumentIndex(index);
-    setStudentName('John Doe'); // Replace with actual student name logic
+    setStudentName(Name); // Replace with actual student name logic
     setDocumentName(GetStudentDocumentsList[index].Name);
+    setDocumentId(GetStudentDocumentsList[index].StandardwiseDocumentId);
     setOpen(true);
   };
 
@@ -103,16 +273,17 @@ const AdmissionDocumentInformation = ({ onSave }) => {
     setOpen(false);
     setFileName('');
     setFileNameError('');
+    dispatch(CDAGetStudentDocuments(GetStudentDocuments));
   };
 
-  const handleUploadFile = () => {
-    if (fileName && !fileNameError) {
-      const updatedDocuments = [...documents];
-      updatedDocuments[selectedDocumentIndex].attachmentCount += 1; // Increment attachment count
-      setDocuments(updatedDocuments);
-    }
-    handleCloseDialog();
-  };
+  // const handleUploadFile = () => {
+  //   if (fileName && !fileNameError) {
+  //     const updatedDocuments = [...documents];
+  //     updatedDocuments[selectedDocumentIndex].attachmentCount += 1; // Increment attachment count
+  //     setDocuments(updatedDocuments);
+  //   }
+  //   handleCloseDialog();
+  // };
 
   const validateForm = () => {
     const newErrors = {};
@@ -254,7 +425,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
                     </>}
                     InputLabelProps={{ shrink: true }}
                     sx={{ bgcolor: '#F0F0F0', width: '100%' }}
-                    value={studentName} // Show selected student name
+                    value={Object.keys(UserInvestmentMethodDetails).length > 0 ? UserInvestmentMethodDetails?.UserName : ''} // Show selected student name
                     size={"medium"}
                     InputProps={{
                       readOnly: true,
@@ -269,7 +440,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
                     </>}
                     InputLabelProps={{ shrink: true }}
                     sx={{ bgcolor: '#F0F0F0', width: '100%' }}
-                    value={documentName || 'No record found'} // Show selected document name or 'No record found'
+                    value={Object.keys(UserInvestmentMethodDetails).length > 0 ? UserInvestmentMethodDetails?.DocumentName : ''}
                     size={"medium"}
                     InputProps={{
                       readOnly: true,
@@ -286,6 +457,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
                       FileLabel={'Upload Document '}
                       width={'100%'}
                       height={"52px"}
+                      FilePath={GetAllDocumentsList.length > 0 ? GetAllDocumentsList.Text2 : ''}
                       errorMessage={fileNameError}
                       isMandatory={true}
                     />
@@ -296,14 +468,21 @@ const AdmissionDocumentInformation = ({ onSave }) => {
           </Box>
         </DialogContent>
         <Box sx={{ backgroundColor: 'white', pl: 3.8, pr: 3.8 }}>
-          {documentList.length > 0 ? (
-            <StudentDocumentUpload
-              studentName="John Doe"
-              documentName="Math Assignment"
-              open={isDialogOpen}
-              handleClose={toggleDialog}
-              onUploadSuccess={refreshDocumentList}
-              documents={documentList}
+          {GetAllDocumentsList.length > 0 ? (
+            // <StudentDocumentUpload
+            //   studentName="John Doe"
+            //   documentName="Math Assignment"
+            //   open={isDialogOpen}
+            //   handleClose={toggleDialog}
+            //   onUploadSuccess={refreshDocumentList}
+            //   documents={GetAllDocumentsList}
+            // />
+            <UploadDocList
+              HeaderArray={HeaderList}
+              ItemList={GetAllDocumentsList}
+              clickDelete={ClickDelete}
+              clickView={ClickView}
+              isDeletePermission={''}
             />
           ) : (
             <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
@@ -319,7 +498,7 @@ const AdmissionDocumentInformation = ({ onSave }) => {
             Cancel
           </Button>
           <Button
-            onClick={handleUploadFile} // Increment attachment count only on upload
+            onClick={ClickUpload} // Increment attachment count only on upload
             sx={{
               color: 'green',
               '&:hover': {

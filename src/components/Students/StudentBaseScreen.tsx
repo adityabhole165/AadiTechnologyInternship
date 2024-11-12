@@ -305,6 +305,7 @@ const StudentBaseScreen = () => {
                                                                         }}
                                                                         onClick={() => navigate(`/extended-sidebar/Teacher/StudentRegistrationForms`, {
                                                                             state: {
+                                                                                Name: item.Text1,
                                                                                 standardId: standardId,
                                                                                 DivisionId: divId,
                                                                                 YearWise_Student_Id: item.Text12,
