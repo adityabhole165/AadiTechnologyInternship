@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ContactGroupApi from "src/api/ContactGroup/ContactGroupApi";
-import { IAddUpdateGroupBody, IDeleteMailGroupBody, IGetMailingGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from "src/interfaces/ContactGroup/IContactGroup";
+import { IAddUpdateGroupBody, IDeleteMailGroupBody, IDeleteMailingGroupUserBody, IGetMailingGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from "src/interfaces/ContactGroup/IContactGroup";
 import { AppThunk } from "src/store";
 
 const ContactGroupSlice = createSlice({
@@ -14,6 +14,7 @@ const ContactGroupSlice = createSlice({
         IlistGetUserNameCount: [],
         IAddUpdateGroup: '',
         IDeleteMailGroupMsg: '',
+        IDeleteMailingGroupUserMsg: '',
         Loading: true
     },
     reducers: {
@@ -47,15 +48,19 @@ const ContactGroupSlice = createSlice({
         RlistGetUserNameCount(state, action) {
             state.IlistGetUserNameCount = action.payload;
         },
-        // RDeleteMailGroupMsg(state, action) {
-        //     state.Loading = false;
-        //     state.IDeleteMailGroupMsg = action.payload;
-        // },
         RDeleteMailGroupMsg(state, action) {
             state.Loading = false;
             state.IDeleteMailGroupMsg = action.payload;
         },
         resetDeleteMailGroupMsg(state) {
+            state.Loading = false;
+            state.IDeleteMailGroupMsg = '';
+        },
+        RDeleteMailingGroupUserMsg(state, action) {
+            state.Loading = false;
+            state.IDeleteMailGroupMsg = action.payload;
+        },
+        resetDeleteMailingGroupUserMsg(state) {
             state.Loading = false;
             state.IDeleteMailGroupMsg = '';
         },
@@ -145,12 +150,6 @@ export const resetAddUpdateGroup = (): AppThunk => async (dispatch) => {
     dispatch(ContactGroupSlice.actions.resetAddUpdateGroup());
 };
 
-// export const CDADeleteMailGroup = (data: IDeleteMailGroupBody): AppThunk => async (dispatch) => {
-//     dispatch(ContactGroupSlice.actions.getLoading(true));
-//     const response = await ContactGroupApi.DeleteGroupApi(data);
-//     dispatch(ContactGroupSlice.actions.RDeleteMailGroupMsg(response.data));
-// };
-
 export const CDADeleteMailGroupMsg = (data: IDeleteMailGroupBody): AppThunk => async (dispatch) => {
     dispatch(ContactGroupSlice.actions.getLoading(true));
     const response = await ContactGroupApi.DeleteGroupApi(data);
@@ -159,6 +158,15 @@ export const CDADeleteMailGroupMsg = (data: IDeleteMailGroupBody): AppThunk => a
 
 export const resetDeleteMailGroupMsg = (): AppThunk => async (dispatch) => {
     dispatch(ContactGroupSlice.actions.resetDeleteMailGroupMsg());
+};
+export const CDADeleteMailingGroupUserMsg = (data: IDeleteMailingGroupUserBody): AppThunk => async (dispatch) => {
+    dispatch(ContactGroupSlice.actions.getLoading(true));
+    const response = await ContactGroupApi.DeleteMailingGroupUserApi(data);
+    dispatch(ContactGroupSlice.actions.RDeleteMailingGroupUserMsg(response.data));
+};
+
+export const resetDeleteMailingGroupUserMsg = (): AppThunk => async (dispatch) => {
+    dispatch(ContactGroupSlice.actions.resetDeleteMailingGroupUserMsg());
 };
 
 
