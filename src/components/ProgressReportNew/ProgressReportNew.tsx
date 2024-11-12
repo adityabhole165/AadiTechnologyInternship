@@ -30,7 +30,7 @@ const ProgressReportNew = () => {
   const userLoginId = sessionStorage.getItem("Userlogin")
   const [Error, SetError] = useState('');
   const [StudentId, SetStudentId] = useState('');
-  const [AcademicYear, SetAcademicYear] = useState('');
+  const [AcademicYear, SetAcademicYear] = useState(asAcademicYearId);
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
 
@@ -453,9 +453,12 @@ const ProgressReportNew = () => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
   }, [Standard_Id()]);
 
+
+
   useEffect(() => {
     dispatch(CDAGetAcademicYearsOfStudent(AcademicYearsOfStudentBody));
   }, [StudentId]);
+
 
   useEffect(() => {
     dispatch(CDAgetOldstudentDetails(OldStudentDetailsBody));
@@ -482,6 +485,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAgetIsFinalResultPublished(getIsFinalResultPublishedBody));
   }, [AcademicYear, GetOldStudentDetails.StandardDivisionId]);
+
 
 
 
@@ -623,9 +627,7 @@ const ProgressReportNew = () => {
 
 
 
-
-
-      <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
+      {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
 
 
 
@@ -656,7 +658,9 @@ const ProgressReportNew = () => {
 
 
 
-      </Stack>
+      </Stack>}
+
+
 
 
 
