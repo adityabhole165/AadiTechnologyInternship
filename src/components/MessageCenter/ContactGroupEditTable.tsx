@@ -1,29 +1,67 @@
 // UserTable.tsx
-import React from 'react';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
+  Box,
+  IconButton,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  IconButton,
-  Paper,
-  Box
+  TableRow
 } from '@mui/material';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { red } from '@mui/material/colors';
+import { useContext } from 'react';
+import { useDispatch } from 'react-redux';
+import { AlertContext } from 'src/contexts/AlertContext';
+import { IDeleteMailingGroupUserBody } from 'src/interfaces/ContactGroup/IContactGroup';
+import { CDADeleteMailingGroupUserMsg } from 'src/requests/ContactGroup/ReqContactGroup';
 // Sample data array
 const userData = [
   { id: 1, name: 'Mr. Devendra Kumar (Principal)' },
-  { id: 2, name: 'Dr. Anjali S. Gurjar (Ex Principal)' }
+  { id: 2, name: 'Dr. Anjali S. Gurjar (Ex Principal)' },
+  { id: 12, name: 'Mr. Devendra Kumar (Principal)' },
+  { id: 23, name: 'Dr. Anjali S. Gurjar (Ex Principal)' }
 ];
 
 function ContactGroupEditTable() {
+  const dispatch = useDispatch();
+  const { showAlert, closeAlert } = useContext(AlertContext);
+  const schoolId = localStorage.getItem('localSchoolId');
+  const asUserId = sessionStorage.getItem('Id');
+  const academicYearId = sessionStorage.getItem('AcademicYearId');
   const handleDelete = (id) => {
-    console.log(`Delete user with id: ${id}`);
-    // Add delete logic here, such as updating the state
-  };
+    const DeleteMailingGroupUserBody: IDeleteMailingGroupUserBody = {
+      asSchoolId: Number(schoolId),
+      asAcademicYearId: Number(academicYearId),
+      asGroupId: 15,
+      asUserId: id,
+      asInsertedById: 0
+    }
+    if (id) {
+
+      showAlert({
+        title: 'Please Confirm',
+        message: 'Are you sure you want to remove this Group?',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+
+          dispatch(CDADeleteMailingGroupUserMsg(DeleteMailingGroupUserBody));
+          closeAlert();
+        },
+      });
+
+
+
+    }
+  }
+
+
 
   return (
     <TableContainer component={Box}>
@@ -39,7 +77,7 @@ function ContactGroupEditTable() {
             sx={{
               background: (theme) => theme.palette.secondary.main,
               color: (theme) => theme.palette.common.white,
-             
+
             }}
           >
             <TableCell
@@ -47,18 +85,18 @@ function ContactGroupEditTable() {
                 background: (theme) => theme.palette.secondary.main,
                 color: 'white',
                 fontWeight: 'bold',
-                py:1.5
+                py: 1.5
               }}
             >
               User Name
             </TableCell>
             <TableCell
-            align="center"
+              align="center"
               sx={{
                 background: (theme) => theme.palette.secondary.main,
                 color: 'white',
                 fontWeight: 'bold',
-                py:1
+                py: 1
               }}
             >
               Delete
@@ -68,8 +106,8 @@ function ContactGroupEditTable() {
         <TableBody>
           {userData.map((user) => (
             <TableRow key={user.id}>
-              <TableCell sx={{  py:0.5}}>{user.name}</TableCell>
-              <TableCell align="center" sx={{  py:1}}>
+              <TableCell sx={{ py: 0.5 }}>{user.name}</TableCell>
+              <TableCell align="center" sx={{ py: 1 }}>
                 <IconButton
                   onClick={() => handleDelete(user.id)}
                   sx={{
@@ -93,3 +131,5 @@ function ContactGroupEditTable() {
 }
 
 export default ContactGroupEditTable;
+
+

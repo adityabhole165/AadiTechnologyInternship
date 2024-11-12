@@ -79,7 +79,7 @@ const AddReciepents = ({
   const RoleId = sessionStorage.getItem('RoleId');
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = sessionStorage.getItem('Id');
-  const MessageCenterFullAccess = GetScreenPermission('MessageCenter');
+  const MessageCenterFullAccess = GetScreenPermission('Message Center');
 
   console.log(MessageCenterFullAccess, '###### ')
   const [entireSchool, setEntireSchool] = useState([
@@ -157,7 +157,7 @@ const AddReciepents = ({
     asScholId: schoolId,
     asAcademicYearId: academicYearId,
     asGroupId: '0',
-    asUserRoleId: '2',
+    asUserRoleId: RoleId,
     asUserId: asUserId
   };
   useEffect(() => {
@@ -502,17 +502,7 @@ const AddReciepents = ({
     <>
       <Box>
         <Grid xs={12} sm={12} mt={0.7} item>
-          {/* Searchable Dropdown For Search Teacher  */}
 
-          {/* <SearchableDropdown
-            sx={{ minWidth: '15vw' }}
-            // ItemList={Requision}
-            // onChange={GetRequisitionStatusDropdown}
-            label={'Status'}
-            // defaultValue={SelectResult.toString()}
-            mandatory
-            size={"small"}
-          /> */}
           <TextField
             sx={{ width: '15vw', mt: 0 }}
             fullWidth
@@ -534,24 +524,7 @@ const AddReciepents = ({
         {/* field and back Compose code  */}
         <Grid container>
           <Grid item xs={12} sm={10}>
-            {/* <TextField
-              fullWidth
-              disabled
-              multiline
-              placeholder="Selected Recipient"
-              id="body"
-              margin="normal"
-              style={{ scrollBehavior: 'auto' }}
-              value={selectedRecipents
-                .map((obj) => (obj !== undefined ? obj.trim() : ''))
-                .join('; ')}
-              sx={{
-                height: '50px',
-                overflow: 'auto',
-                border: '0.1px solid #c4c5c5',
-                borderRadius: '5.3px'
-              }}
-            /> */}
+
             <TextField
               fullWidth
               // multiline
@@ -573,28 +546,10 @@ const AddReciepents = ({
                 readOnly: true // Ensure the TextField is read-only
               }}
               value={''}
-            // sx={{
-            //   height: 'auto',
-            //   overflow: 'auto',
-            //   border: '0.1px solid #c4c5c5',
-            //   borderRadius: '5.3px'
-            // }}
+
             />
           </Grid>
-          {/* <Grid item xs={6} sm={2} mt={2}>
-            <Button onClick={clickOkay}
-              sx={{
-                color: '#38548A',
-                width: '150px',
-                ml: 1,
-                '&:hover': {
-                  color: '#38548A',
-                  backgroundColor: blue[100]
-                }
-              }}>
-              Back to Compose
-            </Button>
-          </Grid> */}
+
         </Grid>
         <>
           {RoleId === '6' && (
@@ -611,19 +566,7 @@ const AddReciepents = ({
                   <Grid container spacing={1}>
                     <Grid item xs={6} sm={12}>
                       {/* <Card> */}
-                      <Box
-                      // sx={{
-                      //   border: (theme) =>
-                      //     `1px solid ${theme.palette.grey[300]}`
-                      // }}
-                      // height={
-                      //   RoleId === '3'
-                      //     ? '50px'
-                      //     : RoleId === '2'
-                      //       ? '95px'
-                      //       : '180px'
-                      // }
-                      >
+                      <Box >
                         <ListSelect
                           Itemlist={staffAndAdmin}
                           onChange={adminandSWChange}
@@ -805,27 +748,9 @@ const AddReciepents = ({
 
         <DialogContent>
           <Box>
-            <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} />
+            <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} GPUserName={''} />
           </Box>
-          {/* <Box>
-            <DialogActions sx={{ py: 2, px: 3 }}>
-              <Button color={'error'} onClick={handleCloseDialog}>
-                Cancel
-              </Button>
-              <Button
-                onClick={clickConfirm}
-                sx={{
-                  color: 'green',
-                  '&:hover': {
-                    color: 'green',
-                    backgroundColor: green[100]
-                  }
-                }}
-              >
-                Confirm
-              </Button>
-            </DialogActions>
-          </Box> */}
+
         </DialogContent>
       </Dialog>
     </>

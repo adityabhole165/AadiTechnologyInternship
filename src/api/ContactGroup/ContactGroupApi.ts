@@ -2,6 +2,7 @@ import {
     IAddUpdateGroupBody,
     IAddUpdateGroupResult,
     IDeleteMailGroupBody,
+    IDeleteMailingGroupUserBody,
     IGetMailingGroupsBody,
     IGetMailingGroupsResult,
     IGetStandardClassBody,
@@ -36,6 +37,9 @@ const AddUpdateGroupApi = (data: IAddUpdateGroupBody) => {
 const DeleteGroupApi = (data: IDeleteMailGroupBody) => {
     return http.post<string>('Teacher/DeleteMailGroup', data);
 };
+const DeleteMailingGroupUserApi = (data: IDeleteMailingGroupUserBody) => {
+    return http.post<string>('Teacher/DeleteMailingGroupUser', data);
+};
 
 const ContactGroupApi = {
     UserNameApi,
@@ -43,6 +47,7 @@ const ContactGroupApi = {
     GetUserRoleApi,
     GetStandardClassApi,
     AddUpdateGroupApi,
-    DeleteGroupApi
+    DeleteGroupApi,
+    DeleteMailingGroupUserApi
 };
 export default ContactGroupApi;

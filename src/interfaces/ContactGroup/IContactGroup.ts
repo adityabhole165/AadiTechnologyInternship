@@ -83,3 +83,10 @@ export interface IDeleteMailGroupBody {
 export interface IDeleteMailGroupResult {
     string
 }
+export interface IDeleteMailingGroupUserBody {
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asGroupId: number,
+    asUserId: number,
+    asInsertedById: number
+}

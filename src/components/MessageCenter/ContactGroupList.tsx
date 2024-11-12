@@ -28,7 +28,7 @@ import { IAddUpdateGroupBody, IGetStandardClassBody, IGetUserNameBody, IGetUserR
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAaddUpdateGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole } from 'src/requests/ContactGroup/ReqContactGroup';
+import { CDAaddUpdateGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole, resetAddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 import ContactGroup from '../SMSCenter/ContactGroup';
 import ContactGroupEditTable from './ContactGroupEditTable';
@@ -41,10 +41,11 @@ interface Group {
 interface ContactGroupListProps {
   onClose,
   GPID: number,
-  GPName: string
+  GPName: string,
+  GPUserName: string
 }
 
-const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, GPName = '' }) => {
+const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, GPName = '', GPUserName = '' }) => {
   console.log('G99999999PID', GPID, GPName);
   const dispatch = useDispatch();
 
@@ -139,23 +140,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     setGroupName(GPName);
   }, [GPName]);
 
-
-
-
-
-  // Sort function for User Name
-  //const [userData, setUserData] = useState(USGetUserName);
-  // const handleSort = () => {
-  //   const sortedData = [...userData].sort((a, b) => {
-  //     if (sortOrder === 'asc') {
-  //       return a.name.localeCompare(b.name);
-  //     } else {
-  //       return b.name.localeCompare(a.name);
-  //     }
-  //   });
-  //   setUserData(sortedData);
-  //   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  // };
   const clickUserRole = (Value) => {
     setUserRole(Value);
   }
@@ -215,10 +199,11 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       };
 
       await dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration));
+      dispatch(resetAddUpdateGroup());
       dispatch(ContactGroup());
+
     } catch (error) {
-      toast.error("Failed to create group. Please try again.");
-      console.error("Error creating group:", error);
+      console.error(error);
     }
   };
 
@@ -232,27 +217,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       }
     }
   }, [USAddUpdateGroup, onClose]);
-
-  // ... (rest of the component code remains the same)
-
-
-
-  // const clickConfirm = () => {
-  //   const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
-  //     asSchoolId: Number(schoolId),
-  //     asAcademicYearId: Number(academicYearId),
-  //     asMailingGroupXML: getXML(),
-  //   }
-  //   dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
-  //   dispatch(ContactGroup())
-  //   // toast.success("Group Added Successfully");
-  // };
-  // useEffect(() => {
-  //   if (USAddUpdateGroup !== '') {
-  //     toast.success(USAddUpdateGroup);
-
-  //   }
-  // }, [USAddUpdateGroup])
 
 
   const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
