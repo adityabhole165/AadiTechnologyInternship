@@ -9,6 +9,7 @@
 import { Box, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetStreamwiseSubjectDetailsBody, IRetriveStudentStreamwiseSubjectBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetAllGroupsOfStream, CDAGetAllStreams, CDARetriveStudentStreamwiseSubject, CDAStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
@@ -16,20 +17,37 @@ import { RootState } from 'src/store';
 
 const StudentSubjectDetails = ({ onSave }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
+  // Session Variables
+  const schoolId = localStorage.getItem('SchoolId');
+  const academicYearId = sessionStorage.getItem('AcademicYearId');
+  const teacherId = sessionStorage.getItem('TeacherId');
+
   // State to manage the selected stream, group, and optional subjects
-  const [selectedStream, setSelectedStream] = useState('science');
-  const [selectedGroup, setSelectedGroup] = useState('groupA');
-  const [optionalSubject, setOptionalSubject] = useState('Physical Education');
-  const [selectedExams, setSelectedExams] = useState([]);
+  const [selectedStream, setSelectedStream] = useState('');
+  const [selectedGroup, setSelectedGroup] = useState('');
+  const [compulsorySubjects, setCompulsorySubjects] = useState([]);
+  const [optionalSubject, setOptionalSubject] = useState('');
+  const [CompetiticeExams, setCompetiticeExams] = useState('');
   const [message, setMessage] = useState('');
 
   const [errors, setErrors] = useState({});
   //#region API Calls
+  const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
+  console.log('GetStudentStreamwiseSubjectDetails:', GetStudentStreamwiseSubjectDetails);
+
   const GetAllStreamsDrop = useSelector((state: RootState) => state.StudentUI.ISGetAllStreams);
-  //console.log('GetAllStreamsDrop:', GetAllStreamsDrop);
+  console.log('GetAllStreamsDrop:', GetAllStreamsDrop);
   const GetAllGroupsOfStreamDrop = useSelector((state: RootState) => state.StudentUI.ISGetAllGroupsOfStream);
   //console.log('GetAllGroupsOfStream:', GetAllGroupsOfStreamDrop);
-  //const GetStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStreamwiseSubjectDetails);
+
+  const FillOptionalSubjects = useSelector((state: RootState) => state.StudentUI.ISFillOptionalSubjects);
+  const FillOptionalSubjectArts = useSelector((state: RootState) => state.StudentUI.ISFillOptionalSubjectArts);
+
+  const FillCompitativeExams = useSelector((state: RootState) => state.StudentUI.ISFillCompitativeExams);
+  console.log('FillCompitativeExams:', FillCompitativeExams);
+
 
   const GetAllStremsBody: IGetAllStreamsBody = {
     asSchoolId: 122,
@@ -37,7 +55,7 @@ const StudentSubjectDetails = ({ onSave }) => {
 
   const GetAllGroupsOfStreamBody: IGetAllGroupsOfStreamBody = {
     asSchoolId: 122,
-    asStreamId: 1
+    asStreamId: Number(selectedStream)
   }
 
   const StreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
@@ -57,6 +75,26 @@ const StudentSubjectDetails = ({ onSave }) => {
     dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));
 
   }, []);
+
+  //#endregion
+  //#region API Consumption
+  useEffect(() => {
+    if (GetStudentStreamwiseSubjectDetails && GetStudentStreamwiseSubjectDetails[0]) {
+      const data = GetStudentStreamwiseSubjectDetails[0];
+
+      setSelectedStream(data.StreamId);   // Set Stream
+      setSelectedGroup(data.GroupId);     // Set Group
+      if (data.CompulsorySubjects) {
+        setCompulsorySubjects(data.CompulsorySubjects.split(','));      // Set Compulsory Subjects
+      }
+      if (data.CompulsorySubjects) {
+        setOptionalSubject(data.OptionalSubjects.split(','));         // Set Optional Subject
+      }
+      if (data.CompitativeExam) {
+        setCompetiticeExams(data.CompitativeExam); // If multiple, split by comma      // Set Competitive Exams
+      }
+    }
+  }, [GetStudentStreamwiseSubjectDetails]);
 
   //#endregion
   const streamList = [
@@ -81,7 +119,7 @@ const StudentSubjectDetails = ({ onSave }) => {
     { id: 2, Name: 'EXTRA COACHING', value: 'extracoaching' },
   ];
 
-  const compulsorySubjects = ['Mathematics', 'English', 'Biology']; // Example compulsory subjects
+  //const compulsorySubjects = ['Mathematics', 'English', 'Biology']; // Example compulsory subjects
 
   const handleStreamChange = (event, selectedOption) => {
     setSelectedStream(selectedOption?.value || '');
@@ -96,7 +134,7 @@ const StudentSubjectDetails = ({ onSave }) => {
   };
 
   const handleCompetitiveExamsChange = (event, selectedOption) => {
-    setSelectedExams(selectedOption.map(option => option.value));
+    setCompetiticeExams(selectedOption.map(option => option.value));
   };
 
   const validateForm = () => {
@@ -119,6 +157,7 @@ const StudentSubjectDetails = ({ onSave }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
+            defaultValue={selectedStream}
             ItemList={GetAllStreamsDrop}
             onChange={handleStreamChange}
             label={'Stream'}
@@ -129,6 +168,7 @@ const StudentSubjectDetails = ({ onSave }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
+            defaultValue={selectedGroup}
             ItemList={GetAllGroupsOfStreamDrop}
             onChange={handleGroupChange}
             label={'Group'}
@@ -152,7 +192,8 @@ const StudentSubjectDetails = ({ onSave }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={optionalSubjectsList}
+            defaultValue={optionalSubject}
+            ItemList={FillOptionalSubjects}
             onChange={handleOptionalSubjectChange}
             label={'Optional Subject'}
             size={'medium'}
@@ -163,7 +204,8 @@ const StudentSubjectDetails = ({ onSave }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={competitiveExamsList}
+            defaultValue={CompetiticeExams}
+            ItemList={FillCompitativeExams}
             onChange={handleCompetitiveExamsChange}
             label={'Competitive Exams'}
             size={'medium'}

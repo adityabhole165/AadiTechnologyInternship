@@ -215,7 +215,7 @@ export const CDAStreamwiseSubjectDetails =
 
                 Id: item.Id,
                 Name: item.ExamName,
-                Value: item.Id
+                Value: item.Id,
 
             });
         });
@@ -232,7 +232,7 @@ export const CDAStreamwiseSubjectDetails =
 
             });
         });
-        dispatch(StudentUISlice.actions.RFillCompitativeExams(FillOptionalSubjectArts));
+        dispatch(StudentUISlice.actions.RFillOptionalSubjectArts(FillOptionalSubjectArts));
         // console.log('FillOptionalSubjectArts:', FillOptionalSubjectArts);
 
     };
@@ -256,7 +256,7 @@ export const CDARetriveStudentStreamwiseSubject =
             });
 
             dispatch(StudentUISlice.actions.RGetStudentStreamwiseSubjectDetails(GetStudentStreamwiseSubjectDetails));
-            console.log('GetStudentStreamwiseSubjectDetails:', GetStudentStreamwiseSubjectDetails);
+            //console.log('GetStudentStreamwiseSubjectDetails:', GetStudentStreamwiseSubjectDetails);
 
             let StudentStreamDetails = []
             response.data.StudentStreamDetails.map((item, i) => {
@@ -267,7 +267,7 @@ export const CDARetriveStudentStreamwiseSubject =
             });
 
             dispatch(StudentUISlice.actions.RStudentStreamDetails(StudentStreamDetails));
-            console.log('StudentStreamDetails:', StudentStreamDetails);
+            //console.log('StudentStreamDetails:', StudentStreamDetails);
         };
 
 export const CDAGetMasterData =
