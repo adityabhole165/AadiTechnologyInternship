@@ -1,5 +1,5 @@
 import { XMLParser } from "fast-xml-parser";
-
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
@@ -121,7 +121,7 @@ const ProgressReportNew = () => {
   const MarkDetailsList: any = useSelector((state: RootState) => state.ProgressReportNew.MarkDetailsList);
   const HeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray);
   const SubHeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray);
-
+  const Loading: any = useSelector((state: RootState) => state.ProgressReportNew.Loading);
 
   const MarkDetailsList1: any = useSelector((state: RootState) => state.ProgressReportNew.MarkDetailsList1);
   const HeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray1);
@@ -558,6 +558,7 @@ const ProgressReportNew = () => {
   }
   return (
     <Box sx={{ px: 2 }}>
+       {(Loading ) && <SuspenseLoader />}
       <CommonPageHeader
         navLinks={[
           { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew' }
