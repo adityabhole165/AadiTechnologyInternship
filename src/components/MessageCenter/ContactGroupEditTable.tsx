@@ -8,7 +8,8 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Tooltip
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { useContext } from 'react';
@@ -112,14 +113,15 @@ function ContactGroupEditTable() {
                   onClick={() => handleDelete(user.id)}
                   sx={{
                     color: '#38548A	',
-                    //  backgroundColor: grey[500],
                     '&:hover': {
                       color: 'red',
                       backgroundColor: red[100]
                     }
                   }}
                 >
-                  <DeleteForeverIcon />
+                  <Tooltip title="Delete" >
+                    <DeleteForeverIcon />
+                  </Tooltip>
                 </IconButton>
               </TableCell>
             </TableRow>

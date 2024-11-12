@@ -157,7 +157,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   function getXML() {
     let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
     asUpdateSelectXML +=
-      " <GroupId>" + 0 + "</GroupId>\r\n  " +
+      " <GroupId>" + GPID + "</GroupId>\r\n  " +
       "<Name>" + GroupName + "</Name>\r\n  " +
       "<lstUserRoles>\r\n  " +
       "<UserRoles>\r\n  " +
@@ -172,23 +172,61 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     return asUpdateSelectXML
   }
 
+  // const clickConfirm = async () => {
+  //   try {
+  //     if (!GroupName.trim()) {
+  //       setErrorGroupName('Group Name should not be blank.');
+  //       return;
+  //     }
+
+  //     if (selectedd.length === 0) {
+  //       setErrorUserRole("At least one applicable role should be selected.");
+  //       return;
+  //     }
+
+  //     if (selected.length === 0) {
+  //       setErrorSelectedUser("At least one user should be selected for the Group.");
+  //       return;
+  //     }
+
+  //     const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
+  //       asSchoolId: Number(schoolId),
+  //       asAcademicYearId: Number(academicYearId),
+  //       asMailingGroupXML: getXML(),
+  //     };
+
+  //     await dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration));
+  //     dispatch(resetAddUpdateGroup());
+  //     dispatch(ContactGroup());
+
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (USAddUpdateGroup) {
+  //     if (typeof USAddUpdateGroup === 'string' && USAddUpdateGroup.toLowerCase().includes('success')) {
+  //       toast.success(USAddUpdateGroup);
+  //       onClose(); // Close the dialog after successful creation
+  //     } else if (typeof USAddUpdateGroup === 'string') {
+  //       toast.error(USAddUpdateGroup);
+  //     }
+  //   }
+  // }, [USAddUpdateGroup, onClose]);
+
   const clickConfirm = async () => {
     try {
-      if (!GroupName.trim()) {
-        //toast.error("Please enter a group name");
-        setErrorGroupName('Group Name should not be blank.');
-        return;
-      }
-
-      if (selectedd.length === 0) {
-        //toast.error("Please select at least one user role");
-        setErrorUserRole("At least one applicable role should be selected.");
-        return;
-      }
-
-      if (selected.length === 0) {
-        //toast.error("Please select at least one user");
-        setErrorSelectedUser("At least one user should be selected for the Group.");
+      if (!GroupName.trim() || selectedd.length === 0 || selected.length === 0) {
+        if (!GroupName.trim()) {
+          setErrorGroupName('Group Name should not be blank.');
+        }
+        if (selectedd.length === 0) {
+          setErrorUserRole("At least one applicable role should be selected.");
+        }
+        if (selected.length === 0) {
+          setErrorSelectedUser("At least one user should be selected for the Group.");
+        }
         return;
       }
 
@@ -201,7 +239,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       await dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration));
       dispatch(resetAddUpdateGroup());
       dispatch(ContactGroup());
-
     } catch (error) {
       console.error(error);
     }

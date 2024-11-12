@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { IDeleteMailGroupBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import { CDADeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup';
 //import { useState } from 'react';
-import { grey } from '@mui/material/colors';
+import { grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import ContactGroupList from 'src/components/MessageCenter/ContactGroupList';
 import { AlertContext } from 'src/contexts/AlertContext';
@@ -152,15 +152,27 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                         //onClick={() => onEdit(Item.Id)}
                                         onClick={() => handleOpenDialog(true)}
                                     >
-                                        <EditIcon />
+                                        <Tooltip title="Edit" >
+                                            <EditIcon />
+                                        </Tooltip>
                                     </IconButton>
                                 </Grid>
                                 <Grid item xs={3}>
                                     <IconButton
                                         onClick={() => onDelete(Item.Id)}
-                                    >
+                                        sx={{
+                                            color: '#38548A	',
+                                            '&:hover': {
+                                                color: 'red',
+                                                backgroundColor: red[100]
+                                            }
+                                        }}
 
-                                        <DeleteForeverIcon />
+                                    >
+                                        <Tooltip title="Delete" >
+
+                                            <DeleteForeverIcon />
+                                        </Tooltip>
 
                                     </IconButton>
                                 </Grid>
