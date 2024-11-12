@@ -630,21 +630,38 @@ const GenerateAll = ({ }) => {
                                             </TableRow>
 
                                             <TableRow>
-                                                {!showOnlyGrades && (
                                                     <>
                                                         {/* <TableCell sx={{ backgroundColor: '#F0F0F0' }}>
                                                             <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
                                                                 Marks
                                                             </Typography>
                                                         </TableCell> */}
+                                                        <>
+                                                            {MarkDetailsView.map((marks, i) => (
+                                                                <TableCell
+                                                                    key={i}
+                                                                    sx={{
+                                                                        border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+                                                                        textAlign: 'center'
+                                                                    }}
+                                                                >
+                                                                    {marks?.Name ? (marks.IsAbsent === '1' ? '-' : marks.Name) : '-'}
+                                                                </TableCell>
+                                                            ))}
 
-                                                        {MarkDetailsView.map((marks, i) => (
-                                                            <TableCell key={i} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}>
-                                                                {marks.IsAbsent === '1' ? '-' : marks.Name}
-                                                            </TableCell>
-                                                        ))}
+                                                            {showOnlyGrades && (
+                                                                <TableCell
+                                                                    sx={{
+                                                                        border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+                                                                        textAlign: 'center'
+                                                                    }}
+                                                                >
+                                                                    -
+                                                                </TableCell>
+                                                            )}
+                                                        </>
 
-                                                        {IsTotalConsiderForProgressReport === "True" && TotalPerGradeView.map((totalData, index) => {
+                                                        {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && TotalPerGradeView.map((totalData, index) => {
                                                             if (index === 0) {
                                                                 const matchingRemark = PercentageDetails?.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
                                                                 return (
@@ -666,7 +683,7 @@ const GenerateAll = ({ }) => {
                                                             return null;
                                                         })}
                                                     </>
-                                                )}
+                                                
                                             </TableRow>
                                             {/* <TableRow>
                                                 {MarkDetailsView.map((subject, i) => (
