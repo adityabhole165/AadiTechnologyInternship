@@ -286,13 +286,13 @@ const SchoolNoticeBaseScreen = () => {
         return asUpdateSelectXML
     }
 
-    const startRecord = (page - 1) * rowsPerPage + 1;
-    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
-    const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
-
     useEffect(() => {
         dispatch(getSchoolNoticeList(GetAllNoticeListBody));
     }, [page, rowsPerPage, ShowAllNotices, selectDisplayType, selectDisplayLocation, sortExpression]);
+
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+    const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
     return (
         <Box sx={{ px: 2 }}>

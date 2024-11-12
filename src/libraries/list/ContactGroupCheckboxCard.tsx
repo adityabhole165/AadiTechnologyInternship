@@ -2,27 +2,30 @@ import { QuestionMark } from '@mui/icons-material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, ClickAwayListener, Dialog, DialogContent, DialogTitle, Grid, IconButton, List, Tooltip, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { IDeleteMailGroupBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import { CDADeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup';
 //import { useState } from 'react';
-import { grey } from '@mui/material/colors';
+import { grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import ContactGroupList from 'src/components/MessageCenter/ContactGroupList';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import { ContactGroup } from 'src/requests/AdminSMSCenter/To1';
 import CheckboxImg from '../card/CheckboxImg';
 import { ItemSize } from '../styled/CardStyle';
+//import { GetScreenPermission } from '../utils/GetScreenPermission';
 const ContactGroupCheckboxCard = ({ Item, onClick }) => {
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [EditGroupName, setEditGroupName] = useState([]);
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const dispatch = useDispatch();
     const schoolId = localStorage.getItem('localSchoolId');
     const asUserId = sessionStorage.getItem('Id');
     const academicYearId = sessionStorage.getItem('AcademicYearId');
-    console.log(EditGroupName, "Item90909900090");
+    const RoleId = sessionStorage.getItem('RoleId');
     const handleClickAway = () => {
         setOpen(false);
     };
@@ -38,17 +41,34 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
             asGroupId: Id,
             asInsertedById: 0
         }
-        dispatch(CDADeleteMailGroupMsg(DeleteMailGroupBody));
+        if (!Item.isActive) {
 
-        const ContactgroupBody: IContactGRPBody = {
-            asScholId: schoolId,
-            asAcademicYearId: academicYearId,
-            asGroupId: '0',
-            asUserRoleId: '2',
-            asUserId: asUserId
-        };
+            showAlert({
+                title: 'Please Confirm',
+                message: 'Are you sure you want to remove this Group?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
 
-        dispatch(ContactGroup(ContactgroupBody));
+                    dispatch(CDADeleteMailGroupMsg(DeleteMailGroupBody));
+                    closeAlert();
+                },
+            });
+
+
+            const ContactgroupBody: IContactGRPBody = {
+                asScholId: schoolId,
+                asAcademicYearId: academicYearId,
+                asGroupId: '0',
+                asUserRoleId: RoleId,
+                asUserId: asUserId
+            };
+            dispatch(ContactGroup(ContactgroupBody));
+        }
     }
     const onEdit = (Name) => {
         setEditGroupName(Name)
@@ -130,17 +150,29 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                 <Grid item xs={3}>
                                     <IconButton
                                         //onClick={() => onEdit(Item.Id)}
-                                        onClick={() =>  handleOpenDialog(true) } 
+                                        onClick={() => handleOpenDialog(true)}
                                     >
-                                        <EditIcon />
+                                        <Tooltip title="Edit" >
+                                            <EditIcon />
+                                        </Tooltip>
                                     </IconButton>
                                 </Grid>
                                 <Grid item xs={3}>
                                     <IconButton
                                         onClick={() => onDelete(Item.Id)}
-                                    >
+                                        sx={{
+                                            color: '#38548A	',
+                                            '&:hover': {
+                                                color: 'red',
+                                                backgroundColor: red[100]
+                                            }
+                                        }}
 
-                                        <DeleteForeverIcon />
+                                    >
+                                        <Tooltip title="Delete" >
+
+                                            <DeleteForeverIcon />
+                                        </Tooltip>
 
                                     </IconButton>
                                 </Grid>
@@ -190,7 +222,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
 
                                     <DialogContent>
                                         <Box>
-                                            <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} GPName={Item.Name} />
+                                            <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} GPName={Item.Name} GPUserName={Item.Users} />
                                         </Box>
                                     </DialogContent>
                                 </Dialog>
@@ -204,3 +236,4 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
 };
 
 export default ContactGroupCheckboxCard;
+

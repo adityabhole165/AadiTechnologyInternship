@@ -2,8 +2,9 @@ import { Email } from '@mui/icons-material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import ScheduleIcon from '@mui/icons-material/Schedule';
-import { Dialog, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -48,7 +49,9 @@ function CardMessage({
     dispatch(ReadReceiptDetail(ReadReceipts));
     setClickParent(false);
   };
-
+  const handleClose = (value) => {
+    setPopup(false)
+  }
   const clickNav = () => {
     if (clickParent) {
       navigate(
@@ -159,20 +162,30 @@ function CardMessage({
                   </IconButton>
                 </Tooltip>
 
-                <Dialog
-                  open={popup}
-                  onClose={() => {
-                    setPopup(false);
-                  }}
-                >
-                  {ReadReceipt.map((item, i) => (
-                    <div key={i}>
-                      <Card15
-                        text1={item.ReadingDateTime}
-                        text2={item.UserName}
-                      />
-                    </div>
-                  ))}
+                <Dialog open={popup} maxWidth={'md'} onClose={() => { setPopup(false); }}
+                  PaperProps={{ sx: { borderRadius: "15px", } }}>
+                  <DialogTitle sx={{ bgcolor: '#223354', color: (theme) => theme.palette.common.white }}>
+                    <ClearIcon onClick={handleClose}
+                      sx={{
+                        color: 'white', borderRadius: '7px', position: 'absolute', top: '5px', right: '7px', cursor: 'pointer',
+                        '&:hover': {
+                          color: 'red',
+                        }
+                      }} />
+                  </DialogTitle>
+                  <DialogContent >
+
+                    <Box sx={{ maxHeight: '300px', position: 'relative', background: 'white' }}>
+                      {ReadReceipt.map((item, i) => (
+                        <div key={i}>
+                          <Card15
+                            text1={item.ReadingDateTime}
+                            text2={item.UserName}
+                          />
+                        </div>
+                      ))}
+                    </Box>
+                  </DialogContent>
                 </Dialog>
               </>
             )}
