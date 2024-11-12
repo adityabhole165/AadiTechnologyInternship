@@ -30,7 +30,6 @@ import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupCo
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAaddUpdateGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole, resetAddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
-import ContactGroup from '../SMSCenter/ContactGroup';
 import ContactGroupEditTable from './ContactGroupEditTable';
 interface Group {
   GroupId: string;
@@ -47,7 +46,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(1);
   const rowsPerPageOptions = [5, 10, 20, 30, 40];
+  //const [selectedd, setSelectedd] = useState([]);
   const [selectedd, setSelectedd] = useState([]);
+  const selectedString = selectedd.join(', '); // This will create a comma-separated string from the array
+
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [UsersRole, setUserRole] = useState('1');
@@ -100,13 +102,13 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const UserName: IGetUserNameBody = {
     asSchoolId: Number(schoolId),
     asAcademicYearId: Number(academicYearId),
-    asGroupId: 0,
+    asGroupId: GPID,
     asRoleId: Number(UsersRole),
     asStartIndex: (page - 1) * rowsPerPage,
     asEndIndex: page * rowsPerPage,
     asSortDirection: SortDirection.toString(),
     asStandardDivisionId: Number(StandardClass),
-    asFilter: ""
+    asFilter: SearchUser.toString()
   };
   useEffect(() => {
     dispatch(CDAGetUserName(UserName));
@@ -123,24 +125,26 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const clickGroupName = (Value) => {
     setGroupName(Value);
   }
-
   function getXML() {
     let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
+
     asUpdateSelectXML +=
       " <GroupId>" + GPID + "</GroupId>\r\n  " +
       "<Name>" + GroupName + "</Name>\r\n  " +
-      "<lstUserRoles>\r\n  " +
-      "<UserRoles>\r\n  " +
-      "<User_Role_Id>" + selectedd + "</User_Role_Id>\r\n  " +
-      "</UserRoles>\r\n  " +
-      "</lstUserRoles>\r\n  " +
+      "<lstUserRoles>\r\n";
+    selectedd.forEach(roleId => {
+      asUpdateSelectXML += "    <UserRoles>\r\n      <User_Role_Id>" + roleId + "</User_Role_Id>\r\n    </UserRoles>\r\n";
+    });
+    asUpdateSelectXML +=
+      "  </lstUserRoles>\r\n  " +
       "<Users>" + selected + "</Users>\r\n  " +
       "<IsDefault>" + false + "</IsDefault>\r\n  " +
-      "<IsAllDeactivated>" + false + "</IsAllDeactivated>"
+      "<IsAllDeactivated>" + false + "</IsAllDeactivated>";
 
     asUpdateSelectXML += "\r\n</MailingGroup>";
-    return asUpdateSelectXML
+    return asUpdateSelectXML;
   }
+
   const clickConfirm = async () => {
     try {
       let isValid = true;
@@ -163,14 +167,14 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         setErrorSelectedUser('');
       }
       if (!isValid) return;
-      const SaveInvestmentDeclaration = {
+      const SaveContactGroup = {
         asSchoolId: Number(schoolId),
         asAcademicYearId: Number(academicYearId),
         asMailingGroupXML: getXML(),
       };
-      await dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration));
+      await dispatch(CDAaddUpdateGroup(SaveContactGroup));
       dispatch(resetAddUpdateGroup());
-      dispatch(ContactGroup());
+      // dispatch(());
     } catch (error) {
       console.error(error);
     }
@@ -213,7 +217,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         : [...prevSelected, userId]
     );
     setSelectAll(false);
-    // console.log(selected, "***********");
+
   };
   const handleCheckboxChanges = (userId) => {
     setSelectedd((prevSelected) =>
@@ -221,8 +225,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         ? prevSelected.filter((id) => id !== userId)
         : [...prevSelected, userId]
     );
-    //setSelectAll(false);
-    // console.log(selected, "***********");
+
   };
 
   const handleSearchByUserName = (value) => {

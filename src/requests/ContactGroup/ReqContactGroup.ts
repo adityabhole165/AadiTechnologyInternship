@@ -38,7 +38,7 @@ const ContactGroupSlice = createSlice({
         RAddUpdateGroup(state, action) {
             state.IAddUpdateGroup = action.payload
         },
-        resetAddUpdateGroup(state) {
+        RresetAddUpdateGroup(state) {
             state.Loading = false;
             state.IAddUpdateGroup = "";
         },
@@ -147,7 +147,7 @@ export const CDAaddUpdateGroup =
             dispatch(ContactGroupSlice.actions.RAddUpdateGroup(response.data));
         }
 export const resetAddUpdateGroup = (): AppThunk => async (dispatch) => {
-    dispatch(ContactGroupSlice.actions.resetAddUpdateGroup());
+    dispatch(ContactGroupSlice.actions.RresetAddUpdateGroup());
 };
 
 export const CDADeleteMailGroupMsg = (data: IDeleteMailGroupBody): AppThunk => async (dispatch) => {
