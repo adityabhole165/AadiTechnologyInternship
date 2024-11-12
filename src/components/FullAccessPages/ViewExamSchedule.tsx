@@ -89,37 +89,44 @@ const ViewExamSchedule = () => {
                 }
             />
 
-            <Box p={2} sx={{ backgroundColor: 'white' }}>
-           
+            <Box sx={{ backgroundColor: 'white' }}>
+
                 <Box
-                
+
                     onClick={toggleAccordion}
                     sx={{
+                        
                         display: 'flex',
                         alignItems: 'center',
-                        padding: 1,
+                        padding: 0.5,
                         backgroundColor: 'whitesmoke',
                         border: '1px solid #d3d3d3',
                         borderRadius: '4px',
                         cursor: 'pointer',
+                        mt: 1, // Reduced margin-top
+                        
                     }}
                 >
-                    
-                    <Box sx={{ width: '10px', height: '10px', border: '1px solid black', mr: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Typography sx={{ color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
+                  
+                    <Box sx={{ width: '10px', height: '10px', p: 0.5, border: '1px solid black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Typography sx={{ color: 'black', fontSize: '16px', fontWeight: 'bold', p: 0.5, }}>
                             {expandedCardIndex === 0 ? '-' : '+'}
                         </Typography>
                     </Box>
-                    <Typography variant="h6" sx={{ color: 'red', mr: 1 }}>
-                        <b>Progressive Analysis - I</b>
-                    </Typography>
-                    <Typography variant="h6">
-                        <b>01 July 2024 To 09 July 2024</b>
-                    </Typography>
+                    <Box sx={{ display: 'flex' }}>
+                        <Typography variant="h6" sx={{color: 'red', ml: 1}}>
+                            <b>Progressive Analysis - I</b>
+                        </Typography>
+                        <Typography variant="h6" sx={{ ml: 1 }}>
+                            <b>01 July 2024 To 09 July 2024</b>
+                        </Typography>
+                    </Box>
                 </Box>
 
+
+
                 {expandedCardIndex === 0 ? (
-                    <TableContainer component={Box} sx={{ width: '100%', overflowX: 'auto', mt: 2 }}>
+                    <TableContainer component={Box} sx={{ width: '100%', overflowX: 'auto', }}>
                         <Table aria-label="simple table"
                             sx={{
                                 border: (theme) => `1px solid ${theme.palette.grey[300]}`,
@@ -129,6 +136,7 @@ const ViewExamSchedule = () => {
                                 <TableRow sx={{
                                     background: (theme) => theme.palette.secondary.main,
                                     color: (theme) => theme.palette.common.white,
+                                    py:1
                                 }}>
                                     <TableCell sx={{ color: 'white' }}><strong>Exam Date</strong></TableCell>
                                     <TableCell sx={{ color: 'white' }}><strong>Subject</strong></TableCell>
@@ -155,22 +163,12 @@ const ViewExamSchedule = () => {
                         </Table>
                     </TableContainer>
                 ) : (
-                    <Typography
-                        variant="body1"
-                        sx={{
-                            textAlign: 'center',
-                            marginTop: 1,
-                            backgroundColor: '#324b84',
-                            padding: 1,
-                            borderRadius: 2,
-                            color: 'white'
-                        }}
-                    >
-                        <b>No record found.</b>
-                    </Typography>
-                )}
-            </Box>
-        </Box>
+                    <samp></samp>
+                )
+                }
+            </Box >
+        </Box >
+
     );
 };
 
