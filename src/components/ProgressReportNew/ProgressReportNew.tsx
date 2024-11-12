@@ -487,7 +487,13 @@ const ProgressReportNew = () => {
   }, [AcademicYear, GetOldStudentDetails.StandardDivisionId]);
 
 
-
+  const getStudentName = () => {
+    let classStudentName = '';
+    UsAcademicYearsOfStudent.map((item) => {
+      if (item.Value == AcademicYear) classStudentName = item.Name;
+    });
+    return classStudentName;
+  };
 
 
   useEffect(() => {
@@ -613,20 +619,11 @@ const ProgressReportNew = () => {
 
       />
       <ErrorMessage1 Error={Error}></ErrorMessage1>
-      {StudentId == "0" ? (
-        <span></span>
-      ) : (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
-          <Button variant="outlined" onClick={AcademicRecords}>
-            Old Academic Records
-          </Button>
-        </Box>
-      )}
 
+      {AcademicYear == asAcademicYearId ? <span></span>:
+      <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1>}
 
-
-
-
+      
       {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
 
 
