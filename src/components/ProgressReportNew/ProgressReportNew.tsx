@@ -12,7 +12,7 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Card5 from 'src/libraries/mainCard/Card5';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -142,9 +142,9 @@ const ProgressReportNew = () => {
   const getIsFinalResultPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsFinalResultPublished);
 
 
-  console.log(!IsPrePrimary, "---", PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished, "pp");
-
-
+  const progressReportFilePath: any = useSelector((state: RootState) => state.ProgressReportNew.ProgressReportDownload);
+  console.log(progressReportFilePath, "pp");
+  
   // useEffect(() => {
   //   if (UsGetSchoolSettings != null)
   //     setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
@@ -181,7 +181,16 @@ const ProgressReportNew = () => {
     return returnVal
   };
 
+  useEffect(() => {
+    if(progressReportFilePath!=null){
 
+      const filePath = progressReportFilePath.FilePath.replace(/\\/g, '/');
+      let downloadPathOfProgressReport = localStorage.getItem('SiteURL') + filePath;
+      window.open(downloadPathOfProgressReport);
+      dispatch(resetProgressReportFileName())
+     
+    }
+  },[progressReportFilePath])
 
 
   const Standard_Id = () => {
@@ -342,16 +351,16 @@ const ProgressReportNew = () => {
 
   const downloadProgress = (termId) => {
 
-    // const getProgressReportBody: any = {
-    //   aiSchoolId: asSchoolId,
-    //   aiAcademicYearId: parseInt(`${AcademicYear}`),
-    //   aiStudentId: GetOldStudentDetails.StudentId,
-    //   aiLoginUserId: userLoginId,
-    //   aiTermId: termId,
-    //   aiStandardId: GetOldStudentDetails.StandardId,
-    //   aiStandardDivisionId: GetOldStudentDetails.StandardDivisionId
-    // };
-    // dispatch(CDAGetProgressReport(getProgressReportBody));
+    const getProgressReportBody: any = {
+      aiSchoolId: asSchoolId,
+      aiAcademicYearId: parseInt(`${AcademicYear}`),
+      aiStudentId: GetOldStudentDetails.StudentId,
+      aiLoginUserId: asUserId,
+      aiTermId: termId,
+      aiStandardId: GetOldStudentDetails.StandardId,
+      aiStandardDivisionId: GetOldStudentDetails.StandardDivisionId
+    };
+    dispatch(CDAGetProgressReport(getProgressReportBody));
   };
 
 

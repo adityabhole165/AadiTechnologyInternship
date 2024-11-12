@@ -191,6 +191,10 @@ const ProgressReportSlice = createSlice({
     RgetIsFinalResultPublished(state,action){
       state.ISgetIsFinalResultPublished = action.payload;
     },
+    resetProgressReportFileName(state) {
+      state.ProgressReportDownload = null; 
+     
+    },
     
     
   }
@@ -1130,6 +1134,11 @@ export const CDAresetGetSchoolSettings =
     dispatch(ProgressReportSlice.actions.getProgressReport(response.data));
   };
 
+  export const resetProgressReportFileName =
+  (): AppThunk =>
+  async (dispatch) => {
+    dispatch(ProgressReportSlice.actions.resetProgressReportFileName());
+  };
 
   export const CDAGetIsPrePrimary =
   (data: GetIsPrePrimaryBody): AppThunk =>
