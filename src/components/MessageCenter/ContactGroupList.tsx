@@ -1,5 +1,5 @@
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { ArrowCircleDown } from '@mui/icons-material';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
@@ -72,6 +72,13 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = Number(localStorage.getItem('UserId'));
 
+  const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [SortBy, setSortBy] = useState('Name'); // Track which column is being sorted
+
+
+  console.log(SortDirection, 'SortDirection@@@@@@');
+
+
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
   );
@@ -119,13 +126,13 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     asRoleId: Number(UsersRole),
     asStartIndex: (page - 1) * rowsPerPage,
     asEndIndex: page * rowsPerPage,
-    asSortDirection: "ASC",
+    asSortDirection: SortDirection.toString(),
     asStandardDivisionId: Number(StandardClass),
     asFilter: ""
   };
   useEffect(() => {
     dispatch(CDAGetUserName(UserName));
-  }, [dispatch, page, rowsPerPage, UsersRole, StandardClass]);
+  }, [dispatch, page, rowsPerPage, UsersRole, StandardClass, SortDirection]);
 
 
   useEffect(() => {
@@ -321,6 +328,20 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
 
 
 
+
+  const handleSortChange = (column: string) => {
+    if (SortBy === column) {
+      // If the same column is clicked, toggle the sort direction
+      setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      // If a new column is clicked, set it as the sort by column and reset direction to ascending
+      setSortBy(column);
+      setSortDirection('asc');
+    }
+  };
+
+
+
   return (
     <>
       <Box>
@@ -480,13 +501,18 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                       onChange={handleSelectAll} />
 
                   </TableCell>
-                  <TableCell sx={{ py: 0.5, color: 'white', }}>
+                  {/* <TableCell sx={{ py: 0.5, color: 'white', }}>
                     <Box display="flex" alignItems="center">
                       User Name
-                      <IconButton onClick={handleSort} size="small">
-                        {sortOrder === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                      <IconButton onClick={handleSort} size="small" sx={{ color: 'white' }}>
+                        {sortOrder === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />}
                       </IconButton>
                     </Box>
+                  </TableCell> */}
+                  <TableCell sx={{ color: 'white' }}>
+                    <b onClick={() => handleSortChange('Name')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                      User Name {SortBy === 'Name' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                    </b>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -546,7 +572,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
               }
             }}
           >
-            Confirm
+            {GPID === 0 ? 'Add' : 'Update'}
+
           </Button>
         </DialogActions>
       </Box>
