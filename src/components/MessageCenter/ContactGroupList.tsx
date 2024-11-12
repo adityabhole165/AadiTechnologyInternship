@@ -24,7 +24,7 @@ import { green } from '@mui/material/colors';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { IAddUpdateGroupBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup';
+import { IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -32,33 +32,24 @@ import { CDAaddUpdateGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole,
 import { RootState } from 'src/store';
 import ContactGroup from '../SMSCenter/ContactGroup';
 import ContactGroupEditTable from './ContactGroupEditTable';
-
 interface Group {
   GroupId: string;
   GroupName: string;
 }
-
 interface ContactGroupListProps {
   onClose,
   GPID: number,
   GPName: string,
   GPUserName: string
 }
-
 const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, GPName = '', GPUserName = '' }) => {
-  console.log('G99999999PID', GPID, GPName);
   const dispatch = useDispatch();
-
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(1);
   const rowsPerPageOptions = [5, 10, 20, 30, 40];
-
-
   const [selectedd, setSelectedd] = useState([]);
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [openDialog, setOpenDialog] = useState(false);
   const [UsersRole, setUserRole] = useState('1');
   const [StandardClass, setStandardClass] = useState('1293');
   const [GroupName, setGroupName] = useState(GPName);
@@ -72,28 +63,14 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const RoleId = sessionStorage.getItem('RoleId');
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = Number(localStorage.getItem('UserId'));
-
   const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-  const [SortBy, setSortBy] = useState('Name'); // Track which column is being sorted
-
-
-  console.log(SortDirection, 'SortDirection@@@@@@');
-
-
-  const getuserlist: any = useSelector(
-    (state: RootState) => state.getuser1.GetUser
-  );
-  console.log(SearchUser, 'filter99999');
-
-
+  const [SortBy, setSortBy] = useState('Name');
+  const getuserlist: any = useSelector((state: RootState) => state.getuser1.GetUser);
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
-  console.log(USGetUserRole, "###########")
-
   const USGetStandardClass: any = useSelector((state: RootState) => state.ContactGroup.IGetStandardClass);
   const USGetUserName: any = useSelector((state: RootState) => state.ContactGroup.IlistGetUserName);
   const USAddUpdateGroup: any = useSelector((state: RootState) => state.ContactGroup.IAddUpdateGroup);
 
-  const [sortsOrder, setSortOrders] = useState();
   const singleTotalCount: number = useMemo(() => {
     if (!Array.isArray(USGetUserName)) {
       return 0;
@@ -134,12 +111,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   useEffect(() => {
     dispatch(CDAGetUserName(UserName));
   }, [dispatch, page, rowsPerPage, UsersRole, StandardClass, SortDirection]);
-
-
   useEffect(() => {
     setGroupName(GPName);
   }, [GPName]);
-
   const clickUserRole = (Value) => {
     setUserRole(Value);
   }
@@ -149,10 +123,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const clickGroupName = (Value) => {
     setGroupName(Value);
   }
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
   function getXML() {
     let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
@@ -171,71 +141,33 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     asUpdateSelectXML += "\r\n</MailingGroup>";
     return asUpdateSelectXML
   }
-
-  // const clickConfirm = async () => {
-  //   try {
-  //     if (!GroupName.trim()) {
-  //       setErrorGroupName('Group Name should not be blank.');
-  //       return;
-  //     }
-
-  //     if (selectedd.length === 0) {
-  //       setErrorUserRole("At least one applicable role should be selected.");
-  //       return;
-  //     }
-
-  //     if (selected.length === 0) {
-  //       setErrorSelectedUser("At least one user should be selected for the Group.");
-  //       return;
-  //     }
-
-  //     const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
-  //       asSchoolId: Number(schoolId),
-  //       asAcademicYearId: Number(academicYearId),
-  //       asMailingGroupXML: getXML(),
-  //     };
-
-  //     await dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration));
-  //     dispatch(resetAddUpdateGroup());
-  //     dispatch(ContactGroup());
-
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (USAddUpdateGroup) {
-  //     if (typeof USAddUpdateGroup === 'string' && USAddUpdateGroup.toLowerCase().includes('success')) {
-  //       toast.success(USAddUpdateGroup);
-  //       onClose(); // Close the dialog after successful creation
-  //     } else if (typeof USAddUpdateGroup === 'string') {
-  //       toast.error(USAddUpdateGroup);
-  //     }
-  //   }
-  // }, [USAddUpdateGroup, onClose]);
-
   const clickConfirm = async () => {
     try {
-      if (!GroupName.trim() || selectedd.length === 0 || selected.length === 0) {
-        if (!GroupName.trim()) {
-          setErrorGroupName('Group Name should not be blank.');
-        }
-        if (selectedd.length === 0) {
-          setErrorUserRole("At least one applicable role should be selected.");
-        }
-        if (selected.length === 0) {
-          setErrorSelectedUser("At least one user should be selected for the Group.");
-        }
-        return;
+      let isValid = true;
+      if (!GroupName.trim()) {
+        setErrorGroupName('Group Name should not be blank.');
+        isValid = false;
+      } else {
+        setErrorGroupName('');
       }
-
-      const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
+      if (selectedd.length === 0) {
+        setErrorUserRole("At least one applicable role should be selected.");
+        isValid = false;
+      } else {
+        setErrorUserRole('');
+      }
+      if (selected.length === 0) {
+        setErrorSelectedUser("At least one user should be selected for the Group.");
+        isValid = false;
+      } else {
+        setErrorSelectedUser('');
+      }
+      if (!isValid) return;
+      const SaveInvestmentDeclaration = {
         asSchoolId: Number(schoolId),
         asAcademicYearId: Number(academicYearId),
         asMailingGroupXML: getXML(),
       };
-
       await dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration));
       dispatch(resetAddUpdateGroup());
       dispatch(ContactGroup());
@@ -243,18 +175,18 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       console.error(error);
     }
   };
-
   useEffect(() => {
     if (USAddUpdateGroup) {
-      if (typeof USAddUpdateGroup === 'string' && USAddUpdateGroup.toLowerCase().includes('success')) {
-        toast.success(USAddUpdateGroup);
-        onClose(); // Close the dialog after successful creation
-      } else if (typeof USAddUpdateGroup === 'string') {
-        toast.error(USAddUpdateGroup);
+      if (typeof USAddUpdateGroup === 'string') {
+        if (USAddUpdateGroup.toLowerCase().includes('success')) {
+          toast.success(USAddUpdateGroup);
+          onClose();
+        } else {
+          toast.error(USAddUpdateGroup);
+        }
       }
     }
-  }, [USAddUpdateGroup, onClose]);
-
+  }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected]);
 
   const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -293,10 +225,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     // console.log(selected, "***********");
   };
 
-  const handleSort = () => {
-    setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
-    // Sorting logic can be implemented here
-  };
   const handleSearchByUserName = (value) => {
     setSearchByUserName(value);
   };
@@ -316,12 +244,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       setSearchUser(filteredSMS);
     }
   };
-
-
   useEffect(() => {
-
     setSearchUser(USGetUserName);
   }, [USGetUserName]);
+
 
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
@@ -332,10 +258,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
 
   const handleSortChange = (column: string) => {
     if (SortBy === column) {
-      // If the same column is clicked, toggle the sort direction
+
       setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
     } else {
-      // If a new column is clicked, set it as the sort by column and reset direction to ascending
+
       setSortBy(column);
       setSortDirection('asc');
     }
@@ -380,19 +306,15 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
 
                           checked={selectedd.includes(item.Id)}
                           onChange={() => handleCheckboxChanges(item.Id)}
-                        // name={item.Id}
-                        // onChange={handleCheckboxChanges}
+
                         />
                       }
                       label={item.Name}
-
                     />
-                    {/* <ErrorMessage1 Error={ErrorUserRole}></ErrorMessage1> */}
                   </Grid>
                 )
               )}
             </Grid>
-
           </FormControl>
         </Grid>
       </Box>
@@ -407,7 +329,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
             ItemList={USGetUserRole}
             onChange={clickUserRole}
             defaultValue={UsersRole}
-
           />
         </Grid>
         {UsersRole === '3' && (
@@ -419,7 +340,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
               onChange={clickStandardClass}
               defaultValue={StandardClass}
             />
-
           </Grid>
         )}
         <Grid item xs={4}>
@@ -434,9 +354,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                 clickSearch();
               }
             }}
-
           />
-
         </Grid>
         <Grid item xs={4}>
           <IconButton
@@ -452,7 +370,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
             <SearchTwoTone />
           </IconButton>
         </Grid>
-
       </Grid>
       <Box py={1}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 0.5 }}>
@@ -502,14 +419,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                       onChange={handleSelectAll} />
 
                   </TableCell>
-                  {/* <TableCell sx={{ py: 0.5, color: 'white', }}>
-                    <Box display="flex" alignItems="center">
-                      User Name
-                      <IconButton onClick={handleSort} size="small" sx={{ color: 'white' }}>
-                        {sortOrder === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />}
-                      </IconButton>
-                    </Box>
-                  </TableCell> */}
                   <TableCell sx={{ color: 'white' }}>
                     <b onClick={() => handleSortChange('Name')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
                       User Name {SortBy === 'Name' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
@@ -524,7 +433,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                       <Checkbox
                         checked={selected.includes(item.UserId)}
                         onChange={() => handleCheckboxChange(item.UserId)} />
-
                     </TableCell>
                     <TableCell sx={{ py: 0.5 }}>{item.UserName}</TableCell>
                   </TableRow>
@@ -534,10 +442,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
           </TableContainer>
           <ButtonGroupComponent
             ChangeRowsPerPage={ChangeRowsPerPage}
-            rowsPerPageOptions={rowsPerPageOptions} // Set your options
+            rowsPerPageOptions={rowsPerPageOptions}
             rowsPerPage={rowsPerPage}
             PageChange={PageChange}
-            pagecount={pageCount}  // Use the calculated pageCount
+            pagecount={pageCount}
           />
         </Box>
       ) : (
@@ -574,7 +482,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
             }}
           >
             {GPID === 0 ? 'Add' : 'Update'}
-
           </Button>
         </DialogActions>
       </Box>
