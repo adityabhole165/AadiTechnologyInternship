@@ -275,7 +275,7 @@ const GenerateAll = ({ }) => {
                 rightActions={
                     <>
                         <Box>
-                            <Tooltip title={"View result of selected student."}>
+                            <Tooltip title='Edit marks of individual student and click on "Save".'>
                                 <IconButton
                                     sx={{
                                         color: 'white',
@@ -630,60 +630,60 @@ const GenerateAll = ({ }) => {
                                             </TableRow>
 
                                             <TableRow>
-                                                    <>
-                                                        {/* <TableCell sx={{ backgroundColor: '#F0F0F0' }}>
+                                                <>
+                                                    {/* <TableCell sx={{ backgroundColor: '#F0F0F0' }}>
                                                             <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
                                                                 Marks
                                                             </Typography>
                                                         </TableCell> */}
-                                                        <>
-                                                            {MarkDetailsView.map((marks, i) => (
-                                                                <TableCell
-                                                                    key={i}
-                                                                    sx={{
-                                                                        border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-                                                                        textAlign: 'center'
-                                                                    }}
-                                                                >
-                                                                    {marks?.Name ? (marks.IsAbsent === '1' ? '-' : marks.Name) : '-'}
-                                                                </TableCell>
-                                                            ))}
+                                                    <>
+                                                        {MarkDetailsView.map((marks, i) => (
+                                                            <TableCell
+                                                                key={i}
+                                                                sx={{
+                                                                    border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+                                                                    textAlign: 'center'
+                                                                }}
+                                                            >
+                                                                {marks?.Name ? (marks.IsAbsent === '1' ? '-' : marks.Name) : '-'}
+                                                            </TableCell>
+                                                        ))}
 
-                                                            {showOnlyGrades && (
-                                                                <TableCell
-                                                                    sx={{
-                                                                        border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-                                                                        textAlign: 'center'
-                                                                    }}
-                                                                >
-                                                                    -
-                                                                </TableCell>
-                                                            )}
-                                                        </>
-
-                                                        {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && TotalPerGradeView.map((totalData, index) => {
-                                                            if (index === 0) {
-                                                                const matchingRemark = PercentageDetails?.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
-                                                                return (
-                                                                    <>
-                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.TotalMarks}</TableCell>
-                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.Percentage}%</TableCell>
-                                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }} >
-                                                                            <Typography variant="body2">
-                                                                                <Typography component="span" fontWeight="bold">
-                                                                                    {totalData.GradeName}
-                                                                                </Typography>
-                                                                                {matchingRemark && ` (${matchingRemark})`}
-                                                                            </Typography>
-                                                                        </TableCell>
-
-                                                                    </>
-                                                                );
-                                                            }
-                                                            return null;
-                                                        })}
+                                                        {showOnlyGrades && (
+                                                            <TableCell
+                                                                sx={{
+                                                                    border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+                                                                    textAlign: 'center'
+                                                                }}
+                                                            >
+                                                                -
+                                                            </TableCell>
+                                                        )}
                                                     </>
-                                                
+
+                                                    {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && TotalPerGradeView.map((totalData, index) => {
+                                                        if (index === 0) {
+                                                            const matchingRemark = PercentageDetails?.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
+                                                            return (
+                                                                <>
+                                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.TotalMarks}</TableCell>
+                                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.Percentage}%</TableCell>
+                                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }} >
+                                                                        <Typography variant="body2">
+                                                                            <Typography component="span" fontWeight="bold">
+                                                                                {totalData.GradeName}
+                                                                            </Typography>
+                                                                            {matchingRemark && ` (${matchingRemark})`}
+                                                                        </Typography>
+                                                                    </TableCell>
+
+                                                                </>
+                                                            );
+                                                        }
+                                                        return null;
+                                                    })}
+                                                </>
+
                                             </TableRow>
                                             {/* <TableRow>
                                                 {MarkDetailsView.map((subject, i) => (
