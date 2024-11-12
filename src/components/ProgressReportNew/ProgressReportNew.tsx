@@ -185,7 +185,7 @@ const ProgressReportNew = () => {
     if(progressReportFilePath!=null){
 
       const filePath = progressReportFilePath.FilePath.replace(/\\/g, '/');
-      let downloadPathOfProgressReport = localStorage.getItem('SiteURL') + filePath;
+      let downloadPathOfProgressReport = 'https://schoolwebsite.regulusit.net/' + filePath;
       window.open(downloadPathOfProgressReport);
       dispatch(resetProgressReportFileName())
      

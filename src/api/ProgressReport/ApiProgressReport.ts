@@ -102,7 +102,7 @@ const GetSchoolSettingValues = (data: IGetSchoolSettingValuesBody) => {
 
 
 const GetProgressReport = (data:IProgressReportBody) => {
-  return http.post<IGetProgressReportFileNameResult>('Student/GetFileNameForProgressReport',data);
+  return http.post<IGetProgressReportFileNameResult>('https://mobileappapi.regulusit.net/Student/GetFileNameForProgressReport',data);
 };
 const GetIsPrePrimary = (data: GetIsPrePrimaryBody) => {
   return http.post(
