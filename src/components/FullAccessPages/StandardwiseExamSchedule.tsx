@@ -1,12 +1,29 @@
 import { QuestionMark } from '@mui/icons-material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SaveIcon from '@mui/icons-material/Save';
-import PlaylistAddCheckCircleRoundedIcon from '@mui/icons-material/PlaylistAddCheckCircleRounded';import { Box, IconButton, TextField, Tooltip } from '@mui/material';
+import PlaylistAddCheckCircleRoundedIcon from '@mui/icons-material/PlaylistAddCheckCircleRounded';import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import CommonPageHeader from '../CommonPageHeader';
 import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
+import { ClearIcon } from '@mui/x-date-pickers';
+import ContactGroupList from '../MessageCenter/ContactGroupList';
+import { useState } from 'react';
+import SelectStandards from './SelectStandards';
 
 const StandardwiseExamSchedule = () => {
+    const [openDialog, setOpenDialog] = useState(false);
+    const [IsConfirm, setIsConfirm] = useState('');
+    const [showRecipients, setShowRecipients] = useState(false);
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+      };
+     
+    
+      const handleOpenDialog = (isRecipients) => {
+        setIsConfirm('');
+        setShowRecipients(isRecipients);
+        setOpenDialog(true);
+      };
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -70,7 +87,9 @@ const StandardwiseExamSchedule = () => {
                                     '&:hover': {
                                         backgroundColor: blue[600]
                                     }
-                                }}>
+                                }}
+                                onClick={() => handleOpenDialog(true)}
+                                >
                                 <ContentCopyIcon />
                             </IconButton>
                         </Tooltip>
@@ -105,6 +124,74 @@ const StandardwiseExamSchedule = () => {
              <Box>
              <StandardwiseExamScheduleTable/>
              </Box>
+
+             <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        fullWidth
+        maxWidth="md"
+        PaperProps={{ sx: { borderRadius: '15px' } }}
+      >
+        <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <Tooltip
+            title={'Add/edit delete contact group(s).'}
+            placement="bottom-end"
+          >
+            <QuestionMark
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '10px',
+                position: 'absolute',
+                top: '4px',
+                right: '35px',
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: grey[600] }
+              }}
+            />
+          </Tooltip>
+          <ClearIcon
+            onClick={handleCloseDialog}
+            sx={{
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red'
+              }
+            }}
+          />
+        </DialogTitle>
+        <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
+        Copy Exam Schedule
+        </Typography>
+
+        <DialogContent>
+            <SelectStandards/>
+
+        </DialogContent>
+        <DialogActions sx={{ py: 2, px: 3 }}>
+          <Button color={'error'} onClick={handleCloseDialog}>
+            Cancel
+          </Button>
+          <Button
+            // onClick={clickConfirm}
+            sx={{
+              color: 'green',
+              '&:hover': {
+                color: 'green',
+                backgroundColor: green[100]
+              }
+            }}
+          >
+          Copy Schedule
+
+          </Button>
+        </DialogActions>
+      </Dialog>
 
         </Box>
     )
