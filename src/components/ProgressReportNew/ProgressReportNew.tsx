@@ -3,7 +3,7 @@ import { XMLParser } from "fast-xml-parser";
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Card5 from 'src/libraries/mainCard/Card5';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -140,9 +140,9 @@ const ProgressReportNew = () => {
   const getIsTermExamPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsTermExamPublished);
 
   const getIsFinalResultPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsFinalResultPublished);
-  
 
-  
+
+
 
 
   // useEffect(() => {
@@ -320,24 +320,24 @@ const ProgressReportNew = () => {
   const GetPrePrimaryExamPublishStatus: IGetPrePrimaryExamPublishStatusBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: AcademicYear,
-    aiYearwiseStudentId:  GetOldStudentDetails.StudentId,
+    aiYearwiseStudentId: GetOldStudentDetails.StudentId,
   }
 
   const getIsTermExamPublishedBody: IgetIsTermExamPublishedBody = {
-    asSchoolId:asSchoolId,
-    asAcademicYearId:AcademicYear,
-    asStandardDivisionId:GetOldStudentDetails.StandardDivisionId,
+    asSchoolId: asSchoolId,
+    asAcademicYearId: AcademicYear,
+    asStandardDivisionId: GetOldStudentDetails.StandardDivisionId,
   }
 
   const getIsFinalResultPublishedBody: IgetIsFinalResultPublishedBody = {
-    asSchoolId:asSchoolId,
-    asAcademicYearId:AcademicYear,
-    asStandardDivisionId:GetOldStudentDetails.StandardDivisionId,
+    asSchoolId: asSchoolId,
+    asAcademicYearId: AcademicYear,
+    asStandardDivisionId: GetOldStudentDetails.StandardDivisionId,
   }
 
-  
 
-  
+
+
 
 
   const downloadProgress = (termId) => {
@@ -354,7 +354,7 @@ const ProgressReportNew = () => {
     // dispatch(CDAGetProgressReport(getProgressReportBody));
   };
 
-  
+
 
   const clickSelectClass = (value) => {
     setOpen(false);
@@ -467,25 +467,25 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetIsPrePrimary(IsPrePrimaryBody));
-  }, [AcademicYear,GetOldStudentDetails.StandardId]);
+  }, [AcademicYear, GetOldStudentDetails.StandardId]);
 
   useEffect(() => {
     dispatch(CDAGetPrePrimaryExamPublishStatus(GetPrePrimaryExamPublishStatus));
-  }, [AcademicYear,GetOldStudentDetails.StudentId]);
+  }, [AcademicYear, GetOldStudentDetails.StudentId]);
 
 
   useEffect(() => {
     dispatch(CDAgetIsTermExamPublished(getIsTermExamPublishedBody));
-  }, [AcademicYear,GetOldStudentDetails.StandardDivisionId]);
+  }, [AcademicYear, GetOldStudentDetails.StandardDivisionId]);
 
-  
+
   useEffect(() => {
     dispatch(CDAgetIsFinalResultPublished(getIsFinalResultPublishedBody));
-  }, [AcademicYear,GetOldStudentDetails.StandardDivisionId]);
+  }, [AcademicYear, GetOldStudentDetails.StandardDivisionId]);
 
-  
 
-  
+
+
   useEffect(() => {
     if (SchoolSettingValues.length > 0) {
       SchoolSettingValues.map((Item) => {
@@ -622,16 +622,22 @@ const ProgressReportNew = () => {
 
 
 
-      
 
 
-      <Card5 text1= {academictermsResult[0]?.TermName} text2=""
-        clickIcon={() => { downloadProgress(1); }}
-      />
 
-      <Card5 text1={academictermsResult[1]?.TermName} text2=""
-        clickIcon={() => { downloadProgress(2); }}
-      />
+      <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
+        <Card5
+          text1={academictermsResult[0]?.TermName}
+          text2=""
+          clickIcon={() => { downloadProgress(1); }}
+        />
+        <Card5
+          text1={academictermsResult[1]?.TermName}
+          text2=""
+          clickIcon={() => { downloadProgress(2); }}
+        />
+      </Stack>
+
 
       {open && (
         <div>
