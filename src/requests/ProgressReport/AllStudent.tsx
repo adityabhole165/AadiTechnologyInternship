@@ -630,7 +630,7 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
         <>
             {showTables && IStudentList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ?
                 <>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                    {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                         <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
                             <Typography variant="h4">Grade Configuration Details</Typography>
                         </Link>
@@ -683,7 +683,8 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
                                 />
                             </DialogContent>
                         </Dialog>
-                    </Box>
+                    </Box> */}
+                    <br></br>
                     <Box sx={{ mt: 1, background: 'white' }}>
                         <hr />
                         {RlistStudentsDetails.map((subject, index) => (
@@ -734,7 +735,7 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
                 </>
                 :
                 <>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                    {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
 
                         <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
                             <Typography variant="h4">Grade Configuration Details</Typography>
@@ -790,7 +791,10 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
                                 />
                             </DialogContent>
                         </Dialog>
-                    </Box>
+                    </Box> */}
+
+                   <br></br>
+
                     <Box sx={{ mt: 1, background: 'white', }}>
                         <hr />
                         {RlistStudentsDetails.map((subject, index) => (
