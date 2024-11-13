@@ -329,7 +329,7 @@ const MessageList = () => {
     };
     ApiDeleteMessagePermanently.DeleteMessagePermanentlyapi(delPermanentBody)
       .then((data) => {
-        toast.success('Message deleted successfully');
+        toast.success('Message deleted successfully.');
         dispatch(getDeleteMessagePermantely(delPermanentBody));
 
         dispatch(getListOfMessages(getListBody, activeTab, false));
@@ -465,9 +465,9 @@ const MessageList = () => {
     showAlert({
       title: 'Please Confirm',
       message:
-        'This action will permanently delete selected message(s) from the Sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?',
+        'This action will permanently delete selected message(s) from the sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?',
       variant: 'warning',
-      confirmButtonText: 'Delete',
+      confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
 
       onCancel: () => {
