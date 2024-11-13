@@ -8,26 +8,28 @@
 
 // export default AdditionalDetails
 
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import { Box, Grid, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 const AdditionalDetails = ({ onSave }) => {
   // State to hold the input values
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     lastSchoolName: '',
-    lastSchoolRollNumber: '',
-    lastSchoolYear: '',
     lastSchoolAddress: '',
+    standard: '',
+    schoolUDISENo: '',
     schoolBoardName: '',
     isRecognised: '',
+    // lastSchoolRollNumber: '',
+    //  lastSchoolYear: '',
     houseNumber: '',
     mainArea: '', // New field
     subareaName: '', // New field
     landmark: '', // New field
     taluka: '', // New field
     district: '', // New field
+    admissionStandard: '', // New field
     admissionAcademicYear: '', // New field
     previousMarksObtained: '', // New field
     previousMarksOutOf: '', // New field
@@ -52,16 +54,16 @@ const AdditionalDetails = ({ onSave }) => {
   // Handle input change
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData({
-      ...formData,
+    setForm({
+      ...form,
       [name]: value
     });
   };
 
   // Handle dropdown change
   const handleDropdownChange = (name, value) => {
-    setFormData({
-      ...formData,
+    setForm({
+      ...form,
       [name]: value
     });
   };
@@ -69,7 +71,7 @@ const AdditionalDetails = ({ onSave }) => {
   // Handle form submission
   const handleSave = () => {
     // Call the onSave function passed as a prop
-    onSave(formData);
+    onSave(form);
   };
 
   return (
@@ -84,7 +86,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="School Name"
             variant="outlined"
             fullWidth
-            value={formData.lastSchoolName}
+            value={form.lastSchoolName}
             onChange={handleInputChange}
           />
         </Grid>
@@ -94,17 +96,17 @@ const AdditionalDetails = ({ onSave }) => {
             label="School Address"
             variant="outlined"
             fullWidth
-            value={formData.lastSchoolAddress}
+            value={form.lastSchoolAddress}
             onChange={handleInputChange}
           />
         </Grid>
         <Grid item xs={3}>
           <TextField
-            name="lastSchoolYear"
+            name="standard"
             label="Standard"
             variant="outlined"
             fullWidth
-            value={formData.lastSchoolYear}
+            value={form.standard}
             onChange={handleInputChange}
           />
         </Grid>
@@ -114,7 +116,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="School UDISE No"
             variant="outlined"
             fullWidth
-            value={formData.lastSchoolRollNumber}
+            value={form.schoolUDISENo}
             onChange={handleInputChange}
           />
         </Grid>
@@ -148,7 +150,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="House No. / Plot No"
             variant="outlined"
             fullWidth
-            value={formData.houseNumber}
+            value={form.houseNumber}
             onChange={handleInputChange}
           />
         </Grid>
@@ -159,7 +161,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Main Area"
             variant="outlined"
             fullWidth
-            value={formData.mainArea}
+            value={form.mainArea}
             onChange={handleInputChange}
           />
         </Grid>
@@ -169,7 +171,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Subarea Name"
             variant="outlined"
             fullWidth
-            value={formData.subareaName}
+            value={form.subareaName}
             onChange={handleInputChange}
           />
         </Grid>
@@ -179,7 +181,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Landmark"
             variant="outlined"
             fullWidth
-            value={formData.landmark}
+            value={form.landmark}
             onChange={handleInputChange}
           />
         </Grid>
@@ -189,7 +191,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Taluka"
             variant="outlined"
             fullWidth
-            value={formData.taluka}
+            value={form.taluka}
             onChange={handleInputChange}
           />
         </Grid>
@@ -199,7 +201,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="District"
             variant="outlined"
             fullWidth
-            value={formData.district}
+            value={form.district}
             onChange={handleInputChange}
           />
         </Grid>
@@ -226,10 +228,12 @@ const AdditionalDetails = ({ onSave }) => {
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <TextField
-            name="userName"
+            name="admissionStandard"
             label="Admission Standard"
             variant="outlined"
             fullWidth
+            value={form.admissionStandard}
+            onChange={handleInputChange}
           />
         </Grid>
         <Grid item xs={3}>
@@ -238,7 +242,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Admission Academic Year"
             variant="outlined"
             fullWidth
-            value={formData.admissionAcademicYear}
+            value={form.admissionAcademicYear}
             onChange={handleInputChange}
           />
         </Grid>
@@ -248,7 +252,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Previous Marks Obtained"
             variant="outlined"
             fullWidth
-            value={formData.previousMarksObtained}
+            value={form.previousMarksObtained}
             onChange={handleInputChange}
           />
         </Grid>
@@ -258,7 +262,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Previous Marks Out Of"
             variant="outlined"
             fullWidth
-            value={formData.previousMarksOutOf}
+            value={form.previousMarksOutOf}
             onChange={handleInputChange}
           />
         </Grid>
@@ -268,7 +272,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Subject Names"
             variant="outlined"
             fullWidth
-            value={formData.subjectNames}
+            value={form.subjectNames}
             onChange={handleInputChange}
           />
         </Grid>
@@ -278,7 +282,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Previous Year of Passing"
             variant="outlined"
             fullWidth
-            value={formData.previousYearOfPassing}
+            value={form.previousYearOfPassing}
             onChange={handleInputChange}
           />
         </Grid>
@@ -288,7 +292,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Current Academic Year"
             variant="outlined"
             fullWidth
-            value={formData.currentAcademicYear}
+            value={form.currentAcademicYear}
             onChange={handleInputChange}
           />
         </Grid>
@@ -298,7 +302,7 @@ const AdditionalDetails = ({ onSave }) => {
             label="Current Standard"
             variant="outlined"
             fullWidth
-            value={formData.currentStandard}
+            value={form.currentStandard}
             onChange={handleInputChange}
           />
         </Grid>

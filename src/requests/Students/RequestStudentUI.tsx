@@ -416,8 +416,8 @@ export const CDAUpdateStudent =
             dispatch(StudentUISlice.actions.RUpdateStudent(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                // console.log('Student information updated successfully');
-                // console.log('Response data:', response.data);
+                console.log('Student information updated successfully');
+                console.log('Response data:', response.data);
             }
         };
 

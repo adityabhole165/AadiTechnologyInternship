@@ -365,17 +365,17 @@ const PersonalDetails = ({ onTabChange }) => {
     );
     setTimeout(() => setMessage(''), 2000);
   };
-  const BloodGroupDrodown = [
-    { Id: 1, Name: 'O+', Value: 1 },
-    { Id: 2, Name: 'A+', Value: 2 },
-    { Id: 3, Name: 'B+', Value: 3 },
-    { Id: 4, Name: 'AB+', Value: 4 },
-    { Id: 5, Name: 'O-', Value: 5 },
-    { Id: 6, Name: 'A-', Value: 6 },
-    { Id: 7, Name: 'B-', Value: 7 },
-    { Id: 8, Name: 'AB-', Value: 8 },
-
+  const BloodGroupDropdown = [
+    { Id: 1, Name: 'O+', Value: 'O+' },
+    { Id: 2, Name: 'A+', Value: 'A+' },
+    { Id: 3, Name: 'B+', Value: 'B+' },
+    { Id: 4, Name: 'AB+', Value: 'AB+' },
+    { Id: 5, Name: 'O-', Value: 'O-' },
+    { Id: 6, Name: 'A-', Value: 'A-' },
+    { Id: 7, Name: 'B-', Value: 'B-' },
+    { Id: 8, Name: 'AB-', Value: 'AB-' }
   ];
+
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
@@ -773,16 +773,18 @@ const PersonalDetails = ({ onTabChange }) => {
                 />
               </Grid>
             )}
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <TextField
-                name="Religion"
-                label="Religion"
-                variant="outlined"
-                value={form.religion}
-                onChange={handleInputChange}
-                fullWidth
-              />
-            </Grid>
+            {form.religion !== undefined && (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <TextField
+                  name="religion"
+                  label="Religion"
+                  variant="outlined"
+                  value={form.religion}
+                  onChange={handleInputChange}
+                  fullWidth
+                />
+              </Grid>
+            )}
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <SearchableDropdown
                 sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
@@ -795,7 +797,7 @@ const PersonalDetails = ({ onTabChange }) => {
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
-                name="CasteSubCaste"
+                name="casteAndSubCaste"
                 label={
                   <span>
                     Caste & Sub-Caste <span style={{ color: 'red' }}> *</span>
@@ -811,7 +813,7 @@ const PersonalDetails = ({ onTabChange }) => {
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
-                name="MotherTongue"
+                name="motherTongue"
                 label="MotherTongue"
                 variant="outlined"
                 value={form.motherTongue}
@@ -842,7 +844,7 @@ const PersonalDetails = ({ onTabChange }) => {
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <SearchableDropdown
                 sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
-                ItemList={BloodGroupDrodown}
+                ItemList={BloodGroupDropdown}
                 onChange={(value) => handleDropdownChange('bloodGroup', value)}
                 label={'Blood Group'}
                 defaultValue={form.bloodGroup}
@@ -851,7 +853,7 @@ const PersonalDetails = ({ onTabChange }) => {
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
-                name="AadharCardNumber"
+                name="aadharCardNumber"
                 label="Aadhar Card Number"
                 variant="outlined"
                 value={form.aadharCardNumber}
@@ -861,7 +863,7 @@ const PersonalDetails = ({ onTabChange }) => {
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
-                name="NameonAdharCard"
+                name="nameOnAadharCard"
                 label="Name on Adhar Card"
                 variant="outlined"
                 value={form.nameOnAadharCard}
