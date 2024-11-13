@@ -1,17 +1,19 @@
-import { XMLParser } from "fast-xml-parser";
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Dialog, DialogContent, DialogTitle, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
+import { XMLParser } from "fast-xml-parser";
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Card5 from 'src/libraries/mainCard/Card5';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import AllStudents from 'src/requests/ProgressReport/AllStudent';
+import { DataParserAndFormatter } from 'src/requests/ProgressReport/PotoType';
 import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
@@ -86,10 +88,43 @@ const ProgressReportNew = () => {
   const AllStudentsProgressSheet: any = useSelector(
     (state: RootState) => state.ProgressReportNew.AllStudentsProgressSheet
   );
+  //  Helper function to parse XML data with array normalization
+  const parser = new XMLParser();
+  const [parsedDataList, setParsedDataList] = useState([]);
+  // Helper function to ensure array format
+  const ensureArray = (data) => {
+    if (!data) return [];
+    return Array.isArray(data) ? data : [data];
+  };
+  const parseXMLData = (xmlString, path) => {
+    if (!xmlString) return [];
+    const parsed = parser.parse(xmlString);
+    return ensureArray(path.split('.').reduce((obj, key) => obj?.[key], parsed));
+  };
   useEffect(() => {
     if (AllStudentsProgressSheet !== null) {
-      const parser = new XMLParser();
-      const jsonData = parser.parse(AllStudentsProgressSheet.listStudentsMarksDetiles[0].Tests);
+      // const parser = new XMLParser();
+      // const jsonData = parser.parse(AllStudentsProgressSheet.listStudentsMarksDetiles[0].Tests);
+      const parsedData = AllStudentsProgressSheet.listStudentsMarksDetiles
+        ?.map((item) => ({
+          Student_id: item.Student_id,
+          Header: parseXMLData(item.Header, 'NewDataSet.Table'),
+          Marks: parseXMLData(item.Marks, 'NewDataSet.Table3'),
+          Result: parseXMLData(item.Result, 'NewDataSet.Table4'),
+          SubjectTestType: parseXMLData(item.SubjectTestType, 'NewDataSet.Table7'),
+          SubjectTestTypeGroupTotal: parseXMLData(item.SubjectTestTypeGroupTotal, 'NewDataSet.Table6'),
+          SubjectgroupTotal: parseXMLData(item.SubjectgroupTotal, 'NewDataSet.Table5'),
+          Subjects: parseXMLData(item.Subjects, 'NewDataSet.Table1'),
+          TestTypes: parseXMLData(item.TestTypes, 'NewDataSet.Table8'),
+          Tests: parseXMLData(item.Tests, 'NewDataSet.Table2'),
+          grades: parseXMLData(item.grades, 'NewDataSet.Table9'),
+        }));
+      let finalFormat: any = parsedData?.map(item => DataParserAndFormatter(item, AllStudentsProgressSheet.listDisplaynameDetiles))
+      setParsedDataList(finalFormat);
+      console.log('⭐ AllStudentsProgressSheet => List No 1', AllStudentsProgressSheet);
+      console.log('⭐ parsedData => List No 2', parsedData);
+      console.log('⭐ FinallList => List No 3', finalFormat);
+
     }
   }, [AllStudentsProgressSheet])
 
@@ -143,8 +178,6 @@ const ProgressReportNew = () => {
 
 
   const progressReportFilePath: any = useSelector((state: RootState) => state.ProgressReportNew.ProgressReportDownload);
-  console.log(progressReportFilePath, "pp");
-  
   // useEffect(() => {
   //   if (UsGetSchoolSettings != null)
   //     setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
@@ -182,15 +215,15 @@ const ProgressReportNew = () => {
   };
 
   useEffect(() => {
-    if(progressReportFilePath!=null){
+    if (progressReportFilePath != null) {
 
       const filePath = progressReportFilePath.FilePath.replace(/\\/g, '/');
       let downloadPathOfProgressReport = 'https://schoolwebsite.regulusit.net/' + filePath;
       window.open(downloadPathOfProgressReport);
       dispatch(resetProgressReportFileName())
-     
+
     }
-  },[progressReportFilePath])
+  }, [progressReportFilePath])
 
 
   const Standard_Id = () => {
@@ -241,7 +274,7 @@ const ProgressReportNew = () => {
   const StudentProgressReportBody: IStudentProgressReportBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmeicYearId: Number(AcademicYear),
-    asStudentId: GetOldStudentDetails.StudentId,
+    asStudentId: Number(StudentId),
     asUserId: asUserId,
     IsTotalConsiderForProgressReport: IsTotalConsiderForProgressReport,
 
@@ -390,7 +423,6 @@ const ProgressReportNew = () => {
       SetError('Class Teacher should be selected.');
       return;
     }
-
     setOpen(true);
     SetError('')
   }
@@ -448,11 +480,17 @@ const ProgressReportNew = () => {
   }, [selectTeacher, StandardDivisionId()]);
 
   useEffect(() => {
-    if (StudentId == '0') {
+    if (StudentId === '0') {
       dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
     }
-    dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
-  }, [AcademicYear, GetOldStudentDetails.StudentId, IsTotalConsiderForProgressReport]);
+    // dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
+  }, [selectTeacher]);
+  useEffect(() => {
+    if (StudentId !== '0') {
+      dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
+    }
+  }, [selectTeacher, AcademicYear, StudentId])
+  // }, [AcademicYear, GetOldStudentDetails.StudentId, IsTotalConsiderForProgressReport]);
 
   useEffect(() => {
     dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
@@ -558,7 +596,7 @@ const ProgressReportNew = () => {
   }
   return (
     <Box sx={{ px: 2 }}>
-       {(Loading ) && <SuspenseLoader />}
+      {(Loading) && <SuspenseLoader />}
       <CommonPageHeader
         navLinks={[
           { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew' }
@@ -586,14 +624,14 @@ const ProgressReportNew = () => {
             label={'Student Name'}
             size={"small"} />
 
-
-          <SearchableDropdown
-            ItemList={UsAcademicYearsOfStudent}
-            sx={{ minWidth: '300px' }}
-            onChange={ClickAcademicYear}
-            defaultValue={AcademicYear}
-            label={'Academic Years '}
-            size={"small"} />
+          {StudentId !== "0" &&
+            <SearchableDropdown
+              ItemList={UsAcademicYearsOfStudent}
+              sx={{ minWidth: '300px' }}
+              onChange={ClickAcademicYear}
+              defaultValue={AcademicYear}
+              label={'Academic Years '}
+              size={"small"} />}
 
           <Box>
             <Tooltip title={'Displays  progress report of published exam of selected / all student.'}>
@@ -620,7 +658,7 @@ const ProgressReportNew = () => {
                   backgroundColor: blue[600]
                 }
               }}
-              onClick={ClickShow}>
+              onClick={!Loading ? ClickShow : () => { }}>
               <VisibilityTwoToneIcon />
             </IconButton>
           </Tooltip>
@@ -630,10 +668,10 @@ const ProgressReportNew = () => {
       />
       <ErrorMessage1 Error={Error}></ErrorMessage1>
 
-      {AcademicYear == asAcademicYearId ? <span></span>:
-      <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1>}
+      {AcademicYear == asAcademicYearId ? <span></span> :
+        <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1>}
 
-      
+
       {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
 
 
@@ -676,7 +714,7 @@ const ProgressReportNew = () => {
 
           {USIsTestPublishedForStdDiv == true ?
             <>
-              {EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
+              {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -894,6 +932,19 @@ const ProgressReportNew = () => {
                     />
                   </Box>
                 </>
+                :
+                null
+              }
+              {StudentId == "0" && parsedDataList?.length > 0 &&
+                parsedDataList.map((parsedItem, i) => (
+                  <AllStudents key={i} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
+                    handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
+                    USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                    USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                  />
+                  //             data1, IStudentList, handleClose, handleClick, open1, formattedText,
+                  // USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
+                ))
 
               }
             </>

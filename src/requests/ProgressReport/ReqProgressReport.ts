@@ -39,16 +39,16 @@ const ProgressReportSlice = createSlice({
     HeaderArray1: [],
     SubHeaderArray1: [],
     AllStudentsProgressSheet: null,
-    IsAcademicYearsOfStudent:[],
-    ISGetOldStudentDetails:{},
-    SchoolSettingValues:[],
-    GetTerms:{},
-    ProgressReportDownload:null,
-    IsPrePrimary:false,
-    ISPrePrimaryExamPublishStatus:{},
-    ISgetIsTermExamPublished:null,
-    ISgetIsFinalResultPublished:null,
-    
+    IsAcademicYearsOfStudent: [],
+    ISGetOldStudentDetails: {},
+    SchoolSettingValues: [],
+    GetTerms: {},
+    ProgressReportDownload: null,
+    IsPrePrimary: false,
+    ISPrePrimaryExamPublishStatus: {},
+    ISgetIsTermExamPublished: null,
+    ISgetIsFinalResultPublished: null,
+
   },
   reducers: {
     ShowData(state, action) {
@@ -173,43 +173,43 @@ const ProgressReportSlice = createSlice({
       state.ISGetOldStudentDetails = action.payload;
     },
 
-    getSchoolSettingValues(state,action){
+    getSchoolSettingValues(state, action) {
       state.Loading = false;
       state.SchoolSettingValues = action.payload;
     },
-    RGetTerms(state,action){
+    RGetTerms(state, action) {
       state.Loading = false;
       state.GetTerms = action.payload;
     },
-    getProgressReport(state,action){
+    getProgressReport(state, action) {
       state.Loading = false;
       state.ProgressReportDownload = action.payload;
     },
-    RGetIsPrePrimary(state,action){
+    RGetIsPrePrimary(state, action) {
       state.Loading = false;
       state.IsPrePrimary = action.payload;
     },
-    RGetPrePrimaryExamPublishStatus(state,action){
+    RGetPrePrimaryExamPublishStatus(state, action) {
       state.Loading = false;
       state.ISPrePrimaryExamPublishStatus = action.payload;
     },
-    
-    RgetIsTermExamPublished(state,action){
+
+    RgetIsTermExamPublished(state, action) {
       state.Loading = false;
       state.ISgetIsTermExamPublished = action.payload;
     },
-    
-    RgetIsFinalResultPublished(state,action){
+
+    RgetIsFinalResultPublished(state, action) {
       state.Loading = false;
       state.ISgetIsFinalResultPublished = action.payload;
     },
     resetProgressReportFileName(state) {
-      state.ProgressReportDownload = null; 
-     
+      state.ProgressReportDownload = null;
+
     },
-    
-    setLoading(state){
-      state.Loading=true;
+
+    setLoading(state) {
+      state.Loading = true;
     }
   }
 });
@@ -257,6 +257,7 @@ export const CDAGetStudentName =
 export const GetAllStudentsProgressSheet =
   (data: IGetAllStudentsProgressSheetBody): AppThunk =>
     async (dispatch, getState) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.GetAllStudentsProgressSheet(data);
       dispatch(ProgressReportSlice.actions.GetAllStudentsProgressSheet(response.data));
     }
@@ -288,7 +289,7 @@ export const CDAStudentProgressReport =
         let returnVal: any = ""
 
         if (cell.Is_Absent === "N") {
-      
+
           if (response.data?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true') {
             returnVal = cell.Grade
           } else {
@@ -709,7 +710,7 @@ export const CDAStudentProgressReport =
             HeaderCount1 = 0
             let arrTemp = response.data.ListSubjectidDetails
               .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
-          
+
 
             let TestTypeCount = arrTemp.length
             let temp = ""
@@ -1068,7 +1069,7 @@ export const CDAIsGradingStandard =
   (data: IsGradingStandarBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.IsGradingStandard(data);
-     
+
 
       dispatch(ProgressReportSlice.actions.RIsGradingStandard(response.data));
     };
@@ -1102,95 +1103,95 @@ export const CDAresetGetSchoolSettings =
       dispatch(ProgressReportSlice.actions.RresetGetSchoolSettings());// Dispatching action to reset the message
     };
 
-    export const CDAGetAcademicYearsOfStudent =
+export const CDAGetAcademicYearsOfStudent =
   (data: IGetAcademicYearsOfStudentBody): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiProgressReport.GetAcademicYearsOfStudent(data);
+    async (dispatch) => {
+      const response = await ApiProgressReport.GetAcademicYearsOfStudent(data);
 
-    const AcademicYearsOfStudent = response.data.GetAcademicYears.map((item) => ({
-      Id: item.Id,
-      Name: item.AcademicYear,
-      Value: item.Id,
-    }));
-    const GetTerms = response.data.GetTerms.map((item) => ({
-      Id: item.Id,
-      TermName: item.TermName
-     
-    }));
+      const AcademicYearsOfStudent = response.data.GetAcademicYears.map((item) => ({
+        Id: item.Id,
+        Name: item.AcademicYear,
+        Value: item.Id,
+      }));
+      const GetTerms = response.data.GetTerms.map((item) => ({
+        Id: item.Id,
+        TermName: item.TermName
 
-    
-
-    dispatch(ProgressReportSlice.actions.RAcademicYearsOfStudent(AcademicYearsOfStudent));
-    dispatch(ProgressReportSlice.actions.RGetTerms(GetTerms));
-  };
+      }));
 
 
-  export const CDAgetOldstudentDetails =
+
+      dispatch(ProgressReportSlice.actions.RAcademicYearsOfStudent(AcademicYearsOfStudent));
+      dispatch(ProgressReportSlice.actions.RGetTerms(GetTerms));
+    };
+
+
+export const CDAgetOldstudentDetails =
   (data: IGetOldStudentDetailsBody): AppThunk =>
     async (dispatch) => {
       dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.GetOldStudentDetails(data);
       dispatch(ProgressReportSlice.actions.RgetOldStudentDetails(response.data?.OldStudentDetails));
     };
-  
 
-    export const GetSchoolSettingValues =
+
+export const GetSchoolSettingValues =
   (data: IGetSchoolSettingValuesBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(ProgressReportSlice.actions.setLoading());
-    const response = await ApiProgressReport.GetSchoolSettingValues(data);
-    dispatch(ProgressReportSlice.actions.getSchoolSettingValues(response.data));
-  };
+    async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
+      const response = await ApiProgressReport.GetSchoolSettingValues(data);
+      dispatch(ProgressReportSlice.actions.getSchoolSettingValues(response.data));
+    };
 
 
-  export const CDAGetProgressReport =
+export const CDAGetProgressReport =
   (data: IProgressReportBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(ProgressReportSlice.actions.setLoading());
-    const response = await ApiProgressReport.GetProgressReport(data);
-    dispatch(ProgressReportSlice.actions.getProgressReport(response.data));
-  };
+    async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
+      const response = await ApiProgressReport.GetProgressReport(data);
+      dispatch(ProgressReportSlice.actions.getProgressReport(response.data));
+    };
 
-  export const resetProgressReportFileName =
+export const resetProgressReportFileName =
   (): AppThunk =>
-  async (dispatch) => {
-    dispatch(ProgressReportSlice.actions.resetProgressReportFileName());
-  };
+    async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.resetProgressReportFileName());
+    };
 
-  export const CDAGetIsPrePrimary =
+export const CDAGetIsPrePrimary =
   (data: GetIsPrePrimaryBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(ProgressReportSlice.actions.setLoading());
-    const response = await ApiProgressReport.GetIsPrePrimary(data);
-    dispatch(ProgressReportSlice.actions.RGetIsPrePrimary(response.data));
-  };
-    
-  export const CDAGetPrePrimaryExamPublishStatus =
+    async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
+      const response = await ApiProgressReport.GetIsPrePrimary(data);
+      dispatch(ProgressReportSlice.actions.RGetIsPrePrimary(response.data));
+    };
+
+export const CDAGetPrePrimaryExamPublishStatus =
   (data: IGetPrePrimaryExamPublishStatusBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(ProgressReportSlice.actions.setLoading());
-    const response = await ApiProgressReport.GetPrePrimaryExamPublishStatus(data);
-    dispatch(ProgressReportSlice.actions.RGetPrePrimaryExamPublishStatus(response.data.DownloadButtonStateDetailsResult));
-  };
+    async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
+      const response = await ApiProgressReport.GetPrePrimaryExamPublishStatus(data);
+      dispatch(ProgressReportSlice.actions.RGetPrePrimaryExamPublishStatus(response.data.DownloadButtonStateDetailsResult));
+    };
 
 
-  export const CDAgetIsTermExamPublished =
+export const CDAgetIsTermExamPublished =
   (data: IgetIsTermExamPublishedBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(ProgressReportSlice.actions.setLoading());
-    const response = await ApiProgressReport.getIsTermExamPublished(data);
-    dispatch(ProgressReportSlice.actions.RgetIsTermExamPublished(response.data));
-  };
+    async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
+      const response = await ApiProgressReport.getIsTermExamPublished(data);
+      dispatch(ProgressReportSlice.actions.RgetIsTermExamPublished(response.data));
+    };
 
 
-  export const CDAgetIsFinalResultPublished =
+export const CDAgetIsFinalResultPublished =
   (data: IgetIsFinalResultPublishedBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(ProgressReportSlice.actions.setLoading());
-    const response = await ApiProgressReport.getIsFinalResultPublished(data);
-    dispatch(ProgressReportSlice.actions.RgetIsFinalResultPublished(response.data));
-  };
+    async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
+      const response = await ApiProgressReport.getIsFinalResultPublished(data);
+      dispatch(ProgressReportSlice.actions.RgetIsFinalResultPublished(response.data));
+    };
 
-  
+
 
 export default ProgressReportSlice.reducer;

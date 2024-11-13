@@ -12,7 +12,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
         });
         return returnVal;
     };
-        // f() to control visibility of Test Type Columns
+        // f() to control visibility of Test Type  Columns
         function showTestTypeDetails(subId) {
             let subMatchLength = data.ListSubjectidDetails.filter((itemFind) => itemFind.Subject_Id === subId).length
             let flag = false;
@@ -84,7 +84,6 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                 ans.push({ ...item, rowSpan: 2, colSpan: getColSpan(item.Subject_Id) }); // Corrected push syntax //3
             } else if (!ParentSubArr.includes(item.Parent_Subject_Id)) { // For child subjects with unique Parent_Subject_Id
                 ParentSubArr.push(item.Parent_Subject_Id);
-                console.log(item.Parent_Subject_Id);
                 ans.push({ 
                     ...item, 
                     Subject_Name: findName(item.Parent_Subject_Id), 
@@ -94,13 +93,8 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
             }
             // No need for return since map is only used for iteration
         });
-        console.log('ans ⭐⭐🦥🔥', ans);
         return ans; 
     }
-    
-console.log( findRow1()," findRow1()");
-
-
     
     function findName(Id) {
         // Safeguard: Check if data.listTestIdDetails exists and filter properly
@@ -114,19 +108,10 @@ console.log( findRow1()," findRow1()");
         return 'No Name Available'; // Fallback if no valid name is found
     }
     useEffect(() => {
-        console.log('>>', EntireDataList);
         if (Object.keys(EntireDataList).length > 0) {
             setData(EntireDataList);
-            console.log('>>', EntireDataList);
-            let ans1 = findRow1();
-            console.log(`🤷‍♀️🤷‍♀️🤷‍♀️🤷‍♀️🤷‍♀️`, ans1);
-            console.log(findRow2());
         }
-    }, [EntireDataList])
-    useEffect(() => {
-        console.log('🦥🦥🦥',MarkDetailsList);
-        
-    }, [MarkDetailsList]);
+    }, [EntireDataList]);
 
     let HeaderParent = [];
     let PrevParentId = "0", SubjectName = "";
@@ -214,7 +199,7 @@ console.log( findRow1()," findRow1()");
                                         <Typography color="black" textAlign="center" mx={0}>
                                              <b style={{ marginRight: "0px" }}>
                                                  {item.Subject_Name} 
-                                         {item.Is_CoCurricularActivity == "True" && (
+                                         {item.Is_CoCurricularActivity === "True" && (
                                               <span style={{ color: 'red' }}>*</span>
                                                    )}
                                                      </b>
