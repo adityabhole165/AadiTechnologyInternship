@@ -10,6 +10,7 @@ const SelectStandardExamslice = createSlice({
   name: 'selectexam',
   initialState: {
     SelectStandard: [],
+    getStandard: [],
     ExamData: [],
     VeiwAllData: [],
     Loading: true
@@ -25,6 +26,9 @@ const SelectStandardExamslice = createSlice({
     AllExamData(state, action) {
       state.Loading = false;
       state.VeiwAllData = action.payload;
+    },
+    getStandardRes(state, action) {
+      state.getStandard = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true;
@@ -46,6 +50,23 @@ export const GetSelectStandardRes =
         itemlist.push(...standards);
       }
       dispatch(SelectStandardExamslice.actions.getSelectStandardRes(itemlist));
+
+    };
+
+export const GetStandardRes =
+  (data: IGetAllStandards): AppThunk =>
+    async (dispatch) => {
+      const response = await GetTExamResultListApi.GetAllStandards(data);
+      const itemlist = [{ id: '0', Name: 'Select', Value: '0' }];
+      if (response?.data.GetAllStandardsResult) {
+        const standards = response.data.GetAllStandardsResult.map((item) => ({
+          id: item.Id,
+          Name: item.Name,
+          Value: item.Id
+        }));
+        itemlist.push(...standards);
+      }
+      dispatch(SelectStandardExamslice.actions.getStandardRes(itemlist));
 
     };
 
