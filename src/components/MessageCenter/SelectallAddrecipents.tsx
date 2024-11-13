@@ -7,6 +7,7 @@ const SelectallAddrecipents = ({
   isSingleSelect = false,
   ContactGP = '0'
 }) => {
+
   const onClick = (value) => {
     Itemlist = Itemlist.map((obj) =>
       obj.Id === value.Id

@@ -285,15 +285,25 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         <Grid container spacing={2}>
 
           <Grid item xs={4}>
-            <TextField label={
-              <span>
-                Group Name<span style={{ color: 'red' }}> *
 
+            <TextField
+              fullWidth
+              label={
+                <span>
+                  Group Name <span style={{ color: 'red' }}>*</span>
                 </span>
-              </span>
-            }
-              defaultValue={GroupName}
-              fullWidth onChange={(e) => clickGroupName(e.target.value)} />
+              }
+              multiline
+              rows={1}
+              value={GroupName}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value.length <= 50) {
+                  setGroupName(value);
+                }
+              }}
+
+            />
             <ErrorMessage1 Error={ErrorTypeName}></ErrorMessage1>
             <ErrorMessage1 Error={ErrorGroupName}></ErrorMessage1>
             <ErrorMessage1 Error={ErrorSelectedUser}></ErrorMessage1>
@@ -354,17 +364,29 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         )}
         <Grid item xs={3.5}>
           <TextField
-            label="Search By Name"
             fullWidth
+            label={
+              <span>
+                Search By Name <span style={{ color: 'red' }}>*</span>
+              </span>
+            }
+            multiline
+            rows={1}
+            value={SearchByUserName}
             onChange={(e) => {
-              handleSearchByUserName(e.target.value);
+              const value = e.target.value;
+              if (value.length <= 50) {
+                handleSearchByUserName(value);
+              }
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === 'Tab') {
                 clickSearch();
               }
             }}
+
           />
+
         </Grid>
         <Grid item xs={1.5}>
           <IconButton
