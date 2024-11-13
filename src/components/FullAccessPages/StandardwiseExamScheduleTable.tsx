@@ -101,7 +101,7 @@ const StandardwiseExamScheduleTable = () => {
     );
 
     return (
-        <Box p={2}>
+        <Box >
             <TableContainer component={Paper} variant="outlined">
                 <Table>
                     <TableHead>
@@ -117,22 +117,22 @@ const StandardwiseExamScheduleTable = () => {
                             <TableCell sx={{ color: 'white' }}><strong>New</strong></TableCell>
                         </TableRow>
                         {examData1.map((row) => (
-                            <TableRow sx={{ color: theme => theme.palette.common.white, backgroundColor:'#F0F0F0'}}>
-                                <TableCell sx={{py:1}} padding="checkbox"  > <Checkbox /></TableCell>
+                            <TableRow sx={{ color: theme => theme.palette.common.white, background: theme => theme.palette.secondary.main}}>
+                                <TableCell sx={{py:1, color: 'white'}} padding="checkbox"  > <Checkbox /></TableCell>
                                 <TableCell></TableCell>
-                                <TableCell sx={{py:1}}>
+                                <TableCell sx={{py:1, color: 'white'}}>
                                     <TextField size="small" sx={{ color: 'white' }}></TextField>
                                 </TableCell>
-                                <TableCell sx={{py:1}}><Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" /></TableCell>
-                                <TableCell sx={{py:1}}><Checkbox checked={row.timed} /></TableCell>
-                                <TableCell sx={{py:1}}>{renderTimeSelects(row.startTime)}</TableCell>
-                                <TableCell sx={{py:1}}>{renderTimeSelects(row.endTime)}</TableCell>
-                                <TableCell sx={{py:1}}>
+                                <TableCell sx={{py:1, color: 'white'}}><Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small"/></TableCell>
+                                <TableCell sx={{py:1, color: 'white'}}><Checkbox checked={row.timed} /></TableCell>
+                                <TableCell sx={{py:1, color: 'white'}}>{renderTimeSelects(row.startTime)}</TableCell>
+                                <TableCell sx={{py:1, color: 'white'}}>{renderTimeSelects(row.endTime)}</TableCell>
+                                <TableCell sx={{py:1, color: 'white'}}>
                                     <TextField 
                                     // value={row.description} 
                                     fullWidth  size="small" />
                                 </TableCell>
-                                <TableCell sx={{py:1}}></TableCell>
+                                <TableCell sx={{py:1, color: 'white'}}></TableCell>
                             </TableRow>
                         ))}
                     </TableHead>
