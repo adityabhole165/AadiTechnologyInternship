@@ -922,8 +922,13 @@ const MessageList = () => {
                       </Typography>
                       // </Grid>
                     ) : (<Grid container>
-                      <Grid xs={12} sm={12} md={12} sx={{ textAlign: 'right' }}>
-                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', padding: 1, borderRadius: 2, backgroundColor: 'White' }} >{inboxListData.length} Out of {totalCountLabel}</Typography>
+                      <Grid xs={12} sm={12} md={12} sx={{ textAlign: 'right' }} mt={-1} mb={-1}>
+                        <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }} >
+                          <Box component="span" fontWeight="fontWeightBold">{inboxListData.length}</Box>
+                          {' '}Out of{' '}
+                          <Box component="span" fontWeight="fontWeightBold">{totalCountLabel}</Box>
+                          {' '} records
+                        </Typography>
                       </Grid>
                       <Grid xs={12} sm={12} md={12}>
                         <SelectList3Col
