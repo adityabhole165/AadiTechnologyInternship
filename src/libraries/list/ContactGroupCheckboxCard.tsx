@@ -147,9 +147,9 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                             </Grid>
 
                             <Grid container>
-                                <Grid item xs={3}>
-                                    <IconButton
-                                        //onClick={() => onEdit(Item.Id)}
+                                <Grid item xs={4}>
+                                    <IconButton sx={{ textAlign: 'left' }}
+
                                         onClick={() => handleOpenDialog(true)}
                                     >
                                         <Tooltip title="Edit" >
@@ -157,10 +157,11 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                         </Tooltip>
                                     </IconButton>
                                 </Grid>
-                                <Grid item xs={3}>
+                                <Grid item xs={4}>
                                     <IconButton
                                         onClick={() => onDelete(Item.Id)}
                                         sx={{
+                                            ml: 3.5,
                                             color: '#38548A	',
                                             '&:hover': {
                                                 color: 'red',

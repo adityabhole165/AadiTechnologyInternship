@@ -29,7 +29,7 @@ import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import JoditEditor from 'jodit-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -37,6 +37,7 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { Styles } from 'src/assets/style/student-style';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
@@ -224,7 +225,7 @@ function Form13() {
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 50 MB.';
   const NoteSchedule: string =
     'Messages can be scheduled for the upcoming seven days. Recipients will not receive notifications on their mobile devices for scheduled messages.';
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const localschoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -763,6 +764,24 @@ function Form13() {
   }, [SaveDraftM]);
 
   const clickConfirm = () => {
+
+    showAlert({
+      title: 'Please Confirm',
+      message: 'No group is selected. Are you sure you want to continue?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+
+        //dispatch(CDADeleteMailGroupMsg(DeleteMailGroupBody));
+        closeAlert();
+      },
+    });
+
+
     handleCloseDialog();
   };
   const [recipientsCC, setRecipientsCC] = useState(
@@ -1435,7 +1454,7 @@ function Form13() {
                   }
                 }}
               >
-                Confirm
+                ok
               </Button>
             </DialogActions>
           </Box>
@@ -1446,3 +1465,5 @@ function Form13() {
 }
 
 export default Form13;
+
+
