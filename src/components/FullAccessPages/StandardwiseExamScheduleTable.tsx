@@ -117,7 +117,7 @@ const StandardwiseExamScheduleTable = () => {
                             <TableCell sx={{ color: 'white' }}><strong>New</strong></TableCell>
                         </TableRow>
                         {examData1.map((row) => (
-                            <TableRow sx={{ color: theme => theme.palette.common.white, background: theme => theme.palette.secondary.main}}>
+                            <TableRow sx={{ color: theme => theme.palette.common.white, background: '#F0F0F1'}}>
                                 <TableCell sx={{py:1, color: 'white'}} padding="checkbox"  > <Checkbox /></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell sx={{py:1, color: 'white'}}>
@@ -134,6 +134,7 @@ const StandardwiseExamScheduleTable = () => {
                                 </TableCell>
                                 <TableCell sx={{py:1, color: 'white'}}></TableCell>
                             </TableRow>
+                            
                         ))}
                     </TableHead>
                     <TableBody>

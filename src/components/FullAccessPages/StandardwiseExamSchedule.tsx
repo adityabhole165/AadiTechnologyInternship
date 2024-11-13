@@ -22,6 +22,7 @@ const StandardwiseExamSchedule = () => {
     };
     const [openDialog1, setOpenDialog1] = useState(false);
     const [IsConfirm1, setIsConfirm1] = useState('');
+    const [editMode1, setEditMode1] = useState(false); // Tracks if updating or adding
     const [showRecipients1, setShowRecipients1] = useState(false);
     const handleCloseDialog1 = () => {
         setOpenDialog1(false);
@@ -321,25 +322,7 @@ const StandardwiseExamSchedule = () => {
                         onChange={(e) => setCurrentInstruction(e.target.value)}
                         sx={{ mt: 2 }}
                     />
-                    {/* {instructions.map(instruction => (
-                        <Accordion key={instruction.id} sx={{ mt: 2 }}>
-                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                <Typography variant="body1">{instruction.text}</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => {
-                                        setSelectedInstructionId(instruction.id);
-                                        handleOpenDialog1(instruction.text);
-                                    }}
-                                >
-                                    Update Instruction
-                                </Button>
-                            </AccordionDetails>
-                        </Accordion>
-                    ))} */}
+                   
                 </DialogContent>
                 <DialogActions sx={{ py: 2, px: 3 }}>
                     <Button color={'error'} onClick={handleCloseDialog1}>
