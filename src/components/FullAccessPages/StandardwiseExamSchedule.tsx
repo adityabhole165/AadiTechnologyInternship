@@ -114,32 +114,8 @@ const StandardwiseExamSchedule = () => {
                                 <QuestionMark />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title="Add Instructions">
-                            <IconButton sx={{
-                                color: 'white',
-                                backgroundColor: blue[500],
-                                '&:hover': {
-                                    backgroundColor: blue[600]
-                                }
-                            }}
-                                onClick={() => handleOpenDialog1(true)}
-                            >
-                                <AddBoxRoundedIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Copy Schedule">
-                            <IconButton sx={{
-                                color: 'white',
-                                backgroundColor: blue[500],
-                                '&:hover': {
-                                    backgroundColor: blue[600]
-                                }
-                            }}
-                                onClick={() => handleOpenDialog(true)}
-                            >
-                                <ContentCopyIcon />
-                            </IconButton>
-                        </Tooltip>
+                       
+                        
 
                         <Tooltip title="Save">
                             <IconButton sx={{
@@ -165,10 +141,37 @@ const StandardwiseExamSchedule = () => {
                                 <CheckRoundedIcon />
                             </IconButton>
                         </Tooltip>
+                        <Tooltip title="Copy Schedule">
+                            <IconButton sx={{
+                                color: 'white',
+                                backgroundColor: blue[500],
+                                '&:hover': {
+                                    backgroundColor: blue[600]
+                                }
+                            }}
+                                onClick={() => handleOpenDialog(true)}
+                            >
+                                <ContentCopyIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Add Instructions">
+                            <IconButton sx={{
+                                color: 'white',
+                                backgroundColor: blue[500],
+                                '&:hover': {
+                                    backgroundColor: blue[600]
+                                }
+                            }}
+                                onClick={() => handleOpenDialog1(true)}
+                            >
+                                <AddBoxRoundedIcon />
+                            </IconButton>
+                        </Tooltip>
                     </>
                 }
             />
             <Box>
+                
             <Accordion sx={{ mt: 1, mb: 1 }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h5"> <strong>More Instructions</strong> </Typography>

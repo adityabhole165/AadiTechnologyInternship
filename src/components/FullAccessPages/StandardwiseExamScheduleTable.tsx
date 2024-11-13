@@ -117,49 +117,49 @@ const StandardwiseExamScheduleTable = () => {
                             <TableCell sx={{ color: 'white' }}><strong>New</strong></TableCell>
                         </TableRow>
                         {examData1.map((row) => (
-                            <TableRow sx={{ color: theme => theme.palette.common.white, background: '#F0F0F1'}}>
-                                <TableCell sx={{py:1, color: 'white'}} padding="checkbox"  > <Checkbox /></TableCell>
+                            <TableRow sx={{ color: theme => theme.palette.common.white, background: theme => theme.palette.secondary.main, }}>
+                                <TableCell sx={{ py: 1, color: 'white' }} padding="checkbox"  > <strong><Checkbox /></strong></TableCell>
                                 <TableCell></TableCell>
-                                <TableCell sx={{py:1, color: 'white'}}>
-                                    <TextField size="small" sx={{ color: 'white' }}></TextField>
+                                <TableCell sx={{ py: 1, color: 'white' }}><strong>
+                                    <TextField size="small" sx={{color: 'white',}}></TextField></strong>
                                 </TableCell>
-                                <TableCell sx={{py:1, color: 'white'}}><Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small"/></TableCell>
-                                <TableCell sx={{py:1, color: 'white'}}><Checkbox checked={row.timed} /></TableCell>
-                                <TableCell sx={{py:1, color: 'white'}}>{renderTimeSelects(row.startTime)}</TableCell>
-                                <TableCell sx={{py:1, color: 'white'}}>{renderTimeSelects(row.endTime)}</TableCell>
-                                <TableCell sx={{py:1, color: 'white'}}>
-                                    <TextField 
-                                    // value={row.description} 
-                                    fullWidth  size="small" />
+                                <TableCell sx={{ py: 1, color: 'white' }}><strong><Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" /> </strong></TableCell>
+                                <TableCell sx={{ py: 1, color: 'white' }}><strong><Checkbox checked={row.timed} /></strong></TableCell>
+                                <TableCell sx={{ py: 1, color: 'white' }}><strong>{renderTimeSelects(row.startTime)}</strong></TableCell>
+                                <TableCell sx={{ py: 1, color: 'white' }}><strong>{renderTimeSelects(row.endTime)}</strong></TableCell>
+                                <TableCell sx={{ py: 1, color: 'white' }}>
+                                    <TextField
+                                        // value={row.description} 
+                                        fullWidth size="small" />
                                 </TableCell>
-                                <TableCell sx={{py:1, color: 'white'}}></TableCell>
+                                <TableCell sx={{ py: 1, color: 'white' }}></TableCell>
                             </TableRow>
-                            
+
                         ))}
                     </TableHead>
                     <TableBody>
                         {examData.map((row) => (
                             <TableRow key={row.id} hover>
-                                <TableCell padding="checkbox" sx={{py:0.5}}>
+                                <TableCell padding="checkbox" sx={{ py: 0.5 }}>
                                     <Checkbox />
                                 </TableCell>
-                                <TableCell sx={{py:0.5}}>{row.subject}</TableCell>
-                                <TableCell sx={{py:0.5}}><TextField size="small">
+                                <TableCell sx={{ py: 0.5 }}>{row.subject}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}><TextField size="small">
                                 </TextField></TableCell>
-                                <TableCell sx={{py:0.5}}>
+                                <TableCell sx={{ py: 0.5 }}>
                                     <Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" />
                                 </TableCell>
-                                <TableCell padding="checkbox" sx={{pl:2, py:0.5}} >
+                                <TableCell padding="checkbox" sx={{ pl: 2, py: 0.5 }} >
                                     <Checkbox checked={row.timed} />
                                 </TableCell>
-                                <TableCell sx={{py:0.5}}>{renderTimeSelects(row.startTime)}</TableCell>
-                                <TableCell sx={{py:0.5}}>{renderTimeSelects(row.endTime)}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>{renderTimeSelects(row.startTime)}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>{renderTimeSelects(row.endTime)}</TableCell>
                                 <TableCell>
                                     <Tooltip title={row.description}>
-                                    <TextField value={row.description} fullWidth  size="small" />
+                                        <TextField value={row.description} fullWidth size="small" />
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{py:0.5}}>
+                                <TableCell sx={{ py: 0.5 }}>
                                     <Tooltip title="Add">
                                         <IconButton>
                                             <AddIcon></AddIcon>
