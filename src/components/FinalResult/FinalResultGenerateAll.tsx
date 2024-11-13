@@ -18,7 +18,7 @@ const GenerateAll = ({ }) => {
     const [isResultGenerated, setIsResultGenerated] = useState(false); // State to track result generation
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { asStudentId, isGenerated, IsView } = useParams();
+    const { asStudentId, isGenerated, IsView, stdId } = useParams();
     //console.log("asStudentId", asStudentId);
 
     const asAcadmeicYearId = sessionStorage.getItem('AcademicYearId');
@@ -244,11 +244,11 @@ const GenerateAll = ({ }) => {
 
     const getstandardDivId = () => {
 
-        let returnVal = ''
+        let returnVal = '';
         StudentDetailsUS.map((item, i) => {
             returnVal = item.standardDivId
         })
-        return returnVal
+        return returnVal === '' || undefined ? stdId : returnVal
     }
     function getRemarkForGradeCell(cellRemark) {
         // html element type

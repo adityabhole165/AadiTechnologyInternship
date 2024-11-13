@@ -337,7 +337,7 @@ const teacherRoutes = [
     element: <GenerateAll />
   },
   {
-    path: 'GenerateAll/:asStudentId/:isGenerated/:IsView',
+    path: 'GenerateAll/:asStudentId/:isGenerated/:IsView/:stdId',
     element: <GenerateAll />
   },
   // {
@@ -808,7 +808,7 @@ const teacherRoutes = [
     path: 'StandardwiseExamSchedule',
     element: <StandardwiseExamSchedule />
   },
-  
+
   {
     path: 'ViewExamSchedule',
     element: <ViewExamSchedule />

@@ -200,7 +200,7 @@ const FinalResult = () => {
         !GetResultGenerated || buttonsDisabled ? (
           <IconButton
             onClick={() => {
-              navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false);
+              navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false + '/' + StandardDivisionId);
             }}
             sx={{
               display: 'flex',
