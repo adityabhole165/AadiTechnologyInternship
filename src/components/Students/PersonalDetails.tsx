@@ -1,20 +1,30 @@
+import { Clear as ClearIcon } from '@mui/icons-material'; // Ensure ClearIcon is imported correctly
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
 import {
   Alert,
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   IconButton,
   MenuItem,
   TextField,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@mui/material';
 import { red } from '@mui/material/colors';
+import green from '@mui/material/colors/green';
 import { User } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { FaCamera, FaRedo, FaStop } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
+import Webcam from 'react-webcam';
 import { IGetSingleStudentDetailsBody, IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile from 'src/libraries/File/SingleFile';
@@ -22,7 +32,38 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetMasterData, CDAGetSingleStudentDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
+
+// const CaptureButton = ({ onClick }) => (
+//   <div
+//     className="absolute bottom-2 right-2 p-2 bg-gray-800 bg-opacity-50 rounded-full cursor-pointer"
+//     onClick={onClick}
+//   >
+//     <FaCamera className="text-white" />
+//   </div>
+// )
+
+// const RestartButton = ({ onClick }) => (
+//   <div
+//     className="absolute bottom-2 left-2 p-2 bg-gray-800 bg-opacity-50 rounded-full cursor-pointer"
+//     onClick={onClick}
+//   >
+//     <FaRedo className="text-white" />
+//   </div>
+// )
+
+// const StopButton = ({ onClick }) => (
+//   <div
+//     className="absolute bottom-2 left-2 p-2 bg-gray-800 bg-opacity-50 rounded-full cursor-pointer"
+//     onClick={onClick}
+//   >
+//     <FaStop className="text-white" />
+//   </div>
+// )
+
 const PersonalDetails = ({ onTabChange }) => {
+  const [usingWebcam, setUsingWebcam] = useState(false);
+  const webcamRef = useRef(null);
+
   const location = useLocation();
   const { standardId, DivisionId } = location.state || {};
   const dispatch = useDispatch();
@@ -164,11 +205,6 @@ const PersonalDetails = ({ onTabChange }) => {
     }
   }, [USGetSingleStudentDetails]);
 
-  //#region DataTransfer 
-  useEffect(() => {
-    onTabChange(form); // Sends the initial form state to the parent when component mounts
-  }, [form]);
-  //#endregion
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked, files } = e.target;
@@ -200,26 +236,103 @@ const PersonalDetails = ({ onTabChange }) => {
     setErrors((prev) => ({ ...prev, [name]: false }));
   };
 
+  //#region WebCam
+  const [open, setOpen] = useState(false);
+  const [fileNameError, setFileNameError] = useState('');
+  const [isWebcamActive, setIsWebcamActive] = useState(true)
+  const [capturedImage, setCapturedImage] = useState(null)
+
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setForm((prevForm) => ({ ...prevForm, photo: reader.result }));
+        setCapturedImage(reader.result); // Store image temporarily until uploaded
+        setFileNameError('');
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const handleCapturePhoto = () => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setCapturedImage(imageSrc)
+    setForm({ ...form, photo: imageSrc });
+    // setUsingWebcam(false);
+    setIsWebcamActive(true);
+    setFileNameError('');
+    console.log(capturedImage, 'capturedImage');
+  };
+
   const handleDeletePhoto = () => {
     // Reset the form photo to null to remove the image
+    setCapturedImage(null);
     setForm({ ...form, photo: null });
 
     if (fileInputRef.current) {
       fileInputRef.current.value = ''; // Reset the file input so the file name disappears
     }
+    setFileNameError('');
+
   };
 
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const ClickUpload = () => {
+    if (!capturedImage) {
+      setFileNameError('Please select or capture a file to upload.');
+      return;
+    }
+
+    // Update form state with the captured image
+    setForm(prevForm => {
+      const updatedForm = { ...prevForm, photo: capturedImage };
+      // Call the parent component's callback with the updated form
+      // if (onImageUpload) {
+      //   onImageUpload(updatedForm);
+      // }
+      return updatedForm;
+    });
+
+    setOpen(false);
+    setFileNameError('');
+  };
+
+  const stopWebcam = () => {
+    setIsWebcamActive(false)
+
+  }
+
+  const restartWebcam = () => {
+    setIsWebcamActive(true)
+    setCapturedImage(null)
+    setFileNameError('');
+
+  }
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+    setFileNameError('');
+    setIsWebcamActive(false);
+  };
+
+  useEffect(() => {
+    if (form.photo) {
+      console.log(form.photo, 'UseEffect form.photo'); // Logs the updated form.photo after upload
+    }
+  }, [form.photo]);
+
+  //#region DataTransfer 
+  useEffect(() => {
+    onTabChange(form); // Sends the initial form state to the parent when component mounts
+  }, [form]);
+  //#endregion
+
+  //#endregion
   const validateForm = () => {
     const newErrors = {
       firstName: !form.firstName,
@@ -419,61 +532,26 @@ const PersonalDetails = ({ onTabChange }) => {
         </Grid>
 
         {/* Photo Grid */}
-        <Grid
-          item
-          xs={12}
-          sm={3}
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
+        <Grid item xs={12} sm={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Box sx={{
+            width: { xs: '80%', sm: '60%', md: '40%' }, height: '160px', border: '2px dashed #ccc', display: 'flex',
+            alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexDirection: 'row'
           }}
-        >
-          <Box
-            sx={{
-              width: { xs: '80%', sm: '60%', md: '40%' },
-              height: '160px', // Adjust height as needed
-              border: '2px dashed #ccc',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-              flexDirection: 'row'
-            }}
           >
             {form.photo ? (
               <img
                 src={form.photo}
                 alt="Preview"
-                style={{
-                  objectFit: 'cover',
-                  width: '100%',
-                  height: '100%'
-                }}
+                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
               />
             ) : (
               <User
-                style={{
-                  objectFit: 'cover'
-                }}
-              />
+                style={{ objectFit: 'cover' }} />
             )}
           </Box>
 
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              justifyContent: 'space-between',
-              pl: { xs: 2, sm: 4, md: 10 }
-            }}
-          >
-            <Grid
-              item
-              xs={6}
-              sm={8}
-              sx={{ display: 'flex', justifyContent: 'center' }}
-            >
+          <Grid container spacing={2} sx={{ justifyContent: 'space-between', pl: { xs: 2, sm: 4, md: 10 } }}>
+            <Grid item xs={6} sm={8} sx={{ display: 'flex', justifyContent: 'center' }}>
               <input
                 type="file"
                 ref={fileInputRef}
@@ -481,23 +559,23 @@ const PersonalDetails = ({ onTabChange }) => {
                 style={{ margin: '12px' }}
               />
             </Grid>
-            <Grid
-              item
-              xs={3}
-              sm={2}
-              sx={{ display: 'flex', justifyContent: 'center' }}
-            >
-              <IconButton>
-                <AddAPhotoIcon />
+            <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <IconButton onClick={() => handleOpenDialog()}>
+                <Tooltip title={"Use Webcam"}>
+                  <AddAPhotoIcon />
+                </Tooltip>
               </IconButton>
             </Grid>
-
-            <Grid
-              item
-              xs={3}
-              sm={2}
-              sx={{ display: 'flex', justifyContent: 'center' }}
-            >
+            {/* {usingWebcam && (
+              <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Tooltip title="Capture">
+                  <IconButton onClick={handleCapturePhoto}>
+                    <AddAPhotoIcon color="primary" />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            )} */}
+            <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Tooltip title="Delete">
                 <IconButton
                   onClick={handleDeletePhoto}
@@ -862,6 +940,110 @@ const PersonalDetails = ({ onTabChange }) => {
                     Save And Next
                 </Button>
             </Grid> */}
+      <Dialog
+        open={open}
+        maxWidth={'md'}
+        fullWidth
+        onClose={handleCloseDialog}
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
+        }}
+      >
+        <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <ClearIcon onClick={handleCloseDialog}
+            sx={{
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+              }
+            }} />
+        </DialogTitle>
+        <DialogContent>
+          <Box>
+            <Typography variant="h2" sx={{ pt: 2, pl: 1 }}>Upload Photo</Typography>
+            <Box sx={{ background: 'white', top: '1px', alignItems: 'center', pl: 1, pr: 2, pt: 2 }}>
+              <Grid container spacing={2}  >
+                <Grid item xs={6} sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2, border: 2, borderColor: 'gray.300', width: '100%', height: '100%', overflow: 'hidden', }}
+                >
+                  {isWebcamActive ? (
+                    <>
+                      <Webcam
+                        audio={false}
+                        ref={webcamRef}
+                        screenshotFormat="image/png"
+                        //className="w-full h-full object-contain"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'contain', // To maintain aspect ratio
+                          borderRadius: '4%', // Match the captured image's rounded corners
+                        }}
+
+                      />
+                      <IconButton onClick={handleCapturePhoto} sx={{ position: 'absolute', bottom: 20, left: 20, p: 2, backgroundColor: 'rgba(128, 128, 128, 0.5)', borderRadius: '50%', cursor: 'pointer', zIndex: 10 }}>
+                        <Tooltip title={'Capture Photo'}>
+                          <FaCamera />
+                        </Tooltip>
+                      </IconButton>
+                      {/* <CaptureButton onClick={handleCapturePhoto} /> */}
+                      <IconButton onClick={stopWebcam} sx={{ position: 'absolute', bottom: 20, right: 20, p: 2, backgroundColor: 'rgba(128, 128, 128, 0.5)', borderRadius: '50%', cursor: 'pointer', zIndex: 10 }}>
+                        <Tooltip title={'Stop'}>
+                          <FaStop />
+                        </Tooltip>
+                      </IconButton>
+                      {/* <StopButton onClick={stopWebcam} /> */}
+                    </>
+                  ) : (
+                    <IconButton onClick={restartWebcam} sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2, backgroundColor: 'rgba(128, 128, 128, 0.5)', borderRadius: '50%', cursor: 'pointer' }}>
+                      <Tooltip title={'Reload Camera'}>
+                        <FaRedo />
+                      </Tooltip>
+                    </IconButton>
+                    // <RestartButton onClick={restartWebcam} />
+                  )}
+                </Grid>
+                {/* {capturedImage && ( */}
+                <Grid item xs={6} sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2, border: 2, width: '100%', height: '100%' }}>
+                  <img
+                    src={capturedImage}
+                    alt="Captured"
+                    style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%', borderRadius: '4%' }}
+                  />
+                </Grid>
+                {/* )} */}
+              </Grid>
+            </Box>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ py: 2, px: 3 }}>
+          <Button
+            color={'error'}
+            onClick={handleCloseDialog}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={ClickUpload} // Increment attachment count only on upload
+            sx={{
+              color: 'green',
+              '&:hover': {
+                color: 'green',
+                backgroundColor: green[100]
+              }
+            }}
+            disabled={fileNameError ? true : false} // Disable upload if there's a file error
+          >
+            Upload
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
