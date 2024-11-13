@@ -544,7 +544,7 @@ const FinalResult = () => {
   useEffect(() => {
     if (StandardDivisionId1 !== undefined)
       setStandardDivisionId(StandardDivisionId1);
-  }, []);
+  }, [StandardDivisionId1]);
 
 
 
