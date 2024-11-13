@@ -7,6 +7,7 @@ const SelectallAddrecipents = ({
   isSingleSelect = false,
   ContactGP = '0'
 }) => {
+
   const onClick = (value) => {
     Itemlist = Itemlist.map((obj) =>
       obj.Id === value.Id
@@ -31,7 +32,7 @@ const SelectallAddrecipents = ({
   return (
     <>
       <ListHeaderCard3ColSel
-        Item={{ text1: '', text2: 'Select All', isActive: isCheckAll }}
+        Item={{ text1: '', text2: 'Select All', isActive: isCheckAll, text3: ContactGP === '9' ? 'Edit' : '', text4: ContactGP === '9' ? 'Delete' : '' }}
         onChange={ClickAll}
       />
 

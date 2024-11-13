@@ -274,7 +274,7 @@ const ProgressReportNew = () => {
   const StudentProgressReportBody: IStudentProgressReportBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmeicYearId: Number(AcademicYear),
-    asStudentId: Number(StudentId),
+    asStudentId: GetOldStudentDetails.StudentId,
     asUserId: asUserId,
     IsTotalConsiderForProgressReport: IsTotalConsiderForProgressReport,
 
@@ -489,7 +489,7 @@ const ProgressReportNew = () => {
     if (StudentId !== '0') {
       dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
     }
-  }, [selectTeacher, AcademicYear, StudentId])
+  }, [selectTeacher, AcademicYear, StudentId,GetOldStudentDetails.StudentId])
   // }, [AcademicYear, GetOldStudentDetails.StudentId, IsTotalConsiderForProgressReport]);
 
   useEffect(() => {
@@ -594,6 +594,10 @@ const ProgressReportNew = () => {
     return returnVal
 
   }
+
+  console.log(USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id !== ""), "ooo");
+
+
   return (
     <Box sx={{ px: 2 }}>
       {(Loading) && <SuspenseLoader />}
@@ -666,13 +670,83 @@ const ProgressReportNew = () => {
         </>}
 
       />
+      {open && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="h4">Grade Configuration Details</Typography>
+          </Link>
+
+          <Dialog
+            open={open1}
+            onClose={handleClose}
+            maxWidth="md" scroll="body"
+            sx={{ minHeight: '400px' }}
+            PaperProps={{
+              sx: {
+                borderRadius: "15px",
+              }
+            }}>
+            <DialogTitle sx={{ bgcolor: '#223354' }}>
+
+              <ClearIcon onClick={handleClose}
+                sx={{
+                  color: 'white',
+                  // background:'white',
+                  borderRadius: '7px',
+                  position: 'absolute',
+                  top: '5px',
+                  right: '8px',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: 'red'
+                  }
+                }} />
+            </DialogTitle>
+
+            <DialogContent>
+              <Typography variant="h3" my={1}>
+                Grade Configuration Details
+              </Typography>
+              <Typography variant="h4" my={1}>
+                Subjects :-
+              </Typography>
+              <GradeConfigurationList
+                configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id !== "")}
+                HeaderArray={headerArray}
+              />
+            </DialogContent>
+            <DialogContent>
+              <Typography variant="h4" >
+                Co-Curricular Subjects :-
+              </Typography>
+              <GradeConfigurationList
+                configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id !== "")}
+                HeaderArray={headerArray}
+              />
+            </DialogContent>
+          </Dialog>
+        </Box>
+      )}
+
+
+
+
       <ErrorMessage1 Error={Error}></ErrorMessage1>
 
-      {AcademicYear == asAcademicYearId ? <span></span> :
-        <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1>}
+      
 
 
-      {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
+      
+
+
+      {open && (
+        <span> 
+          {AcademicYear == asAcademicYearId ? <span></span> :
+        <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1>
+        }
+          
+
+          {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
 
 
 
@@ -699,14 +773,24 @@ const ProgressReportNew = () => {
           : <span></span>
 
         }
-
-
-
-
       </Stack>}
+      {
+        AcademicYear == asAcademicYearId ? <span></span> :
+          <Typography
+          variant="body1"
+          sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
+        >
+          <b>On publish, you will see download buttons to download Term 1/2 progress report.</b>
+        </Typography>
+          }
+         
+        
+        </span>
+      )}
 
 
 
+      <br></br>
 
 
       {open && (
@@ -716,7 +800,7 @@ const ProgressReportNew = () => {
             <>
               {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>
-                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                  {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Typography variant="h4">Grade Configuration Details</Typography>
                     </Link>
@@ -770,7 +854,7 @@ const ProgressReportNew = () => {
                         />
                       </DialogContent>
                     </Dialog>
-                  </Box>
+                  </Box> */}
                   <Box sx={{ mt: 1, background: 'white' }}>
                     <hr />
                     {USlistStudentsDetails.map((subject, index) => (
@@ -821,7 +905,7 @@ const ProgressReportNew = () => {
                 </>
                 :
                 <>
-                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                  {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
 
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Typography variant="h4">Grade Configuration Details</Typography>
@@ -878,7 +962,7 @@ const ProgressReportNew = () => {
                         />
                       </DialogContent>
                     </Dialog>
-                  </Box>
+                  </Box> */}
                   <Box sx={{ mt: 1, background: 'white', }}>
                     <hr />
                     {USlistStudentsDetails.map((subject, index) => (

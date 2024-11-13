@@ -43,7 +43,7 @@ function ContactGroupEditTable() {
 
       showAlert({
         title: 'Please Confirm',
-        message: 'Are you sure you want to remove this Group?',
+        message: 'Are you sure you want to remove this user from selected Group?',
         variant: 'warning',
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',

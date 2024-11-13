@@ -159,6 +159,12 @@ const ViewExamSchedule = () => {
                                         <TableCell sx={{ py: 1 }}>{exam.description}</TableCell>
                                     </TableRow>
                                 ))}
+                                <TableRow>
+                                    
+                                    <TableCell colSpan={7} sx={{ py: 1, textAlign: 'left' }}>
+                                        <strong>Instruction :</strong>
+                                    </TableCell>
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </TableContainer>

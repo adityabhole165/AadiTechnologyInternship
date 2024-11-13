@@ -59,13 +59,13 @@ const AdmissionDocumentInformation = ({ onSave }) => {
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
   const { showAlert, closeAlert } = useContext(AlertContext);
 
-  const [documents, setDocuments] = useState([
-    { documentName: 'Two Photographs 2', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
-    { documentName: 'Copy of Birth Certificate', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
-    { documentName: 'Residence Proof', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
-    { documentName: 'Fitness Certificate', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
-    { documentName: 'Copy of Caste Certificate', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
-  ]);
+  // const [documents, setDocuments] = useState([
+  //   { documentName: 'Two Photographs 2', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
+  //   { documentName: 'Copy of Birth Certificate', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
+  //   { documentName: 'Residence Proof', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
+  //   { documentName: 'Fitness Certificate', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
+  //   { documentName: 'Copy of Caste Certificate', isApplicable: false, isSubmitted: false, attachmentCount: 0 },
+  // ]);
 
   const [open, setOpen] = useState(false);
   const [selectedDocumentIndex, setSelectedDocumentIndex] = useState(null);
@@ -81,9 +81,14 @@ const AdmissionDocumentInformation = ({ onSave }) => {
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState({});
   //console.log('documentId', documentId);
+
   //#region DocBase
+  const [selectAllApplicable, setSelectAllApplicable] = useState(false);
+  const [selectAllSubmitted, setSelectAllSubmitted] = useState(false);
+  const [localDocuments, setLocalDocuments] = useState([]);
+  console.log('localDocuments', localDocuments);
   const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
-  console.log('GetStudentDocumentsList', GetStudentDocumentsList);
+  // console.log('GetStudentDocumentsList', GetStudentDocumentsList);
 
   const GetStudentDocuments: IStandrdwiseStudentsDocumentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -96,11 +101,80 @@ const AdmissionDocumentInformation = ({ onSave }) => {
     dispatch(CDAGetStudentDocuments(GetStudentDocuments));
   }, []);
 
-  const handleCheckboxChange = (index, field) => {
-    const updatedDocuments = [...GetStudentDocumentsList];
-    updatedDocuments[index][field] = !updatedDocuments[index][field];
-    //setDocuments(updatedDocuments);
+  useEffect(() => {
+    if (GetStudentDocumentsList?.length > 0) {
+      setLocalDocuments(GetStudentDocumentsList.map(doc => ({
+        ...doc,
+        IsApplicable: doc.IsApplicable == "True" ? true : false,
+        IsSubmitted: doc.IsSubmitted == "True" ? true : false,
+      })));
+    }
+  }, [GetStudentDocumentsList]);
+
+  // const handleCheckboxChange = (index, field) => {
+  //   const updatedDocuments = [...GetStudentDocumentsList];
+  //   updatedDocuments[index][field] = !updatedDocuments[index][field];
+  //   //console.log('updatedDocuments', updatedDocuments[index][field]);
+  //   //setDocuments(updatedDocuments);
+  // };
+
+  useEffect(() => {
+    // Check if all IsApplicable checkboxes are selected, and update selectAllApplicable accordingly
+    setSelectAllApplicable(localDocuments.every(doc => doc.IsApplicable));
+    setSelectAllSubmitted(localDocuments.every(doc => doc.IsSubmitted));
+  }, [localDocuments]);
+
+
+  const handleSelectAllApplicable = (event) => {
+    const isChecked = event.target.checked;
+    setSelectAllApplicable(isChecked);
+
+
+    const updatedDocs = localDocuments.map(doc => ({
+      ...doc,
+      IsApplicable: isChecked
+    }));
+    setLocalDocuments(updatedDocs);
+    console.log('isChecked', isChecked);
+    console.log('updatedDocs', updatedDocs);
   };
+
+  const handleSelectAllSubmitted = (event) => {
+    const isChecked = event.target.checked;
+    setSelectAllSubmitted(isChecked);
+
+
+    const updatedDocs = localDocuments.map(doc => ({
+      ...doc,
+      IsSubmitted: isChecked
+    }));
+    setLocalDocuments(updatedDocs);
+  };
+
+  const handleCheckboxChange = (documentId, field) => {
+    // Update local state
+    setLocalDocuments(prevDocs => {
+      const updatedDocs = prevDocs.map(doc => {
+        if (doc.StandardwiseDocumentId === documentId) {
+          //const newValue = !doc[field];
+          return {
+            ...doc,
+            [field]: !doc[field]
+          };
+        }
+        return doc;
+      });
+
+      // Update select all states based on all documents
+      if (field === 'IsApplicable') {
+        setSelectAllApplicable(updatedDocs.every(doc => doc.IsApplicable));
+      } else if (field === 'IsSubmitted') {
+        setSelectAllSubmitted(updatedDocs.every(doc => doc.IsSubmitted));
+      }
+
+      return updatedDocs;
+    });
+  }
 
   //#endregion
 
@@ -317,13 +391,17 @@ const AdmissionDocumentInformation = ({ onSave }) => {
             <TableRow>
               <TableCell align="center" sx={{ paddingTop: '1.5px', paddingBottom: '1.5px', color: 'white' }}>
                 <Tooltip title="Select All Applicable">
-                  <Checkbox color="primary" />
+                  <Checkbox color="primary"
+                    checked={selectAllApplicable}
+                    onChange={handleSelectAllApplicable} />
                 </Tooltip>
                 Is Applicable?
               </TableCell>
               <TableCell align="center" sx={{ paddingTop: '1.5px', paddingBottom: '1.5px', color: 'white' }}>
                 <Tooltip title="Select All Submitted">
-                  <Checkbox color="primary" />
+                  <Checkbox color="primary"
+                    checked={selectAllSubmitted}
+                    onChange={handleSelectAllSubmitted} />
                 </Tooltip>
                 Is Submitted?
               </TableCell>
@@ -339,20 +417,20 @@ const AdmissionDocumentInformation = ({ onSave }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {GetStudentDocumentsList.map((doc, index) => (
-              <TableRow key={index}>
+            {localDocuments.map((doc, index) => (
+              <TableRow key={doc.StandardwiseDocumentId}>
                 <TableCell align="center" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
                   <Checkbox
                     color="primary"
-                    checked={doc.IsApplicable === "True"}
-                    onChange={() => handleCheckboxChange(doc.StudentDocumentId, 'IsApplicable')}
+                    checked={doc.IsApplicable}
+                    onChange={() => handleCheckboxChange(doc.StandardwiseDocumentId, 'IsApplicable')}
                   />
                 </TableCell>
                 <TableCell align="center" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
                   <Checkbox
                     color="primary"
-                    checked={doc.IsSubmitted === "True"}
-                    onChange={() => handleCheckboxChange(doc.StudentDocumentId, 'IsSubmitted')}
+                    checked={doc.IsSubmitted}
+                    onChange={() => handleCheckboxChange(doc.StandardwiseDocumentId, 'IsSubmitted')}
                   />
                 </TableCell>
                 <TableCell align="left" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>

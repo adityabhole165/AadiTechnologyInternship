@@ -329,7 +329,7 @@ const MessageList = () => {
     };
     ApiDeleteMessagePermanently.DeleteMessagePermanentlyapi(delPermanentBody)
       .then((data) => {
-        toast.success('Message deleted successfully');
+        toast.success('Message deleted successfully.');
         dispatch(getDeleteMessagePermantely(delPermanentBody));
 
         dispatch(getListOfMessages(getListBody, activeTab, false));
@@ -465,9 +465,9 @@ const MessageList = () => {
     showAlert({
       title: 'Please Confirm',
       message:
-        'This action will permanently delete selected message(s) from the Sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?',
+        'This action will permanently delete selected message(s) from the sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?',
       variant: 'warning',
-      confirmButtonText: 'Delete',
+      confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
 
       onCancel: () => {
@@ -922,8 +922,13 @@ const MessageList = () => {
                       </Typography>
                       // </Grid>
                     ) : (<Grid container>
-                      <Grid xs={12} sm={12} md={12} sx={{ textAlign: 'right' }}>
-                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', padding: 1, borderRadius: 2, backgroundColor: 'White' }} >{inboxListData.length} Out of {totalCountLabel}</Typography>
+                      <Grid xs={12} sm={12} md={12} sx={{ textAlign: 'right' }} mt={-1} mb={-1}>
+                        <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }} >
+                          <Box component="span" fontWeight="fontWeightBold">{inboxListData.length}</Box>
+                          {' '}Out of{' '}
+                          <Box component="span" fontWeight="fontWeightBold">{totalCountLabel}</Box>
+                          {' '} records
+                        </Typography>
                       </Grid>
                       <Grid xs={12} sm={12} md={12}>
                         <SelectList3Col

@@ -139,10 +139,12 @@ const ProgressReportSlice = createSlice({
       state.ISGetPassedAcademicYears = action.payload;
     },
     RGetAllMarksGradeConfiguration(state, action) {
+      state.Loading = false;
       state.ISGetAllMarksGradeConfiguration = action.payload;
     },
 
     RGetAllMarksGradeConfiguration1(state, action) {
+      state.Loading = false;
       state.ISGetAllMarksGradeConfiguration1 = action.payload;
     },
 
@@ -1035,6 +1037,7 @@ export const CDAGetPassedAcademicYears =
 export const CDAGetAllMarksGradeConfiguration =
   (data: IGetAllMarksGradeConfigurationBody): AppThunk =>
     async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data);
       let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
         return {
@@ -1052,6 +1055,7 @@ export const CDAGetAllMarksGradeConfiguration =
 export const CDAGetAllMarksGradeConfiguration1 =
   (data: IGetAllMarksGradeConfigurationBody): AppThunk =>
     async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data);
       let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
         return {

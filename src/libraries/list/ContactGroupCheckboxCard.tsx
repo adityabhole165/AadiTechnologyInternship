@@ -9,13 +9,14 @@ import { CDADeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup
 //import { useState } from 'react';
 import { grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
+import { GetScreenPermission } from 'src/components/Common/Util';
 import ContactGroupList from 'src/components/MessageCenter/ContactGroupList';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import { ContactGroup } from 'src/requests/AdminSMSCenter/To1';
 import CheckboxImg from '../card/CheckboxImg';
 import { ItemSize } from '../styled/CardStyle';
-//import { GetScreenPermission } from '../utils/GetScreenPermission';
+
 const ContactGroupCheckboxCard = ({ Item, onClick }) => {
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
@@ -26,6 +27,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
     const asUserId = sessionStorage.getItem('Id');
     const academicYearId = sessionStorage.getItem('AcademicYearId');
     const RoleId = sessionStorage.getItem('RoleId');
+    const MessageCenterFullAccess = GetScreenPermission('Message Center');
     const handleClickAway = () => {
         setOpen(false);
     };
@@ -147,34 +149,39 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                             </Grid>
 
                             <Grid container>
-                                <Grid item xs={3}>
-                                    <IconButton
-                                        //onClick={() => onEdit(Item.Id)}
-                                        onClick={() => handleOpenDialog(true)}
-                                    >
-                                        <Tooltip title="Edit" >
-                                            <EditIcon />
-                                        </Tooltip>
-                                    </IconButton>
+                                <Grid item xs={4}>
+                                    {MessageCenterFullAccess === 'Y' && (
+                                        <IconButton sx={{ textAlign: 'left' }}
+
+                                            onClick={() => handleOpenDialog(true)}
+                                        >
+                                            <Tooltip title="Edit" >
+                                                <EditIcon />
+                                            </Tooltip>
+                                        </IconButton>
+                                    )}
                                 </Grid>
-                                <Grid item xs={3}>
-                                    <IconButton
-                                        onClick={() => onDelete(Item.Id)}
-                                        sx={{
-                                            color: '#38548A	',
-                                            '&:hover': {
-                                                color: 'red',
-                                                backgroundColor: red[100]
-                                            }
-                                        }}
+                                <Grid item xs={4}>
+                                    {MessageCenterFullAccess === 'Y' && (
+                                        <IconButton
+                                            onClick={() => onDelete(Item.Id)}
+                                            sx={{
+                                                ml: 3.5,
+                                                color: '#38548A	',
+                                                '&:hover': {
+                                                    color: 'red',
+                                                    backgroundColor: red[100]
+                                                }
+                                            }}
 
-                                    >
-                                        <Tooltip title="Delete" >
+                                        >
+                                            <Tooltip title="Delete" >
 
-                                            <DeleteForeverIcon />
-                                        </Tooltip>
+                                                <DeleteForeverIcon />
+                                            </Tooltip>
 
-                                    </IconButton>
+                                        </IconButton>
+                                    )}
                                 </Grid>
                                 <Dialog
                                     open={openDialog}

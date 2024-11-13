@@ -58,6 +58,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const [ErrorUserRole, setErrorUserRole] = useState('');
   const [ErrorSelectedUser, setErrorSelectedUser] = useState('');
   const [ErrorGroupName, setErrorGroupName] = useState('');
+  const [ErrorTypeName, setErrorTypeName] = useState('');
   const [SearchByUserName, setSearchByUserName] = useState('');
   const [SearchUser, setSearchUser] = useState([]);
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -147,7 +148,12 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
 
   const clickConfirm = async () => {
     try {
+
       let isValid = true;
+      if (GroupName || selectedd || selected) {
+        setErrorTypeName('Please correct following errors.');
+        isValid = false;
+      }
       if (!GroupName.trim()) {
         setErrorGroupName('Group Name should not be blank.');
         isValid = false;
@@ -278,16 +284,27 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
 
         <Grid container spacing={2}>
 
-          <Grid item xs={6}>
-            <TextField label={
-              <span>
-                Group Name<span style={{ color: 'red' }}> *
+          <Grid item xs={4}>
 
+            <TextField
+              fullWidth
+              label={
+                <span>
+                  Group Name <span style={{ color: 'red' }}>*</span>
                 </span>
-              </span>
-            }
-              defaultValue={GroupName}
-              fullWidth onChange={(e) => clickGroupName(e.target.value)} />
+              }
+              multiline
+              rows={1}
+              value={GroupName}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value.length <= 50) {
+                  setGroupName(value);
+                }
+              }}
+
+            />
+            <ErrorMessage1 Error={ErrorTypeName}></ErrorMessage1>
             <ErrorMessage1 Error={ErrorGroupName}></ErrorMessage1>
             <ErrorMessage1 Error={ErrorSelectedUser}></ErrorMessage1>
             <ErrorMessage1 Error={ErrorUserRole}></ErrorMessage1>
@@ -325,7 +342,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         <ContactGroupEditTable />
       )}
       <Grid container direction="row" alignItems="center" spacing={2} sx={{ pt: 1 }}>
-        <Grid item xs={4}>
+        <Grid item xs={3.5}>
           <SearchableDropdown
             label="User Role "
             sx={{ minWidth: '15vw' }}
@@ -335,7 +352,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
           />
         </Grid>
         {UsersRole === '3' && (
-          <Grid item xs={4}>
+          <Grid item xs={3.5}>
             <SearchableDropdown
               label="Class"
               sx={{ minWidth: '15vw' }}
@@ -345,21 +362,33 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
             />
           </Grid>
         )}
-        <Grid item xs={4}>
+        <Grid item xs={3.5}>
           <TextField
-            label="Search By Name"
             fullWidth
+            label={
+              <span>
+                Search By Name <span style={{ color: 'red' }}>*</span>
+              </span>
+            }
+            multiline
+            rows={1}
+            value={SearchByUserName}
             onChange={(e) => {
-              handleSearchByUserName(e.target.value);
+              const value = e.target.value;
+              if (value.length <= 50) {
+                handleSearchByUserName(value);
+              }
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === 'Tab') {
                 clickSearch();
               }
             }}
+
           />
+
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={1.5}>
           <IconButton
             onClick={clickSearch}
             sx={{
@@ -377,28 +406,31 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       <Box py={1}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 0.5 }}>
           <Box>
-            <Typography variant="h4" sx={{ pl: 0 }}>
+            <Typography variant="h4" sx={{ marginTop: 1 }}>
               Select Users To Add In Selected Group
             </Typography>
           </Box>
-          {SearchUser.length !== 0 ? (
-            <Box style={{ flex: 1, textAlign: 'center' }}>
-              <Typography
-                variant='subtitle1'
-                sx={{ margin: '16px 0', textAlign: 'center' }}
-              >
-                <Box component='span' fontWeight='fontWeightBold'>
-                  {startRecord} to {endRecord}
-                </Box>{' '}
-                out of{' '}
-                <Box component='span' fontWeight='fontWeightBold'>
-                  {singleTotalCount}
-                </Box>{' '}
-                {singleTotalCount === 1 ? 'record' : 'records'}
-              </Typography>
-            </Box>
-          ) : null}
+
         </Box>
+      </Box>
+      <Box p={0.5}>
+        {SearchUser.length !== 0 ? (
+          <Box style={{ flex: 1, textAlign: 'center' }}>
+            <Typography
+              variant='subtitle1'
+              sx={{ margin: ' 0px', textAlign: 'center' }}
+            >
+              <Box component='span' fontWeight='fontWeightBold'>
+                {startRecord} to {endRecord}
+              </Box>{' '}
+              out of{' '}
+              <Box component='span' fontWeight='fontWeightBold'>
+                {singleTotalCount}
+              </Box>{' '}
+              {singleTotalCount === 1 ? 'record' : 'records'}
+            </Typography>
+          </Box>
+        ) : null}
       </Box>
       {SearchUser.length !== 0 ? (
         <Box>
