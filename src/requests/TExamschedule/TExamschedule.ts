@@ -13,6 +13,7 @@ const SelectStandardExamslice = createSlice({
     getStandard: [],
     ExamData: [],
     VeiwAllData: [],
+    NewExamData: [],
     Loading: true
   },
   reducers: {
@@ -22,6 +23,10 @@ const SelectStandardExamslice = createSlice({
     ViewExamDataRes(state, action) {
       state.Loading = false;
       state.ExamData = action.payload;
+    },
+    NewExamDataRes(state, action) {
+      state.Loading = false;
+      state.NewExamData = action.payload;
     },
     AllExamData(state, action) {
       state.Loading = false;
@@ -116,6 +121,43 @@ export const ViewExamDataRess =
 
     };
 
+
+export const NewExamSchedule =
+  (data: IGetExamsList): AppThunk =>
+    async (dispatch) => {
+      dispatch(SelectStandardExamslice.actions.getLoading(true));
+      const response = await GetTExamResultListApi.GetExamsList(data);
+
+      const DataList = response?.data?.GetExamDropDownForExamScheduleDetailsList.map((item) => {
+        return {
+          Text1: item.SchoolWise_Test_Name,
+          Text2: item.SchoolWise_Test_Id,
+          Text3: item.Exam_Start_Date,
+          Text4: item.Exam_End_Date,
+          Text5: item.IsCollapsed,
+          Text6: item.Instructions,
+          StandardId: item.StandardId,
+          Schoolwise_Standard_Exam_Schedule_Id: item.Schoolwise_Standard_Exam_Schedule_Id
+        };
+      });
+
+      const DataListNew = response?.data?.GetSubjectsExamScheduleList.map((item) => {
+        return {
+          Text1: item.ID,
+          Text2: item.Subject_Name,
+          Text3: item.TestType,
+          Text4: item.TestType_Name,
+          Text5: item.Start_DateTime.replace('-', ' ').replace('-', ' '),
+          Text6: item.End_DateTime,
+          TotalTime: item.TotalTime,
+          Description: item.Description,
+          SchoolwiseStandardExamScheduleId: item.Schoolwise_Standard_Exam_Schedule_Id
+        };
+      });
+      console.log(DataList, 'DataList', DataListNew, 'DataListNew')
+      dispatch(SelectStandardExamslice.actions.ViewExamDataRes(DataList));
+      dispatch(SelectStandardExamslice.actions.NewExamDataRes(DataListNew));
+    };
 export default SelectStandardExamslice.reducer;
 
 

@@ -167,7 +167,7 @@ const SelectList3Col = ({
       }}>
         <Grid container alignItems="center" spacing={2}>
           {ActiveTab !== 'Draft' && (
-            <Grid item xs={12} sm={1} md={0.5} lg={0.5} xl={0.5} sx={{ textAlign: 'center' }}>
+            <Grid item xs={12} sm={1} md={0.5} lg={0.5} xl={0.5} sx={{ textAlign: 'center', ml:0.5 }}>
               <CheckboxImg
                 name={"All"}
                 value={"All"}
@@ -184,8 +184,8 @@ const SelectList3Col = ({
           )}
 
           {showcolumn('Subject') && (
-            <Grid item xs={12} sm={1} md={1.5} lg={1.5} xl={1.5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Subject') }}>
-              <Typography variant="body1" sx={{ marginRight: '4px', color: 'white' }}>
+            <Grid item xs={12} sm={1} md={2} lg={2.6} xl={2} sx={{ display: 'flex', justifyContent: 'left', alignItems: 'left', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Subject') }}>
+              <Typography variant="body1" sx={{ color: 'white', ml:1 }}>
                 Subject
               </Typography>
               {SortExp === 'Subject' ? (SortDirection === 'ASC' ?
@@ -196,54 +196,54 @@ const SelectList3Col = ({
           )}
 
           {showcolumn('To') && (
-            <Grid item xs={12} sm={3.5} md={3.5} lg={3.5} xl={3.5} sx={{ ml: 4, color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={3.5} md={3.5} lg={2.7} xl={3} sx={{ color: 'white', textAlign: 'left',  }}>
               To
             </Grid>
           )}
 
           {showcolumn('Cc') && (
-            <Grid item xs={12} sm={0.5} md={0.5} lg={0.5} xl={0.5} sx={{ color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={0.5} md={0.5} lg={1.2} xl={0.5} sx={{ color: 'white', textAlign: 'left' }}>
               Cc
             </Grid>
           )}
 
 
           {showcolumn('Read Receipt Information') && (
-            <Grid item xs={12} sm={2} md={2} lg={3} xl={3} sx={{ ml: 7, color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={2} md={2} lg={2.8} xl={3} sx={{  color: 'white', textAlign: 'center' , justifyContent: 'center', whiteSpace: 'wrap',}}>
               Read Receipt Information
             </Grid>
           )}
 
           {showcolumn('Message Body') && (
-            <Grid item xs={12} sm={5} md={5} lg={5} xl={6} sx={{ ml:5, color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={5} md={5} lg={5} xl={6} sx={{ml:11,  color: 'white', textAlign: 'left' }}>
               Message Body
             </Grid>
           )}
 
           {showcolumn('From') && (
-            <Grid item xs={12} sm={4} md={4} lg={4} xl={4} sx={{ ml: 12, color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={3} md={3} lg={3} xl={3} sx={{ml:11,  color: 'white', textAlign: 'left' }}>
               From
             </Grid>
           )}
           {showcolumn('From1') && (
-            <Grid item xs={12} sm={3.5} md={3.5} lg={3.5} xl={3.5} sx={{ ml: 12, color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={2} md={2} lg={2.7} xl={3.5} sx={{ml:11,  color: 'white', textAlign: 'left' }}>
               From
             </Grid>
           )}
           {showcolumn('Cc1') && (
-            <Grid item xs={12} sm={1} md={1} lg={1} xl={1} sx={{ml:2, mr: 7, color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={2} md={2} lg={3} xl={1} sx={{color: 'white', textAlign: 'left' }}>
               Cc
             </Grid>
           )}
 
           {showcolumn('Attachment') && (
-            <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{  color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={2} md={1} lg={2} xl={2} sx={{  color: 'white', textAlign: 'center' }}>
               Attachment
             </Grid>
           )}
 
           {showcolumn('Received Date') && (
-            <Grid item xs={12} sm={1} md={1} lg={2} xl={2} sx={{ ml: 2, display: 'flex', justifyContent: 'right', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
+            <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{  ml: { xs: 1, sm: 3, md: 7 }, display: 'flex', justifyContent: 'left', alignItems: 'left', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
               <Typography variant="body1" sx={{ marginRight: '4px', color: 'white' }}>
                 Received Date
               </Typography>
@@ -254,7 +254,7 @@ const SelectList3Col = ({
             </Grid>
           )}
           {showcolumn('Received Date1') && (
-            <Grid item xs={12} sm={2} md={2} lg={3} xl={3} sx={{  display: 'flex', justifyContent: 'right', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
+            <Grid item xs={12} sm={1.5} md={1.5} lg={1.5} xl={1} sx={{  display: 'flex', justifyContent: 'left', alignItems: 'left', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
               <Typography variant="body1" sx={{ marginRight: '4px', color: 'white' }}>
                 Received Date
               </Typography>
@@ -266,8 +266,8 @@ const SelectList3Col = ({
           )}
 
           {showcolumn('Sent Date') && (
-            <Grid item xs={12} sm={1.2} md={1.2} lg={1.2} xl={1.2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
-              <Typography variant="body1" sx={{ marginRight: '4px', color: 'white' }}>
+            <Grid item xs={12} sm={1.2} md={1.2} lg={1.2} xl={1.2} sx={{ display: 'flex', justifyContent: 'left', alignItems: 'left', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
+              <Typography variant="body1" sx={{  color: 'white', ml:-1.5}}>
                 Sent Date
               </Typography>
               {SortExp === 'Insert_Date' ? (SortDirection === 'ASC' ?
@@ -278,7 +278,7 @@ const SelectList3Col = ({
           )}
 
           {showcolumn('Draft Date') && (
-            <Grid item xs={12} sm={2.5} md={2.8} lg={4.1} xl={3} sx={{  display: 'flex', justifyContent: 'right', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
+            <Grid item xs={12} sm={2.5} md={2.5} lg={2.4} xl={3} sx={{  display: 'flex', justifyContent: 'right', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
               <Typography variant="body1" sx={{ marginRight: '4px', color: 'white' }}>
                 Draft Date
               </Typography>
