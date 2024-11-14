@@ -149,7 +149,7 @@ export const NewExamSchedule =
           Text2: subItem.Subject_Name,
           Text3: subItem.TestType,
           Text4: subItem.TestType_Name,
-          Text5: subItem.Start_DateTime.replace(/-/g, ' '),
+          Text5: subItem.Start_DateTime,
           Text6: subItem.End_DateTime,
           TotalTime: subItem.TotalTime,
           Description: subItem.Description,
