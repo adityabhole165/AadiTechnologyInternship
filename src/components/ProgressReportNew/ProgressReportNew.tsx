@@ -424,9 +424,14 @@ const ProgressReportNew = () => {
       return;
     }
     setOpen(true);
+    if (StudentId === '0') {
+     
+      dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
+    }
     SetError('')
   }
-
+ 
+  
 
   useEffect(() => {
     if (USGetStudentNameDropdown.length > 0) {
@@ -479,12 +484,12 @@ const ProgressReportNew = () => {
     dispatch(CDAGetStudentName(GetStudentNameDropdownBody));
   }, [selectTeacher, StandardDivisionId()]);
 
-  useEffect(() => {
-    if (StudentId === '0') {
-      dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
-    }
-    // dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
-  }, [selectTeacher]);
+  // useEffect(() => {
+  //   if (StudentId === '0') {
+  //     dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
+  //   }
+  //   // dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
+  // }, [selectTeacher]);
   useEffect(() => {
     if (StudentId !== '0') {
       dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
@@ -601,6 +606,8 @@ const ProgressReportNew = () => {
   return (
     <Box sx={{ px: 2 }}>
       {(Loading) && <SuspenseLoader />}
+     { AllStudentsProgressSheet?.length === 0 && <SuspenseLoader /> }
+
       <CommonPageHeader
         navLinks={[
           { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew' }
