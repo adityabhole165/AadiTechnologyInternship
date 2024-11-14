@@ -787,6 +787,8 @@ function Form13() {
   const [recipientsCC, setRecipientsCC] = useState(
     RecipientsCCObject.RecipientName || []
   );
+  // useEffect(() => {console.log('123',recipientsCC);
+  // }, [recipientsCC])
 
   // Update local recipients state whenever the RecipientsCCObject changes
   useEffect(() => {
