@@ -63,7 +63,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
 
 
             const ContactgroupBody: IContactGRPBody = {
-                asScholId: schoolId,
+                asSchoolId: schoolId,
                 asAcademicYearId: academicYearId,
                 asGroupId: '0',
                 asUserRoleId: RoleId,

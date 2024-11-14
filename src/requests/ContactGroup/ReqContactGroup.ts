@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ContactGroupApi from "src/api/ContactGroup/ContactGroupApi";
-import { IAddUpdateGroupBody, IDeleteMailGroupBody, IDeleteMailingGroupUserBody, IGetMailingGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from "src/interfaces/ContactGroup/IContactGroup";
+import { IAddUpdateGroupBody, IDeleteMailGroupBody, IDeleteMailingGroupUserBody, IGetContactGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from "src/interfaces/ContactGroup/IContactGroup";
 import { AppThunk } from "src/store";
 
 const ContactGroupSlice = createSlice({
@@ -15,13 +15,12 @@ const ContactGroupSlice = createSlice({
         IAddUpdateGroup: '',
         IDeleteMailGroupMsg: '',
         IDeleteMailingGroupUserMsg: '',
+        IContactGroups: [],
+        IContactGroupUserRoles: [],
         Loading: true
     },
     reducers: {
-        RGetMailingGroups(state, action) {
-            state.Loading = false;
-            state.IGetMailingGroups = action.payload;
-        },
+
         RGetUserRole(state, action) {
             state.IGetUserRole = action.payload;
             state.Loading = false;
@@ -64,6 +63,14 @@ const ContactGroupSlice = createSlice({
             state.Loading = false;
             state.IDeleteMailGroupMsg = '';
         },
+        RContactGroups(state, action) {
+            state.IContactGroups = action.payload;
+        },
+        RContactGroupUserRoles(state, action) {
+            state.Loading = false;
+            state.IContactGroupUserRoles = action.payload;
+        },
+
         getLoading(state, action) {
             state.Loading = true;
         }
@@ -71,19 +78,32 @@ const ContactGroupSlice = createSlice({
     }
 })
 
-export const CDAGetMailingGroups = (data: IGetMailingGroupsBody): AppThunk => async (dispatch) => {
-    dispatch(ContactGroupSlice.actions.getLoading(true));
-    const response = await ContactGroupApi.GetMailingGroupsApi(data);
-    let GroupDetails = response.data.map((item, i) => {
-        return {
-            GroupId: item.GroupId,
-            GroupName: item.GroupName,
-            Users: item.Users
-        };
-    });
-    // console.log(response.data, '>>>>>>');
-    dispatch(ContactGroupSlice.actions.RGetMailingGroups(GroupDetails));
-};
+export const CDAGetContactGroup = (data: IGetContactGroupsBody): AppThunk =>
+    async (dispatch) => {
+        try {
+            dispatch(ContactGroupSlice.actions.getLoading(true));
+
+            const response = await ContactGroupApi.GetContactGroupApi(data);
+
+            // Map the response data
+            const contactGroups = response.data.ContactGroups.map((item) => ({
+                GroupId: item.GroupId,
+                GroupName: item.GroupName,
+                Users: item.Users,
+                IsDefault: item.IsDefault,
+                IsAllDeactivated: item.IsAllDeactivated
+            }));
+            const contactGroupUserRoles = response.data.ContactGroupUserRoles; // "2,3,5"
+            const rolesArray = contactGroupUserRoles.split(',').map(String);
+            // Dispatch actions to update state
+            dispatch(ContactGroupSlice.actions.RContactGroups(contactGroups));
+            dispatch(ContactGroupSlice.actions.RContactGroupUserRoles(rolesArray));
+        } catch (error) {
+            //dispatch(ContactGroupSlice.actions.seterror(error instanceof Error ? error.message : 'An error occurred'));
+        }
+    };
+
+
 export const CDAGetStandardClass =
     (data: IGetStandardClassBody): AppThunk =>
         async (dispatch) => {
@@ -126,7 +146,6 @@ export const CDAGetUserName =
                     UserName: item.UserName,
                     IsInGroup: item.IsInGroup,
                     IsDeactivated: item.IsDeactivated
-
                 }
             });
             let getUserTotalCount = response.data.listGetUserNameCount.map((item, i) => {
