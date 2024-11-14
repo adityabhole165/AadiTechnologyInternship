@@ -203,7 +203,12 @@ const ViewExamSchedule = () => {
                                                 </TableRow>
 
                                             ))}
-
+                                            <TableRow>
+                                                <TableCell colSpan={7} sx={{ py: 1, textAlign: 'left' }}>
+                                                    <strong>Instruction : </strong>  {filteredSubList.find(item => item.Description)
+                                                        ?.Description.replace(/<\/?br\s*\/?>/gi, ' ') || ''}
+                                                </TableCell>
+                                            </TableRow>
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
