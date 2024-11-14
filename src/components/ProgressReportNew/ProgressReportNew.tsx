@@ -304,7 +304,7 @@ const ProgressReportNew = () => {
 
   const IsGradingStandard: IsGradingStandarBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(AcademicYear),
+    asAcademicYearId: Number(asAcademicYearId),
     asStandardId:GetOldStudentDetails.StandardId
 
   };
@@ -312,7 +312,7 @@ const ProgressReportNew = () => {
   const IsTestPublishedForStdDiv: IsTestPublishedForStdDivBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmicYearId: Number(AcademicYear),
-    asStdDivId: GetOldStudentDetails.StandardDivisionId
+    asStdDivId: StandardDivisionId()
 
   };
 
@@ -455,7 +455,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
 
-  }, [GetOldStudentDetails.StandardDivisionId,AcademicYear]);
+  }, [StandardDivisionId(),asAcademicYearId,StudentId]);
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
@@ -508,6 +508,7 @@ const ProgressReportNew = () => {
   }, [GetOldStudentDetails.StandardId,AcademicYear]);
 
 
+ 
 
   useEffect(() => {
     dispatch(CDAGetAcademicYearsOfStudent(AcademicYearsOfStudentBody));
@@ -602,7 +603,7 @@ const ProgressReportNew = () => {
 
   }
 
-  console.log(USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id !== ""), "ooo");
+  
 
 
   return (
@@ -784,13 +785,14 @@ const ProgressReportNew = () => {
         }
       </Stack>}
       {
-        AcademicYear == asAcademicYearId ? <span></span> :
-          <Typography
-          variant="body1"
-          sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
-        >
-          <b>On publish, you will see download buttons to download Term 1/2 progress report.</b>
-        </Typography>
+        AcademicYear == asAcademicYearId   ? <span></span> :
+        ((EntireDataList?.listStudentsDetails || []).length !== 0 ?<Typography
+        variant="body1"
+        sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
+      >
+        <b>On publish, you will see download buttons to download Term 1/2 progress report.</b>
+      </Typography> : <span> </span>)
+          
           }
          
         
@@ -806,66 +808,17 @@ const ProgressReportNew = () => {
         <div>
 
 
+  {(EntireDataList?.listStudentsDetails || []).length === 0 && StudentId !== "0" ? 
+  <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+  <b>Assessment result is not available for this student.</b>
+</Typography>
 
-          {USIsTestPublishedForStdDiv == true ?
+   : <span>
+    {USIsTestPublishedForStdDiv == true   ?
             <>
               {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                 <>
-                  {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                    <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Typography variant="h4">Grade Configuration Details</Typography>
-                    </Link>
-
-                    <Dialog
-                      open={open1}
-                      onClose={handleClose}
-                      maxWidth="md" scroll="body"
-                      sx={{ minHeight: '400px' }}
-                      PaperProps={{
-                        sx: {
-                          borderRadius: "15px",
-                        }
-                      }}>
-                      <DialogTitle sx={{ bgcolor: '#223354' }}>
-
-                        <ClearIcon onClick={handleClose}
-                          sx={{
-                            color: 'white',
-                            // background:'white',
-                            borderRadius: '7px',
-                            position: 'absolute',
-                            top: '5px',
-                            right: '8px',
-                            cursor: 'pointer',
-                            '&:hover': {
-                              color: 'red'
-                            }
-                          }} />
-                      </DialogTitle>
-
-                      <DialogContent>
-                        <Typography variant="h3" my={1}>
-                          Grade Configuration Details
-                        </Typography>
-                        <Typography variant="h4" my={1}>
-                          Subjects :-
-                        </Typography>
-                        <GradeConfigurationList
-                          configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
-                          HeaderArray={headerArray}
-                        />
-                      </DialogContent>
-                      <DialogContent>
-                        <Typography variant="h4" >
-                          Co-Curricular Subjects :-
-                        </Typography>
-                        <GradeConfigurationList
-                          configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
-                          HeaderArray={headerArray}
-                        />
-                      </DialogContent>
-                    </Dialog>
-                  </Box> */}
+                  
                   <Box sx={{ mt: 1, background: 'white' }}>
                     <hr />
                     {USlistStudentsDetails.map((subject, index) => (
@@ -916,64 +869,7 @@ const ProgressReportNew = () => {
                 </>
                 :
                 <>
-                  {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-
-                    <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Typography variant="h4">Grade Configuration Details</Typography>
-                    </Link>
-                    <Dialog
-                      open={open1}
-                      onClose={handleClose}
-                      maxWidth="md"
-                      scroll="body"
-                      PaperProps={{
-                        sx: {
-                          borderRadius: "15px",
-                        }
-                      }}
-                    >
-                      <Box sx={{ backgroundColor: "#223354" }}>
-                        <DialogTitle
-                          sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-
-                          <ClearIcon onClick={handleClose}
-                            sx={{
-                              color: 'white',
-                              // background:'white',
-                              borderRadius: '7px',
-                              position: 'absolute',
-                              top: '5px',
-                              right: '8px',
-                              cursor: 'pointer',
-                              '   &:hover': {
-                                color: 'red',
-                                //  backgroundColor: red[100]
-
-                              }
-                            }} />
-                        </DialogTitle>
-                      </Box>
-                      <DialogContent>
-                        <Typography variant="h3">Grade Configuration Details</Typography>
-                        <Typography variant="h4" my={1}>
-                          Subjects :-
-                        </Typography>
-                        <GradeConfigurationList
-                          configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
-                          HeaderArray={headerArray}
-                        />
-                      </DialogContent>
-                      <DialogContent>
-                        <Typography variant="h4" my={1}>
-                          Co-Curricular Subjects :-
-                        </Typography>
-                        <GradeConfigurationList
-                          configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
-                          HeaderArray={headerArray}
-                        />
-                      </DialogContent>
-                    </Dialog>
-                  </Box> */}
+                 
                   <Box sx={{ mt: 1, background: 'white', }}>
                     <hr />
                     {USlistStudentsDetails.map((subject, index) => (
@@ -1030,7 +926,21 @@ const ProgressReportNew = () => {
                 :
                 null
               }
-              {StudentId == "0" && parsedDataList?.length > 0 &&
+             
+            </>
+            :
+
+            
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No exam of this class has been published for the current academic year.</b>
+            </Typography>
+
+          }
+    
+    
+    </span>}
+          
+    {StudentId == "0" && parsedDataList?.length > 0 &&
                 parsedDataList.map((parsedItem, i) => (
                   <AllStudents key={i} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
                     handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
@@ -1042,14 +952,6 @@ const ProgressReportNew = () => {
                 ))
 
               }
-            </>
-            :
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No exam of this class has been published for the current academic year.</b>
-            </Typography>
-
-          }
-
 
 
         </div>
@@ -1060,6 +962,9 @@ const ProgressReportNew = () => {
           <h1>  massage   {StudentName()}  </h1> : null
 
       } */}
+
+
+
 
 
     </Box>
