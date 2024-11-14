@@ -742,7 +742,22 @@ const ProgressReportNew = () => {
 
 
       <ErrorMessage1 Error={Error}></ErrorMessage1>
+      {open && (<div > 
 
+{
+  AcademicYear === asAcademicYearId ? (
+    <span></span>
+  ) : (
+    (EntireDataList?.listStudentsDetails || []).length !== 0   &&  StudentId !== "0"? (
+     
+
+<ErrorMessage1 Error={"On publish, you will see download buttons to download Term 1/2 progress report."}></ErrorMessage1>
+    ) : (
+      <span></span>
+    )
+  )
+}
+</div>)}
       
 
 
@@ -751,8 +766,9 @@ const ProgressReportNew = () => {
 
       {open && (
         <span> 
-          {AcademicYear == asAcademicYearId ? <span></span> :
-        <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1>
+          {AcademicYear !== asAcademicYearId && StudentId !== "0"   ? <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1> :
+          <span></span>
+        
         }
           
 
@@ -783,17 +799,14 @@ const ProgressReportNew = () => {
           : <span></span>
 
         }
-      </Stack>}
-      {
-        AcademicYear == asAcademicYearId   ? <span></span> :
-        ((EntireDataList?.listStudentsDetails || []).length !== 0 ?<Typography
-        variant="body1"
-        sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
-      >
-        <b>On publish, you will see download buttons to download Term 1/2 progress report.</b>
-      </Typography> : <span> </span>)
-          
-          }
+      </Stack>
+      
+      }
+
+
+
+     
+
          
         
         </span>
@@ -801,11 +814,12 @@ const ProgressReportNew = () => {
 
 
 
-      <br></br>
-
-
       {open && (
         <div>
+
+
+
+
 
 
   {(EntireDataList?.listStudentsDetails || []).length === 0 && StudentId !== "0" ? 
@@ -927,6 +941,19 @@ const ProgressReportNew = () => {
                 null
               }
              
+
+             {StudentId == "0" && parsedDataList?.length > 0 &&
+                parsedDataList.map((parsedItem, i) => (
+                  <AllStudents key={i} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
+                    handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
+                    USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                    USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                  />
+                  //             data1, IStudentList, handleClose, handleClick, open1, formattedText,
+                  // USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
+                ))
+
+              }
             </>
             :
 
@@ -940,18 +967,7 @@ const ProgressReportNew = () => {
     
     </span>}
           
-    {StudentId == "0" && parsedDataList?.length > 0 &&
-                parsedDataList.map((parsedItem, i) => (
-                  <AllStudents key={i} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
-                    handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
-                    USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
-                    USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
-                  />
-                  //             data1, IStudentList, handleClose, handleClick, open1, formattedText,
-                  // USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
-                ))
-
-              }
+    
 
 
         </div>
