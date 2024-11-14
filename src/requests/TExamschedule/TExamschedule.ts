@@ -141,20 +141,21 @@ export const NewExamSchedule =
         };
       });
 
-      const DataListNew = response?.data?.GetSubjectsExamScheduleList.map((item) => {
-        return {
-          Text1: item.ID,
-          Text2: item.Subject_Name,
-          Text3: item.TestType,
-          Text4: item.TestType_Name,
-          Text5: item.Start_DateTime.replace('-', ' ').replace('-', ' '),
-          Text6: item.End_DateTime,
-          TotalTime: item.TotalTime,
-          Description: item.Description,
-          SchoolwiseStandardExamScheduleId: item.Schoolwise_Standard_Exam_Schedule_Id
-        };
-      });
-      console.log(DataList, 'DataList', DataListNew, 'DataListNew')
+      const DataListNew = response?.data?.GetSubjectsExamScheduleList
+        .flatMap(item => Array.isArray(item) ? item : [item]) 
+        .filter(item => item && item.ID) 
+        .map((subItem: any) => ({ 
+          Text1: subItem.ID,
+          Text2: subItem.Subject_Name,
+          Text3: subItem.TestType,
+          Text4: subItem.TestType_Name,
+          Text5: subItem.Start_DateTime.replace(/-/g, ' '),
+          Text6: subItem.End_DateTime,
+          TotalTime: subItem.TotalTime,
+          Description: subItem.Description,
+          SchoolwiseStandardExamScheduleId: subItem.Schoolwise_Standard_Exam_Schedule_Id
+        }));
+
       dispatch(SelectStandardExamslice.actions.ViewExamDataRes(DataList));
       dispatch(SelectStandardExamslice.actions.NewExamDataRes(DataListNew));
     };

@@ -38,6 +38,9 @@ const ViewExamSchedule = () => {
     const getstandard = useSelector((state: RootState) => state.StandardAndExamList.getStandard);
     const getExamlist = useSelector((state: RootState) => state.StandardAndExamList.ExamData);
     const SubList = useSelector((state: RootState) => state.StandardAndExamList.NewExamData);
+
+    console.log(SubList,"SubList");
+    
     const loading = useSelector((state: RootState) => state.StandardAndExamList.Loading);
 
     const examData = [
@@ -61,11 +64,7 @@ const ViewExamSchedule = () => {
         asStandardId: std
     };
 
-    const filteredExamSchedule = getExamlist.filter((exam) =>
-        SubList.some((subjectList) =>
-            subjectList.some((subject) => subject.Schoolwise_Standard_Exam_Schedule_Id === exam.Schoolwise_Standard_Exam_Schedule_Id)
-        )
-    );
+    
 
     useEffect(() => {
         dispatch(GetStandardRes(getstandardList_body));
