@@ -111,7 +111,6 @@ const AddReciepents = ({
   const getClass: any = useSelector(
     (state: RootState) => state.getuser1.getClass
   );
-
   const getstudentlist: any = useSelector(
     (state: RootState) => state.getuser1.getStudent
   );
@@ -154,7 +153,7 @@ const AddReciepents = ({
     asAcademicYearId: academicYearId
   };
   const ContactgroupBody: IContactGRPBody = {
-    asScholId: schoolId,
+    asSchoolId: schoolId,
     asAcademicYearId: academicYearId,
     asGroupId: '0',
     asUserRoleId: RoleId,

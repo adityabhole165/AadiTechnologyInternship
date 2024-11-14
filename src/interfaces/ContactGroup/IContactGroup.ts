@@ -32,19 +32,38 @@ export interface IGetUserNameResult {
         }
     ]
 }
-export interface IGetMailingGroupsBody {
-    asSchoolId: number,
-    asAcademicYearId: number,
-    asGroupId: number,
-    asRoleId: number,
-    asUserId: number
+// export interface IGetMailingGroupsBody {
+//     asSchoolId: number,
+//     asAcademicYearId: number,
+//     asGroupId: number,
+//     asRoleId: number,
+//     asUserId: number
+// }
+// export interface IGetMailingGroupsResult {
+//     GroupId: string,
+//     GroupName: string,
+//     Users: string,
+//     IsDefault: string,
+//     IsAllDeactivated: string
+// }
+export interface IGetContactGroupsBody {
+    asSchoolId: string,
+    asAcademicYearId: string,
+    asGroupId: string,
+    asUserRoleId: string,
+    asUserId: string
 }
-export interface IGetMailingGroupsResult {
-    GroupId: string,
-    GroupName: string,
-    Users: string,
-    IsDefault: string,
-    IsAllDeactivated: string
+export interface IGetContactGroupsResult {
+    ContactGroups: [
+        {
+            GroupId: number,
+            GroupName: string,
+            Users: string,
+            IsDefault: boolean,
+            IsAllDeactivated: boolean
+        }
+    ];
+    ContactGroupUserRoles: string;
 }
 export interface IGetUserRoleBody {
     asSchoolId: number

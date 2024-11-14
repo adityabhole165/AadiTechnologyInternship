@@ -3,8 +3,8 @@ import {
     IAddUpdateGroupResult,
     IDeleteMailGroupBody,
     IDeleteMailingGroupUserBody,
-    IGetMailingGroupsBody,
-    IGetMailingGroupsResult,
+    IGetContactGroupsBody,
+    IGetContactGroupsResult,
     IGetStandardClassBody,
     IGetStandardClassResult,
     IGetUserNameBody,
@@ -22,8 +22,8 @@ const UserNameApi = (data: IGetUserNameBody) => {
     return http.post<IGetUserNameResult>('Teacher/GetUserName', data);
 };
 
-const GetMailingGroupsApi = (data: IGetMailingGroupsBody) => {
-    return http.post<IGetMailingGroupsResult[]>('Teacher/GetMailingGroups', data);
+const GetContactGroupApi = (data: IGetContactGroupsBody) => {
+    return http.post<IGetContactGroupsResult>('Messagecenter/GetContactGroups', data);
 };
 const GetUserRoleApi = (data: IGetUserRoleBody) => {
     return http.post<IGetUserRoleResult[]>('Teacher/GetUserRole', data);
@@ -43,7 +43,7 @@ const DeleteMailingGroupUserApi = (data: IDeleteMailingGroupUserBody) => {
 
 const ContactGroupApi = {
     UserNameApi,
-    GetMailingGroupsApi,
+    GetContactGroupApi,
     GetUserRoleApi,
     GetStandardClassApi,
     AddUpdateGroupApi,

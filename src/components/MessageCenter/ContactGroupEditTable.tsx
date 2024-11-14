@@ -13,10 +13,12 @@ import {
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeleteMailingGroupUserBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import { CDADeleteMailingGroupUserMsg } from 'src/requests/ContactGroup/ReqContactGroup';
+import { RootState } from 'src/store';
+
 // Sample data array
 const userData = [
   { id: 1, name: 'Mr. Devendra Kumar (Principal)' },
@@ -25,12 +27,15 @@ const userData = [
   { id: 23, name: 'Dr. Anjali S. Gurjar (Ex Principal)' }
 ];
 
-function ContactGroupEditTable() {
+function ContactGroupEditTable({ GPID = 0 }) {
   const dispatch = useDispatch();
   const { showAlert, closeAlert } = useContext(AlertContext);
   const schoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
+
+
+  const USUserData: any = useSelector((state: RootState) => state.ContactGroup.IContactGroups);
   const handleDelete = (id) => {
     const DeleteMailingGroupUserBody: IDeleteMailingGroupUserBody = {
       asSchoolId: Number(schoolId),
@@ -105,12 +110,12 @@ function ContactGroupEditTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {userData.map((user) => (
-            <TableRow key={user.id}>
-              <TableCell sx={{ py: 0.5 }}>{user.name}</TableCell>
+          {/* {USUserData.map((user) => (
+            <TableRow key={user.GroupId}>
+              <TableCell sx={{ py: 0.5 }}>{user.Users}</TableCell>
               <TableCell align="center" sx={{ py: 1 }}>
                 <IconButton
-                  onClick={() => handleDelete(user.id)}
+                  onClick={() => handleDelete(user.GroupId)}
                   sx={{
                     color: '#38548A	',
                     '&:hover': {
@@ -125,7 +130,30 @@ function ContactGroupEditTable() {
                 </IconButton>
               </TableCell>
             </TableRow>
+          ))} */}
+          {USUserData.filter(user => user.GroupId === GPID).map((user) => (
+            <TableRow key={user.GroupId}>
+              <TableCell sx={{ py: 0.5 }}>{user.Users}</TableCell>
+              <TableCell align="center" sx={{ py: 1 }}>
+                <IconButton
+                  onClick={() => handleDelete(user.GroupId)}
+                  sx={{
+                    color: '#38548A',
+                    '&:hover': {
+                      color: 'red',
+                      backgroundColor: red[100]
+                    }
+                  }}
+                >
+                  <Tooltip title="Delete">
+                    <DeleteForeverIcon />
+                  </Tooltip>
+                </IconButton>
+              </TableCell>
+            </TableRow>
           ))}
+
+
         </TableBody>
       </Table>
     </TableContainer>
