@@ -25,9 +25,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup';
+import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { ContactGroup } from 'src/requests/AdminSMSCenter/To1';
 import { CDAaddUpdateGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole, resetAddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 import ContactGroupEditTable from './ContactGroupEditTable';
@@ -86,7 +88,13 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       return acc + count;
     }, 0);
   }, [USGetUserName]);
-
+  const ContactgroupBody: IContactGRPBody = {
+    asScholId: schoolId,
+    asAcademicYearId: academicYearId,
+    asGroupId: '0',
+    asUserRoleId: RoleId,
+    asUserId: asUserId.toString()
+  };
   const UserRole: IGetUserRoleBody = {
     asSchoolId: Number(schoolId),
   };
@@ -150,7 +158,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     try {
 
       let isValid = true;
-      if (GroupName || selectedd || selected) {
+      if (!GroupName || !selectedd || !selected) {
         setErrorTypeName('Please correct following errors.');
         isValid = false;
       }
@@ -180,7 +188,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       };
       await dispatch(CDAaddUpdateGroup(SaveContactGroup));
       dispatch(resetAddUpdateGroup());
-      // dispatch(());
+      dispatch(ContactGroup(ContactgroupBody));
     } catch (error) {
       console.error(error);
     }

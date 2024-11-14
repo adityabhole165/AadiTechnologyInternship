@@ -419,11 +419,7 @@ const AddReciepents = ({
     dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
     dispatch(ContactGroup(ContactgroupBody))
   };
-  // const groups = [
-  //   { GroupId: '1', GroupName: 'Marketing' },
-  //   { GroupId: '2', GroupName: 'Sales' },
-  //   { GroupId: '3', GroupName: 'Support' }
-  // ];
+
 
   const populateRecipient = (itemList) => {
     itemList?.map((obj) => {

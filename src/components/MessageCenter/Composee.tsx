@@ -765,21 +765,21 @@ function Form13() {
 
   const clickConfirm = () => {
 
-    showAlert({
-      title: 'Please Confirm',
-      message: 'No group is selected. Are you sure you want to continue?',
-      variant: 'warning',
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
-      onCancel: () => {
-        closeAlert();
-      },
-      onConfirm: () => {
+    // showAlert({
+    //   title: 'Please Confirm',
+    //   message: 'No group is selected. Are you sure you want to continue?',
+    //   variant: 'warning',
+    //   confirmButtonText: 'Confirm',
+    //   cancelButtonText: 'Cancel',
+    //   onCancel: () => {
+    //     closeAlert();
+    //   },
+    //   onConfirm: () => {
 
-        //dispatch(CDADeleteMailGroupMsg(DeleteMailGroupBody));
-        closeAlert();
-      },
-    });
+
+    //     closeAlert();
+    //   },
+    // });
 
 
     handleCloseDialog();
@@ -1454,7 +1454,7 @@ function Form13() {
                   }
                 }}
               >
-                ok
+                confirm
               </Button>
             </DialogActions>
           </Box>
