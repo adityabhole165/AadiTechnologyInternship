@@ -54,6 +54,7 @@ function SmsCenter() {
   const rowsPerPageOptions = [20, 50, 100, 200];
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
+  const DesignationName = sessionStorage.getItem('DesignationName');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
 
@@ -368,25 +369,27 @@ function SmsCenter() {
                 <br />
                 <b style={{ color: '#38548A' }}>Scheduled SMS</b>
               </Card>
-              <Card
-                sx={{
-                  textAlign: 'center',
-                  height: '85px',
-                  backgroundColor: activeTab === 'All Send Item' ? blue[100] : 'white',
-                  mb: '10px',
-                  borderRadius: '10px',
-                }}
-                onClick={() => handleTabClick('All Send Item')}
-              >
+              {DesignationName === 'Principal' && (
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    height: '85px',
+                    backgroundColor: activeTab === 'All Send Item' ? blue[100] : 'white',
+                    mb: '10px',
+                    borderRadius: '10px',
+                  }}
+                  onClick={() => handleTabClick('All Send Item')}
+                >
 
-                <AllInboxIcon
-                  onClick={undefined}
-                  sx={{ mt: '10px', color: '#38548A' }}
-                  className={classes.IconSize}
-                />
-                <br />
-                <b style={{ color: '#38548A' }}>All send Item</b>
-              </Card>
+                  <AllInboxIcon
+                    onClick={undefined}
+                    sx={{ mt: '10px', color: '#38548A' }}
+                    className={classes.IconSize}
+                  />
+                  <br />
+                  <b style={{ color: '#38548A' }}>All send Item</b>
+                </Card>
+              )}
             </Hidden>
           </Grid>
           <Grid item sx={{ minWidth: '85%', p: 2, background: 'white', borderRadius: '10px' }}>
