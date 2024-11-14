@@ -408,22 +408,25 @@ export const StudentDetailsGA =
 
                                 // if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() !== 'true') {
                                 columns.push({
-                                    MarksScored: `${parseFloat(Item.Total_Marks_Scored)}`,
+                                    MarksScored: Item.FailCount !== '' ? `${parseFloat(Item.Total_Marks_Scored)}` : '',
                                     TotalMarks: Item.Subjects_Total_Marks,
-                                    IsAbsent: "N"
+                                    IsAbsent: "N",
+                                    IsGrades: "Y"
                                 })
 
                                 columns.push({
-                                    MarksScored: Item.Percentage + "%",
+                                    MarksScored: Item.FailCount !== '' ? Item.Percentage + "%" : '-',
                                     TotalMarks: "-",
-                                    IsAbsent: "N"
+                                    IsAbsent: "N",
+                                    IsGrades: "Y"
                                 })
                                 // }
 
                                 columns.push({
-                                    MarksScored: `${Item.Grade_Name} [${matchingMarksDetails.Remarks}]`,
+                                    MarksScored: Item.FailCount !== '' ? `${Item.Grade_Name} [${matchingMarksDetails?.Remarks}]` : '-',
                                     TotalMarks: "-",
-                                    IsAbsent: "N"
+                                    IsAbsent: "N",
+                                    IsGrades: "Y"
                                 })
                             }
 

@@ -68,6 +68,10 @@ const GenerateAll = ({ }) => {
         return returnVal
 
     }
+    useEffect(() => {
+        console.log("isGenerated 🎯🎯🎯🎯🎯", MarkDetailsList);
+
+    }, [MarkDetailsList])
 
     // #region Parent Header 
     const [dataList, setDataList] = useState<any>({});
@@ -513,21 +517,22 @@ const GenerateAll = ({ }) => {
 
                                                         {testItem.MarksArr.map((MarkItem) => (
                                                             <TableCell sx={{ alignItems: 'center', fontWeight: i === MarkDetailsList.length - 1 ? 'bold' : 'normal', textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
-                                                                {
-                                                                    !MarkItem
-                                                                        ? '-'
-                                                                        : (MarkItem?.MarksScored === ''
+                                                                <span style={{ fontWeight: MarkItem?.IsGrades === 'Y' || i === MarkDetailsList.length - 1 ? 'bold' : 'normal' }}>
+                                                                    {
+                                                                        !MarkItem
                                                                             ? '-'
-                                                                            : (MarkItem?.IsAbsent !== 'N'
-                                                                                ? getRemarkForGradeCell(MarkItem.IsAbsent)
-                                                                                : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null
-                                                                                    ? '-'
-                                                                                    : MarkItem.MarksScored + (MarkItem.TotalMarks === "-" ? "" : (" / " + MarkItem.TotalMarks))
+                                                                            : (MarkItem?.MarksScored === ''
+                                                                                ? '-'
+                                                                                : (MarkItem?.IsAbsent !== 'N'
+                                                                                    ? getRemarkForGradeCell(MarkItem.IsAbsent)
+                                                                                    : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null
+                                                                                        ? '-'
+                                                                                        : MarkItem.MarksScored + (MarkItem.TotalMarks === "-" ? "" : (" / " + MarkItem.TotalMarks))
+                                                                                    )
                                                                                 )
                                                                             )
-                                                                        )
-                                                                }
-
+                                                                    }
+                                                                </span>
                                                             </TableCell>
                                                         ))}
                                                     </TableRow>
