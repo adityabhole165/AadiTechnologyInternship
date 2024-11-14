@@ -502,6 +502,17 @@ export interface IUpdateStudentResult {
     IsStudentUniqueNoAlreadyPresent: boolean
     CheckIsRFormNumberDuplicate: boolean
 }
+// 3rd Updation
+export interface IUpdateStudentStreamwiseSubjectDetailsBody {
+    asSchoolId: number
+    asStudentId: number
+    asStreamId: number
+    GroupId: number
+    CompulsorySubject: string
+    chkCompitativeExams: number
+    OptSubjectOne: number
+    OptSubjectTwo: number
+}
 
 //ISOnLeave
 export interface IIsOnLeaveBody {
