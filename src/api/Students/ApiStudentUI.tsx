@@ -4,7 +4,9 @@ import http from '../../requests/SchoolService/schoolServices';
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
     return http.post<IGetSingleStudentDetailsResult[]>('Teacher/GetSingleStudentDetails', data);
 }
-
+const GetStudentAdditionalDetailsApi = (data: IGetStudentAdditionalDetailsBody) => {
+    return http.post<IGetStudentAdditionalDetailsResult[]>('Teacher/GetStudentAdditionalDetails', data);
+};
 const GetMasterDatastudentApi = (data: IMasterDatastudentBody) => {
     return http.post<IMasterDataStudentResult>('Teacher/MasterDatastudent', data);
 }
@@ -20,10 +22,6 @@ const GetAllUserRolesApi = (data: IGetAllUserRolesBody) => {
 //4
 const StandrdwiseStudentsDocumentApi = (data: IStandrdwiseStudentsDocumentBody) => {
     return http.post<IStandrdwiseStudentsDocumentResult[]>('Teacher/StandrdwiseStudentsDocument', data);
-};
-//5
-const GetStudentAdditionalDetailsapi = (data: IGetStudentAdditionalDetailsBody) => {
-    return http.post<IGetStudentAdditionalDetailsResult>('Teacher/GetStudentAdditionalDetails', data);
 };
 //Streamwise Subject API's
 //1
@@ -64,7 +62,7 @@ const GetFeeAreaNamesApi = (data: IGetFeeAreaNamesBody) => {
 
 const GetStudentUIAPI = {
     GetSingleStudentDetailsApi,
-    GetStudentAdditionalDetailsapi,
+    GetStudentAdditionalDetailsApi,
     GetMasterDatastudentApi,
     StaffNameApi,
     GetAllUserRolesApi,

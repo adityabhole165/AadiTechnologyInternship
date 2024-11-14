@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
+import { ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -401,11 +401,12 @@ export const CDAGetSingleStudentDetails =
         };
 
 export const CDAGetStudentAdditionalDetails =
-    (data: IGetSingleStudentDetailsBody): AppThunk =>
+    (data: IGetStudentAdditionalDetailsBody): AppThunk =>
         async (dispatch) => {
             //dispatch(StudentUISlice.actions.getLoading(true));
-            const response = await GetStudentUIAPI.GetStudentAdditionalDetailsapi(data);
+            const response = await GetStudentUIAPI.GetStudentAdditionalDetailsApi(data);
             dispatch(StudentUISlice.actions.RGetStudentAdditionalDetails(response.data));
+            // console.log(response.data, "CDAGetStudentAdditionalDetails ");
         };
 
 export const CDAUpdateStudent =

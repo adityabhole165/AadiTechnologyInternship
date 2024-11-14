@@ -12,7 +12,7 @@ import { Box, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { IGetSingleStudentDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetStudentAdditionalDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStudentAdditionalDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
@@ -52,19 +52,19 @@ const AdditionalDetails = ({ onSave }) => {
   console.log('GetStudentAdditionalDetails', GetStudentAdditionalDetails);
 
 
-  const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
+  const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
     asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
   };
 
   useEffect(() => {
-    dispatch(CDAGetStudentAdditionalDetails(GetSingleStudentDetails));
+    dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody));
   }, []);
 
   useEffect(() => {
-    if (GetStudentAdditionalDetails && GetStudentAdditionalDetails.length > 0) {
-      const studentAdditionalData = GetStudentAdditionalDetails[0]; // Get first item from array
+    if (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) {
+      const studentAdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
       setForm(prevForm => ({
         ...prevForm,
         lastSchoolName: '',
@@ -79,7 +79,7 @@ const AdditionalDetails = ({ onSave }) => {
         mainArea: studentAdditionalData.MainArea || '',
         subareaName: studentAdditionalData.SubareaName || '',
         landmark: studentAdditionalData.Landmark || '',
-        taluka: studentAdditionalData.Religion || '',
+        taluka: studentAdditionalData.Taluka || '',
         district: studentAdditionalData.District || '',
         admissionStandard: studentAdditionalData.AddmissionStandard || '',
         admissionAcademicYear: studentAdditionalData.AddmissionAcademicYear || '',
@@ -107,12 +107,26 @@ const AdditionalDetails = ({ onSave }) => {
   ];
 
   // Handle input change
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setForm({
-      ...form,
-      [name]: value
-    });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked, files } = e.target;
+
+    let fieldValue;
+    if (type === 'checkbox') {
+      fieldValue = checked;
+    } else if (type === 'file') {
+      fieldValue = files ? files[0] : null;
+    } else {
+      fieldValue = value;
+    }
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: fieldValue
+    }));
+
+    //onTabChange({ firstName: fieldValue, })
+    // Remove error when the user starts filling the field
+    //setErrors({ ...errors, [name]: false });
   };
 
   // Handle dropdown change

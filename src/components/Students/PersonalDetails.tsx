@@ -247,8 +247,12 @@ const PersonalDetails = ({ onTabChange }) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
+
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const fileName = `webcam-${timestamp}.png`
+
       reader.onloadend = () => {
-        setForm((prevForm) => ({ ...prevForm, photo: reader.result }));
+        setForm((prevForm) => ({ ...prevForm, photo: fileName }));
         setCapturedImage(reader.result); // Store image temporarily until uploaded
         setFileNameError('');
       };
@@ -258,13 +262,42 @@ const PersonalDetails = ({ onTabChange }) => {
 
   const handleCapturePhoto = () => {
     const imageSrc = webcamRef.current.getScreenshot();
-    setCapturedImage(imageSrc)
-    setForm({ ...form, photo: imageSrc });
+    const base64String = imageSrc.split(',')[1];
+
+    setCapturedImage(imageSrc);
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const fileName = `webcam-${timestamp}.png`
+
+    setForm({ ...form, photo: fileName });
     // setUsingWebcam(false);
     setIsWebcamActive(true);
     setFileNameError('');
-    console.log(capturedImage, 'capturedImage');
+    console.log('capturedImage 🤣', capturedImage);
   };
+
+  // const handleCapturePhoto = () => {
+  //   try {
+  //     if (!webcamRef.current) {
+  //       throw new Error('Webcam not initialized');
+  //     }
+
+  //     const imageSrc = webcamRef.current.getScreenshot();
+  //     if (!imageSrc) {
+  //       throw new Error('Failed to capture image');
+  //     }
+
+  //     setCapturedImage(imageSrc);
+  //     //setForm(prevForm => ({ ...prevForm, photo: imageSrc }));
+  //     console.log('capturedImage 🙌', capturedImage);
+  //     setIsWebcamActive(false);
+  //     setFileNameError('');
+  //   } catch (error) {
+  //     console.error('Error capturing photo:', error);
+  //     // Handle error appropriately - maybe set an error state
+  //     setFileNameError('Failed to capture photo. Please try again.');
+  //   }
+  // };
 
   const handleDeletePhoto = () => {
     // Reset the form photo to null to remove the image
@@ -283,20 +316,24 @@ const PersonalDetails = ({ onTabChange }) => {
   };
 
   const ClickUpload = () => {
+    console.log('clicked Upload 🤬', capturedImage);
+
     if (!capturedImage) {
       setFileNameError('Please select or capture a file to upload.');
       return;
     }
 
+
+    setForm((prevForm) => ({ ...prevForm, photo: capturedImage }));
     // Update form state with the captured image
-    setForm(prevForm => {
-      const updatedForm = { ...prevForm, photo: capturedImage };
-      // Call the parent component's callback with the updated form
-      // if (onImageUpload) {
-      //   onImageUpload(updatedForm);
-      // }
-      return updatedForm;
-    });
+    // setForm(prevForm => {
+    //   const updatedForm = { ...prevForm, photo: capturedImage };
+    //   // Call the parent component's callback with the updated form
+    //   // if (onImageUpload) {
+    //   //   onImageUpload(updatedForm);
+    //   // }
+    //   return updatedForm;
+    // });
 
     setOpen(false);
     setFileNameError('');
@@ -320,11 +357,11 @@ const PersonalDetails = ({ onTabChange }) => {
     setIsWebcamActive(false);
   };
 
-  useEffect(() => {
-    if (form.photo) {
-      console.log(form.photo, 'UseEffect form.photo'); // Logs the updated form.photo after upload
-    }
-  }, [form.photo]);
+  // useEffect(() => {
+  //   if (form.photo) {
+  //     console.log(form.photo, 'UseEffect form.photo'); // Logs the updated form.photo after upload
+  //   }
+  // }, [form.photo]);
 
   //#region DataTransfer 
   useEffect(() => {
@@ -538,9 +575,9 @@ const PersonalDetails = ({ onTabChange }) => {
             alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexDirection: 'row'
           }}
           >
-            {form.photo ? (
+            {capturedImage ? (
               <img
-                src={form.photo}
+                src={capturedImage}
                 alt="Preview"
                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
               />

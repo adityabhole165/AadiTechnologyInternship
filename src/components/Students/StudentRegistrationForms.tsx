@@ -258,7 +258,7 @@ const StudentRegistrationForm = () => {
     asID: 0, // Missing
     asAcademicYearId: 55, // Missing
     asFormNumber: 4576, // Missing
-    asPhoto_file_Path: "", // Missing
+    asPhoto_file_Path: personalDetailsData?.photo || "", // Missing
     asFirst_Name: personalDetailsData?.firstName || "",
     asMiddle_Name: personalDetailsData?.middleName || "",
     asLast_Name: personalDetailsData?.lastName || "",
