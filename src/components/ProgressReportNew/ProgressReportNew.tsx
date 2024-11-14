@@ -496,7 +496,7 @@ const ProgressReportNew = () => {
     if (StudentId !== '0') {
       dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
     }
-  }, [selectTeacher, AcademicYear, StudentId,GetOldStudentDetails.StudentId])
+  }, [IsTotalConsiderForProgressReport, AcademicYear,GetOldStudentDetails.StudentId])
   // }, [AcademicYear, GetOldStudentDetails.StudentId, IsTotalConsiderForProgressReport]);
 
   useEffect(() => {
