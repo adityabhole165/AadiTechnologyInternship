@@ -131,6 +131,24 @@ export const getDateMonthYearDayDash = (date) => {
   return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]} (${WeekdaysFull[Weekday]})`;
 };
 
+export const getDateMonthYear = (date) => {
+  let arrDate = date.split(' ')[0].split('-'); 
+  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;  
+
+  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
+};
+
+export function extractTimenew(datetimeString) {
+  const timePart = datetimeString.split(' ')[1]; // Extracts the "02:00:00" part
+  const [hours, minutes] = timePart.split(':'); // Splits the time into hours and minutes
+
+  // Convert 24-hour format to 12-hour format
+  const hour12 = parseInt(hours, 10) % 12 || 12; // Convert to 12-hour format (handling 0 as 12)
+  const period = parseInt(hours, 10) >= 12 ? 'PM' : 'AM'; // Determine AM or PM
+  
+  // Return time in the format "08:00 AM"
+  return `${hour12.toString().padStart(2, '0')}:${minutes} ${period}`;
+}
 
 export const getDateMonthYearTimeDayDash = (date) => {
   let arrDate = date.split(' ')[0].split('-');
