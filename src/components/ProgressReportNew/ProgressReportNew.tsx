@@ -294,12 +294,6 @@ const ProgressReportNew = () => {
 
   };
 
-  const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
-    asSchoolId: Number(asSchoolId),
-    asAcademicYrId: Number(asAcademicYearId),
-    asStandardId: Number(Standard_Id()),
-    asIsCoCurricular: false
-  };
 
   const GetAllMarksGradeConfigurationBody1: IGetAllMarksGradeConfigurationBody = {
     asSchoolId: Number(asSchoolId),
@@ -310,21 +304,21 @@ const ProgressReportNew = () => {
 
   const IsGradingStandard: IsGradingStandarBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId),
+    asAcademicYearId: Number(AcademicYear),
     asStandardId: Number(Standard_Id())
 
   };
 
   const IsTestPublishedForStdDiv: IsTestPublishedForStdDivBody = {
     asSchoolId: Number(asSchoolId),
-    asAcadmicYearId: Number(asAcademicYearId),
+    asAcadmicYearId: Number(AcademicYear),
     asStdDivId: Number(StandardDivisionId())
 
   };
 
   const IsTestPublishedForStudent: IsTestPublishedForStudentBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId),
+    asAcademicYearId: Number(AcademicYear),
     asStandardDivId: Number(StandardDivisionId()),
     asStudentId: Number(StudentId)
 
@@ -396,6 +390,14 @@ const ProgressReportNew = () => {
     dispatch(CDAGetProgressReport(getProgressReportBody));
   };
 
+
+
+  const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYrId: Number(AcademicYear),
+    asStandardId: Number(Standard_Id()),
+    asIsCoCurricular: false
+  };
 
 
   const clickSelectClass = (value) => {
