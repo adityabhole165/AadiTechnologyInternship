@@ -80,7 +80,9 @@ function CardMessage({
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
-              width: '150px'
+              width: '150px',
+              textAlign:'left',
+              ml:2
             }}
           >
             {header}
@@ -98,7 +100,8 @@ function CardMessage({
             sx={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              textAlign:'left',
             }}
           >
             {text1}
