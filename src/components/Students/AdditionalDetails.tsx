@@ -17,7 +17,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetStudentAdditionalDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
-const AdditionalDetails = ({ onSave }) => {
+const AdditionalDetails = ({ onTabChange }) => {
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
@@ -71,7 +71,7 @@ const AdditionalDetails = ({ onSave }) => {
         lastSchoolAddress: studentAdditionalData.Last_School_Name || '',
         standard: studentAdditionalData.Last_School_Name || '',
         schoolUDISENo: studentAdditionalData.Last_School_Name || '',
-        schoolBoardName: studentAdditionalData.Last_School_Name || '',
+        schoolBoardName: studentAdditionalData.Last_School_Name || '1',
         isRecognised: studentAdditionalData.Last_School_Name || '',
         // lastSchoolRollNumber: '',
         //  lastSchoolYear: '',
@@ -95,10 +95,10 @@ const AdditionalDetails = ({ onSave }) => {
 
   //#endregion
   const SchoolBoardName = [
-    { id: 1, Name: 'ICSE' },
-    { id: 2, Name: 'SSC' },
-    { id: 3, Name: 'CBSE' },
-    { id: 4, Name: 'OTHERS' }
+    { id: 1, Name: 'ICSE', Value: 1 },
+    { id: 2, Name: 'SSC', Value: 2 },
+    { id: 3, Name: 'CBSE', Value: 3 },
+    { id: 4, Name: 'OTHERS', Value: 4 }
   ];
 
   const Recognised = [
@@ -130,17 +130,24 @@ const AdditionalDetails = ({ onSave }) => {
   };
 
   // Handle dropdown change
-  const handleDropdownChange = (name, value) => {
-    setForm({
-      ...form,
+  const handleDropdownChange = (name: string, value: any) => {
+    setForm((prevForm) => ({
+      ...prevForm,
       [name]: value
-    });
+    }));
+    // setErrors((prev) => ({ ...prev, [name]: false }));
   };
+
+  //#region DataTransfer 
+  useEffect(() => {
+    onTabChange(form); // Sends the initial form state to the parent when component mounts
+  }, [form]);
+  //#endregion
 
   // Handle form submission
   const handleSave = () => {
     // Call the onSave function passed as a prop
-    onSave(form);
+    // onSave(form);
   };
 
   return (
@@ -193,19 +200,22 @@ const AdditionalDetails = ({ onSave }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
+            defaultValue={form.schoolBoardName}
             ItemList={SchoolBoardName}
+            onChange={(value) => handleDropdownChange('schoolBoardName', value)}
             label={'School Board Name'}
             size={'medium'}
-            onChange={(value) => handleDropdownChange('schoolBoardName', value)}
+
           />
         </Grid>
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
+            defaultValue={form.isRecognised}
             ItemList={Recognised}
+            onChange={(value) => handleDropdownChange('isRecognised', value)}
             label={'Is Recognised'}
             size={'medium'}
-            onChange={(value) => handleDropdownChange('isRecognised', value)}
           />
         </Grid>
       </Grid>

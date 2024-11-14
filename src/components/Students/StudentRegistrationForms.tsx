@@ -118,6 +118,30 @@ interface RAdmissionDetails {
   thirdlanguage?: string;
   userName?: string;
 }
+
+interface RAdditionalInfoDetails {
+  admissionAcademicYear?: string;
+  admissionStandard?: string;
+  currentAcademicYear?: string;
+  currentStandard?: string;
+  district?: string;
+  houseNumber?: string;
+  isRecognised?: string;
+  lastSchoolAddress?: string;
+  lastSchoolName?: string;
+  landmark?: string;
+  mainArea?: string;
+  previousMarksObtained?: string;
+  previousMarksOutOf?: string;
+  previousYearOfPassing?: string;
+  schoolBoardName?: string;
+  schoolUDISENo?: string;
+  standard?: string;
+  subjectNames?: string;
+  subareaName?: string;
+  taluka?: string;
+
+}
 //#endRegion
 
 const StudentRegistrationForm = () => {
@@ -137,6 +161,8 @@ const StudentRegistrationForm = () => {
 
   const [admissionDetailsData, setAdmissionDetailsData] = useState<RAdmissionDetails>({});
   const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
+  const [additionalInfoData, setAdditionalInfoData] = useState<RAdditionalInfoDetails>({});
+
   //const [familyData, setFamilyData] = useState(false);
 
 
@@ -168,6 +194,10 @@ const StudentRegistrationForm = () => {
     // setAdmissionDetailsData(updateddata);
     console.log('personalDetails data:', personalDetailsData);
     // console.log('admissionDetails data:', admissionDetailsData);
+  }
+  const onAdditionalInfoTab = (updateddata) => {
+    setAdditionalInfoData(updateddata);
+    console.log('👍AdditionalInfo data:', additionalInfoData);
   }
 
   const handleNextTab = () => {
@@ -614,7 +644,7 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <AdditionalDetails onSave={handleSave} />
+              <AdditionalDetails onTabChange={onAdditionalInfoTab} />
             </Grid>
           </Grid>
         )}
