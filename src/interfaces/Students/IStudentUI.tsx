@@ -277,6 +277,77 @@ export interface IGetStudentAdditionalDetailsResult {
     ResidenceType: string
     RFID: string
 }
+//Add Additonal
+export interface IAddStudentAdditionalDetailsBody {
+    asSchoolId: number
+    asAdmissionAcadmicYear: string
+    asAdmissionStandard: string
+    asCurrentAcademicYear: string
+    asCurrentStandard: string
+    asIsHandicapped: boolean
+    asPreviousMarksObtained: string,
+    asPreviousMarksOutOff: string,
+    asPreviousYearOfPassing: string
+    asSubjectNames: string
+    asSchoolwiseStudentId: number
+    asUserid: number
+    asReligion: string
+    asBirthTaluka: string
+    asBirthDistrict: string
+    asHouseNoPlotNo: string
+    asMainArea: string
+    asSubareaName: string
+    asLandmark: string
+    asTaluka: string
+    asDistrict: string
+    asFeeAreaName: number
+    asFatherOccupation: string
+    asFatherQualification: string
+    asFatherEmail: string
+    asFatherOfficeName: string
+    asFatherOfficeAddress: string
+    asMotherOccupation: string
+    asMotherQualification: string
+    asMotherEmail: string
+    asMotherOfficeName: string
+    asMotherOfficeAddress: string
+    asFatherDOB: string
+    asMotherDOB: string
+    asFatherDesignation: string
+    asMotherDesignation: string
+    asFatherPhoto: string
+    asMotherPhoto: string
+    asAnniversaryDate: string
+    asLocalGuardianPhoto: string
+    asRelativeName: string
+    asFatherBinaryPhoto: any
+    asMotherBinaryPhoto: any
+    asRelativeBinaryPhoto: any
+    asFatherWeight: number
+    asMotherWeight: number
+    asFatherHeight: number
+    asMotherHeight: number
+    asFatherAadharcardNo: string
+    asMotherAadharcardNo: string
+    asFatherBloodGroup: string
+    asMotherBloodGroup: string
+    asFamilyMonthlyIncome: number
+    asCWSN: string
+    asFatherAnnualIncome: number
+    asMotherAnnualIncome: number
+    asBirthState: string
+    asName1: string
+    asAge1: number
+    asInstitute1: string
+    asStandard1: string
+    asName2: string
+    asAge2: number
+    asInstitute2: string
+    asStandard2: string
+    asResidenceType: number
+    asRFID: string
+}
+
 // Streamwise Subject Interface
 //1
 export interface IGetAllStreamsBody {

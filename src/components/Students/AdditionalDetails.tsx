@@ -49,7 +49,7 @@ const AdditionalDetails = ({ onTabChange }) => {
   });
   //#region API CALL
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
-  console.log('GetStudentAdditionalDetails', GetStudentAdditionalDetails);
+  //console.log('GetStudentAdditionalDetails', GetStudentAdditionalDetails);
 
 
   const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {

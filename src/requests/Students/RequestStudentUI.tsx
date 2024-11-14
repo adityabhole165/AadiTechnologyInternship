@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -34,6 +34,7 @@ const StudentUISlice = createSlice({
         ISStudentStreamDetails: [],
         //UpdateStudent
         ISUpdateStudent: {},
+        ISAddStudentAdditionalDetails: '',
         //IsOnLeave
         ISOnLeave: {},
         ISAnyExamPublished: [],
@@ -129,6 +130,10 @@ const StudentUISlice = createSlice({
         // end
         RUpdateStudent(state, action) {
             state.ISUpdateStudent = action.payload;
+            state.Loading = false;
+        },
+        RAddStudentAdditionalDetails(state, action) {
+            state.ISAddStudentAdditionalDetails = action.payload;
             state.Loading = false;
         },
         RISOnLeave(state, action) {
@@ -417,7 +422,20 @@ export const CDAUpdateStudent =
             dispatch(StudentUISlice.actions.RUpdateStudent(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('Student information updated successfully');
+                console.log('😶Student information updated successfully');
+                // console.log('Response data:', response.data);
+            }
+        };
+
+export const CDAAddStudentAdditionalDetails =
+    (data: IAddStudentAdditionalDetailsBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.AddStudentAdditionalDetailsApi(data);
+            dispatch(StudentUISlice.actions.RAddStudentAdditionalDetails(response.data));
+            if (response.status === 200) {
+                // The API call was successful
+                console.log('😶Additional Student information updated successfully');
                 console.log('Response data:', response.data);
             }
         };

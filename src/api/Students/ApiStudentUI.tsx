@@ -1,4 +1,4 @@
-import { ICheckIfAttendanceMarkedBody, ICheckIfAttendanceMarkedResult, IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetFeeAreaNamesBody, IGetFeeAreaNamesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IIsAnyExamPublishedBody, IIsAnyExamPublishedResult, IIsOnLeaveBody, IIsOnLeaveResult, IMasterDatastudentBody, IMasterDataStudentResult, IRetriveStudentStreamwiseSubjectBody, IRetriveStudentStreamwiseSubjectResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentResult } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, ICheckIfAttendanceMarkedResult, IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetFeeAreaNamesBody, IGetFeeAreaNamesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IIsAnyExamPublishedBody, IIsAnyExamPublishedResult, IIsOnLeaveBody, IIsOnLeaveResult, IMasterDatastudentBody, IMasterDataStudentResult, IRetriveStudentStreamwiseSubjectBody, IRetriveStudentStreamwiseSubjectResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentResult } from 'src/interfaces/Students/IStudentUI';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
@@ -7,6 +7,10 @@ const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
 const GetStudentAdditionalDetailsApi = (data: IGetStudentAdditionalDetailsBody) => {
     return http.post<IGetStudentAdditionalDetailsResult[]>('Teacher/GetStudentAdditionalDetails', data);
 };
+const AddStudentAdditionalDetailsApi = (data: IAddStudentAdditionalDetailsBody) => {
+    return http.post<string>('Teacher/AddStudentAdditionalDetails', data);
+};
+
 const GetMasterDatastudentApi = (data: IMasterDatastudentBody) => {
     return http.post<IMasterDataStudentResult>('Teacher/MasterDatastudent', data);
 }
@@ -63,6 +67,7 @@ const GetFeeAreaNamesApi = (data: IGetFeeAreaNamesBody) => {
 const GetStudentUIAPI = {
     GetSingleStudentDetailsApi,
     GetStudentAdditionalDetailsApi,
+    AddStudentAdditionalDetailsApi,
     GetMasterDatastudentApi,
     StaffNameApi,
     GetAllUserRolesApi,

@@ -10,13 +10,22 @@ import {
   Typography
 } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { IGetStudentAdditionalDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile from 'src/libraries/File/SingleFile';
+import { CDAGetStudentAdditionalDetails } from 'src/requests/Students/RequestStudentUI';
+import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const FamilyDetails = ({ onSave }) => {
+const FamilyDetails = ({ onTabChange }) => {
+  const location = useLocation();
+  const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
+  const dispatch = useDispatch();
+
   const { AssignedDate } = useParams();
   const [form, setForm] = useState({
     // Father's Information
@@ -55,22 +64,21 @@ const FamilyDetails = ({ onSave }) => {
     cwsn: '',
     relativeFullName: '',
     residencePhoneNumber: '',
-    familyPhoto: ''
+    neighbourPhoneNumber: '',
+    officePhoneNumber: '',
+    familyPhoto: '',
+    name1: '',
+    name2: '',
+    age1: 0,
+    age2: 0,
+    institution1: '',
+    institution2: '',
+    standard1: '',
+    standard2: '',
   });
-  const [siblings, setSiblings] = useState([
-    { name: '', age: 0, institution: '', standard: '' }
-  ]);
 
-  const ValidFileTypes = [
-    'BMP',
-    'DOC',
-    'DOCX',
-    'JPG',
-    'JPEG',
-    'PDF',
-    'XLS',
-    'XLSX'
-  ];
+
+  const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
   const MaxfileSize = 5000000;
 
   const [SelectDate, SetSelectDate] = useState(
@@ -78,6 +86,99 @@ const FamilyDetails = ({ onSave }) => {
       ? new Date().toISOString().split('T')[0]
       : getCalendarDateFormatDateNew(AssignedDate)
   );
+
+  //#region API CALLS
+  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
+  console.log('GetStudentAdditionalDetails FAMILY', GetStudentAdditionalDetails);
+
+  const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+  };
+
+  useEffect(() => {
+    dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody));
+  }, []);
+
+  useEffect(() => {
+    if (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) {
+      const FamilyData: any = GetStudentAdditionalDetails; // Get first item from array
+      setForm(prevForm => ({
+        ...prevForm,
+        fatherQualification: FamilyData?.FatherQualification || "Business",
+        fatherEmail: FamilyData?.FatherEmail || "",
+        fatherOfficeName: FamilyData?.FatherOfficeName || "",
+        fatherOfficeAddress: FamilyData?.FatherOfficeAddress || "",
+        fatherDesignation: FamilyData?.FatherDesignation || "",
+        fatherDOB: FamilyData?.FatherDOB || "",
+        fatherPhoto: FamilyData?.FatherPhoto || "",
+        fatherWeight: FamilyData?.FatherWeight || "",
+        fatherHeight: FamilyData?.FatherHeight || "",
+        fatherBloodGroup: FamilyData?.FatherBloodGroup || "",
+        fatherAadharCard: FamilyData?.FatherAadharcardNo || "",
+        fatherAnnualIncome: FamilyData?.FatherAnnualIncome || "",
+
+        // Mother's Information
+        motherOccupation: FamilyData?.MotherOccupation || "",
+        motherQualification: FamilyData?.MotherQualification || "",
+        motherEmail: FamilyData?.MotherEmail || "",
+        motherOfficeName: FamilyData?.MotherOfficeName || "",
+        motherOfficeAddress: FamilyData?.MotherOfficeAddress || "",
+        motherDesignation: FamilyData?.MotherDesignation || "",
+        motherDOB: FamilyData?.MotherDOB || "",
+        motherPhoto: FamilyData?.MotherPhoto || "",
+        motherWeight: FamilyData?.MotherWeight || "",
+        motherHeight: FamilyData?.MotherHeight || "",
+        motherAadharCard: FamilyData?.MotherAadharcardNo || "",
+        motherBloodGroup: FamilyData?.MotherBloodGroup || "",
+        motherAnnualIncome: FamilyData?.MotherAnnualIncome || "",
+
+        // Family Information
+        marriageAnniversaryDate: FamilyData?.AnniversaryDate || "",
+        localGuardianPhoto: FamilyData?.GuardianPhoto || "",
+        familyMonthlyIncome: FamilyData?.FamilyMonthlyIncome || "",
+        cwsn: FamilyData?.CWSN || "",
+        relativeFullName: FamilyData?.RelativeName || "",
+        residencePhoneNumber: "",  //Single 
+        neighbourPhoneNumber: '',
+        officePhoneNumber: '',
+        familyPhoto: "",             //Single
+        name1: FamilyData?.Name1 || "",
+        name2: FamilyData?.Name2 || "",
+        age1: FamilyData?.Age1 || "",
+        age2: FamilyData?.Age2 || "",
+        institution1: FamilyData?.Institution1 || "",
+        institution2: FamilyData?.Institution2 || "",
+        standard1: FamilyData?.StandardName1 || "",
+        standard2: FamilyData?.StandardName2 || "",
+      }));
+    }
+  }, [GetStudentAdditionalDetails]);
+
+  //#endregion
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked, files } = e.target;
+
+    let fieldValue;
+    if (type === 'checkbox') {
+      fieldValue = checked;
+    } else if (type === 'file') {
+      fieldValue = files ? files[0] : null;
+    } else {
+      fieldValue = value;
+    }
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: fieldValue
+    }));
+
+    //onTabChange({ firstName: fieldValue, })
+    // Remove error when the user starts filling the field
+    setErrors({ ...errors, [name]: false });
+  };
 
   const [errors, setErrors] = useState({
     fatherQualification: false,
@@ -117,21 +218,12 @@ const FamilyDetails = ({ onSave }) => {
     residencePhoneNumber: false,
     familyPhoto: false
   });
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked, files } = e.target;
-    const fieldValue =
-      type === 'checkbox'
-        ? checked
-        : type === 'file'
-        ? files
-          ? files[0]
-          : null
-        : value;
-    setForm({ ...form, [name]: fieldValue });
 
-    // Remove error when the user starts filling the field
-    setErrors({ ...errors, [name]: false });
-  };
+
+  //#region Sibling section
+  const [siblings, setSiblings] = useState([
+    { name: '', age: 0, institution: '', standard: '' }
+  ]);
 
   const handleAddSibling = () => {
     setSiblings([
@@ -154,14 +246,20 @@ const FamilyDetails = ({ onSave }) => {
     });
     setSiblings(newSiblings);
   };
+  //#endregion
 
   const handleSave = () => {
     // Call the onSave function passed as a prop
-    onSave(form);
+    // onSave(form);
   };
   const onSelectDate = (value) => {
     SetSelectDate(value);
   };
+  //#region DataTransfer 
+  useEffect(() => {
+    onTabChange(form); // Sends the initial form state to the parent when component mounts
+  }, [form]);
+  //#endregion
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
@@ -229,7 +327,7 @@ const FamilyDetails = ({ onSave }) => {
             DateValue={SelectDate}
             onDateChange={onSelectDate}
             size={'medium'}
-           label="Father DOB"
+            label="Father DOB"
           />
         </Grid>
 
@@ -419,11 +517,11 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         <Grid item xs={12} md={3}>
-        <Datepicker
+          <Datepicker
             DateValue={SelectDate}
             onDateChange={onSelectDate}
             size={'medium'}
-           label="Mother DOB"
+            label="Mother DOB"
           />
         </Grid>
 
@@ -543,12 +641,12 @@ const FamilyDetails = ({ onSave }) => {
         </Grid>
 
         <Grid item xs={12} md={3}>
-         
-           <Datepicker
+
+          <Datepicker
             DateValue={SelectDate}
             onDateChange={onSelectDate}
             size={'medium'}
-           label="Marriage Anniversary Date"
+            label="Marriage Anniversary Date"
           />
         </Grid>
 

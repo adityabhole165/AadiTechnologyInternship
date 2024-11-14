@@ -31,9 +31,9 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import { IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
-import { CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
+import { CDAAddStudentAdditionalDetails, CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -119,6 +119,52 @@ interface RAdmissionDetails {
   userName?: string;
 }
 
+interface RFamilyDetails {
+  fatherOccupation?: string;
+  fatherQualification?: string;
+  fatherEmail?: string;
+  fatherOfficeName?: string;
+  fatherOfficeAddress?: string;
+  fatherDesignation?: string;
+  fatherDOB?: string;
+  fatherPhoto?: string;
+  fatherWeight?: number;
+  fatherHeight?: number;
+  fatherBloodGroup?: string;
+  fatherAadharCard?: string;
+  fatherAnnualIncome?: number;
+
+  motherOccupation?: string;
+  motherQualification?: string;
+  motherEmail?: string;
+  motherOfficeName?: string;
+  motherOfficeAddress?: string;
+  motherDesignation?: string;
+  motherDOB?: string;
+  motherPhoto?: string;
+  motherWeight?: number;
+  motherHeight?: number;
+  motherAadharCard?: string;
+  motherBloodGroup?: string;
+  motherAnnualIncome?: number;
+
+  marriageAnniversaryDate?: string;
+  localGuardianPhoto?: string;
+  familyMonthlyIncome?: number;
+  cwsn?: string;
+  relativeFullName?: string;
+  residencePhoneNumber?: string;
+  familyPhoto?: string;
+  name1?: string,
+  name2?: string,
+  age1?: number,
+  age2?: number,
+  institution1?: string,
+  institution2?: string,
+  standard1?: string,
+  standard2?: string,
+
+}
 interface RAdditionalInfoDetails {
   admissionAcademicYear?: string;
   admissionStandard?: string;
@@ -161,6 +207,7 @@ const StudentRegistrationForm = () => {
 
   const [admissionDetailsData, setAdmissionDetailsData] = useState<RAdmissionDetails>({});
   const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
+  const [familyDetailsData, setFamilyDetailsData] = useState<RFamilyDetails>({});
   const [additionalInfoData, setAdditionalInfoData] = useState<RAdditionalInfoDetails>({});
 
   //const [familyData, setFamilyData] = useState(false);
@@ -195,6 +242,11 @@ const StudentRegistrationForm = () => {
     console.log('personalDetails data:', personalDetailsData);
     // console.log('admissionDetails data:', admissionDetailsData);
   }
+  const onFamilyTab = (updateddata) => {
+    setFamilyDetailsData(updateddata);
+    console.log('🎈familyDetailsData:', familyDetailsData);
+  }
+
   const onAdditionalInfoTab = (updateddata) => {
     setAdditionalInfoData(updateddata);
     console.log('👍AdditionalInfo data:', additionalInfoData);
@@ -280,6 +332,7 @@ const StudentRegistrationForm = () => {
     }
   };//#endregion
 
+  //#region API CAlls
   const UpdateStudentBody: IUpdateStudentBody = {
     //...personalDetailsData,
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -288,7 +341,7 @@ const StudentRegistrationForm = () => {
     asID: 0, // Missing
     asAcademicYearId: 55, // Missing
     asFormNumber: 4576, // Missing
-    asPhoto_file_Path: personalDetailsData?.photo || "", // Missing
+    asPhoto_file_Path: "", // Missing ----------Need to work on
     asFirst_Name: personalDetailsData?.firstName || "",
     asMiddle_Name: personalDetailsData?.middleName || "",
     asLast_Name: personalDetailsData?.lastName || "",
@@ -360,13 +413,86 @@ const StudentRegistrationForm = () => {
     asParentUserId: 0
   }
 
+  const AddStudentAdditionalDetailsBody: IAddStudentAdditionalDetailsBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asAdmissionAcadmicYear: additionalInfoData?.admissionAcademicYear || "",
+    asAdmissionStandard: additionalInfoData?.admissionStandard || "",
+    asCurrentAcademicYear: additionalInfoData?.currentAcademicYear || "",
+    asCurrentStandard: additionalInfoData?.currentStandard || "",
+    asIsHandicapped: admissionDetailsData?.isHandicapped || false,
+    asPreviousMarksObtained: additionalInfoData?.previousMarksObtained || "",
+    asPreviousMarksOutOff: additionalInfoData?.previousMarksOutOf || "",
+    asPreviousYearOfPassing: additionalInfoData?.previousYearOfPassing || "",
+    asSubjectNames: additionalInfoData?.subjectNames || "",
+    asSchoolwiseStudentId: 3556,
+    asUserid: 4463,
+    asReligion: personalDetailsData?.religion || "",
+    asBirthTaluka: personalDetailsData?.birthTaluka || "",
+    asBirthDistrict: personalDetailsData?.birthDistrict || "",
+    asHouseNoPlotNo: additionalInfoData?.houseNumber || "",
+    asMainArea: additionalInfoData?.mainArea || "",
+    asSubareaName: additionalInfoData?.subareaName || "",
+    asLandmark: additionalInfoData?.landmark || "",
+    asTaluka: additionalInfoData?.taluka || "",
+    asDistrict: additionalInfoData?.district || "",
+    asFeeAreaName: 0,
+    asFatherOccupation: familyDetailsData?.fatherOccupation || "",
+    asFatherQualification: familyDetailsData?.fatherQualification || "",
+    asFatherEmail: familyDetailsData?.fatherEmail || "",
+    asFatherOfficeName: familyDetailsData?.fatherOfficeName || "",
+    asFatherOfficeAddress: familyDetailsData?.fatherOfficeAddress || "",
+    asMotherOccupation: familyDetailsData?.motherOccupation || "",
+    asMotherQualification: familyDetailsData?.motherQualification || "",
+    asMotherEmail: familyDetailsData?.motherEmail || "",
+    asMotherOfficeName: familyDetailsData?.motherOfficeName || "",
+    asMotherOfficeAddress: familyDetailsData?.motherOfficeAddress || "",
+    asFatherDOB: formatDOB(familyDetailsData?.fatherDOB) || "",
+    asMotherDOB: formatDOB(familyDetailsData?.motherDOB) || "",
+    asFatherDesignation: familyDetailsData?.fatherDesignation || "",
+    asMotherDesignation: familyDetailsData?.motherDesignation || "",
+    asFatherPhoto: familyDetailsData?.fatherPhoto || "",
+    asMotherPhoto: familyDetailsData?.motherPhoto || "",
+    asAnniversaryDate: familyDetailsData?.marriageAnniversaryDate || "",
+    asLocalGuardianPhoto: familyDetailsData?.localGuardianPhoto || "",
+    asRelativeName: familyDetailsData?.relativeFullName || "",
+    asFatherBinaryPhoto: null,       //Need to work on this
+    asMotherBinaryPhoto: null,
+    asRelativeBinaryPhoto: null,
+    asFatherWeight: familyDetailsData?.fatherWeight || 0,
+    asMotherWeight: familyDetailsData?.motherWeight || 0,
+    asFatherHeight: familyDetailsData?.fatherHeight || 0,
+    asMotherHeight: familyDetailsData?.motherHeight || 0,
+    asFatherAadharcardNo: familyDetailsData?.fatherAadharCard || "",
+    asMotherAadharcardNo: familyDetailsData?.motherAadharCard || "",
+    asFatherBloodGroup: familyDetailsData?.fatherBloodGroup || "",
+    asMotherBloodGroup: familyDetailsData?.motherBloodGroup || "",
+    asFamilyMonthlyIncome: familyDetailsData?.familyMonthlyIncome || 0.00,
+    asCWSN: familyDetailsData?.cwsn || "",
+    asFatherAnnualIncome: familyDetailsData?.fatherAnnualIncome || 0.00,
+    asMotherAnnualIncome: familyDetailsData?.motherAnnualIncome || 0.00,
+    asBirthState: personalDetailsData?.birthState || "",
+    asName1: familyDetailsData?.name1 || "",
+    asAge1: familyDetailsData?.age1 || 0,
+    asInstitute1: familyDetailsData?.institution1 || "",
+    asStandard1: familyDetailsData?.standard1 || "",
+    asName2: familyDetailsData?.name2 || "",
+    asAge2: familyDetailsData?.age2 || 0,
+    asInstitute2: familyDetailsData?.institution2 || "",
+    asStandard2: familyDetailsData?.standard2 || "",
+    asResidenceType: Number(admissionDetailsData?.residenceTypes) || 0,
+    asRFID: admissionDetailsData?.RFID || "",
+  }
+
   const handleUpdate = () => {
     console.log('Sending update with data:', UpdateStudentBody);
 
     dispatch(CDAUpdateStudent(UpdateStudentBody));
+    dispatch(CDAAddStudentAdditionalDetails(AddStudentAdditionalDetailsBody));
+
     //console.log('Saving data:', personalDetails);
   };
 
+  //#endregion
   const onSelectDate = (value) => {
     SetSelectDate(value);
   };
@@ -630,7 +756,7 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <FamilyDetails onSave={handleSave} />
+              <FamilyDetails onTabChange={onFamilyTab} />
             </Grid>
           </Grid>
         )}
