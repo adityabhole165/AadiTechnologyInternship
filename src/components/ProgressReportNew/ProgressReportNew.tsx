@@ -305,21 +305,21 @@ const ProgressReportNew = () => {
   const IsGradingStandard: IsGradingStandarBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(AcademicYear),
-    asStandardId: Number(Standard_Id())
+    asStandardId:GetOldStudentDetails.StandardId
 
   };
 
   const IsTestPublishedForStdDiv: IsTestPublishedForStdDivBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmicYearId: Number(AcademicYear),
-    asStdDivId: Number(StandardDivisionId())
+    asStdDivId: GetOldStudentDetails.StandardDivisionId
 
   };
 
   const IsTestPublishedForStudent: IsTestPublishedForStudentBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(AcademicYear),
-    asStandardDivId: Number(StandardDivisionId()),
+    asStandardDivId: GetOldStudentDetails.StandardDivisionId,
     asStudentId: Number(StudentId)
 
   };
@@ -395,7 +395,7 @@ const ProgressReportNew = () => {
   const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYrId: Number(AcademicYear),
-    asStandardId: Number(Standard_Id()),
+    asStandardId: GetOldStudentDetails.StandardId,
     asIsCoCurricular: false
   };
 
@@ -444,7 +444,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
-  }, [Standard_Id(), selectTeacher, StudentId]);
+  }, [AcademicYear, selectTeacher, StudentId,GetOldStudentDetails.StandardId]);
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
@@ -455,12 +455,12 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
 
-  }, [StandardDivisionId()]);
+  }, [GetOldStudentDetails.StandardDivisionId,AcademicYear]);
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
 
-  }, [StandardDivisionId()]);
+  }, [GetOldStudentDetails.StandardDivisionId,AcademicYear]);
 
 
   useEffect(() => {
@@ -505,7 +505,7 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
-  }, [Standard_Id()]);
+  }, [GetOldStudentDetails.StandardId,AcademicYear]);
 
 
 
@@ -805,6 +805,8 @@ const ProgressReportNew = () => {
       {open && (
         <div>
 
+
+
           {USIsTestPublishedForStdDiv == true ?
             <>
               {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
@@ -1047,6 +1049,8 @@ const ProgressReportNew = () => {
             </Typography>
 
           }
+
+
 
         </div>
       )}
