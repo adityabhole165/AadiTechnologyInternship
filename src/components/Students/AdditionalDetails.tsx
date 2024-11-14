@@ -9,10 +9,19 @@
 // export default AdditionalDetails
 
 import { Box, Grid, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { IGetSingleStudentDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { CDAGetStudentAdditionalDetails } from 'src/requests/Students/RequestStudentUI';
+import { RootState } from 'src/store';
 
 const AdditionalDetails = ({ onSave }) => {
+  const location = useLocation();
+  const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
+  const dispatch = useDispatch();
+
   // State to hold the input values
   const [form, setForm] = useState({
     lastSchoolName: '',
@@ -38,7 +47,53 @@ const AdditionalDetails = ({ onSave }) => {
     currentAcademicYear: '', // New field
     currentStandard: '' // New field
   });
+  //#region API CALL
+  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
+  console.log('GetStudentAdditionalDetails', GetStudentAdditionalDetails);
 
+
+  const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+  };
+
+  useEffect(() => {
+    dispatch(CDAGetStudentAdditionalDetails(GetSingleStudentDetails));
+  }, []);
+
+  useEffect(() => {
+    if (GetStudentAdditionalDetails && GetStudentAdditionalDetails.length > 0) {
+      const studentAdditionalData = GetStudentAdditionalDetails[0]; // Get first item from array
+      setForm(prevForm => ({
+        ...prevForm,
+        lastSchoolName: '',
+        lastSchoolAddress: studentAdditionalData.Last_School_Name || '',
+        standard: studentAdditionalData.Last_School_Name || '',
+        schoolUDISENo: studentAdditionalData.Last_School_Name || '',
+        schoolBoardName: studentAdditionalData.Last_School_Name || '',
+        isRecognised: studentAdditionalData.Last_School_Name || '',
+        // lastSchoolRollNumber: '',
+        //  lastSchoolYear: '',
+        houseNumber: studentAdditionalData.HouseNoPlotNo || '',
+        mainArea: studentAdditionalData.MainArea || '',
+        subareaName: studentAdditionalData.SubareaName || '',
+        landmark: studentAdditionalData.Landmark || '',
+        taluka: studentAdditionalData.Religion || '',
+        district: studentAdditionalData.District || '',
+        admissionStandard: studentAdditionalData.AddmissionStandard || '',
+        admissionAcademicYear: studentAdditionalData.AddmissionAcademicYear || '',
+        previousMarksObtained: studentAdditionalData.PreviousMarksObtained || '',
+        previousMarksOutOf: studentAdditionalData.PreviousMarksOutOff || '',
+        subjectNames: studentAdditionalData.SubjectNames || '',
+        previousYearOfPassing: studentAdditionalData.PreviousYearOfPassing || '',
+        currentAcademicYear: studentAdditionalData.CurrentAcademicYear || '',
+        currentStandard: studentAdditionalData.CurrentStandard || '',
+      }));
+    }
+  }, [GetStudentAdditionalDetails]);
+
+  //#endregion
   const SchoolBoardName = [
     { id: 1, Name: 'ICSE' },
     { id: 2, Name: 'SSC' },

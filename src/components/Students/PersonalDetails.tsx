@@ -65,7 +65,7 @@ const PersonalDetails = ({ onTabChange }) => {
   const webcamRef = useRef(null);
 
   const location = useLocation();
-  const { standardId, DivisionId } = location.state || {};
+  const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
   const { AssignedDate } = useParams();
   const [form, setForm] = useState({
@@ -157,7 +157,7 @@ const PersonalDetails = ({ onTabChange }) => {
   const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
     asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asStudentId: 3556 // Number(sessionStorage.getItem('Id'))
+    asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
   };
 
   useEffect(() => {
