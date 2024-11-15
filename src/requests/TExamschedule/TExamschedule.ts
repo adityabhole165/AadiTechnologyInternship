@@ -176,86 +176,90 @@ export const RExamSchedule =
   (data: IGetExamScheduleBody): AppThunk =>
     async (dispatch) => {
       dispatch(SelectStandardExamslice.actions.getLoading(true));
+
       const response = await GetTExamResultListApi.GetExamScheduleFullAcc(data);
       console.log(response, "response");
+
       const GetStandardTest = (StandardId, TestId) => {
         return response.data.listSchoolwiseStandardTest
-          .filter(item => item.standard_id === StandardId && item.SchoolWise_Test_Id === TestId)
+          .filter(item => item.standard_id === StandardId && item.SchoolWise_Test_Id === TestId);
+      };
 
-      }
       const GetConfigExam = (StandardId, TestId) => {
         return response.data.listSchoolWiseConfigExam
-          .filter(item => item.Standard_Id === StandardId && item.SchoolWise_Test_Id === TestId)
+          .filter(item => item.Standard_Id === StandardId && item.SchoolWise_Test_Id === TestId);
+      };
 
-      }
-      let Array = []
-      let Id = 0
-      response?.data?.listSchoolWiseStandards.map((Standards, indexStandards) => {
-        response.data?.listSchoolWiseTestNamE.map((Tests, indexTests) => {
+      let Array = [];
+      let Id = 0;
 
-          Id = Id + 1
-          const StandardTest = GetStandardTest(Standards.standard_id, Tests.SchoolWise_TestId)
-          if (StandardTest.length == 0) {
+      response?.data?.listSchoolWiseStandards.forEach((Standards) => {
+        response.data?.listSchoolWiseTestNamE.forEach((Tests) => {
+          Id += 1;
 
+          const StandardTest = GetStandardTest(Standards.standard_id, Tests.SchoolWise_TestId);
+          if (StandardTest.length === 0) {
             Array.push({
-              Id: Id,
+              Id,
               Name: "N/A",
-              Backgoround: "Yellow",
+              Background: "Yellow",
               IsLink: false,
               fontWeight: '',
               IsConfigured: false,
+              Header: Standards.standard_name, // Maps to header
+              SubHeader: Tests.SchoolWise_TestName, // Maps to subheader
               TestId: Tests.SchoolWise_TestId,
               StandardId: Standards.standard_id
-            })
+            });
           } else {
-            const ConfigExam = GetConfigExam(Standards.standard_id, Tests.SchoolWise_TestId)
-            if (ConfigExam.length == 0) {
-
+            const ConfigExam = GetConfigExam(Standards.standard_id, Tests.SchoolWise_TestId);
+            if (ConfigExam.length === 0) {
               Array.push({
-                Id: Id,
+                Id,
                 Name: "Not Configured",
-                Backgoround: "DarkGreen",
+                Background: "DarkGreen",
                 IsLink: true,
                 fontWeight: 'bold',
                 IsConfigured: false,
+                Header: Standards.standard_name,
+                SubHeader: Tests.SchoolWise_TestName,
                 TestId: Tests.SchoolWise_TestId,
                 StandardId: Standards.standard_id
-              })
-            }
-            else {
+              });
+            } else {
               Array.push({
-                Id: Id,
-                Name: ConfigExam[0].Exam_Start_Date + ' - ' + ConfigExam[0].Exam_End_Date,
-                Backgoround: "LightGreen",
+                Id,
+                Name: `${ConfigExam[0].Exam_Start_Date} - ${ConfigExam[0].Exam_End_Date}`,
+                Background: "LightGreen",
                 IsLink: true,
                 fontWeight: 'bold',
                 IsConfigured: true,
+                Header: Standards.standard_name,
+                SubHeader: Tests.SchoolWise_TestName,
                 TestId: Tests.SchoolWise_TestId,
                 StandardId: Standards.standard_id
-              })
+              });
             }
           }
-        })
-
-      })
-      console.log(Array, "Array");
-      const DataList = response?.data?.listSchoolWiseStandards.map((item) => {
-        return {
-          Text1: item.original_standard_id,
-          Text2: item.standard_id,
-          Name: item.standard_name,
-          school_id: item.school_id,
-        };
+        });
       });
 
-      const itemlist = response?.data?.listSchoolWiseTestNamE.map((item) => {
-        return {
-          text1: item.SchoolWise_TestId,
-          Name: item.SchoolWise_TestName
-        };
-      });
+      console.log(Array, "Mapped Array");
+
+      const DataList = response?.data?.listSchoolWiseStandards.map((item) => ({
+        Text1: item.original_standard_id,
+        Text2: item.standard_id,
+        Name: item.standard_name,
+        school_id: item.school_id,
+      }));
+
+      const ItemList = response?.data?.listSchoolWiseTestNamE.map((item) => ({
+        text1: item.SchoolWise_TestId,
+        Name: item.SchoolWise_TestName,
+      }));
+
       dispatch(SelectStandardExamslice.actions.RStandardRes(DataList));
-      dispatch(SelectStandardExamslice.actions.RStandardwTestRes(itemlist));
+      dispatch(SelectStandardExamslice.actions.RStandardwTestRes(ItemList));
       dispatch(SelectStandardExamslice.actions.ExamSchedule(Array));
     };
 
