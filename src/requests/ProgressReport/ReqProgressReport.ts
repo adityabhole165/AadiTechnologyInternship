@@ -1110,6 +1110,7 @@ export const CDAresetGetSchoolSettings =
 export const CDAGetAcademicYearsOfStudent =
   (data: IGetAcademicYearsOfStudentBody): AppThunk =>
     async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.GetAcademicYearsOfStudent(data);
 
       const AcademicYearsOfStudent = response.data.GetAcademicYears.map((item) => ({
