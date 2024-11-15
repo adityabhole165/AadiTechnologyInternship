@@ -85,7 +85,7 @@ const ExamScheduleBasescreen = () => {
     useEffect(() => {
         const RExamScheduleBody = {
             asSchoolId: Number(localStorage.getItem("SchoolId")),
-            asAcademicYearId: Number(localStorage.getItem("AcademicYearId"))
+            asAcademicYearId: Number(sessionStorage.getItem("AcademicYearId"))
         }
 
         dispatch(RExamSchedule(RExamScheduleBody))
