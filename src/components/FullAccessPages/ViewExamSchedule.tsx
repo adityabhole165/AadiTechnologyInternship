@@ -82,7 +82,7 @@ const ViewExamSchedule = () => {
     const toggleAccordion = (index) => {
         setExpandedCardIndex(expandedCardIndex === index ? null : index);
     };
-
+    const Instructions = getExamlist.find(item => item.Text6)?.Text6 || '';
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -144,7 +144,7 @@ const ViewExamSchedule = () => {
                 getExamlist && getExamlist.length > 0 && getExamlist.map((exam, index) => {
 
                     const filteredSubList = SubList.filter(item => item.SchoolwiseStandardExamScheduleId === exam.Schoolwise_Standard_Exam_Schedule_Id);
-                    const instruction = filteredSubList.find(item => item.Description)?.Description || '';
+
                     return filteredSubList.length > 0 ? (
                         <Box key={index} sx={{ backgroundColor: 'white' }}>
                             <Box
@@ -205,12 +205,13 @@ const ViewExamSchedule = () => {
                                             ))}
                                             <TableRow>
                                                 <TableCell colSpan={7} sx={{ py: 1, textAlign: 'left' }}>
-                                                    <strong>Instruction : </strong>  {filteredSubList.find(item => item.Description)
-                                                        ?.Description.replace(/<\/?br\s*\/?>/gi, ' ') || ''}
+                                                    <strong>Instruction: </strong>
+                                                    {Instructions.replace(/<\/?br\s*\/?>/gi, ' ') || '-'}
                                                 </TableCell>
                                             </TableRow>
                                         </TableBody>
                                     </Table>
+
                                 </TableContainer>
 
                             ) : null}
