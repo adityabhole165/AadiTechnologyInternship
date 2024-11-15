@@ -77,6 +77,12 @@ const MarkDetailsList1 = [
 const ExamScheduleBasescreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asSchoolId = localStorage.getItem('localSchoolId');
+    const SubHeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandard);
+    const HeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandardwTest);
+
     const ExamSchedule: any = useSelector(
         (state: RootState) =>
             state.StandardAndExamList.ExamSchedule
@@ -84,15 +90,16 @@ const ExamScheduleBasescreen = () => {
 
     useEffect(() => {
         const RExamScheduleBody = {
-            asSchoolId: Number(localStorage.getItem("SchoolId")),
-            asAcademicYearId: Number(sessionStorage.getItem("AcademicYearId"))
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId)
         }
 
         dispatch(RExamSchedule(RExamScheduleBody))
     }, [])
+
     const ClickSchedule = (Value) => {
         console.log(Value, "ClickSchedule");
-        navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId)
+        navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId)
     }
 
     return (
