@@ -110,7 +110,6 @@ export interface IGetExamScheduleResult {
       Schoolwise_Standard_Test_Id: string,
       standard_id: string,
       SchoolWise_Test_Id: string,
-      TestType_Name: string,
     }
   ]
 }

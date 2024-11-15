@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import IGetAllStandards, {
+  IGetExamScheduleBody,
   IGetExamsList
 } from 'src/interfaces/Teacher/TExamSchedule';
 import { AppThunk } from 'src/store';
@@ -14,6 +15,8 @@ const SelectStandardExamslice = createSlice({
     ExamData: [],
     VeiwAllData: [],
     NewExamData: [],
+    RStandard: [],
+    RStandardwTest: [],
     Loading: true
   },
   reducers: {
@@ -34,6 +37,12 @@ const SelectStandardExamslice = createSlice({
     },
     getStandardRes(state, action) {
       state.getStandard = action.payload;
+    },
+    RStandardRes(state, action) {
+      state.RStandard = action.payload;
+    },
+    RStandardwTestRes(state, action) {
+      state.RStandardwTest = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true;
@@ -117,8 +126,6 @@ export const ViewExamDataRess =
       });
       dispatch(SelectStandardExamslice.actions.ViewExamDataRes(DataList));
       dispatch(SelectStandardExamslice.actions.AllExamData(itemlist));
-      console.log(response, "DataList");
-
     };
 
 
@@ -142,9 +149,9 @@ export const NewExamSchedule =
       });
 
       const DataListNew = response?.data?.GetSubjectsExamScheduleList
-        .flatMap(item => Array.isArray(item) ? item : [item]) 
-        .filter(item => item && item.ID) 
-        .map((subItem: any) => ({ 
+        .flatMap(item => Array.isArray(item) ? item : [item])
+        .filter(item => item && item.ID)
+        .map((subItem: any) => ({
           Text1: subItem.ID,
           Text2: subItem.Subject_Name,
           Text3: subItem.TestType,
@@ -159,6 +166,33 @@ export const NewExamSchedule =
       dispatch(SelectStandardExamslice.actions.ViewExamDataRes(DataList));
       dispatch(SelectStandardExamslice.actions.NewExamDataRes(DataListNew));
     };
+
+
+export const RExamSchedule =
+  (data: IGetExamScheduleBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SelectStandardExamslice.actions.getLoading(true));
+      const response = await GetTExamResultListApi.GetExamScheduleFullAcc(data);
+
+      const DataList = response?.data?.listSchoolWiseStandards.map((item) => {
+        return {
+          Text1: item.original_standard_id,
+          Text2: item.standard_id,
+          Name: item.standard_name,
+          school_id: item.school_id,
+        };
+      });
+
+      const itemlist = response?.data?.listSchoolWiseTestNamE.map((item) => {
+        return {
+          text1: item.SchoolWise_TestId,
+          Name: item.SchoolWise_TestName
+        };
+      });
+      dispatch(SelectStandardExamslice.actions.RStandardRes(DataList));
+      dispatch(SelectStandardExamslice.actions.RStandardwTestRes(itemlist));
+    };
+
 export default SelectStandardExamslice.reducer;
 
 
