@@ -83,7 +83,11 @@ const ExamScheduleBasescreen = () => {
     );
 
     useEffect(() => {
-        const RExamScheduleBody = { asSchoolId: 18, asAcademicYearId: 55 }
+        const RExamScheduleBody = {
+            asSchoolId: Number(localStorage.getItem("SchoolId")),
+            asAcademicYearId: Number(localStorage.getItem("AcademicYearId"))
+        }
+
         dispatch(RExamSchedule(RExamScheduleBody))
     }, [])
     const ClickSchedule = (Value) => {
