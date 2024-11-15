@@ -48,7 +48,6 @@ import {
   Wordbreak1
 } from 'src/libraries/styled/CardStyle';
 import {
-  ReadRecipient,
   messageCenter,
   messageCenterCale
 } from 'src/libraries/styled/CommonStyle';
@@ -212,6 +211,10 @@ function Form13() {
   const [displayOfCCRecipients, setdisplayOfCCRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [scheduleMessage, setscheduleMessage] = useState('none');
+  const [value, setValue] = useState(new Date());
+  const [scheduleDate, setScheduleDate] = useState('');
+  const [schTimeerror, setSchTimeerror] = useState('');
+  const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
   const [requestReadReceipt, setRequestReadReceipt] = useState(false);
   // const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
@@ -473,11 +476,43 @@ function Form13() {
     //   },
     onSubmit: (values) => {
       let valid = false;
+      // if (requestSchedule) {
+      //   if (scheduleDate + value) {
+      //     valid = true;
+      //   }
+      //   if (scheduleDate.length == 0) {
+      //     setRequestScheduleMsg('Schedule date should not be blank.');
+      //     valid = false;
+      //   } else if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
+      //     setSchTimeerror('Message schedule time should be in future.');
+      //     valid = false;
+      //   } else {
+      //     setRequestScheduleMsg('');
+      //   }
+      // } else {
+      //   valid = true;
+      // }
+      if (valid) {
+        sendMessage();
+        setdisabledStateOfSend(true);
+      }
+    },
+    validate: (values) => {
+      const errors: any = {};
+      console.log('>>>>>>', scheduleDate);
+
+      //
+      let valid = false;
       if (requestSchedule) {
+        if (scheduleDate !== '') {
+          setRequestScheduleMsg('');
+        }
         if (scheduleDate + value) {
           valid = true;
         }
-        if (scheduleDate.length == 0) {
+        if (scheduleDate === '') {
+          console.log('>>>>>>', scheduleDate);
+
           setRequestScheduleMsg('Schedule date should not be blank.');
           valid = false;
         } else if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
@@ -489,13 +524,7 @@ function Form13() {
       } else {
         valid = true;
       }
-      if (valid) {
-        sendMessage();
-        setdisabledStateOfSend(true);
-      }
-    },
-    validate: (values) => {
-      const errors: any = {};
+      //
       if (RecipientsObject.RecipientName.length == 0 && PageName !== 'Reply') {
         errors.To = 'Atleast one recipient should be selected.';
       }
@@ -621,10 +650,7 @@ function Form13() {
     aRef.current.value = null;
   };
   // 
-  const [value, setValue] = useState(new Date());
-  const [scheduleDate, setScheduleDate] = useState('');
-  const [schTimeerror, setSchTimeerror] = useState('');
-  const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
+
 
   const clickTime = (timeValue) => {
     console.log(timeValue);
@@ -639,14 +665,20 @@ function Form13() {
   };
 
   const scheduleDateAndTime = (dateValue) => {
+    const dateValue1 = getDateFormat1(dateValue);
+    console.log(dateValue1);
+
+    setScheduleDate(dateValue1);
+    console.log(scheduleDate);
+
     if (scheduleDate !== '') {
       setRequestScheduleMsg('');
     }
+
     const timeString = formatTime(value);
     if (scheduleDate !== '') {
-      checkScheduleValidation(getDateFormat1(dateValue) + ' ' + timeString);
+      checkScheduleValidation(scheduleDate + ' ' + timeString);
     }
-    setScheduleDate(getDateFormat1(dateValue));
   };
 
   const checkScheduleValidation = (DateTime) => {
@@ -889,7 +921,7 @@ function Form13() {
             <ReplyIcon />
           </Fab> 
         </span> */}
-        <Box sx={{ backgroundColor: 'white', px: 2, minHeight: '85vh', mt: 2, mb:2 }}>
+        <Box sx={{ backgroundColor: 'white', px: 2, minHeight: '85vh', mt: 2, mb: 2 }}>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
               {/* <Grid item xs={12}>
@@ -952,7 +984,7 @@ function Form13() {
                               key={index}
                               label={recipient?.trim()}
                               onDelete={() => handleDelete(recipient, index)} // Add delete functionality
-                              sx={{ my: 1, mx: 0.5,}}
+                              sx={{ my: 1, mx: 0.5, }}
                             />
                           ))}
                         </>
@@ -1181,28 +1213,28 @@ function Form13() {
                   <Errormessages Error={fileerror} />
                 </Box>
               </Grid>
-              <Grid item xs={6} sm={4} md={4} lg={2} sx={{ mt:0.5  }} >
+              <Grid item xs={6} sm={4} md={4} lg={2} sx={{ mt: 0.5 }} >
                 <Checkbox
                   size="medium"
                   onChange={() => setRequestReadReceipt(!requestReadReceipt)}
                 />
-                <Typography sx={{ display: 'inline-block',}}>
+                <Typography sx={{ display: 'inline-block', }}>
                   Request Read Receipt ?
                 </Typography>
               </Grid>
 
-              <Grid item xs={6} sm={4} md={4} lg={2.5} sx={{ mt:0.5  }}>
+              <Grid item xs={6} sm={4} md={4} lg={2.5} sx={{ mt: 0.5 }}>
                 <Checkbox
                   onChange={scheduleMessageCheckBox}
                   onClick={() => setRequestSchedule(!requestSchedule)}
                   size="medium"
-                 
+
                 />
-                <Typography sx={{ display: 'inline-block', mt:0.5 }}>
+                <Typography sx={{ display: 'inline-block', mt: 0.5 }}>
                   Schedule Message at
                 </Typography>
-              {/* </Grid> */}
-              {/* <Grid item xs={2} sm={0.5} md={0.5} lg={0.5}> */}
+                {/* </Grid> */}
+                {/* <Grid item xs={2} sm={0.5} md={0.5} lg={0.5}> */}
                 <ClickAwayListener onClickAway={handleClickAwayS}>
                   <Tooltip
                     PopperProps={{ disablePortal: true }}
@@ -1225,7 +1257,7 @@ function Form13() {
                   >
                     <IconButton
                       onMouseOver={handleClickS}
-                      sx={{ color: '#38548A',  ml:2 }}
+                      sx={{ color: '#38548A', ml: 2 }}
                     >
                       <InfoIcon
                       // sx={{ color: '#38548A', fontSize: '20px',  }}
@@ -1259,7 +1291,7 @@ function Form13() {
                 sm={4}
                 md={4}
                 lg={2.4}
-                sx={{  display: scheduleMessage }}
+                sx={{ display: scheduleMessage }}
               >
                 {/* <TimePicker value={value} onChange={clickTime} slotProps={{
                   actionBar: {
@@ -1303,7 +1335,7 @@ function Form13() {
                                 sx={{
                                   color: '#38548A	',
                                   ml: 2,
-                                  p:0.2,
+                                  p: 0.2,
                                   mt: -0.7,
                                   '&:hover': {
                                     color: 'red',
@@ -1322,14 +1354,14 @@ function Form13() {
                 )}
               </Grid>
 
-             
+
               <Grid item xs={6} sx={{ mt: 0, ml: '1px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Grid>
 
               <Grid item xs={12} sx={messageCenter}>
-                <Box sx={{ }}>
+                <Box sx={{}}>
                   {/* <ReactQuill value={formik.values.Content}
                     onChange={(content) => formik.setFieldValue('Content', content)}
                     modules={toolbarOptions}
@@ -1353,7 +1385,7 @@ function Form13() {
                   ) : null}
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={12} sx={{  mb: 5, }}>
+              <Grid item xs={12} sm={12} sx={{ mb: 5, }}>
                 {PageName === 'Reply' || PageName === 'Forwa' ? (
                   <>
                     <FormHelperText sx={{ ml: '3px' }}>
