@@ -130,11 +130,11 @@ function CardMessage({
           {ActiveTab === 'Inbox' && (
             <Grid item xs={6} sm={2} md={2} lg={1} >
               {IsAttachmentExist ? (
-                <IconButton sx={{textAlign:'center',ml:-6}}>
+                <IconButton sx={{textAlign:'center',ml:-4}}>
                   <AttachmentIcon fontSize="small" />
                 </IconButton>
               ) : (
-                <Typography ml={-4.5}>-</Typography>
+                <Typography ml={-2.5}>-</Typography>
               )}
             </Grid>
           )}
