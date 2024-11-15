@@ -1,6 +1,5 @@
 import { EditTwoTone, QuestionMark } from '@mui/icons-material';
 import ForwardIcon from '@mui/icons-material/Forward';
-import InboxIcon from '@mui/icons-material/Inbox';
 import ReplyIcon from '@mui/icons-material/Reply';
 import ReplyAllIcon from '@mui/icons-material/ReplyAll';
 import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
@@ -204,63 +203,12 @@ function Card7({
                     </IconButton>
                   </Tooltip>
                 </Box>
-                {FromRoute === 'Draft' ? (
-                  //  <Tooltip title={`Go to Inbox`}>
-                  // <Button onClick={navigateToInBox}
-                  //   sx={{
-                  //     color: '#38548A',
-                  //     '&:hover': {
-                  //       color: '#38548A',
-                  //       backgroundColor: blue[100]
-                  //     }
-                  //   }}
-                  // >
-                  //   {' '}
-                  //   Go to Inbox{' '}
-                  // </Button>
-                  <Tooltip title={`Go to Inbox`}>
-                    <IconButton
-                      onClick={navigateToInBox}
-                      sx={{
-                        color: 'white',
-                        mr: 1,
-                        backgroundColor: blue[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: blue[600] }
-                      }}>
-                      <InboxIcon />
-                    </IconButton>
-                  </Tooltip>
-
-                ) : (
-                  // <Button
-                  //   onClick={() => {
-                  //     saveMessageBody('Reply');
-                  //   }}
-                  //   sx={{
-                  //     color: '#38548A',
-                  //     '&:hover': {
-                  //       color: '#38548A',
-                  //       backgroundColor: blue[100]
-                  //     }
-                  //   }}
-                  // >
-                  //   {' '}
-                  //   Reply
-                  // </Button>
-
+                {FromRoute === 'Draft' ? null : (
                   <Tooltip title={`Reply`}>
                     <IconButton
                       onClick={() => {
                         saveMessageBody('Reply');
                       }}
-                      // sx={{
-                      //   color: 'white',
-                      //   mr: 1,
-                      //   backgroundColor: green[500],
-                      //   height: '36px !important',
-                      //   ':hover': { backgroundColor: green[600] }
-                      // }}>
                       sx={{
                         color: 'white',
                         mr: 1,
@@ -268,30 +216,18 @@ function Card7({
                         '&:hover': {
                           backgroundColor: blue[600]
                         }
-                      }}>
+                      }}
+                    >
                       <ReplyIcon />
                     </IconButton>
                   </Tooltip>
-                )}{' '}
+                )}
+
 
                 {/* {RoleId !== '3' && (
                   <> */}
                 {(
-                  // <Button
-                  //   onClick={() => {
-                  //     saveMessageBody('ReplyAll');
-                  //   }}
-                  //   sx={{
-                  //     color: '#38548A',
-                  //     '&:hover': {
-                  //       color: '#38548A',
-                  //       backgroundColor: blue[100]
-                  //     }
-                  //   }}
-                  // >
-                  //   {' '}
-                  //   Reply All
-                  // </Button>
+
                   <Tooltip title={`Reply To All`}>
                     <IconButton
                       onClick={() => {
@@ -312,23 +248,11 @@ function Card7({
                 )}
 
                 {/* </>
-                )} */}
+                )} */
+
+                }
                 {FromRoute === 'Draft' ? (
-                  // <Button
-                  //   onClick={() => {
-                  //     saveMessageBody('Edit');
-                  //   }}
-                  //   sx={{
-                  //     color: '#38548A',
-                  //     '&:hover': {
-                  //       color: '#38548A',
-                  //       backgroundColor: blue[100]
-                  //     }
-                  //   }}
-                  // >
-                  //   {' '}
-                  //   Edit{' '}
-                  // </Button>
+
                   <Tooltip title={"Edit"}>
                     <IconButton
                       onClick={() => {
@@ -346,22 +270,6 @@ function Card7({
                     </IconButton>
                   </Tooltip>
                 ) : (
-
-                  // <Button
-                  //   onClick={() => {
-                  //     saveMessageBody('Forward');
-                  //   }}
-                  //   sx={{
-                  //     color: '#38548A',
-                  //     '&:hover': {
-                  //       color: '#38548A',
-                  //       backgroundColor: blue[100]
-                  //     }
-                  //   }}
-                  // >
-                  //   {' '}
-                  //   Forward{' '}
-                  // </Button>
                   <Tooltip title={`Forward`}>
                     <IconButton
                       onClick={() => {

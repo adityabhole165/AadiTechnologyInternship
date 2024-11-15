@@ -806,7 +806,7 @@ function Form13() {
   };
   return (
     <>
-      <Box sx={{ px: 2, height: '90vh', mb: 2 }}>
+      <Box sx={{ px: 2, height: '95vh', mb: 2 }}>
         <CommonPageHeader
           navLinks={[
             {
@@ -889,7 +889,7 @@ function Form13() {
             <ReplyIcon />
           </Fab> 
         </span> */}
-        <Box sx={{ backgroundColor: 'white', px: 2, minHeight: '85vh', mt: 2 }}>
+        <Box sx={{ backgroundColor: 'white', px: 2, minHeight: '85vh', mt: 2, mb:2 }}>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
               {/* <Grid item xs={12}>
@@ -1122,7 +1122,7 @@ function Form13() {
                 </Box>
               </Grid>
 
-              <Grid item xs={10} sm={6} md={6} lg={4.5} mt={1}>
+              <Grid item xs={12} sm={2} md={2} lg={2.5} >
                 <Tooltip
                   title={
                     'Supports only ' +
@@ -1134,7 +1134,7 @@ function Form13() {
                 >
                   <Button
                     sx={{
-                      width: '300px',
+                      width: '250px',
                       height: 'auto',
                       gap: 1,
                       border: (theme) =>
@@ -1177,9 +1177,103 @@ function Form13() {
                   </Button>
                 </Tooltip>
 
-                <Box sx={{ mt: '15px', width: '300px' }}>
+                <Box sx={{ mt: '15px', width: '220px' }}>
                   <Errormessages Error={fileerror} />
                 </Box>
+              </Grid>
+              <Grid item xs={6} sm={4} md={4} lg={2} sx={{ mt:0.5  }} >
+                <Checkbox
+                  size="medium"
+                  onChange={() => setRequestReadReceipt(!requestReadReceipt)}
+                />
+                <Typography sx={{ display: 'inline-block',}}>
+                  Request Read Receipt ?
+                </Typography>
+              </Grid>
+
+              <Grid item xs={6} sm={4} md={4} lg={2.5} sx={{ mt:0.5  }}>
+                <Checkbox
+                  onChange={scheduleMessageCheckBox}
+                  onClick={() => setRequestSchedule(!requestSchedule)}
+                  size="medium"
+                 
+                />
+                <Typography sx={{ display: 'inline-block', mt:0.5 }}>
+                  Schedule Message at
+                </Typography>
+              {/* </Grid> */}
+              {/* <Grid item xs={2} sm={0.5} md={0.5} lg={0.5}> */}
+                <ClickAwayListener onClickAway={handleClickAwayS}>
+                  <Tooltip
+                    PopperProps={{ disablePortal: true }}
+                    onClose={handleClickS}
+                    arrow
+                    open={Sopen}
+                    disableFocusListener
+                    disableHoverListener
+                    disableTouchListener
+                    title={NoteSchedule}
+                    placement="right"
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          // marginLeft: '7px',
+                          transform: 'translate3d(15px, 0.5px, 0px) !important'
+                        }
+                      }
+                    }}
+                  >
+                    <IconButton
+                      onMouseOver={handleClickS}
+                      sx={{ color: '#38548A',  ml:2 }}
+                    >
+                      <InfoIcon
+                      // sx={{ color: '#38548A', fontSize: '20px',  }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </ClickAwayListener>
+              </Grid>
+
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                md={4}
+                lg={2.5}
+                sx={{ messageCenterCale }}
+              >
+                <Datepicker
+                  DateValue={undefined}
+                  onDateChange={scheduleDateAndTime}
+                  label=""
+                  size="medium"
+                  minDate={MinDate}
+                  maxDate={MaxDate}
+                  display={scheduleMessage}
+                />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                md={4}
+                lg={2.4}
+                sx={{  display: scheduleMessage }}
+              >
+                {/* <TimePicker value={value} onChange={clickTime} slotProps={{
+                  actionBar: {
+                    actions: []
+                  }
+                }} /> */}
+                <TimepickerTwofields1
+                  Item={formatTime(value)}
+                  label={'Time'}
+                  isMandatory={false}
+                  ClickItem={clickTime}
+                  size={"medium"}
+                // tooltipMessage="e.g. 14:00"
+                />
               </Grid>
               <Grid item xs={12}>
                 {finalBase642New == undefined ||
@@ -1209,6 +1303,7 @@ function Form13() {
                                 sx={{
                                   color: '#38548A	',
                                   ml: 2,
+                                  p:0.2,
                                   mt: -0.7,
                                   '&:hover': {
                                     color: 'red',
@@ -1227,108 +1322,14 @@ function Form13() {
                 )}
               </Grid>
 
-              <Grid item xs={6} sm={4} md={4} lg={2} sx={ReadRecipient}>
-                <Checkbox
-                  size="small"
-                  sx={{ ml: '-10px' }}
-                  onChange={() => setRequestReadReceipt(!requestReadReceipt)}
-                />
-                <Typography sx={{ display: 'inline-block' }}>
-                  Request Read Receipt ?
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6} sm={4.5} md={4.5} lg={2} sx={{ mt: '-10px' }}>
-                <Checkbox
-                  onChange={scheduleMessageCheckBox}
-                  onClick={() => setRequestSchedule(!requestSchedule)}
-                  size="small"
-                  sx={{ ml: '1px' }}
-                />
-                <Typography sx={{ display: 'inline-block' }}>
-                  Schedule Message at
-                </Typography>
-              </Grid>
-              <Grid item xs={2} sm={1} md={1} lg={0}>
-                <ClickAwayListener onClickAway={handleClickAwayS}>
-                  <Tooltip
-                    PopperProps={{ disablePortal: true }}
-                    onClose={handleClickS}
-                    arrow
-                    open={Sopen}
-                    disableFocusListener
-                    disableHoverListener
-                    disableTouchListener
-                    title={NoteSchedule}
-                    placement="right"
-                    componentsProps={{
-                      tooltip: {
-                        sx: {
-                          marginLeft: '7px',
-                          transform: 'translate3d(15px, 0.5px, 0px) !important'
-                        }
-                      }
-                    }}
-                  >
-                    <IconButton
-                      onMouseOver={handleClickS}
-                      sx={{ color: '#38548A	', mt: '-9px', ml: -1 }}
-                    >
-                      <InfoIcon
-                      // sx={{ color: '#38548A', fontSize: '20px',  }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </ClickAwayListener>
-              </Grid>
-
-              <Grid
-                item
-                xs={12}
-                sm={4}
-                md={4}
-                lg={2}
-                sx={{ ml: -5, mt: -1, messageCenterCale }}
-              >
-                <Datepicker
-                  DateValue={undefined}
-                  onDateChange={scheduleDateAndTime}
-                  label=""
-                  size="medium"
-                  minDate={MinDate}
-                  maxDate={MaxDate}
-                  display={scheduleMessage}
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={4}
-                md={4}
-                lg={2}
-                sx={{ mt: -1, display: scheduleMessage }}
-              >
-                {/* <TimePicker value={value} onChange={clickTime} slotProps={{
-                  actionBar: {
-                    actions: []
-                  }
-                }} /> */}
-                <TimepickerTwofields1
-                  Item={formatTime(value)}
-                  label={'Time'}
-                  isMandatory={false}
-                  ClickItem={clickTime}
-                  size={"medium"}
-                // tooltipMessage="e.g. 14:00"
-                />
-              </Grid>
-              <Grid item xs={6} sx={{ mt: 0, mb: '6px', ml: '1px' }}>
+             
+              <Grid item xs={6} sx={{ mt: 0, ml: '1px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Grid>
 
               <Grid item xs={12} sx={messageCenter}>
-                <Box sx={{ mb: 2 }}>
+                <Box sx={{ }}>
                   {/* <ReactQuill value={formik.values.Content}
                     onChange={(content) => formik.setFieldValue('Content', content)}
                     modules={toolbarOptions}
@@ -1352,7 +1353,7 @@ function Form13() {
                   ) : null}
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={12} sx={{ mt: 2, pl: 0 }}>
+              <Grid item xs={12} sm={12} sx={{  mb: 5, }}>
                 {PageName === 'Reply' || PageName === 'Forwa' ? (
                   <>
                     <FormHelperText sx={{ ml: '3px' }}>

@@ -71,152 +71,155 @@ function CardMessage({
         : '';
   return (
     <>
-      <Grid container alignItems={'center'} onClick={clickNav} pt={0.8}>
-        <Grid item xs={2} sm={2} md={ActiveTab == 'Inbox' ? 4 : ActiveTab == 'Sent' ? 3 : 4} >
-          <Typography
-            variant="h6"
-            sx={{
-              color: IsReadColor,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              width: '150px',
-              textAlign:'left',
-              ml:2
-            }}
-          >
-            {header}
-          </Typography>
-        </Grid>
-        {/* This attachment is used for Mobile view */}
-        <Grid item display={{ xs: 'block', sm: 'none' }} xs={2}>
-          {IsAttachmentExist && <AttachmentIcon fontSize="small" />}
-        </Grid>
-        {/* 
-        Form data and Message Body */}
-        <Grid item xs={2} sm={2} md={2}>
-          <Typography
-            variant="body1"
-            sx={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              textAlign:'left',
-            }}
-          >
-            {text1}
-            {/* <span
-              dangerouslySetInnerHTML={{ __html: (text1) }}
-            /> */}
-          </Typography>
-        </Grid>
-        {/* cc data  */}
-        <Grid item xs={2} sm={2} md={2} ml={2} >
-          <Typography
-            variant="body1"
-            sx={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              ml: 8
-            }}
-          >
-            {text3}
-          </Typography>
-        </Grid>
-        {/* This attachment is used for web view */}
-        <Grid item sm={2} md={2} ml={-2}>
+      <Box px={2}>
+        <Grid container alignItems="center" spacing={2} onClick={clickNav}>
+          {/* Header */}
+          <Grid item xs={6} sm={4} md={3} lg={3}>
+            <Typography
+              variant="h6"
+              sx={{
+                color: IsReadColor,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                textAlign: 'left',
+                maxWidth:'180px'
+              }}
+            >
+              {header}
+            </Typography>
+          </Grid>
+
+          {/* Attachment (Mobile View) */}
+          <Grid item xs={2} sm={2} lg={1} display={{ xs: 'block', sm: 'none' }}>
+            {IsAttachmentExist && <AttachmentIcon fontSize="small" />}
+          </Grid>
+
+          {/* Text1 */}
+          <Grid item xs={6} sm={4} md={2} lg={2.5}  >
+            <Typography
+              variant="body1"
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                textAlign: 'left',
+                ml:6
+              }}
+            >
+              {text1}
+            </Typography>
+          </Grid>
+
+          {/* Text3 */}
+          <Grid item xs={6} sm={3} md={2} lg={2} ml={ActiveTab == 'Trash' ? 8:''}>
+            <Typography
+              variant="body1"
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                textAlign: 'left',
+              }}
+            >
+              {text3}
+            </Typography>
+          </Grid>
+
+          {/* Attachment (Web View) */}
           {ActiveTab === 'Inbox' && (
-            IsAttachmentExist ? (
-              <IconButton sx={{ ml: -13 }}>
-                <AttachmentIcon fontSize="small" />
-              </IconButton>
-            ) : (
-              // <IconButton sx={{ ml: -13 }}>
-              <Typography ml={-13}>
-                -
-              </Typography>
-            )
+            <Grid item xs={6} sm={2} md={2} lg={1} >
+              {IsAttachmentExist ? (
+                <IconButton sx={{textAlign:'center',ml:0}}>
+                  <AttachmentIcon fontSize="small" />
+                </IconButton>
+              ) : ( 
+                <Typography ml={1.5}>-</Typography>
+              )}
+            </Grid>
           )}
-        </Grid>
-        <Grid item xs={1} sm={1} md={2} ml={-12}>
-          <>
-            {RequestReadReceipt === 'True' && HasReadReceipt === true && (
+
+          {/* Read Receipt */}
+          <Grid item xs={6} sm={4} md={2} lg={1} ml={6}>
+            {RequestReadReceipt === 'True' && HasReadReceipt ? (
               <>
-                <Tooltip title={'View'}>
+                <Tooltip title="View">
                   <IconButton
                     sx={{
-                      // overflow: 'hidden',
-                      // textOverflow: 'ellipsis',
-                      // whiteSpace: 'nowrap',
-                      mt:-0.5,
+                     
                       color: '#38548A',
                       '&:hover': {
                         color: 'green',
                         backgroundColor: green[100],
                       },
                     }}
-                    onClick={(e) => {
-                      handleClickToOpen(e);
-                    }}
+                    onClick={(e) => handleClickToOpen(e)}
                   >
                     <DraftsIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
-
-                <Dialog open={popup} maxWidth={'md'} onClose={() => { setPopup(false); }}
-                  PaperProps={{ sx: { borderRadius: "15px", } }}>
-                  <DialogTitle sx={{ bgcolor: '#223354', color: (theme) => theme.palette.common.white }}>
-                    <ClearIcon onClick={handleClose}
+                <Dialog
+                  open={popup}
+                  maxWidth="md"
+                  onClose={() => setPopup(false)}
+                  PaperProps={{ sx: { borderRadius: '15px' } }}
+                >
+                  <DialogTitle
+                    sx={{ bgcolor: '#223354', color: (theme) => theme.palette.common.white }}
+                  >
+                    <ClearIcon
+                      onClick={handleClose}
                       sx={{
-                        color: 'white', borderRadius: '7px', position: 'absolute', top: '5px', right: '7px', cursor: 'pointer',
+                        color: 'white',
+                        borderRadius: '7px',
+                        position: 'absolute',
+                        top: '5px',
+                        right: '7px',
+                        cursor: 'pointer',
                         '&:hover': {
                           color: 'red',
-                        }
-                      }} />
+                        },
+                      }}
+                    />
                   </DialogTitle>
-                  <DialogContent >
-
-                    <Box sx={{ maxHeight: '300px', position: 'relative', background: 'white' }}>
+                  <DialogContent>
+                    <Box
+                      sx={{
+                        maxHeight: '300px',
+                        position: 'relative',
+                        background: 'white',
+                      }}
+                    >
                       {ReadReceipt.map((item, i) => (
                         <div key={i}>
-                          <Card15
-                            text1={item.ReadingDateTime}
-                            text2={item.UserName}
-                          />
+                          <Card15 text1={item.ReadingDateTime} text2={item.UserName} />
                         </div>
                       ))}
                     </Box>
                   </DialogContent>
                 </Dialog>
               </>
+            ) : (
+              RequestReadReceipt === 'True' && (
+                <Tooltip title="Requested">
+                  <IconButton>
+                  <Email fontSize="small" color="error"/>
+                  </IconButton>
+                </Tooltip>
+              )
             )}
-          </>
-          {RequestReadReceipt === 'True' && HasReadReceipt === false && (
-            <Tooltip title={'Requested'}>
-              <Email
-                fontSize="small"
-                color="error"
-              // sx={{ mt: '-2px', ml: '4px' }}
-              /></Tooltip>
-          )}
+          </Grid>
+
+          {/* Text2 and Schedule Icon */}
+          <Grid item xs={6} sm={2} md={2} lg={2} ml={ActiveTab == 'Inbox' ? -7: ActiveTab == 'Sent' ? 6 : ActiveTab == 'Trash' ? -10 : 0}>
+            <Typography  sx={{ textAlign: 'left' }}>
+              {text2}
+              {IsSchedule && <ScheduleIcon fontSize="small" color="primary" />}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={2} sm={2} md={2} ml={ActiveTab == 'Inbox' ? -10 : ActiveTab == 'Sent' ? 0 : -10}>
-          <Typography variant="body1" sx={{ float: 'right' }}>
-            <>
-              {' '}
-              {text2}{' '}
-              {IsSchedule && (
-                <ScheduleIcon
-                  fontSize="small"
-                  color="primary"
-                // sx={{ mb: '5px' }}
-                />
-              )}
-            </>
-          </Typography>
-        </Grid>
-      </Grid >
+      </Box>
+
     </>
   );
 }

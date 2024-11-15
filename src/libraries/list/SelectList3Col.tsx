@@ -1,6 +1,6 @@
 import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Checkbox, Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import CheckboxImg from '../card/CheckboxImg';
 import ListCard4ColSel from '../card/ListCard4ColSel';
@@ -159,7 +159,7 @@ const SelectList3Col = ({
       <Box sx={{
         display: 'flex',
         borderRadius: '7px',
-        mb: 1,
+        
         p: 1.5,
         background: (theme) => theme.palette.secondary.main,
         border: (theme) => `1px solid ${theme.palette.grey[300]}`,
@@ -185,7 +185,7 @@ const SelectList3Col = ({
 
           {showcolumn('Subject') && (
             <Grid item xs={12} sm={1} md={2} lg={2.6} xl={2} sx={{ display: 'flex', justifyContent: 'left', alignItems: 'left', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Subject') }}>
-              <Typography variant="body1" sx={{ color: 'white', ml:1 }}>
+              <Typography variant="body1" sx={{marginRight: '4px', color: 'white', ml:2 }}>
                 Subject
               </Typography>
               {SortExp === 'Subject' ? (SortDirection === 'ASC' ?
@@ -196,13 +196,13 @@ const SelectList3Col = ({
           )}
 
           {showcolumn('To') && (
-            <Grid item xs={12} sm={3.5} md={3.5} lg={2.7} xl={3} sx={{ color: 'white', textAlign: 'left',  }}>
+            <Grid item xs={12} sm={3.5} md={3.5} lg={2.6} xl={1} sx={{ color: 'white', textAlign: 'center',  ml:-2}}>
               To
             </Grid>
           )}
 
           {showcolumn('Cc') && (
-            <Grid item xs={12} sm={0.5} md={0.5} lg={1.2} xl={0.5} sx={{ color: 'white', textAlign: 'left' }}>
+            <Grid item xs={12} sm={0.5} md={0.5} lg={1.2} xl={0.5} sx={{ color: 'white', textAlign: 'left',ml:4 }}>
               Cc
             </Grid>
           )}
@@ -231,13 +231,13 @@ const SelectList3Col = ({
             </Grid>
           )}
           {showcolumn('Cc1') && (
-            <Grid item xs={12} sm={2} md={2} lg={3} xl={1} sx={{color: 'white', textAlign: 'left' }}>
+            <Grid item xs={12} sm={2} md={2} lg={2} xl={1} sx={{color: 'white', textAlign: 'left',ml:-3 }}>
               Cc
             </Grid>
           )}
 
           {showcolumn('Attachment') && (
-            <Grid item xs={12} sm={2} md={2} lg={2.2} xl={2} sx={{  color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={2} md={2} lg={1.7} xl={1.5} sx={{  color: 'white', textAlign: 'center' }}>
               Attachment
             </Grid>
           )}
@@ -254,7 +254,7 @@ const SelectList3Col = ({
             </Grid>
           )}
           {showcolumn('Received Date1') && (
-            <Grid item xs={12} sm={1.5} md={1.5} lg={1.5} xl={1} sx={{  display: 'flex', justifyContent: 'left', alignItems: 'left', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
+            <Grid item xs={12} sm={1.5} md={1.5} lg={1.5} xl={1} sx={{  display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', cursor: 'pointer',ml:4}} onClick={() => { clickHeader('Insert_Date') }}>
               <Typography variant="body1" sx={{ marginRight: '4px', color: 'white' }}>
                 Received Date
               </Typography>
@@ -267,7 +267,7 @@ const SelectList3Col = ({
 
           {showcolumn('Sent Date') && (
             <Grid item xs={12} sm={1.2} md={1.2} lg={1.2} xl={1.2} sx={{ display: 'flex', justifyContent: 'left', alignItems: 'left', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
-              <Typography variant="body1" sx={{  color: 'white', ml:-1.5}}>
+              <Typography variant="body1" sx={{  color: 'white', ml:-3}}>
                 Sent Date
               </Typography>
               {SortExp === 'Insert_Date' ? (SortDirection === 'ASC' ?
@@ -278,8 +278,8 @@ const SelectList3Col = ({
           )}
 
           {showcolumn('Draft Date') && (
-            <Grid item xs={12} sm={2.5} md={2.5} lg={2.5} xl={3} sx={{  display: 'flex', justifyContent: 'right', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
-              <Typography variant="body1" sx={{ marginRight: '4px', color: 'white' }}>
+            <Grid item xs={12} sm={2.5} md={2.5} lg={2} xl={1} sx={{  display: 'flex', justifyContent: 'left', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
+              <Typography variant="body1" sx={{ marginRight: '4px', color: 'white', }}>
                 Draft Date
               </Typography>
               {SortExp === 'Insert_Date' ? (SortDirection === 'ASC' ?
@@ -290,6 +290,143 @@ const SelectList3Col = ({
           )}
         </Grid>
       </Box>
+
+
+
+       {/* <Table sx={{
+          border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+          overflow: 'hidden'
+        }}>
+    <TableHead>
+      <TableRow sx={{ color: theme => theme.palette.common.white, background: theme => theme.palette.secondary.main, }}>
+        {ActiveTab !== 'Draft' && (
+          <TableCell align="left" sx={{width:'70px'}}>
+            <CheckboxImg
+              name={"All"}
+              value={"All"}
+              checked={Itemlist.every((item) => item.isActive === true)}
+              onChange={(value) => {
+                onCheckAll(value.checked);
+              }}
+            />
+          </TableCell>
+        )}
+        {showcolumn('Delete') && (
+          <TableCell align="left" sx={{ color: 'white', width:'70px' }}>
+            Delete
+          </TableCell>
+        )}
+        {showcolumn('Subject') && (
+          <TableCell align="left"
+            sx={{ color: 'white', cursor: 'pointer', Width:'180px'  }}
+            onClick={() => clickHeader('Subject')}
+          >    
+          <Typography variant="body1" sx={{ display: 'inline', color: 'white'}}>
+              Subject</Typography>
+            {SortExp === 'Subject' && (
+              SortDirection === 'ASC' ? (
+                <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} />
+              ) : (
+                <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} />
+              )
+            )}
+          </TableCell>
+        )}
+        {showcolumn('To') && (
+          <TableCell sx={{ color: 'white', textAlign:'right',  width:'210px' }}>To</TableCell>
+        )}
+       
+        {showcolumn('Cc') && (
+          <TableCell sx={{ color: 'white', textAlign:'right',  width:'190px'  }}>Cc</TableCell>
+        )}
+       
+        {showcolumn('Read Receipt Information') && (
+          <TableCell align="center" sx={{ color: 'white',position:'fixed',  textAlign:'center',  }}>
+            Read Receipt Information
+          </TableCell>
+        )}
+        {showcolumn('Message Body') && (
+          <TableCell sx={{ color: 'white', textAlign:'left',maxWidth:'145px' }}> <span style={{ paddingLeft:'30px'}}>Message Body</span></TableCell>
+        )}
+        {showcolumn('From') && (
+          <TableCell sx={{ color: 'white', textAlign:'center', width:'200px' }}>From</TableCell>
+        )}
+         {showcolumn('From1') && (
+          <TableCell sx={{ color: 'white',  textAlign:'left', width:'180px'  }}>From</TableCell>
+        )}
+          {showcolumn('Cc1') && (
+          <TableCell sx={{ color: 'white' , textAlign:'center', width:'180px' }}><span style={{marginLeft:"70px"}}>Cc</span></TableCell>
+        )}
+        {showcolumn('Attachment') && (
+          <TableCell align="right" sx={{maxWidth:'300px', color: 'white'}}>
+           <span style={{}}>Attachment</span> 
+          </TableCell>
+        )}
+        {showcolumn('Received Date') && (
+          <TableCell  align='center'
+            sx={{ color: 'white', cursor: 'pointer' }}
+            onClick={() => clickHeader('Insert_Date')}
+          >
+            <Typography variant="body1" sx={{ display: 'inline', color: 'white' }}>
+              Received Date
+            </Typography>
+            {SortExp === 'Insert_Date' && (
+              SortDirection === 'ASC' ? (
+                <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} />
+              ) : (
+                <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} />
+              )
+            )}
+          </TableCell>
+        )}
+         {showcolumn('Received Date1') && (
+          <TableCell align='center'
+            sx={{ color: 'white', cursor: 'pointer' ,}}
+            onClick={() => clickHeader('Insert_Date')}
+          >
+            <Typography  sx={{ display: 'inline-block', color: 'white' }}>
+              Received Date
+            </Typography>
+            {SortExp === 'Insert_Date' && (
+              SortDirection === 'ASC' ? (
+                <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} />
+              ) : (
+                <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} />
+              )
+            )}
+          </TableCell>
+        )}
+        {showcolumn('Sent Date') && (
+          <TableCell
+            sx={{ color: 'white', cursor: 'pointer' }}
+            onClick={() => clickHeader('Insert_Date')}
+          >
+            <Typography variant="body1" sx={{ display: 'inline', color: 'white' }}>
+              Sent Date
+            </Typography>
+            {SortExp === 'Insert_Date' && (
+              SortDirection === 'ASC' ? (
+                <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} />
+              ) : (
+                <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} />
+              )
+            )}
+          </TableCell>
+        )}
+        {showcolumn('Draft Date') && (
+            <TableCell  sx={{pl:-2}} onClick={() => { clickHeader('Insert_Date') }}>
+              <Typography align='left' sx={{ display: 'inline', color: 'white', }}>
+                Draft Date
+              </Typography>
+              {SortExp === 'Insert_Date' ? (SortDirection === 'ASC' ?
+                <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
+                <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} />
+              ) : null}
+            </TableCell>
+          )}
+      </TableRow>
+    </TableHead>
+  </Table> */}
 
 
       {
