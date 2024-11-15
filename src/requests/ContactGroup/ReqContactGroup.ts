@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ContactGroupApi from "src/api/ContactGroup/ContactGroupApi";
-import { IAddUpdateGroupBody, IDeleteMailGroupBody, IDeleteMailingGroupUserBody, IGetContactGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from "src/interfaces/ContactGroup/IContactGroup";
+import { IAddUpdateGroupBody, IDeleteMailGroupBody, IDeleteMailingGroupUserBody, IGetContactGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody, IGetUsersBody } from "src/interfaces/ContactGroup/IContactGroup";
 import { AppThunk } from "src/store";
 
 const ContactGroupSlice = createSlice({
@@ -17,10 +17,14 @@ const ContactGroupSlice = createSlice({
         IDeleteMailingGroupUserMsg: '',
         IContactGroups: [],
         IContactGroupUserRoles: [],
+        IGetUser: [],
         Loading: true
     },
     reducers: {
-
+        RGetUser(state, action) {
+            state.IGetUser = action.payload;
+            state.Loading = false;
+        },
         RGetUserRole(state, action) {
             state.IGetUserRole = action.payload;
             state.Loading = false;
@@ -187,6 +191,21 @@ export const CDADeleteMailingGroupUserMsg = (data: IDeleteMailingGroupUserBody):
 export const resetDeleteMailingGroupUserMsg = (): AppThunk => async (dispatch) => {
     dispatch(ContactGroupSlice.actions.resetDeleteMailingGroupUserMsg());
 };
+
+export const CDAGetUser =
+    (data: IGetUsersBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(ContactGroupSlice.actions.getLoading(true));
+            const response = await ContactGroupApi.GetUsersApi(data);
+            let userRole = response.data.map((item, i) => {
+                return {
+                    UserId: item.UserId,
+                    UserName: item.UserName,
+                    IsDeactivated: item.IsDeactivated
+                };
+            });
+            dispatch(ContactGroupSlice.actions.RGetUser(userRole));
+        };
 
 
 export default ContactGroupSlice.reducer;

@@ -12,11 +12,11 @@ import {
   Tooltip
 } from '@mui/material';
 import { red } from '@mui/material/colors';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IDeleteMailingGroupUserBody } from 'src/interfaces/ContactGroup/IContactGroup';
-import { CDADeleteMailingGroupUserMsg } from 'src/requests/ContactGroup/ReqContactGroup';
+import { IDeleteMailingGroupUserBody, IGetUsersBody } from 'src/interfaces/ContactGroup/IContactGroup';
+import { CDADeleteMailingGroupUserMsg, CDAGetUser } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 
 // Sample data array
@@ -35,16 +35,25 @@ function ContactGroupEditTable({ GPID = 0 }) {
   const academicYearId = sessionStorage.getItem('AcademicYearId');
 
 
-  const USUserData: any = useSelector((state: RootState) => state.ContactGroup.IContactGroups);
-  const handleDelete = (id) => {
+  //const USUserData: any = useSelector((state: RootState) => state.ContactGroup.IContactGroups);
+  const USUserData: any = useSelector((state: RootState) => state.ContactGroup.IGetUser);
+  const UserBody: IGetUsersBody = {
+    asSchool_Id: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asGroupId: GPID,
+  }
+  useEffect(() => {
+    dispatch(CDAGetUser(UserBody));
+  })
+  const handleDelete = (UserId) => {
     const DeleteMailingGroupUserBody: IDeleteMailingGroupUserBody = {
       asSchoolId: Number(schoolId),
       asAcademicYearId: Number(academicYearId),
-      asGroupId: 15,
-      asUserId: id,
+      asGroupId: GPID,
+      asUserId: UserId,
       asInsertedById: 0
     }
-    if (id) {
+    if (UserId) {
 
       showAlert({
         title: 'Please Confirm',
@@ -110,12 +119,12 @@ function ContactGroupEditTable({ GPID = 0 }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* {USUserData.map((user) => (
-            <TableRow key={user.GroupId}>
-              <TableCell sx={{ py: 0.5 }}>{user.Users}</TableCell>
+          {USUserData.map((user) => (
+            <TableRow key={user.UserId}>
+              <TableCell sx={{ py: 0.5 }}>{user.UserName}</TableCell>
               <TableCell align="center" sx={{ py: 1 }}>
                 <IconButton
-                  onClick={() => handleDelete(user.GroupId)}
+                  onClick={() => handleDelete(user.UserId)}
                   sx={{
                     color: '#38548A	',
                     '&:hover': {
@@ -130,9 +139,9 @@ function ContactGroupEditTable({ GPID = 0 }) {
                 </IconButton>
               </TableCell>
             </TableRow>
-          ))} */}
-          {USUserData.filter(user => user.GroupId === GPID).map((user) => (
-            <TableRow key={user.GroupId}>
+          ))}
+          {/* {USUserData.filter(user => user.GroupId === GPID).map((user) => (
+            <TableRow key={user.UserId}>
               <TableCell sx={{ py: 0.5 }}>{user.Users}</TableCell>
               <TableCell align="center" sx={{ py: 1 }}>
                 <IconButton
@@ -152,7 +161,7 @@ function ContactGroupEditTable({ GPID = 0 }) {
               </TableCell>
             </TableRow>
           ))}
-
+ */}
 
         </TableBody>
       </Table>

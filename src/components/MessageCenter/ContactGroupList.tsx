@@ -51,7 +51,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   //const [selectedd, setSelectedd] = useState([]);
   const [selectedd, setSelectedd] = useState([]);
   const selectedString = selectedd.join(', '); // This will create a comma-separated string from the array
-
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [UsersRole, setUserRole] = useState('1');

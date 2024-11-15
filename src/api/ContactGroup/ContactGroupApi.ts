@@ -10,7 +10,9 @@ import {
     IGetUserNameBody,
     IGetUserNameResult,
     IGetUserRoleBody,
-    IGetUserRoleResult
+    IGetUserRoleResult,
+    IGetUsersBody,
+    IGetUsersResult
 } from 'src/interfaces/ContactGroup/IContactGroup';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -40,6 +42,9 @@ const DeleteGroupApi = (data: IDeleteMailGroupBody) => {
 const DeleteMailingGroupUserApi = (data: IDeleteMailingGroupUserBody) => {
     return http.post<string>('Teacher/DeleteMailingGroupUser', data);
 };
+const GetUsersApi = (data: IGetUsersBody) => {
+    return http.post<IGetUsersResult[]>('Teacher/GetUsers', data);
+};
 
 const ContactGroupApi = {
     UserNameApi,
@@ -48,6 +53,7 @@ const ContactGroupApi = {
     GetStandardClassApi,
     AddUpdateGroupApi,
     DeleteGroupApi,
-    DeleteMailingGroupUserApi
+    DeleteMailingGroupUserApi,
+    GetUsersApi
 };
 export default ContactGroupApi;

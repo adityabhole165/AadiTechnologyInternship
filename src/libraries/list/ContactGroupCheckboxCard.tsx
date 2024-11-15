@@ -60,8 +60,6 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                     closeAlert();
                 },
             });
-
-
             const ContactgroupBody: IContactGRPBody = {
                 asSchoolId: schoolId,
                 asAcademicYearId: academicYearId,
@@ -83,10 +81,6 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
-    // const OnShowEditDelete = () => {
-
-    // };
-
     return (
         <Box>
             <List sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, py: 0.2, }}>

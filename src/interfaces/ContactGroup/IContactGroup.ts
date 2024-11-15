@@ -109,3 +109,13 @@ export interface IDeleteMailingGroupUserBody {
     asUserId: number,
     asInsertedById: number
 }
+export interface IGetUsersBody {
+    asSchool_Id: number,
+    asAcademicYearId: number,
+    asGroupId: number
+}
+export interface IGetUsersResult {
+    UserId: string,
+    UserName: string,
+    IsDeactivated: string,
+}
