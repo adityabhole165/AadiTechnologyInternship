@@ -805,10 +805,13 @@ const teacherRoutes = [
     element: <ExamScheduleBasescreen />
   },
   {
+    path: 'StandardwiseExamSchedule/:StandardId/:TestId',
+    element: <StandardwiseExamSchedule />
+  },
+  {
     path: 'StandardwiseExamSchedule',
     element: <StandardwiseExamSchedule />
   },
-
   {
     path: 'ViewExamSchedule',
     element: <ViewExamSchedule />

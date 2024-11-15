@@ -3,9 +3,13 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import SquareIcon from '@mui/icons-material/Square';
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { blue, green, grey } from "@mui/material/colors";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import ExamScheduleTable from './ExamScheduleTable';
-import { useNavigate } from 'react-router';
 
 const HeaderArray1 = [
     { Name: "C.C.A. - I", field: "cca1" },
@@ -72,6 +76,36 @@ const MarkDetailsList1 = [
 ];
 const ExamScheduleBasescreen = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asSchoolId = localStorage.getItem('localSchoolId');
+    const SubHeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandard);
+    const HeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandardwTest);
+
+    const ExamSchedule: any = useSelector(
+        (state: RootState) =>
+            state.StandardAndExamList.ExamSchedule
+    );
+
+    useEffect(() => {
+        const RExamScheduleBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId)
+        }
+
+        dispatch(RExamSchedule(RExamScheduleBody))
+    }, [])
+
+    const ClickSchedule = (Value) => {
+        console.log(Value, "ClickSchedule");
+
+        if (Value.IsConfigured == true) {
+            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId);
+        } else {
+            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule');
+        }
+    };
 
     return (
         <Box sx={{ px: 2 }}>
@@ -137,11 +171,12 @@ const ExamScheduleBasescreen = () => {
                     </Box>
                 </Box>
             </Box>
-            <Box mt={1} sx={{backgroundColor:'white', p:2}}>
+            <Box mt={1} sx={{ backgroundColor: 'white', p: 2 }}>
                 <ExamScheduleTable
                     headerArray={HeaderArray1}
                     subHeaderArray={SubHeaderArray1}
-                    markDetailsList={MarkDetailsList1}
+                    markDetailsList={ExamSchedule}
+                    ClickSchedule={ClickSchedule}
                 />
             </Box>
         </Box>
