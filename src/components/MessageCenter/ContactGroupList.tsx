@@ -50,7 +50,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const rowsPerPageOptions = [5, 10, 20, 30, 40];
   //const [selectedd, setSelectedd] = useState([]);
   const [selectedd, setSelectedd] = useState([]);
-  const selectedString = selectedd.join(', '); // This will create a comma-separated string from the array
+  //const selectedString = selectedd.join(', '); // This will create a comma-separated string from the array
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [UsersRole, setUserRole] = useState('1');
@@ -81,7 +81,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     setSelectedd(USContactGroupUserRoles)
   }, [USContactGroupUserRoles]);
 
-
+  console.log(USGetUserName, "USGetUserName");
   const singleTotalCount: number = useMemo(() => {
     if (!Array.isArray(USGetUserName)) {
       return 0;

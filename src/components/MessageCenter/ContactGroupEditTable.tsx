@@ -18,15 +18,6 @@ import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeleteMailingGroupUserBody, IGetUsersBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import { CDADeleteMailingGroupUserMsg, CDAGetUser } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
-
-// Sample data array
-const userData = [
-  { id: 1, name: 'Mr. Devendra Kumar (Principal)' },
-  { id: 2, name: 'Dr. Anjali S. Gurjar (Ex Principal)' },
-  { id: 12, name: 'Mr. Devendra Kumar (Principal)' },
-  { id: 23, name: 'Dr. Anjali S. Gurjar (Ex Principal)' }
-];
-
 function ContactGroupEditTable({ GPID = 0 }) {
   const dispatch = useDispatch();
   const { showAlert, closeAlert } = useContext(AlertContext);
@@ -44,7 +35,15 @@ function ContactGroupEditTable({ GPID = 0 }) {
   }
   useEffect(() => {
     dispatch(CDAGetUser(UserBody));
-  })
+  }, []);
+
+
+  /*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Function to delete a user from a group
+   * @param {number} UserId - user id to be deleted
+   */
+  /******  0c17b12f-c033-4f43-a774-782037391c80  *******/
   const handleDelete = (UserId) => {
     const DeleteMailingGroupUserBody: IDeleteMailingGroupUserBody = {
       asSchoolId: Number(schoolId),
@@ -140,28 +139,6 @@ function ContactGroupEditTable({ GPID = 0 }) {
               </TableCell>
             </TableRow>
           ))}
-          {/* {USUserData.filter(user => user.GroupId === GPID).map((user) => (
-            <TableRow key={user.UserId}>
-              <TableCell sx={{ py: 0.5 }}>{user.Users}</TableCell>
-              <TableCell align="center" sx={{ py: 1 }}>
-                <IconButton
-                  onClick={() => handleDelete(user.GroupId)}
-                  sx={{
-                    color: '#38548A',
-                    '&:hover': {
-                      color: 'red',
-                      backgroundColor: red[100]
-                    }
-                  }}
-                >
-                  <Tooltip title="Delete">
-                    <DeleteForeverIcon />
-                  </Tooltip>
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
- */}
 
         </TableBody>
       </Table>
