@@ -6,6 +6,7 @@ import IGetAllStandards, {
 import { AppThunk } from 'src/store';
 
 import GetTExamResultListApi from 'src/api/Texamschedule/Texamschedule';
+import { getDateMonthYear } from 'src/components/Common/Util';
 
 const SelectStandardExamslice = createSlice({
   name: 'selectexam',
@@ -229,7 +230,7 @@ export const RExamSchedule =
             } else {
               Array.push({
                 Id,
-                Name: `${ConfigExam[0].Exam_Start_Date} - ${ConfigExam[0].Exam_End_Date}`,
+                Name: `${getDateMonthYear(ConfigExam[0].Exam_Start_Date)} - ${getDateMonthYear(ConfigExam[0].Exam_End_Date)}`,
                 Background: "#A5D6A7",
                 IsLink: true,
                 fontWeight: 'bold',
