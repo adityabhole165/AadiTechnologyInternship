@@ -99,8 +99,13 @@ const ExamScheduleBasescreen = () => {
 
     const ClickSchedule = (Value) => {
         console.log(Value, "ClickSchedule");
-        navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId)
-    }
+
+        if (Value.IsConfigured == true) {
+            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId);
+        } else {
+            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule');
+        }
+    };
 
     return (
         <Box sx={{ px: 2 }}>
