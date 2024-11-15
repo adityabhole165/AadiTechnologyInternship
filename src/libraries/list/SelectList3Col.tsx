@@ -159,7 +159,7 @@ const SelectList3Col = ({
       <Box sx={{
         display: 'flex',
         borderRadius: '7px',
-        mb: 1,
+        
         p: 1.5,
         background: (theme) => theme.palette.secondary.main,
         border: (theme) => `1px solid ${theme.palette.grey[300]}`,
