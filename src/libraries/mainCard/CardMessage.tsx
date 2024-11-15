@@ -130,17 +130,17 @@ function CardMessage({
           {ActiveTab === 'Inbox' && (
             <Grid item xs={6} sm={2} md={2} lg={1} >
               {IsAttachmentExist ? (
-                <IconButton sx={{textAlign:'center',ml:-4}}>
+                <IconButton sx={{textAlign:'center',ml:0}}>
                   <AttachmentIcon fontSize="small" />
                 </IconButton>
-              ) : (
-                <Typography ml={-2.5}>-</Typography>
+              ) : ( 
+                <Typography ml={1.5}>-</Typography>
               )}
             </Grid>
           )}
 
           {/* Read Receipt */}
-          <Grid item xs={6} sm={4} md={2} lg={2}>
+          <Grid item xs={6} sm={4} md={2} lg={1} ml={6}>
             {RequestReadReceipt === 'True' && HasReadReceipt ? (
               <>
                 <Tooltip title="View">
@@ -211,7 +211,7 @@ function CardMessage({
           </Grid>
 
           {/* Text2 and Schedule Icon */}
-          <Grid item xs={6} sm={2} md={2} lg={2} ml={ActiveTab == 'Inbox' ? -12: ActiveTab == 'Sent' ? 5 : -14}>
+          <Grid item xs={6} sm={2} md={2} lg={2} ml={ActiveTab == 'Inbox' ? -7: ActiveTab == 'Sent' ? 6 : ActiveTab == 'Trash' ? -10 : 0}>
             <Typography  sx={{ textAlign: 'left' }}>
               {text2}
               {IsSchedule && <ScheduleIcon fontSize="small" color="primary" />}
