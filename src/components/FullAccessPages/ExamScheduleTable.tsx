@@ -45,7 +45,7 @@ const ExamScheduleTable = ({ headerArray, subHeaderArray, markDetailsList, Click
                                     fontWeight: markDetail.fontWeight
                                 }}>
                                 {markDetail.IsLink ?
-                                    <div onClick={() => { ClickSchedule(markDetail) }}> {markDetail.Name}</div>
+                                    <Typography sx={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={() => { ClickSchedule(markDetail) }}> {markDetail.Name}</Typography>
                                     : markDetail.Name
                                 }
                             </TableCell>
