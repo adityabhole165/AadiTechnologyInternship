@@ -220,7 +220,7 @@ const FinalResult = () => {
         row.CanShowVisibility ? (
           <IconButton
             onClick={() => {
-              navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + 'Y' + '/' + true);
+              navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + 'Y' + '/' + true + '/' + StandardDivisionId);
             }}
             sx={{
               display: 'flex',
