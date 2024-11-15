@@ -215,7 +215,7 @@ const SelectList3Col = ({
           )}
 
           {showcolumn('Message Body') && (
-            <Grid item xs={12} sm={5} md={5} lg={5} xl={6} sx={{ml:11,  color: 'white', textAlign: 'left' }}>
+            <Grid item xs={12} sm={5} md={5} lg={5} xl={6} sx={{ml:12,  color: 'white', textAlign: 'left' }}>
               Message Body
             </Grid>
           )}
@@ -237,7 +237,7 @@ const SelectList3Col = ({
           )}
 
           {showcolumn('Attachment') && (
-            <Grid item xs={12} sm={2} md={1} lg={2} xl={2} sx={{  color: 'white', textAlign: 'center' }}>
+            <Grid item xs={12} sm={2} md={2} lg={2.2} xl={2} sx={{  color: 'white', textAlign: 'center' }}>
               Attachment
             </Grid>
           )}
@@ -278,7 +278,7 @@ const SelectList3Col = ({
           )}
 
           {showcolumn('Draft Date') && (
-            <Grid item xs={12} sm={2.5} md={2.5} lg={2.4} xl={3} sx={{  display: 'flex', justifyContent: 'right', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
+            <Grid item xs={12} sm={2.5} md={2.5} lg={2.5} xl={3} sx={{  display: 'flex', justifyContent: 'right', alignItems: 'center', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Insert_Date') }}>
               <Typography variant="body1" sx={{ marginRight: '4px', color: 'white' }}>
                 Draft Date
               </Typography>
