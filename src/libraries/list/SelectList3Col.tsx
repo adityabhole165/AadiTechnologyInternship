@@ -185,7 +185,7 @@ const SelectList3Col = ({
 
           {showcolumn('Subject') && (
             <Grid item xs={12} sm={1} md={2} lg={2.6} xl={2} sx={{ display: 'flex', justifyContent: 'left', alignItems: 'left', color: 'white', cursor: 'pointer' }} onClick={() => { clickHeader('Subject') }}>
-              <Typography variant="body1" sx={{ color: 'white', ml:2 }}>
+              <Typography variant="body1" sx={{marginRight: '4px', color: 'white', ml:2 }}>
                 Subject
               </Typography>
               {SortExp === 'Subject' ? (SortDirection === 'ASC' ?
