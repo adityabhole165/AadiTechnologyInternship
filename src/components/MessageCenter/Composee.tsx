@@ -597,17 +597,14 @@ function Form13() {
         ReplyRecipientNameId.ReplyRecipientName === ''
       )
     ) {
-      RecipientsObject.RecipientName.push(
-        ReplyRecipientNameId.ReplyRecipientName
-      );
-      RecipientsObject.RecipientId.push(ReplyRecipientNameId.ReplyRecipientID);
+      RecipientsObject.RecipientName = ReplyRecipientNameId.ReplyRecipientName.split(',');
+      RecipientsObject.RecipientId = ReplyRecipientNameId.ReplyRecipientName.split(',');
+
     }
-    if (
-      !(
-        ReplyAllRecipientNameId.ReplyAllRecipientName === undefined ||
-        ReplyAllRecipientNameId.ReplyAllRecipientID === ''
-      )
-    ) {
+    if (!(
+      ReplyAllRecipientNameId.ReplyAllRecipientName === undefined ||
+      ReplyAllRecipientNameId.ReplyAllRecipientID === ''
+    )) {
       RecipientsCCObject.RecipientName.push(
         ReplyAllRecipientNameId.ReplyAllRecipientName
       );
