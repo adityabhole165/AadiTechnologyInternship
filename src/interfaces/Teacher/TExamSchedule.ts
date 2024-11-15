@@ -73,3 +73,44 @@ export interface GetExamsListResult {
     }
   ],
 }
+
+export interface IGetExamScheduleBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+}
+
+export interface IGetExamScheduleResult {
+  listSchoolWiseStandards: [
+    {
+      school_id: string,
+      original_standard_id: string,
+      standard_id: string,
+      standard_name: string,
+    }
+  ],
+  listSchoolWiseTestNamE: [
+    {
+      SchoolWise_TestId: string;
+      SchoolWise_TestName: string;
+    }
+  ],
+  listSchoolWiseConfigExam: [
+    {
+      Schoolwise_Standard_Exam_Schedule_Id: string,
+      Standard_Id: string,
+      SchoolWise_Test_Id: string,
+      Exam_Start_Date: string,
+      Exam_End_Date: string,
+      Total_Exam_Days: string,
+      Standard_Test_Id: string,
+    }
+  ],
+  listSchoolwiseStandardTest: [
+    {
+      Schoolwise_Standard_Test_Id: string,
+      standard_id: string,
+      SchoolWise_Test_Id: string,
+      TestType_Name: string,
+    }
+  ]
+}
