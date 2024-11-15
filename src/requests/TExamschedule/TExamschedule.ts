@@ -202,7 +202,7 @@ export const RExamSchedule =
             Array.push({
               Id,
               Name: "N/A",
-              Background: "Yellow",
+              Background: "#F0F0F0",
               IsLink: false,
               fontWeight: '',
               IsConfigured: false,
@@ -217,7 +217,7 @@ export const RExamSchedule =
               Array.push({
                 Id,
                 Name: "Not Configured",
-                Background: "DarkGreen",
+                Background: "#4CAF50",
                 IsLink: true,
                 fontWeight: 'bold',
                 IsConfigured: false,
@@ -230,7 +230,7 @@ export const RExamSchedule =
               Array.push({
                 Id,
                 Name: `${ConfigExam[0].Exam_Start_Date} - ${ConfigExam[0].Exam_End_Date}`,
-                Background: "LightGreen",
+                Background: "#A5D6A7",
                 IsLink: true,
                 fontWeight: 'bold',
                 IsConfigured: true,
