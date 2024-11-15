@@ -379,7 +379,7 @@ const ViewResultAll = (props: Props) => {
                   <TableBody>
                     {totalconsidration.length > 0 && (
                       <>
-                        <TableRow sx={{ bgcolor: 'white', p: 2,  }}>
+                        <TableRow sx={{ bgcolor: 'white', p: 2, }}>
                           <TableCell><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks </TableCell>
                         </TableRow>
                       </>
@@ -392,7 +392,7 @@ const ViewResultAll = (props: Props) => {
                   <Table>
                     <TableBody>
                       <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
-                        <TableCell sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
+                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                           <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={1} ml={1}>
                             Subjects
                           </Typography>
@@ -435,11 +435,14 @@ const ViewResultAll = (props: Props) => {
                                 const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
                                 return (
                                   <>
-                                    <TableCell sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[200]}`}}>{totalData.TotalMarks}</TableCell>
-                                    <TableCell sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>{totalData.Percentage}%</TableCell>
-                                    <TableCell sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
+                                    <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>{totalData.TotalMarks}</TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>{totalData.Percentage}%</TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
                                       <Typography variant="body2">
-                                        {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}
+                                        <Typography component="span" fontWeight="bold">
+                                          {totalData.GradeName}
+                                        </Typography>
+                                        {matchingRemark && ` (${matchingRemark})`}
                                       </Typography>
                                     </TableCell>
                                   </>
@@ -463,8 +466,8 @@ const ViewResultAll = (props: Props) => {
                         {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
                           <>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>-</TableCell>
-                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' , border: (theme) => `1px solid ${theme.palette.grey[200]}`}}>-</TableCell>
-                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' , border: (theme) => `1px solid ${theme.palette.grey[200]}`}}>-</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>-</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>-</TableCell>
                           </>
                         )}
                         {showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
