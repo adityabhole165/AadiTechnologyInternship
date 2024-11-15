@@ -31,9 +31,9 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
-import { CDAAddStudentAdditionalDetails, CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
+import { CDAAddStudentAdditionalDetails, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -188,6 +188,16 @@ interface RAdditionalInfoDetails {
   taluka?: string;
 
 }
+interface RStreamwiseSubjectDetails {
+  streamId?: string;
+  groupId?: string;
+  compulsorySubjects?: string;
+  optionalSubject?: string;
+  optionalSubject1?: string;
+  optionalSubject2?: string;
+  competitiveExams?: number[]; // Assuming this is an array of numbers
+
+}
 //#endRegion
 
 const StudentRegistrationForm = () => {
@@ -209,6 +219,7 @@ const StudentRegistrationForm = () => {
   const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
   const [familyDetailsData, setFamilyDetailsData] = useState<RFamilyDetails>({});
   const [additionalInfoData, setAdditionalInfoData] = useState<RAdditionalInfoDetails>({});
+  const [streamwiseSubjectData, setStreamwiseSubjectData] = useState<RStreamwiseSubjectDetails>({});
 
   //const [familyData, setFamilyData] = useState(false);
 
@@ -244,14 +255,19 @@ const StudentRegistrationForm = () => {
   }
   const onFamilyTab = (updateddata) => {
     setFamilyDetailsData(updateddata);
-    console.log('🎈familyDetailsData:', familyDetailsData);
+    console.log('familyDetailsData:', familyDetailsData);
   }
 
   const onAdditionalInfoTab = (updateddata) => {
     setAdditionalInfoData(updateddata);
-    console.log('👍AdditionalInfo data:', additionalInfoData);
+    console.log('AdditionalInfo data:', additionalInfoData);
   }
 
+  const onStudentStreamwiseSubjectTab = (updateddata) => {
+    setStreamwiseSubjectData(updateddata);
+    console.log('5️⃣StreamwiseSubjectDetailsData data:', streamwiseSubjectData);
+  }
+  //#endregion
   const handleNextTab = () => {
     setCurrentTab((prevTab) => Math.min(prevTab + 1, 5)); // Move to the next tab
   };
@@ -483,11 +499,22 @@ const StudentRegistrationForm = () => {
     asRFID: admissionDetailsData?.RFID || "",
   }
 
+  const UpdateStudentStreamwiseSubjectDetailsBody: IUpdateStudentStreamwiseSubjectDetailsBody = {
+    asSchoolId: 122,
+    asStudentId: 4584,
+    asStreamId: Number(streamwiseSubjectData?.streamId) || 0,
+    GroupId: Number(streamwiseSubjectData?.groupId) || 0,
+    CompulsorySubject: streamwiseSubjectData?.compulsorySubjects || '',
+    chkCompitativeExams: Number(streamwiseSubjectData?.competitiveExams) || 0,
+    OptSubjectOne: Number(streamwiseSubjectData?.optionalSubject1) || 0,
+    OptSubjectTwo: Number(streamwiseSubjectData?.optionalSubject2) || 0,
+  }
   const handleUpdate = () => {
     console.log('Sending update with data:', UpdateStudentBody);
 
     dispatch(CDAUpdateStudent(UpdateStudentBody));
     dispatch(CDAAddStudentAdditionalDetails(AddStudentAdditionalDetailsBody));
+    dispatch(CDAUpdateStudentStreamwiseSubjectDetails(UpdateStudentStreamwiseSubjectDetailsBody));
 
     //console.log('Saving data:', personalDetails);
   };
@@ -784,7 +811,7 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <StudentSubjectDetails onSave={handleSave} />
+              <StudentSubjectDetails onTabChange={onStudentStreamwiseSubjectTab} />
             </Grid>
           </Grid>
         )}

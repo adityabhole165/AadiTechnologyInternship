@@ -15,7 +15,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetAllGroupsOfStream, CDAGetAllStreams, CDARetriveStudentStreamwiseSubject, CDAStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
-const StudentSubjectDetails = ({ onSave }) => {
+const StudentSubjectDetails = ({ onTabChange }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
@@ -46,28 +46,19 @@ const StudentSubjectDetails = ({ onSave }) => {
 
   //#region API Calls
   const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
-  console.log('🎈GetStudentStreamwiseSubjectDetails:', GetStudentStreamwiseSubjectDetails);
+  //console.log('🎈GetStudentStreamwiseSubjectDetails:', GetStudentStreamwiseSubjectDetails);
   const GetAllStreamsDrop = useSelector((state: RootState) => state.StudentUI.ISGetAllStreams);
   //console.log('GetAllStreamsDrop:', GetAllStreamsDrop);
   const GetAllGroupsOfStreamDrop = useSelector((state: RootState) => state.StudentUI.ISGetAllGroupsOfStream);
-  console.log('😶GetAllGroupsOfStream:', GetAllGroupsOfStreamDrop);
+  //console.log('😶GetAllGroupsOfStream:', GetAllGroupsOfStreamDrop);
   const FillFirstOptionalSubjects = useSelector((state: RootState) => state.StudentUI.ISFillOptionalSubjects);
   const FillSecondOptionalSubjectArts = useSelector((state: RootState) => state.StudentUI.ISFillOptionalSubjectArts);
-  console.log('1️⃣FillFirstOptionalSubjects:', FillFirstOptionalSubjects);
-  console.log('2️⃣FillSecondOptionalSubjectArts:', FillSecondOptionalSubjectArts);
+  //console.log('1️⃣FillFirstOptionalSubjects:', FillFirstOptionalSubjects);
+  // console.log('2️⃣FillSecondOptionalSubjectArts:', FillSecondOptionalSubjectArts);
   const FillCompitativeExams = useSelector((state: RootState) => state.StudentUI.ISFillCompitativeExams);
-  console.log('3️⃣FillCompitativeExams:', FillCompitativeExams);
+  //console.log('3️⃣FillCompitativeExams:', FillCompitativeExams);
 
 
-  const GetAllStremsBody: IGetAllStreamsBody = {
-    asSchoolId: 122,
-  }
-
-  const StreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
-    asSchoolId: 122,
-    asStreamGroupId: Number(form.groupId),
-    asAcademicYearId: 10
-  }
   const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
     asSchoolId: 122,
     asAcademicYearId: 10,
@@ -75,41 +66,10 @@ const StudentSubjectDetails = ({ onSave }) => {
   }
 
   useEffect(() => {
-    dispatch(CDAStreamwiseSubjectDetails(StreamwiseSubjectDetailsBody));//Compulsary,OPtional,CompitativeExams dropdown
     dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
   }, []);
-
-  useEffect(() => {
-    dispatch(CDAGetAllStreams(GetAllStremsBody));                 //Stream dropdown
-    console.log('🙌StreamwiseSubjectDetailsBody:', StreamwiseSubjectDetailsBody);
-    // dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
-
-  }, []);
-
-  // Fetch groups when stream changes
-  useEffect(() => {
-    //setShowSecondOptional(form.streamId === "3");
-
-    if (form.streamId) {
-      const GetAllGroupsOfStreamBody: IGetAllGroupsOfStreamBody = {
-        asSchoolId: 122,
-        asStreamId: Number(form.streamId),
-      };
-      dispatch(CDAGetAllGroupsOfStream(GetAllGroupsOfStreamBody));
-
-      // Reset optionalSubject2 when switching away from StreamId 3
-      if (form.streamId !== "3") {
-        setForm(prev => ({
-          ...prev,
-          optionalSubject2: ''
-        }));
-      }
-    }
-  }, [form.streamId]);
-
   //#endregion
 
-  //#region API Consumption
   useEffect(() => {
     if (GetStudentStreamwiseSubjectDetails && GetStudentStreamwiseSubjectDetails.length > 0) {
       const StudentStreamwiseSubjectDetails = GetStudentStreamwiseSubjectDetails[0];
@@ -127,7 +87,7 @@ const StudentSubjectDetails = ({ onSave }) => {
       }
 
       // Initialize competitive exams
-      const competitiveExams = [7];//StudentStreamwiseSubjectDetails.CompitativeExam?.split(',').map(Number) || [];
+      const competitiveExams = StudentStreamwiseSubjectDetails.CompitativeExam?.split(',').map(Number) || [];
 
       setForm(prevForm => ({
         ...prevForm,
@@ -139,11 +99,51 @@ const StudentSubjectDetails = ({ onSave }) => {
         competitiveExams,
 
       }));
-      console.log('0️⃣form', form);
       // Set visibility of second optional subject dropdown
       //setShowSecondOptional(StudentStreamwiseSubjectDetails.StreamId === "3");
     }
-  }, [GetStudentStreamwiseSubjectDetails]);
+  }, [GetStudentStreamwiseSubjectDetails, GetAllStreamsDrop]);
+  // console.log('🤬', form);
+  const GetAllStremsBody: IGetAllStreamsBody = {
+    asSchoolId: 122,
+  }
+
+  useEffect(() => {
+    dispatch(CDAGetAllStreams(GetAllStremsBody));                 //Stream dropdown
+    // dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
+  }, []);
+
+  // Fetch groups when stream changes
+  useEffect(() => {
+    //setShowSecondOptional(form.streamId === "3");
+    if (form.streamId) {
+      const GetAllGroupsOfStreamBody: IGetAllGroupsOfStreamBody = {
+        asSchoolId: 122,
+        asStreamId: Number(form.streamId),
+      };
+      dispatch(CDAGetAllGroupsOfStream(GetAllGroupsOfStreamBody));
+
+      // Reset optionalSubject2 when switching away from StreamId 3
+      if (form.streamId !== "3") {
+        setForm(prev => ({
+          ...prev,
+          optionalSubject2: ''
+        }));
+      }
+    }
+  }, [form.streamId]);
+
+  const StreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
+    asSchoolId: 122,
+    asStreamGroupId: Number(form.groupId),
+    asAcademicYearId: 10
+  }
+
+  useEffect(() => {
+    //console.log('🙌StreamwiseSubjectDetailsBody:', StreamwiseSubjectDetailsBody);
+    dispatch(CDAStreamwiseSubjectDetails(StreamwiseSubjectDetailsBody));//Compulsary,OPtional,CompitativeExams dropdown
+    // dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
+  }, [form.groupId]);
 
   //#endregion
 
@@ -217,10 +217,15 @@ const StudentSubjectDetails = ({ onSave }) => {
 
   const handleSave = () => {
     const isValid = validateForm();
-    onSave(isValid);
+    // onSave(isValid);
     setMessage(isValid ? 'Draft saved successfully!' : 'Please fill in all required fields.');
     setTimeout(() => setMessage(''), 2000);
   };
+  //#region DataTrannsfer
+  useEffect(() => {
+    onTabChange(form); // Sends the initial form state to the parent when component mounts
+  }, [form]);
+  //#endregion
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>

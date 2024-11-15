@@ -427,8 +427,8 @@ export const CDAUpdateStudent =
             dispatch(StudentUISlice.actions.RUpdateStudent(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('😶Student information updated successfully');
-                // console.log('Response data:', response.data);
+                console.log('1️⃣Student information updated successfully');
+                console.log('Response data:', response.data);
             }
         };
 
@@ -440,7 +440,7 @@ export const CDAAddStudentAdditionalDetails =
             dispatch(StudentUISlice.actions.RAddStudentAdditionalDetails(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('😶Additional Student information updated successfully');
+                console.log('2️⃣Additional Student information updated successfully');
                 console.log('Response data:', response.data);
             }
         };
@@ -453,7 +453,7 @@ export const CDAUpdateStudentStreamwiseSubjectDetails =
             dispatch(StudentUISlice.actions.RUpdateStudentStreamwiseSubjectDetails(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('😶Stream Tab Student subject updated successfully');
+                console.log('3️⃣Stream Tab Student subject updated successfully');
                 console.log('Response data:', response.data);
             }
         };
