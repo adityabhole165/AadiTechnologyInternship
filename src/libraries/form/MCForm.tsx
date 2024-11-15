@@ -84,7 +84,7 @@ const MCForm = ({
                 }}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={2.8}>
               {/* <Dropdown
             Array={AcademicYearList}
             handleChange={clickAY}
@@ -102,7 +102,7 @@ const MCForm = ({
                 sx={{ width: '100%' }}
               /></Grid>
 
-            <Grid item xs={12} md={6} >
+            <Grid item xs={12} md={2.8} >
               {/* <Dropdown
             Array={MonthYearList}
             handleChange={clickMY}
@@ -118,7 +118,7 @@ const MCForm = ({
                 sx={{ width: '100%' }}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={2.8}>
               <Box>
                 {/* <Dropdown
               Array={operatorArray}
@@ -136,7 +136,7 @@ const MCForm = ({
                 />
               </Box>
             </Grid>
-            <Grid item xs={5.4}>
+            <Grid item xs={2.8}>
               {/* <TextField
             type="date"
             id="outlined-required"
@@ -148,11 +148,10 @@ const MCForm = ({
                 DateValue={searchDate}
                 onDateChange={clickDate}
                 label={''}
-                size={"medium"}
-
+               
               />
             </Grid>
-            <Grid item xs={0}>
+            <Grid item xs={0.8}>
               <Tooltip
                 title={'Search'}
               >
@@ -162,6 +161,7 @@ const MCForm = ({
                     background: (theme) => theme.palette.primary.main,
                     color: 'white',
                     mt: 1,
+                    ml:2,
                     '&:hover': {
                       backgroundColor: (theme) => theme.palette.primary.dark
                     }

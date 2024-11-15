@@ -146,11 +146,10 @@ function CardMessage({
                 <Tooltip title={'View'}>
                   <IconButton
                     sx={{
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      mb: '-5px',
-                      ml: '0px',
+                      // overflow: 'hidden',
+                      // textOverflow: 'ellipsis',
+                      // whiteSpace: 'nowrap',
+                      mt:-0.5,
                       color: '#38548A',
                       '&:hover': {
                         color: 'green',
