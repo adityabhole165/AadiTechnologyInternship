@@ -120,9 +120,7 @@ export const Wordbreak = styled(Typography)`
 export const Wordbreak1 = styled(Typography)`
   font-size: 12px;
   color: black;
-
   padding: 10px;
-  overflow: scroll;
 
   @media (max-width: 320px) {
     width: 250px;
