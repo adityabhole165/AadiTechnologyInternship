@@ -148,7 +148,7 @@ const PersonalDetails = ({ onTabChange }) => {
   const CategoryDropdown = useSelector((state: RootState) => state.StudentUI.ISCategoryDropdown);
 
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
-  // console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
+  console.log(USGetSingleStudentDetails, '🔲USGetSingleStudentDetails');
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -201,7 +201,7 @@ const PersonalDetails = ({ onTabChange }) => {
         aadharCardNumber: studentData.AadharCardNo || '',
         nameOnAadharCard: studentData.NameOnAadharCard || '',
         aadharCardScanCopy: '',
-        photoFilePath: studentData.Photo_file_Path || null,
+        photoFilePath: studentData.Photo_File_Path || null,
         photoFilePathImage: studentData.Photo_file_Path_Image || null
       }));
     }
@@ -371,19 +371,49 @@ const PersonalDetails = ({ onTabChange }) => {
   const MaxfileSize2 = 3000000;
 
   const [ImageFile, setImageFile] = useState('');
+  const [base64URL2, setbase64URL2] = useState('');
+  const [imageFileExtention, setImageFileExtention] = useState('');
+
+
 
   const ChangeFile2 = (value) => {
+    console.log('🆕ChangeFile', value);
+
     setImageFile(value.Name);
-    //setbase64URL2(value.Value);
+    setbase64URL2(value.Value);
+    setImageFileExtention(value.FileExtension);
+    console.log('1️⃣', ImageFile);
+    console.log('2️⃣', base64URL2);
+    console.log('3️⃣', imageFileExtention);
+
+    console.log('Selected file:', value.Name);            // late render
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      aadharCardScanCopy: value.Name,
+    }));
+    console.log('🆕1️⃣aadharCardScanCopy', form.aadharCardScanCopy);
   };
 
-  let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/Student Documents/"
+  //let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/Student Documents/"
+  const url = `${localStorage.getItem("SiteURL")}RITESCHOOL/DOWNLOADS/Student Documents/${form.aadharCardScanCopy}`;   //--remeber to set aadharCardScanCopy
+  const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
 
   const viewImage = () => {
-    if (ImageFile) {
-      const fullImageUrl = `${url}${ImageFile}`;
-      window.open(fullImageUrl, '_blank');
+    //const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
+    console.log('base64Image', base64Image);
+    if (ImageFile) {                             // -----show image using url🩸
+      window.open(url, '_blank');
     }
+
+    // if (base64URL2 && imageFileExtention) {       // -----show image using base64🩸
+    //   console.log('Opening image:', base64Image);
+    //   window.open(base64Image, '_blank');
+    // } else {
+    //   console.error('Base64 string or file extension is missing!');
+    // }
+
+    //window.open(base64Image, '_blank');
   };
 
   //#region DataTransfer 
@@ -930,7 +960,7 @@ const PersonalDetails = ({ onTabChange }) => {
                 MaxfileSize={MaxfileSize2}
                 ChangeFile={ChangeFile2}
                 errorMessage={''}
-                FileName={ImageFile}
+                FileName={form.aadharCardScanCopy}
                 FileLabel={'Select Aadhar Card'}
                 width={'100%'}
                 height={"52px"}
