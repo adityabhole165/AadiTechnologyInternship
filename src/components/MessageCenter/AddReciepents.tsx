@@ -65,12 +65,14 @@ const AddReciepents = ({
     RecipientId || []
   );
   const [classId, setClassId] = useState(classIdList || []);
+
   const [contactGroup, setContactGroup] = useState(contactGroupList || []);
   const [techerStudent1, setTeacherStudent1] = useState('');
   const [adminandSW, setAdminandSW] = useState();
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
   const [studentlist, setStudentlist] = useState('');
+  console.log(studentlist, "studentlist");
   const [teacherStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
   const [SearchByName, setSearchByName] = useState('');
@@ -663,11 +665,12 @@ const AddReciepents = ({
                       </Box>
                     </Box>
                   )}
+
                   {Loading ? (
                     <SuspenseLoader />
-                  ) : list.length === 0 ? (
-                    !isSelected('Student') &&
-                    isTeacherSelected() && (
+                  ) : (list.length === 0 ? (
+                    (isSelected('Student') ||
+                      isTeacherSelected()) && studentlist !== '' && (
                       <Typography
                         variant="h6"
                         align="center"
@@ -690,6 +693,7 @@ const AddReciepents = ({
                       onChange={onChangeTeacher}
                       ContactGP={techerStudent1}
                     />
+                  )
                   )}
                 </Grid>
               </Grid>
