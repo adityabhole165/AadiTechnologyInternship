@@ -326,12 +326,14 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
                                     MarksScored: Item.FailCount !== '' ? `${parseFloat(Item.Total_Marks_Scored)}` : '',
                                     TotalMarks: Item.Subjects_Total_Marks,
                                     IsAbsent: "N",
+                                    IsGrades: "Y"
                                 });
 
                                 columns.push({
                                     MarksScored: Item.FailCount !== '' ? `${parseFloat(Item.Percentage).toFixed(2)}%` : '-',
                                     TotalMarks: "-",
                                     IsAbsent: "N",
+                                    IsGrades: "Y"
                                 });
                             }
 
@@ -339,6 +341,7 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
                                 MarksScored: Item.FailCount !== '' ? `${Item.Grade_Name} [${matchingMarksDetails?.Remarks}]` : '-',
                                 TotalMarks: "-",
                                 IsAbsent: "N",
+                                IsGrades: "Y"
                             });
                         }
                     });

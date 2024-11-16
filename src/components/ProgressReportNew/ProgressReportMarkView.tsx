@@ -334,6 +334,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
             </TableCell>
             {testItem.MarksArr.map((MarkItem, index) => (
                 <TableCell key={index} sx={{textAlign:'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`}} >
+                      <span style={{ fontWeight: MarkItem?.IsGrades === 'Y'? 'bold' : 'normal' }}>
                     {MarkItem == null || MarkItem?.MarksScored == ''
                         ? '-'   
                         : (MarkItem?.IsAbsent !== 'N'
@@ -344,6 +345,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                             )
                         )
                     }
+                    </span>
                 </TableCell>
             ))}
         </TableRow>

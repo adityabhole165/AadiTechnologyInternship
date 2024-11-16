@@ -658,13 +658,15 @@ export const CDAStudentProgressReport =
                   columns.push({
                     MarksScored: Item.FailCount !== '' ? `${parseFloat(Item.Total_Marks_Scored)}` : '',
                     TotalMarks: Item.Subjects_Total_Marks,
-                    IsAbsent: "N"
+                    IsAbsent: "N",
+                    IsGrades: "Y"
                   })
 
                   columns.push({
                     MarksScored: Item.FailCount !== '' ? Item.Percentage + "%" : '-',
                     TotalMarks: "-",
-                    IsAbsent: "N"
+                    IsAbsent: "N",
+                    IsGrades: "Y"
                   })
                 }
 
@@ -673,7 +675,8 @@ export const CDAStudentProgressReport =
                     ? `${Item.Grade_Name} [${matchingMarksDetails?.Remarks}]`
                     : '-',
                   TotalMarks: "-",
-                  IsAbsent: "N"
+                  IsAbsent: "N",
+                  IsGrades: "Y"
                 })
               }
             })
