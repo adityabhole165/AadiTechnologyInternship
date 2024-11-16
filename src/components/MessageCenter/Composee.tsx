@@ -212,7 +212,7 @@ function Form13() {
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [scheduleMessage, setscheduleMessage] = useState('none');
   const [value, setValue] = useState(new Date());
-  const [scheduleDate, setScheduleDate] = useState('');
+  const [scheduleDate, setScheduleDate] = useState<string>('');
   const [schTimeerror, setSchTimeerror] = useState('');
   const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
   const [requestReadReceipt, setRequestReadReceipt] = useState(false);
@@ -666,9 +666,11 @@ function Form13() {
 
   const scheduleDateAndTime = (dateValue) => {
     const dateValue1 = getDateFormat1(dateValue);
-    console.log(dateValue1);
-
-    setScheduleDate(dateValue1);
+    setScheduleDate((prevState) => {
+      const dateValue1 = getDateFormat1(dateValue);
+      console.log('New scheduleDate:', dateValue1);
+      return dateValue1;
+    });
     console.log(scheduleDate);
 
     if (scheduleDate !== '') {
@@ -680,6 +682,13 @@ function Form13() {
       checkScheduleValidation(scheduleDate + ' ' + timeString);
     }
   };
+  useEffect(() => {
+    if (scheduleDate !== '') {
+      setRequestScheduleMsg('');
+      const timeString = formatTime(value);
+      checkScheduleValidation(scheduleDate + ' ' + timeString);
+    }
+  }, [scheduleDate, value]);
 
   const checkScheduleValidation = (DateTime) => {
     if (isFutureDateTime(DateTime)) {
