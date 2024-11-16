@@ -104,7 +104,8 @@ function CardMessage({
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 textAlign: 'left',
-                ml:6
+                ml:6,
+                 maxWidth:'180px'
               }}
             >
               {text1}
