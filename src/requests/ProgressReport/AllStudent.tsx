@@ -1,9 +1,7 @@
-import { Box, Dialog, DialogContent, DialogTitle, Link, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
-import { ClearIcon } from "@mui/x-date-pickers";
+import { Box, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ProgressReportGradeView from "src/components/ProgressReportNew/ProgressReportGradeView";
 import ProgressReportMarkView from "src/components/ProgressReportNew/ProgressReportMarkView";
-import GradeConfigurationList from "src/libraries/ResuableComponents/GradeConfigurationList";
 
 // Note : data1 is used for representing the isTotalConsiderForProgressReport Setting key flag.
 
@@ -331,7 +329,7 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
                                 });
 
                                 columns.push({
-                                    MarksScored: Item.FailCount !== '' ? Item.Percentage + "%" : '-',
+                                    MarksScored: Item.FailCount !== '' ? `${parseFloat(Item.Percentage).toFixed(2)}%` : '-',
                                     TotalMarks: "-",
                                     IsAbsent: "N",
                                 });
@@ -793,7 +791,7 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
                         </Dialog>
                     </Box> */}
 
-                   <br></br>
+                    <br></br>
 
                     <Box sx={{ mt: 1, background: 'white', }}>
                         <hr />

@@ -669,7 +669,9 @@ export const CDAStudentProgressReport =
                 }
 
                 columns.push({
-                  MarksScored: Item.FailCount !== '' ? `${Item.Grade_Name} [${matchingMarksDetails?.Remarks}]` : '-',
+                  MarksScored: Item.FailCount !== '' && Item.Grade_Name !== '-99'
+                    ? `${Item.Grade_Name} [${matchingMarksDetails?.Remarks}]`
+                    : '-',
                   TotalMarks: "-",
                   IsAbsent: "N"
                 })
