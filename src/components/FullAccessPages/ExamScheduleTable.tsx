@@ -73,6 +73,7 @@ const ExamScheduleTable = ({ headerArray, subHeaderArray, markDetailsList, Click
                                     key={`${rowIndex}-${colIndex}`}
                                     sx={{
                                         backgroundColor: markDetail.Background,
+                                        color: markDetail.textColor || 'black',
                                         border: (theme) => `1px solid ${theme.palette.grey[300]}`,
                                         textAlign: 'center',
                                         whiteSpace: 'nowrap',
@@ -83,7 +84,7 @@ const ExamScheduleTable = ({ headerArray, subHeaderArray, markDetailsList, Click
                                 >
                                     {markDetail.IsLink ? (
                                         <Typography
-                                            sx={{ cursor: 'pointer', textDecoration: 'underline' }}
+                                            sx={{ cursor: 'pointer', textDecoration: 'underline', fontWeight: markDetail.fontWeight, color: markDetail.textColor || 'black', }}
                                             onClick={() => ClickSchedule(markDetail)}
                                         >
                                             {markDetail.Name}
