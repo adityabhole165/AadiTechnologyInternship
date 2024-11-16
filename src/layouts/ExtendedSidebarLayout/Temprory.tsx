@@ -31,6 +31,7 @@ import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone'; /
 import LockResetTwoToneIcon from '@mui/icons-material/LockResetTwoTone'; // password
 import User from '@mui/icons-material/ManageAccounts';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
+import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
 import PowerOutLined from '@mui/icons-material/PowerSettingsNew';
 import ReceiptTwoToneIcon from '@mui/icons-material/ReceiptTwoTone'; // Assign Pre-Primary Progress Report Grades
 import RuleIcon from '@mui/icons-material/Rule'; //Assign exam mark 
@@ -459,6 +460,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <ReceiptTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades',
       screenId: 162
+    },
+    // This Page is being Added while Harsh was developing the code. for Photo Video Gallery | 🚩
+    {
+      id: 'Extra Screens',
+      title: 'Photo Video Gallery',
+      icon: <PhotoCameraFrontIcon />,
+      link: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
+      screenId: 0
     }
   ];
 
@@ -587,6 +596,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Common/StaffBirthday',
       screenId: 0
     },
+    // This Page is being Added while Harsh was developing the code. for Photo Video Gallery | 🚩
+    {
+      id: 'Extra Screens',
+      title: 'Photo Video Gallery',
+      icon: <PhotoCameraFrontIcon />,
+      link: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
+      screenId: 0
+    }
   ];
   // #endregion
 
