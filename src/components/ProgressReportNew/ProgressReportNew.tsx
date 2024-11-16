@@ -2,7 +2,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import PrintIcon from '@mui/icons-material/Print';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Dialog, DialogContent, DialogTitle, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useState } from 'react';
@@ -670,7 +670,7 @@ const ProgressReportNew = () => {
             </Tooltip>
           </Box>
 
-          
+
 
           <Tooltip title={'Show'}>
             <IconButton
@@ -769,76 +769,86 @@ const ProgressReportNew = () => {
 
 
 
-      <ErrorMessage1 Error={Error}></ErrorMessage1>
-      {open && (<div >
+      <Grid container sx={{ mt: 2 }} >
+        <Grid xs={6}>
+          {open && (<div >
 
-        {
-          AcademicYear === asAcademicYearId ? (
-            <span></span>
-          ) : (
-            (EntireDataList?.listStudentsDetails || []).length !== 0 && StudentId !== "0" ? (
+            {
+              AcademicYear === asAcademicYearId ? (
+                <span></span>
+              ) : (
+                (EntireDataList?.listStudentsDetails || []).length !== 0 && StudentId !== "0" ? (
+                  <ErrorMessage1 Error={"On publish, you will see download buttons to download Term 1/2 progress report."}></ErrorMessage1>
+                ) : (
+                  <span></span>
+                )
+              )
+            }
 
-
-              <ErrorMessage1 Error={"On publish, you will see download buttons to download Term 1/2 progress report."}></ErrorMessage1>
-            ) : (
+            {AcademicYear !== asAcademicYearId && StudentId !== "0" ? <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1> :
               <span></span>
-            )
-          )
-        }
-      </div>)}
-
-
-
-
-
-
-      {open && (
-        <span>
-          {AcademicYear !== asAcademicYearId && StudentId !== "0" ? <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1> :
-            <span></span>
-
-          }
-
-
-          {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
-
-
-
-            {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || !IsPrePrimary && getIsTermExamPublished === true ?
-
-              <Card5
-                text1={academictermsResult[0]?.TermName}
-                text2=""
-                clickIcon={() => { downloadProgress(1); }}
-              />
-
-              : <span></span>
 
             }
+          </div>)}
 
-            {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true || !IsPrePrimary && getIsFinalResultPublished === true ?
-
-              <Card5
-                text1={academictermsResult[1]?.TermName}
-                text2=""
-                clickIcon={() => { downloadProgress(2); }}
-              />
-
-              : <span></span>
-
-            }
-          </Stack>
-
-          }
+        </Grid>
+        <Grid xs={6} >
+          {open && (
+            <span>
 
 
 
+              {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
+
+
+
+                {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || !IsPrePrimary && getIsTermExamPublished === true ?
+
+                  <Card5
+                    text1={academictermsResult[0]?.TermName}
+                    text2=""
+                    clickIcon={() => { downloadProgress(1); }}
+                  />
+
+                  : <span></span>
+
+                }
+
+                {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true || !IsPrePrimary && getIsFinalResultPublished === true ?
+
+                  <Card5
+                    text1={academictermsResult[1]?.TermName}
+                    text2=""
+                    clickIcon={() => { downloadProgress(2); }}
+                  />
+
+                  : <span></span>
+
+                }
+              </Stack>
+
+              }
 
 
 
 
-        </span>
-      )}
+
+
+
+            </span>
+          )}
+
+        </Grid>
+      </Grid>
+
+      <ErrorMessage1 Error={Error}></ErrorMessage1>
+
+
+
+
+
+
+
 
 
 
