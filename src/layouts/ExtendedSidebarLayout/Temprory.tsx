@@ -468,6 +468,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <PhotoCameraFrontIcon />,
       link: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
       screenId: 0
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Exam Schedule Full Access',
+      icon: <AutoStoriesIcon />,
+      link: '/extended-sidebar/Teacher/ExamScheduleBaseScreen',
+      screenId: 0
     }
   ];
 
@@ -602,6 +609,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Photo Video Gallery',
       icon: <PhotoCameraFrontIcon />,
       link: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
+      screenId: 0
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Exam Schedule Full Access',
+      icon: <AutoStoriesIcon />,
+      link: '/extended-sidebar/Teacher/ExamScheduleBaseScreen',
       screenId: 0
     }
   ];
