@@ -79,7 +79,7 @@ interface IPersonalDetails {
   neighbourPhoneNumber?: string;
   parentName?: string;
   parentOccupation?: string;
-  photo?: string;
+  photoFilePath?: string;
   pin?: string;
   placeOfBirth?: string;
   religion?: string;
@@ -357,7 +357,7 @@ const StudentRegistrationForm = () => {
     asID: 0, // Missing
     asAcademicYearId: 55, // Missing
     asFormNumber: 4576, // Missing
-    asPhoto_file_Path: "", // Missing ----------Need to work on
+    asPhoto_file_Path: personalDetailsData?.photoFilePath || "", // Missing ----------Need to work on
     asFirst_Name: personalDetailsData?.firstName || "",
     asMiddle_Name: personalDetailsData?.middleName || "",
     asLast_Name: personalDetailsData?.lastName || "",

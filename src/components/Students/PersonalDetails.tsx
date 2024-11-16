@@ -98,7 +98,7 @@ const PersonalDetails = ({ onTabChange }) => {
     aadharCardNumber: '',
     nameOnAadharCard: '',
     aadharCardScanCopy: '', // This will store the file object
-    photo: null // This will store the file object
+    photoFilePath: null
   });
   //console.log('form', form.parentOccupation);
 
@@ -199,7 +199,7 @@ const PersonalDetails = ({ onTabChange }) => {
         aadharCardNumber: studentData.AadharCardNo || '',
         nameOnAadharCard: studentData.NameOnAadharCard || '',
         aadharCardScanCopy: studentData.AadharCard_Photo_Copy_Path || '',
-        photo: studentData.Photo_file_Path_Image || null
+        photoFilePath: studentData.Photo_file_Path || null
 
       }));
     }
@@ -238,10 +238,11 @@ const PersonalDetails = ({ onTabChange }) => {
 
   //#region WebCam
   const [open, setOpen] = useState(false);
-  const [fileNameError, setFileNameError] = useState('');
+  //  const [fileNameError, setFileNameError] = useState('');
   const [isWebcamActive, setIsWebcamActive] = useState(true)
   const [capturedImage, setCapturedImage] = useState(null)
-
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [imageName, setImageName] = useState('');
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -253,90 +254,57 @@ const PersonalDetails = ({ onTabChange }) => {
 
       reader.onloadend = () => {
         setForm((prevForm) => ({ ...prevForm, photo: fileName }));
-        setCapturedImage(reader.result); // Store image temporarily until uploaded
-        setFileNameError('');
+        //setCapturedImage(reader.result); // Store image temporarily until uploaded
+        //setFileNameError('');
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleCapturePhoto = () => {
+  const CapturePhoto = () => {
     const imageSrc = webcamRef.current.getScreenshot();
-    const base64String = imageSrc.split(',')[1];
-
     setCapturedImage(imageSrc);
 
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const fileName = `webcam-${timestamp}.png`
+    // setForm({ ...form, photoFilePath: fileName });
 
-    setForm({ ...form, photo: fileName });
-    // setUsingWebcam(false);
     setIsWebcamActive(true);
-    setFileNameError('');
-    console.log('capturedImage 🤣', capturedImage);
+    //setFileNameError('');
+    console.log('capturedImage 0️⃣', capturedImage);
   };
 
-  // const handleCapturePhoto = () => {
-  //   try {
-  //     if (!webcamRef.current) {
-  //       throw new Error('Webcam not initialized');
-  //     }
-
-  //     const imageSrc = webcamRef.current.getScreenshot();
-  //     if (!imageSrc) {
-  //       throw new Error('Failed to capture image');
-  //     }
-
-  //     setCapturedImage(imageSrc);
-  //     //setForm(prevForm => ({ ...prevForm, photo: imageSrc }));
-  //     console.log('capturedImage 🙌', capturedImage);
-  //     setIsWebcamActive(false);
-  //     setFileNameError('');
-  //   } catch (error) {
-  //     console.error('Error capturing photo:', error);
-  //     // Handle error appropriately - maybe set an error state
-  //     setFileNameError('Failed to capture photo. Please try again.');
-  //   }
-  // };
 
   const handleDeletePhoto = () => {
     // Reset the form photo to null to remove the image
     setCapturedImage(null);
-    setForm({ ...form, photo: null });
+    setForm({ ...form, photoFilePath: null });
 
     if (fileInputRef.current) {
       fileInputRef.current.value = ''; // Reset the file input so the file name disappears
     }
-    setFileNameError('');
-
+    //setFileNameError('');
   };
 
-  const handleOpenDialog = () => {
-    setOpen(true);
-  };
+  // const handleOpenDialog = () => {
+  //   setOpen(true);
+  // };
 
   const ClickUpload = () => {
-    console.log('clicked Upload 🤬', capturedImage);
+    console.log('Captured Image after clicked Upload 1️⃣', capturedImage);
 
-    if (!capturedImage) {
-      setFileNameError('Please select or capture a file to upload.');
-      return;
-    }
+    const dateTime = new Date().toISOString();
+    const base64Image = capturedImage.split(',')[1];
+    const imageName = `${form.firstName}_WebCam_${dateTime}.png`;
+    setImageName(imageName);
 
-
-    setForm((prevForm) => ({ ...prevForm, photo: capturedImage }));
-    // Update form state with the captured image
-    // setForm(prevForm => {
-    //   const updatedForm = { ...prevForm, photo: capturedImage };
-    //   // Call the parent component's callback with the updated form
-    //   // if (onImageUpload) {
-    //   //   onImageUpload(updatedForm);
-    //   // }
-    //   return updatedForm;
-    // });
+    setUploadedImage({ src: capturedImage, name: imageName, base64: base64Image });
+    setForm((prevForm) => ({
+      ...prevForm,
+      photoFilePath: imageName
+    }));
+    // setForm({ form.photoFilePath: imageName });         // Set the imageName in the photoFilePath of the useState
 
     setOpen(false);
-    setFileNameError('');
+    //setFileNameError('');
   };
 
   const stopWebcam = () => {
@@ -347,13 +315,13 @@ const PersonalDetails = ({ onTabChange }) => {
   const restartWebcam = () => {
     setIsWebcamActive(true)
     setCapturedImage(null)
-    setFileNameError('');
+    //setFileNameError('');
 
   }
 
   const handleCloseDialog = () => {
     setOpen(false);
-    setFileNameError('');
+    //setFileNameError('');
     setIsWebcamActive(false);
   };
 
@@ -575,10 +543,10 @@ const PersonalDetails = ({ onTabChange }) => {
             alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexDirection: 'row'
           }}
           >
-            {capturedImage ? (
+            {uploadedImage ? (
               <img
-                src={capturedImage}
-                alt="Preview"
+                src={uploadedImage.src}
+                alt="Uploaded"
                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
               />
             ) : (
@@ -597,7 +565,7 @@ const PersonalDetails = ({ onTabChange }) => {
               />
             </Grid>
             <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <IconButton onClick={() => handleOpenDialog()}>
+              <IconButton onClick={() => setOpen(true)}>
                 <Tooltip title={"Use Webcam"}>
                   <AddAPhotoIcon />
                 </Tooltip>
@@ -1026,7 +994,7 @@ const PersonalDetails = ({ onTabChange }) => {
                         }}
 
                       />
-                      <IconButton onClick={handleCapturePhoto} sx={{ position: 'absolute', bottom: 20, left: 20, p: 2, backgroundColor: 'rgba(128, 128, 128, 0.5)', borderRadius: '50%', cursor: 'pointer', zIndex: 10 }}>
+                      <IconButton onClick={CapturePhoto} sx={{ position: 'absolute', bottom: 20, left: 20, p: 2, backgroundColor: 'rgba(128, 128, 128, 0.5)', borderRadius: '50%', cursor: 'pointer', zIndex: 10 }}>
                         <Tooltip title={'Capture Photo'}>
                           <FaCamera />
                         </Tooltip>
@@ -1050,11 +1018,13 @@ const PersonalDetails = ({ onTabChange }) => {
                 </Grid>
                 {/* {capturedImage && ( */}
                 <Grid item xs={6} sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2, border: 2, width: '100%', height: '100%' }}>
-                  <img
-                    src={capturedImage}
-                    alt="Captured"
-                    style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%', borderRadius: '4%' }}
-                  />
+                  {capturedImage && (
+                    <img
+                      src={capturedImage}
+                      alt="Captured"
+                      style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%', borderRadius: '4%' }}
+                    />
+                  )}
                 </Grid>
                 {/* )} */}
               </Grid>
@@ -1077,7 +1047,7 @@ const PersonalDetails = ({ onTabChange }) => {
                 backgroundColor: green[100]
               }
             }}
-            disabled={fileNameError ? true : false} // Disable upload if there's a file error
+            disabled={false} // Disable upload if there's a file error
           >
             Upload
           </Button>
