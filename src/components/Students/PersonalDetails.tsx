@@ -244,20 +244,57 @@ const PersonalDetails = ({ onTabChange }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageName, setImageName] = useState('');
 
+  const generateImageName = (prefix) => {
+    const dateTime = new Date().toISOString();
+    return `${form.firstName}_${prefix}_${dateTime}.png`;
+  };
+
+  const processImage = (imageData, prefix) => {
+    console.log('prefix', prefix);
+    const base64Image = imageData.split(',')[1];
+    const newImageName = generateImageName(prefix);
+    setImageName(newImageName);
+
+    setUploadedImage({
+      src: imageData,
+      name: newImageName,
+      base64: base64Image
+    });
+
+    setForm(prevForm => ({
+      ...prevForm,
+      photoFilePath: newImageName
+    }));
+  };
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const fileName = `webcam-${timestamp}.png`
-
+      console.log('file', reader);
+      // const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      // const fileName = `${form.firstName}_Selected_${timestamp}.png`;
+      // reader.readAsDataURL(file);
       reader.onloadend = () => {
-        setForm((prevForm) => ({ ...prevForm, photo: fileName }));
-        //setCapturedImage(reader.result); // Store image temporarily until uploaded
+        //setForm((prevForm) => ({ ...prevForm, photo: fileName }));
+        setCapturedImage(reader.result); // Store image temporarily until uploaded
+        processImage(reader.result, 'Selected');              ////🆕newesst Logic
+        console.log('0️⃣reader.result', reader.result);
+        console.log('0️⃣SelectedImage', capturedImage);
+        // const dateTime = new Date().toISOString();
+        // const base64Image = capturedImage.split(',')[1];
+        // const imageName = `${form.firstName}_WebCam_${dateTime}.png`;
+        // setImageName(imageName);
+
+        // setUploadedImage({ src: capturedImage, name: imageName, base64: base64Image });
+        // setForm((prevForm) => ({
+        //   ...prevForm,
+        //   photoFilePath: imageName
+        // }));
         //setFileNameError('');
       };
       reader.readAsDataURL(file);
+
     }
   };
 
@@ -291,26 +328,28 @@ const PersonalDetails = ({ onTabChange }) => {
   const ClickUpload = () => {
     console.log('Captured Image after clicked Upload 1️⃣', capturedImage);
 
-    const dateTime = new Date().toISOString();
-    const base64Image = capturedImage.split(',')[1];
-    const imageName = `${form.firstName}_WebCam_${dateTime}.png`;
-    setImageName(imageName);
+    if (capturedImage) {
+      processImage(capturedImage, 'WebCam');
+      // const dateTime = new Date().toISOString();
+      // const base64Image = capturedImage.split(',')[1];
+      // const imageName = `${form.firstName}_WebCam_${dateTime}.png`;
+      // setImageName(imageName);
 
-    setUploadedImage({ src: capturedImage, name: imageName, base64: base64Image });
-    setForm((prevForm) => ({
-      ...prevForm,
-      photoFilePath: imageName
-    }));
-    // setForm({ form.photoFilePath: imageName });         // Set the imageName in the photoFilePath of the useState
+      // setUploadedImage({ src: capturedImage, name: imageName, base64: base64Image });
+      // setForm((prevForm) => ({
+      //   ...prevForm,
+      //   photoFilePath: imageName
+      // }));
+      // setForm({ form.photoFilePath: imageName });         // Set the imageName in the photoFilePath of the useState
 
-    setOpen(false);
+      setOpen(false);
+    }
     //setFileNameError('');
   };
 
-  const stopWebcam = () => {
-    setIsWebcamActive(false)
-
-  }
+  // const stopWebcam = () => {
+  //   setIsWebcamActive(false)
+  // }
 
   const restartWebcam = () => {
     setIsWebcamActive(true)
@@ -571,15 +610,7 @@ const PersonalDetails = ({ onTabChange }) => {
                 </Tooltip>
               </IconButton>
             </Grid>
-            {/* {usingWebcam && (
-              <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Tooltip title="Capture">
-                  <IconButton onClick={handleCapturePhoto}>
-                    <AddAPhotoIcon color="primary" />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-            )} */}
+
             <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Tooltip title="Delete">
                 <IconButton
@@ -1000,7 +1031,7 @@ const PersonalDetails = ({ onTabChange }) => {
                         </Tooltip>
                       </IconButton>
                       {/* <CaptureButton onClick={handleCapturePhoto} /> */}
-                      <IconButton onClick={stopWebcam} sx={{ position: 'absolute', bottom: 20, right: 20, p: 2, backgroundColor: 'rgba(128, 128, 128, 0.5)', borderRadius: '50%', cursor: 'pointer', zIndex: 10 }}>
+                      <IconButton onClick={() => setIsWebcamActive(false)} sx={{ position: 'absolute', bottom: 20, right: 20, p: 2, backgroundColor: 'rgba(128, 128, 128, 0.5)', borderRadius: '50%', cursor: 'pointer', zIndex: 10 }}>
                         <Tooltip title={'Stop'}>
                           <FaStop />
                         </Tooltip>
