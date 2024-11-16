@@ -476,43 +476,11 @@ function Form13() {
     //   },
     onSubmit: (values) => {
       let valid = false;
-      // if (requestSchedule) {
-      //   if (scheduleDate + value) {
-      //     valid = true;
-      //   }
-      //   if (scheduleDate.length == 0) {
-      //     setRequestScheduleMsg('Schedule date should not be blank.');
-      //     valid = false;
-      //   } else if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
-      //     setSchTimeerror('Message schedule time should be in future.');
-      //     valid = false;
-      //   } else {
-      //     setRequestScheduleMsg('');
-      //   }
-      // } else {
-      //   valid = true;
-      // }
-      if (valid) {
-        sendMessage();
-        setdisabledStateOfSend(true);
-      }
-    },
-    validate: (values) => {
-      const errors: any = {};
-      console.log('>>>>>>', scheduleDate);
-
-      //
-      let valid = false;
       if (requestSchedule) {
-        if (scheduleDate !== '') {
-          setRequestScheduleMsg('');
-        }
         if (scheduleDate + value) {
           valid = true;
         }
-        if (scheduleDate === '') {
-          console.log('>>>>>>', scheduleDate);
-
+        if (scheduleDate.length == 0) {
           setRequestScheduleMsg('Schedule date should not be blank.');
           valid = false;
         } else if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
@@ -524,6 +492,38 @@ function Form13() {
       } else {
         valid = true;
       }
+      if (valid) {
+        sendMessage();
+        setdisabledStateOfSend(true);
+      }
+    },
+    validate: (values) => {
+      const errors: any = {};
+      console.log('>>>>>>', scheduleDate);
+
+      //
+      // let valid = false;
+      // if (requestSchedule) {
+      //   if (scheduleDate !== '') {
+      //     setRequestScheduleMsg('');
+      //   }
+      //   if (scheduleDate + value) {
+      //     valid = true;
+      //   }
+      //   if (scheduleDate === '') {
+      //     console.log('>>>>>>', scheduleDate);
+
+      //     setRequestScheduleMsg('Schedule date should not be blank.');
+      //     valid = false;
+      //   } else if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
+      //     setSchTimeerror('Message schedule time should be in future.');
+      //     valid = false;
+      //   } else {
+      //     setRequestScheduleMsg('');
+      //   }
+      // } else {
+      //   valid = true;
+      // }
       //
       if (RecipientsObject.RecipientName.length == 0 && PageName !== 'Reply') {
         errors.To = 'Atleast one recipient should be selected.';
