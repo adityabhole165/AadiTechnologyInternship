@@ -1,4 +1,5 @@
 import ClearIcon from '@mui/icons-material/Clear';
+import PrintIcon from '@mui/icons-material/Print';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Dialog, DialogContent, DialogTitle, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
@@ -305,7 +306,7 @@ const ProgressReportNew = () => {
   const IsGradingStandard: IsGradingStandarBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asStandardId:GetOldStudentDetails.StandardId
+    asStandardId: GetOldStudentDetails.StandardId
 
   };
 
@@ -427,13 +428,13 @@ const ProgressReportNew = () => {
     }
     setOpen(true);
     if (StudentId === '0') {
-     
+
       dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
     }
     SetError('')
   }
- 
-  
+
+
 
   useEffect(() => {
     if (USGetStudentNameDropdown.length > 0) {
@@ -444,7 +445,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
-  }, [AcademicYear, selectTeacher, StudentId,GetOldStudentDetails.StandardId]);
+  }, [AcademicYear, selectTeacher, StudentId, GetOldStudentDetails.StandardId]);
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
@@ -455,12 +456,12 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
 
-  }, [StandardDivisionId(),asAcademicYearId,StudentId]);
+  }, [StandardDivisionId(), asAcademicYearId, StudentId]);
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
 
-  }, [GetOldStudentDetails.StandardDivisionId,AcademicYear]);
+  }, [GetOldStudentDetails.StandardDivisionId, AcademicYear]);
 
 
   useEffect(() => {
@@ -496,7 +497,7 @@ const ProgressReportNew = () => {
     if (StudentId !== '0') {
       dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
     }
-  }, [IsTotalConsiderForProgressReport, AcademicYear,GetOldStudentDetails.StudentId])
+  }, [IsTotalConsiderForProgressReport, AcademicYear, GetOldStudentDetails.StudentId])
   // }, [AcademicYear, GetOldStudentDetails.StudentId, IsTotalConsiderForProgressReport]);
 
   useEffect(() => {
@@ -505,10 +506,10 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
-  }, [GetOldStudentDetails.StandardId,AcademicYear]);
+  }, [GetOldStudentDetails.StandardId, AcademicYear]);
 
 
- 
+
 
   useEffect(() => {
     dispatch(CDAGetAcademicYearsOfStudent(AcademicYearsOfStudentBody));
@@ -603,13 +604,15 @@ const ProgressReportNew = () => {
 
   }
 
-  
 
+  const clickPrint = () => {
+    // Close the dialog
+  };
 
   return (
     <Box sx={{ px: 2 }}>
       {(Loading) && <SuspenseLoader />}
-     { AllStudentsProgressSheet?.length === 0 && <SuspenseLoader /> }
+      {AllStudentsProgressSheet?.length === 0 && <SuspenseLoader />}
 
       <CommonPageHeader
         navLinks={[
@@ -647,6 +650,10 @@ const ProgressReportNew = () => {
               label={'Academic Years '}
               size={"small"} />}
 
+
+
+
+
           <Box>
             <Tooltip title={'Displays  progress report of published exam of selected / all student.'}>
               <IconButton
@@ -663,6 +670,8 @@ const ProgressReportNew = () => {
             </Tooltip>
           </Box>
 
+          
+
           <Tooltip title={'Show'}>
             <IconButton
               sx={{
@@ -676,6 +685,25 @@ const ProgressReportNew = () => {
               <VisibilityTwoToneIcon />
             </IconButton>
           </Tooltip>
+
+          {open && StudentId !== "0" && (
+            <Box>
+              <Tooltip title={'Print'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}
+                  onClick={clickPrint}>
+                  <PrintIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
+
 
         </>}
 
@@ -742,73 +770,73 @@ const ProgressReportNew = () => {
 
 
       <ErrorMessage1 Error={Error}></ErrorMessage1>
-      {open && (<div > 
+      {open && (<div >
 
-{
-  AcademicYear === asAcademicYearId ? (
-    <span></span>
-  ) : (
-    (EntireDataList?.listStudentsDetails || []).length !== 0   &&  StudentId !== "0"? (
-     
-
-<ErrorMessage1 Error={"On publish, you will see download buttons to download Term 1/2 progress report."}></ErrorMessage1>
-    ) : (
-      <span></span>
-    )
-  )
-}
-</div>)}
-      
+        {
+          AcademicYear === asAcademicYearId ? (
+            <span></span>
+          ) : (
+            (EntireDataList?.listStudentsDetails || []).length !== 0 && StudentId !== "0" ? (
 
 
-      
+              <ErrorMessage1 Error={"On publish, you will see download buttons to download Term 1/2 progress report."}></ErrorMessage1>
+            ) : (
+              <span></span>
+            )
+          )
+        }
+      </div>)}
+
+
+
+
 
 
       {open && (
-        <span> 
-          {AcademicYear !== asAcademicYearId && StudentId !== "0"   ? <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1> :
-          <span></span>
-        
-        }
-          
+        <span>
+          {AcademicYear !== asAcademicYearId && StudentId !== "0" ? <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1> :
+            <span></span>
+
+          }
+
 
           {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
 
 
 
-        {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || !IsPrePrimary && getIsTermExamPublished === true ?
+            {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || !IsPrePrimary && getIsTermExamPublished === true ?
 
-          <Card5
-            text1={academictermsResult[0]?.TermName}
-            text2=""
-            clickIcon={() => { downloadProgress(1); }}
-          />
+              <Card5
+                text1={academictermsResult[0]?.TermName}
+                text2=""
+                clickIcon={() => { downloadProgress(1); }}
+              />
 
-          : <span></span>
+              : <span></span>
 
-        }
+            }
 
-        {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true || !IsPrePrimary && getIsFinalResultPublished === true ?
+            {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true || !IsPrePrimary && getIsFinalResultPublished === true ?
 
-          <Card5
-            text1={academictermsResult[1]?.TermName}
-            text2=""
-            clickIcon={() => { downloadProgress(2); }}
-          />
+              <Card5
+                text1={academictermsResult[1]?.TermName}
+                text2=""
+                clickIcon={() => { downloadProgress(2); }}
+              />
 
-          : <span></span>
+              : <span></span>
 
-        }
-      </Stack>
-      
-      }
+            }
+          </Stack>
+
+          }
 
 
 
-     
 
-         
-        
+
+
+
         </span>
       )}
 
@@ -822,152 +850,152 @@ const ProgressReportNew = () => {
 
 
 
-  {(EntireDataList?.listStudentsDetails || []).length === 0 && StudentId !== "0" ? 
-  <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-  <b>Assessment result is not available for this student.</b>
-</Typography>
-
-   : <span>
-    {USIsTestPublishedForStdDiv == true   ?
-            <>
-              {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
-                <>
-                  
-                  <Box sx={{ mt: 1, background: 'white' }}>
-                    <hr />
-                    {USlistStudentsDetails.map((subject, index) => (
-                      <div key={index}>
-                        <Typography variant="h4" textAlign="center" color="primary" mb={1}>
-                          {subject.School_Orgn_Name}
-                        </Typography>
-                        <hr />
-                        <Typography variant="h3" textAlign="center" color="black" mb={1}>
-                          {subject.School_Name}
-                        </Typography>
-                        <hr />
-                        <Typography variant="h4" textAlign="center" color="black" mb={1}>
-                          Progress Report
-                        </Typography>
-                      </div>
-                    ))}
-                    <Table>
-                      <TableBody>
-                        {USlistStudentsDetails.map((item) => {
-                          return (
-                            <TableRow sx={{ bgcolor: '#38548A' }}>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
-                            </TableRow>
-                          )
-                        })}
-                      </TableBody>
-                    </Table>
-                  </Box>
-                  {hasTotalConsiderationN && (
-                    <Typography
-                      sx={{ bgcolor: 'white', p: 2 }}
-                      dangerouslySetInnerHTML={{ __html: formattedText }}
-                    />
-                  )}
-                  <Box sx={{ overflowX: 'auto' }}>
-                    <ProgressReportGradeView
-                      EntireDataList={EntireDataList}
-                      IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
-                      HeaderArray1={HeaderArray1}
-                      SubHeaderArray1={SubHeaderArray1}
-                      MarkDetailsList1={IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? MarkDetailsList : MarkDetailsList1}
-                    />
-                  </Box>
-                </>
-                :
-                <>
-                 
-                  <Box sx={{ mt: 1, background: 'white', }}>
-                    <hr />
-                    {USlistStudentsDetails.map((subject, index) => (
-                      <div key={index}>
-                        <Typography variant="h4" textAlign="center" color="primary" mb={1}>
-                          {subject.School_Orgn_Name}
-                        </Typography>
-                        <hr />
-                        <Typography variant="h3" textAlign="center" color="black" mb={1}>
-                          {subject.School_Name}
-                        </Typography>
-                        <hr />
-                        <Typography variant="h4" textAlign="center" color="black" mb={1}>
-                          Progress Report
-                        </Typography>
-                      </div>
-                    ))}
-                    <Table >
-                      <TableBody>
-                        {USlistStudentsDetails.map((item) => {
-                          return (
-                            <TableRow sx={{ bgcolor: '#38548A' }}>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
-                            </TableRow>
-                          )
-                        })}
-                      </TableBody>
-                    </Table>
-                  </Box>
-                  {hasTotalConsiderationN && (
-                    <Typography
-                      sx={{ bgcolor: 'white', p: 2 }}
-                      dangerouslySetInnerHTML={{ __html: formattedText }}
-                    />
-                  )}
-                  <Box sx={{ overflowX: 'auto' }}>
-                    <ProgressReportMarkView
-                      HeaderArray={HeaderArray}
-                      SubHeaderArray={SubHeaderArray}
-                      MarkDetailsList={MarkDetailsList}
-                      ListDisplayNameDetails={ListDisplayNameDetails}
-                      IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
-                      USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
-                      USListMarkssDetails={USListMarkssDetails}
-                      ListTestTypeIdDetails={USListTestTypeIdDetails}
-                      ThirdHeaderRow={ThirdHeaderColumn}
-                      EntireDataList={EntireDataList}
-                    />
-                  </Box>
-                </>
-                :
-                null
-              }
-             
-
-             {StudentId == "0" && parsedDataList?.length > 0 &&
-                parsedDataList.map((parsedItem, i) => (
-                  <AllStudents key={i} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
-                    handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
-                    USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
-                    USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
-                  />
-                  //             data1, IStudentList, handleClose, handleClick, open1, formattedText,
-                  // USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
-                ))
-
-              }
-            </>
-            :
-
-            
+          {(EntireDataList?.listStudentsDetails || []).length === 0 && StudentId !== "0" ?
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No exam of this class has been published for the current academic year.</b>
+              <b>Assessment result is not available for this student.</b>
             </Typography>
 
-          }
-    
-    
-    </span>}
-          
-    
+            : <span>
+              {USIsTestPublishedForStdDiv == true ?
+                <>
+                  {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
+                    <>
+
+                      <Box sx={{ mt: 1, background: 'white' }}>
+                        <hr />
+                        {USlistStudentsDetails.map((subject, index) => (
+                          <div key={index}>
+                            <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                              {subject.School_Orgn_Name}
+                            </Typography>
+                            <hr />
+                            <Typography variant="h3" textAlign="center" color="black" mb={1}>
+                              {subject.School_Name}
+                            </Typography>
+                            <hr />
+                            <Typography variant="h4" textAlign="center" color="black" mb={1}>
+                              Progress Report
+                            </Typography>
+                          </div>
+                        ))}
+                        <Table>
+                          <TableBody>
+                            {USlistStudentsDetails.map((item) => {
+                              return (
+                                <TableRow sx={{ bgcolor: '#38548A' }}>
+                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                                </TableRow>
+                              )
+                            })}
+                          </TableBody>
+                        </Table>
+                      </Box>
+                      {hasTotalConsiderationN && (
+                        <Typography
+                          sx={{ bgcolor: 'white', p: 2 }}
+                          dangerouslySetInnerHTML={{ __html: formattedText }}
+                        />
+                      )}
+                      <Box sx={{ overflowX: 'auto' }}>
+                        <ProgressReportGradeView
+                          EntireDataList={EntireDataList}
+                          IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                          HeaderArray1={HeaderArray1}
+                          SubHeaderArray1={SubHeaderArray1}
+                          MarkDetailsList1={IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? MarkDetailsList : MarkDetailsList1}
+                        />
+                      </Box>
+                    </>
+                    :
+                    <>
+
+                      <Box sx={{ mt: 1, background: 'white', }}>
+                        <hr />
+                        {USlistStudentsDetails.map((subject, index) => (
+                          <div key={index}>
+                            <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                              {subject.School_Orgn_Name}
+                            </Typography>
+                            <hr />
+                            <Typography variant="h3" textAlign="center" color="black" mb={1}>
+                              {subject.School_Name}
+                            </Typography>
+                            <hr />
+                            <Typography variant="h4" textAlign="center" color="black" mb={1}>
+                              Progress Report
+                            </Typography>
+                          </div>
+                        ))}
+                        <Table >
+                          <TableBody>
+                            {USlistStudentsDetails.map((item) => {
+                              return (
+                                <TableRow sx={{ bgcolor: '#38548A' }}>
+                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                                </TableRow>
+                              )
+                            })}
+                          </TableBody>
+                        </Table>
+                      </Box>
+                      {hasTotalConsiderationN && (
+                        <Typography
+                          sx={{ bgcolor: 'white', p: 2 }}
+                          dangerouslySetInnerHTML={{ __html: formattedText }}
+                        />
+                      )}
+                      <Box sx={{ overflowX: 'auto' }}>
+                        <ProgressReportMarkView
+                          HeaderArray={HeaderArray}
+                          SubHeaderArray={SubHeaderArray}
+                          MarkDetailsList={MarkDetailsList}
+                          ListDisplayNameDetails={ListDisplayNameDetails}
+                          IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                          USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
+                          USListMarkssDetails={USListMarkssDetails}
+                          ListTestTypeIdDetails={USListTestTypeIdDetails}
+                          ThirdHeaderRow={ThirdHeaderColumn}
+                          EntireDataList={EntireDataList}
+                        />
+                      </Box>
+                    </>
+                    :
+                    null
+                  }
+
+
+                  {StudentId == "0" && parsedDataList?.length > 0 &&
+                    parsedDataList.map((parsedItem, i) => (
+                      <AllStudents key={i} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
+                        handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
+                        USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                        USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                      />
+                      //             data1, IStudentList, handleClose, handleClick, open1, formattedText,
+                      // USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
+                    ))
+
+                  }
+                </>
+                :
+
+
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                  <b>No exam of this class has been published for the current academic year.</b>
+                </Typography>
+
+              }
+
+
+            </span>}
+
+
 
 
         </div>
