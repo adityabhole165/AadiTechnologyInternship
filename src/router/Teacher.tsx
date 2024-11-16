@@ -284,6 +284,9 @@ const StudentRegistrationForms = Loader(
 const StandardwiseExamSchedule = Loader(
   lazy(() => import('src/components/FullAccessPages/StandardwiseExamSchedule'))
 );
+const PhotoVideoGalleryBaseScreen = Loader(
+  lazy(() => import('src/components/PhotoVideoGallery/PhotoVideoGalleryBaseScreen'))
+);
 
 const teacherRoutes = [
   {
@@ -821,6 +824,10 @@ const teacherRoutes = [
     path: 'ReceivedSMSOwn',
     element: <ReceivedSMSOwn />
   },
+ {
+  path: 'PhotoVideoGalleryBaseScreen',
+  element: <PhotoVideoGalleryBaseScreen />
+},
 ];
 
 export default teacherRoutes;
