@@ -27,11 +27,12 @@ import { useLocation, useParams } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import { IGetSingleStudentDetailsBody, IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
-import SingleFile from 'src/libraries/File/SingleFile';
+import SingleFile2 from 'src/libraries/File/SingleFile2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetMasterData, CDAGetSingleStudentDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
+
 
 // const CaptureButton = ({ onClick }) => (
 //   <div
@@ -98,7 +99,8 @@ const PersonalDetails = ({ onTabChange }) => {
     aadharCardNumber: '',
     nameOnAadharCard: '',
     aadharCardScanCopy: '', // This will store the file object
-    photoFilePath: null
+    photoFilePath: null,
+    photoFilePathImage: null,
   });
   //console.log('form', form.parentOccupation);
 
@@ -198,9 +200,9 @@ const PersonalDetails = ({ onTabChange }) => {
         bloodGroup: studentData.Blood_Group || '',
         aadharCardNumber: studentData.AadharCardNo || '',
         nameOnAadharCard: studentData.NameOnAadharCard || '',
-        aadharCardScanCopy: studentData.AadharCard_Photo_Copy_Path || '',
-        photoFilePath: studentData.Photo_file_Path || null
-
+        aadharCardScanCopy: '',
+        photoFilePath: studentData.Photo_file_Path || null,
+        photoFilePathImage: studentData.Photo_file_Path_Image || null
       }));
     }
   }, [USGetSingleStudentDetails]);
@@ -364,11 +366,25 @@ const PersonalDetails = ({ onTabChange }) => {
     setIsWebcamActive(false);
   };
 
-  // useEffect(() => {
-  //   if (form.photo) {
-  //     console.log(form.photo, 'UseEffect form.photo'); // Logs the updated form.photo after upload
-  //   }
-  // }, [form.photo]);
+  //#region File Upload
+  const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
+  const MaxfileSize2 = 3000000;
+
+  const [ImageFile, setImageFile] = useState('');
+
+  const ChangeFile2 = (value) => {
+    setImageFile(value.Name);
+    //setbase64URL2(value.Value);
+  };
+
+  let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/Student Documents/"
+
+  const viewImage = () => {
+    if (ImageFile) {
+      const fullImageUrl = `${url}${ImageFile}`;
+      window.open(fullImageUrl, '_blank');
+    }
+  };
 
   //#region DataTransfer 
   useEffect(() => {
@@ -909,22 +925,23 @@ const PersonalDetails = ({ onTabChange }) => {
             </Grid>
             {/* Single File Upload */}
             <Grid item xs={4} sm={2} md={2} lg={2}>
-              <SingleFile
-                ValidFileTypes={ValidFileTypes}
-                MaxfileSize={MaxfileSize}
-                FileName={form.aadharCardScanCopy}
-                ChangeFile={handleImageChange}
-                FileLabel={'Aadhar Card'}
+              <SingleFile2
+                ValidFileTypes={ValidFileTypes2}
+                MaxfileSize={MaxfileSize2}
+                ChangeFile={ChangeFile2}
+                errorMessage={''}
+                FileName={ImageFile}
+                FileLabel={'Select Aadhar Card'}
+                width={'100%'}
+                height={"52px"}
                 isMandatory={false}
-                height={'52px'}
-                width="100%"
               />
             </Grid>
             <Grid item xs={1} md={1}>
               <>
                 <Tooltip title={'View'}>
                   <IconButton
-                    onClick={() => ''}
+                    onClick={viewImage}
                     sx={{
                       color: '#223354',
                       mt: 0.7,
@@ -937,7 +954,6 @@ const PersonalDetails = ({ onTabChange }) => {
                     <Visibility />
                   </IconButton>
                 </Tooltip>
-
                 <Tooltip title={'Delete'}>
                   <IconButton
                     onClick={() => ''}
