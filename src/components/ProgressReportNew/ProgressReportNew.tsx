@@ -686,7 +686,7 @@ const ProgressReportNew = () => {
             </IconButton>
           </Tooltip>
 
-          {open && StudentId !== "0" && (
+          {(open && StudentId !== "0") && AcademicYear !== asAcademicYearId && (
             <Box>
               <Tooltip title={'Print'}>
                 <IconButton
