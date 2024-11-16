@@ -94,6 +94,7 @@ interface RAdmissionDetails {
   applicableRules?: string;
   boardRegistrationNumber?: string;
   feeCategoryDetailsId?: string;
+  feeAreaNames?: string;
   formNumber?: string;
   isDayBoardingFeePaid?: boolean;
   isForDayBoarding?: boolean;
@@ -451,7 +452,7 @@ const StudentRegistrationForm = () => {
     asLandmark: additionalInfoData?.landmark || "",
     asTaluka: additionalInfoData?.taluka || "",
     asDistrict: additionalInfoData?.district || "",
-    asFeeAreaName: 0,
+    asFeeAreaName: Number(admissionDetailsData?.feeAreaNames) || 0,
     asFatherOccupation: familyDetailsData?.fatherOccupation || "",
     asFatherQualification: familyDetailsData?.fatherQualification || "",
     asFatherEmail: familyDetailsData?.fatherEmail || "",

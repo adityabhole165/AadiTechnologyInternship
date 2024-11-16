@@ -33,7 +33,7 @@ const GetGenerateTransportFeeEntriesBody = (data: IGenerateTransportFeeEntriesBo
 };
 
 const GetFormNumber = (data: IGetFormNumberBody) => {
-    return http.post<IGetFormNumberResult[]>('School/GetFormNumber', data);
+    return http.post<IGetFormNumberResult>('School/GetFormNumber', data);
 };
 const GetStudentsSiblingDetail = (data: IGetStudentsSiblingDetailBody) => {
     return http.post<IGetStudentsSiblingDetailResult[]>('Teacher/GetStudentsSiblingDetail', data);

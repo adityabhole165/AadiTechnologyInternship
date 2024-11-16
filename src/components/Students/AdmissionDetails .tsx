@@ -13,6 +13,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
+import { IGetFormNumberBody } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
   ICheckIfAttendanceMarkedBody,
   IGetAllUserRolesBody,
@@ -25,6 +26,7 @@ import {
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
 import {
   CDAAnyExamPublished,
   CDACheckIfAttendanceMarked,
@@ -66,7 +68,7 @@ const AdmissionDetails = ({ onTabChange }) => {
     staffUserRole: '',
     staffName: '',
     residenceTypes: '',
-    feeCategoryDetailsId: '',
+    feeAreaNames: '',
     RFID: '',
     isStaffKid: false,
     isOnlyChild: false,
@@ -77,6 +79,9 @@ const AdmissionDetails = ({ onTabChange }) => {
     isHandicapped: false,
   });
 
+  const FeeAreaNamesDrop = useSelector(
+    (state: RootState) => state.StudentUI.ISFeeAreaNames
+  );
   const ResidenceTypesDropdown = useSelector(
     (state: RootState) => state.StudentUI.ISResidenceTypesDropdown
   );
@@ -103,9 +108,9 @@ const AdmissionDetails = ({ onTabChange }) => {
   );
   // console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
 
-  // const GetStudentAdditionalDetails = useSelector(
-  //   (state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails
-  // );
+  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
+  const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
+  console.log(GetFromNumber, 'GetFromNumber');
 
   const GetStudentRecordDataResult: IMasterDatastudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -154,6 +159,10 @@ const AdmissionDetails = ({ onTabChange }) => {
   const FeeAreaNamesBody: IGetFeeAreaNamesBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
   };
+  const FormNumberBody: IGetFormNumberBody = {
+    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    asStudentId: 3556
+  };
   useEffect(() => {
     dispatch(CDAGetMasterData(GetStudentRecordDataResult));
     dispatch(CDAUserRoles(GetAllUserRoles));
@@ -162,11 +171,15 @@ const AdmissionDetails = ({ onTabChange }) => {
     dispatch(CDAAnyExamPublished(AnyExamPublishedBody));
     dispatch(CDACheckIfAttendanceMarked(CheckAttendanceMarkedBody));
     dispatch(CDAFeeAreaNames(FeeAreaNamesBody));
+    dispatch(GetFormNumber(FormNumberBody));
+
   }, []);
 
   useEffect(() => {
-    if (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) {
-      const studentData = USGetSingleStudentDetails[0]; // Get first item from array
+    if (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0 && GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0 && GetFromNumber && GetFromNumber.length > 0) {
+      const studentData = USGetSingleStudentDetails[0];
+      const AdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
+      const FormNumber = GetFromNumber[0];
       setForm(prevForm => ({
         ...prevForm,
         userName: studentData.User_Login || '',
@@ -175,7 +188,7 @@ const AdmissionDetails = ({ onTabChange }) => {
         isRTEApplicable: studentData.Is_RTE_Student === 'False' ? false : true,
         rteCategory: studentData.RTECategoryId || '',
         rteApplicationForm: studentData.RTEApplicationFormNo || '',
-        formNumber: studentData.Enrolment_Number || '',
+        formNumber: FormNumber?.FormNumber || '',
         registrationNumber: studentData.Enrolment_Number || '',
         admissionDate: studentData.Admission_date || '',
         joiningDate: studentData.Joining_Date || '',
@@ -190,15 +203,15 @@ const AdmissionDetails = ({ onTabChange }) => {
         staffUserRole: studentData.User_Role_Id || '',
         staffName: studentData.staffName || '',
         residenceTypes: studentData.ResidenceTypeId || '',
-        feeCategoryDetailsId: studentData.FeeCategoryDetailsId || '',
-        RFID: 'Hello there', // not found
+        feeAreaNames: AdditionalData?.FeeAreaName || '',
+        RFID: AdditionalData?.RFID || '', // not found
         isStaffKid: studentData.IsStaffKid === 'False' ? false : true,
         isOnlyChild: studentData.IsOnlyChild === 'False' ? false : true,
         isRiseAndShine: studentData.IsRiseAndShine === 'False' ? false : true,
         isMinority: studentData.Minority === 'False' ? false : true,
         isForDayBoarding: studentData.IsForDayBoarding === 'False' ? false : true,
         isDayBoardingFeePaid: studentData.IsDayBoardingFeePaid === 'False' ? false : true,
-        isHandicapped: false, // not found
+        isHandicapped: AdditionalData?.IsHandicapped || false, // not found
 
       }));
     }
@@ -685,7 +698,7 @@ const AdmissionDetails = ({ onTabChange }) => {
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '15vw' }}
-            ItemList={ResidenceType}
+            ItemList={FeeAreaNamesDrop}
             onChange={handleInputChange}
             label={'Fee Area Name'}
             //defaultValue={form.parentOccupation}

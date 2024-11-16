@@ -103,7 +103,8 @@ export const GetFormNumber =
     (data: IGetFormNumberBody): AppThunk =>
         async (dispatch) => {
             const response = await APIStudentDetails.GetFormNumber(data);
-            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetFormNumber(response.data));
+            const formNumberList = response.data?.FormNumberList || [];
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.GetFormNumber(formNumberList));
         };
 export const GetStudentsSiblingDetail =
     (data: IGetStudentsSiblingDetailBody): AppThunk =>
