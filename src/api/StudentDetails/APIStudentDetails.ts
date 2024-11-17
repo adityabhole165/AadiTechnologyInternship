@@ -30,11 +30,11 @@ const GetIsClassTeacher = (data: IsClassTeacherBody) => {
 
 const GetGenerateTransportFeeEntriesBody = (data: IGenerateTransportFeeEntriesBody) => {
     return http.post<String>('School/GenerateTransportFeeEntries', data);
-};
+};//InProgress
 
 const GetFormNumber = (data: IGetFormNumberBody) => {
     return http.post<IGetFormNumberResult>('School/GetFormNumber', data);
-};
+};//used
 const GetStudentsSiblingDetail = (data: IGetStudentsSiblingDetailBody) => {
     return http.post<IGetStudentsSiblingDetailResult[]>('Teacher/GetStudentsSiblingDetail', data);
 };
@@ -48,7 +48,7 @@ const GetStudentMandatoryFields = (data: IGetStudentMandatoryFieldsBody) => {
 };
 const UpdateStudentTrackingDetails = (data: IUpdateStudentTrackingDetailsBody) => {
     return http.post<String>('Teacher/UpdateStudentTrackingDetails', data);
-};
+};//used
 
 
 const APIStudentDetails = {

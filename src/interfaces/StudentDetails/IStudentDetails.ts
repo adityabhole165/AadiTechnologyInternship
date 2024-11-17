@@ -100,7 +100,11 @@ export interface IGetStudentMandatoryFieldsResult {
 }
 
 export interface IUpdateStudentTrackingDetailsBody {
-
-    asSchoolId: number,
+    asSchoolId: number
+    asStudentId: number
+    asInsertedById: number
+    asID: number
+    asAcademicYearId: number
 }
+
 

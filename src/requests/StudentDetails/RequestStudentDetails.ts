@@ -92,7 +92,7 @@ export const GetIsClassTeacher =
             dispatch(GetStandardwiseMinMaxDOBslice.actions.GetIsClassTeacher(responseData));
         };
 
-export const GetGenerateTransportFeeEntries =
+export const CDAGenerateTransportFeeEntries =
     (data: IGenerateTransportFeeEntriesBody): AppThunk =>
         async (dispatch) => {
             const response = await APIStudentDetails.GetGenerateTransportFeeEntriesBody(data);
@@ -133,7 +133,7 @@ export const GetStudentMandatoryFields =
         };
 
 
-export const GetUpdateStudentTrackingDetails =
+export const CDAUpdateStudentTrackingDetails =
     (data: IUpdateStudentTrackingDetailsBody): AppThunk =>
         async (dispatch) => {
             const response = await APIStudentDetails.UpdateStudentTrackingDetails(data);

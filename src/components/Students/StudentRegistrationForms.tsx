@@ -28,12 +28,16 @@ import {
 } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
 import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
+import { CDAGenerateTransportFeeEntries, CDAUpdateStudentTrackingDetails } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { CDAAddStudentAdditionalDetails, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
+import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -47,6 +51,7 @@ import PersonalDetails from './PersonalDetails'; // Assuming PersonalDetails is 
 import CheckboxList from './SiblingDetailsCheckBoxList';
 import StudentProfileHeader from './StudentProfileHeader';
 import StudentSubjectDetails from './StudentSubjectDetails';
+
 const initialData = [
   { className: '10-B', date: '05-Nov-2024', description: 'qqq' }
   // Add more rows if needed
@@ -203,6 +208,13 @@ interface RStreamwiseSubjectDetails {
 
 const StudentRegistrationForm = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
+  // Session & Local Variables
+  const schoolId = localStorage.getItem('SchoolId');
+  const academicYearId = sessionStorage.getItem('AcademicYearId');
+  const teacherId = sessionStorage.getItem('TeacherId');
+
   const [currentTab, setCurrentTab] = useState(0);
   const [profileCompletion, setProfileCompletion] = useState(20);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -350,6 +362,9 @@ const StudentRegistrationForm = () => {
   };//#endregion
 
   //#region API CAlls
+  const UpdateStudentResult = useSelector((state: RootState) => state.StudentUI.ISUpdateStudent);
+  console.log('UpdateStudentResult:', UpdateStudentResult);
+
   const UpdateStudentBody: IUpdateStudentBody = {
     //...personalDetailsData,
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -518,7 +533,19 @@ const StudentRegistrationForm = () => {
     dispatch(CDAUpdateStudentStreamwiseSubjectDetails(UpdateStudentStreamwiseSubjectDetailsBody));
 
     //console.log('Saving data:', personalDetails);
+    dispatch(CDAGenerateTransportFeeEntries({ asSchoolId: Number(schoolId), asAcademicYearId: Number(academicYearId), asStudentId: Number(SchoolWise_Student_Id), asUpdatedById: Number(teacherId) }));
   };
+
+  useEffect(() => {
+    const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody = {
+      asSchoolId: Number(schoolId),
+      asStudentId: SchoolWise_Student_Id,
+      asInsertedById: Number(teacherId),
+      asID: (UpdateStudentResult as any).iReturnValue, // Accessing iReturnValue here
+      asAcademicYearId: Number(academicYearId)
+    }
+    dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
+  }, [UpdateStudentResult]);
 
   //#endregion
   const onSelectDate = (value) => {
