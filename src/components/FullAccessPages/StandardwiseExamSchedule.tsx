@@ -2,18 +2,24 @@ import { QuestionMark } from '@mui/icons-material';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SaveIcon from '@mui/icons-material/Save';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
 import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 const StandardwiseExamSchedule = () => {
+    const { StandardId, TestId } = useParams();
+    const dispatch = useDispatch();
     const [openDialog, setOpenDialog] = useState(false);
     const [IsConfirm, setIsConfirm] = useState('');
     const [showRecipients, setShowRecipients] = useState(false);
@@ -35,7 +41,39 @@ const StandardwiseExamSchedule = () => {
     const [editMode, setEditMode] = useState(false);
     const [selectedInstructionId, setSelectedInstructionId] = useState(null);
 
+    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asSchoolId = localStorage.getItem('localSchoolId');
+    const SubHeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandard);
+    const HeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandardwTest);
 
+    useEffect(() => {
+        const RExamScheduleBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId)
+        }
+
+        dispatch(RExamSchedule(RExamScheduleBody))
+    }, [])
+
+    const getClassName = () => {
+        let returnVal = ""
+
+        SubHeaderArray1.map((item) => {
+            if (item.Text2 == StandardId)
+                returnVal = item.Name
+        })
+        return returnVal;
+    }
+
+    const getTestName = () => {
+        let returnVal = ""
+
+        HeaderArray1.map((item) => {
+            if (item.text1 == TestId)
+                returnVal = item.Name
+        })
+        return returnVal;
+    }
 
     const handleOpenDialog = (isRecipients) => {
         setIsConfirm('');
@@ -77,7 +115,7 @@ const StandardwiseExamSchedule = () => {
                             variant="outlined"
                             label='Standard'
                             size='small'
-                            value="3"
+                            value={getClassName() || ''}
                             InputProps={{
                                 readOnly: true,
                                 sx: {
@@ -86,12 +124,12 @@ const StandardwiseExamSchedule = () => {
                             }}
                             sx={{ width: 150 }}
                         />
-                        <Tooltip title="Comprehensive Content Review - I" >
+                        <Tooltip title={getTestName()}>
                             <TextField
                                 variant="outlined"
                                 label='Exam Name'
                                 size='small'
-                                value="Comprehensive Content Review - I"
+                                value={getTestName() || ''}
                                 InputProps={{
                                     readOnly: true,
                                     sx: {
@@ -114,8 +152,8 @@ const StandardwiseExamSchedule = () => {
                                 <QuestionMark />
                             </IconButton>
                         </Tooltip>
-                       
-                        
+
+
 
                         <Tooltip title="Save">
                             <IconButton sx={{
@@ -171,34 +209,34 @@ const StandardwiseExamSchedule = () => {
                 }
             />
             <Box>
-                
-            <Accordion sx={{ mt: 1, mb: 1 }}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h5"> <strong>More Instructions</strong> </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Box display="flex" flexDirection="column" gap={2}>
-                        {instructions.map(instruction => (
-                            <Box key={instruction.id} display="flex" alignItems="center" justifyContent="space-between">
-                                <Typography variant="body1">{instruction.text}</Typography>
-                                <Button
-                                    // variant="contained"
-                                    sx={{
-                                        color: 'blue',
-                                        '&:hover': {
+
+                <Accordion sx={{ mt: 1, mb: 1 }}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography variant="h5"> <strong>More Instructions</strong> </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Box display="flex" flexDirection="column" gap={2}>
+                            {instructions.map(instruction => (
+                                <Box key={instruction.id} display="flex" alignItems="center" justifyContent="space-between">
+                                    <Typography variant="body1">{instruction.text}</Typography>
+                                    <Button
+                                        // variant="contained"
+                                        sx={{
                                             color: 'blue',
-                                            backgroundColor: blue[100]
-                                        }
-                                    }}
-                                    onClick={() => handleOpenDialog1(instruction.text)}
-                                >
-                                    Update Instruction
-                                </Button>
-                            </Box>
-                        ))}
-                    </Box>
-                </AccordionDetails>
-            </Accordion>
+                                            '&:hover': {
+                                                color: 'blue',
+                                                backgroundColor: blue[100]
+                                            }
+                                        }}
+                                        onClick={() => handleOpenDialog1(instruction.text)}
+                                    >
+                                        Update Instruction
+                                    </Button>
+                                </Box>
+                            ))}
+                        </Box>
+                    </AccordionDetails>
+                </Accordion>
             </Box>
             <Box>
                 <StandardwiseExamScheduleTable />
@@ -325,7 +363,7 @@ const StandardwiseExamSchedule = () => {
                         onChange={(e) => setCurrentInstruction(e.target.value)}
                         sx={{ mt: 2 }}
                     />
-                   
+
                 </DialogContent>
                 <DialogActions sx={{ py: 2, px: 3 }}>
                     <Button color={'error'} onClick={handleCloseDialog1}>
@@ -341,7 +379,7 @@ const StandardwiseExamSchedule = () => {
                         {editMode ? 'Update Instruction' : 'Add Instruction'}
                     </Button>
                 </DialogActions>
-                
+
             </Dialog>
 
         </Box>
