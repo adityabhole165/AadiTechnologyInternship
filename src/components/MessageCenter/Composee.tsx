@@ -797,6 +797,7 @@ function Form13() {
       toast.success(SaveDraftM, { toastId: 'success1' });
       dispatch(resetSaveDraftMessage());
       // setTimeout(RediretToSentPage, 100);
+      navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
     }
   }, [SaveDraftM]);
 
