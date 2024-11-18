@@ -399,9 +399,7 @@ function Form13() {
       asSchoolName: SchoolName,
       asSelectedStDivId: RecipientsObject.ClassId.toString(),
       asSelectedUserIds:
-        RecipientsObject.RecipientId.toString() +
-        ',' +
-        ContactGRPusers.toString(),
+        RecipientsObject.RecipientId.toString() + ',' + ContactGRPusers.toString(),
 
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
@@ -411,6 +409,7 @@ function Form13() {
       asIsSoftwareCordinatorCc: '',
       asDisplayTextCc: RecipientsCCObject.RecipientName.toString()
     };
+    console.log(RecipientsObject, "---------------");
 
     MessageCenterApi.SendMessage(sendMessageAPIBody)
       .then((res: any) => {
@@ -621,13 +620,10 @@ function Form13() {
   };
   useEffect(() => {
     if (
-      !(
-        ReplyRecipientNameId.ReplyRecipientName === undefined ||
-        ReplyRecipientNameId.ReplyRecipientName === ''
-      )
-    ) {
+      !(ReplyRecipientNameId.ReplyRecipientName === undefined ||
+        ReplyRecipientNameId.ReplyRecipientName === '')) {
       RecipientsObject.RecipientName = ReplyRecipientNameId.ReplyRecipientName.split(',');
-      RecipientsObject.RecipientId = ReplyRecipientNameId.ReplyRecipientName.split(',');
+      RecipientsObject.RecipientId = ReplyRecipientNameId.ReplyRecipientID.split(','); // Fixed: Using ReplyRecipientID instead of ReplyRecipientName
 
     }
     if (!(
@@ -757,7 +753,9 @@ function Form13() {
         ContactGRPusers.toString(),
       DisplayText: RecipientsObject.RecipientName.toString(),
       Subject: formik.values.Subject,
-      Body: formik.values.Content,
+      Body: (PageName == "Reply" || PageName == "ReplyAll" || PageName == "Forwa") ?
+        formik.values.Content + "<br><br>" +
+        "------------ Original message ------------<br><br>" + MSGBody + "<br><br>" : formik.values.Content,
       ReceiverUserIdCc: '',
       DisplayTextCc: RecipientsCCObject.RecipientName.toString()
     }
