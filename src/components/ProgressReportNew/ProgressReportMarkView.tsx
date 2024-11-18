@@ -182,7 +182,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                     {HeaderParent.length > 1 && (
                         <>
                             <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                                <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
+                                <TableCell rowSpan={3} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                     <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={0}>
                                         Subjects &#9654;
                                     </Typography>
@@ -194,7 +194,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                     <TableCell
                                         key={index}
                                         colSpan={item.Total_Consideration == 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
-                                        sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth:'130px' }}
+                                        sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth:'130px' }}
                                     >
                                         <Typography color="black" textAlign="center" mx={0}>
                                              <b style={{ marginRight: "0px" }}>
@@ -209,17 +209,17 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                 ))}
                                      {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
                                     <>
-                                        <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
+                                        <TableCell rowSpan={3} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                             <Typography color="black" textAlign={'center'} px={3}>
                                                 <b>Total</b>
                                             </Typography>
                                         </TableCell>
-                                        <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
+                                        <TableCell rowSpan={3} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                             <Typography color="black" textAlign={'center'} px={1}>
                                                 <b>%</b>
                                             </Typography>
                                         </TableCell>
-                                        <TableCell rowSpan={3} sx={{minWidth:'140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`}} >
+                                        <TableCell rowSpan={3} sx={{ py:1, minWidth:'140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`}} >
                                             <Typography color="black" textAlign={'center'} px={0}>
                                                 <b>Grade</b>
                                             </Typography>
@@ -234,16 +234,16 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                             {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
                                                 {ListTestTypeIdDetails?.map((item1, i) => {
                                                     return (
-                                                        <TableCell key={i} rowSpan={2}   sx={{ minWidth:'120px',textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  
+                                                        <TableCell key={i} rowSpan={2}   sx={{py:1, minWidth:'120px',textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  
                                                         <Typography  textAlign={'center'} sx={{color:'black', fontWeight: '700' }}>Total {item1.Text2}</Typography></TableCell>
                                                     )
                                                 })}
                                                 {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                                                    <TableCell rowSpan={2} sx={{textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>  <Typography sx={{ fontWeight: '700' }} color="black" textAlign={'center'} mr={4}>Total</Typography></TableCell>}
+                                                    <TableCell rowSpan={2} sx={{py:1, textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>  <Typography sx={{ fontWeight: '700' }} color="black" textAlign={'center'} mr={4}>Total</Typography></TableCell>}
                                             </>
                                         )}
                                          {item.Subject_Name !== '' &&
-                                        <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`,   }}>
+                                        <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{py:1, textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`,   }}>
                                             <Typography color="black" textAlign={'center'} mr={0}>
                                                 <b style={{ marginRight: "5px" }}>{item.Subject_Name}
                                                 {item.Is_CoCurricularActivity == "True" && (
@@ -267,7 +267,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                     )}
                     {HeaderParent.length <= 1 && (
                         <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                            <TableCell rowSpan={2} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
+                            <TableCell rowSpan={2} sx={{py:1,border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                 <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={0}>
                                     Subjects &#9654;
                                 </Typography>
@@ -276,7 +276,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                 </Typography>
                             </TableCell>
                             {findRow1().map((item, index) => (
-                                <TableCell key={index} colSpan={item.colSpan} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth:'180px' }}>
+                                <TableCell key={index} colSpan={item.colSpan} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth:'180px' }}>
                                     <Typography color="black" textAlign={'center'} mr={0}>
                                         <b style={{ marginRight: "5px" }}>{item.Subject_Name} 
 
@@ -289,18 +289,18 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                             ))}
                                    {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
                                     <>
-                                        <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
+                                        <TableCell rowSpan={3} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                             <Typography color="black" textAlign={'center'} px={2}>
                                                 <b>Total</b>
                                             </Typography>
                                         </TableCell>
-                                        <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
+                                        <TableCell rowSpan={3} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
                                             <Typography color="black" textAlign={'center'} px={2}>
                                                 <b>%</b>
                                             </Typography>
                                         </TableCell>
-                                        <TableCell rowSpan={3} sx={{border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
-                                            <Typography color="black" textAlign={'center'} px={2}>
+                                        <TableCell rowSpan={3} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`}}>
+                                            <Typography color="black" textAlign={'center'} px={2} minWidth={'180px'} maxWidth={'auto'}>
                                                 <b>Grade</b>
                                             </Typography>
                                         </TableCell>
@@ -313,7 +313,7 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                             {ThirdHeaderList?.length > 0 && ThirdHeaderList?.map((item7, index) => (
                                 <>
                                     {item7.length > 0 && item7.map((header, h) => (
-                                        <TableCell key={`${index}-${h}`} sx={{ alignItems: 'center', minWidth: '120px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                        <TableCell key={`${index}-${h}`} sx={{py:1, alignItems: 'center', minWidth: '120px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
                                             <Typography color="#38548A" textAlign={'center'} >
                                                 <b style={{ marginRight: "0px" }}>{header}</b>
                                             </Typography>
@@ -329,11 +329,11 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                 {MarkDetailsList.map((testItem, i) => (
     <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center',  }}>
         <TableRow >
-            <TableCell sx={{minWidth:'200px', textAlign:'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`,  }}>
+            <TableCell  sx={{py:1, minWidth:'300px', textAlign:'center', maxWidth:'100%',  border: (theme) => `1px solid ${theme.palette.grey[400]}`,  }}>
                 <b>{testItem.TestName || '-'}</b>
             </TableCell>
             {testItem.MarksArr.map((MarkItem, index) => (
-                <TableCell key={index} sx={{textAlign:'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`}} >
+                <TableCell key={index} sx={{py:1, textAlign:'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`}} >
                       <span style={{ fontWeight: MarkItem?.IsGrades === 'Y'? 'bold' : 'normal' }}>
                     {MarkItem == null || MarkItem?.MarksScored == ''
                         ? '-'   
