@@ -975,10 +975,10 @@ const ProgressReportNew = () => {
                             {USlistStudentsDetails.map((item) => {
                               return (
                                 <TableRow sx={{ bgcolor: '#38548A' }}>
-                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
-                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
-                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                                  <TableCell sx={{py:1.5,textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                                  <TableCell sx={{py:1.5,textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
                                 </TableRow>
                               )
                             })}
@@ -1040,10 +1040,10 @@ const ProgressReportNew = () => {
                             {USlistStudentsDetails.map((item) => {
                               return (
                                 <TableRow sx={{ bgcolor: '#38548A' }}>
-                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
-                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
-                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                                  <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
                                 </TableRow>
                               )
                             })}

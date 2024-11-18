@@ -324,10 +324,10 @@ const GenerateAll = ({ }) => {
                                             {StudentDetailsUS.map((item, i) => {
                                                 return (
                                                     <TableRow sx={{ bgcolor: '#38548A' }} key={i}>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: {item.Text2}</b></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: {item.Text1}</b></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: {item.Text3} - {item.Text4}</b></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: {item.Text5}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py:1.5 }}><b>Roll No: {item.Text2}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py:1.5 }}><b>Name: {item.Text1}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py:1.5 }}><b>Class: {item.Text3} - {item.Text4}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py:1.5 }}><b>Year: {item.Text5}</b></TableCell>
                                                     </TableRow>
                                                 );
                                             })}
@@ -434,7 +434,7 @@ const GenerateAll = ({ }) => {
                                                 )}
                                                 {!hasParentHeader && (
                                                     <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                                                        <TableCell rowSpan={2} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                        <TableCell rowSpan={2} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                                             <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={5}>
                                                                 Subjects &#9654;
                                                             </Typography>
@@ -443,7 +443,7 @@ const GenerateAll = ({ }) => {
                                                             </Typography>
                                                         </TableCell>
                                                         {findRow1().map((item, index) => (
-                                                            <TableCell key={index} colSpan={item.colSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth: '180px' }}>
+                                                            <TableCell key={index} colSpan={item.colSpan} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth: '180px' }}>
                                                                 <Typography color="black" textAlign={'center'} mr={0}>
                                                                     <b style={{ marginRight: "5px" }}>{item.Subject_Name}
 
@@ -456,17 +456,17 @@ const GenerateAll = ({ }) => {
                                                         ))}
                                                         {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
                                                             <>
-                                                                <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                <TableCell rowSpan={3} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                                                     <Typography color="#38548A" textAlign={'center'} px={3}>
                                                                         <b>Total</b>
                                                                     </Typography>
                                                                 </TableCell>
-                                                                <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                <TableCell rowSpan={3} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                                                     <Typography color="#38548A" textAlign={'center'} px={3}>
                                                                         <b>%</b>
                                                                     </Typography>
                                                                 </TableCell>
-                                                                <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                <TableCell rowSpan={3} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                                                     <Typography color="#38548A" textAlign={'center'} px={5}>
                                                                         <b>Grade</b>
                                                                     </Typography>
@@ -481,7 +481,7 @@ const GenerateAll = ({ }) => {
                                                             {dataList.ListSubjectidDetails.map((item2, index) => (
                                                                 <>
                                                                     {item.Subject_Id === item2.Subject_Id &&
-                                                                        <TableCell key={index} sx={{ alignItems: 'center', minWidth: '120px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                        <TableCell key={index} sx={{py:1, alignItems: 'center', minWidth: '120px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
                                                                             <Typography color="#38548A" textAlign={'center'} >
                                                                                 <b style={{ marginRight: "0px" }}>{item2.ShortenTestType_Name}</b>
                                                                             </Typography>
@@ -490,14 +490,14 @@ const GenerateAll = ({ }) => {
                                                                 </>
                                                             ))}
                                                             {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && dataList.ListSubjectidDetails.filter((itemFind) => itemFind.Subject_Id === item.Subject_Id).length > 1 && (
-                                                                <TableCell key={`total-${index1}`} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                <TableCell key={`total-${index1}`} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
                                                                     <Typography color="#38548A" textAlign={'center'} px={2}>
                                                                         <b>Total</b>
                                                                     </Typography>
                                                                 </TableCell>
                                                             )}
                                                             {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' && !Boolean(dataList.ListSubjectidDetails.find((itemFind) => itemFind.Subject_Id === item.Subject_Id)) &&
-                                                                <TableCell key={index1} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                <TableCell key={index1} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
                                                                     <Typography color="#38548A" textAlign={'center'} mr={0}>
                                                                         <b>Grade</b>
                                                                     </Typography>
@@ -511,12 +511,12 @@ const GenerateAll = ({ }) => {
                                             {MarkDetailsList.length > 0 && MarkDetailsList.map((testItem, i) => (
                                                 <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center', }}>
                                                     <TableRow>
-                                                        <TableCell sx={{ alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                        <TableCell sx={{py:1, alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, maxWidth:'100%', minWidth:'300px'  }}>
                                                             <b> {testItem.TestName}</b>
                                                         </TableCell>
 
                                                         {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell sx={{ alignItems: 'center', fontWeight: i === MarkDetailsList.length - 1 ? 'bold' : 'normal', textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
+                                                            <TableCell sx={{py:1, alignItems: 'center', fontWeight: i === MarkDetailsList.length - 1 ? 'bold' : 'normal', textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
                                                                 <span style={{ fontWeight: MarkItem?.IsGrades === 'Y' || i === MarkDetailsList.length - 1 ? 'bold' : 'normal' }}>
                                                                     {
                                                                         !MarkItem
@@ -587,10 +587,10 @@ const GenerateAll = ({ }) => {
                                         {ViewProgress.map((item, i) => {
                                             return (
                                                 <TableRow sx={{ bgcolor: '#38548A' }} key={i}>
-                                                    <TableCell sx={{ textAlign: 'center', color: 'white' }}>Roll No: <b>{item.Text2}</b></TableCell>
-                                                    <TableCell sx={{ textAlign: 'center', color: 'white' }}>Name: <b>{item.Text1}</b></TableCell>
-                                                    <TableCell sx={{ textAlign: 'center', color: 'white' }}>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
-                                                    <TableCell sx={{ textAlign: 'center', color: 'white' }}>Year: <b>{item.Text5}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py:1.5, }}>Roll No: <b>{item.Text2}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py:1.5, }}>Name: <b>{item.Text1}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py:1.5, }}>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py:1.5, }}>Year: <b>{item.Text5}</b></TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -601,7 +601,7 @@ const GenerateAll = ({ }) => {
                                         {totalconsidration.length > 0 && (
                                             <>
                                                 <TableRow sx={{ bgcolor: 'white', p: 2 }}>
-                                                    <TableCell sx={{ pl: 10 }}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
+                                                    <TableCell sx={{ pl: 10, py:1,  }}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
                                                 </TableRow>
                                             </>
                                         )}
@@ -612,25 +612,25 @@ const GenerateAll = ({ }) => {
                                     <Table sx={{}}>
                                         <TableBody >
                                             <TableRow sx={{ bgcolor: '#F0F0F0' }}>
-                                                <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                <TableCell sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                                     <Typography variant={"h4"} textAlign={'center'} color={"black"} ml={2}>
                                                         Subjects
                                                     </Typography>
                                                 </TableCell>
                                                 {SubjectDetailsView.map((subject, i) => (
 
-                                                    <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}><b>{subject.Name}  </b>
+                                                    <TableCell key={subject.Subject_Id} sx={{py:1, textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}><b>{subject.Name}  </b>
                                                         {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
                                                     </TableCell>
                                                 ))}
                                                 {IsTotalConsiderForProgressReport === "True" && !showOnlyGrades && (
                                                     <>
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
+                                                        <TableCell sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
+                                                        <TableCell sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
                                                     </>
                                                 )}
                                                 {IsTotalConsiderForProgressReport === "True" && (
-                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
+                                                    <TableCell sx={{ py:1,border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
                                                 )}
                                             </TableRow>
 
@@ -645,7 +645,7 @@ const GenerateAll = ({ }) => {
                                                         {MarkDetailsView.map((marks, i) => (
                                                             <TableCell
                                                                 key={i}
-                                                                sx={{
+                                                                sx={{py:1,
                                                                     border: (theme) => `1px solid ${theme.palette.grey[300]}`,
                                                                     textAlign: 'center'
                                                                 }}
@@ -656,7 +656,7 @@ const GenerateAll = ({ }) => {
 
                                                         {showOnlyGrades && (
                                                             <TableCell
-                                                                sx={{
+                                                                sx={{py:1,
                                                                     border: (theme) => `1px solid ${theme.palette.grey[300]}`,
                                                                     textAlign: 'center'
                                                                 }}
@@ -671,9 +671,9 @@ const GenerateAll = ({ }) => {
                                                             const matchingRemark = PercentageDetails?.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
                                                             return (
                                                                 <>
-                                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.TotalMarks}</TableCell>
-                                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.Percentage}%</TableCell>
-                                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }} >
+                                                                    <TableCell sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.TotalMarks}</TableCell>
+                                                                    <TableCell sx={{ py:1,border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.Percentage}%</TableCell>
+                                                                    <TableCell sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }} >
                                                                         <Typography variant="body2">
                                                                             <Typography component="span" fontWeight="bold">
                                                                                 {totalData.GradeName}
@@ -700,13 +700,13 @@ const GenerateAll = ({ }) => {
                                                     <TableCell key={i} align="center"> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
                                                 ))} */}
                                                 {GradesDetailsView.map((Grade, i) => (
-                                                    <TableCell key={i} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
+                                                    <TableCell key={i} sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
                                                 ))}
                                                 {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
                                                     <>
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
-                                                        <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                        <TableCell sx={{ py:1,border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                        <TableCell sx={{ py:1,border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                        <TableCell sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
                                                     </>
                                                 )}
                                                 {showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
@@ -715,7 +715,7 @@ const GenerateAll = ({ }) => {
                                                             if (index === 0) {
                                                                 const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
                                                                 return (
-                                                                    <TableCell sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }} >
+                                                                    <TableCell sx={{py:1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }} >
                                                                         <Typography variant="body2">
                                                                             <Typography component="span" fontWeight="bold">
                                                                                 {totalData.GradeName}
