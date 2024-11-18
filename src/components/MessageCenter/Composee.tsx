@@ -796,7 +796,7 @@ function Form13() {
     if (SaveDraftM !== '') {
       toast.success(SaveDraftM, { toastId: 'success1' });
       dispatch(resetSaveDraftMessage());
-      setTimeout(RediretToSentPage, 100);
+      // setTimeout(RediretToSentPage, 100);
     }
   }, [SaveDraftM]);
 
