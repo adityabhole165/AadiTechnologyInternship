@@ -117,7 +117,7 @@ function ViewSms({ }) {
 
   useEffect(() => {
     if (viewSent !== undefined && viewSent !== null) {
-      if (viewSent.RequestReadReceipt === 'True') {
+      if (viewSent.RequestReadReceipt === 'True' && viewSent.ReadingDateTime === null) {
         let readRecipient = '0';
 
         showAlert({
@@ -128,6 +128,16 @@ function ViewSms({ }) {
           confirmButtonText: 'Confirm',
           cancelButtonText: 'Cancel',
           onCancel: () => {
+            readRecipient = '0';
+
+            const body: IUpdateReadReceiptStatusBody = {
+              asSchoolId: SchoolId,
+              asAcademicYearId: asAcademicYearId,
+              asReceiverId: viewSent.ReceiverDetailsId,
+              asRequestReadReceipt: readRecipient,
+            };
+
+            dispatch(getUpdateReadReceiptStatus(body));
             closeAlert();
           },
           onConfirm: () => {
