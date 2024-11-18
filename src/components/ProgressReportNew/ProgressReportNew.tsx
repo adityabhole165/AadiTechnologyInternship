@@ -5,7 +5,7 @@ import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
@@ -605,9 +605,53 @@ const ProgressReportNew = () => {
   }
 
 
-  const clickPrint = () => {
-    // Close the dialog
-  };
+  const printRef = useRef<HTMLDivElement>(null);
+
+const clickPrint = () => {
+  if (printRef.current) {
+    const printContent = printRef.current.innerHTML;
+    const printWindow = window.open('', '', 'height=600,width=800');
+    const styles = `
+      <style>
+        body {
+          font-family: 'Roboto', sans-serif;
+          margin: 0;
+          padding: 20px;
+        }
+        h1, h2, h3, h4 {
+          margin: 0 0 10px;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        table, th, td {
+          border: 1px solid black;
+        }
+        th, td {
+          padding: 8px;
+          text-align: center;
+        }
+        .MuiTypography-root {
+          font-family: 'Roboto', sans-serif;
+        }
+        .MuiTableCell-root {
+          font-family: 'Roboto', sans-serif;
+        }
+      </style>
+    `;
+    printWindow.document.write('<html><head><title>Print</title>' + styles + '</head><body>');
+    printWindow.document.write(printContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+  } else {
+    console.error('Print reference is not available');
+  }
+};
+
+
+ 
 
   return (
     <Box sx={{ px: 2 }}>
@@ -867,7 +911,7 @@ const ProgressReportNew = () => {
 
             : <span>
               {USIsTestPublishedForStdDiv == true ?
-                <>
+                < Box ref={printRef}>
                   {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                     <>
 
@@ -992,7 +1036,7 @@ const ProgressReportNew = () => {
                     ))
 
                   }
-                </>
+                </ Box>
                 :
 
 
