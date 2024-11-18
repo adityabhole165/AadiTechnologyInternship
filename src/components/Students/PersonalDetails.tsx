@@ -20,18 +20,20 @@ import {
 import { red } from '@mui/material/colors';
 import green from '@mui/material/colors/green';
 import { User } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FaCamera, FaRedo, FaStop } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import Webcam from 'react-webcam';
-import { IGetSingleStudentDetailsBody, IMasterDatastudentBody } from 'src/interfaces/Students/IStudentUI';
+import { AlertContext } from 'src/contexts/AlertContext';
+import { IGetSingleStudentDetailsBody, IMasterDatastudentBody, IRemoveStudentPhotoBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetMasterData, CDAGetSingleStudentDetails } from 'src/requests/Students/RequestStudentUI';
+import { CDADeleteStudentPhoto, CDAGetMasterData, CDAGetSingleStudentDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
+
 
 
 // const CaptureButton = ({ onClick }) => (
@@ -103,6 +105,7 @@ const PersonalDetails = ({ onTabChange }) => {
     photoFilePathImage: null,
   });
   //console.log('form', form.parentOccupation);
+  const { showAlert, closeAlert } = useContext(AlertContext);
 
   const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
   const MaxfileSize = 5000000;
@@ -200,7 +203,7 @@ const PersonalDetails = ({ onTabChange }) => {
         bloodGroup: studentData.Blood_Group || '',
         aadharCardNumber: studentData.AadharCardNo || '',
         nameOnAadharCard: studentData.NameOnAadharCard || '',
-        aadharCardScanCopy: '',
+        aadharCardScanCopy: studentData?.AadharCard_Photo_Copy_Path || '',
         photoFilePath: studentData.Photo_File_Path || null,
         photoFilePathImage: studentData.Photo_file_Path_Image || null
       }));
@@ -314,6 +317,7 @@ const PersonalDetails = ({ onTabChange }) => {
 
   const handleDeletePhoto = () => {
     // Reset the form photo to null to remove the image
+    setUploadedImage(null);
     setCapturedImage(null);
     setForm({ ...form, photoFilePath: null });
 
@@ -366,6 +370,31 @@ const PersonalDetails = ({ onTabChange }) => {
     setIsWebcamActive(false);
   };
 
+  const deleteImage = () => {
+    const DeleteStudentPhotoBody: IRemoveStudentPhotoBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asStudentId: SchoolWise_Student_Id
+    };
+    if (form.photoFilePath) {
+      console.log('👎', form.photoFilePath);
+      showAlert({
+        title: 'Please Confirm',
+        message: 'Are you sure you want to delete Student Photo?',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          dispatch(CDADeleteStudentPhoto(DeleteStudentPhotoBody));
+          handleDeletePhoto();                // delete photo
+          closeAlert();
+        },
+      });
+    }
+  };
+
   //#region File Upload
   const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
   const MaxfileSize2 = 3000000;
@@ -374,15 +403,13 @@ const PersonalDetails = ({ onTabChange }) => {
   const [base64URL2, setbase64URL2] = useState('');
   const [imageFileExtention, setImageFileExtention] = useState('');
 
-
-
   const ChangeFile2 = (value) => {
     console.log('🆕ChangeFile', value);
 
-    setImageFile(value.Name);
+    //setImageFile(value.Name);
     setbase64URL2(value.Value);
     setImageFileExtention(value.FileExtension);
-    console.log('1️⃣', ImageFile);
+    console.log('1️⃣', form.aadharCardScanCopy);
     console.log('2️⃣', base64URL2);
     console.log('3️⃣', imageFileExtention);
 
@@ -402,7 +429,7 @@ const PersonalDetails = ({ onTabChange }) => {
   const viewImage = () => {
     //const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
     console.log('base64Image', base64Image);
-    if (ImageFile) {                             // -----show image using url🩸
+    if (form.aadharCardScanCopy) {                             // -----show image using url🩸
       window.open(url, '_blank');
     }
 
@@ -415,6 +442,7 @@ const PersonalDetails = ({ onTabChange }) => {
 
     //window.open(base64Image, '_blank');
   };
+
 
   //#region DataTransfer 
   useEffect(() => {
@@ -660,7 +688,7 @@ const PersonalDetails = ({ onTabChange }) => {
             <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Tooltip title="Delete">
                 <IconButton
-                  onClick={handleDeletePhoto}
+                  onClick={() => deleteImage()}
                   sx={{
                     color: '#223354',
                     mt: 0,
