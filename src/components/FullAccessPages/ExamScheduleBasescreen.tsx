@@ -11,69 +11,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import ExamScheduleTable from './ExamScheduleTable';
 
-const HeaderArray1 = [
-    { Name: "C.C.A. - I", field: "cca1" },
-    { Name: "Formative Assessment I", field: "formativeAssessment1" },
-    { Name: "C.C.A. - II", field: "cca2" },
-    { Name: "Comprehensive Content Review - I", field: "contentReview1" },
-    { Name: "Subject Enrichment Analysis II", field: "subjectEnrichmentAnalysis2" },
-    { Name: "Progressive Analysis II", field: "progressiveAnalysis2" },
-    { Name: "C.C.A. - IV", field: "cca4" },
-    { Name: "Comprehensive Content Review - II", field: "contentReview2" },
-    { Name: "Preliminary Examination - I", field: "preliminaryExamination1" },
-    { Name: "Preliminary Examination - II", field: "preliminaryExamination2" },
-    { Name: "Internal - I", field: "internal1" },
-    { Name: "Internal II", field: "internal2" },
-    { Name: "Weekly Test - I", field: "weeklyTest1" },
-    { Name: "Weekly Test - II", field: "weeklyTest2" },
-    { Name: "Subject Enrichment Analysis IV", field: "subjectEnrichmentAnalysis4" },
-    { Name: "Self Assessment Test Series", field: "selfAssessmentTestSeries" },
-    { Name: "Project", field: "project" },
-    { Name: "Progressive Analysis - I", field: "progressiveAnalysis1" },
-    { Name: "Subject Enrichment Analysis - I", field: "subjectEnrichmentAnalysis1" },
-    { Name: "Preliminary Examination", field: "preliminaryExamination" },
-    { Name: "Formative Assessment II", field: "formativeAssessment2" }
-];
-
-const SubHeaderArray1 = [
-    { Name: "Nursery", field: "nursery" },
-    { Name: "Junior KG", field: "juniorKg" },
-    { Name: "Senior KG", field: "seniorKg" },
-    { Name: "1", field: "grade1" },
-    { Name: "2", field: "grade2" },
-    { Name: "3", field: "grade3" },
-    { Name: "4", field: "grade4" },
-    { Name: "5", field: "grade5" },
-    { Name: "6", field: "grade6" },
-    { Name: "7", field: "grade7" },
-    { Name: "8", field: "grade8" },
-    { Name: "9", field: "grade9" },
-    { Name: "10", field: "grade10" }
-];
-
-const MarkDetailsList1 = [
-    { Name: "Not Configured", field: "notConfigured1" },
-    { Name: "N/A", field: "na1" },
-    { Name: "04 Oct 2024 - 04 Oct 2024", field: "date1" },
-    { Name: "Not Configured", field: "notConfigured2" },
-    { Name: "N/A", field: "na2" },
-    { Name: "N/A", field: "na3" },
-    { Name: "Not Configured", field: "notConfigured3" },
-    { Name: "Not Configured", field: "notConfigured4" },
-    { Name: "N/A", field: "na4" },
-    { Name: "N/A", field: "na5" },
-    { Name: "Not Configured", field: "notConfigured5" },
-    { Name: "Not Configured", field: "notConfigured6" },
-    { Name: "N/A", field: "na6" },
-    { Name: "N/A", field: "na7" },
-    { Name: "N/A", field: "na8" },
-    { Name: "N/A", field: "na9" },
-    { Name: "N/A", field: "na10" },
-    { Name: "N/A", field: "na11" },
-    { Name: "N/A", field: "na12" },
-    { Name: "N/A", field: "na13" },
-    { Name: "N/A", field: "na14" }
-];
 const ExamScheduleBasescreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
