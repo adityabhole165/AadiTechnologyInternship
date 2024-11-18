@@ -1,4 +1,4 @@
-import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, ICheckIfAttendanceMarkedResult, IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetFeeAreaNamesBody, IGetFeeAreaNamesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IIsAnyExamPublishedBody, IIsAnyExamPublishedResult, IIsOnLeaveBody, IIsOnLeaveResult, IMasterDatastudentBody, IMasterDataStudentResult, IRetriveStudentStreamwiseSubjectBody, IRetriveStudentStreamwiseSubjectResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentResult, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, ICheckIfAttendanceMarkedResult, IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetFeeAreaNamesBody, IGetFeeAreaNamesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IIsAnyExamPublishedBody, IIsAnyExamPublishedResult, IIsOnLeaveBody, IIsOnLeaveResult, IMasterDatastudentBody, IMasterDataStudentResult, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IRetriveStudentStreamwiseSubjectResult, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentResult, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
@@ -68,6 +68,11 @@ const GetFeeAreaNamesApi = (data: IGetFeeAreaNamesBody) => {
     return http.post<IGetFeeAreaNamesResult[]>('Teacher/GetFeeAreaNames', data);
 };
 
+//DELETE Photo API's
+const RemoveStudentPhotoApi = (data: IRemoveStudentPhotoBody) => {
+    return http.post<string>('Teacher/RemoveStudentPhoto', data);
+};
+
 
 const GetStudentUIAPI = {
     GetSingleStudentDetailsApi,
@@ -83,6 +88,7 @@ const GetStudentUIAPI = {
     IsOnLeaveApi,
     IsAnyExamPublishedApi,
     CheckIfAttendanceMarkedApi,
-    GetFeeAreaNamesApi
+    GetFeeAreaNamesApi,
+    RemoveStudentPhotoApi
 };
 export default GetStudentUIAPI;

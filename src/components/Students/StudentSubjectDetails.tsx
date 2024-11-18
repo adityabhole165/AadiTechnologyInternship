@@ -62,7 +62,7 @@ const StudentSubjectDetails = ({ onTabChange }) => {
   const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
     asSchoolId: 122,
     asAcademicYearId: 10,
-    asStudentId: 4584
+    asStudentId: 3556
   }
 
   useEffect(() => {

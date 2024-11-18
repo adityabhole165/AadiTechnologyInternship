@@ -32,9 +32,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import { IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
 import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
+import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { CDAGenerateTransportFeeEntries, CDAUpdateStudentTrackingDetails } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { CDAAddStudentAdditionalDetails, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
@@ -364,6 +366,8 @@ const StudentRegistrationForm = () => {
   //#region API CAlls
   const UpdateStudentResult = useSelector((state: RootState) => state.StudentUI.ISUpdateStudent);
   console.log('UpdateStudentResult:', UpdateStudentResult);
+  const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+
 
   const UpdateStudentBody: IUpdateStudentBody = {
     //...personalDetailsData,
@@ -547,6 +551,13 @@ const StudentRegistrationForm = () => {
     dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
   }, [UpdateStudentResult]);
 
+  const GetSchoolSettings: GetSchoolSettingsBody = {
+    asSchoolId: Number(schoolId),
+  };
+  useEffect(() => {
+    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+
+  }, []);
   //#endregion
   const onSelectDate = (value) => {
     SetSelectDate(value);

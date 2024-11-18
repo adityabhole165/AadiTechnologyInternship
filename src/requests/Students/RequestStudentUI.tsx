@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -41,6 +41,8 @@ const StudentUISlice = createSlice({
         ISAnyExamPublished: [],
         ISCheckIfAttendanceMarked: [],
         ISFeeAreaNames: [],
+        //DELETE API's
+        IDeleteStudentPhoto: '',
         Loading: true
     },
     reducers: {
@@ -155,6 +157,10 @@ const StudentUISlice = createSlice({
         },
         RFeeAreaNames(state, action) {
             state.ISFeeAreaNames = action.payload;
+            state.Loading = false;
+        },
+        RDeleteStudentPhoto(state, action) {
+            state.IDeleteStudentPhoto = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -510,5 +516,15 @@ export const CDAFeeAreaNames =
 
             dispatch(StudentUISlice.actions.RFeeAreaNames(responseData));
             console.log('CDAFeeAreaNames:', responseData);
+        };
+
+//DELETE API's❌
+export const CDADeleteStudentPhoto =
+    (data: IRemoveStudentPhotoBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.RemoveStudentPhotoApi(data);
+            dispatch(StudentUISlice.actions.RDeleteStudentPhoto(response.data));
+            //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
         };
 export default StudentUISlice.reducer;
