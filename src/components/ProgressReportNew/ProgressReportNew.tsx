@@ -5,7 +5,7 @@ import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
-import { useEffect, useState ,useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
@@ -607,11 +607,11 @@ const ProgressReportNew = () => {
 
   const printRef = useRef<HTMLDivElement>(null);
 
-const clickPrint = () => {
-  if (printRef.current) {
-    const printContent = printRef.current.innerHTML;
-    const printWindow = window.open('', '', 'height=600,width=800');
-    const styles = `
+  const clickPrint = () => {
+    if (printRef.current) {
+      const printContent = printRef.current.innerHTML;
+      const printWindow = window.open('', '', 'height=600,width=800');
+      const styles = `
       <style>
         body {
           font-family: 'Roboto', sans-serif;
@@ -620,38 +620,45 @@ const clickPrint = () => {
         }
         h1, h2, h3, h4 {
           margin: 0 0 10px;
+
         }
         table {
+        
           width: 100%;
           border-collapse: collapse;
         }
+          
         table, th, td {
           border: 1px solid black;
+        
         }
         th, td {
           padding: 8px;
           text-align: center;
+            
         }
         .MuiTypography-root {
           font-family: 'Roboto', sans-serif;
+           width:60px;
         }
         .MuiTableCell-root {
           font-family: 'Roboto', sans-serif;
+           width:60px;
         }
       </style>
     `;
-    printWindow.document.write('<html><head><title>Print</title>' + styles + '</head><body>');
-    printWindow.document.write(printContent);
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.print();
-  } else {
-    console.error('Print reference is not available');
-  }
-};
+      printWindow.document.write('<html><head><title>Print</title>' + styles + '</head><body>');
+      printWindow.document.write(printContent);
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
+    } else {
+      console.error('Print reference is not available');
+    }
+  };
 
 
- 
+
 
   return (
     <Box sx={{ px: 2 }}>
@@ -730,7 +737,7 @@ const clickPrint = () => {
             </IconButton>
           </Tooltip>
 
-          {(open && StudentId !== "0") && AcademicYear !== asAcademicYearId && (
+          {(open && StudentId !== "0") && AcademicYear !== asAcademicYearId &&   (
             <Box>
               <Tooltip title={'Print'}>
                 <IconButton
@@ -916,8 +923,8 @@ const clickPrint = () => {
                     <>
 
                       <Box sx={{ mt: 1, background: 'white' }}>
-                        <hr />
-                        {USlistStudentsDetails.map((subject, index) => (
+                      
+                        {/* {USlistStudentsDetails.map((subject, index) => (
                           <div key={index}>
                             <Typography variant="h4" textAlign="center" color="primary" mb={1}>
                               {subject.School_Orgn_Name}
@@ -931,7 +938,38 @@ const clickPrint = () => {
                               Progress Report
                             </Typography>
                           </div>
+                        ))} */}
+
+                        {USlistStudentsDetails.map((subject, index) => (
+                          <Table sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}   key={index}>
+                            <TableBody>
+                             
+                              <TableRow sx={{ textAlign: 'center', color: 'primary', border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'primary', py:1,fontSize: '18px !important', }}>
+                                 
+                                   {subject.School_Orgn_Name}
+                                </TableCell>
+                              </TableRow>
+
+                              
+                              <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 800, color: 'black',py:1,fontSize: '26px !important', }}>
+                                   {subject.School_Name}
+                                </TableCell>
+                              </TableRow>
+
+                             
+                              <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}`}}>
+                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'black',py:1,fontSize: '18px !important', }}>
+                                  
+                                  Progress Report
+                                </TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
                         ))}
+
+
                         <Table>
                           <TableBody>
                             {USlistStudentsDetails.map((item) => {
@@ -948,10 +986,11 @@ const clickPrint = () => {
                         </Table>
                       </Box>
                       {hasTotalConsiderationN && (
-                        <Typography
-                          sx={{ bgcolor: 'white', p: 2 }}
-                          dangerouslySetInnerHTML={{ __html: formattedText }}
-                        />
+                        <div
+                        style={{ backgroundColor: 'white', padding: '8px' }}
+                        dangerouslySetInnerHTML={{ __html: formattedText }}
+                      />
+                      
                       )}
                       <Box sx={{ overflowX: 'auto' }}>
                         <ProgressReportGradeView
@@ -967,21 +1006,34 @@ const clickPrint = () => {
                     <>
 
                       <Box sx={{ mt: 1, background: 'white', }}>
-                        <hr />
+                       
                         {USlistStudentsDetails.map((subject, index) => (
-                          <div key={index}>
-                            <Typography variant="h4" textAlign="center" color="primary" mb={1}>
-                              {subject.School_Orgn_Name}
-                            </Typography>
-                            <hr />
-                            <Typography variant="h3" textAlign="center" color="black" mb={1}>
-                              {subject.School_Name}
-                            </Typography>
-                            <hr />
-                            <Typography variant="h4" textAlign="center" color="black" mb={1}>
-                              Progress Report
-                            </Typography>
-                          </div>
+                          <Table sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}   key={index}>
+                            <TableBody>
+                             
+                              <TableRow sx={{ textAlign: 'center', color: 'primary', border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'primary', py:1,fontSize: '18px !important', }}>
+                                 
+                                   {subject.School_Orgn_Name}
+                                </TableCell>
+                              </TableRow>
+
+                              
+                              <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 800, color: 'black',py:1,fontSize: '26px !important', }}>
+                                   {subject.School_Name}
+                                </TableCell>
+                              </TableRow>
+
+                             
+                              <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}`}}>
+                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'black',py:1,fontSize: '18px !important', }}>
+                                  
+                                  Progress Report
+                                </TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
                         ))}
                         <Table >
                           <TableBody>
@@ -999,10 +1051,11 @@ const clickPrint = () => {
                         </Table>
                       </Box>
                       {hasTotalConsiderationN && (
-                        <Typography
-                          sx={{ bgcolor: 'white', p: 2 }}
-                          dangerouslySetInnerHTML={{ __html: formattedText }}
-                        />
+                        <div
+                        style={{ backgroundColor: 'white', padding: '8px' }}
+                        dangerouslySetInnerHTML={{ __html: formattedText }}
+                      />
+                      
                       )}
                       <Box sx={{ overflowX: 'auto' }}>
                         <ProgressReportMarkView
