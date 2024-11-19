@@ -13,26 +13,18 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { IGetFormNumberBody } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
   ICheckIfAttendanceMarkedBody,
   IGetAllUserRolesBody,
-  IGetFeeAreaNamesBody,
-  IGetSingleStudentDetailsBody,
   IIsAnyExamPublishedBody,
   IIsOnLeaveBody,
-  IMasterDatastudentBody,
   IStaffNameBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
 import {
   CDAAnyExamPublished,
   CDACheckIfAttendanceMarked,
-  CDAFeeAreaNames,
-  CDAGetMasterData,
-  CDAGetSingleStudentDetails,
   CDAIsOnLeave,
   CDAStaffName,
   CDAUserRoles
@@ -79,66 +71,45 @@ const AdmissionDetails = ({ onTabChange }) => {
     isHandicapped: false,
   });
 
-  const FeeAreaNamesDrop = useSelector(
-    (state: RootState) => state.StudentUI.ISFeeAreaNames
-  );
-  const ResidenceTypesDropdown = useSelector(
-    (state: RootState) => state.StudentUI.ISResidenceTypesDropdown
-  );
-  const FeeRuleConcession = useSelector(
-    (state: RootState) => state.StudentUI.ISFeeRuleConcession
-  );
+  const FeeAreaNamesDrop = useSelector((state: RootState) => state.StudentUI.ISFeeAreaNames);
+  const ResidenceTypesDropdown = useSelector((state: RootState) => state.StudentUI.ISResidenceTypesDropdown);
+  const FeeRuleConcession = useSelector((state: RootState) => state.StudentUI.ISFeeRuleConcession);
   //Second & Third Land Dropdown
-  const SecondLangDropdown = useSelector(
-    (state: RootState) => state.StudentUI.ISSecondlang
-  );
-  const ThirdLangDropdown = useSelector(
-    (state: RootState) => state.StudentUI.ISThirdLang
-  );
+  const SecondLangDropdown = useSelector((state: RootState) => state.StudentUI.ISSecondlang);
+  const ThirdLangDropdown = useSelector((state: RootState) => state.StudentUI.ISThirdLang);
   //Staff Dropdowns
-  const StaffUserRoleDropdown = useSelector(
-    (state: RootState) => state.StudentUI.ISUserRoles
-  );
-  const StaffNameDropdown = useSelector(
-    (state: RootState) => state.StudentUI.ISStaffName
-  );
+  const StaffUserRoleDropdown = useSelector((state: RootState) => state.StudentUI.ISUserRoles);
+  const StaffNameDropdown = useSelector((state: RootState) => state.StudentUI.ISStaffName);
   //
-  const USGetSingleStudentDetails = useSelector(
-    (state: RootState) => state.StudentUI.ISGetSingleStudentDetails
-  );
-  // console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
+  const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
+  console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
 
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
-  console.log(GetFromNumber, 'GetFromNumber');
+  //console.log(GetFromNumber, 'GetFromNumber');
 
-  const GetStudentRecordDataResult: IMasterDatastudentBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asStandardId: standardId,
-    asDivisionId: DivisionId
-  };
+  // const GetStudentRecordDataResult: IMasterDatastudentBody = {
+  //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  //   asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+  //   asStandardId: standardId,
+  //   asDivisionId: DivisionId
+  // };
 
   const GetAllUserRoles: IGetAllUserRolesBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId'))
   };
 
-  // const GetStaffName: IStaffNameBody = {
+
+  // const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
   //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
   //   asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-  //   asUserRoleId: form.staffUserRole === 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null
+  //   asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
   // };
-
-  const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asStudentId: 3556 // Number(sessionStorage.getItem('Id'))
-  };
 
   const IsOnLeaveBody: IIsOnLeaveBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
     asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asYearwiseStudentId: 40467
+    asYearwiseStudentId: YearWise_Student_Id
   };
 
   const AnyExamPublishedBody: IIsAnyExamPublishedBody = {
@@ -156,27 +127,27 @@ const AdmissionDetails = ({ onTabChange }) => {
     asStandardId: 1082
   };
 
-  const FeeAreaNamesBody: IGetFeeAreaNamesBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-  };
-  const FormNumberBody: IGetFormNumberBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asStudentId: 3556
-  };
+  // const FeeAreaNamesBody: IGetFeeAreaNamesBody = {
+  //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  // };
+  // const FormNumberBody: IGetFormNumberBody = {
+  //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  //   asStudentId: 3556
+  // };
   useEffect(() => {
-    dispatch(CDAGetMasterData(GetStudentRecordDataResult));
+    //dispatch(CDAGetMasterData(GetStudentRecordDataResult));
     dispatch(CDAUserRoles(GetAllUserRoles));
-    dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
+    //dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
     dispatch(CDAIsOnLeave(IsOnLeaveBody));
     dispatch(CDAAnyExamPublished(AnyExamPublishedBody));
     dispatch(CDACheckIfAttendanceMarked(CheckAttendanceMarkedBody));
-    dispatch(CDAFeeAreaNames(FeeAreaNamesBody));
-    dispatch(GetFormNumber(FormNumberBody));
+    //dispatch(CDAFeeAreaNames(FeeAreaNamesBody));
+    //dispatch(GetFormNumber(FormNumberBody));
 
   }, []);
 
   useEffect(() => {
-    if (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0 && GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0 && GetFromNumber && GetFromNumber.length > 0) {
+    if ((USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) || (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) || (GetFromNumber && GetFromNumber.length > 0)) {
       const studentData = USGetSingleStudentDetails[0];
       const AdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
       const FormNumber = GetFromNumber[0];
@@ -189,7 +160,7 @@ const AdmissionDetails = ({ onTabChange }) => {
         rteCategory: studentData.RTECategoryId || '',
         rteApplicationForm: studentData.RTEApplicationFormNo || '',
         formNumber: FormNumber?.FormNumber || '',
-        registrationNumber: studentData.Enrolment_Number || '',
+        registrationNumber: studentData.Enrolment_Number || '0',        //remember to add   studentData.Enrolment_Number ||
         admissionDate: studentData.Admission_date || '',
         joiningDate: studentData.Joining_Date || '',
         studentRollNumber: studentData.Roll_No || '',
@@ -215,7 +186,7 @@ const AdmissionDetails = ({ onTabChange }) => {
 
       }));
     }
-  }, [USGetSingleStudentDetails]);
+  }, [USGetSingleStudentDetails, GetStudentAdditionalDetails, GetFromNumber]);
 
 
   useEffect(() => {

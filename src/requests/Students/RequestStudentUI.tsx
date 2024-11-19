@@ -436,6 +436,11 @@ export const CDAUpdateStudent =
                 console.log('1️⃣Student information updated successfully');
                 console.log('Response data:', response.data);
             }
+            else {
+                // Handle non-200 status codes
+                console.error('❌ API call failed with status:', response.status);
+                console.error('Error response:', response.data);
+            }
         };
 
 export const CDAAddStudentAdditionalDetails =
@@ -515,7 +520,7 @@ export const CDAFeeAreaNames =
             })
 
             dispatch(StudentUISlice.actions.RFeeAreaNames(responseData));
-            console.log('CDAFeeAreaNames:', responseData);
+            //console.log('CDAFeeAreaNames:', responseData);
         };
 
 //DELETE API's❌

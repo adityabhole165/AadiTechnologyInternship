@@ -33,12 +33,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
-import { IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
-import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetFormNumberBody, IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import { IAddStudentAdditionalDetailsBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IMasterDatastudentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
-import { CDAGenerateTransportFeeEntries, CDAUpdateStudentTrackingDetails } from 'src/requests/StudentDetails/RequestStudentDetails';
-import { CDAAddStudentAdditionalDetails, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
+import { GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
+import { CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
@@ -83,7 +83,6 @@ interface IPersonalDetails {
   motherTongue?: string;
   nameOnAadharCard?: string;
   nationality?: string;
-  neighbourPhoneNumber?: string;
   parentName?: string;
   parentOccupation?: string;
   photoFilePath?: string;
@@ -214,9 +213,9 @@ const StudentRegistrationForm = () => {
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
   // Session & Local Variables
   const schoolId = localStorage.getItem('SchoolId');
-  const academicYearId = sessionStorage.getItem('AcademicYearId');
-  const teacherId = sessionStorage.getItem('TeacherId');
-
+  const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const teacherId = sessionStorage.getItem('Id');
+  console.log('teacherId', teacherId);
   const [currentTab, setCurrentTab] = useState(0);
   const [profileCompletion, setProfileCompletion] = useState(20);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -259,7 +258,7 @@ const StudentRegistrationForm = () => {
   //#region CallBack
   const onAdmissionTab = (updateddata) => {
     setAdmissionDetailsData(updateddata);
-    console.log('admissionDetails data:', admissionDetailsData);
+    console.log('1️⃣admissionDetails data:', admissionDetailsData);
   }
 
   const onPersonalTab = (updateddata) => {
@@ -320,16 +319,7 @@ const StudentRegistrationForm = () => {
     setIsConfirm('true');
   };
 
-  const ValidFileTypes = [
-    'BMP',
-    'DOC',
-    'DOCX',
-    'JPG',
-    'JPEG',
-    'PDF',
-    'XLS',
-    'XLSX'
-  ];
+  const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
   const MaxfileSize = 5000000;
   const [SelectDate, SetSelectDate] = useState(
     AssignedDate == undefined
@@ -338,11 +328,35 @@ const StudentRegistrationForm = () => {
   );
 
 
-  // useEffect(() => {
+  //#region Read APIs.
+  useEffect(() => {
+    const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+      asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+    };
+    dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
 
-  //   //   dispatch(CDAUpdateStudent(UpdateStudentBody));
-  //   console.log('personalDetails data:', personalDetailsData);
-  // }, []);
+    const GetStudentRecordDataResult: IMasterDatastudentBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+      asStandardId: standardId,
+      asDivisionId: DivisionId
+    };
+    dispatch(CDAGetMasterData(GetStudentRecordDataResult));
+
+    const FeeAreaNamesBody: IGetFeeAreaNamesBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    };
+    dispatch(CDAFeeAreaNames(FeeAreaNamesBody));
+    const FormNumberBody: IGetFormNumberBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asStudentId: 3556
+    };
+    dispatch(GetFormNumber(FormNumberBody));
+
+  }, []);
+  //#endregion
 
   //#region Date Formation
   const formatDOB = (date) => {
@@ -365,88 +379,87 @@ const StudentRegistrationForm = () => {
 
   //#region API CAlls
   const UpdateStudentResult = useSelector((state: RootState) => state.StudentUI.ISUpdateStudent);
-  console.log('UpdateStudentResult:', UpdateStudentResult);
+  console.log('🩸UpdateStudentResult:', UpdateStudentResult);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
 
 
   const UpdateStudentBody: IUpdateStudentBody = {
-    //...personalDetailsData,
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asStudentId: 3556, // Missing
-    asInsertedById: 4463, // Missing
-    asID: 0, // Missing
-    asAcademicYearId: 55, // Missing
-    asFormNumber: 4576, // Missing
-    asPhoto_file_Path: personalDetailsData?.photoFilePath || "", // Missing ----------Need to work on
-    asFirst_Name: personalDetailsData?.firstName || "",
-    asMiddle_Name: personalDetailsData?.middleName || "",
-    asLast_Name: personalDetailsData?.lastName || "",
-    asMother_Name: personalDetailsData?.motherName || "",
-    asBlood_Group: personalDetailsData?.bloodGroup || "",
-    asEnrolment_Number: admissionDetailsData?.registrationNumber || "",
-    asParent_Name: personalDetailsData?.parentName || "",
-    asParent_Occupation: personalDetailsData?.parentOccupation || "",
-    asOther_Occupation: "",
-    asAddress: personalDetailsData?.address || "",
-    asCity: personalDetailsData?.city || "",
-    asState: personalDetailsData?.state || "",
-    asPincode: personalDetailsData?.pin || "",
-    asResidence_Phone_Number: "9224286937",
-    asMobile_Number: personalDetailsData?.motherNumber || "",
-    asMobile_Number2: personalDetailsData?.fatherNumber || "",
-    asOffice_Number: "9270362059",
-    asNeighbour_Number: personalDetailsData?.neighbourPhoneNumber || "",
-    asUpdated_By_Id: "4463",
-    asUpdate_Date: "2024-10-10",
-    asDOB: formatDOB(personalDetailsData?.dateOfBirth) || "2011-03-29",
-    asBirth_Place: personalDetailsData?.placeOfBirth || "",
-    asNationality: personalDetailsData?.nationality || "",
-    asSex: personalDetailsData?.gender || "",
-    asSalutation_Id: "6",
-    asCategory_Id: personalDetailsData?.category || "",
-    asCasteAndSubCaste: personalDetailsData?.casteAndSubCaste || "",
-    asAdmission_Date: formatDOB(admissionDetailsData?.admissionDate) || "",
-    asJoining_Date: formatDOB(admissionDetailsData?.joiningDate) || "",
-    asDateOfBirthInText: "Twenty One March Two Thousand Eleven",
-    asOptional_Subject_Id: "0",
-    asMother_Tongue: personalDetailsData.motherTongue || "",
-    asLastSchoolName: "",
-    asLastSchoolAddress: "",
-    asLastCompletedStd: "",
-    asLastSchoolUDISENo: "",
-    asLastCompletedBoard: "",
-    asIsRecognisedBoard: "True",
-    asAadharCardNo: personalDetailsData?.aadharCardNumber || "",
-    asNameOnAadharCard: personalDetailsData?.nameOnAadharCard || "",
-    asAadharCard_Photo_Copy_Path: personalDetailsData?.aadharCardScanCopy || "",
-    asFamily_Photo_Copy_Path: "",
-    asUDISENumber: admissionDetailsData?.UDISENumber || "",
-    asBoardRegistrationNo: admissionDetailsData?.boardRegistrationNumber || "",
-    asIsRiseAndShine: admissionDetailsData?.isRiseAndShine === false ? "False" : "True",
-    asAdmissionSectionId: "0",
-    asGRNumber: "",
-    asStudentUniqueNo: "",
-    asSaralNo: admissionDetailsData?.saralNo || "",
-    asIsOnlyChild: admissionDetailsData?.isOnlyChild === false ? "False" : "True",
-    asMinority: admissionDetailsData?.isMinority === false ? "False" : "True",
-    asRoll_No: admissionDetailsData?.studentRollNumber || "",
-    asRule_Id: admissionDetailsData?.applicableRules || "",
-    asIsStaffKid: admissionDetailsData?.isStaffKid === false ? false : true,
-    asHeight: 0,
-    asWeight: 0,
-    asUpdated_By_id: 4463,
-    asRTECategoryId: admissionDetailsData?.rteCategory || 0,
-    asSecondLanguageSubjectId: admissionDetailsData?.secondlanguage || "",
-    asThirdLanguageSubjectId: admissionDetailsData?.thirdlanguage || "",
-    asIsForDayBoarding: admissionDetailsData?.isForDayBoarding === false ? false : true,
-    asFeeCategoryDetailsId: admissionDetailsData?.feeCategoryDetailsId || "",
-    asRTEApplicationFormNo: admissionDetailsData?.rteApplicationForm || "",
-    asAnnualIncome: 0,
-    asStandard_Id: 1082, // Missing
-    asDivision_Id: 1299, // Missing
-    asReligion: personalDetailsData?.religion || "",
-    asYearWise_Student_Id: 40467,
-    asParentUserId: 0
+    "asSchoolId": Number(localStorage.getItem('localSchoolId')),
+    "asStudentId": SchoolWise_Student_Id,
+    "asInsertedById": Number(teacherId), // Missing
+    "asID": 0, // Missing
+    "asAcademicYearId": academicYearId,
+    "asFormNumber": Number(admissionDetailsData?.formNumber) || 0, // Missing
+    "asPhoto_file_Path": personalDetailsData?.photoFilePath || "", // Missing
+    "asFirst_Name": personalDetailsData?.firstName || "",
+    "asMiddle_Name": personalDetailsData?.middleName || "",
+    "asLast_Name": personalDetailsData?.lastName || "",
+    "asMother_Name": personalDetailsData?.motherName || "",
+    "asBlood_Group": personalDetailsData?.bloodGroup || "",
+    "asEnrolment_Number": admissionDetailsData?.registrationNumber || "",
+    "asParent_Name": personalDetailsData?.parentName || "",
+    "asParent_Occupation": personalDetailsData?.parentOccupation || "",
+    "asOther_Occupation": "",
+    "asAddress": personalDetailsData?.address || "",
+    "asCity": personalDetailsData?.city || "",
+    "asState": personalDetailsData?.state || "",
+    "asPincode": personalDetailsData?.pin || "",
+    "asResidence_Phone_Number": "9224286937",
+    "asMobile_Number": personalDetailsData?.motherNumber || "",
+    "asMobile_Number2": personalDetailsData?.fatherNumber || "",
+    "asOffice_Number": "9270362059",
+    "asNeighbour_Number": "",
+    "asUpdated_By_Id": teacherId,
+    "asUpdate_Date": "2024-10-10",
+    "asDOB": formatDOB(personalDetailsData?.dateOfBirth) || "2011-03-29",
+    "asBirth_Place": personalDetailsData?.placeOfBirth || "",
+    "asNationality": personalDetailsData?.nationality || "",
+    "asSex": personalDetailsData?.gender || "",
+    "asSalutation_Id": "6",
+    "asCategory_Id": personalDetailsData?.category || "",
+    "asCasteAndSubCaste": personalDetailsData?.casteAndSubCaste || "",
+    "asAdmission_Date": formatDOB(admissionDetailsData?.admissionDate) || "",
+    "asJoining_Date": formatDOB(admissionDetailsData?.joiningDate) || "",
+    "asDateOfBirthInText": "Twenty One March Two Thousand Eleven",
+    "asOptional_Subject_Id": "0",
+    "asMother_Tongue": personalDetailsData.motherTongue || "",
+    "asLastSchoolName": "",
+    "asLastSchoolAddress": "",
+    "asLastCompletedStd": "",
+    "asLastSchoolUDISENo": "",
+    "asLastCompletedBoard": "",
+    "asIsRecognisedBoard": "True",
+    "asAadharCardNo": personalDetailsData?.aadharCardNumber || "",
+    "asNameOnAadharCard": personalDetailsData?.nameOnAadharCard || "",
+    "asAadharCard_Photo_Copy_Path": personalDetailsData?.aadharCardScanCopy || "",
+    "asFamily_Photo_Copy_Path": "",
+    "asUDISENumber": admissionDetailsData?.UDISENumber || "",
+    "asBoardRegistrationNo": admissionDetailsData?.boardRegistrationNumber || "",
+    "asIsRiseAndShine": admissionDetailsData?.isRiseAndShine === false ? "False" : "True",
+    "asAdmissionSectionId": "0",
+    "asGRNumber": "",
+    "asStudentUniqueNo": "",
+    "asSaralNo": admissionDetailsData?.saralNo || "",
+    "asIsOnlyChild": admissionDetailsData?.isOnlyChild === false ? "False" : "True",
+    "asMinority": admissionDetailsData?.isMinority === false ? "False" : "True",
+    "asRoll_No": admissionDetailsData?.studentRollNumber || "",
+    "asRule_Id": admissionDetailsData?.applicableRules || "",
+    "asIsStaffKid": admissionDetailsData?.isStaffKid === false ? false : true,
+    "asHeight": 0,
+    "asWeight": 0,
+    "asUpdated_By_id": Number(teacherId),
+    "asRTECategoryId": admissionDetailsData?.rteCategory || 0,
+    "asSecondLanguageSubjectId": admissionDetailsData?.secondlanguage || "",
+    "asThirdLanguageSubjectId": admissionDetailsData?.thirdlanguage || "",
+    "asIsForDayBoarding": admissionDetailsData?.isForDayBoarding === false ? false : true,
+    "asFeeCategoryDetailsId": "0",     // ❌This is the cause of problem
+    "asRTEApplicationFormNo": admissionDetailsData?.rteApplicationForm || "",
+    "asAnnualIncome": 0,
+    "asStandard_Id": standardId, // Missing
+    "asDivision_Id": DivisionId, // Missing
+    "asReligion": personalDetailsData?.religion || "",
+    "asYearWise_Student_Id": YearWise_Student_Id,
+    "asParentUserId": 0
   }
 
   const AddStudentAdditionalDetailsBody: IAddStudentAdditionalDetailsBody = {
@@ -533,11 +546,12 @@ const StudentRegistrationForm = () => {
     console.log('Sending update with data:', UpdateStudentBody);
 
     dispatch(CDAUpdateStudent(UpdateStudentBody));
-    dispatch(CDAAddStudentAdditionalDetails(AddStudentAdditionalDetailsBody));
-    dispatch(CDAUpdateStudentStreamwiseSubjectDetails(UpdateStudentStreamwiseSubjectDetailsBody));
+    //❌SHUTING DOWN API CALLS TEMPORARILY
+    // dispatch(CDAAddStudentAdditionalDetails(AddStudentAdditionalDetailsBody));
+    // dispatch(CDAUpdateStudentStreamwiseSubjectDetails(UpdateStudentStreamwiseSubjectDetailsBody));
 
     //console.log('Saving data:', personalDetails);
-    dispatch(CDAGenerateTransportFeeEntries({ asSchoolId: Number(schoolId), asAcademicYearId: Number(academicYearId), asStudentId: Number(SchoolWise_Student_Id), asUpdatedById: Number(teacherId) }));
+    // dispatch(CDAGenerateTransportFeeEntries({ asSchoolId: Number(schoolId), asAcademicYearId: Number(academicYearId), asStudentId: Number(SchoolWise_Student_Id), asUpdatedById: Number(teacherId) }));
   };
 
   useEffect(() => {
@@ -548,7 +562,7 @@ const StudentRegistrationForm = () => {
       asID: (UpdateStudentResult as any).iReturnValue, // Accessing iReturnValue here
       asAcademicYearId: Number(academicYearId)
     }
-    dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
+    //dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
   }, [UpdateStudentResult]);
 
   const GetSchoolSettings: GetSchoolSettingsBody = {
