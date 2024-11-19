@@ -742,7 +742,7 @@ function Form13() {
   window.addEventListener('resize', handleResize);
 
   const SaveDraftBody: ISaveDraftMessageBody = {
-    aiDraftId: ID,
+    aiDraftId: PageName == "Edit" ? ID : "",
     aoMessage: {
       SenderUserId: UserId,
       SchoolId: localschoolId,
@@ -797,7 +797,8 @@ function Form13() {
       toast.success(SaveDraftM, { toastId: 'success1' });
       dispatch(resetSaveDraftMessage());
       // setTimeout(RediretToSentPage, 100);
-      navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
+      // setLoading(false);
+      // navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
     }
   }, [SaveDraftM]);
 
