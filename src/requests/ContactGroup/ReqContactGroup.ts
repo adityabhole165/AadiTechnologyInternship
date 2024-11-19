@@ -98,10 +98,10 @@ export const CDAGetContactGroup = (data: IGetContactGroupsBody): AppThunk =>
                 IsAllDeactivated: item.IsAllDeactivated
             }));
             const contactGroupUserRoles = response.data.ContactGroupUserRoles; // "2,3,5"
-            const rolesArray = contactGroupUserRoles.split(',').map(String);
+            // const rolesArray = contactGroupUserRoles.split(',').map(String);
             // Dispatch actions to update state
             dispatch(ContactGroupSlice.actions.RContactGroups(contactGroups));
-            dispatch(ContactGroupSlice.actions.RContactGroupUserRoles(rolesArray));
+            dispatch(ContactGroupSlice.actions.RContactGroupUserRoles(response.data.ContactGroupUserRoles));
         } catch (error) {
             //dispatch(ContactGroupSlice.actions.seterror(error instanceof Error ? error.message : 'An error occurred'));
         }
