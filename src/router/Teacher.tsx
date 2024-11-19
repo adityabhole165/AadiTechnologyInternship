@@ -293,6 +293,12 @@ const AddNewPhoto = Loader(
 const AddNewVideo = Loader(
   lazy(() => import('src/components/PhotoVideoGallery/AddNewVideo'))
 );
+const ViewPhotoFile = Loader(
+  lazy(() => import('src/components/PhotoVideoGallery/ViewPhotoFile'))
+);
+const ViewVideoGallery = Loader(
+  lazy(() => import('src/components/PhotoVideoGallery/ViewVideoGallery'))
+);
 
 const teacherRoutes = [
   {
@@ -841,6 +847,14 @@ const teacherRoutes = [
 {
   path: 'AddNewVideo',
   element: <AddNewVideo />
+},
+{
+  path: 'ViewPhotoFile',
+  element: <ViewPhotoFile />
+},
+{
+  path: 'ViewVideoGallery',
+  element: <ViewVideoGallery />
 },
 ];
 

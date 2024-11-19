@@ -113,7 +113,7 @@ const PhotoVideoGalleryBaseScreen = () => {
       };
       const AddNewVideo = (value) => {
         navigate('/extended-sidebar/Teacher/AddNewVideo');
-      };
+      }; 
 
     return (
         <Box sx={{ px: 2 }}>
