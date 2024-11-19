@@ -4,42 +4,36 @@ import React from 'react'
 const SchoolDetails = ({ USFillSchoolDetails }) => {
     return (
         <Box  sx={{pt:2, background: 'white' }}>
-            <Grid container spacing={3}>
-                {USFillSchoolDetails.map((detail) => (
-                    <Grid item xs={12} key={detail.UserId}>
-                        <Box sx={{
-                            backgroundColor: '#F0F0F0',
-                            textAlign: 'center',  
-                             borderLeft: '1px solid grey', 
-                             borderRight: '1px solid grey'   
-                        }} >
-                            <hr />
-                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={0}>
+            
+            {USFillSchoolDetails.map((subject, index) => (
+                            <Table sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }} key={index}>
+                              <TableBody>
 
-                                {detail.OrganizationName}
+                                <TableRow sx={{ textAlign: 'center', color: 'primary', border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'primary', py: 1, fontSize: '18px !important', }}>
 
-                            </Typography>
-                            <hr />
-                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={0} >
-
-                                {detail.School_Name}
-
-                            </Typography>
-                            <hr />
-                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={0}>
-
-                                Progress Report
-
-                            </Typography>
-                            <hr />
+                                    {subject.OrganizationName}
+                                  </TableCell>
+                                </TableRow>
 
 
-                        </Box>
+                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 800, color: 'black', py: 1, fontSize: '26px !important', }}>
+                                    {subject.School_Name}
+                                  </TableCell>
+                                </TableRow>
 
 
-                    </Grid>
-                ))}
-            </Grid>
+                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'black', py: 1, fontSize: '18px !important', }}>
+
+                                    Progress Report
+                                  </TableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                          ))}
+
         </Box>
 
 

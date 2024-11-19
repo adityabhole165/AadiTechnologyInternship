@@ -641,11 +641,11 @@ const ProgressReportNew = () => {
         }
         .MuiTypography-root {
           font-family: 'Roboto', sans-serif;
-           width:60px;
+           width:80px;
         }
         .MuiTableCell-root {
           font-family: 'Roboto', sans-serif;
-           width:60px;
+           width:80px;
         }
       </style>
     `;
