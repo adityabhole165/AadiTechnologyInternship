@@ -152,6 +152,7 @@ const PersonalDetails = ({ onTabChange }) => {
 
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   console.log(USGetSingleStudentDetails, '🔲USGetSingleStudentDetails');
+  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
 
   const DeleteStudentPhotoMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteStudentPhotoMsg);
 
@@ -173,8 +174,9 @@ const PersonalDetails = ({ onTabChange }) => {
   // }, []);
 
   useEffect(() => {
-    if (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) {
-      const studentData = USGetSingleStudentDetails[0]; // Get first item from array
+    if ((USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) || (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0)) {
+      const studentData = USGetSingleStudentDetails[0];
+      const AdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
       setForm(prevForm => ({
         ...prevForm,
         firstName: studentData.First_Name || '',
@@ -191,9 +193,9 @@ const PersonalDetails = ({ onTabChange }) => {
         state: studentData.State || '',
         pin: studentData.Pincode || '',
         placeOfBirth: studentData.Birth_Place || '',
-        birthTaluka: studentData.birthTaluka || '',
-        birthDistrict: studentData.birthDistrict || '',
-        birthState: studentData.birthState || '',
+        birthTaluka: AdditionalData.BirthTaluka || '',
+        birthDistrict: AdditionalData.BirthDistrict || '',
+        birthState: AdditionalData.BirthState || '',
         religion: studentData.Religion || '',
         casteAndSubCaste: studentData.CasteAndSubCaste || '',
         category: studentData.Category_Id || '',

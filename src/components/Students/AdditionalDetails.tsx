@@ -12,9 +12,7 @@ import { Box, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { IGetStudentAdditionalDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetStudentAdditionalDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
 const AdditionalDetails = ({ onTabChange }) => {
@@ -50,29 +48,30 @@ const AdditionalDetails = ({ onTabChange }) => {
   //#region API CALL
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   //console.log('GetStudentAdditionalDetails', GetStudentAdditionalDetails);
+  const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
 
+  // const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {
+  //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  //   //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+  //   asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+  // };
 
-  const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
-  };
+  // useEffect(() => {
+  //   dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody));
+  // }, []);
 
   useEffect(() => {
-    dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody));
-  }, []);
-
-  useEffect(() => {
-    if (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) {
-      const studentAdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
+    if ((GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) || (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0)) {
+      const studentAdditionalData: any = GetStudentAdditionalDetails;
+      const studentData = USGetSingleStudentDetails[0]; // Get first item from array
       setForm(prevForm => ({
         ...prevForm,
-        lastSchoolName: '',
-        lastSchoolAddress: studentAdditionalData.Last_School_Name || '',
-        standard: studentAdditionalData.Last_School_Name || '',
-        schoolUDISENo: studentAdditionalData.Last_School_Name || '',
-        schoolBoardName: studentAdditionalData.Last_School_Name || '1',
-        isRecognised: studentAdditionalData.Last_School_Name || '',
+        lastSchoolName: studentData?.LastSchoolName || '',
+        lastSchoolAddress: studentData?.LastSchoolAddress || '',
+        standard: studentData?.LastCompletedStd || '',
+        schoolUDISENo: studentData?.LastSchoolUDISENo || '',
+        schoolBoardName: studentData?.LastCompletedBoard || '',
+        isRecognised: studentData?.IsRecognisedBoard === "True" ? 'Yes' : 'No',
         // lastSchoolRollNumber: '',
         //  lastSchoolYear: '',
         houseNumber: studentAdditionalData.HouseNoPlotNo || '',
@@ -102,8 +101,8 @@ const AdditionalDetails = ({ onTabChange }) => {
   ];
 
   const Recognised = [
-    { id: 1, Name: 'Yes' },
-    { id: 2, Name: 'No' }
+    { id: 1, Name: 'Yes', Value: 'Yes' },
+    { id: 2, Name: 'No', Value: 'No' }
   ];
 
   // Handle input change

@@ -10,9 +10,9 @@ import { Box, Checkbox, FormControlLabel, Grid, TextField } from '@mui/material'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetStreamwiseSubjectDetailsBody, IRetriveStudentStreamwiseSubjectBody } from 'src/interfaces/Students/IStudentUI';
+import { IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAllGroupsOfStream, CDAGetAllStreams, CDARetriveStudentStreamwiseSubject, CDAStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
+import { CDAGetAllGroupsOfStream, CDAGetAllStreams, CDAStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
 const StudentSubjectDetails = ({ onTabChange }) => {
@@ -59,15 +59,15 @@ const StudentSubjectDetails = ({ onTabChange }) => {
   //console.log('3️⃣FillCompitativeExams:', FillCompitativeExams);
 
 
-  const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
-    asSchoolId: 122,
-    asAcademicYearId: 10,
-    asStudentId: 3556
-  }
+  // const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
+  //   asSchoolId: 122,
+  //   asAcademicYearId: 10,
+  //   asStudentId: 3556
+  // }
 
-  useEffect(() => {
-    dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
-  }, []);
+  // useEffect(() => {
+  //   dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
+  // }, []);
   //#endregion
 
   useEffect(() => {
