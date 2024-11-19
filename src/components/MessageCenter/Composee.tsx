@@ -1293,6 +1293,7 @@ function Form13() {
                   minDate={MinDate}
                   maxDate={MaxDate}
                   display={scheduleMessage}
+                  readonly={true}
                 />
               </Grid>
               <Grid

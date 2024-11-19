@@ -9,6 +9,7 @@ const Datepicker = ({
     minDate,
     maxDate,
     display,
+    readonly = false
 }) => {
     return (
         <Box>
@@ -34,6 +35,9 @@ const Datepicker = ({
                         fullWidth: true,
                         size: size || 'medium',
                         sx: { display: display },
+                        inputProps: {
+                            readOnly: readonly,  // Make the input field read-only
+                        }
                     },
                 }}
             />
