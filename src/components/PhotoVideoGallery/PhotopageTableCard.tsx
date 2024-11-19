@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import React from "react";
+import { useNavigate } from 'react-router';
 
 // Define props for PhotoPage
 interface PhotopageTableCardProps {
@@ -35,10 +36,15 @@ interface PhotopageTableCardProps {
 const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
+    const navigate = useNavigate();
 
     const handleAction = (action: string, item: any) => {
         alert(`${action} clicked for ${item.galleryName}`);
     };
+   
+      const ViewPhotoFilePage = (value) => {
+        navigate('/extended-sidebar/Teacher/ViewPhotoFile');
+      };
 
     return (
         <Box>
@@ -69,7 +75,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                                 <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
                                     <Tooltip title={"View"}>
                                         <IconButton
-                                            onClick={() => handleAction("View", item)}
+                                            onClick={ViewPhotoFilePage}
                                             color="primary"
                                         >
                                             <VisibilityIcon />

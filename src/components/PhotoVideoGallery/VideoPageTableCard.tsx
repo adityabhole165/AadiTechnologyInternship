@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import React from "react";
+import { useNavigate } from "react-router";
 
 interface VideoData {
     videoName: string;
@@ -33,12 +34,16 @@ interface VideoPageTableCardProps {
 
 const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, onEdit, onDelete }) => {
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
+    const navigate = useNavigate();
 
     const handleAction = (action: string, videoName: string) => {
         if (action === "View" && onView) onView(videoName);
         if (action === "Edit" && onEdit) onEdit(videoName);
         if (action === "Delete" && onDelete) onDelete(videoName);
     };
+    const ViewVideoGalleryPage = (value) => {
+        navigate('/extended-sidebar/Teacher/ViewVideoGallery');
+      };
 
     return (
         <Box>
@@ -100,7 +105,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                 <TableCell sx={{ textAlign: "center",  py:1 }}>
                                     <Tooltip title="View">
                                         <IconButton
-                                            onClick={() => handleAction("View", row.videoName)}
+                                            onClick={() => ViewVideoGalleryPage(row.videoName)}
                                             color="primary"
                                         >
                                             <VisibilityIcon />

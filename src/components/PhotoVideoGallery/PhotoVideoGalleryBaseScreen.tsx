@@ -8,6 +8,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import PhotopageTableCard from './PhotopageTableCard';
 import VideoPageTableCard from './VideoPageTableCard';
+import {  useNavigate } from 'react-router';
 
 const PhotoVideoGalleryBaseScreen = () => {
     const [selectedOption, setSelectedOption] = useState<string>('photo');
@@ -16,6 +17,7 @@ const PhotoVideoGalleryBaseScreen = () => {
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState(1);
     const rowsPerPageOptions = [20, 50, 100, 200];
+    const navigate = useNavigate();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value);
@@ -106,6 +108,12 @@ const PhotoVideoGalleryBaseScreen = () => {
         setPage(pageNumber);
     };
 
+    const AddNewPhoto = (value) => {
+        navigate('/extended-sidebar/Teacher/AddNewPhoto');
+      };
+      const AddNewVideo = (value) => {
+        navigate('/extended-sidebar/Teacher/AddNewVideo');
+      }; 
 
     return (
         <Box sx={{ px: 2 }}>
@@ -139,7 +147,7 @@ const PhotoVideoGalleryBaseScreen = () => {
                                         backgroundColor: blue[600]
                                     }
                                 }}
-                                onClick={() => window.location.href = '/photo-page'} // Dummy link for Photo Page
+                                 onClick={AddNewPhoto} // Dummy link for Photo Page
                             >
                                 <AddPhotoAlternate />
                             </IconButton>
@@ -153,9 +161,8 @@ const PhotoVideoGalleryBaseScreen = () => {
                                     backgroundColor: blue[500],
                                     '&:hover': {
                                         backgroundColor: blue[600]
-                                    }
-                                }}
-                                onClick={() => window.location.href = '/video-page'} // Dummy link for Video Page
+                                    } }}
+                                onClick={AddNewVideo} // Dummy link for Video Page
                             >
                                 <VideoLibrary />
                             </IconButton>

@@ -226,7 +226,7 @@ function Card7({
 
                 {/* {RoleId !== '3' && (
                   <> */}
-                {(
+                {FromRoute !== 'Draft' && (
 
                   <Tooltip title={`Reply To All`}>
                     <IconButton
