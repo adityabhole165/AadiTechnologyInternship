@@ -8,6 +8,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import PhotopageTableCard from './PhotopageTableCard';
 import VideoPageTableCard from './VideoPageTableCard';
+import { Navigate } from 'react-router';
 
 const PhotoVideoGalleryBaseScreen = () => {
     const [selectedOption, setSelectedOption] = useState<string>('photo');
@@ -106,6 +107,9 @@ const PhotoVideoGalleryBaseScreen = () => {
         setPage(pageNumber);
     };
 
+    // const AddNewPhoto = (value) => {
+    //     Navigate('/extended-sidebar/Teacher/AddNewPhoto');
+    //   };
 
     return (
         <Box sx={{ px: 2 }}>
@@ -139,7 +143,7 @@ const PhotoVideoGalleryBaseScreen = () => {
                                         backgroundColor: blue[600]
                                     }
                                 }}
-                                onClick={() => window.location.href = '/photo-page'} // Dummy link for Photo Page
+                                // onClick={AddNewPhoto} // Dummy link for Photo Page
                             >
                                 <AddPhotoAlternate />
                             </IconButton>

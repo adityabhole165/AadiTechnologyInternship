@@ -287,6 +287,9 @@ const StandardwiseExamSchedule = Loader(
 const PhotoVideoGalleryBaseScreen = Loader(
   lazy(() => import('src/components/PhotoVideoGallery/PhotoVideoGalleryBaseScreen'))
 );
+const AddNewPhoto = Loader(
+  lazy(() => import('src/components/PhotoVideoGallery/AddNewPhoto'))
+);
 
 const teacherRoutes = [
   {
@@ -827,6 +830,10 @@ const teacherRoutes = [
  {
   path: 'PhotoVideoGalleryBaseScreen',
   element: <PhotoVideoGalleryBaseScreen />
+},
+{
+  path: 'AddNewPhoto',
+  element: <AddNewPhoto />
 },
 ];
 
