@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -44,6 +44,10 @@ const StudentUISlice = createSlice({
         ISFeeAreaNames: [],
         //DELETE API's
         ISDeleteStudentPhotoMsg: '',
+        ISDeleteFamilyPhotoMsg: '',
+        ISDeleteFatherPhotoMsg: '',
+        ISDeleteMotherPhotoMsg: '',
+        ISDeleteGuardianPhotoMsg: '',
         Loading: true
     },
     reducers: {
@@ -167,6 +171,26 @@ const StudentUISlice = createSlice({
         resetDeletePhotoMsg(state) {
             state.Loading = false;
             state.ISDeleteStudentPhotoMsg = '';
+            state.ISDeleteFamilyPhotoMsg = '';
+            state.ISDeleteFatherPhotoMsg = '';
+            state.ISDeleteMotherPhotoMsg = '';
+            state.ISDeleteGuardianPhotoMsg = '';
+        },
+        RDeleteFamilyPhoto(state, action) {
+            state.ISDeleteFamilyPhotoMsg = action.payload;
+            state.Loading = false;
+        },
+        RDeleteFatherPhoto(state, action) {
+            state.ISDeleteFatherPhotoMsg = action.payload;
+            state.Loading = false;
+        },
+        RDeleteMotherPhoto(state, action) {
+            state.ISDeleteMotherPhotoMsg = action.payload;
+            state.Loading = false;
+        },
+        RDeleteGuardianPhoto(state, action) {
+            state.ISDeleteGuardianPhotoMsg = action.payload;
+            state.Loading = false;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -531,7 +555,7 @@ export const CDAFeeAreaNames =
             //console.log('CDAFeeAreaNames:', responseData);
         };
 
-//DELETE API's❌
+//DELETE API's
 export const CDADeleteStudentPhoto =
     (data: IRemoveStudentPhotoBody): AppThunk =>
         async (dispatch) => {
@@ -540,7 +564,43 @@ export const CDADeleteStudentPhoto =
             dispatch(StudentUISlice.actions.RDeleteStudentPhoto(response.data));
             //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
         };
-export const resetDeleteStudentPhoto = (): AppThunk => async (dispatch) => {
+export const CDAresetDeletePhotoMsg = (): AppThunk => async (dispatch) => {
     dispatch(StudentUISlice.actions.resetDeletePhotoMsg());
 };
+
+export const CDADeleteFamilyPhoto =
+    (data: IDeletePhotosBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.DeleteFamilyPhotoApi(data);
+            dispatch(StudentUISlice.actions.RDeleteFamilyPhoto(response.data));
+            //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
+        };
+
+export const CDADeleteFatherPhoto =
+    (data: IDeletePhotosBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.DeleteFatherPhotoApi(data);
+            dispatch(StudentUISlice.actions.RDeleteFatherPhoto(response.data));
+            //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
+        };
+
+export const CDADeleteMotherPhoto =
+    (data: IDeletePhotosBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.DeleteMotherPhotoApi(data);
+            dispatch(StudentUISlice.actions.RDeleteMotherPhoto(response.data));
+            //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
+        };
+
+export const CDADeleteGuardianPhoto =
+    (data: IDeletePhotosBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.DeleteGuardianPhotoApi(data);
+            dispatch(StudentUISlice.actions.RDeleteGuardianPhoto(response.data));
+            //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
+        };
 export default StudentUISlice.reducer;

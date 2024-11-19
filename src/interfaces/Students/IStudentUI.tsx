@@ -559,11 +559,17 @@ export interface IGetFeeAreaNamesResult {
     FeeAreaName: string
 }
 //DELETE API's
+//1
 export interface IRemoveStudentPhotoBody {
     asSchoolId: number
     asStudentId: number
 }
-
+//2,3,4,5
+export interface IDeletePhotosBody {
+    asSchoolId: number,
+    asStudentId: number,
+    asUpdatedById: number
+}
 
 
 

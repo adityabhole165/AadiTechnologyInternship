@@ -10,12 +10,15 @@ import {
   Typography
 } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile from 'src/libraries/File/SingleFile';
+import { CDADeleteFamilyPhoto, CDADeleteFatherPhoto, CDADeleteGuardianPhoto, CDADeleteMotherPhoto, CDAresetDeletePhotoMsg, } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
@@ -87,7 +90,14 @@ const FamilyDetails = ({ onTabChange }) => {
 
   //#region API CALLS
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
-  console.log('GetStudentAdditionalDetails FAMILY', GetStudentAdditionalDetails);
+  //console.log('GetStudentAdditionalDetails FAMILY', GetStudentAdditionalDetails);
+  const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
+  //console.log(USGetSingleStudentDetails, '🔲USGetSingleStudentDetails');
+  const DeleteFamilyPhotoMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteFamilyPhotoMsg);
+  const DeleteFatherPhotoMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteFatherPhotoMsg);
+  const DeleteMotherPhotoMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteMotherPhotoMsg);
+  const DeleteGuardianPhotoMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteGuardianPhotoMsg);
+
 
   // const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {
   //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -100,11 +110,12 @@ const FamilyDetails = ({ onTabChange }) => {
   // }, []);
 
   useEffect(() => {
-    if (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) {
-      const FamilyData: any = GetStudentAdditionalDetails; // Get first item from array
+    if ((GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) || (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0)) {
+      const FamilyData: any = GetStudentAdditionalDetails;
+      const studentData = USGetSingleStudentDetails[0];// Get first item from array
       setForm(prevForm => ({
         ...prevForm,
-        fatherQualification: FamilyData?.FatherQualification || "Business",
+        fatherQualification: FamilyData?.FatherQualification || "",
         fatherEmail: FamilyData?.FatherEmail || "",
         fatherOfficeName: FamilyData?.FatherOfficeName || "",
         fatherOfficeAddress: FamilyData?.FatherOfficeAddress || "",
@@ -138,10 +149,10 @@ const FamilyDetails = ({ onTabChange }) => {
         familyMonthlyIncome: FamilyData?.FamilyMonthlyIncome || "",
         cwsn: FamilyData?.CWSN || "",
         relativeFullName: FamilyData?.RelativeName || "",
-        residencePhoneNumber: "",  //Single 
-        neighbourPhoneNumber: '',
-        officePhoneNumber: '',
-        familyPhoto: "",             //Single
+        residencePhoneNumber: studentData?.Residence_Phone_Number || "",  //Single 
+        neighbourPhoneNumber: studentData?.Neighbour_Number || "",
+        officePhoneNumber: studentData?.Office_Number || "",
+        familyPhoto: studentData?.Family_Photo_Copy_Path || "",           //Single
         name1: FamilyData?.Name1 || "",
         name2: FamilyData?.Name2 || "",
         age1: FamilyData?.Age1 || "",
@@ -152,7 +163,7 @@ const FamilyDetails = ({ onTabChange }) => {
         standard2: FamilyData?.StandardName2 || "",
       }));
     }
-  }, [GetStudentAdditionalDetails]);
+  }, [GetStudentAdditionalDetails, USGetSingleStudentDetails]);
 
   //#endregion
 
@@ -178,6 +189,130 @@ const FamilyDetails = ({ onTabChange }) => {
     setErrors({ ...errors, [name]: false });
   };
 
+  //#region Photos Opr
+  const { showAlert, closeAlert } = useContext(AlertContext);
+  const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
+  const MaxfileSize2 = 3000000;
+
+  const [ImageFile, setImageFile] = useState('');
+  const [base64URL2, setbase64URL2] = useState('');
+  const [imageFileExtention, setImageFileExtention] = useState('');
+
+  const handlePhotoChange = (key, value) => {
+    console.log(`0️⃣Selected file for ${key}:`, value);
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      [key]: value.Name, // Dynamically update the key in the form
+    }));
+
+    setbase64URL2(value.Value);
+    setImageFileExtention(value.FileExtension);
+  };
+
+  // const url = `${localStorage.getItem("SiteURL")}RITESCHOOL/DOWNLOADS/Student Documents/${form.familyPhoto}`;   //--remeber to set aadharCardScanCopy
+  // const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
+
+  // const viewFamilyPhoto = () => {
+  //   //const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
+  //   console.log('base64Image', base64Image);
+  //   if (form.familyPhoto) {                             // -----show image using url🩸
+  //     window.open(url, '_blank');
+  //   }
+  // };
+
+  const viewPhoto = (key) => {
+    const fileName = form[key];
+    const url = `${localStorage.getItem("SiteURL")}RITESCHOOL/DOWNLOADS/Student Documents/${fileName}`;
+    const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
+
+    if (fileName) {
+      console.log(`Viewing ${key}:`, fileName);
+      console.log(`Viewing ${key}:`, base64Image);
+      console.log(`Viewing ${key}:`, url);
+      window.open(url, '_blank'); // Opens the URL in a new tab
+    } else {
+      console.log(`No photo available for ${key}`);
+    }
+  };
+
+
+  // const deleteImage = () => {
+  //   const DeleteFamilyPhotosBody: IDeleteFamilyPhotosBody = {
+  //     asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  //     asStudentId: SchoolWise_Student_Id,
+  //     asUpdatedById: Number(localStorage.getItem('UserId')),
+  //   };
+  //   if (form.familyPhoto) {
+  //     console.log('👎', form.familyPhoto);
+  //     showAlert({
+  //       title: 'Please Confirm',
+  //       message: 'Are you sure you want to delete Family Photo?',
+  //       variant: 'warning',
+  //       confirmButtonText: 'Confirm',
+  //       cancelButtonText: 'Cancel',
+  //       onCancel: () => {
+  //         closeAlert();
+  //       },
+  //       onConfirm: () => {
+  //         //console.log('👍', DeleteFamilyPhotosBody);
+  //         dispatch(CDADeleteFamilyPhoto(DeleteFamilyPhotosBody));
+  //         closeAlert();
+  //       },
+  //     });
+  //   }
+  // };
+
+  const deleteImageReusable = (key, deleteAction, alertMessage) => {
+    const fileName = form[key];
+    const deleteBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asStudentId: SchoolWise_Student_Id,
+      asUpdatedById: Number(localStorage.getItem('UserId')),
+    };
+
+    if (fileName) {
+      console.log(`👎 Deleting ${key}:`, fileName);
+      showAlert({
+        title: 'Please Confirm',
+        message: alertMessage,
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => closeAlert(),
+        onConfirm: () => {
+          dispatch(deleteAction(deleteBody));
+          closeAlert();
+        },
+      });
+    }
+  };
+
+
+  useEffect(() => {
+    if (DeleteFamilyPhotoMsg !== '') {
+      toast.success(DeleteFamilyPhotoMsg);
+      setForm((prevForm) => ({ ...prevForm, familyPhoto: '', }));              // delete photo
+      dispatch(CDAresetDeletePhotoMsg());
+    }
+    if (DeleteFatherPhotoMsg !== '') {
+      toast.success(DeleteFatherPhotoMsg);
+      setForm((prevForm) => ({ ...prevForm, fatherPhoto: '', }));              // delete photo
+      dispatch(CDAresetDeletePhotoMsg());
+    }
+    if (DeleteMotherPhotoMsg !== '') {
+      toast.success(DeleteMotherPhotoMsg);
+      setForm((prevForm) => ({ ...prevForm, motherPhoto: '', }));              // delete photo
+      dispatch(CDAresetDeletePhotoMsg());
+    }
+    if (DeleteGuardianPhotoMsg !== '') {
+      toast.success(DeleteGuardianPhotoMsg);
+      setForm((prevForm) => ({ ...prevForm, localGuardianPhoto: '', }));              // delete photo
+      dispatch(CDAresetDeletePhotoMsg());
+    }
+  }, [DeleteFamilyPhotoMsg, DeleteFatherPhotoMsg, DeleteMotherPhotoMsg, DeleteGuardianPhotoMsg]);
+
+  //#endregion
   const [errors, setErrors] = useState({
     fatherQualification: false,
     fatherEmail: false,
@@ -335,7 +470,7 @@ const FamilyDetails = ({ onTabChange }) => {
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
             FileName={form.fatherPhoto}
-            ChangeFile={handleInputChange}
+            ChangeFile={(value) => handlePhotoChange('fatherPhoto', value)}
             FileLabel={'Father Photo'}
             width={'100%'}
             height={'52px'}
@@ -346,7 +481,7 @@ const FamilyDetails = ({ onTabChange }) => {
           <>
             <Tooltip title={'View'}>
               <IconButton
-                onClick={() => ''}
+                onClick={() => viewPhoto('fatherPhoto')}
                 sx={{
                   color: '#223354',
                   mt: 0.7,
@@ -362,7 +497,7 @@ const FamilyDetails = ({ onTabChange }) => {
 
             <Tooltip title={'Delete'}>
               <IconButton
-                onClick={() => ''}
+                onClick={() => deleteImageReusable('fatherPhoto', CDADeleteFatherPhoto, 'Are you sure you want to delete father photo?')}
                 sx={{
                   color: '#223354',
                   mt: 0.7,
@@ -529,7 +664,7 @@ const FamilyDetails = ({ onTabChange }) => {
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
             FileName={form.motherPhoto}
-            ChangeFile={handleInputChange}
+            ChangeFile={(value) => handlePhotoChange('motherPhoto', value)}
             FileLabel={'Mother Photo'}
             width={'100%'}
             height={'52px'}
@@ -541,7 +676,7 @@ const FamilyDetails = ({ onTabChange }) => {
           <>
             <Tooltip title={'View'}>
               <IconButton
-                onClick={() => ''}
+                onClick={() => viewPhoto('motherPhoto')}
                 sx={{
                   color: '#223354',
                   mt: 0.7,
@@ -557,7 +692,7 @@ const FamilyDetails = ({ onTabChange }) => {
 
             <Tooltip title={'Delete'}>
               <IconButton
-                onClick={() => ''}
+                onClick={() => deleteImageReusable('motherPhoto', CDADeleteMotherPhoto, 'Are you sure you want to delete mother photo?')}
                 sx={{
                   color: '#223354',
                   mt: 0.7,
@@ -654,7 +789,7 @@ const FamilyDetails = ({ onTabChange }) => {
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
             FileName={form.localGuardianPhoto}
-            ChangeFile={handleInputChange}
+            ChangeFile={(value) => handlePhotoChange('localGuardianPhoto', value)}
             FileLabel={'Local Guadian Photo'}
             width={'100%'}
             height={'52px'}
@@ -665,7 +800,7 @@ const FamilyDetails = ({ onTabChange }) => {
           <>
             <Tooltip title={'View'}>
               <IconButton
-                onClick={() => ''}
+                onClick={() => viewPhoto('localGuardianPhoto')}
                 sx={{
                   color: '#223354',
                   mt: 0.7,
@@ -681,7 +816,7 @@ const FamilyDetails = ({ onTabChange }) => {
 
             <Tooltip title={'Delete'}>
               <IconButton
-                onClick={() => ''}
+                onClick={() => deleteImageReusable('localGuardianPhoto', CDADeleteGuardianPhoto, 'Are you sure you want to delete guardian Photo?')}
                 sx={{
                   color: '#223354',
                   mt: 0.7,
@@ -761,10 +896,10 @@ const FamilyDetails = ({ onTabChange }) => {
         {/* familyPhoto */}
         <Grid item xs={12} md={2}>
           <SingleFile
-            ValidFileTypes={ValidFileTypes}
-            MaxfileSize={MaxfileSize}
+            ValidFileTypes={ValidFileTypes2}
+            MaxfileSize={MaxfileSize2}
             FileName={form.familyPhoto}
-            ChangeFile={handleInputChange}
+            ChangeFile={(value) => handlePhotoChange('familyPhoto', value)}
             FileLabel={'Family Photo'}
             width={'100%'}
             height={'52px'}
@@ -775,7 +910,7 @@ const FamilyDetails = ({ onTabChange }) => {
           <>
             <Tooltip title={'View'}>
               <IconButton
-                onClick={() => ''}
+                onClick={() => viewPhoto('familyPhoto')}
                 sx={{
                   color: '#223354',
                   mt: 0.7,
@@ -791,7 +926,7 @@ const FamilyDetails = ({ onTabChange }) => {
 
             <Tooltip title={'Delete'}>
               <IconButton
-                onClick={() => ''}
+                onClick={() => deleteImageReusable('familyPhoto', CDADeleteFamilyPhoto, 'Are you sure you want to delete family photo?')}
                 sx={{
                   color: '#223354',
                   mt: 0.7,

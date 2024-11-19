@@ -161,6 +161,8 @@ interface RFamilyDetails {
   cwsn?: string;
   relativeFullName?: string;
   residencePhoneNumber?: string;
+  neighbourPhoneNumber?: string,
+  officePhoneNumber?: string,
   familyPhoto?: string;
   name1?: string,
   name2?: string,
@@ -269,7 +271,7 @@ const StudentRegistrationForm = () => {
   }
   const onFamilyTab = (updateddata) => {
     setFamilyDetailsData(updateddata);
-    console.log('familyDetailsData:', familyDetailsData);
+    console.log('3️⃣familyDetailsData:', familyDetailsData);
   }
 
   const onAdditionalInfoTab = (updateddata) => {
@@ -387,7 +389,7 @@ const StudentRegistrationForm = () => {
 
   //#region API CAlls
   const UpdateStudentResult = useSelector((state: RootState) => state.StudentUI.ISUpdateStudent);
-  console.log('🩸UpdateStudentResult:', UpdateStudentResult);
+  // console.log('🩸UpdateStudentResult:', UpdateStudentResult);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
 
 

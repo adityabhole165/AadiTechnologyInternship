@@ -31,7 +31,7 @@ import { IRemoveStudentPhotoBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDADeleteStudentPhoto, resetDeleteStudentPhoto } from 'src/requests/Students/RequestStudentUI';
+import { CDADeleteStudentPhoto, CDAresetDeletePhotoMsg } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
@@ -242,7 +242,7 @@ const PersonalDetails = ({ onTabChange }) => {
     setErrors((prev) => ({ ...prev, [name]: false }));
   };
 
-  //#region WebCam
+  //#region WebCam/StPhoto 
   const [open, setOpen] = useState(false);
   //  const [fileNameError, setFileNameError] = useState('');
   const [isWebcamActive, setIsWebcamActive] = useState(true)
@@ -399,11 +399,11 @@ const PersonalDetails = ({ onTabChange }) => {
     if (DeleteStudentPhotoMsg !== '') {
       toast.success(DeleteStudentPhotoMsg);
       handleDeletePhoto();                // delete photo
-      dispatch(resetDeleteStudentPhoto());
+      dispatch(CDAresetDeletePhotoMsg());
     }
   }, [DeleteStudentPhotoMsg]);
 
-  //#region File Upload
+  //#region photo Upload
   const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
   const MaxfileSize2 = 3000000;
 
