@@ -1,5 +1,4 @@
 import ClearIcon from '@mui/icons-material/Clear';
-import PrintIcon from '@mui/icons-material/Print';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
@@ -36,6 +35,7 @@ const ProgressReportNew = () => {
   const [AcademicYear, SetAcademicYear] = useState(asAcademicYearId);
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
+  console.log(StudentId, "StudentId");
 
 
   const [AllowProgressReportDownloadAtStudentLogin, setAllowProgressReportDownloadAtStudentLogin] = useState("")
@@ -305,7 +305,7 @@ const ProgressReportNew = () => {
 
   const IsGradingStandard: IsGradingStandarBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId),
+    asAcademicYearId: Number(AcademicYear),
     asStandardId: GetOldStudentDetails.StandardId
 
   };
@@ -313,7 +313,7 @@ const ProgressReportNew = () => {
   const IsTestPublishedForStdDiv: IsTestPublishedForStdDivBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmicYearId: Number(AcademicYear),
-    asStdDivId: StandardDivisionId()
+    asStdDivId: GetOldStudentDetails.StandardDivisionId
 
   };
 
@@ -445,18 +445,20 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
-  }, [AcademicYear, selectTeacher, StudentId, GetOldStudentDetails.StandardId]);
+  }, [AcademicYear, GetOldStudentDetails.StandardId]);
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
 
   }, []);
 
+  console.log(USIsTestPublishedForStdDiv, "USIsTestPublishedForStdDiv");
+
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
 
-  }, [StandardDivisionId(), asAcademicYearId, StudentId]);
+  }, [GetOldStudentDetails.StandardDivisionId, AcademicYear]);
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
@@ -737,7 +739,7 @@ const ProgressReportNew = () => {
             </IconButton>
           </Tooltip>
 
-          {(open && StudentId !== "0") && AcademicYear !== asAcademicYearId &&   (
+          {/* {(open && StudentId !== "0") && AcademicYear !== asAcademicYearId &&   (
             <Box>
               <Tooltip title={'Print'}>
                 <IconButton
@@ -753,69 +755,12 @@ const ProgressReportNew = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-          )}
+          )} */}
 
 
         </>}
 
       />
-      {open && (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-          <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="h4">Grade Configuration Details</Typography>
-          </Link>
-
-          <Dialog
-            open={open1}
-            onClose={handleClose}
-            maxWidth="md" scroll="body"
-            sx={{ minHeight: '400px' }}
-            PaperProps={{
-              sx: {
-                borderRadius: "15px",
-              }
-            }}>
-            <DialogTitle sx={{ bgcolor: '#223354' }}>
-
-              <ClearIcon onClick={handleClose}
-                sx={{
-                  color: 'white',
-                  // background:'white',
-                  borderRadius: '7px',
-                  position: 'absolute',
-                  top: '5px',
-                  right: '8px',
-                  cursor: 'pointer',
-                  '&:hover': {
-                    color: 'red'
-                  }
-                }} />
-            </DialogTitle>
-
-            <DialogContent>
-              <Typography variant="h3" my={1}>
-                Grade Configuration Details
-              </Typography>
-              <Typography variant="h4" my={1}>
-                Subjects :-
-              </Typography>
-              <GradeConfigurationList
-                configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id !== "")}
-                HeaderArray={headerArray}
-              />
-            </DialogContent>
-            <DialogContent>
-              <Typography variant="h4" >
-                Co-Curricular Subjects :-
-              </Typography>
-              <GradeConfigurationList
-                configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id !== "")}
-                HeaderArray={headerArray}
-              />
-            </DialogContent>
-          </Dialog>
-        </Box>
-      )}
 
 
 
@@ -917,14 +862,70 @@ const ProgressReportNew = () => {
             </Typography>
 
             : <span>
-              {USIsTestPublishedForStdDiv == true ?
-                < Box ref={printRef}>
-                  {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
-                    <>
+              {StudentId !== "0" ? (
+                USIsTestPublishedForStdDiv === true ? (
+                  < Box ref={printRef}>
+                    {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
+                      <>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                          <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography variant="h4">Grade Configuration Details</Typography>
+                          </Link>
 
-                      <Box sx={{ mt: 1, background: 'white' }}>
-                      
-                        {/* {USlistStudentsDetails.map((subject, index) => (
+                          <Dialog
+                            open={open1}
+                            onClose={handleClose}
+                            maxWidth="md" scroll="body"
+                            sx={{ minHeight: '400px' }}
+                            PaperProps={{
+                              sx: {
+                                borderRadius: "15px",
+                              }
+                            }}>
+                            <DialogTitle sx={{ bgcolor: '#223354' }}>
+
+                              <ClearIcon onClick={handleClose}
+                                sx={{
+                                  color: 'white',
+                                  // background:'white',
+                                  borderRadius: '7px',
+                                  position: 'absolute',
+                                  top: '5px',
+                                  right: '8px',
+                                  cursor: 'pointer',
+                                  '&:hover': {
+                                    color: 'red'
+                                  }
+                                }} />
+                            </DialogTitle>
+
+                            <DialogContent>
+                              <Typography variant="h3" my={1}>
+                                Grade Configuration Details
+                              </Typography>
+                              <Typography variant="h4" my={1}>
+                                Subjects :-
+                              </Typography>
+                              <GradeConfigurationList
+                                configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id !== "")}
+                                HeaderArray={headerArray}
+                              />
+                            </DialogContent>
+                            <DialogContent>
+                              <Typography variant="h4" >
+                                Co-Curricular Subjects :-
+                              </Typography>
+                              <GradeConfigurationList
+                                configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id !== "")}
+                                HeaderArray={headerArray}
+                              />
+                            </DialogContent>
+                          </Dialog>
+                        </Box>
+
+                        <Box sx={{ mt: 1, background: 'white' }}>
+
+                          {/* {USlistStudentsDetails.map((subject, index) => (
                           <div key={index}>
                             <Typography variant="h4" textAlign="center" color="primary" mb={1}>
                               {subject.School_Orgn_Name}
@@ -940,169 +941,232 @@ const ProgressReportNew = () => {
                           </div>
                         ))} */}
 
-                        {USlistStudentsDetails.map((subject, index) => (
-                          <Table sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}   key={index}>
+                          {USlistStudentsDetails.map((subject, index) => (
+                            <Table sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }} key={index}>
+                              <TableBody>
+
+                                <TableRow sx={{ textAlign: 'center', color: 'primary', border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'primary', py: 1, fontSize: '18px !important', }}>
+
+                                    {subject.School_Orgn_Name}
+                                  </TableCell>
+                                </TableRow>
+
+
+                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 800, color: 'black', py: 1, fontSize: '26px !important', }}>
+                                    {subject.School_Name}
+                                  </TableCell>
+                                </TableRow>
+
+
+                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'black', py: 1, fontSize: '18px !important', }}>
+
+                                    Progress Report
+                                  </TableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                          ))}
+
+
+                          <Table>
                             <TableBody>
-                             
-                              <TableRow sx={{ textAlign: 'center', color: 'primary', border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'primary', py:1,fontSize: '18px !important', }}>
-                                 
-                                   {subject.School_Orgn_Name}
-                                </TableCell>
-                              </TableRow>
-
-                              
-                              <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 800, color: 'black',py:1,fontSize: '26px !important', }}>
-                                   {subject.School_Name}
-                                </TableCell>
-                              </TableRow>
-
-                             
-                              <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}`}}>
-                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'black',py:1,fontSize: '18px !important', }}>
-                                  
-                                  Progress Report
-                                </TableCell>
-                              </TableRow>
+                              {USlistStudentsDetails.map((item) => {
+                                return (
+                                  <TableRow sx={{ bgcolor: '#38548A' }}>
+                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                                  </TableRow>
+                                )
+                              })}
                             </TableBody>
                           </Table>
-                        ))}
+                        </Box>
+                        {hasTotalConsiderationN && (
+                          <div
+                            style={{ backgroundColor: 'white', padding: '8px' }}
+                            dangerouslySetInnerHTML={{ __html: formattedText }}
+                          />
 
+                        )}
+                        <Box sx={{ overflowX: 'auto' }}>
+                          <ProgressReportGradeView
+                            EntireDataList={EntireDataList}
+                            IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                            HeaderArray1={HeaderArray1}
+                            SubHeaderArray1={SubHeaderArray1}
+                            MarkDetailsList1={IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? MarkDetailsList : MarkDetailsList1}
+                          />
+                        </Box>
+                      </>
+                      :
+                      <>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                          <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography variant="h4">Grade Configuration Details</Typography>
+                          </Link>
 
-                        <Table>
-                          <TableBody>
-                            {USlistStudentsDetails.map((item) => {
-                              return (
-                                <TableRow sx={{ bgcolor: '#38548A' }}>
-                                  <TableCell sx={{py:1.5,textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
-                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
-                                  <TableCell sx={{py:1.5,textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                          <Dialog
+                            open={open1}
+                            onClose={handleClose}
+                            maxWidth="md" scroll="body"
+                            sx={{ minHeight: '400px' }}
+                            PaperProps={{
+                              sx: {
+                                borderRadius: "15px",
+                              }
+                            }}>
+                            <DialogTitle sx={{ bgcolor: '#223354' }}>
+
+                              <ClearIcon onClick={handleClose}
+                                sx={{
+                                  color: 'white',
+                                  // background:'white',
+                                  borderRadius: '7px',
+                                  position: 'absolute',
+                                  top: '5px',
+                                  right: '8px',
+                                  cursor: 'pointer',
+                                  '&:hover': {
+                                    color: 'red'
+                                  }
+                                }} />
+                            </DialogTitle>
+
+                            <DialogContent>
+                              <Typography variant="h3" my={1}>
+                                Grade Configuration Details
+                              </Typography>
+                              <Typography variant="h4" my={1}>
+                                Subjects :-
+                              </Typography>
+                              <GradeConfigurationList
+                                configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id !== "")}
+                                HeaderArray={headerArray}
+                              />
+                            </DialogContent>
+                            <DialogContent>
+                              <Typography variant="h4" >
+                                Co-Curricular Subjects :-
+                              </Typography>
+                              <GradeConfigurationList
+                                configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id !== "")}
+                                HeaderArray={headerArray}
+                              />
+                            </DialogContent>
+                          </Dialog>
+                        </Box>
+                        <Box sx={{ mt: 1, background: 'white', }}>
+
+                          {USlistStudentsDetails.map((subject, index) => (
+                            <Table sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }} key={index}>
+                              <TableBody>
+
+                                <TableRow sx={{ textAlign: 'center', color: 'primary', border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'primary', py: 1, fontSize: '18px !important', }}>
+
+                                    {subject.School_Orgn_Name}
+                                  </TableCell>
                                 </TableRow>
-                              )
-                            })}
-                          </TableBody>
-                        </Table>
-                      </Box>
-                      {hasTotalConsiderationN && (
-                        <div
-                        style={{ backgroundColor: 'white', padding: '8px' }}
-                        dangerouslySetInnerHTML={{ __html: formattedText }}
-                      />
-                      
-                      )}
-                      <Box sx={{ overflowX: 'auto' }}>
-                        <ProgressReportGradeView
-                          EntireDataList={EntireDataList}
-                          IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
-                          HeaderArray1={HeaderArray1}
-                          SubHeaderArray1={SubHeaderArray1}
-                          MarkDetailsList1={IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? MarkDetailsList : MarkDetailsList1}
-                        />
-                      </Box>
-                    </>
-                    :
-                    <>
 
-                      <Box sx={{ mt: 1, background: 'white', }}>
-                       
-                        {USlistStudentsDetails.map((subject, index) => (
-                          <Table sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}   key={index}>
+
+                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 800, color: 'black', py: 1, fontSize: '26px !important', }}>
+                                    {subject.School_Name}
+                                  </TableCell>
+                                </TableRow>
+
+
+                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'black', py: 1, fontSize: '18px !important', }}>
+
+                                    Progress Report
+                                  </TableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                          ))}
+                          <Table >
                             <TableBody>
-                             
-                              <TableRow sx={{ textAlign: 'center', color: 'primary', border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'primary', py:1,fontSize: '18px !important', }}>
-                                 
-                                   {subject.School_Orgn_Name}
-                                </TableCell>
-                              </TableRow>
-
-                              
-                              <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 800, color: 'black',py:1,fontSize: '26px !important', }}>
-                                   {subject.School_Name}
-                                </TableCell>
-                              </TableRow>
-
-                             
-                              <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}`}}>
-                                <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'black',py:1,fontSize: '18px !important', }}>
-                                  
-                                  Progress Report
-                                </TableCell>
-                              </TableRow>
+                              {USlistStudentsDetails.map((item) => {
+                                return (
+                                  <TableRow sx={{ bgcolor: '#38548A' }}>
+                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                                  </TableRow>
+                                )
+                              })}
                             </TableBody>
                           </Table>
-                        ))}
-                        <Table >
-                          <TableBody>
-                            {USlistStudentsDetails.map((item) => {
-                              return (
-                                <TableRow sx={{ bgcolor: '#38548A' }}>
-                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
-                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
-                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                                  <TableCell sx={{py:1.5, textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
-                                </TableRow>
-                              )
-                            })}
-                          </TableBody>
-                        </Table>
-                      </Box>
-                      {hasTotalConsiderationN && (
-                        <div
-                        style={{ backgroundColor: 'white', padding: '8px' }}
-                        dangerouslySetInnerHTML={{ __html: formattedText }}
-                      />
-                      
-                      )}
-                      <Box sx={{ overflowX: 'auto' }}>
-                        <ProgressReportMarkView
-                          HeaderArray={HeaderArray}
-                          SubHeaderArray={SubHeaderArray}
-                          MarkDetailsList={MarkDetailsList}
-                          ListDisplayNameDetails={ListDisplayNameDetails}
-                          IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
-                          USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
-                          USListMarkssDetails={USListMarkssDetails}
-                          ListTestTypeIdDetails={USListTestTypeIdDetails}
-                          ThirdHeaderRow={ThirdHeaderColumn}
-                          EntireDataList={EntireDataList}
-                        />
-                      </Box>
-                    </>
-                    :
-                    null
-                  }
+                        </Box>
+                        {hasTotalConsiderationN && (
+                          <div
+                            style={{ backgroundColor: 'white', padding: '8px' }}
+                            dangerouslySetInnerHTML={{ __html: formattedText }}
+                          />
+
+                        )}
+                        <Box sx={{ overflowX: 'auto' }}>
+                          <ProgressReportMarkView
+                            HeaderArray={HeaderArray}
+                            SubHeaderArray={SubHeaderArray}
+                            MarkDetailsList={MarkDetailsList}
+                            ListDisplayNameDetails={ListDisplayNameDetails}
+                            IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                            USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
+                            USListMarkssDetails={USListMarkssDetails}
+                            ListTestTypeIdDetails={USListTestTypeIdDetails}
+                            ThirdHeaderRow={ThirdHeaderColumn}
+                            EntireDataList={EntireDataList}
+                          />
+                        </Box>
+                      </>
+                      :
+                      null
+                    }
 
 
-                  {StudentId == "0" && parsedDataList?.length > 0 &&
-                    parsedDataList.map((parsedItem, i) => (
-                      <AllStudents key={i} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
-                        handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
-                        USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
-                        USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
-                      />
-                      //             data1, IStudentList, handleClose, handleClick, open1, formattedText,
-                      // USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
-                    ))
 
-                  }
-                </ Box>
-                :
+                  </ Box>
+                ) : (
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      textAlign: 'center',
+                      marginTop: 4,
+                      backgroundColor: '#324b84',
+                      padding: 1,
+                      borderRadius: 2,
+                      color: 'white',
+                    }}
+                  >
+                    <b>No exam of this class has been published for the current academic year.</b>
+                  </Typography>
+                )
+              ) : null}
 
-
-                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                  <b>No exam of this class has been published for the current academic year.</b>
-                </Typography>
-
-              }
 
 
             </span>}
 
+          {StudentId == "0" && parsedDataList?.length > 0 &&
+            parsedDataList.map((parsedItem, i) => (
+              <AllStudents key={i} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
+                handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
+                USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+              />
+              //             data1, IStudentList, handleClose, handleClick, open1, formattedText,
+              // USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
+            ))
 
+          }
 
 
         </div>
