@@ -108,6 +108,34 @@ const FamilyDetails = ({ onTabChange }) => {
   // useEffect(() => {
   //   dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody));
   // }, []);
+  //#region Date Formation
+  const formatDOB = (date) => {
+    try {
+      if (!date) return '';
+
+      // Handle "DD-MM-YYYY HH:mm:ss" format
+      if (date.includes('-')) {
+        const [day, month, year] = date.split(' ')[0].split('-');
+        const parsedDate = new Date(`${year}-${month}-${day}`);
+        return parsedDate.toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+        });
+      }
+
+      // Handle other cases (if already valid Date object or other formats)
+      const d = new Date(date);
+      return d.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      });
+    } catch {
+      return '';
+    }
+  };
+  //#endregion
 
   useEffect(() => {
     if ((GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) || (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0)) {
@@ -120,7 +148,7 @@ const FamilyDetails = ({ onTabChange }) => {
         fatherOfficeName: FamilyData?.FatherOfficeName || "",
         fatherOfficeAddress: FamilyData?.FatherOfficeAddress || "",
         fatherDesignation: FamilyData?.FatherDesignation || "",
-        fatherDOB: FamilyData?.FatherDOB || "",
+        fatherDOB: formatDOB(FamilyData?.FatherDOB) || "",
         fatherPhoto: FamilyData?.FatherPhoto || "",
         fatherWeight: FamilyData?.FatherWeight || "",
         fatherHeight: FamilyData?.FatherHeight || "",
@@ -135,7 +163,7 @@ const FamilyDetails = ({ onTabChange }) => {
         motherOfficeName: FamilyData?.MotherOfficeName || "",
         motherOfficeAddress: FamilyData?.MotherOfficeAddress || "",
         motherDesignation: FamilyData?.MotherDesignation || "",
-        motherDOB: FamilyData?.MotherDOB || "",
+        motherDOB: formatDOB(FamilyData?.MotherDOB) || "",
         motherPhoto: FamilyData?.MotherPhoto || "",
         motherWeight: FamilyData?.MotherWeight || "",
         motherHeight: FamilyData?.MotherHeight || "",
@@ -163,6 +191,7 @@ const FamilyDetails = ({ onTabChange }) => {
         standard2: FamilyData?.StandardName2 || "",
       }));
     }
+    console.log(form, '🔲form');
   }, [GetStudentAdditionalDetails, USGetSingleStudentDetails]);
 
   //#endregion

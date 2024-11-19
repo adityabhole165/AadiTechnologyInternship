@@ -173,6 +173,25 @@ const PersonalDetails = ({ onTabChange }) => {
   //   dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
   // }, []);
 
+  //#region Date Formation
+  const formatDOB = (date) => {
+    try {
+      // Handle DD-MM-YYYY format with or without time
+      if (date.includes('-')) {
+        const [day, month, year] = date.split(' ')[0].split('-');
+        if (day.length === 2) {
+          return `${year}-${month}-${day}`;
+        }
+      }
+
+      // If already in YYYY-MM-DD format or needs conversion
+      const d = new Date(date);
+      return d.toISOString().split('T')[0];
+    } catch {
+      return '';
+    }
+  };//#endregion
+
   useEffect(() => {
     if ((USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) || (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0)) {
       const studentData = USGetSingleStudentDetails[0];
@@ -199,7 +218,7 @@ const PersonalDetails = ({ onTabChange }) => {
         religion: studentData.Religion || '',
         casteAndSubCaste: studentData.CasteAndSubCaste || '',
         category: studentData.Category_Id || '',
-        dateOfBirth: studentData.DOB || '',
+        dateOfBirth: formatDOB(studentData.DOB) || '',
         nationality: studentData.Nationality || '',
         motherTongue: studentData.Mother_Tongue || '',
         gender: studentData.Sex || '',
@@ -211,6 +230,7 @@ const PersonalDetails = ({ onTabChange }) => {
         photoFilePathImage: studentData.Photo_file_Path_Image || null
       }));
     }
+    console.log(form, 'form');
   }, [USGetSingleStudentDetails]);
 
 
@@ -798,7 +818,7 @@ const PersonalDetails = ({ onTabChange }) => {
             {form.dateOfBirth !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <Datepicker
-                  DateValue={SelectDate}
+                  DateValue={form.dateOfBirth}
                   onDateChange={onSelectDate}
                   size={'medium'}
                   label={'Date of Birth'} />

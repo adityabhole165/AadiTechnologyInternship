@@ -372,6 +372,10 @@ const StudentRegistrationForm = () => {
     }
     dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
 
+    const GetSchoolSettings: GetSchoolSettingsBody = {
+      asSchoolId: Number(schoolId),
+    };
+    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
   }, []);
   //#endregion
 
@@ -398,7 +402,7 @@ const StudentRegistrationForm = () => {
   const UpdateStudentResult = useSelector((state: RootState) => state.StudentUI.ISUpdateStudent);
   // console.log('🩸UpdateStudentResult:', UpdateStudentResult);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
-
+  console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
 
   const UpdateStudentBody: IUpdateStudentBody = {
     "asSchoolId": Number(localStorage.getItem('localSchoolId')),
@@ -581,14 +585,6 @@ const StudentRegistrationForm = () => {
     }
     //dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
   }, [UpdateStudentResult]);
-
-
-  useEffect(() => {
-    const GetSchoolSettings: GetSchoolSettingsBody = {
-      asSchoolId: Number(schoolId),
-    };
-    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
-  }, []);
 
   //#endregion
   const onSelectDate = (value) => {
@@ -782,16 +778,20 @@ const StudentRegistrationForm = () => {
             icon={<DocumentIcon />}
             label="Admission Documents"
           />
-          <Tab
-            sx={{ m: 2, maxWidth: 200 }}
-            icon={<FamilyRestroomIcon />}
-            label="Family Details"
-          />
-          <Tab
-            sx={{ m: 2, maxWidth: 200 }}
-            icon={<GroupAddIcon />}
-            label="Additional Details"
-          />
+          {UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable && (
+            <Tab
+              sx={{ m: 2, maxWidth: 200 }}
+              icon={<FamilyRestroomIcon />}
+              label="Family Details"
+            />
+          )}
+          {UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable && (
+            <Tab
+              sx={{ m: 2, maxWidth: 200 }}
+              icon={<GroupAddIcon />}
+              label="Additional Details"
+            />
+          )}
           <Tab
             sx={{ m: 2, maxWidth: 200, borderRadius: '100%' }}
             icon={<LocalLibraryIcon />}
