@@ -43,7 +43,7 @@ const StudentUISlice = createSlice({
         ISCheckIfAttendanceMarked: [],
         ISFeeAreaNames: [],
         //DELETE API's
-        IDeleteStudentPhoto: '',
+        ISDeleteStudentPhotoMsg: '',
         Loading: true
     },
     reducers: {
@@ -161,8 +161,12 @@ const StudentUISlice = createSlice({
             state.Loading = false;
         },
         RDeleteStudentPhoto(state, action) {
-            state.IDeleteStudentPhoto = action.payload;
+            state.ISDeleteStudentPhotoMsg = action.payload;
             state.Loading = false;
+        },
+        resetDeletePhotoMsg(state) {
+            state.Loading = false;
+            state.ISDeleteStudentPhotoMsg = '';
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -536,4 +540,7 @@ export const CDADeleteStudentPhoto =
             dispatch(StudentUISlice.actions.RDeleteStudentPhoto(response.data));
             //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
         };
+export const resetDeleteStudentPhoto = (): AppThunk => async (dispatch) => {
+    dispatch(StudentUISlice.actions.resetDeletePhotoMsg());
+};
 export default StudentUISlice.reducer;

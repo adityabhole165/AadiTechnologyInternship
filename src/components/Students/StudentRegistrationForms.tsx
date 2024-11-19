@@ -573,13 +573,14 @@ const StudentRegistrationForm = () => {
     //dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
   }, [UpdateStudentResult]);
 
-  const GetSchoolSettings: GetSchoolSettingsBody = {
-    asSchoolId: Number(schoolId),
-  };
-  useEffect(() => {
-    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
 
+  useEffect(() => {
+    const GetSchoolSettings: GetSchoolSettingsBody = {
+      asSchoolId: Number(schoolId),
+    };
+    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
   }, []);
+
   //#endregion
   const onSelectDate = (value) => {
     SetSelectDate(value);

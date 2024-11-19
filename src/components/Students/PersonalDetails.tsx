@@ -24,13 +24,14 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { FaCamera, FaRedo, FaStop } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Webcam from 'react-webcam';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IRemoveStudentPhotoBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDADeleteStudentPhoto } from 'src/requests/Students/RequestStudentUI';
+import { CDADeleteStudentPhoto, resetDeleteStudentPhoto } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
@@ -151,6 +152,8 @@ const PersonalDetails = ({ onTabChange }) => {
 
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   console.log(USGetSingleStudentDetails, '🔲USGetSingleStudentDetails');
+
+  const DeleteStudentPhotoMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteStudentPhotoMsg);
 
   // const GetStudentRecordDataResult: IMasterDatastudentBody = {
   //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -386,12 +389,19 @@ const PersonalDetails = ({ onTabChange }) => {
         },
         onConfirm: () => {
           dispatch(CDADeleteStudentPhoto(DeleteStudentPhotoBody));
-          handleDeletePhoto();                // delete photo
           closeAlert();
         },
       });
     }
   };
+
+  useEffect(() => {
+    if (DeleteStudentPhotoMsg !== '') {
+      toast.success(DeleteStudentPhotoMsg);
+      handleDeletePhoto();                // delete photo
+      dispatch(resetDeleteStudentPhoto());
+    }
+  }, [DeleteStudentPhotoMsg]);
 
   //#region File Upload
   const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
