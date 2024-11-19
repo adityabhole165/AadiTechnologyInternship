@@ -26,11 +26,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetSingleStudentDetailsBody, IMasterDatastudentBody, IRemoveStudentPhotoBody } from 'src/interfaces/Students/IStudentUI';
+import { IRemoveStudentPhotoBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDADeleteStudentPhoto, CDAGetMasterData, CDAGetSingleStudentDetails } from 'src/requests/Students/RequestStudentUI';
+import { CDADeleteStudentPhoto } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
@@ -152,22 +152,22 @@ const PersonalDetails = ({ onTabChange }) => {
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   console.log(USGetSingleStudentDetails, '🔲USGetSingleStudentDetails');
 
-  const GetStudentRecordDataResult: IMasterDatastudentBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asStandardId: standardId,
-    asDivisionId: DivisionId
-  };
-  const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
-  };
+  // const GetStudentRecordDataResult: IMasterDatastudentBody = {
+  //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  //   asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+  //   asStandardId: standardId,
+  //   asDivisionId: DivisionId
+  // };
+  // const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
+  //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  //   asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+  //   asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+  // };
 
-  useEffect(() => {
-    dispatch(CDAGetMasterData(GetStudentRecordDataResult));
-    dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(CDAGetMasterData(GetStudentRecordDataResult));
+  //   dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
+  // }, []);
 
   useEffect(() => {
     if (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) {

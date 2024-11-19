@@ -34,11 +34,11 @@ import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import { IGetFormNumberBody, IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
-import { IAddStudentAdditionalDetailsBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IMasterDatastudentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStudentAdditionalDetailsBody, IMasterDatastudentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
-import { CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
+import { CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails, CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
@@ -330,13 +330,6 @@ const StudentRegistrationForm = () => {
 
   //#region Read APIs.
   useEffect(() => {
-    const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
-      asSchoolId: Number(localStorage.getItem('localSchoolId')),
-      asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-      asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
-    };
-    dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
-
     const GetStudentRecordDataResult: IMasterDatastudentBody = {
       asSchoolId: Number(localStorage.getItem('localSchoolId')),
       asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
@@ -345,10 +338,25 @@ const StudentRegistrationForm = () => {
     };
     dispatch(CDAGetMasterData(GetStudentRecordDataResult));
 
+    const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+      asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+    };
+    dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
+
+    const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+      asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+    };
+    dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody));
+
     const FeeAreaNamesBody: IGetFeeAreaNamesBody = {
       asSchoolId: Number(localStorage.getItem('localSchoolId')),
     };
     dispatch(CDAFeeAreaNames(FeeAreaNamesBody));
+
     const FormNumberBody: IGetFormNumberBody = {
       asSchoolId: Number(localStorage.getItem('localSchoolId')),
       asStudentId: 3556

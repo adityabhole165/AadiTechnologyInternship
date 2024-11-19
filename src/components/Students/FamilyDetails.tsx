@@ -14,10 +14,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import { IGetStudentAdditionalDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { CDAGetStudentAdditionalDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
@@ -91,15 +89,15 @@ const FamilyDetails = ({ onTabChange }) => {
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   console.log('GetStudentAdditionalDetails FAMILY', GetStudentAdditionalDetails);
 
-  const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {
-    asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-    asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
-  };
+  // const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {
+  //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  //   //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+  //   asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+  // };
 
-  useEffect(() => {
-    dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody));
+  // }, []);
 
   useEffect(() => {
     if (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) {
