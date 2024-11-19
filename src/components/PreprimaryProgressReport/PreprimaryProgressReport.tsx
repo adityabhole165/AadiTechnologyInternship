@@ -4,7 +4,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetProgressReportDetailsBody, GetStudentDetailsDropdownBody, IGetAllPrimaryClassTeacherssBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
@@ -136,7 +136,7 @@ const PreprimaryProgressReport = () => {
         return counts;
     };
 
-
+    const printRef = useRef<HTMLDivElement>(null);
     const clickPrint = () => {
         let hasError = false;
 
@@ -150,9 +150,53 @@ const PreprimaryProgressReport = () => {
             hasError = true;
         }
 
-        if (!hasError) {
-            window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
-        }
+       
+        if (printRef.current && !hasError) {
+            const printContent = printRef.current.innerHTML;
+            const printWindow = window.open('', '', 'height=600,width=800');
+            const styles = `
+            <style>
+              body {
+                font-family: 'Roboto', sans-serif;
+                margin: 0;
+                padding: 20px;
+              }
+              h1, h2, h3, h4 {
+                margin: 0 0 10px;
+      
+              }
+              table {
+              
+                width: 100%;
+                border-collapse: collapse;
+              }
+                
+              table, th, td {
+                border: 1px solid black;
+              
+              }
+              th, td {
+                padding: 8px;
+                text-align: center;
+                  
+              }
+              .MuiTypography-root {
+                font-family: 'Roboto', sans-serif;
+                 width:60px;
+              }
+              .MuiTableCell-root {
+                font-family: 'Roboto', sans-serif;
+                 width:60px;
+              }
+            </style>
+          `;
+            printWindow.document.write('<html><head><title>Print</title>' + styles + '</head><body>');
+            printWindow.document.write(printContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+          }
+
     };
 
 
@@ -311,7 +355,7 @@ const PreprimaryProgressReport = () => {
                             <b>Assessment result is not available for this student.</b>
                         </Typography>
                     ) : (
-                        <Box>
+                        <Box ref={printRef}>
                             {USFillStudentDetails.length > 0 ? (
                                 USFillStudentDetails.map((detail) => (
                                     <Box key={detail.YearWiseStudentId} border="1px solid grey" mb={4} sx={{ px: 2, background: 'white' }}>
