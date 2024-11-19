@@ -579,9 +579,7 @@ const AddReciepents = ({
                     </Grid>
                     {MessageCenterFullAccess === 'Y' && (
                       <Grid item xs={6} sm={12}>
-                        <Box
-                          sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
-                        >
+                        <Box sx={{ borderColor: 'grey.300' }}>
                           <ListSelect Itemlist={entireSchool} onChange={onChange} />
                         </Box>
                       </Grid>
