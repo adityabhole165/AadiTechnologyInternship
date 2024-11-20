@@ -60,6 +60,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const [ErrorSelectedUser, setErrorSelectedUser] = useState('');
   const [ErrorGroupName, setErrorGroupName] = useState('');
   const [ErrorTypeName, setErrorTypeName] = useState('');
+  const [ErrorGroupNameExists, setErrorGroupNameExists] = useState('');
   const [SearchByUserName, setSearchByUserName] = useState('');
   const [SearchUser, setSearchUser] = useState([]);
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -70,7 +71,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [SortBy, setSortBy] = useState('Name');
 
-
+  const USContactGroup: any = useSelector((state: RootState) => state.ContactGroup.IContactGroups);
   const USContactGroupUserRoles: any = useSelector((state: RootState) => state.ContactGroup.IContactGroupUserRoles);
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
   const USGetStandardClass: any = useSelector((state: RootState) => state.ContactGroup.IGetStandardClass);
@@ -174,46 +175,83 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     asUpdateSelectXML += "\r\n</MailingGroup>";
     return asUpdateSelectXML;
   }
-
   const clickConfirm = async () => {
     try {
-
       let isValid = true;
+
+      // Reset error messages
+      setErrorGroupName('');
+      setErrorUserRole('');
+      setErrorSelectedUser('');
+      setErrorGroupNameExists('');
+
+      // Check for empty fields
       if (!GroupName || !selectedd || !selected) {
         setErrorTypeName('Please correct following errors.');
         isValid = false;
       }
+
+      // Validate Group Name not blank
       if (!GroupName.trim()) {
         setErrorGroupName('Group Name should not be blank.');
         isValid = false;
-      } else {
-        setErrorGroupName('');
       }
+
+      // Validate if Group Name already exists
+      if (await isGroupNameExists(GroupName)) {
+        setErrorGroupNameExists('Group Name already exists.');
+        isValid = false;
+      }
+
+      // Validate user role selection
       if (selectedd.length === 0) {
         setErrorUserRole("At least one applicable role should be selected.");
         isValid = false;
-      } else {
-        setErrorUserRole('');
       }
+
+      // Validate selected users
       if (selected.length === 0) {
         setErrorSelectedUser("At least one user should be selected for the Group.");
         isValid = false;
-      } else {
-        setErrorSelectedUser('');
       }
+
+      // If validation fails, stop the process
       if (!isValid) return;
+
+      // Prepare data to save
       const SaveContactGroup = {
         asSchoolId: Number(schoolId),
         asAcademicYearId: Number(academicYearId),
         asMailingGroupXML: getXML(),
       };
+
+      // Dispatch action to save the group
       await dispatch(CDAaddUpdateGroup(SaveContactGroup));
       dispatch(resetAddUpdateGroup());
       dispatch(ContactGroup(ContactgroupBody));
+
     } catch (error) {
       console.error(error);
     }
   };
+
+  // Mock function to check if group name already exists
+  // You would replace this with an actual API call
+  const isGroupNameExists = async (groupName) => {
+
+    try {
+
+      const existingGroupNames = [USContactGroup.map(GroupName)];
+      console.log(existingGroupNames, "pppppppppppppp") // Replace with actual data
+      return existingGroupNames.includes(groupName.trim());
+    } catch (error) {
+      console.error('Error checking group name:', error);
+      return false; // Assume name doesn't exist on error
+    }
+
+  };
+
+
   useEffect(() => {
     if (USAddUpdateGroup) {
       if (typeof USAddUpdateGroup === 'string') {
@@ -226,6 +264,60 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       }
     }
   }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected]);
+
+
+  // const clickConfirm = async () => {
+  //   try {
+
+  //     let isValid = true;
+  //     if (!GroupName || !selectedd || !selected) {
+  //       setErrorTypeName('Please correct following errors.');
+  //       isValid = false;
+  //     }
+  //     if (!GroupName.trim()) {
+  //       setErrorGroupName('Group Name should not be blank.');
+  //       isValid = false;
+  //     } else {
+  //       setErrorGroupName('');
+  //     }
+  //     if (selectedd.length === 0) {
+  //       setErrorUserRole("At least one applicable role should be selected.");
+  //       isValid = false;
+  //     } else {
+  //       setErrorUserRole('');
+  //     }
+  //     if (selected.length === 0) {
+  //       setErrorSelectedUser("At least one user should be selected for the Group.");
+  //       isValid = false;
+  //     } else {
+  //       setErrorSelectedUser('');
+  //     }
+  //     if (!isValid) return;
+  //     const SaveContactGroup = {
+  //       asSchoolId: Number(schoolId),
+  //       asAcademicYearId: Number(academicYearId),
+  //       asMailingGroupXML: getXML(),
+  //     };
+  //     await dispatch(CDAaddUpdateGroup(SaveContactGroup));
+  //     dispatch(resetAddUpdateGroup());
+  //     dispatch(ContactGroup(ContactgroupBody));
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (USAddUpdateGroup) {
+  //     if (typeof USAddUpdateGroup === 'string') {
+  //       if (USAddUpdateGroup.toLowerCase().includes('success')) {
+  //         toast.success(USAddUpdateGroup);
+  //         onClose();
+  //       } else {
+  //         toast.error(USAddUpdateGroup);
+  //       }
+  //     }
+  //   }
+  // }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected]);
 
   const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -337,6 +429,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
             <ErrorMessage1 Error={ErrorGroupName}></ErrorMessage1>
             <ErrorMessage1 Error={ErrorSelectedUser}></ErrorMessage1>
             <ErrorMessage1 Error={ErrorUserRole}></ErrorMessage1>
+            <ErrorMessage1 Error={ErrorGroupNameExists}></ErrorMessage1>
           </Grid>
         </Grid>
 

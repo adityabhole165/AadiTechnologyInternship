@@ -549,13 +549,8 @@ const AddReciepents = ({
 
         </Grid>
         <>
-          {RoleId === '6' && (
-            <Box
-              sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
-            >
-              <ListSelect Itemlist={entireSchool} onChange={onChange} />
-            </Box>
-          )}
+
+
           {show === true ? (
             <>
               <Grid container spacing={2}>
@@ -580,10 +575,22 @@ const AddReciepents = ({
                           isSingleSelect={true}
                         />
                       </Box>
-                      {/* </Card> */}
+
                     </Grid>
+                    {MessageCenterFullAccess === 'Y' && (
+                      <Grid item xs={6} sm={12}>
+                        <Box
+                          sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
+                        >
+                          <ListSelect Itemlist={entireSchool} onChange={onChange} />
+                        </Box>
+                      </Grid>
+                    )}
+
                   </Grid>
                 </Grid>
+
+
                 <Grid item xs={12} sm={6}>
                   {techerStudent1 === '3' && (
                     // <DropdownofAddrecipent
