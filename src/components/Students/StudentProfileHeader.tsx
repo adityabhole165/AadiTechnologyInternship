@@ -62,7 +62,7 @@ const StudentProfileHeader: React.FC = () => {
             </Grid>
 
             {/* Right Side - Confirmation and Update Info */}
-            <Grid item xs={6} sm={4} container direction="column" justifyContent="flex-start" alignItems="flex-center">
+            <Grid item xs={6} sm={4} container direction="column" justifyContent="flex-start" alignItems="flex-start">
                 {showConfirmedByName ? (
                     <>
                         {/* {ConfirmedByText && (

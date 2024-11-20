@@ -13,6 +13,7 @@ const StudentUISlice = createSlice({
         ISLanguageDropdown: [],
         ISSecondlang: [],
         ISThirdLang: [],
+        ISDisabilitiesDropdown: [],
         ISResidenceTypesDropdown: [],
         //
         ISUserRoles: [],
@@ -61,6 +62,10 @@ const StudentUISlice = createSlice({
         },
         RFeeRuleConcession(state, action) {
             state.ISFeeRuleConcession = action.payload;
+            state.Loading = false;
+        },
+        RDisabilitiesDropdown(state, action) {
+            state.ISDisabilitiesDropdown = action.payload;
             state.Loading = false;
         },
         RResidenceTypesDropdown(state, action) {
@@ -365,9 +370,15 @@ export const CDAGetMasterData =
             dispatch(StudentUISlice.actions.RSecondLang(SecondLangData));
             dispatch(StudentUISlice.actions.RThirdLang(ThirdLangData));
 
-            //console.log(LanguageDropdown, "LanguageDropdown");
-            //console.log(SecondLangData, "SecondLangData");
-            // console.log(ThirdLangData, "ThirdLangData");
+            let DisabilitiesDropdown = []
+            response.data.DisabilitiesDropdown.map((item, i) => {
+                DisabilitiesDropdown.push({
+                    Id: item.Id,
+                    Name: item.CategoryName,
+                    Value: item.Id
+                });
+            });
+            dispatch(StudentUISlice.actions.RDisabilitiesDropdown(DisabilitiesDropdown));
 
             let ResidenceTypesDropdown = []
             response.data.ResidenceTypesDropdown.map((item, i) => {

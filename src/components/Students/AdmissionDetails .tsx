@@ -72,6 +72,7 @@ const AdmissionDetails = ({ onTabChange }) => {
   });
 
   const FeeAreaNamesDrop = useSelector((state: RootState) => state.StudentUI.ISFeeAreaNames);
+  const DisabilitiesDropdown = useSelector((state: RootState) => state.StudentUI.ISDisabilitiesDropdown);
   const ResidenceTypesDropdown = useSelector((state: RootState) => state.StudentUI.ISResidenceTypesDropdown);
   const FeeRuleConcession = useSelector((state: RootState) => state.StudentUI.ISFeeRuleConcession);
   //Second & Third Land Dropdown
@@ -86,6 +87,11 @@ const AdmissionDetails = ({ onTabChange }) => {
 
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
+
+  const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+  const IsRTEApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsRTEApplicable || false;
+  const ShowDayBoardingOptionOnStudentsScreen = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowDayBoardingOptionOnStudentsScreen || false;
+
   //console.log(GetFromNumber, 'GetFromNumber');
 
   // const GetStudentRecordDataResult: IMasterDatastudentBody = {
@@ -363,6 +369,7 @@ const AdmissionDetails = ({ onTabChange }) => {
                 name="newAdmission"
                 checked={form.newAdmission}
                 onChange={handleInputChange}
+                disabled={true} // Checkbox is always disabled
               />
             }
             label="New Admission"
@@ -375,6 +382,7 @@ const AdmissionDetails = ({ onTabChange }) => {
                 name="isRTEApplicable"
                 checked={form.isRTEApplicable}
                 onChange={handleInputChange}
+                disabled={true} // Checkbox is always disabled
               />
             }
             label="Is RTE Applicable?"
@@ -383,7 +391,16 @@ const AdmissionDetails = ({ onTabChange }) => {
         {form.isRTEApplicable && (
           <Grid container spacing={2} pt={2} pl={2}>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <TextField
+              <SearchableDropdown
+                sx={{ minWidth: '300px' }}
+                ItemList={IsRTEApplicable ? DisabilitiesDropdown : []}
+                onChange={(value) => handleDropdownChange('rteCategory', IsRTEApplicable ? value : '0')}
+                defaultValue={form.rteCategory}
+                label={'RTE Category'}
+                size={'medium'}
+                disabled={!IsRTEApplicable} // Checkbox is always disabled
+              />
+              {/* <TextField
                 name="rteCategory"
                 label="RTE Category"
                 value={form.rteCategory}
@@ -398,7 +415,7 @@ const AdmissionDetails = ({ onTabChange }) => {
                       ? 'lightblue'
                       : 'inherit'
                 }}
-              />
+              /> */}
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
@@ -418,6 +435,7 @@ const AdmissionDetails = ({ onTabChange }) => {
                       ? 'lightblue'
                       : 'inherit'
                 }}
+                disabled={!IsRTEApplicable}
               />
             </Grid>
             <Grid item xs={6} mt={1.5}>
@@ -478,7 +496,7 @@ const AdmissionDetails = ({ onTabChange }) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <Datepicker
-            DateValue={SelectDate}
+            DateValue={form.admissionDate}
             onDateChange={onSelectDate}
             // label={'Start Date'}
             size={'medium'}
@@ -506,7 +524,7 @@ const AdmissionDetails = ({ onTabChange }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <Datepicker
-            DateValue={SelectDate}
+            DateValue={form.joiningDate}
             onDateChange={onSelectDate}
             // label={'Start Date'}
             size={'medium'}
@@ -734,18 +752,20 @@ const AdmissionDetails = ({ onTabChange }) => {
             label="Is Minority?"
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="isForDayBoarding"
-                checked={form.isForDayBoarding}
-                onChange={handleInputChange}
-              />
-            }
-            label="Is For Day Boarding?"
-          />
-        </Grid>
+        {ShowDayBoardingOptionOnStudentsScreen ? (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="isForDayBoarding"
+                  checked={form.isForDayBoarding}
+                  onChange={handleInputChange}
+                />
+              }
+              label="Is For Day Boarding?"
+            />
+          </Grid>
+        ) : (setForm((prevForm) => ({ ...prevForm, isForDayBoarding: false })))}
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={

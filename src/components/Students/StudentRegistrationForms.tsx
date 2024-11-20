@@ -115,7 +115,7 @@ interface RAdmissionDetails {
   registrationNumber?: string;
   residenceTypes?: string;
   rteApplicationForm?: string;
-  rteCategory?: number;
+  rteCategory?: string;
   saralNo?: string;
   secondlanguage?: string;
   sendSMS?: boolean;
@@ -472,7 +472,7 @@ const StudentRegistrationForm = () => {
     "asHeight": 0,
     "asWeight": 0,
     "asUpdated_By_id": Number(teacherId),
-    "asRTECategoryId": admissionDetailsData?.rteCategory || 0,
+    "asRTECategoryId": Number(admissionDetailsData?.rteCategory) || 0,
     "asSecondLanguageSubjectId": admissionDetailsData?.secondlanguage || "",
     "asThirdLanguageSubjectId": admissionDetailsData?.thirdlanguage || "",
     "asIsForDayBoarding": admissionDetailsData?.isForDayBoarding === false ? false : true,
