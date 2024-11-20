@@ -72,6 +72,7 @@ const PersonalDetails = ({ onTabChange }) => {
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
   const { AssignedDate } = useParams();
+  console.log(AssignedDate, 'sfsdfds')
   const [form, setForm] = useState({
     firstName: '',
     middleName: '',
@@ -156,6 +157,8 @@ const PersonalDetails = ({ onTabChange }) => {
 
   const DeleteStudentPhotoMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteStudentPhotoMsg);
 
+  const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+  const compareAgeTillDate = UsGetSchoolSettings?.GetSchoolSettingsResult?.CompareAgeTillDate || '';
   // const GetStudentRecordDataResult: IMasterDatastudentBody = {
   //   asSchoolId: Number(localStorage.getItem('localSchoolId')),
   //   asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
@@ -190,7 +193,25 @@ const PersonalDetails = ({ onTabChange }) => {
     } catch {
       return '';
     }
-  };//#endregion
+  };
+  const calculateAge = (dob: string, tillDate: string): string => {
+    if (!dob || !tillDate) return '';
+
+    const birthDate = new Date(dob);
+    const compareDate = new Date(tillDate);
+
+    let years = compareDate.getFullYear() - birthDate.getFullYear();
+    let months = compareDate.getMonth() - birthDate.getMonth();
+
+    if (months < 0) {
+      years -= 1;
+      months += 12;
+    }
+
+    return `${years} Year(s) ${months} Month(s)`;
+  };
+
+  //#endregion
 
   useEffect(() => {
     if ((USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) || (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0)) {
@@ -263,6 +284,8 @@ const PersonalDetails = ({ onTabChange }) => {
     }));
     setErrors((prev) => ({ ...prev, [name]: false }));
   };
+
+  const age = form.dateOfBirth ? calculateAge(form.dateOfBirth, compareAgeTillDate) : '';
 
   //#region WebCam/StPhoto 
   const [open, setOpen] = useState(false);
@@ -819,7 +842,7 @@ const PersonalDetails = ({ onTabChange }) => {
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <Datepicker
                   DateValue={form.dateOfBirth}
-                  onDateChange={onSelectDate}
+                  onDateChange={handleInputChange}
                   size={'medium'}
                   label={'Date of Birth'} />
                 {/* <TextField
@@ -840,6 +863,15 @@ const PersonalDetails = ({ onTabChange }) => {
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                 />*/}
+                {compareAgeTillDate && (
+                  <Typography variant="body2" sx={{ marginTop: '8px', color: 'gray' }}>
+                    {age} till {new Date(compareAgeTillDate).toLocaleDateString('en-GB', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: '2-digit',
+                    })}
+                  </Typography>
+                )}
               </Grid>
             )}
             {/* Remaining Fields */}
