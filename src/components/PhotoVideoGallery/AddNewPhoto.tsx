@@ -175,7 +175,7 @@ const AddNewPhoto = () => {
         }
       />
       <Box padding={2} sx={{ backgroundColor: "white" }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           Photo Gallery Details
         </Typography>
         <Grid container spacing={2}>
