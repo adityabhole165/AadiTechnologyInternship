@@ -123,7 +123,7 @@ const ViewPhotoFile = () => {
                     // Mobile/Tablet View (Card View)
                     <Grid container spacing={2}>
                         {photos.map((photo) => (
-                            <Grid item xs={12} sm={6} key={photo.id}>
+                            <Grid item xs={12} sm={4} key={photo.id}>
                                 <Card>
                                     <CardMedia
                                         component="img"
