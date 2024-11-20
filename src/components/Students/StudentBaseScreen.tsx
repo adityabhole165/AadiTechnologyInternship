@@ -311,6 +311,7 @@ const StudentBaseScreen = () => {
                                                                                 YearWise_Student_Id: item.Text12,
                                                                                 SchoolWise_Student_Id: item.Text13,
                                                                                 StandardDivision_Id: item.Text14,
+                                                                                Enrolment_Number: item.Text3,
                                                                             }
                                                                         })} />
                                                                 </Tooltip>

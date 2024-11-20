@@ -212,7 +212,9 @@ interface RStreamwiseSubjectDetails {
 const StudentRegistrationForm = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
+  const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id, Enrolment_Number } = location.state || {};
+  console.log('LOcation', location.state);
+
   // Session & Local Variables
   const schoolId = localStorage.getItem('SchoolId');
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -332,6 +334,11 @@ const StudentRegistrationForm = () => {
 
   //#region Read APIs.
   useEffect(() => {
+    const GetSchoolSettings: GetSchoolSettingsBody = {
+      asSchoolId: Number(schoolId),
+    };
+    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+
     const GetStudentRecordDataResult: IMasterDatastudentBody = {
       asSchoolId: Number(localStorage.getItem('localSchoolId')),
       asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
@@ -372,10 +379,6 @@ const StudentRegistrationForm = () => {
     }
     dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
 
-    const GetSchoolSettings: GetSchoolSettingsBody = {
-      asSchoolId: Number(schoolId),
-    };
-    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
   }, []);
   //#endregion
 
