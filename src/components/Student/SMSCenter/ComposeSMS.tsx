@@ -864,6 +864,25 @@ const ComposeSMSform = () => {
                     }}
                 >
                     <DialogTitle sx={{ bgcolor: '#223354' }}>
+                        <Tooltip
+                            title={
+                                'Select name of the teacher / student / admin staff / other staff and click on " Confirm " button.'
+                            }
+                            placement="bottom-end"
+                        >
+                            <QuestionMark
+                                sx={{
+                                    color: 'white',
+                                    // background:'white',
+                                    borderRadius: '10px',
+                                    position: 'absolute',
+                                    top: '4px',
+                                    right: '35px',
+                                    cursor: 'pointer',
+                                    '&:hover': { backgroundColor: grey[600] }
+                                }}
+                            />
+                        </Tooltip>
                         <ClearIcon onClick={handleCloseDialog}
                             sx={{
                                 color: 'white',
