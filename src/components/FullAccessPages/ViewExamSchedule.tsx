@@ -3,6 +3,7 @@ import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { GetStandardRes, NewExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
@@ -154,74 +155,80 @@ const ViewExamSchedule = () => {
                                     padding: 0.5,
                                     backgroundColor: 'whitesmoke',
                                     border: '1px solid #d3d3d3',
-                                    borderRadius: '4px',
+                                    borderRadius: '2px',
                                     cursor: 'pointer',
                                     mt: 1, // Reduced margin-top
                                 }}
                                 onClick={() => toggleAccordion(index)}
                             >
-                                <Box sx={{ width: '10px', height: '10px', p: 0.5, border: '1px solid black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <Typography sx={{ color: 'black', fontSize: '16px', fontWeight: 'bold', p: 0.5 }}>
-                                        {expandedCardIndex === index ? '-' : '+'}
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex' }}>
-                                    <Typography variant="h6" sx={{ color: 'red', ml: 1 }}>
-                                        <b>{exam.Text1}</b>
-                                    </Typography>
-                                    <Typography variant="h6" sx={{ ml: 1 }}>
-                                        <b>{formatDate(exam.Text3)} To {formatDate(exam.Text4)}</b>
-                                    </Typography>
+                                <Box sx={{ display: 'flex', alignItems: 'center', pl: 0.5 }}>
+                                    <Box sx={{ width: '10px', height: '10px', p: 0.5, border: '1px solid black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Typography sx={{ color: 'Black', fontSize: '16px', fontWeight: 'bold', p: 1 }}>
+                                            {expandedCardIndex === index ? '-' : '+'}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ display: 'flex' }}>
+                                        <Typography variant="h6" sx={{ color: 'red', ml: 1 }}>
+                                            <b>{exam.Text1}</b>
+                                        </Typography>
+                                        <Typography variant="h6" sx={{ ml: 1 }}>
+                                            <b>{formatDate(exam.Text3)} To {formatDate(exam.Text4)}</b>
+                                        </Typography>
+                                    </Box>
                                 </Box>
                             </Box>
 
                             {expandedCardIndex === index ? (
-                                <TableContainer component={Box} sx={{ width: '100%', overflowX: 'auto' }}>
-                                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
-                                        <TableHead>
-                                            <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white, py: 1 }}>
-                                                <TableCell sx={{ color: 'white' }}><strong>Exam Date</strong></TableCell>
-                                                <TableCell sx={{ color: 'white' }}><strong>Subject</strong></TableCell>
-                                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>Exam Type</strong></TableCell>
-                                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>Start Time</strong></TableCell>
-                                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>End Time</strong></TableCell>
-                                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>Total Time</strong></TableCell>
-                                                <TableCell sx={{ textAlign: 'left', color: 'white' }}><strong>Description</strong></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
+                                <Box sx={{ background: 'white', p: 1 }}>
+                                    {loading ? (
+                                        <SuspenseLoader />
+                                    ) : (
+                                        <TableContainer component={Box} sx={{ width: '100%', overflowX: 'auto' }}>
+                                            <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
+                                                <TableHead>
+                                                    <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white, py: 1 }}>
+                                                        <TableCell sx={{ color: 'white' }}><strong>Exam Date</strong></TableCell>
+                                                        <TableCell sx={{ color: 'white' }}><strong>Subject</strong></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>Exam Type</strong></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>Start Time</strong></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>End Time</strong></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>Total Time</strong></TableCell>
+                                                        <TableCell sx={{ textAlign: 'left', color: 'white' }}><strong>Description</strong></TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
 
-                                            {filteredSubList.map((item, idx) => (
-                                                <TableRow key={idx} sx={{ '& > *': { textAlign: 'center', pl: 0, pb: 0, py: 1 } }}>
-                                                    <TableCell sx={{ textAlign: 'left', pl: 1, py: 1 }}>{getDateMonthYear(item.Text5) || '-'}</TableCell>
-                                                    <TableCell sx={{ textAlign: 'left', py: 1 }}>{item.Text2 || '-'}</TableCell>
-                                                    <TableCell sx={{ textAlign: item.Text4 ? 'left' : 'center', py: 1 }}>{item.Text4 || '-'}</TableCell>
-                                                    <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text5) || '-'}</TableCell>
-                                                    <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text6) || '-'}</TableCell>
-                                                    <TableCell sx={{ textAlign: 'center', py: 1 }}>{item.TotalTime || '-'}</TableCell>
-                                                    <TableCell sx={{ textAlign: 'left', py: 1, ...(item.Description ? '' : { pl: 6 }) }}> {(item.Description ? item.Description.replace(/<\/?BR>/gi, '') : '-') || '-'}</TableCell>
-                                                </TableRow>
+                                                    {filteredSubList.map((item, idx) => (
+                                                        <TableRow key={idx} sx={{ '& > *': { textAlign: 'center', pl: 0, pb: 0, py: 1 } }}>
+                                                            <TableCell sx={{ textAlign: 'left', pl: 1, py: 1 }}>{getDateMonthYear(item.Text5) || '-'}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'left', py: 1 }}>{item.Text2 || '-'}</TableCell>
+                                                            <TableCell sx={{ textAlign: item.Text4 ? 'left' : 'center', py: 1 }}>{item.Text4 || '-'}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text5) || '-'}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text6) || '-'}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', py: 1 }}>{item.TotalTime || '-'}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'left', py: 1, ...(item.Description ? '' : { pl: 6 }) }}> {(item.Description ? item.Description.replace(/<\/?BR>/gi, '') : '-') || '-'}</TableCell>
+                                                        </TableRow>
 
-                                            ))}
-                                            <TableRow>
-                                                <TableCell colSpan={7} sx={{ py: 1, textAlign: 'left' }}>
-                                                    <strong>Instruction: </strong>
-                                                    {Instructions.replace(/<\/?br\s*\/?>/gi, ' ') || '-'}
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
+                                                    ))}
+                                                    <TableRow>
+                                                        <TableCell colSpan={7} sx={{ py: 1, textAlign: 'left' }}>
+                                                            <strong>Instruction: </strong>
+                                                            {Instructions.replace(/<\/?br\s*\/?>/gi, ' ') || '-'}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableBody>
+                                            </Table>
 
-                                </TableContainer>
-
+                                        </TableContainer>
+                                    )}
+                                </Box>
                             ) : null}
                         </Box>
+
                     ) : null;
                 })
             )}
-
-        </Box >
-
+        </Box>
     );
 };
 
