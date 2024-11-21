@@ -97,6 +97,11 @@ export const CDAGenerateTransportFeeEntries =
         async (dispatch) => {
             const response = await APIStudentDetails.GetGenerateTransportFeeEntriesBody(data);
             dispatch(GetStandardwiseMinMaxDOBslice.actions.GetGenerateTransportFeeEntries(response.data));
+            if (response.status === 200) {
+                // The API call was successful
+                console.log('4️⃣CDAGenerateTransportFeeEntries');
+                console.log('Response data:', response.data);
+            }
         };
 
 export const GetFormNumber =

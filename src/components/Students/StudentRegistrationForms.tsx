@@ -32,12 +32,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import { IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import { IGenerateTransportFeeEntriesBody, IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
 import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
-import { GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
-import { CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails, CDARetriveStudentStreamwiseSubject, CDAUpdateStudent } from 'src/requests/Students/RequestStudentUI';
+import { CDAGenerateTransportFeeEntries, GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
+import { CDAAddStudentAdditionalDetails, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails, CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
@@ -238,6 +238,7 @@ const StudentRegistrationForm = () => {
   });
 
   const [profileCompletion, setProfileCompletion] = useState(0);
+  const [validationMessages, setValidationMessages] = useState<string[]>([]);
 
   const [admissionDetailsData, setAdmissionDetailsData] = useState<RAdmissionDetails>({});
   const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
@@ -274,6 +275,7 @@ const StudentRegistrationForm = () => {
       requiredFields = ['fatherDOB', 'motherDOB', 'marriageAnniversaryDate'];
     }
 
+    const unfilledFields = requiredFields.filter((field) => !data[field]);
     // Count completed fields
     const completedFields = requiredFields.filter((field) => !!data[field]).length;
 
@@ -285,6 +287,8 @@ const StudentRegistrationForm = () => {
       ...prev,
       [tabName]: completionPercentage,
     }));
+
+    return { unfilledFields, tabName };
   };
 
   useEffect(() => {
@@ -299,6 +303,31 @@ const StudentRegistrationForm = () => {
     calculateCompletion('family', familyDetailsData);
   }, []); // Runs only on the initial mount
 
+  //#region Validation
+  const handleValidation = () => {
+    const allMessages = [];
+
+    const admissionValidation = calculateCompletion('admission', admissionDetailsData);
+    const personalValidation = calculateCompletion('personal', personalDetailsData);
+    const familyValidation = calculateCompletion('family', familyDetailsData);
+
+    // Collect unfilled fields for each tab
+    [admissionValidation, personalValidation, familyValidation].forEach(({ unfilledFields, tabName }) => {
+      unfilledFields.forEach((field) => {
+        allMessages.push(`"${field}" is missing in ${tabName} tab.`);
+      });
+    });
+
+    // Update validation messages state
+    setValidationMessages(allMessages);
+
+    // Return true if there are no unfilled fields
+    return allMessages.length === 0;
+  };
+
+  // useEffect(() => {
+  //   handleValidation();
+  // }, [admissionDetailsData, personalDetailsData, familyDetailsData]);
 
   const handleSave = (isSuccessful: boolean) => {
     if (currentTab === 0) {
@@ -635,17 +664,85 @@ const StudentRegistrationForm = () => {
     OptSubjectOne: Number(streamwiseSubjectData?.optionalSubject1) || 0,
     OptSubjectTwo: Number(streamwiseSubjectData?.optionalSubject2) || 0,
   }
-  const handleUpdate = () => {
-    console.log('Sending update with data:', UpdateStudentBody);
 
-    dispatch(CDAUpdateStudent(UpdateStudentBody));
-    //❌SHUTING DOWN API CALLS TEMPORARILY
-    // dispatch(CDAAddStudentAdditionalDetails(AddStudentAdditionalDetailsBody));
-    // dispatch(CDAUpdateStudentStreamwiseSubjectDetails(UpdateStudentStreamwiseSubjectDetailsBody));
-
-    //console.log('Saving data:', personalDetails);
-    // dispatch(CDAGenerateTransportFeeEntries({ asSchoolId: Number(schoolId), asAcademicYearId: Number(academicYearId), asStudentId: Number(SchoolWise_Student_Id), asUpdatedById: Number(teacherId) }));
+  const transportFeeBody: IGenerateTransportFeeEntriesBody = {
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asStudentId: Number(SchoolWise_Student_Id),
+    asUpdatedById: Number(teacherId),
   };
+
+  const executeApiCalls = async (updateStudentBody, additionalDetailsBody, streamwiseSubjectDetailsBody, transportFeeBody) => {
+    try {
+      // Update Student Details
+      console.log('Sending update with data:', updateStudentBody);
+      await dispatch(CDAUpdateStudent(updateStudentBody));
+
+      // Add Additional Student Details
+      if (additionalDetailsBody) {
+        console.log('Sending additional details:', additionalDetailsBody);
+        await dispatch(CDAAddStudentAdditionalDetails(additionalDetailsBody));
+      }
+
+      // Update Streamwise Subject Details
+      if (streamwiseSubjectDetailsBody) {
+        console.log('Updating streamwise subject details:', streamwiseSubjectDetailsBody);
+        await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(streamwiseSubjectDetailsBody));
+      }
+
+      // Generate Transport Fee Entries
+      if (transportFeeBody) {
+        console.log('Generating transport fee entries:', transportFeeBody);
+        await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
+      }
+
+      console.log('API calls completed successfully.');
+    } catch (error) {
+      console.error('Error during API calls:', error);
+    }
+  };
+
+  const handleFormSubmission = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    // Validate the form
+    const isFormValid = handleValidation();
+
+    if (!isFormValid) {
+      console.log('😶 Form submission halted due to validation errors.');
+      return;
+    }
+
+    // Validation passed, proceed with API calls
+    try {
+      console.log('Validation passed! Proceeding with API calls...');
+
+      await executeApiCalls(
+        UpdateStudentBody,
+        AddStudentAdditionalDetailsBody,
+        UpdateStudentStreamwiseSubjectDetailsBody,
+        transportFeeBody,
+      );
+
+      // Success message or further actions
+      console.log('✅ Form submitted successfully with all API calls completed!');
+    } catch (error) {
+      console.error('🚨 Error during form submission or API calls:', error);
+    }
+  };
+
+
+  // const handleUpdate = () => {
+  //   console.log('Sending update with data:', UpdateStudentBody);
+
+  //   dispatch(CDAUpdateStudent(UpdateStudentBody));
+  //   //❌SHUTING DOWN API CALLS TEMPORARILY
+  //   dispatch(CDAAddStudentAdditionalDetails(AddStudentAdditionalDetailsBody));
+  //   dispatch(CDAUpdateStudentStreamwiseSubjectDetails(UpdateStudentStreamwiseSubjectDetailsBody));
+
+
+  //   dispatch(CDAGenerateTransportFeeEntries({ asSchoolId: Number(schoolId), asAcademicYearId: Number(academicYearId), asStudentId: Number(SchoolWise_Student_Id), asUpdatedById: Number(teacherId) }));
+  // };
 
   useEffect(() => {
     const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody = {
@@ -752,7 +849,7 @@ const StudentRegistrationForm = () => {
 
             <Tooltip title={'Save'}>
               <IconButton
-                onClick={handleUpdate}
+                onClick={handleFormSubmission}
                 sx={{
                   color: 'white',
                   backgroundColor: green[500],
@@ -781,6 +878,17 @@ const StudentRegistrationForm = () => {
           p: 2
         }}
       >
+        {validationMessages.length > 0 && (
+          <div className="">
+            <ul>
+              {validationMessages.map((message, index) => (
+                <li key={index} style={{ color: 'red', fontWeight: 'bold' }}>
+                  {message}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <Typography variant="body1" sx={{ mr: 2 }}>
           Completeness
         </Typography>
