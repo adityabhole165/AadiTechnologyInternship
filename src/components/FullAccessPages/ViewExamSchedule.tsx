@@ -202,7 +202,7 @@ const ViewExamSchedule = () => {
                                                         <TableRow key={idx} sx={{ '& > *': { textAlign: 'center', pl: 0, pb: 0, py: 1 } }}>
                                                             <TableCell sx={{ textAlign: 'left', pl: 1, py: 1 }}>{getDateMonthYear(item.Text5) || '-'}</TableCell>
                                                             <TableCell sx={{ textAlign: 'left', py: 1 }}>{item.Text2 || '-'}</TableCell>
-                                                            <TableCell sx={{ textAlign: item.Text4 ? 'left' : 'center', py: 1 }}>{item.Text4 || '-'}</TableCell>
+                                                            <TableCell sx={{ textAlign: item.Text4 ? 'center' : 'center', py: 1 }}>{item.Text4 || '-'}</TableCell>
                                                             <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text5) || '-'}</TableCell>
                                                             <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text6) || '-'}</TableCell>
                                                             <TableCell sx={{ textAlign: 'center', py: 1 }}>{item.TotalTime || '-'}</TableCell>
