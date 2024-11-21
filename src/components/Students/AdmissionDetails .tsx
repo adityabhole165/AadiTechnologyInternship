@@ -210,11 +210,6 @@ const AdmissionDetails = ({ onTabChange }) => {
 
   }, [form.staffUserRole]);
 
-  //#region DataTransfer 
-  useEffect(() => {
-    onTabChange(form); // Sends the initial form state to the parent when component mounts
-  }, [form]);
-  //#endregion
 
   const [errors, setErrors] = useState({
     userName: false,
@@ -239,12 +234,12 @@ const AdmissionDetails = ({ onTabChange }) => {
   };
 
   const handleDropdownChange = (name: string, value: any) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
+    setForm((prevForm) => {
+      const updatedForm = { ...prevForm, [name]: value };
+      onTabChange(updatedForm); // Notify parent of updated data
+      return updatedForm;
+    });
 
-      //...(name === 'staffUserRole' && { staffName: '' })
-    }));
     setErrors((prev) => ({ ...prev, [name]: false }));
   };
 
@@ -260,10 +255,11 @@ const AdmissionDetails = ({ onTabChange }) => {
       fieldValue = value;
     }
 
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: fieldValue
-    }));
+    setForm((prevForm) => {
+      const updatedForm = { ...prevForm, [name]: fieldValue };
+      onTabChange(updatedForm); // Notify parent of updated data
+      return updatedForm;
+    });
 
     //onTabChange({ firstName: fieldValue, })
     // Remove error when the user starts filling the field
@@ -331,6 +327,11 @@ const AdmissionDetails = ({ onTabChange }) => {
     S_ZERO: '0'
     // add other constants here
   };
+  //#region DataTransfer 
+  useEffect(() => {
+    onTabChange(form); // Sends the initial form state to the parent when component mounts
+  }, [form]);
+  //#endregion
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>

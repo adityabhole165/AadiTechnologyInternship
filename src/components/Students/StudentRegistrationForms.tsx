@@ -220,7 +220,6 @@ const StudentRegistrationForm = () => {
   const teacherId = sessionStorage.getItem('Id');
   console.log('teacherId', teacherId);
   const [currentTab, setCurrentTab] = useState(0);
-  const [profileCompletion, setProfileCompletion] = useState(20);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [openDialog1, setOpenDialog1] = useState(false);
@@ -232,6 +231,14 @@ const StudentRegistrationForm = () => {
   const [tableData, setTableData] = useState(initialData);
   const { AssignedDate } = useParams();
 
+  const [tabCompletion, setTabCompletion] = useState({
+    admission: 0,
+    personal: 0,
+    family: 0,
+  });
+
+  const [profileCompletion, setProfileCompletion] = useState(0);
+
   const [admissionDetailsData, setAdmissionDetailsData] = useState<RAdmissionDetails>({});
   const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
   const [familyDetailsData, setFamilyDetailsData] = useState<RFamilyDetails>({});
@@ -239,6 +246,58 @@ const StudentRegistrationForm = () => {
   const [streamwiseSubjectData, setStreamwiseSubjectData] = useState<RStreamwiseSubjectDetails>({});
 
   //const [familyData, setFamilyData] = useState(false);
+  //#region ProgressBar
+  // // Required fields mapping
+  // const requiredFields = {
+  //   admission: ["registrationNumber", "admissionDate", "joiningDate", "studentRollNumber"],
+  //   personal: ["firstName", "parentName", "address", "city", "pin", "state", "dateOfBirth", "placeOfBirth", "casteAndSubCaste"],
+  //   family: ["fatherDOB", "motherDOB", "marriageAnniversaryDate"],
+  // };
+
+  const calculateCompletion = (tabName: string, data: any) => {
+    let requiredFields = [];
+    if (tabName === 'admission') {
+      requiredFields = ['registrationNumber', 'admissionDate', 'joiningDate', 'studentRollNumber'];
+    } else if (tabName === 'personal') {
+      requiredFields = [
+        'firstName',
+        'parentName',
+        'address',
+        'city',
+        'pin',
+        'state',
+        'dateOfBirth',
+        'placeOfBirth',
+        'casteAndSubCaste',
+      ];
+    } else if (tabName === 'family') {
+      requiredFields = ['fatherDOB', 'motherDOB', 'marriageAnniversaryDate'];
+    }
+
+    // Count completed fields
+    const completedFields = requiredFields.filter((field) => !!data[field]).length;
+
+    // Calculate percentage
+    const completionPercentage = (completedFields / requiredFields.length) * 100;
+
+    // Update the tabCompletion state
+    setTabCompletion((prev) => ({
+      ...prev,
+      [tabName]: completionPercentage,
+    }));
+  };
+
+  useEffect(() => {
+    const totalTabs = Object.keys(tabCompletion).length;
+    const totalProgress = Object.values(tabCompletion).reduce((acc, curr) => acc + curr, 0);
+    setProfileCompletion(Math.round(totalProgress / totalTabs));
+  }, [tabCompletion]);
+
+  useEffect(() => {
+    calculateCompletion('admission', admissionDetailsData);
+    calculateCompletion('personal', personalDetailsData);
+    calculateCompletion('family', familyDetailsData);
+  }, []); // Runs only on the initial mount
 
 
   const handleSave = (isSuccessful: boolean) => {
@@ -259,21 +318,20 @@ const StudentRegistrationForm = () => {
   };
 
   //#region CallBack
-  const onAdmissionTab = (updateddata) => {
-    setAdmissionDetailsData(updateddata);
-    console.log('1️⃣admissionDetails data:', admissionDetailsData);
-  }
+  const onAdmissionTab = (updatedData) => {
+    setAdmissionDetailsData(updatedData);
+    calculateCompletion('admission', updatedData);
+  };
 
-  const onPersonalTab = (updateddata) => {
-    setPersonalDetailsData(updateddata);
-    // setAdmissionDetailsData(updateddata);
-    console.log('personalDetails data:', personalDetailsData);
-    // console.log('admissionDetails data:', admissionDetailsData);
-  }
-  const onFamilyTab = (updateddata) => {
-    setFamilyDetailsData(updateddata);
-    console.log('3️⃣familyDetailsData:', familyDetailsData);
-  }
+  const onPersonalTab = (updatedData) => {
+    setPersonalDetailsData(updatedData);
+    calculateCompletion('personal', updatedData);
+  };
+
+  const onFamilyTab = (updatedData) => {
+    setFamilyDetailsData(updatedData);
+    calculateCompletion('family', updatedData);
+  };
 
   const onAdditionalInfoTab = (updateddata) => {
     setAdditionalInfoData(updateddata);
@@ -781,6 +839,7 @@ const StudentRegistrationForm = () => {
             sx={{ m: 2, maxWidth: 200 }}
             icon={<SchoolIcon />}
             label="Admission Details"
+          // onChange={(data) => handleDataChange('user', data)}
           />
           <Tab
             sx={{ m: 2, maxWidth: 200 }}

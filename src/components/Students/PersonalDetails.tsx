@@ -267,10 +267,15 @@ const PersonalDetails = ({ onTabChange }) => {
       fieldValue = value;
     }
 
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: fieldValue
-    }));
+    setForm((prevForm) => {
+      const updatedForm = { ...prevForm, [name]: fieldValue };
+      onTabChange(updatedForm); // Notify parent of updated data
+      return updatedForm;
+    });
+    // setForm((prevForm) => ({
+    //   ...prevForm,
+    //   [name]: fieldValue
+    // }));
 
     //onTabChange({ firstName: fieldValue, })
     // Remove error when the user starts filling the field
