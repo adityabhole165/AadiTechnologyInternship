@@ -270,6 +270,12 @@ const AdmissionDetails = ({ onTabChange }) => {
     setErrors({ ...errors, [name]: false });
   };
 
+  useEffect(() => {
+    if (!ShowDayBoardingOptionOnStudentsScreen) {
+      setForm((prevForm) => ({ ...prevForm, isForDayBoarding: false }));
+    }
+  }, [ShowDayBoardingOptionOnStudentsScreen]);
+
   const validateForm = () => {
     const newErrors = {
       userName: !form.userName,
@@ -758,7 +764,7 @@ const AdmissionDetails = ({ onTabChange }) => {
               control={
                 <Checkbox
                   name="isForDayBoarding"
-                  checked={ShowDayBoardingOptionOnStudentsScreen ? form.isForDayBoarding : false}
+                  checked={form.isForDayBoarding}
                   onChange={handleInputChange}
                 />
               }

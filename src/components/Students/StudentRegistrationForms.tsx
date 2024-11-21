@@ -32,9 +32,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
-import { IGetFormNumberBody, IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
-import { IAddStudentAdditionalDetailsBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStudentAdditionalDetailsBody, IMasterDatastudentBody, IRetriveStudentStreamwiseSubjectBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
@@ -334,52 +333,63 @@ const StudentRegistrationForm = () => {
 
   //#region Read APIs.
   useEffect(() => {
-    const GetSchoolSettings: GetSchoolSettingsBody = {
-      asSchoolId: Number(schoolId),
+    const fetchData = async () => {
+      try {
+        const GetSchoolSettings = {
+          asSchoolId: Number(schoolId),
+        };
+
+        const GetStudentRecordDataResult = {
+          asSchoolId: Number(localStorage.getItem('localSchoolId')),
+          asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+          asStandardId: standardId,
+          asDivisionId: DivisionId
+        };
+
+        const GetSingleStudentDetails = {
+          asSchoolId: Number(localStorage.getItem('localSchoolId')),
+          asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+          asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+        };
+
+        const GetStudentAdditionalDetailsBody = {
+          asSchoolId: Number(localStorage.getItem('localSchoolId')),
+          //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+          asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
+        };
+
+        const FeeAreaNamesBody = {
+          asSchoolId: Number(localStorage.getItem('localSchoolId')),
+        };
+
+        const FormNumberBody = {
+          asSchoolId: Number(localStorage.getItem('localSchoolId')),
+          asStudentId: SchoolWise_Student_Id
+        };
+
+        const RetriveStudentStreamwiseSubjectBody = {
+          asSchoolId: 122,
+          asAcademicYearId: 10,
+          asStudentId: 4584
+        };
+
+        await Promise.all([
+          dispatch(CDAGetSchoolSettings(GetSchoolSettings)),
+          dispatch(CDAGetMasterData(GetStudentRecordDataResult)),
+          dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails)),
+          dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody)),
+          dispatch(CDAFeeAreaNames(FeeAreaNamesBody)),
+          dispatch(GetFormNumber(FormNumberBody)),
+          dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody))
+        ]);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
     };
-    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
 
-    const GetStudentRecordDataResult: IMasterDatastudentBody = {
-      asSchoolId: Number(localStorage.getItem('localSchoolId')),
-      asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-      asStandardId: standardId,
-      asDivisionId: DivisionId
-    };
-    dispatch(CDAGetMasterData(GetStudentRecordDataResult));
+    fetchData();
+  }, [schoolId, standardId, DivisionId, SchoolWise_Student_Id]);
 
-    const GetSingleStudentDetails: IGetSingleStudentDetailsBody = {
-      asSchoolId: Number(localStorage.getItem('localSchoolId')),
-      asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-      asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
-    };
-    dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails));
-
-    const GetStudentAdditionalDetailsBody: IGetStudentAdditionalDetailsBody = {
-      asSchoolId: Number(localStorage.getItem('localSchoolId')),
-      //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-      asStudentId: SchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
-    };
-    dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody));
-
-    const FeeAreaNamesBody: IGetFeeAreaNamesBody = {
-      asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    };
-    dispatch(CDAFeeAreaNames(FeeAreaNamesBody));
-
-    const FormNumberBody: IGetFormNumberBody = {
-      asSchoolId: Number(localStorage.getItem('localSchoolId')),
-      asStudentId: SchoolWise_Student_Id
-    };
-    dispatch(GetFormNumber(FormNumberBody));
-
-    const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
-      asSchoolId: 122,
-      asAcademicYearId: 10,
-      asStudentId: 4584
-    }
-    dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
-
-  }, []);
   //#endregion
 
   //#region Date Formation
@@ -406,6 +416,7 @@ const StudentRegistrationForm = () => {
   // console.log('🩸UpdateStudentResult:', UpdateStudentResult);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
+  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
 
   const UpdateStudentBody: IUpdateStudentBody = {
     "asSchoolId": Number(localStorage.getItem('localSchoolId')),
@@ -781,14 +792,14 @@ const StudentRegistrationForm = () => {
             icon={<DocumentIcon />}
             label="Admission Documents"
           />
-          {UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable && (
+          {IsAdditionalFieldsApplicable && (
             <Tab
               sx={{ m: 2, maxWidth: 200 }}
               icon={<FamilyRestroomIcon />}
               label="Family Details"
             />
           )}
-          {UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable && (
+          {IsAdditionalFieldsApplicable && (
             <Tab
               sx={{ m: 2, maxWidth: 200 }}
               icon={<GroupAddIcon />}
