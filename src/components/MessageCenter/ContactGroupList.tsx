@@ -70,7 +70,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const asUserId = Number(localStorage.getItem('UserId'));
   const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [SortBy, setSortBy] = useState('Name');
-
+  const getuserlist: any = useSelector((state: RootState) => state.getuser1.GetUser);
   const USContactGroup: any = useSelector((state: RootState) => state.ContactGroup.IContactGroups);
   const USContactGroupUserRoles: any = useSelector((state: RootState) => state.ContactGroup.IContactGroupUserRoles);
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
@@ -241,7 +241,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
 
     try {
 
-      const existingGroupNames = [USContactGroup.map(GroupName)];
+      const existingGroupNames = getuserlist.map((item) => (item.Value));
       console.log(existingGroupNames, "pppppppppppppp") // Replace with actual data
       return existingGroupNames.includes(groupName.trim());
     } catch (error) {
