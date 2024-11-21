@@ -213,7 +213,7 @@ const ViewExamSchedule = () => {
                                                     <TableRow>
                                                         <TableCell colSpan={7} sx={{ py: 1, textAlign: 'left' }}>
                                                             <strong>Instruction: </strong>
-                                                            {Instructions.replace(/<\/?br\s*\/?>/gi, ' ') || '-'}
+                                                            {Instructions.replace(/<\/?br\s\/?>/gi, ' ') || '-'}
                                                         </TableCell>
                                                     </TableRow>
                                                 </TableBody>
