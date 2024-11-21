@@ -2,7 +2,7 @@ import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import { Box, Button, DialogTitle, Grid, IconButton, Modal, Paper, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -957,9 +957,9 @@ const ProgressRemarks = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: grey[500],
+                    backgroundColor: blue[500],
                     '&:hover': {
-                      backgroundColor: grey[600]
+                      backgroundColor: blue[600]
                     }
                   }}
                   onClick={Exportremark}  >
