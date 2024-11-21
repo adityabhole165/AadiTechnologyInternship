@@ -752,20 +752,20 @@ const AdmissionDetails = ({ onTabChange }) => {
             label="Is Minority?"
           />
         </Grid>
-        {ShowDayBoardingOptionOnStudentsScreen ? (
+        {ShowDayBoardingOptionOnStudentsScreen &&
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <FormControlLabel
               control={
                 <Checkbox
                   name="isForDayBoarding"
-                  checked={form.isForDayBoarding}
+                  checked={ShowDayBoardingOptionOnStudentsScreen ? form.isForDayBoarding : false}
                   onChange={handleInputChange}
                 />
               }
               label="Is For Day Boarding?"
             />
           </Grid>
-        ) : (setForm((prevForm) => ({ ...prevForm, isForDayBoarding: false })))}
+        }
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={
