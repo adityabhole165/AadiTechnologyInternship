@@ -230,6 +230,12 @@ const ProgressRemarks = () => {
 
     setHeaderArray(headerArray);
   }, [USRemarkDetailsHeaderList, SelectTerm, SchoolScreensAccessPermission()]);
+  useEffect(() => {
+    if (USGetTestwiseTerm.length > 0) {
+      SetSelectTerm(USGetTestwiseTerm[0].Value);
+      setTermName(USGetTestwiseTerm[0].Name)
+    }
+  }, [USGetTestwiseTerm]);
 
   // useEffect(() => {
   //   let headerArray = [
@@ -309,7 +315,7 @@ const ProgressRemarks = () => {
       asTermId: SelectTerm
     };
     dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody))
-  }, [selectTeacher, SelectTerm, StudentList])
+  }, [selectTeacher, SelectTerm, StudentList, USClassTeachers, USGetTestwiseTerm]) // flag 🚩
   useEffect(() => {
     console.log('this was caught', StudentswiseRemarkDetails1);
 
@@ -835,12 +841,6 @@ const ProgressRemarks = () => {
     setItemlist(USGetAllStudentswiseRemarkDetails);
   }, [USGetAllStudentswiseRemarkDetails]);
 
-
-  useEffect(() => {
-    if (USGetTestwiseTerm.length > 0) {
-      SetSelectTerm(USGetTestwiseTerm[0].Value);
-    }
-  }, [USGetTestwiseTerm]);
 
   useEffect(() => {
     if (USStudentListDropDown.length > 0) {
