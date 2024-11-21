@@ -212,15 +212,25 @@ const AddNewVideo = () => {
         </Accordion>
       </Box>
       <Box padding={2} sx={{ backgroundColor: "white" }}>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{pb:2}}>
           Video Gallery Details :
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
-            <TextField fullWidth label="Video Name" variant="outlined" required />
+            <TextField fullWidth variant="outlined"  
+             label={
+              <span>
+              Video Name <span style={{ color: 'red' }}> *</span>
+              </span>
+            } />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField fullWidth label="Url Source" variant="outlined" required />
+            <TextField fullWidth  variant="outlined"
+             label={
+              <span>
+              Url Source <span style={{ color: 'red' }}> *</span>
+              </span>
+            } />
 
           </Grid>
 

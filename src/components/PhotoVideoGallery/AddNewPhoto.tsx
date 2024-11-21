@@ -176,12 +176,19 @@ const AddNewPhoto = () => {
         }
       />
       <Box padding={2} sx={{ backgroundColor: "white" }}>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{pb:2}}>
           Photo Gallery Details
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Gallery Name" variant="outlined" required />
+            <TextField fullWidth 
+            label={
+              <span>
+               Gallery Name <span style={{ color: 'red' }}> *</span>
+              </span>
+            }
+            variant="outlined" 
+             />
           </Grid>
 
           <Grid item xs={12} sm={6}>
@@ -194,7 +201,7 @@ const AddNewPhoto = () => {
           </Box>
         </Box>
         <Box display="flex" alignItems="center" flexWrap="wrap" gap={2} p={1} >
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom >
             Associated Section(s):
           </Typography>
           <FormControlLabel
