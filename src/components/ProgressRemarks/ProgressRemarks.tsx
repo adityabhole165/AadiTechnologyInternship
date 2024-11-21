@@ -192,6 +192,7 @@ const ProgressRemarks = () => {
     return returnVal;
   };
 
+
   useEffect(() => {
     console.log(StudentswiseRemarkDetails, StudentswiseRemarkDetails1, StudentswiseRemarkDetails2, "StudentswiseRemarkDetails 🔥🔥🔥");
 
@@ -297,6 +298,26 @@ const ProgressRemarks = () => {
 
   // #region Export Logic
   // const { listStudentDetails, listRemarkDetails, listTermDetails } = data;
+  const [StudentswiseRemarkDetails1State, setStudentswiseRemarkDetails1State] = useState<any>({});
+  useEffect(() => {
+    const StudentswiseRemarkDetailsBody: IStudentswiseRemarkDetailsToExportBody =
+    {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asStandardDivId: getStdDivisionId(),
+      asStudentId: Number(StudentList),
+      asTermId: SelectTerm
+    };
+    dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody))
+  }, [selectTeacher, SelectTerm, StudentList])
+  useEffect(() => {
+    console.log('this was caught', StudentswiseRemarkDetails1);
+
+    if (Object.keys(StudentswiseRemarkDetails1).length > 0) {
+      console.log(StudentswiseRemarkDetails1, "checkitout");
+      setStudentswiseRemarkDetails1State(StudentswiseRemarkDetails1);
+    }
+  }, [StudentswiseRemarkDetails1])
 
   // Helper function to get remarks for a student
   const getStudentRemarks = (yearwiseStudentId) => {
@@ -308,7 +329,7 @@ const ProgressRemarks = () => {
       }, {});
   };
 
-  // Convert data to CSV
+  // Convert data to CSV  
   const convertToCSV = () => {
     // Prepare headers
     const headers = [
@@ -316,7 +337,7 @@ const ProgressRemarks = () => {
       'Class Name',
       'Student Name',
       'Term Name',
-      ...StudentswiseRemarkDetails1.map(remark => remark.RemarkName)
+      ...StudentswiseRemarkDetails1State.map(remark => remark.RemarkName)
     ];
 
     // Prepare rows
@@ -331,7 +352,7 @@ const ProgressRemarks = () => {
       ];
 
       // Add remarks for each remark type
-      StudentswiseRemarkDetails1.forEach(remarkType => {
+      StudentswiseRemarkDetails1State.forEach(remarkType => {
         row.push(studentRemarks[remarkType.RemarkName] || '');
       });
 
@@ -424,18 +445,9 @@ const ProgressRemarks = () => {
     asUserId: Number(CanEdit == 'Y' ? 0 : asUserId
     )
   };
-  const ExportButton = async () => {
-    const StudentswiseRemarkDetailsBody: IStudentswiseRemarkDetailsToExportBody =
-    {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivId: getStdDivisionId(),
-      asStudentId: Number(StudentList),
-      asTermId: SelectTerm
-    };
-    await dispatch(
-      CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody)
-    );
+  const ExportButton = () => {
+    console.log('whats happening .. IDK');
+
     exportToExcel();
   };
 
@@ -721,6 +733,8 @@ const ProgressRemarks = () => {
       },
       onConfirm: () => {
         ExportButton();
+        console.log('even IDK');
+
         closeAlert();
       }
     });
@@ -891,7 +905,15 @@ const ProgressRemarks = () => {
       setIsDirty(false)
       dispatch(CDAresetSaveMassage());
       CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
-
+      const StudentswiseRemarkDetailsBody: IStudentswiseRemarkDetailsToExportBody =
+      {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivId: getStdDivisionId(),
+        asStudentId: Number(StudentList),
+        asTermId: SelectTerm
+      };
+      dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody))
     }
   }, [UpdateAllStudentsRemarkDetail]);
 

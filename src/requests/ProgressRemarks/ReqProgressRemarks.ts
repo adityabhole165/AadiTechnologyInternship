@@ -34,7 +34,7 @@ const ProgressRemarkSlice = createSlice({
     ISGetAllStudentsForProgressRemark: [],
     ISRGetFinalPublishedExamStatus: {},
     ISRemarkDetailsHeaderList: [],
-    ISGetConfiguredMaxRemarkLength:[]
+    ISGetConfiguredMaxRemarkLength: []
 
   },
   reducers: {
@@ -48,15 +48,21 @@ const ProgressRemarkSlice = createSlice({
     RstudentswiseRemarkDetailsToExport(state, action) {
       state.ISStudentswiseRemarkDetailsToExport = action.payload;
     },
-
+    RClearStudentswiseRemarkDetailsToExport(state) {
+      state.ISStudentswiseRemarkDetailsToExport = {};
+    },
     RstudentswiseRemarkDetailsToExport1(state, action) {
       state.ISStudentswiseRemarkDetailsToExport1 = action.payload;
     },
-
+    RClearStudentswiseRemarkDetailsToExport1(state) {
+      state.ISStudentswiseRemarkDetailsToExport1 = {};
+    },
     RstudentswiseRemarkDetailsToExport2(state, action) {
       state.ISStudentswiseRemarkDetailsToExport2 = action.payload;
     },
-
+    RClearStudentswiseRemarkDetailsToExport2(state) {
+      state.ISStudentswiseRemarkDetailsToExport2 = {};
+    },
     RSUpdateAllStudentsRemarkDetailsBody(state, action) {
       state.ISUpdateAllStudentsRemarkDetailsBody = action.payload;
     },
@@ -95,8 +101,8 @@ const ProgressRemarkSlice = createSlice({
     },
     ResetStudentDropdown(state) {
       state.ISGetAllStudentswiseRemarkDetails = [];
-  }
-  
+    }
+
 
   }
 
@@ -121,12 +127,12 @@ export const CDAGetClassTeachers =
   (data: IAllPrimaryClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.ClassTeachers(data);
-      let ClassTeachers = [{ Id: '0', Name: '--Select--', Value: '0', asStandardId :'0'}];
+      let ClassTeachers = [{ Id: '0', Name: '--Select--', Value: '0', asStandardId: '0' }];
       response.data.map((item, i) => {
         ClassTeachers.push({
           Id: item.SchoolWise_Standard_Division_Id,
           Name: item.TeacherName,
-          Value: item.SchoolWise_Standard_Division_Id,      
+          Value: item.SchoolWise_Standard_Division_Id,
           asStandardId: item.Standard_Id
         });
       });
@@ -137,6 +143,9 @@ export const CDAGetClassTeachers =
 export const CDAStudentswiseRemarkDetailsToExport =
   (data: IStudentswiseRemarkDetailsToExportBody): AppThunk =>
     async (dispatch) => {
+      await dispatch(ProgressRemarkSlice.actions.RClearStudentswiseRemarkDetailsToExport());
+      await dispatch(ProgressRemarkSlice.actions.RClearStudentswiseRemarkDetailsToExport1());
+      await dispatch(ProgressRemarkSlice.actions.RClearStudentswiseRemarkDetailsToExport2());
       const response = await ApiProgressRemark.StudentswiseRemarkDetailsToExport(
         data
       );
@@ -257,7 +266,7 @@ export const CDAGetAllStudentswiseRemarkDetails = (
     asStartIndex: data.asStartIndex,
     asEndIndex: data.asEndIndex,
     asSortExp: "Roll_No"
-   
+
   }
 
   const response2 = await ApiProgressRemark.GetAllStudentsForProgressRemark(NewBody);
@@ -266,13 +275,13 @@ export const CDAGetAllStudentswiseRemarkDetails = (
     Id: item.Student_Id,
     Text1: item.Roll_No,
     Text2: item.Student_Name,
-   
+
     Text5: item.SchoolWise_Standard_Division_Id,
-    
+
     Value: item.Student_Id,
     Name: item.Student_Name,
-    TotalRows:item.TotalRows
-   
+    TotalRows: item.TotalRows
+
 
 
   }));
@@ -408,16 +417,17 @@ export const CDAGetAllStudentsForProgressRemark =
     };
 
 
-export const   CDAGetConfiguredMaxRemarkLength =
+export const CDAGetConfiguredMaxRemarkLength =
   (data: IGetConfiguredMaxRemarkLengthBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.GetConfiguredMaxRemarkLength(data);
-      console.log(response,"response---");
-      
-      dispatch(ProgressRemarkSlice.actions.RGetConfiguredMaxRemarkLength(response.data));};
+      console.log(response, "response---");
+
+      dispatch(ProgressRemarkSlice.actions.RGetConfiguredMaxRemarkLength(response.data));
+    };
 
 
-  export const CDAGetFinalPublishedExamStatus =
+export const CDAGetFinalPublishedExamStatus =
   (data: IGetFinalPublishedExamStatusBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.GetFinalPublishedExamStatus(data);
