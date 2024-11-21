@@ -174,7 +174,7 @@ const PhotoVideoGalleryBaseScreen = () => {
 
 
             {/* Radio Buttons */}
-            <Box sx={{ backgroundColor: 'white', p: 1, mb: 1 }}>
+            <Box sx={{ backgroundColor: 'white', px: 2, mb: 1, py:1 }}>
                 <RadioGroup
                     row
                     value={selectedOption}
@@ -188,14 +188,14 @@ const PhotoVideoGalleryBaseScreen = () => {
             <Box sx={{ backgroundColor: 'white' }}>
                 {/* Display Page Content */}
                 {selectedOption === 'photo' ? (
-                    <Box sx={{ p: 2 }}>
+                    <Box sx={{ px: 2,pt:1 }}>
                         <Typography variant="h4" gutterBottom>
                             Photo Gallery
                         </Typography>
 
                         {/* Record Format */}
                         {photoData.length > 0 ? (
-                            <Typography variant="subtitle1" sx={{ margin: '10px 0', textAlign: 'center' }}>
+                            <Typography variant="subtitle1" sx={{ margin: '2px 0', textAlign: 'center' }}>
                                 <Box component="span" fontWeight="fontWeightBold">
                                     {startRecord} to {endRecord}
                                 </Box>
@@ -226,14 +226,14 @@ const PhotoVideoGalleryBaseScreen = () => {
                         )} */}
                     </Box>
                 ) : (
-                    <Box p={2}>
+                    <Box sx={{ px: 2,pt:1 }}>
                         <Typography variant="h4" gutterBottom>
                             Video Gallery
                         </Typography>
 
                         {/* Record Format */}
                         {videoData.length > 0 ? (
-                            <Typography variant="subtitle1" sx={{ margin: '10px 0', textAlign: 'center' }}>
+                            <Typography variant="subtitle1" sx={{ margin: '2px 0', textAlign: 'center' }}>
                                 <Box component="span" fontWeight="fontWeightBold">
                                     {startRecord} to {endRecord}
                                 </Box>

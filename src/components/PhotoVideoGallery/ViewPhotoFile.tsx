@@ -1,8 +1,8 @@
 import { QuestionMark } from '@mui/icons-material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import EditIcon from '@mui/icons-material/Edit'
-import { Box, Button, IconButton, Grid, Card, CardContent, CardMedia, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { grey, red } from '@mui/material/colors'
+import { Box, Button, Card, CardContent, CardMedia, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { blue, grey, red } from '@mui/material/colors'
 import { useState } from 'react'
 import CommonPageHeader from '../CommonPageHeader'
 
@@ -23,7 +23,7 @@ const ViewPhotoFile = () => {
     // Detect screen size using Material-UI's useMediaQuery hook
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // Detect small screens (mobile/tablet)
-    
+
     const handleAddPhoto = () => {
         if (newPhotoUrl) {
             const newPhoto = {
@@ -75,38 +75,60 @@ const ViewPhotoFile = () => {
             />
             <Box sx={{ backgroundColor: 'white' }} p={2}>
                 {/* Header */}
-                <Box display="flex" flexDirection="column" mb={2}>
-                    <Typography variant="h6">Gallery Name:</Typography>
-                    <TextField
-                        value={galleryName}
-                        onChange={(e) => setGalleryName(e.target.value)}
-                        disabled
-                        variant="outlined"
-                    />
-                </Box>
+                <Grid
+                    container
+                    spacing={2}
+                    sx={{ backgroundColor: 'white' }}
+                    alignItems="center"
+                    justifyContent="space-between"
+                >
+                    {/* Gallery Name Section */}
+                    <Grid item xs={12} sm={6} md={4}>
+                        <TextField
+                            value={galleryName}
+                            onChange={(e) => setGalleryName(e.target.value)}
+                            disabled
+                            variant="outlined"
+                            fullWidth
+                             label="Gallery Name"
+                        />
+                    </Grid>
 
-                {/* Comment Section */}
-                <Box display="flex" alignItems="center" mb={2} gap={2}>
-                    <TextField
-                        label="Comment"
-                        variant="outlined"
-                        fullWidth
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleUpdatePhoto}
-                        disabled={isUpdateDisabled}
-                    >
-                        Update
-                    </Button>
-                </Box>
+                    {/* Comment Section */}
+                    <Grid item xs={12} sm={6} md={8} container spacing={2} alignItems="center">
+                        <Grid item xs={9}>
+                            <TextField
+                                label="Comment"
+                                variant="outlined"
+                                fullWidth
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                                disabled={isUpdateDisabled}
+                            />
+                        </Grid>
+                        <Grid item xs={1.5}>
+                            <Button
+                                // variant="contained"
+                                sx={{
+                                    color: 'primary',
+                                    '&:hover': {
+                                        color: 'primary',
+                                        backgroundColor: blue[100]
+                                    }
+                                }}
+                                fullWidth
+                                onClick={handleUpdatePhoto}
+                                disabled={isUpdateDisabled}
+                            >
+                                Update
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
 
                 {/* Add Photo Button */}
-                <Box mb={2} display="flex" justifyContent="end">
-                  
+                <Box my={2} display="flex" justifyContent="end">
+
                     {/* Toggle View Button */}
                     {!isSmallScreen && (
                         <Button
@@ -159,30 +181,30 @@ const ViewPhotoFile = () => {
                 ) : (
                     // Desktop View (Table View)
                     <TableContainer>
-                        <Table>
+                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                             <TableHead>
-                                <TableRow>
-                                    <TableCell>Image</TableCell>
-                                    <TableCell>Comment</TableCell>
-                                    <TableCell>Edit</TableCell>
-                                    <TableCell>Delete</TableCell>
+                                <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Image</TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Comment</TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2,  textAlign: 'center', }}>Edit</TableCell> 
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2,  textAlign: 'center', }}>Delete</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {photos.map((photo) => (
                                     <TableRow key={photo.id}>
-                                        <TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>
                                             <img src={photo.url} alt={photo.title} style={{ width: 50, height: 50 }} />
                                         </TableCell>
-                                        <TableCell>{photo.comment}</TableCell>
-                                        <TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>{photo.comment}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', py: 1,  textAlign: 'center' }}>
                                             <Tooltip title={'Edit'}>
                                                 <IconButton color="primary" onClick={() => handleEditPhoto(photo)}>
                                                     <EditIcon />
                                                 </IconButton>
                                             </Tooltip>
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', py: 1,  textAlign: 'center' }}>
                                             <Tooltip title={'Delete'}>
                                                 <IconButton
                                                     sx={{

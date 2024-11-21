@@ -1,10 +1,14 @@
 import { QuestionMark } from '@mui/icons-material'
-import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useMediaQuery } from '@mui/material'
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, TextField, Tooltip, Typography, useMediaQuery } from '@mui/material'
 import { green, grey } from '@mui/material/colors'
-import { SaveIcon } from 'lucide-react'
+
+import SaveIcon from '@mui/icons-material/Save'
 import { useState } from 'react'
 import CommonPageHeader from '../CommonPageHeader'
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown'
+import ClassSectionSelector from './ClassSectionSelector'
+
+
 
 const AddNewVideo = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
@@ -29,7 +33,33 @@ const AddNewVideo = () => {
     ...Array.from({ length: 10 }, (_, i) => (i + 1).toString()),
   ];
 
+  const [roles, setRoles] = useState({
+    selectAll: false,
+    admin: false,
+    teacher: false,
+    student: false,
+    adminStaff: false,
+    otherStaff: false,
+  });
+  // const handleCheckboxChange = (event) => {
+  //   const { name, checked } = event.target;
 
+  //   if (name === "selectAll") {
+  //     // If "Select All" is checked/unchecked, update all other roles
+  //     const updatedRoles = Object.keys(roles).reduce((acc, key) => {
+  //       acc[key] = checked;
+  //       return acc;
+  //     }, {});
+  //     setRoles(updatedRoles);
+  //   } else {
+  //     // Update individual checkboxes
+  //     setRoles((prev) => ({
+  //       ...prev,
+  //       [name]: checked,
+  //       selectAll: false, // Reset "Select All" if individual roles are unchecked
+  //     }));
+  //   }
+  // };
 
   const handleSelectAll = (event) => {
     const isChecked = event.target.checked;
@@ -104,7 +134,7 @@ const AddNewVideo = () => {
             title: "Photo Video Gallery",
             path: "/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen",
           },
-          { title: "Add Photo Gallery", path: "" },
+          { title: "Add Video Gallery", path: "" },
         ]}
         rightActions={
           <>
@@ -158,6 +188,29 @@ const AddNewVideo = () => {
           </>
         }
       />
+      <Box sx={{ backgroundColor: 'white', mb: 1 }}>
+        <Accordion defaultExpanded>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>
+              Important Notes
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails
+            sx={{ gap: 0.1, display: 'flex', flexDirection: 'column' }}
+          >
+            <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}>
+              <b>Note 1:</b> Video should be from <strong>www.youtube.com</strong>, URL Example: http://www.youtube.com/v/bAUT_Pux73w.
+            </Alert>
+            <Alert variant="filled" severity="info">
+              <b>Note 2:</b> When you edit any gallery, changes made to the gallery name, dates, user roles, and classes will be applied to all subjects of the respective gallery.
+            </Alert>
+          </AccordionDetails>
+        </Accordion>
+      </Box>
       <Box padding={2} sx={{ backgroundColor: "white" }}>
         <Typography variant="h5" gutterBottom>
           Video Gallery Details :
@@ -168,15 +221,7 @@ const AddNewVideo = () => {
           </Grid>
           <Grid item xs={12} sm={4}>
             <TextField fullWidth label="Url Source" variant="outlined" required />
-            {/* <SearchableDropdown
-              sx={{ minWidth: '15vw' }}
-              ItemList={undefined}
-              onChange={GetRequisitionStatusDropdown}
-              label={'Url Source'}
-              defaultValue={SelectResult.toString()}
-              mandatory
-              size={"small"}
-            /> */}
+
           </Grid>
 
           <Grid item xs={12} sm={4}>
@@ -184,117 +229,81 @@ const AddNewVideo = () => {
           </Grid>
         </Grid>
         <Box pt={2}>
-          <Box display="flex" alignItems="center" gap={2}>
-            <Typography variant="h6" gutterBottom>
-              Applicable to all staff members and selected Class(es):
-            </Typography>
-            <FormControlLabel
-              control={<Checkbox checked={selectAll} onChange={handleSelectAll} />}
-              label="Select All"
-            />
+          <Box>
+            <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} />
           </Box>
 
-          {/* Table Layout with No Gap */}
-          <Grid container spacing={0}>
-            {[0, 1].map((columnIndex) => (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                key={columnIndex}
-                sx={{
-                  borderRight: columnIndex === 0 ? "1px solid #ddd" : "none",
-                }}
-              >
-                <TableContainer component={Box} sx={{ boxShadow: "none" }}>
-                  <Table sx={{
-                    border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-                    overflow: 'hidden'
-                  }}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell sx={{ py: 1 }}><strong>Class</strong></TableCell>
-                        <TableCell sx={{ py: 1 }}><strong>Select Class</strong></TableCell>
-                        <TableCell sx={{ py: 1 }}><strong>Sections</strong></TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {classes
-                        .filter((_, i) => i % 2 === columnIndex)
-                        .map((className) => {
-                          const sections = getSectionsForClass(className);
-                          return (
-                            <TableRow key={className}>
-                              <TableCell sx={{ py: 0 }}>{className}</TableCell>
-                              <TableCell sx={{ py: 0 }}>
-                                <Checkbox
-                                  checked={sections.every(
-                                    (section) =>
-                                      selectedClasses[className]?.[section]
-                                  )}
-                                  onChange={(e) =>
-                                    handleClassChange(className, e.target.checked)
-                                  }
-                                />
-                              </TableCell>
-                              <TableCell sx={{ py: 0 }}>
-                                <FormGroup row>
-                                  {sections.map((section) => (
-                                    <FormControlLabel
-                                      key={section}
-                                      control={
-                                        <Checkbox
-                                          size="small"
-                                          checked={
-                                            selectedClasses[className]?.[section] ||
-                                            false
-                                          }
-                                          onChange={(e) =>
-                                            handleSectionChange(
-                                              className,
-                                              section,
-                                              e.target.checked
-                                            )
-                                          }
-                                        />
-                                      }
-                                      label={section}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </TableCell>
-
-                            </TableRow>
-                          );
-                        })}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
-            ))}
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12}>
+              <Typography variant="h4" sx={{ fontWeight: "bold", pt: 2 }}>
+                Associated User Role(s):
+              </Typography>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="selectAll"
+                      checked={roles.selectAll}
+                      // onChange={handleCheckboxChange}
+                    />
+                  }
+                  label="Select All"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="admin"
+                      checked={roles.admin}
+                      // onChange={handleCheckboxChange}
+                    />
+                  }
+                  label="Admin"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="teacher"
+                      checked={roles.teacher}
+                      // onChange={handleCheckboxChange}
+                    />
+                  }
+                  label="Teacher"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="student"
+                      checked={roles.student}
+                      // onChange={handleCheckboxChange}
+                    />
+                  }
+                  label="Student"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="adminStaff"
+                      checked={roles.adminStaff}
+                      // onChange={handleCheckboxChange}
+                    />
+                  }
+                  label="Admin Staff"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="otherStaff"
+                      checked={roles.otherStaff}
+                      // onChange={handleCheckboxChange}
+                    />
+                  }
+                  label="Other Staff"
+                />
+              </FormGroup>
+            </Grid>
           </Grid>
         </Box>
-        {/* <Box display="flex" alignItems="center" flexWrap="wrap" gap={2} p={1} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, }}>
-          <Typography variant="h6" gutterBottom>
-            Associated Section(s):
-          </Typography>
-          <FormControlLabel
-            control={<Checkbox checked={selectAll} onChange={handleSelectAll} />}
-            label="Select All"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={undefined} onChange={undefined} />}
-            label="Pre-Primary"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={undefined} onChange={undefined} />}
-            label="Primary"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={undefined} onChange={undefined} />}
-            label="Secondary"
-          />
-        </Box> */}
+      
       </Box>
     </Box>
   )

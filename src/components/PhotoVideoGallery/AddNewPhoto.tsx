@@ -21,6 +21,7 @@ import { green, grey } from "@mui/material/colors";
 import { useState } from "react";
 import CommonPageHeader from "../CommonPageHeader";
 import SaveIcon from '@mui/icons-material/Save';
+import ClassSectionSelector from "./ClassSectionSelector";
 
 const AddNewPhoto = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
@@ -188,97 +189,11 @@ const AddNewPhoto = () => {
           </Grid>
         </Grid>
         <Box pt={2}>
-          <Box display="flex" alignItems="center" gap={2}>
-            <Typography variant="h6" gutterBottom>
-              Applicable to all staff members and selected Class(es):
-            </Typography>
-            <FormControlLabel
-              control={<Checkbox checked={selectAll} onChange={handleSelectAll} />}
-              label="Select All"
-            />
+          <Box>
+            <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} />
           </Box>
-
-          {/* Table Layout with No Gap */}
-          <Grid container spacing={0}>
-            {[0, 1].map((columnIndex) => (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                key={columnIndex}
-                sx={{
-                  borderRight: columnIndex === 0 ? "1px solid #ddd" : "none",
-                }}
-              >
-                <TableContainer component={Box} sx={{ boxShadow: "none" }}>
-                  <Table sx={{
-                    border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-                    overflow: 'hidden'
-                  }}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell sx={{ py: 1 }}><strong>Class</strong></TableCell>
-                        <TableCell sx={{ py: 1 }}><strong>Select Class</strong></TableCell>
-                        <TableCell sx={{ py: 1 }}><strong>Sections</strong></TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {classes
-                        .filter((_, i) => i % 2 === columnIndex)
-                        .map((className) => {
-                          const sections = getSectionsForClass(className);
-                          return (
-                            <TableRow key={className}>
-                              <TableCell sx={{ py: 0 }}>{className}</TableCell>
-                              <TableCell sx={{ py: 0 }}>
-                                <Checkbox
-                                  checked={sections.every(
-                                    (section) =>
-                                      selectedClasses[className]?.[section]
-                                  )}
-                                  onChange={(e) =>
-                                    handleClassChange(className, e.target.checked)
-                                  }
-                                />
-                              </TableCell>
-                              <TableCell sx={{ py: 0 }}>
-                                <FormGroup row>
-                                  {sections.map((section) => (
-                                    <FormControlLabel
-                                      key={section}
-                                      control={
-                                        <Checkbox
-                                          size="small"
-                                          checked={
-                                            selectedClasses[className]?.[section] ||
-                                            false
-                                          }
-                                          onChange={(e) =>
-                                            handleSectionChange(
-                                              className,
-                                              section,
-                                              e.target.checked
-                                            )
-                                          }
-                                        />
-                                      }
-                                      label={section}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </TableCell>
-
-                            </TableRow>
-                          );
-                        })}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
-            ))}
-          </Grid>
         </Box>
-        <Box display="flex" alignItems="center" flexWrap="wrap" gap={2} p={1} sx={{border: (theme) => `1px solid ${theme.palette.grey[300]}`,}}>
+        <Box display="flex" alignItems="center" flexWrap="wrap" gap={2} p={1} >
           <Typography variant="h6" gutterBottom>
             Associated Section(s):
           </Typography>
