@@ -145,12 +145,22 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                             <Grid container>
                                 <Grid item xs={4}>
                                     {MessageCenterFullAccess === 'Y' && (
-                                        <IconButton sx={{ textAlign: 'left' }}
+                                        <IconButton sx={{
+                                            ml: 1,
+                                            p: 0,
+                                            textAlign: 'left',
+                                            color: '#38548A	',
+                                            '&:hover': {
+                                                color: '#38548A',
+                                                p: 0,
+                                                backgroundColor: grey[300]
+                                            }
+                                        }}
 
                                             onClick={() => handleOpenDialog(true)}
                                         >
                                             <Tooltip title="Edit" >
-                                                <EditIcon />
+                                                <EditIcon sx={{ p: 0 }} />
                                             </Tooltip>
                                         </IconButton>
                                     )}
@@ -160,10 +170,12 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                         <IconButton
                                             onClick={() => onDelete(Item.Id)}
                                             sx={{
-                                                ml: 3.5,
+                                                ml: 4.5,
+                                                p: 0,
                                                 color: '#38548A	',
                                                 '&:hover': {
                                                     color: 'red',
+                                                    p: 0,
                                                     backgroundColor: red[100]
                                                 }
                                             }}
@@ -171,7 +183,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                         >
                                             <Tooltip title="Delete" >
 
-                                                <DeleteForeverIcon />
+                                                <DeleteForeverIcon sx={{ p: 0 }} />
                                             </Tooltip>
 
                                         </IconButton>

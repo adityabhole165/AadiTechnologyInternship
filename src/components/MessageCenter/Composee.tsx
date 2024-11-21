@@ -1497,7 +1497,7 @@ function Form13() {
                   }
                 }}
               >
-                confirm
+                Confirm
               </Button>
             </DialogActions>
           </Box>
