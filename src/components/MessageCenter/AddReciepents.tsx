@@ -637,7 +637,7 @@ const AddReciepents = ({
                             >
                               <SquareIcon
                                 style={{
-                                  color: '#F0F0F0',
+                                  color: 'grey',
                                   fontSize: 25,
                                   position: 'relative',
                                   top: '-2px'
