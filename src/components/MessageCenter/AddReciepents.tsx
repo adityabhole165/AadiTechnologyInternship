@@ -43,6 +43,7 @@ import ContactGroupList from './ContactGroupList';
 import SelectallAddrecipents from './SelectallAddrecipents';
 
 const AddReciepents = ({
+  teacherstudentid,
   RecipientName,
   RecipientId,
   recipientListClick,
@@ -50,6 +51,7 @@ const AddReciepents = ({
   classIdList,
   IsConfirm
 }) => {
+
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,15 +67,18 @@ const AddReciepents = ({
     RecipientId || []
   );
   const [classId, setClassId] = useState(classIdList || []);
+  console.log(teacherstudentid, '6666666666666666')
 
   const [contactGroup, setContactGroup] = useState(contactGroupList || []);
-  const [techerStudent1, setTeacherStudent1] = useState('');
+  //const [techerStudent1, setTeacherStudent1] = useState('');
   const [adminandSW, setAdminandSW] = useState();
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
+
   const [studentlist, setStudentlist] = useState('');
   console.log(studentlist, "studentlist");
   const [teacherStudent, setTecherStudent] = useState([]);
+  const [techerStudent1, setTeacherStudent1] = useState(teacherstudentid || '');
   const [show, setShow] = useState(true);
   const [SearchByName, setSearchByName] = useState('');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -747,7 +752,7 @@ const AddReciepents = ({
           />
         </DialogTitle>
         <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-          Add/edit delete contact group(s).
+          Add/Update Contact Group
         </Typography>
 
         <DialogContent>

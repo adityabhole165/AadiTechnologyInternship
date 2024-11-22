@@ -273,9 +273,6 @@ const AddLessonPlan = () => {
   const onSelectEndDate = (value) => {
     setEndDate(value);
   };
-  const onsentence = (value) => {
-    setSentences(value);
-  };
   const onClickClass = (value) => {
 
     setSelectClass(value);
@@ -640,7 +637,23 @@ const AddLessonPlan = () => {
       <span onClick={handleClick} style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}>{fileName}</span>
     );
   };
+  console.log(LessonPlanPhrasesList.join(', ').text1, "******LessonPlanPhrasesList");
 
+  const [wordsentence, setwordsentence] = useState('')
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Filtered data based on search query
+  const filteredWords = LessonPlanPhrasesList.filter((item) =>
+    item.IsPhrase === 'False' &&
+    item.Title.toLowerCase().includes(wordsentence.toLowerCase()))
+    .map((item) => item.Title)
+    .join(', ');
+
+  const filteredSentences = LessonPlanPhrasesList.filter((item) =>
+    item.IsPhrase === 'True' &&
+    item.Title.toLowerCase().includes(wordsentence.toLowerCase()))
+    .map((item) => item.Title)
+    .join(', ');
 
   return (
     <Box sx={{ px: 2 }} maxWidth="xl">
@@ -868,21 +881,28 @@ const AddLessonPlan = () => {
               onChange={onClickClass}
             />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <TextField
+              sx={{ width: '23vw' }}
+              fullWidth
+              label="Search Word / Sentence"
+              value={wordsentence}
+              variant="outlined"
+              size="small"
+              onChange={(e) => setwordsentence(e.target.value)}
+            />
+          </Grid>
+
           {LessonPlanPhrasesList.length !== 0 && (
             <>
 
+              {/* <Grid container spacing={2}> */}
               <Grid item xs={6}>
-
                 <ResizableTextField
-                  label={
-                    <>
-                      Words
-                    </>
-                  }
+                  label="Words"
                   multiline
                   rows={3}
-                  value={LessonPlanPhrasesList.text1}
-
+                  value={filteredWords}
                   fullWidth
                   InputProps={{
                     readOnly: true,
@@ -891,21 +911,17 @@ const AddLessonPlan = () => {
               </Grid>
               <Grid item xs={6}>
                 <ResizableTextField
-                  label={
-                    <>
-                      Sentences
-                    </>
-                  }
+                  label="Sentences"
                   multiline
                   rows={3}
-                  value={Sentences}
-                  onChange={onsentence}
+                  value={filteredSentences}
                   fullWidth
                   InputProps={{
-                    readOnly: false,
+                    readOnly: true,
                   }}
                 />
               </Grid>
+              {/* </Grid> */}
             </>
           )}
 

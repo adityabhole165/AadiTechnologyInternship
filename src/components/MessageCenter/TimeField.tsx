@@ -1,55 +1,62 @@
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
+// Format time to 24-hour format (HH:mm)
+const formatTime = (date) => {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+};
+
 export const TimepickerTwofields1 = ({
     Item,
     ClickItem,
     label,
     size,
     isMandatory = true,
+
     isStartTime = false,
     isEndTime = false,
 }) => {
-    // Local state to manage the input
-    const [localTime, setLocalTime] = useState("");
+    const [currentTime, setCurrentTime] = useState("");
 
-    // Update local state when Item prop changes
     useEffect(() => {
-        // If Item is null/undefined/empty, reset local state
-        if (!Item) {
-            setLocalTime("");
+        if (isStartTime) {
+            setCurrentTime("00:00");
+        } else if (isEndTime) {
+            setCurrentTime("23:59");
         } else {
-            setLocalTime(Item);
+            const now = new Date();
+            setCurrentTime(formatTime(now));
         }
-    }, [Item]);
+    }, [isStartTime, isEndTime]);
 
-    // Handle time change
-    const handleTimeChange = (e) => {
-        const newTime = e.target.value;
-
-        // Update local state
-        setLocalTime(newTime);
-
-        // Notify parent component
-        ClickItem(newTime);
-    };
+    useEffect(() => {
+        if (!Item) {
+            ClickItem(currentTime);
+        }
+    }, [currentTime, Item, ClickItem]);
 
     return (
-        <TextField
-            label={
-                label ? (
-                    <>
-                        {label} {isMandatory && <span style={{ color: 'red' }}>*</span>}
-                    </>
-                ) : (
-                    "Select Time"
-                )
-            }
-            type="time"
-            value={localTime}
-            onChange={handleTimeChange}
-            fullWidth
-            size={size || 'medium'}
-        />
+        <div>
+
+            <TextField
+                label={
+                    label ? (
+                        <>
+                            {label} {isMandatory && <span style={{ color: 'red' }}>*</span>}
+                        </>
+                    ) : (
+                        "Select Time"
+                    )
+                }
+                type="time"
+                value={Item || currentTime}
+                onChange={(e) => ClickItem(e.target.value)}
+                fullWidth
+                size={size || 'medium'}
+            />
+
+        </div>
     );
 };

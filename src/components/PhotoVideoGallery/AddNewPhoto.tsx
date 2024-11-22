@@ -22,6 +22,7 @@ import { useState } from "react";
 import CommonPageHeader from "../CommonPageHeader";
 import SaveIcon from '@mui/icons-material/Save';
 import ClassSectionSelector from "./ClassSectionSelector";
+import FileUploadComponent from "./FileUploadComponent";
 
 const AddNewPhoto = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
@@ -202,6 +203,9 @@ const AddNewPhoto = () => {
           <Grid item xs={12} sm={6}>
             <FormControlLabel control={<Checkbox />} label="Add More Photos" />
           </Grid>
+        </Grid>
+        <Grid xs={12} sm={6}>
+        <FileUploadComponent />
         </Grid>
         <Box pt={2}>
           <Box>

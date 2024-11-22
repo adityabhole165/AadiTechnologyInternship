@@ -69,6 +69,8 @@ import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
 import { TimepickerTwofields1 } from './TimeField';
+
+
 function Form13() {
   const [openDialog, setOpenDialog] = useState(false);
   const [showRecipients, setShowRecipients] = useState(false);
@@ -216,6 +218,7 @@ function Form13() {
   const [schTimeerror, setSchTimeerror] = useState('');
   const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
   const [requestReadReceipt, setRequestReadReceipt] = useState(false);
+  const [teacherstudentid, setteacherstudentid] = useState('');
   // const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
   // const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
@@ -803,24 +806,37 @@ function Form13() {
   }, [SaveDraftM]);
 
   const clickConfirm = () => {
-
-    // showAlert({
-    //   title: 'Please Confirm',
-    //   message: 'No group is selected. Are you sure you want to continue?',
-    //   variant: 'warning',
-    //   confirmButtonText: 'Confirm',
-    //   cancelButtonText: 'Cancel',
-    //   onCancel: () => {
-    //     closeAlert();
-    //   },
-    //   onConfirm: () => {
-
-
-    //     closeAlert();
-    //   },
-    // });
-
-
+    {
+      teacherstudentid === '9' ? (
+        showAlert({
+          title: 'Please Confirm',
+          message: 'No group is selected. Are you sure you want to continue?',
+          variant: 'warning',
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          onCancel: () => {
+            closeAlert();
+          },
+          onConfirm: () => {
+            closeAlert();
+          },
+        })
+      ) : (
+        showAlert({
+          title: 'Please Confirm',
+          message: 'No User is selected. Are you sure you want to continue?',
+          variant: 'warning',
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          onCancel: () => {
+            closeAlert();
+          },
+          onConfirm: () => {
+            closeAlert();
+          },
+        })
+      )
+    };
     handleCloseDialog();
   };
   const [recipientsCC, setRecipientsCC] = useState(
@@ -1469,8 +1485,7 @@ function Form13() {
                 recipientListClick={RecipientsListFun}
                 contactGroupList={RecipientsObject.ContactGroup}
                 classIdList={RecipientsCCObject.ClassId}
-                IsConfirm={IsConfirm}
-              />
+                IsConfirm={IsConfirm} teacherstudentid={teacherstudentid} />
             ) : (
               <AddReciepents
                 RecipientName={RecipientsCCObject.RecipientName}
@@ -1478,8 +1493,9 @@ function Form13() {
                 recipientListClick={RecipientsCCListFun}
                 contactGroupList={RecipientsObject.ContactGroup}
                 classIdList={RecipientsCCObject.ClassId}
-                IsConfirm={IsConfirm}
+                IsConfirm={IsConfirm} teacherstudentid={teacherstudentid}
               />
+
             )}
           </Box>
           <Box>
