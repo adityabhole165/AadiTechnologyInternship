@@ -203,8 +203,14 @@ const ViewExamSchedule = () => {
                                                             <TableCell sx={{ textAlign: 'left', pl: 1, py: 1 }}>{getDateMonthYear(item.Text5) || '-'}</TableCell>
                                                             <TableCell sx={{ textAlign: 'left', py: 1 }}>{item.Text2 || '-'}</TableCell>
                                                             <TableCell sx={{ textAlign: item.Text4 ? 'center' : 'center', py: 1 }}>{item.Text4 || '-'}</TableCell>
-                                                            <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text5) || '-'}</TableCell>
-                                                            <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text6) || '-'}</TableCell>
+                                                            {/* <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text5) || '-'}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', py: 1 }}>{extractTimenew(item.Text6) || '-'}</TableCell> */}
+                                                            <TableCell sx={{ textAlign: 'center', py: 1 }}>
+                                                                {extractTimenew(item.Text5) === '00:00' ? '-' : extractTimenew(item.Text5) || '-'}
+                                                            </TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', py: 1 }}>
+                                                                {extractTimenew(item.Text6) === '00:00' ? '-' : extractTimenew(item.Text6) || '-'}
+                                                            </TableCell>
                                                             <TableCell sx={{ textAlign: 'center', py: 1 }}>{item.TotalTime || '-'}</TableCell>
                                                             <TableCell sx={{ textAlign: 'left', py: 1, ...(item.Description ? '' : { pl: 6 }) }}> {(item.Description ? item.Description.replace(/<\/?BR>/gi, '') : '-') || '-'}</TableCell>
                                                         </TableRow>
