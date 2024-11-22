@@ -2,6 +2,9 @@ import { QuestionMark } from '@mui/icons-material';
 import SaveIcon from '@mui/icons-material/Save';
 import {
   Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Grid,
   IconButton,
   Paper,
@@ -12,7 +15,8 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 
@@ -21,6 +25,8 @@ import CommonPageHeader from '../CommonPageHeader';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from "@mui/icons-material/Edit";
+import { ClearIcon } from '@mui/x-date-pickers';
+
 
 
 interface Video {
@@ -31,7 +37,9 @@ interface Video {
 
 const ViewVideoGallery = () => {
   const [data, setData] = useState<Video[]>([
-    { id: 1, url: 'https://youtu.be/6fc2ahfyYQ0', title: 'Sasa' },
+    { id: 1, url: 'https://www.youtube.com/embed/6fc2ahfyYQ0', title: 'Sasa' },
+    { id: 2, url: 'https://www.youtube.com/embed/6fc2ahfyYQ0', title: 'Saaasa' },
+   
   ]);
 
   const [formData, setFormData] = useState<Pick<Video, 'url' | 'title'>>({
@@ -39,6 +47,9 @@ const ViewVideoGallery = () => {
     title: '',
   });
   const [editId, setEditId] = useState<number | null>(null);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [dialogVideo, setDialogVideo] = useState<string>('');
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,6 +96,23 @@ const ViewVideoGallery = () => {
     setFormData({ url: '', title: '' });
     setEditId(null); // Switch back to add mode
   };
+  // Handle dialog open
+  const handleView = (url: string) => {
+    setDialogVideo(url);
+    setOpenDialog(true);
+    setIsFullscreen(false); // Reset fullscreen state
+  };
+
+  // Handle dialog close
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  // Toggle fullscreen
+  const handleDoubleClick = () => {
+    setIsFullscreen((prev) => !prev);
+  };
+
 
   return (
     <Box px={2}>
@@ -212,27 +240,27 @@ const ViewVideoGallery = () => {
                 background: (theme) => theme.palette.secondary.main,
                 color: (theme) => theme.palette.common.white,
               }}>
-                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Comments</TableCell>
-                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>View</TableCell>
-                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Edit</TableCell>
-                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Delete</TableCell>
+                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5 }}>Comments</TableCell>
+                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 1.5 }}>View</TableCell>
+                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py:  1.5 }}>Edit</TableCell>
+                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py:  1.5 }}>Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {data.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell sx={{ textTransform: 'capitalize', py: 1,  }}>{item.title}</TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py:  1.5,  }}>{item.title}</TableCell>
+                  <TableCell sx={{ textTransform: 'capitalize', py:  0.5, textAlign: 'center', }}>
                     <Tooltip title={"View"}>
                       <IconButton
-                        // onClick={ViewPhotoFilePage}
+                        onClick={() => handleView(item.url)}
                         color="primary"
                       >
                         <VisibilityIcon />
                       </IconButton>
                     </Tooltip>
                   </TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                   <Tooltip title={"Edit"}>
                     <IconButton
                       color="primary"
@@ -242,7 +270,7 @@ const ViewVideoGallery = () => {
                     </IconButton>
                     </Tooltip>
                   </TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                   <Tooltip title={"Delete"}>
                     <IconButton
                       sx={{
@@ -264,6 +292,63 @@ const ViewVideoGallery = () => {
           </Table>
         </TableContainer>
       </Box>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        fullWidth
+        maxWidth={isFullscreen ? false : 'md'}
+        PaperProps={{
+          sx: isFullscreen ? { width: '100%', height: '100%' } : { height: 'auto', borderRadius: '15px' },
+        }}
+      >
+         <DialogTitle sx={{ bgcolor: '#223354' }}>
+         <ClearIcon
+            onClick={handleCloseDialog}
+            sx={{
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red'
+              }
+            }}
+          />
+          </DialogTitle>
+        <DialogContent
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative',
+            p: 0,
+          }}
+        >
+        
+          
+          <iframe
+            src={dialogVideo}
+            title="Video Player"
+            frameBorder="1"
+            allowFullScreen
+            width="100%"
+            height={isFullscreen ? '100%' : '500px'}
+            onDoubleClick={handleDoubleClick}
+          />
+          <Typography
+            align="center"
+            sx={{
+              fontSize: 14,
+              color: grey[600],
+              mt: 1,
+            }}
+          >
+            Double-click the video to toggle fullscreen.
+          </Typography>
+        </DialogContent>
+      </Dialog>
+
     </Box>
   );
 };

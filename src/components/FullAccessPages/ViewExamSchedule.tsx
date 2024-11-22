@@ -187,13 +187,13 @@ const ViewExamSchedule = () => {
                                             <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                                                 <TableHead>
                                                     <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white, py: 1 }}>
-                                                        <TableCell sx={{ color: 'white' }}><strong>Exam Date</strong></TableCell>
-                                                        <TableCell sx={{ color: 'white' }}><strong>Subject</strong></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>Exam Type</strong></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>Start Time</strong></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>End Time</strong></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><strong>Total Time</strong></TableCell>
-                                                        <TableCell sx={{ textAlign: 'left', color: 'white' }}><strong>Description</strong></TableCell>
+                                                        <TableCell sx={{ width: '100px', color: 'white' }}><strong>Exam Date</strong></TableCell>
+                                                        <TableCell sx={{ width: '130px', color: 'white' }}><strong>Subject</strong></TableCell>
+                                                        <TableCell sx={{ width: '100px', textAlign: 'center', color: 'white' }}><strong>Exam Type</strong></TableCell>
+                                                        <TableCell sx={{ width: '100px', textAlign: 'center', color: 'white' }}><strong>Start Time</strong></TableCell>
+                                                        <TableCell sx={{ width: '100px', textAlign: 'center', color: 'white' }}><strong>End Time</strong></TableCell>
+                                                        <TableCell sx={{ width: '100px', textAlign: 'center', color: 'white' }}><strong>Total Time</strong></TableCell>
+                                                        <TableCell sx={{ width: '350px', textAlign: 'left', color: 'white' }}><strong>Description</strong></TableCell>
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
