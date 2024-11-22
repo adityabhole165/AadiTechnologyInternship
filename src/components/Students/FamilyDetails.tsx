@@ -172,7 +172,7 @@ const FamilyDetails = ({ onTabChange }) => {
         motherAnnualIncome: FamilyData?.MotherAnnualIncome || "",
 
         // Family Information
-        marriageAnniversaryDate: FamilyData?.AnniversaryDate || "",
+        marriageAnniversaryDate: formatDOB(FamilyData?.AnniversaryDate) || "",
         localGuardianPhoto: FamilyData?.GuardianPhoto || "",
         familyMonthlyIncome: FamilyData?.FamilyMonthlyIncome || "",
         cwsn: FamilyData?.CWSN || "",
@@ -217,6 +217,17 @@ const FamilyDetails = ({ onTabChange }) => {
     //onTabChange({ firstName: fieldValue, })
     // Remove error when the user starts filling the field
     setErrors({ ...errors, [name]: false });
+  };
+
+  const handleDateChange = (name: string) => (date: Date | null) => {
+    setForm((prevForm) => {
+      const updatedForm = { ...prevForm, [name]: date };
+      onTabChange(updatedForm); // Notify parent of updated data
+      return updatedForm;
+    });
+
+    // Remove error when the user starts filling the field
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: false }));
   };
 
   //#region Photos Opr
@@ -487,11 +498,10 @@ const FamilyDetails = ({ onTabChange }) => {
 
         <Grid item xs={12} md={3}>
           <Datepicker
-            DateValue={SelectDate}
-            onDateChange={onSelectDate}
+            DateValue={form.fatherDOB}
+            onDateChange={handleDateChange('fatherDOB')}
             size={'medium'}
-            label="Father DOB"
-          />
+            label="Fathr's DOB" />
         </Grid>
 
         {/* fatherPhoto */}
@@ -680,11 +690,12 @@ const FamilyDetails = ({ onTabChange }) => {
         </Grid>
 
         <Grid item xs={12} md={3}>
+
           <Datepicker
-            DateValue={SelectDate}
-            onDateChange={onSelectDate}
+            DateValue={form.motherDOB}
+            onDateChange={handleDateChange('motherDOB')}
             size={'medium'}
-            label="Mother DOB"
+            label="Mother's DOB"
           />
         </Grid>
 
@@ -806,8 +817,8 @@ const FamilyDetails = ({ onTabChange }) => {
         <Grid item xs={12} md={3}>
 
           <Datepicker
-            DateValue={SelectDate}
-            onDateChange={onSelectDate}
+            DateValue={form.marriageAnniversaryDate}
+            onDateChange={handleDateChange('marriageAnniversaryDate')}
             size={'medium'}
             label="Marriage Anniversary Date"
           />

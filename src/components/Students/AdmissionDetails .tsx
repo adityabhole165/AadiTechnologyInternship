@@ -83,7 +83,7 @@ const AdmissionDetails = ({ onTabChange }) => {
   const StaffNameDropdown = useSelector((state: RootState) => state.StudentUI.ISStaffName);
   //
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
-  console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
+  //console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
 
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
@@ -620,7 +620,7 @@ const AdmissionDetails = ({ onTabChange }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
-            name="PENNumber "
+            name="PENNumber"
             label="PEN Number"
             variant="outlined"
             value={form.PENNumber}
@@ -628,7 +628,6 @@ const AdmissionDetails = ({ onTabChange }) => {
             fullWidth
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}

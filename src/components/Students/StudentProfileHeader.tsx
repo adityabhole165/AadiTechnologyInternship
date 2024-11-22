@@ -21,8 +21,8 @@ const StudentProfileHeader: React.FC = () => {
 
     const showConfirmedByName = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowConfirmedByName === true;
 
-    console.log('School Settings:', UsGetSchoolSettings);
-    console.log('Show Confirmed By Name:', showConfirmedByName);
+    //console.log('School Settings:', UsGetSchoolSettings);
+    //console.log('Show Confirmed By Name:', showConfirmedByName);
     // Function to format text with first two words in bold
     const formatTextWithBoldFirstTwo = (text: string) => {
         if (!text) return null;

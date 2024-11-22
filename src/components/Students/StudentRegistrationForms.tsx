@@ -212,13 +212,13 @@ const StudentRegistrationForm = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id, Enrolment_Number } = location.state || {};
-  console.log('LOcation', location.state);
+  //console.log('LOcation', location.state);
 
   // Session & Local Variables
   const schoolId = localStorage.getItem('SchoolId');
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const teacherId = sessionStorage.getItem('Id');
-  console.log('teacherId', teacherId);
+
   const [currentTab, setCurrentTab] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -350,26 +350,29 @@ const StudentRegistrationForm = () => {
   const onAdmissionTab = (updatedData) => {
     setAdmissionDetailsData(updatedData);
     calculateCompletion('admission', updatedData);
+    console.log('1️⃣Admission', admissionDetailsData);
   };
 
   const onPersonalTab = (updatedData) => {
     setPersonalDetailsData(updatedData);
     calculateCompletion('personal', updatedData);
+    console.log('2️⃣Personal', personalDetailsData);
   };
 
   const onFamilyTab = (updatedData) => {
     setFamilyDetailsData(updatedData);
     calculateCompletion('family', updatedData);
+    console.log('3️⃣Family', familyDetailsData);
   };
 
   const onAdditionalInfoTab = (updateddata) => {
     setAdditionalInfoData(updateddata);
-    console.log('AdditionalInfo data:', additionalInfoData);
+    console.log('4️⃣Additional', additionalInfoData);
   }
 
   const onStudentStreamwiseSubjectTab = (updateddata) => {
     setStreamwiseSubjectData(updateddata);
-    console.log('5️⃣StreamwiseSubjectDetailsData data:', streamwiseSubjectData);
+    console.log('5️⃣StreamwiseSubject', streamwiseSubjectData);
   }
   //#endregion
   const handleNextTab = () => {
@@ -502,7 +505,7 @@ const StudentRegistrationForm = () => {
   const UpdateStudentResult = useSelector((state: RootState) => state.StudentUI.ISUpdateStudent);
   // console.log('🩸UpdateStudentResult:', UpdateStudentResult);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
-  console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
+  //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
 
   const UpdateStudentBody: IUpdateStudentBody = {
