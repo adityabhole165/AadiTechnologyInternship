@@ -5,6 +5,8 @@ import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+
 import {
     Box,
     Card,
@@ -157,7 +159,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                                             onClick={() => handleAction("Download", item)}
                                             color="primary"
                                         >
-                                            <DownloadIcon />
+                                            <FileDownloadOutlinedIcon />
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>

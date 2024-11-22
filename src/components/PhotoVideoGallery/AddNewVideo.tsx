@@ -7,6 +7,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import { useState } from 'react'
 import CommonPageHeader from '../CommonPageHeader'
 import ClassSectionSelector from './ClassSectionSelector'
+import VideoUrlComponent from './VideoUrlComponent'
 
 
 
@@ -242,11 +243,16 @@ const AddNewVideo = () => {
             } />
 
           </Grid>
+          
 
           <Grid item xs={12} sm={4}>
             <FormControlLabel control={<Checkbox />} label="Show On External Website? " />
           </Grid>
         </Grid>
+
+        <Box>
+          <VideoUrlComponent/>
+          </Box>
         <Box pt={2}>
           <Box>
             <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} />
