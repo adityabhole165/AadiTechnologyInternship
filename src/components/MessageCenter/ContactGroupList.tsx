@@ -151,6 +151,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     const searchString = SearchUser.join(','); // Convert array to string
     console.log("Updated SearchUser as a string:", searchString);
   }, [SearchUser]);
+
   useEffect(() => {
     setGroupName(GPName);
   }, [GPName]);
@@ -393,7 +394,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         ? prevSelected.filter((id) => id !== userId)
         : [...prevSelected, userId]
     );
-    console.log(selectedd, "Sahilllllll")
+
   };
 
 
