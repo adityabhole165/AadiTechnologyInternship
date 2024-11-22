@@ -127,8 +127,9 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                         <IconButton
                                             onClick={() => handleAction("Delete", row.videoName)}
                                             sx={{
-                                                color: red[500],
+                                                color: '#38548A',
                                                 "&:hover": {
+                                                    color:'red',
                                                     backgroundColor: red[100],
                                                    
                                                 },

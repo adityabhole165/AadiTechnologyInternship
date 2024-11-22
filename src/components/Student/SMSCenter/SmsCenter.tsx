@@ -287,7 +287,7 @@ function SmsCenter() {
 
       <Box>
         <Grid container >
-          <Grid item sx={{ minWidth: '15%', pr: 1, pb: 2 }}>
+          <Grid item sx={{ minWidth: '10%', pr: 1, pb: 2 }}>
             <Hidden smDown>
               <RouterLink
                 style={{ textDecoration: 'none', color: '#223354' }}
@@ -392,7 +392,7 @@ function SmsCenter() {
               )}
             </Hidden>
           </Grid>
-          <Grid item sx={{ minWidth: '85%', p: 2, background: 'white', borderRadius: '10px' }}>
+          <Grid item sx={{ minWidth: '90%', p: 2, background: 'white', borderRadius: '10px' }}>
 
             <Grid container spacing={2} pb={2}>
               {/* Free SMS Count */}
