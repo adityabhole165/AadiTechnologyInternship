@@ -1,3 +1,6 @@
+import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
+import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
+import React, { useState } from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -11,13 +14,13 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Theme,
     Tooltip,
     Typography,
     useMediaQuery,
+    TableSortLabel,
+    Theme,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
-import React from "react";
 import { useNavigate } from "react-router";
 
 interface VideoData {
@@ -33,17 +36,35 @@ interface VideoPageTableCardProps {
 }
 
 const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, onEdit, onDelete }) => {
+    const [sortConfig, setSortConfig] = useState<{ key: keyof VideoData; direction: "asc" | "desc" } | null>(null);
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
     const navigate = useNavigate();
 
-    const handleAction = (action: string, videoName: string) => {
-        if (action === "View" && onView) onView(videoName);
-        if (action === "Edit" && onEdit) onEdit(videoName);
-        if (action === "Delete" && onDelete) onDelete(videoName);
+    const sortedData = React.useMemo(() => {
+        if (sortConfig) {
+            return [...data].sort((a, b) => {
+                const aValue = a[sortConfig.key];
+                const bValue = b[sortConfig.key];
+                if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+                if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+                return 0;
+            });
+        }
+        return data;
+    }, [data, sortConfig]);
+
+    const handleSort = (key: keyof VideoData) => {
+        setSortConfig((prevConfig) => {
+            if (prevConfig?.key === key) {
+                return { key, direction: prevConfig.direction === "asc" ? "desc" : "asc" };
+            }
+            return { key, direction: "asc" };
+        });
     };
-    const ViewVideoGalleryPage = (value) => {
-        navigate('/extended-sidebar/Teacher/ViewVideoGallery');
-      };
+
+    const ViewVideoGalleryPage = (value: string) => {
+        navigate("/extended-sidebar/Teacher/ViewVideoGallery");
+    };
 
     return (
         <Box>
@@ -61,79 +82,89 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                 color: (theme) => theme.palette.common.white,
                             }}
                         >
-                            <TableCell sx={{ textTransform: "capitalize", color: "white",  }}>
-                                Video Name
+                            <TableCell sx={{ color: "white" , py:1.5}}>
+                                <TableSortLabel
+                                    active={sortConfig?.key === "videoName"}
+                                    direction={sortConfig?.key === "videoName" ? sortConfig.direction : "asc"}
+                                    onClick={() => handleSort("videoName")}
+                                    IconComponent={() =>
+                                        sortConfig?.key === "videoName" &&
+                                        (sortConfig.direction === "asc" ? (
+                                            <ArrowCircleUpIcon sx={{ml:1, color: "white", fontSize: "20px" }} />
+                                        ) : (
+                                            <ArrowCircleDownIcon sx={{ml:1, color: "white",fontSize: "20px" }} />
+                                        ))
+                                    }
+                                    sx={{
+                                        "&.Mui-active": {
+                                            color: "white",
+                                        },
+                                        "&.MuiTableSortLabel-root:hover": {
+                                            color: "white",
+                                        },
+                                    }}
+                                >
+                                    Video Name
+                                </TableSortLabel>
                             </TableCell>
-                            <TableCell sx={{ textTransform: "capitalize", color: "white", py:1.5, }}>
-                                Last Updated Date
+                            <TableCell sx={{ color: "white", py:1.5}}>
+                                <TableSortLabel
+                                    active={sortConfig?.key === "lastUpdated"}
+                                    direction={sortConfig?.key === "lastUpdated" ? sortConfig.direction : "asc"}
+                                    onClick={() => handleSort("lastUpdated")}
+                                    IconComponent={() =>
+                                        sortConfig?.key === "lastUpdated" &&
+                                        (sortConfig.direction === "asc" ? (
+                                            <ArrowCircleUpIcon sx={{ml:1, color: "white", fontSize: "20px"}} />
+                                        ) : (
+                                            <ArrowCircleDownIcon sx={{ml:1, color: "white" , fontSize: "20px"}} />
+                                        ))
+                                    }
+                                    sx={{
+                                        "&.Mui-active": {
+                                            color: "white",
+                                        },
+                                        "&.MuiTableSortLabel-root:hover": {
+                                            color: "white",
+                                        },
+                                    }}
+                                >
+                                    Last Updated Date
+                                </TableSortLabel>
                             </TableCell>
-                            <TableCell
-                                sx={{
-                                    textTransform: "capitalize",
-                                    color: "white",
-                                    textAlign: "center",
-                                    py:1.5,
-                                }}
-                            >
-                                View
-                            </TableCell>
-                            <TableCell
-                                sx={{
-                                    textTransform: "capitalize",
-                                    color: "white",
-                                    textAlign: "center",
-                                    py:1.5,
-                                }}
-                            >
-                                Edit
-                            </TableCell>
-                            <TableCell
-                                sx={{
-                                    textTransform: "capitalize",
-                                    color: "white",
-                                    textAlign: "center",
-                                    py:1.5,
-                                }}
-                            >
-                                Delete
-                            </TableCell>
+                            <TableCell sx={{ color: "white", textAlign: "center" , py:1.5}}>View</TableCell>
+                            <TableCell sx={{ color: "white", textAlign: "center", py:1.5 }}>Edit</TableCell>
+                            <TableCell sx={{ color: "white", textAlign: "center", py:1.5 }}>Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((row, index) => (
+                        {sortedData.map((row, index) => (
                             <TableRow key={index}>
-                                <TableCell sx={{ py:0.5, textTransform:'capitalize'}}>{row.videoName}</TableCell>
-                                <TableCell sx={{ py:0.5, textTransform:'capitalize'}}>{row.lastUpdated}</TableCell>
-                                <TableCell sx={{ textAlign: "center",  py:0.5 }}>
+                                <TableCell sx={{py:0.5}}>{row.videoName}</TableCell>
+                                <TableCell sx={{py:0.5}}>{row.lastUpdated}</TableCell>
+                                <TableCell sx={{ textAlign: "center" , py:0.5}}>
                                     <Tooltip title="View">
-                                        <IconButton
-                                            onClick={() => ViewVideoGalleryPage(row.videoName)}
-                                            color="primary"
-                                        >
+                                        <IconButton onClick={() => ViewVideoGalleryPage(row.videoName)} color="primary">
                                             <VisibilityIcon />
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textAlign: "center",  py:0.5 }}>
+                                <TableCell sx={{ textAlign: "center", py:0.5 }}>
                                     <Tooltip title="Edit">
-                                        <IconButton
-                                            onClick={() => handleAction("Edit", row.videoName)}
-                                            color="primary"
-                                        >
+                                        <IconButton onClick={() => onEdit?.(row.videoName)} color="primary">
                                             <EditIcon />
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textAlign: "center",  py:0.5 }}>
+                                <TableCell sx={{ textAlign: "center", py:0.5 }}>
                                     <Tooltip title="Delete">
                                         <IconButton
-                                            onClick={() => handleAction("Delete", row.videoName)}
+                                            onClick={() => onDelete?.(row.videoName)}
                                             sx={{
-                                                color: '#38548A',
+                                                color: "#38548A",
                                                 "&:hover": {
-                                                    color:'red',
+                                                    color: "red",
                                                     backgroundColor: red[100],
-                                                   
                                                 },
                                             }}
                                         >
@@ -164,30 +195,26 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                 </Typography>
                                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                                     <Tooltip title="View">
-                                        <IconButton
-                                            onClick={() => handleAction("View", row.videoName)}
-                                            color="primary"
-                                        >
+                                        <IconButton onClick={() => onView?.(row.videoName)} color="primary">
                                             <VisibilityIcon />
                                         </IconButton>
                                     </Tooltip>
                                     <Tooltip title="Edit">
-                                        <IconButton
-                                            onClick={() => handleAction("Edit", row.videoName)}
-                                            color="primary"
-                                        >
+                                        <IconButton onClick={() => onEdit?.(row.videoName)} color="primary">
                                             <EditIcon />
                                         </IconButton>
                                     </Tooltip>
                                     <Tooltip title="Delete">
                                         <IconButton
-                                            onClick={() => handleAction("Delete", row.videoName)}
+                                            onClick={() => onDelete?.(row.videoName)}
                                             sx={{
-                                                color: red[500],
+                                                color: "#38548A",
                                                 "&:hover": {
+                                                    color: "red",
                                                     backgroundColor: red[100],
-                                                }
-                                            }}>
+                                                },
+                                            }}
+                                        >
                                             <DeleteForeverIcon />
                                         </IconButton>
                                     </Tooltip>
@@ -196,9 +223,9 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                         </Card>
                     ))}
                 </Box>
-            )
-            }
+            )}
         </Box>
     );
 };
-export default VideoPageTableCard
+
+export default VideoPageTableCard;

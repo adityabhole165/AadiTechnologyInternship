@@ -81,7 +81,13 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                     <TableHead>
                         <TableRow 
                             sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                            <TableCell onClick={() => handleSort("galleryName")} sx={{ cursor: "pointer", display: "flex", alignItems: "center", textTransform: 'capitalize', color: 'white', py:  1.5 }}>Gallery Name
+                            <TableCell onClick={() => handleSort("galleryName")} 
+                            sx={{ cursor: "pointer",
+                             display: "flex",
+                              alignItems: "center", 
+                              textTransform: 'capitalize',
+                               color: 'white', py:  1.5 }}>
+                                Gallery Name
                                 {sortConfig?.key === "galleryName" && (
                                     sortConfig.direction === "asc" ? (
                                         <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
@@ -91,7 +97,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                                 )}
                             </TableCell>
                             <TableCell onClick={() => handleSort("className")}
-                                sx={{ textTransform: 'capitalize', color: 'white', py:  1.5, cursor: "pointer", }}>
+                                sx={{ alignItems: "center", textTransform: 'capitalize', color: 'white', py:  1.5, cursor: "pointer", }}>
                                 Class Name
                                 {sortConfig?.key === "className" && (
                                     sortConfig.direction === "asc" ? (
