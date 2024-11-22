@@ -230,7 +230,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                         />
                                     </DialogTitle>
                                     <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-                                        Add/Update Group
+                                        Add/Update Contact Group
                                     </Typography>
 
                                     <DialogContent>
