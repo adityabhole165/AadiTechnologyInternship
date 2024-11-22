@@ -52,6 +52,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const [selectedd, setSelectedd] = useState([]);
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [previousStandardClass, setPreviousStandardClass] = useState(null); // Store the previous selected StandardClass to compar
   const [UsersRole, setUserRole] = useState('1');
   const [StandardClass, setStandardClass] = useState('1293');
   const [GroupName, setGroupName] = useState(GPName);
@@ -66,7 +67,11 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const schoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
   const asUserId = Number(localStorage.getItem('UserId'));
+
   const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+
+  console.log(SortDirection, "@@###$$$$$$")
+
   const [SortBy, setSortBy] = useState('Name');
   const getuserlist: any = useSelector((state: RootState) => state.getuser1.GetUser);
   const USContactGroup: any = useSelector((state: RootState) => state.ContactGroup.IContactGroups);
@@ -126,7 +131,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   };
   useEffect(() => {
     dispatch(CDAGetStandardClass(StandardsClass));
-  }, []);
+  }, [schoolId, academicYearId]);
   const UserName: IGetUserNameBody = {
     asSchoolId: Number(schoolId),
     asAcademicYearId: Number(academicYearId),
@@ -143,14 +148,24 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   }, [dispatch, page, rowsPerPage, UsersRole, StandardClass, SortDirection]);
 
   useEffect(() => {
+    const searchString = SearchUser.join(','); // Convert array to string
+    console.log("Updated SearchUser as a string:", searchString);
+  }, [SearchUser]);
+  useEffect(() => {
     setGroupName(GPName);
   }, [GPName]);
   const clickUserRole = (Value) => {
     setUserRole(Value);
   }
   const clickStandardClass = (Value) => {
-    setStandardClass(Value);
-  }
+    if (Value !== StandardClass) {
+      setStandardClass(Value);
+      setPreviousStandardClass(StandardClass); // Update previousStandardClass
+    }
+  };
+  // const clickStandardClass = (Value) => {
+  //   setStandardClass(Value);
+  // }
   const clickGroupName = (Value) => {
     setGroupName(Value);
   }
@@ -176,19 +191,12 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const clickConfirm = async () => {
     try {
       if (isSubmitting) return;
-
       setIsSubmitting(true); // Set flag to indicate submission in progress
       let isValid = true;
-
-      // let isValid = true;
-
-      // Reset error messages
       setErrorGroupName('');
       setErrorUserRole('');
       setErrorSelectedUser('');
       setErrorGroupNameExists('');
-
-      // Check for empty fields
       if (!GroupName || !selectedd || !selected) {
         setErrorTypeName('Please correct following errors.');
         isValid = false;
@@ -264,7 +272,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       if (typeof USAddUpdateGroup === 'string') {
         if (USAddUpdateGroup.toLowerCase().includes('success')) {
           toast.success(USAddUpdateGroup);
-          // Optionally, reset fields here as well
+          dispatch(resetAddUpdateGroup());
+
           setGroupName(''); // Clear Group Name
           setSelected([]); // Clear selected users
           setSelectedd([]);
@@ -415,15 +424,13 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
-  // const ApplicableTO = (Value) => {
 
-  // }
+
+
   const handleSortChange = (column: string) => {
     if (SortBy === column) {
-
       setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
     } else {
-
       setSortBy(column);
       setSortDirection('asc');
     }
@@ -661,9 +668,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         <DialogActions sx={{ py: 2, px: 3 }}>
           <Button color={'error'} onClick={onClose}>
             Cancel
-          </Button>
-          <Button color={'error'} >
-            Clear
           </Button>
           <Button
             onClick={clickConfirm}
