@@ -481,25 +481,32 @@ const PersonalDetails = ({ onTabChange }) => {
   };
 
   //let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/Student Documents/"
-  const url = `${localStorage.getItem("SiteURL")}RITESCHOOL/DOWNLOADS/Student Documents/${form.aadharCardScanCopy}`;   //--remeber to set aadharCardScanCopy
+  let url = localStorage.getItem("SiteURL") + "RITeSchool/DOWNLOADS/Aadhar Cards/"
+  //const url = `${localStorage.getItem("SiteURL")}RITeSchool/DOWNLOADS/Aadhar Cards/${form.aadharCardScanCopy}`;   //--remeber to set aadharCardScanCopy
   const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
 
   const viewImage = () => {
-    //const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
-    console.log('base64Image', base64Image);
-    if (form.aadharCardScanCopy) {                             // -----show image using url🩸
-      window.open(url, '_blank');
+    if (form.aadharCardScanCopy) {
+      const fullImageUrl = `${url}${form.aadharCardScanCopy}`;
+      window.open(fullImageUrl, '_blank');
     }
-
-    // if (base64URL2 && imageFileExtention) {       // -----show image using base64🩸
-    //   console.log('Opening image:', base64Image);
-    //   window.open(base64Image, '_blank');
-    // } else {
-    //   console.error('Base64 string or file extension is missing!');
-    // }
-
-    //window.open(base64Image, '_blank');
   };
+  // const viewImage = () => {
+  //   //const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
+  //   console.log('base64Image', base64Image);
+  //   if (form.aadharCardScanCopy) {                             // -----show image using url🩸
+  //     window.open(url, '_blank');
+  //   }
+
+  //   // if (base64URL2 && imageFileExtention) {       // -----show image using base64🩸
+  //   //   console.log('Opening image:', base64Image);
+  //   //   window.open(base64Image, '_blank');
+  //   // } else {
+  //   //   console.error('Base64 string or file extension is missing!');
+  //   // }
+
+  //   //window.open(base64Image, '_blank');
+  // };
 
 
   //#region DataTransfer 
