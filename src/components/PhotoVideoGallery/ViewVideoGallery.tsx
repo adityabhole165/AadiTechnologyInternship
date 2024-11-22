@@ -212,17 +212,17 @@ const ViewVideoGallery = () => {
                 background: (theme) => theme.palette.secondary.main,
                 color: (theme) => theme.palette.common.white,
               }}>
-                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Comments</TableCell>
-                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>View</TableCell>
-                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Edit</TableCell>
-                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Delete</TableCell>
+                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5 }}>Comments</TableCell>
+                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 1.5 }}>View</TableCell>
+                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py:  1.5 }}>Edit</TableCell>
+                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py:  1.5 }}>Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {data.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell sx={{ textTransform: 'capitalize', py: 1,  }}>{item.title}</TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py:  0.5,  }}>{item.title}</TableCell>
+                  <TableCell sx={{ textTransform: 'capitalize', py:  0.5, textAlign: 'center', }}>
                     <Tooltip title={"View"}>
                       <IconButton
                         // onClick={ViewPhotoFilePage}
@@ -232,7 +232,7 @@ const ViewVideoGallery = () => {
                       </IconButton>
                     </Tooltip>
                   </TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                   <Tooltip title={"Edit"}>
                     <IconButton
                       color="primary"
@@ -242,7 +242,7 @@ const ViewVideoGallery = () => {
                     </IconButton>
                     </Tooltip>
                   </TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                   <Tooltip title={"Delete"}>
                     <IconButton
                       sx={{

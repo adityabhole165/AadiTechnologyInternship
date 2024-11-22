@@ -27,6 +27,8 @@ const AddNewPhoto = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const [selectedClasses, setSelectedClasses] = useState({});
   const [selectAll, setSelectAll] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
+
   // Define sections dynamically based on class
   const getSectionsForClass = (className: string) => {
     if (["1", "2", "3"].includes(className)) {
@@ -143,35 +145,41 @@ const AddNewPhoto = () => {
             </IconButton>
           </Tooltip>
 
-            <Tooltip title="Add Photo">
-            <IconButton
-             
-             sx={{
-              color: "white",
-              backgroundColor: green[500],
-              "&:hover": {
-                backgroundColor: green[600],
-              },
-            }}
-            >
-             <SaveIcon />
-            </IconButton>
-          </Tooltip>
-      
-          {/* Update Photo Button */}
-          <Tooltip title="Update Photo">
-            <IconButton
-              sx={{
-                color: "white",
-                backgroundColor: green[500],
-                "&:hover": {
-                  backgroundColor: green[600],
-                },
-              }}
-            >
-              <SaveIcon />
-            </IconButton>
-          </Tooltip>
+          {editId ? (
+              <>
+                <Tooltip title={'Update Photo'}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      '&:hover': {
+                        backgroundColor: green[600],
+                      },
+                    }}
+                    // onClick={handleUpdate}
+                    // disabled={!formData.url || !formData.title}
+                  >
+                    <SaveIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            ) : (
+              <Tooltip title={'Save Photo'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    '&:hover': {
+                      backgroundColor: green[600],
+                    },
+                  }}
+                  // onClick={handleAdd}
+                // disabled={!formData.url || !formData.title}
+                >
+                  <SaveIcon />
+                </IconButton>
+              </Tooltip>
+            )}
           </>
         }
       />

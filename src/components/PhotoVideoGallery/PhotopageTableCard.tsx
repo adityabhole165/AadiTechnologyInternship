@@ -1,3 +1,5 @@
+import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
+import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
@@ -20,7 +22,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router';
 
 // Define props for PhotoPage
@@ -37,42 +39,93 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
     const navigate = useNavigate();
+    const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" } | null>(null);
 
     const handleAction = (action: string, item: any) => {
         alert(`${action} clicked for ${item.galleryName}`);
     };
-   
-      const ViewPhotoFilePage = (value) => {
+
+    const ViewPhotoFilePage = (value) => {
         navigate('/extended-sidebar/Teacher/ViewPhotoFile');
-      };
+    };
+    const sortedData = React.useMemo(() => {
+        if (!sortConfig) return data;
+
+        return [...data].sort((a, b) => {
+            const aValue = a[sortConfig.key];
+            const bValue = b[sortConfig.key];
+
+            if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+            if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+            return 0;
+        });
+    }, [data, sortConfig]);
+
+    const handleSort = (key: string) => {
+        setSortConfig((prevConfig) => {
+            if (prevConfig?.key === key) {
+                // Toggle sort direction
+                return { key, direction: prevConfig.direction === "asc" ? "desc" : "asc" };
+            }
+            // Default to ascending
+            return { key, direction: "asc" };
+        });
+    };
 
     return (
-        <Box>
+        <Box pb={1}>
             {/* Automatically switch between table and card views */}
             {!isMobile ? (
                 // Table View
                 <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                     <TableHead>
-                        <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Gallery Name</TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Class Name</TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Last Updated Date</TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2, textAlign: 'center', }}>View</TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2, textAlign: 'center', }}>Slide Show</TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2, textAlign: 'center', }}>Download</TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2, textAlign: 'center', }}>Edit</TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2, textAlign: 'center', }}>Delete</TableCell>
+                        <TableRow 
+                            sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                            <TableCell onClick={() => handleSort("galleryName")} sx={{ cursor: "pointer", display: "flex", alignItems: "center", textTransform: 'capitalize', color: 'white', py:  1.5 }}>Gallery Name
+                                {sortConfig?.key === "galleryName" && (
+                                    sortConfig.direction === "asc" ? (
+                                        <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
+                                    ) : (
+                                        <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
+                                    )
+                                )}
+                            </TableCell>
+                            <TableCell onClick={() => handleSort("className")}
+                                sx={{ textTransform: 'capitalize', color: 'white', py:  1.5, cursor: "pointer", }}>
+                                Class Name
+                                {sortConfig?.key === "className" && (
+                                    sortConfig.direction === "asc" ? (
+                                        <ArrowCircleUpIcon sx={{ ml: 1, color: "white",fontSize: "20px" }} />
+                                    ) : (
+                                        <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
+                                    )
+                                )}
+                            </TableCell>
+                            <TableCell onClick={() => handleSort("lastUpdated")}
+                                sx={{ textTransform: 'capitalize', color: 'white', py:  1.5, cursor: "pointer",}}>Last Updated Date
+                                {sortConfig?.key === "lastUpdated" && (
+                                    sortConfig.direction === "asc" ? (
+                                        <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px"}} />
+                                    ) : (
+                                        <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
+                                    )
+                                )}
+                            </TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>View</TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Slide Show</TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Download</TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Edit</TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Delete</TableCell>
                         </TableRow>
-                        
+
                     </TableHead>
                     <TableBody>
                         {data.map((item, index) => (
                             <TableRow key={index}>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>{item.galleryName}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>{item.className}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>{item.lastUpdated}</TableCell>
-
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0.5}}>{item.galleryName}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>{item.className}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>{item.lastUpdated}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                                     <Tooltip title={"View"}>
                                         <IconButton
                                             onClick={ViewPhotoFilePage}
@@ -82,7 +135,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                                     <Tooltip title={"Slide Show"}>
                                         <IconButton
                                             onClick={() => handleAction("Slide Show", item)}
@@ -92,7 +145,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                                     <Tooltip title={"Download"}>
                                         <IconButton
                                             onClick={() => handleAction("Download", item)}
@@ -102,7 +155,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                                     <Tooltip title={"Edit"}>
                                         <IconButton
                                             onClick={() => handleAction("Edit", item)}
@@ -112,7 +165,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center', }}>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                                     <Tooltip title={"Delete"}>
                                         <IconButton
                                             onClick={() => handleAction("Delete", item)}

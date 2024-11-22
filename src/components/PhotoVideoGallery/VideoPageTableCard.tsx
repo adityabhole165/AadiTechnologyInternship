@@ -61,10 +61,10 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                 color: (theme) => theme.palette.common.white,
                             }}
                         >
-                            <TableCell sx={{ textTransform: "capitalize", color: "white" }}>
+                            <TableCell sx={{ textTransform: "capitalize", color: "white",  }}>
                                 Video Name
                             </TableCell>
-                            <TableCell sx={{ textTransform: "capitalize", color: "white" }}>
+                            <TableCell sx={{ textTransform: "capitalize", color: "white", py:1.5, }}>
                                 Last Updated Date
                             </TableCell>
                             <TableCell
@@ -72,6 +72,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                     textTransform: "capitalize",
                                     color: "white",
                                     textAlign: "center",
+                                    py:1.5,
                                 }}
                             >
                                 View
@@ -81,6 +82,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                     textTransform: "capitalize",
                                     color: "white",
                                     textAlign: "center",
+                                    py:1.5,
                                 }}
                             >
                                 Edit
@@ -90,7 +92,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                     textTransform: "capitalize",
                                     color: "white",
                                     textAlign: "center",
-                                    py:1,
+                                    py:1.5,
                                 }}
                             >
                                 Delete
@@ -100,9 +102,9 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                     <TableBody>
                         {data.map((row, index) => (
                             <TableRow key={index}>
-                                <TableCell sx={{ py:1, textTransform:'capitalize'}}>{row.videoName}</TableCell>
-                                <TableCell sx={{ py:1, textTransform:'capitalize'}}>{row.lastUpdated}</TableCell>
-                                <TableCell sx={{ textAlign: "center",  py:1 }}>
+                                <TableCell sx={{ py:0.5, textTransform:'capitalize'}}>{row.videoName}</TableCell>
+                                <TableCell sx={{ py:0.5, textTransform:'capitalize'}}>{row.lastUpdated}</TableCell>
+                                <TableCell sx={{ textAlign: "center",  py:0.5 }}>
                                     <Tooltip title="View">
                                         <IconButton
                                             onClick={() => ViewVideoGalleryPage(row.videoName)}
@@ -112,7 +114,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textAlign: "center",  py:1 }}>
+                                <TableCell sx={{ textAlign: "center",  py:0.5 }}>
                                     <Tooltip title="Edit">
                                         <IconButton
                                             onClick={() => handleAction("Edit", row.videoName)}
@@ -122,7 +124,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textAlign: "center",  py:1 }}>
+                                <TableCell sx={{ textAlign: "center",  py:0.5 }}>
                                     <Tooltip title="Delete">
                                         <IconButton
                                             onClick={() => handleAction("Delete", row.videoName)}

@@ -226,7 +226,7 @@ const PhotoVideoGalleryBaseScreen = () => {
                         )} */}
                     </Box>
                 ) : (
-                    <Box sx={{ px: 2,pt:1 }}>
+                    <Box sx={{ px: 2,py:1 }}>
                         <Typography variant="h4" gutterBottom>
                             Video Gallery
                         </Typography>
