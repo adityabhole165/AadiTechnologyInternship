@@ -42,8 +42,6 @@ const SelectallAddrecipents = ({
             <ContactGroupCheckboxCard Item={item} onClick={onClick} key={index} />)
             : (
               <CheckboxCard Item={item} onClick={onClick} key={index} />)}
-
-
         </>
       ))}
     </>

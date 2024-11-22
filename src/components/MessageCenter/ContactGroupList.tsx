@@ -48,9 +48,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(1);
   const rowsPerPageOptions = [5, 10, 20, 30, 40];
-  //const [selectedd, setSelectedd] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedd, setSelectedd] = useState([]);
-  //const selectedString = selectedd.join(', '); // This will create a comma-separated string from the array
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [UsersRole, setUserRole] = useState('1');
@@ -66,7 +65,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
-  const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = Number(localStorage.getItem('UserId'));
   const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [SortBy, setSortBy] = useState('Name');
@@ -177,7 +175,12 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   }
   const clickConfirm = async () => {
     try {
+      if (isSubmitting) return;
+
+      setIsSubmitting(true); // Set flag to indicate submission in progress
       let isValid = true;
+
+      // let isValid = true;
 
       // Reset error messages
       setErrorGroupName('');
@@ -190,34 +193,30 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         setErrorTypeName('Please correct following errors.');
         isValid = false;
       }
-
       // Validate Group Name not blank
       if (!GroupName.trim()) {
         setErrorGroupName('Group Name should not be blank.');
         isValid = false;
       }
-
       // Validate if Group Name already exists
-      if (await isGroupNameExists(GroupName)) {
-        setErrorGroupNameExists('Group Name already exists.');
-        isValid = false;
+      if (GPID === 0) {
+        if (await isGroupNameExists(GroupName)) {
+          setErrorGroupNameExists('Group Name already exists.');
+          isValid = false;
+        }
       }
-
       // Validate user role selection
       if (selectedd.length === 0) {
         setErrorUserRole("At least one applicable role should be selected.");
         isValid = false;
       }
-
       // Validate selected users
       if (selected.length === 0) {
         setErrorSelectedUser("At least one user should be selected for the Group.");
         isValid = false;
       }
-
       // If validation fails, stop the process
       if (!isValid) return;
-
       // Prepare data to save
       const SaveContactGroup = {
         asSchoolId: Number(schoolId),
@@ -225,13 +224,24 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         asMailingGroupXML: getXML(),
       };
 
-      // Dispatch action to save the group
+
       await dispatch(CDAaddUpdateGroup(SaveContactGroup));
       dispatch(resetAddUpdateGroup());
       dispatch(ContactGroup(ContactgroupBody));
 
+      setGroupName(''); // Clear Group Name field
+      setSelected([]); // Clear selected users
+      setSelectedd([]);
+      setSelectAll(false); // Clear selected roles
+      setErrorTypeName(''); // Clear error message
+      setErrorGroupName(''); // Clear error message
+      setErrorUserRole(''); // Clear error message
+      setErrorSelectedUser(''); // Clear error message
+      setErrorGroupNameExists(''); // Clear error message
+
     } catch (error) {
       console.error(error);
+      setIsSubmitting(false);
     }
   };
 
@@ -240,12 +250,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const isGroupNameExists = async (groupName) => {
 
     try {
-
       const existingGroupNames = getuserlist.map((item) => (item.Value));
-      console.log(existingGroupNames, "pppppppppppppp") // Replace with actual data
       return existingGroupNames.includes(groupName.trim());
     } catch (error) {
-      console.error('Error checking group name:', error);
       return false; // Assume name doesn't exist on error
     }
 
@@ -257,13 +264,38 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       if (typeof USAddUpdateGroup === 'string') {
         if (USAddUpdateGroup.toLowerCase().includes('success')) {
           toast.success(USAddUpdateGroup);
-          onClose();
+          // Optionally, reset fields here as well
+          setGroupName(''); // Clear Group Name
+          setSelected([]); // Clear selected users
+          setSelectedd([]);
+          setSelectAll(false); // Clear selected roles
+          setErrorTypeName('');
+          setErrorGroupName('');
+          setErrorUserRole('');
+          setErrorSelectedUser('');
+          setErrorGroupNameExists('');
+          setIsSubmitting(false);
+          // onClose(); // Close the dialog if needed
         } else {
           toast.error(USAddUpdateGroup);
         }
       }
     }
   }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected]);
+
+
+  // useEffect(() => {
+  //   if (USAddUpdateGroup) {
+  //     if (typeof USAddUpdateGroup === 'string') {
+  //       if (USAddUpdateGroup.toLowerCase().includes('success')) {
+  //         toast.success(USAddUpdateGroup);
+  //         // onClose();
+  //       } else {
+  //         toast.error(USAddUpdateGroup);
+  //       }
+  //     }
+  //   }
+  // }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected]);
 
 
   // const clickConfirm = async () => {
@@ -383,9 +415,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
-  const ApplicableTO = (Value) => {
+  // const ApplicableTO = (Value) => {
 
-  }
+  // }
   const handleSortChange = (column: string) => {
     if (SortBy === column) {
 
@@ -491,7 +523,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                 Search By Name <span style={{ color: 'red' }}>*</span>
               </span>
             }
-            multiline
+            // multiline
             rows={1}
             value={SearchByUserName}
             onChange={(e) => {
@@ -500,6 +532,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                 handleSearchByUserName(value);
               }
             }}
+            // onChange={(e) => {
+            //   handleSearchByUserName(e.target.value)
+            // }}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === 'Tab') {
                 clickSearch();
@@ -626,6 +661,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         <DialogActions sx={{ py: 2, px: 3 }}>
           <Button color={'error'} onClick={onClose}>
             Cancel
+          </Button>
+          <Button color={'error'} >
+            Clear
           </Button>
           <Button
             onClick={clickConfirm}
