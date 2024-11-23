@@ -48,6 +48,7 @@ const ProgressReportSlice = createSlice({
     ISPrePrimaryExamPublishStatus: {},
     ISgetIsTermExamPublished: null,
     ISgetIsFinalResultPublished: null,
+    
 
   },
   reducers: {

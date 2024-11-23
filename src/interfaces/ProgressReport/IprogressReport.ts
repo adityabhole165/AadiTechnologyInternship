@@ -314,6 +314,7 @@ export interface GetSchoolSettingsResult {
     ExternalLibrarySite: string
     ShowTopppers: string
     BlockExamPublish: string
+    ToppersCount: number
 }
 export interface IGetAllStudentsProgressSheetBody {
     asSchoolId: number
@@ -353,10 +354,10 @@ export interface IGetAcademicYearsOfStudentBody {
     aiSchoolId: string
     asAcademicYearId: string
     aiStudentId: string
-  }
+}
 
 
-  export interface IGetAcademicYearsOfStudentResult {
+export interface IGetAcademicYearsOfStudentResult {
     GetAcademicYears: [
         {
             AcademicYear: string
@@ -367,7 +368,7 @@ export interface IGetAcademicYearsOfStudentBody {
         {
             TermName: string;
             Id: string;
-           
+
         }
     ],
 
@@ -378,16 +379,16 @@ export interface IGetOldStudentDetailsBody {
     aiSchoolId: string
     aiAcademicYearId: string
     aiStudentId: string
-  }
+}
 
-  export interface IGetOldStudentDetailsResult {
+export interface IGetOldStudentDetailsResult {
     OldStudentDetails: {
         StudentId: string
         StandardDivisionId: string
         StandardId: string
     }
 }
-  
+
 
 export interface IGetSchoolSettingValuesBody {
     asSchoolId: string,
@@ -402,18 +403,17 @@ export interface IGetSchoolSettingValuesResult {
 }
 
 
-export  interface  IProgressReportBody
-{
+export interface IProgressReportBody {
     aiSchoolId: number,
     aiAcademicYearId: number,
-    aiStandardId:number,
-    aiStandardDivisionId:number,
-    aiStudentId:number,
-    aiTermId:number,
-    aiLoginUserId:number,
+    aiStandardId: number,
+    aiStandardDivisionId: number,
+    aiStudentId: number,
+    aiTermId: number,
+    aiLoginUserId: number,
 }
 
-export interface IGetProgressReportFileNameResult{
+export interface IGetProgressReportFileNameResult {
     FilePath: string,
     Message: string
     // GetProgressReportFileNameResult : string
@@ -423,37 +423,37 @@ export interface GetIsPrePrimaryBody {
     asSchoolId: string
     asAcademicYearId: string
     asStandardId: number
-  }
-  export interface IGetPrePrimaryExamPublishStatusBody {
+}
+export interface IGetPrePrimaryExamPublishStatusBody {
     asSchoolId: string
     asAcademicYearId: string
     aiYearwiseStudentId: string
-  }
-
- 
+}
 
 
-  export  interface  DownloadButtonStateDetailsResult{
-    DownloadButtonStateDetailsResult:{
+
+
+export interface DownloadButtonStateDetailsResult {
+    DownloadButtonStateDetailsResult: {
         StandardId: number
         StandardDivisionId: number
         IsPrimaryReport: boolean
         ShowDownloadButton: boolean
         IsTerm1AssessmentPublished: boolean
         IsTerm2AssessmentPublished: boolean
-}}
+    }
+}
 
-  export interface IgetIsTermExamPublishedBody {
+export interface IgetIsTermExamPublishedBody {
     asSchoolId: string
     asAcademicYearId: string
     asStandardDivisionId: string
-  }
+}
 
-  export interface IgetIsFinalResultPublishedBody {
+export interface IgetIsFinalResultPublishedBody {
     asSchoolId: string
     asAcademicYearId: string
     asStandardDivisionId: string
-  }
-  
+}
 
-  
+

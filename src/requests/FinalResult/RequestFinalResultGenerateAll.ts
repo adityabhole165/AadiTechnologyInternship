@@ -622,7 +622,8 @@ export const ViewResultGA =
                     GradeName: item.Grade_Name,
                     Percentage: item.Percentage,
                     Grade_id: item.Grade_id,
-                    Result: item.Result
+                    Result: item.Result,
+                    rank: item.rank
                 };
             });
             let PerCentDetails = response.data.listParcentageDetails.map((item, i) => {

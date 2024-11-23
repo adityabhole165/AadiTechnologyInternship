@@ -48,11 +48,13 @@ const GenerateAll = ({ }) => {
     const totalconsidration = SubjectDetailsView.filter((item) => item.Total_Consideration === "N")
     const TotalconsidrationProgressReport = SubjectDetails.filter((item) => item.Total_Consideration === "N")
     const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+    const ToppersCount = UsGetSchoolSettings?.GetSchoolSettingsResult?.ToppersCount
     const TotalPerGradeView = useSelector((state: RootState) => state.FinalResultGenerateAll.getTotalPerGradeView);
-    console.log(TotalPerGradeView, 'TotalPerGradeView')
     const PercentageDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getPerDetails);
     const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
-
+    const hasTopRanks = TotalPerGradeView?.some((item) =>
+        [1, 2, 3].includes(item.rank)
+    );
     useEffect(() => {
         if (UsGetSchoolSettings != null)
             setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
@@ -632,6 +634,18 @@ const GenerateAll = ({ }) => {
                                                 )}
                                                 {IsTotalConsiderForProgressReport === "True" && (
                                                     <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
+                                                )}
+                                                {ToppersCount === 3 && hasTopRanks && (
+                                                    <TableCell
+                                                        sx={{
+                                                            py: 1,
+                                                            border: (theme) => `1px solid ${theme.palette.grey[400]}`,
+                                                            fontWeight: 'bold',
+                                                            textAlign: 'center'
+                                                        }}
+                                                    >
+                                                        Rank
+                                                    </TableCell>
                                                 )}
                                                 {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && (
                                                     <TableCell
