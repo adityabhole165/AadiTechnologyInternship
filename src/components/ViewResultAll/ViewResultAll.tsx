@@ -486,6 +486,13 @@ const ViewResultAll = (props: Props) => {
                         {IsTotalConsiderForProgressReport === "True" && (
                           <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>Grade</TableCell>
                         )}
+                        {USSStudentsingleResult.some((item) => item.IsFailCriteriaNotApplicable === "N") && (
+                          <TableCell
+                            sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}
+                          >
+                            Result
+                          </TableCell>
+                        )}
                       </TableRow>
 
                       <TableRow>
@@ -523,6 +530,19 @@ const ViewResultAll = (props: Props) => {
                               }
                               return null;
                             })}
+                            {USSStudentsingleResult.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                              if (index === 0) {
+                                return (
+                                  <TableCell
+                                    key={index}
+                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                  >
+                                    {resultData.Result || '-'}
+                                  </TableCell>
+                                );
+                              }
+                              return null;
+                            })}
                           </>
                         )}
                       </TableRow>
@@ -553,6 +573,19 @@ const ViewResultAll = (props: Props) => {
                                     <Typography variant="body2">
                                       {totalData.GradeName} {matchingRemark && `(${matchingRemark})`}
                                     </Typography>
+                                  </TableCell>
+                                );
+                              }
+                              return null;
+                            })}
+                            {USSStudentsingleResult.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                              if (index === 0) {
+                                return (
+                                  <TableCell
+                                    key={index}
+                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                  >
+                                    {'-'}
                                   </TableCell>
                                 );
                               }

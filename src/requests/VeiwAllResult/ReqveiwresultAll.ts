@@ -156,7 +156,8 @@ export const GetsingleStudentResultVA =
                     Text5: item.Academic_Year,
                     Text6: item.School_Name,
                     Text7: item.School_Orgn_Name,
-                    ShowOnlyGrades: item.ShowOnlyGrades
+                    ShowOnlyGrades: item.ShowOnlyGrades,
+                    IsFailCriteriaNotApplicable: item.IsFailCriteriaNotApplicable
 
                 };
                 // console.log(StudentListAll,"showonlygradess");
@@ -192,7 +193,8 @@ export const GetsingleStudentResultVA =
                     TotalMarks: `${totalmarksScored} / ${item.Subjects_Total_Marks}`,
                     GradeName: item.Grade_Name,
                     Percentage: item.Percentage,
-                    Grade_id: item.Grade_id
+                    Grade_id: item.Grade_id,
+                    Result: item.Result,
                 };
             });
             let PerCentDetails = response.data.listParcentageDetails.map((item, i) => {
