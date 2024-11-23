@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import IGetAllStandards, {
   IGetExamScheduleBody,
-  IGetExamsList
+  IGetExamsList,
+  IGetSubjectExamScheduleBody
 } from 'src/interfaces/Teacher/TExamSchedule';
 import { AppThunk } from 'src/store';
 
@@ -19,6 +20,7 @@ const SelectStandardExamslice = createSlice({
     RStandard: [],
     RStandardwTest: [],
     ExamSchedule: [],
+    SubjectExamSchedule: [],
     Loading: true
   },
   reducers: {
@@ -48,6 +50,9 @@ const SelectStandardExamslice = createSlice({
     },
     ExamSchedule(state, action) {
       state.ExamSchedule = action.payload;
+    },
+    SubjectExamSchedule(state, action) {
+      state.SubjectExamSchedule = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true;
@@ -267,6 +272,27 @@ export const RExamSchedule =
       dispatch(SelectStandardExamslice.actions.ExamSchedule(Array));
     };
 
+export const GetSubjectExamSchedule =
+  (data: IGetSubjectExamScheduleBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SelectStandardExamslice.actions.getLoading(true));
+      const response = await GetTExamResultListApi.GetSubjectExamScheduleList(data);
+
+      const DataList = response?.data?.listStandardwiseSubject.map((item) => {
+        return {
+          Text1: item.SubjectWize_Standard_Exam_Schedule_Id,
+          subject: item.Subject_Name,
+          id: item.Subject_Id,
+          Text4: item.Start_DateTime,
+          Text5: item.End_DateTime,
+          examType: item.TestType,
+          TotalTime: item.TotalTime,
+          description: item.Description,
+          Marks: item.Marks
+        };
+      });
+      dispatch(SelectStandardExamslice.actions.SubjectExamSchedule(DataList));
+    };
 export default SelectStandardExamslice.reducer;
 
 
