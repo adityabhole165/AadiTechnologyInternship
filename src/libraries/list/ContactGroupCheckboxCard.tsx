@@ -1,7 +1,7 @@
 import { QuestionMark } from '@mui/icons-material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, ClickAwayListener, Dialog, DialogContent, DialogTitle, Grid, IconButton, List, Tooltip, Typography } from '@mui/material';
+import { Avatar, Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, List, Tooltip, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { IDeleteMailGroupBody } from 'src/interfaces/ContactGroup/IContactGroup';
@@ -98,49 +98,42 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                     ) : (
                         <>
                             <Grid item container xs={12}>
-                                <ClickAwayListener onClickAway={handleClickAway}>
-                                    <Tooltip
-                                        PopperProps={{ disablePortal: true }}
-                                        onClose={handleClick}
-                                        open={open}
-                                        title={Item.Users}
-                                        disableFocusListener
-                                        disableHoverListener
-                                        disableTouchListener
-                                        arrow
-                                        placement="right"
-                                        componentsProps={{
-                                            tooltip: { sx: { py: 0.7, width: '200px' } }
-                                        }}
-                                    >
-                                        <ItemSize onClick={handleClick} onClickCapture={onChange}>
-                                            {Item.Name !== '' ? (
-                                                Item.Name
-                                            ) : (
-                                                <Avatar
-                                                    alt="user.name"
-                                                    src={
-                                                        localStorage.getItem('SiteURL') +
-                                                        'RITeSchool/Uploads/OnlineExamImages/' +
-                                                        Item.path1
-                                                    }
-                                                    sx={{
-                                                        width: '180px',
-                                                        height: '160px',
-                                                        border: '2px solid gray',
-                                                        textAlign: 'center'
-                                                    }}
-                                                    variant="square"
-                                                    aria-label="add"
-                                                ></Avatar>
-                                            )}
-                                        </ItemSize>
-
-                                    </Tooltip>
-
-                                </ClickAwayListener>
-
+                                <Tooltip
+                                    title={Item.Users}
+                                    arrow
+                                    placement="right"
+                                    disableFocusListener
+                                    disableTouchListener
+                                    PopperProps={{ disablePortal: true }}
+                                    componentsProps={{
+                                        tooltip: { sx: { py: 0.7, width: '200px' } },
+                                    }}
+                                >
+                                    <ItemSize>
+                                        {Item.Name !== '' ? (
+                                            Item.Name
+                                        ) : (
+                                            <Avatar
+                                                alt="user.name"
+                                                src={
+                                                    localStorage.getItem('SiteURL') +
+                                                    'RITeSchool/Uploads/OnlineExamImages/' +
+                                                    Item.path1
+                                                }
+                                                sx={{
+                                                    width: '180px',
+                                                    height: '160px',
+                                                    border: '2px solid gray',
+                                                    textAlign: 'center',
+                                                }}
+                                                variant="square"
+                                                aria-label="add"
+                                            ></Avatar>
+                                        )}
+                                    </ItemSize>
+                                </Tooltip>
                             </Grid>
+
 
                             <Grid container>
                                 <Grid item xs={4}>

@@ -189,6 +189,12 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     asUpdateSelectXML += "\r\n</MailingGroup>";
     return asUpdateSelectXML;
   }
+  const onClear = async () => {
+    setGroupName(''); // Clear Group Name field
+    setSelected([]); // Clear selected users
+    setSelectedd([]);
+    setSelectAll(false); // Clear selected roles
+  }
   const clickConfirm = async () => {
     try {
       if (isSubmitting) return;
@@ -669,6 +675,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         <DialogActions sx={{ py: 2, px: 3 }}>
           <Button color={'error'} onClick={onClose}>
             Cancel
+          </Button>
+          <Button color={'error'} onClick={onClear}>
+            Clear
           </Button>
           <Button
             onClick={clickConfirm}
