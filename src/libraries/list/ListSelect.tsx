@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
 import CheckboxCard from './CheckboxCard';
 
-const ListSelect = ({ Itemlist, onChange, isSingleSelect = false }) => {
+const ListSelect = ({ Itemlist, onChange, isSingleSelect = false, ClickGroupRadio }) => {
   const onClick = (value) => {
+    ClickGroupRadio(value);
     Itemlist = Itemlist.map((obj) =>
       obj.Id === value.Id
         ? { ...obj, isActive: value.isActive }
