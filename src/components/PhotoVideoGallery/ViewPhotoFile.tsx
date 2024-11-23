@@ -2,9 +2,11 @@ import { QuestionMark } from '@mui/icons-material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import EditIcon from '@mui/icons-material/Edit'
 import { Box, Button, Card, CardContent, CardMedia, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { blue, grey, red } from '@mui/material/colors'
+import { blue, green, grey, red } from '@mui/material/colors'
 import { useState } from 'react'
 import CommonPageHeader from '../CommonPageHeader'
+import SaveIcon from '@mui/icons-material/Save';
+import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
 
 const ViewPhotoFile = () => {
     const [photos, setPhotos] = useState([
@@ -71,6 +73,17 @@ const ViewPhotoFile = () => {
                             <QuestionMark />
                         </IconButton>
                     </Tooltip>
+                    <Tooltip title= {isTableView ? 'Switch to Card View' : 'Switch to Table View'}>
+                        <IconButton onClick={() => setIsTableView(!isTableView)} sx={{ color: 'white', backgroundColor: blue[500], '&:hover': { backgroundColor: blue[600] } }}>
+                            <SwitchAccountIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={'Update'}>
+                        <IconButton  onClick={handleUpdatePhoto}
+                                disabled={isUpdateDisabled} sx={{ color: 'white', backgroundColor: green[500], '&:hover': { backgroundColor: green[600] } }}>
+                            <SaveIcon />
+                        </IconButton>
+                    </Tooltip>
                 </>}
             />
             <Box sx={{ backgroundColor: 'white' }} p={2}>
@@ -95,8 +108,8 @@ const ViewPhotoFile = () => {
                     </Grid>
 
                     {/* Comment Section */}
-                    <Grid item xs={12} sm={6} md={8} container spacing={2} alignItems="center">
-                        <Grid item xs={9}>
+                  
+                        <Grid item xs={8}>
                             <TextField
                                 label="Comment"
                                 variant="outlined"
@@ -106,44 +119,15 @@ const ViewPhotoFile = () => {
                                 disabled={isUpdateDisabled}
                             />
                         </Grid>
-                        <Grid item xs={1.5}>
-                            <Button
-                                // variant="contained"
-                                sx={{
-                                    color: 'primary',
-                                    '&:hover': {
-                                        color: 'primary',
-                                        backgroundColor: blue[100]
-                                    }
-                                }}
-                                fullWidth
-                                onClick={handleUpdatePhoto}
-                                disabled={isUpdateDisabled}
-                            >
-                                Update
-                            </Button>
-                        </Grid>
-                    </Grid>
+                      
+                    
                 </Grid>
 
-                {/* Add Photo Button */}
-                <Box my={2} display="flex" justifyContent="end">
-
-                    {/* Toggle View Button */}
-                    {!isSmallScreen && (
-                        <Button
-                            variant="contained"
-                            onClick={() => setIsTableView(!isTableView)} // Toggle between table and card view
-                        >
-                            {isTableView ? 'Switch to Card View' : 'Switch to Table View'}
-                        </Button>
-                    )}
-                </Box>
-
-                {/* Conditional Rendering for Mobile/Tablet and Desktop */}
+              
+            
                 {isSmallScreen || !isTableView ? (
                     // Mobile/Tablet View (Card View)
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} mt={1}>
                         {photos.map((photo) => (
                             <Grid item xs={12} sm={4} key={photo.id}>
                                 <Card>
@@ -180,14 +164,14 @@ const ViewPhotoFile = () => {
                     </Grid>
                 ) : (
                     // Desktop View (Table View)
-                    <TableContainer>
+                    <TableContainer sx={{mt:2}}>
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                             <TableHead>
                                 <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Image</TableCell>
-                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}>Comment</TableCell>
-                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2,  textAlign: 'center', }}>Edit</TableCell> 
-                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2,  textAlign: 'center', }}>Delete</TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}><strong>Images</strong> </TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}><strong>Comments</strong></TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2,  textAlign: 'center', }}><strong>Edit</strong></TableCell> 
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2,  textAlign: 'center', }}><strong>Delete</strong></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

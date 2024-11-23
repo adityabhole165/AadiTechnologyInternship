@@ -36,7 +36,7 @@ const VideoUrlComponent: React.FC = () => {
     <Box sx={{ pt: 2 }}>
       {/* Input Fields */}
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} sm={6} md={5}>
+        <Grid item xs={12} sm={6} md={4}>
           <TextField
             label="Video URL"
             variant="outlined"
@@ -45,7 +45,7 @@ const VideoUrlComponent: React.FC = () => {
             onChange={(e) => setVideoUrl(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={5}>
+        <Grid item xs={12} sm={6} md={6}>
           <TextField
             label="Title"
             variant="outlined"

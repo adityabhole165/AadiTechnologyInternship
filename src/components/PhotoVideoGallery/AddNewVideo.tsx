@@ -8,6 +8,7 @@ import { useState } from 'react'
 import CommonPageHeader from '../CommonPageHeader'
 import ClassSectionSelector from './ClassSectionSelector'
 import VideoUrlComponent from './VideoUrlComponent'
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown'
 
 
 
@@ -134,7 +135,7 @@ const AddNewVideo = () => {
       <CommonPageHeader
         navLinks={[
           {
-            title: "Photo Video Gallery",
+            title: "Photo/Video Gallery",
             path: "/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen",
           },
           { title: "Add Video Gallery", path: "" },
@@ -234,6 +235,8 @@ const AddNewVideo = () => {
               </span>
             } />
           </Grid>
+
+          {/* For devloper add searchable Dropdown for Url Source  */}
           <Grid item xs={12} sm={4}>
             <TextField fullWidth  variant="outlined"
              label={
@@ -241,6 +244,7 @@ const AddNewVideo = () => {
               Url Source <span style={{ color: 'red' }}> *</span>
               </span>
             } />
+            
 
           </Grid>
           

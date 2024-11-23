@@ -49,7 +49,8 @@ const AddReciepents = ({
   recipientListClick,
   contactGroupList,
   classIdList,
-  IsConfirm
+  IsConfirm,
+  getGroupRadio
 }) => {
 
   let PageName = 'MessageCenter';
@@ -500,6 +501,10 @@ const AddReciepents = ({
     setOpenDialog(true);
   };
 
+  const ClickGroupRadio = (value) => {
+    getGroupRadio(value.Id);
+  }
+
   return (
     <>
       <Box>
@@ -565,6 +570,7 @@ const AddReciepents = ({
                       {/* <Card> */}
                       <Box >
                         <ListSelect
+                          ClickGroupRadio={ClickGroupRadio}
                           Itemlist={staffAndAdmin}
                           onChange={adminandSWChange}
                         />
@@ -575,6 +581,7 @@ const AddReciepents = ({
                       {/* <Card> */}
                       <Box>
                         <ListSelect
+                          ClickGroupRadio={ClickGroupRadio}
                           Itemlist={teacherStudent}
                           onChange={teacherStudentChange}
                           isSingleSelect={true}
@@ -585,7 +592,7 @@ const AddReciepents = ({
                     {MessageCenterFullAccess === 'Y' && (
                       <Grid item xs={6} sm={12}>
                         <Box sx={{ borderColor: 'grey.300' }}>
-                          <ListSelect Itemlist={entireSchool} onChange={onChange} />
+                          <ListSelect ClickGroupRadio={ClickGroupRadio} Itemlist={entireSchool} onChange={onChange} />
                         </Box>
                       </Grid>
                     )}

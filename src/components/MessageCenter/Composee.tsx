@@ -134,6 +134,12 @@ function Form13() {
     RecipientId: [],
     ClassId: []
   });
+  const [groupSelectionId, setGroupSelectionId] = useState<string>('');  // Provide initial value
+  const getGroupRadio = (value) => {
+    if (value !== undefined) {
+      sessionStorage.setItem('GroupSelectionId', value);
+    }
+  }
 
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
   const [open, setOpen] = useState(false);
@@ -804,10 +810,15 @@ function Form13() {
       // navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
     }
   }, [SaveDraftM]);
+  useEffect(() => {
+    // dlt session storage
+    sessionStorage.removeItem('GroupSelectionId');
+  }, [])
 
   const clickConfirm = () => {
+
     {
-      teacherstudentid === '9' ? (
+      sessionStorage.getItem('GroupSelectionId') === '9' ? (
         showAlert({
           title: 'Please Confirm',
           message: 'No group is selected. Are you sure you want to continue?',
@@ -1480,6 +1491,7 @@ function Form13() {
           <Box sx={{ overflow: 'auto', maxBlockSize: '400px', mt: 2 }}>
             {showRecipients ? (
               <AddReciepents
+                getGroupRadio={getGroupRadio}
                 RecipientName={RecipientsObject.RecipientName}
                 RecipientId={RecipientsObject.RecipientId}
                 recipientListClick={RecipientsListFun}
@@ -1488,6 +1500,7 @@ function Form13() {
                 IsConfirm={IsConfirm} teacherstudentid={teacherstudentid} />
             ) : (
               <AddReciepents
+                getGroupRadio={getGroupRadio}
                 RecipientName={RecipientsCCObject.RecipientName}
                 RecipientId={RecipientsCCObject.RecipientId}
                 recipientListClick={RecipientsCCListFun}
