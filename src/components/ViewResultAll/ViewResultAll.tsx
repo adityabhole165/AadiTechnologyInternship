@@ -3,7 +3,7 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Alert, Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -111,6 +111,14 @@ const ViewResultAll = (props: Props) => {
     PageCount: 10,
     asTestId: 1,
   };
+  const StudentResultBody1: IGetAllStudentTestprogressBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYrId: 54,  // asAcademicYearId,
+    asStdDivId: 1266, // asStandardDivisionId,
+    asStartIndex: 0,
+    PageCount: 10,
+    asTestId: 608,  // 1
+  };
 
   const iscofigred: IconfiguredExamBody = {
     asSchoolId: asSchoolId,
@@ -188,7 +196,8 @@ const ViewResultAll = (props: Props) => {
 
 
   useEffect(() => {
-    dispatch(GetStudentResultList(StudentResultBody));
+
+    dispatch(GetStudentResultList(studentList === '0' ? StudentResultBody1 : StudentResultBody));
   }, [selectTeacher, studentList]);
 
   useEffect(() => {
@@ -229,9 +238,9 @@ const ViewResultAll = (props: Props) => {
   };
   const isgenrate = getStudentName()
 
-  const clickPrint = () => {
-    window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
-  };
+  // const clickPrint = () => {
+  //   window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
+  // };
 
 
   useEffect(() => {
@@ -247,6 +256,70 @@ const ViewResultAll = (props: Props) => {
         setSelectTeacher(teacherList[0].Id)
     }
   }, [teacherList]);
+
+  // #region Print Preview
+
+  const printRef = useRef<HTMLDivElement>(null);
+  const clickPrint = () => {
+    if (printRef.current) {
+      const printContent = printRef.current.innerHTML;
+      const printWindow = window.open('', '', 'height=600,width=800');
+      const styles = `
+              <style>
+                body {
+                  font-family: 'Roboto', sans-serif;
+                  margin: 0;
+                  padding: 20px;
+                }
+                h1, h2, h3, h4 {
+                  margin: 0 0 10px;
+                  font-family: 'Roboto', sans-serif;
+                }
+                table {
+                  width: 100%;
+                  border-collapse: collapse;
+                }
+                table, th, td {
+                  border: 1px solid black;
+                }
+                th, td {
+                  padding: 8px;
+                  text-align: center;
+                }
+                .MuiTypography-root {
+                  font-family: 'Roboto', sans-serif;
+                  font-size: 16px;
+                  margin-bottom: 8px;
+                  text-align: center;
+                }
+                .MuiTableCell-root {
+                  font-family: 'Roboto', sans-serif;
+                }
+                  
+                .custom-typography {
+                  font-family: 'Roboto', sans-serif;
+                  color: #38548a;
+                  font-size: 24px;
+                  margin-top: 16px;
+                  text-align: left;
+                }
+              </style>
+          `;
+
+
+      printWindow.document.write('<html><head><title>Print</title>' + styles + '</head><body>');
+
+      printWindow.document.write(printContent); // Include the rest of the content
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
+    }
+
+
+  };
+
+
+  // #endregion
 
   return (
     <Box sx={{ px: 2 }}>
@@ -339,7 +412,7 @@ const ViewResultAll = (props: Props) => {
         </>}
       />
 
-      <Box sx={{ mt: 1, background: 'white' }}>
+      <Box sx={{ mt: 1, background: 'white' }} ref={printRef}>
         {open && (
           <Box>
             {MarkDetailsView.length > 0 ? (
