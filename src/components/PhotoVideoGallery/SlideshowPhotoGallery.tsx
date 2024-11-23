@@ -113,7 +113,7 @@ const SlideshowPhotoGallery = () => {
 
     return (
         <GalleryContainer>
-            <Typography variant="h5" align="center" gutterBottom>
+            <Typography variant="h4" align="center" gutterBottom>
                 Gallery Name: JanmashtamiiAug24
             </Typography>
 
@@ -132,7 +132,10 @@ const SlideshowPhotoGallery = () => {
 
             {/* Comment Section */}
             <Box sx={{ mt: 1 }}>
-                <CardContent><strong>Comment : </strong> Photo Gallery Photo Gallery Photo Gallery Photo Gallery</CardContent>
+                
+                <Typography variant="h4" align="center" gutterBottom>
+                <strong> Comment : </strong>  Photo Gallery Photo Gallery Photo Gallery Photo Gallery
+            </Typography>
             </Box>
 
             {/* Navigation Buttons */}
@@ -144,6 +147,7 @@ const SlideshowPhotoGallery = () => {
                         sx={{
                             backgroundColor: currentImage === index ? '#9e9e9e' : '#e0e0e0',
                         }}
+                        
                     >
                         {index + 1}
                     </NavigationButton>
@@ -178,4 +182,5 @@ const SlideshowPhotoGallery = () => {
         </GalleryContainer>
     );
 };
+
 export default SlideshowPhotoGallery;
