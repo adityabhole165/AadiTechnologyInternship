@@ -3,7 +3,9 @@ import IGetAllStandards, {
   GetStandardListResult,
   IGetExamScheduleBody,
   IGetExamScheduleResult,
-  IGetExamsList
+  IGetExamsList,
+  IGetSubjectExamScheduleBody,
+  IGetSubjectExamScheduleResult
 } from 'src/interfaces/Teacher/TExamSchedule';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -22,11 +24,15 @@ const GetExamsList = (data: IGetExamsList) => {
 const GetExamScheduleFullAcc = (data: IGetExamScheduleBody) => {
   return http.post<IGetExamScheduleResult>('School/GetExamScheduleFullacc', data);
 };
+const GetSubjectExamScheduleList = (data: IGetSubjectExamScheduleBody) => {
+  return http.post<IGetSubjectExamScheduleResult>('School/getSubjectExamScheduleList', data);
+};
 
 const GetTExamResultListApi = {
   GetAllStandards,
   GetExamsList,
-  GetExamScheduleFullAcc
+  GetExamScheduleFullAcc,
+  GetSubjectExamScheduleList
 };
 
 export default GetTExamResultListApi;

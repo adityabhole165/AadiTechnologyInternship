@@ -1,6 +1,5 @@
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import SquareIcon from '@mui/icons-material/Square';
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { blue, green, grey } from "@mui/material/colors";
 import { useEffect } from 'react';
@@ -94,15 +93,54 @@ const ExamScheduleBasescreen = () => {
                     <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
                     <Box sx={{ display: 'flex', gap: '20px' }}>
                         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                            <SquareIcon style={{ color: '#F0F0F0', fontSize: 25, position: 'relative', top: '-2px' }} />
+                            {/* <SquareIcon style={{ color: '#F0F0F0', fontSize: 25, position: 'relative', top: '-2px' }} /> */}
+                            <Box sx={{ position: 'relative' }}>
+                                <Box
+                                    sx={{
+                                        width: 35,
+                                        height: 35,
+                                        backgroundColor: '#F0F0F0',
+                                        border: "1px solid black",
+
+                                    }}
+                                />
+                                <Typography
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        left: '50%',
+                                        transform: 'translate(-50%, -50%)',
+                                        color: '#000' // Adjust the color to suit your design
+                                    }}
+                                >
+                                    N/A
+                                </Typography>
+                            </Box>
                             <Typography>Exam not applicable</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                            <SquareIcon style={{ color: green[500], fontSize: 25, position: 'relative', top: '-2px' }} />
+                            {/* <SquareIcon style={{ color: green[500], fontSize: 25, position: 'relative', top: '-2px' }} /> */}
+                            <Box
+                                sx={{
+                                    width: 35,
+                                    height: 35,
+                                    backgroundColor: green[500],
+                                    border: "1px solid black",
+
+                                }}
+                            />
                             <Typography>Schedule not configured	</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                            <SquareIcon style={{ color: green[200], fontSize: 25, position: 'relative', top: '-2px' }} />
+                            <Box
+                                sx={{
+                                    width: 35,
+                                    height: 35,
+                                    backgroundColor: green[200],
+                                    border: "1px solid black",
+
+                                }}
+                            />
                             <Typography>Edit exam schedule	</Typography>
                         </Box>
                     </Box>

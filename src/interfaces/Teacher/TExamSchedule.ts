@@ -113,3 +113,35 @@ export interface IGetExamScheduleResult {
     }
   ]
 }
+
+export interface IGetSubjectExamScheduleBody {
+  asStandardId: number;
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asStandardwiseExamScheduleId: number;
+}
+export interface IGetSubjectExamScheduleResult {
+  listStandardwiseSubject: [
+    {
+      SubjectWize_Standard_Exam_Schedule_Id: string,
+      Subject_Id: string,
+      Subject_Name: string,
+      TestType: string,
+      Start_DateTime: string,
+      End_DateTime: string,
+      TotalTime: string;
+      Description: string;
+      Marks: string;
+    }
+  ],
+  Instructionss: [
+    {
+      Instructions: string;
+    }
+  ],
+  IsSubmitedd: [
+    {
+      IsSubmited: string;
+    }
+  ],
+}
