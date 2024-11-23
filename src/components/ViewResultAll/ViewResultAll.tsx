@@ -42,6 +42,8 @@ const ViewResultAll = (props: Props) => {
   const TeacherId = (sessionStorage.getItem('TeacherId'));
   const [selectTeacher, setSelectTeacher] = useState(StandardDivisionIdse)
   const [open, setOpen] = useState(false);
+  const [isShowClicked, setIsShowClicked] = useState(false);
+  const [currentStudent, setCurrentStudent] = useState<string | null>(null);
   const [studentList, setStudentList] = useState();
   const [teacherList, setTeacherList] = useState([]);
   const ScreensAccessPermission = JSON.parse(sessionStorage.getItem('ScreensAccessPermission'));
@@ -159,10 +161,12 @@ const ViewResultAll = (props: Props) => {
   const clickStudentList = (value) => {
     setOpen(false);
     setStudentList(value)
+    setIsShowClicked(false);
   };
 
   const ClickShow = (value) => {
     setOpen(true)
+    setIsShowClicked(true);
   }
 
   // useEffect(() => {
@@ -318,9 +322,6 @@ const ViewResultAll = (props: Props) => {
 
   };
 
-
-  // #endregion
-
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -399,12 +400,14 @@ const ViewResultAll = (props: Props) => {
               <IconButton
                 sx={{
                   color: 'white',
-                  backgroundColor: blue[500],
+                  backgroundColor: isShowClicked ? blue[500] : blue[200], // Disabled state color
                   '&:hover': {
-                    backgroundColor: blue[600]
+                    backgroundColor: isShowClicked ? blue[600] : blue[200] // Prevent hover effect when disabled
                   }
                 }}
-                onClick={clickPrint}>
+                onClick={clickPrint}
+                disabled={!isShowClicked} // Disable based on state
+              >
                 <PrintIcon />
               </IconButton>
             </Tooltip>
