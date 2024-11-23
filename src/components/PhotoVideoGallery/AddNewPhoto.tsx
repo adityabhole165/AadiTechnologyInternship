@@ -212,14 +212,17 @@ const AddNewPhoto = () => {
             <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} />
           </Box>
         </Box>
-        <Box display="flex" alignItems="center" flexWrap="wrap" gap={2} p={1} >
-          <Typography variant="h6" gutterBottom >
-            Associated Section(s):
+        <Grid container spacing={2} alignItems="center" >
+        <Grid item xs={12}>
+          <Typography variant="h4" sx={{ fontWeight: "bold", pt: 2 }} >
+            <strong>Associated Section(s):</strong> 
           </Typography>
+        
           <FormControlLabel
             control={<Checkbox checked={selectAll} onChange={handleSelectAll} />}
             label="Select All"
           />
+          
           <FormControlLabel
             control={<Checkbox checked={undefined} onChange={undefined} />}
             label="Pre-Primary"
@@ -232,7 +235,9 @@ const AddNewPhoto = () => {
             control={<Checkbox checked={undefined} onChange={undefined} />}
             label="Secondary"
           />
-        </Box>
+          
+          </Grid>
+          </Grid>
       </Box>
     </Box>
   );
