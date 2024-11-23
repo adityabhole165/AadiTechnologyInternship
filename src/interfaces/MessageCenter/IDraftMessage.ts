@@ -95,6 +95,7 @@ export interface IGetDraftMessageResult {
       IsAttachmentExist: boolean;
       HasReadReceipt: boolean;
       InsertDateInFormat: string;
+      FullDate: string
     }
   ];
 }

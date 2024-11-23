@@ -881,20 +881,20 @@ const AddLessonPlan = () => {
               onChange={onClickClass}
             />
           </Grid>
-          <Grid item xs={12} md={12}>
-            <TextField
-              sx={{ width: '23vw' }}
-              fullWidth
-              label="Search Word / Sentence"
-              value={wordsentence}
-              variant="outlined"
-              size="small"
-              onChange={(e) => setwordsentence(e.target.value)}
-            />
-          </Grid>
 
           {LessonPlanPhrasesList.length !== 0 && (
             <>
+              <Grid item xs={12} md={12}>
+                <TextField
+                  sx={{ width: '22.7vw' }}
+                  fullWidth
+                  label="Search Word / Sentence"
+                  value={wordsentence}
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => setwordsentence(e.target.value)}
+                />
+              </Grid>
 
               {/* <Grid container spacing={2}> */}
               <Grid item xs={6}>
@@ -944,7 +944,7 @@ const AddLessonPlan = () => {
           </Grid>
           {/* )} */}
           {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
-            <Typography variant={"h5"} mb={1}>
+            <Typography variant={"h5"} mb={1} mt={-4}>
               Plan Details
             </Typography>
 

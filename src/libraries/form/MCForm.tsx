@@ -148,7 +148,8 @@ const MCForm = ({
                 DateValue={searchDate}
                 onDateChange={clickDate}
                 label={''}
-               
+                size={"medium"}
+
               />
             </Grid>
             <Grid item xs={0.8}>
@@ -161,7 +162,7 @@ const MCForm = ({
                     background: (theme) => theme.palette.primary.main,
                     color: 'white',
                     mt: 1,
-                    ml:2,
+                    ml: 2,
                     '&:hover': {
                       backgroundColor: (theme) => theme.palette.primary.dark
                     }
