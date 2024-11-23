@@ -13,8 +13,8 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import { CheckCircle, CloudUpload as CloudUploadIcon } from "lucide-react";
 import { blue } from "@mui/material/colors";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const FileUploadComponent: React.FC = () => {
     const [files, setFiles] = useState<File[]>([]);
@@ -23,7 +23,7 @@ const FileUploadComponent: React.FC = () => {
 
     const ValidFileTypes = [".bmp", ".jpg", ".jpeg", ".png"];
     const MaxfileSize = 10 * 1000000; // 10 MB in bytes
-    const FileLabel = "No files selected";
+    const FileLabel = "Select Images";
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -57,14 +57,14 @@ const FileUploadComponent: React.FC = () => {
         <Box pt={2}>
             <Grid container spacing={2}>
                 {/* File Input */}
-                <Grid item xs={12} sm={6} md={4} lg={4} xl={3}>
+                <Grid item xs={12} sm={6} md={4} lg={4} xl={2}>
                     <Tooltip
                         title={`Supports only ${ValidFileTypes.join(", ")} file types. File size should not exceed ${(MaxfileSize / 1000000).toFixed(1)} MB.`}
                         arrow
                     >
                         <Button
                             sx={{
-                                width: 470,
+                                width: 'auto',
                                 height: 52,
                                 border: (theme) => `1px dashed ${theme.palette.primary.main}`,
                                 gap: 1,
@@ -86,7 +86,7 @@ const FileUploadComponent: React.FC = () => {
                                     whiteSpace: "nowrap",
                                 }}
                             >
-                                {files.length > 0 ? <CheckCircle color="blue" /> : <CloudUploadIcon color="blue" />}
+                                {files.length > 0 ? <CloudUploadIcon sx={{color:'#38548A'}}   /> : <CloudUploadIcon sx={{color:'#38548A'}}/>}
                                 <Typography variant="body2" noWrap>
                                     {files.length > 0
                                         ? files.map((file) => file.name).join(", ")
@@ -108,7 +108,7 @@ const FileUploadComponent: React.FC = () => {
                     <TextField
                         label="Comment"
                         variant="outlined"
-                        value={comment}
+                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         fullWidth
                     />

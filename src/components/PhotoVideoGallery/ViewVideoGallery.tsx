@@ -119,7 +119,7 @@ const ViewVideoGallery = () => {
       <CommonPageHeader
         navLinks={[
           {
-            title: 'Photo Video Gallery',
+            title: 'Photo/Video Gallery',
             path: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
           },
           { title: 'View Video Gallery', path: '' },
@@ -229,7 +229,7 @@ const ViewVideoGallery = () => {
         </Grid>
 
         {/* Table Section */}
-        <TableContainer component={Paper} sx={{ mt: 4 }}>
+        <TableContainer component={Paper} sx={{ mt: 0 }}>
           <Table aria-label="simple table"
             sx={{
               border: (theme) => `1px solid ${theme.palette.grey[300]}`,

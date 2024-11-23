@@ -123,7 +123,7 @@ const PhotoVideoGalleryBaseScreen = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Photo Video Gallery', path: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen' }
+                    { title: 'Photo/Video Gallery', path: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen' }
                 ]}
                 rightActions={<>
                     <TextField

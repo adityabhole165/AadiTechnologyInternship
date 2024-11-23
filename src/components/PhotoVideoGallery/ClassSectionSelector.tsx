@@ -81,7 +81,7 @@ const ClassSectionSelector: React.FC<ClassSectionSelectorProps> = ({ classes, ge
                         {sectionList
                             .filter((section) => section.ParentId === classItem.Id)
                             .map((section) => (
-                                <Box key={section.Id} sx={{ paddingLeft: 2 }}>
+                                <Box key={section.Id} sx={{ paddingLeft: 1}}>
                                     <Checkbox
                                         checked={section.IsActive}
                                         onChange={() => handleChildCheckbox(section.Id)}
