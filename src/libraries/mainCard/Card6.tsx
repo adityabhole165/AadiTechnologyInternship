@@ -145,7 +145,7 @@ function Card6() {
                 ImgUrl={userPhoto}
                 alt={'user.name'}
                 width={'140px'}
-                height={'160px'}
+                height={'180px'}
               />
             </Box>
             {RoleId === '3' && AllowStudentPhotoUpload && !DisableSubmit && (
@@ -208,10 +208,10 @@ function Card6() {
                     </TableRow>
 
                     <TableRow>
-                      <TableCell  style={{ verticalAlign: 'top' }}>
-                        <ProfileComponent  Name=" Standard Details:" Value={StandardDetails} />
+                      <TableCell style={{ verticalAlign: 'top' }}>
+                        <ProfileComponent Name=" Standard Details:" Value={StandardDetails} />
                       </TableCell>
-                      <TableCell  style={{ verticalAlign: 'top' }}>
+                      <TableCell style={{ verticalAlign: 'top' }}>
                         <ProfileComponent Name="Subject Details :" Value={SubjectDetails} />
                       </TableCell>
                     </TableRow>

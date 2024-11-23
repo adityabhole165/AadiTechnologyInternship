@@ -1,6 +1,7 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import Header from './Header';
+import UserPhoto from 'src/libraries/UserPhoto/UserPhoto';
 
 const Profile: React.FC = () => {
     const [tabValue, setTabValue] = useState(0);
@@ -21,22 +22,28 @@ const Profile: React.FC = () => {
 
 
     return (
-        <Box sx={{ height:'382px', maxWidth:'50', p: 1, backgroundColor: 'white'}}>
+        <Box sx={{ height: '382px', maxWidth: '50', p: 1, backgroundColor: 'white' }}>
             <Grid container>
                 <Grid item xs={12}>
                     <Header Title="Teacher Details" />
                 </Grid>
-                <Grid item md={12} mt={2} ml={17}>
-                    <Avatar src={userPhoto}
-                        alt="Profile Picture" sx={{ width: 170, height: 170, }}
+                <Grid item md={12} mt={1} ml={18.5}>
+                    {/* <Avatar src={userPhoto}
+                        alt="Profile Picture" sx={{ width: 150, height: 185, }}
+                    /> */}
+                    <UserPhoto
+                        ImgUrl={userPhoto}
+                        alt={'user.name'}
+                        width={'140px'}
+                        height={'180px'}
                     />
                 </Grid>
-                <Grid item md={12} sx={{ p: 2}} >
+                <Grid item md={12} sx={{ p: 2 }} >
                     <Typography variant="h4" align='center'>{UserName}</Typography>
                     <Typography variant="subtitle1" align='center'>{DesignationName} ({ClassTeacher})</Typography>
                     <Typography variant="body1" align='center'>{MobileNumber}</Typography>
-                    <Typography align='center'><br /><b>Last Login:</b> {UserLoginDetails1}</Typography> 
-                    </Grid>
+                    <Typography align='center'><br /><b>Last Login:</b> {UserLoginDetails1}</Typography>
+                </Grid>
             </Grid>
         </Box>
     );
