@@ -71,6 +71,8 @@ const PersonalDetails = ({ onTabChange }) => {
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
+  const [errorMsg, setErrorMsg] = useState(false)
+
   const { AssignedDate } = useParams();
   console.log(AssignedDate, 'sfsdfds')
   const [form, setForm] = useState({
@@ -289,6 +291,17 @@ const PersonalDetails = ({ onTabChange }) => {
     }));
     setErrors((prev) => ({ ...prev, [name]: false }));
   };
+
+  function handleContactNoChange(e) {
+    const numericValue = e.target.value.replace(/\D/g, '');
+    if (!isNaN(Number(numericValue)) && numericValue.length <= 10) {
+      //setIContactNumber(numericValue);
+      setForm((prevForm) => ({
+        ...prevForm,
+        [e.target.name]: numericValue
+      }));
+    }
+  }
 
   const age = form.dateOfBirth ? calculateAge(form.dateOfBirth, compareAgeTillDate) : '';
 
@@ -640,10 +653,10 @@ const PersonalDetails = ({ onTabChange }) => {
                   label="Mobile No. 1"
                   variant="outlined"
                   value={form.motherNumber}
-                  onChange={handleInputChange}
-                  error={errors.motherNumber}
+                  onChange={handleContactNoChange}
+                  error={form.motherNumber.toString() !== '' && form.motherNumber.toString().length < 10 ? true : false}
                   helperText={
-                    errors.motherNumber ? 'This field is required' : ''
+                    form.motherNumber.toString() !== '' && form.motherNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
                   }
                   fullWidth
                 />
@@ -691,8 +704,12 @@ const PersonalDetails = ({ onTabChange }) => {
                   label="Mobile No. 2"
                   variant="outlined"
                   value={form.fatherNumber}
-                  onChange={handleInputChange}
+                  onChange={handleContactNoChange}
                   fullWidth
+                  error={form.fatherNumber.toString() !== '' && form.fatherNumber.toString().length < 10 ? true : false}
+                  helperText={
+                    form.fatherNumber.toString() !== '' && form.fatherNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
+                  }
                 />
               </Grid>
             )}

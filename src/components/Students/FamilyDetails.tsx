@@ -230,6 +230,16 @@ const FamilyDetails = ({ onTabChange }) => {
     setErrors((prevErrors) => ({ ...prevErrors, [name]: false }));
   };
 
+  function handleContactNoChange(e) {
+    const numericValue = e.target.value.replace(/\D/g, '');
+    if (!isNaN(Number(numericValue)) && numericValue.length <= 10) {
+      //setIContactNumber(numericValue);
+      setForm((prevForm) => ({
+        ...prevForm,
+        [e.target.name]: numericValue
+      }));
+    }
+  }
   //#region Photos Opr
   const { showAlert, closeAlert } = useContext(AlertContext);
   const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
@@ -909,7 +919,11 @@ const FamilyDetails = ({ onTabChange }) => {
             label="Residence Phone Number"
             variant="outlined"
             value={form.residencePhoneNumber}
-            onChange={handleInputChange}
+            onChange={handleContactNoChange}
+            error={form.residencePhoneNumber.toString() !== '' && form.residencePhoneNumber.toString().length < 10 ? true : false}
+            helperText={
+              form.residencePhoneNumber.toString() !== '' && form.residencePhoneNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
+            }
             fullWidth
           />
         </Grid>
