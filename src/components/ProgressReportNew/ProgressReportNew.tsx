@@ -194,6 +194,22 @@ const ProgressReportNew = () => {
 
   ]
 
+  const [totalCount, setTotalCount] = useState('0');
+  useEffect(() => {
+    if (UsGetSchoolSettings != null)
+      setTotalCount(UsGetSchoolSettings?.GetSchoolSettingsResult?.ToppersCount.toString());
+    console.log(totalCount, 'this is count setting');
+
+  }, [UsGetSchoolSettings])
+  const [isFailCriteria, setIsFailCriteria] = useState('N');
+  useEffect(() => {
+    console.log(USlistStudentsDetails, 'checkthisout');
+    if (USlistStudentsDetails?.length > 0) {
+      setIsFailCriteria(USlistStudentsDetails[0]?.IsFailCriteriaNotApplicable);
+    }
+
+  }, [USlistStudentsDetails])
+
   const GetClassTeacher = () => {
     let returnVal = false
     USlistStudentsDetails.map((item) => {
@@ -497,7 +513,7 @@ const ProgressReportNew = () => {
   // }, [selectTeacher]);
   useEffect(() => {
     if (StudentId !== '0') {
-      dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard));
+      dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard, totalCount, isFailCriteria));
     }
   }, [IsTotalConsiderForProgressReport, AcademicYear, GetOldStudentDetails.StudentId])
   // }, [AcademicYear, GetOldStudentDetails.StudentId, IsTotalConsiderForProgressReport]);
@@ -995,6 +1011,8 @@ const ProgressReportNew = () => {
                         )}
                         <Box sx={{ overflowX: 'auto' }}>
                           <ProgressReportGradeView
+                            totalCount={totalCount}
+                            isFailCriteria={isFailCriteria}
                             EntireDataList={EntireDataList}
                             IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
                             HeaderArray1={HeaderArray1}
@@ -1114,6 +1132,8 @@ const ProgressReportNew = () => {
                         )}
                         <Box sx={{ overflowX: 'auto' }}>
                           <ProgressReportMarkView
+                            isFailCriteria={isFailCriteria}
+                            totalCount={totalCount}
                             HeaderArray={HeaderArray}
                             SubHeaderArray={SubHeaderArray}
                             MarkDetailsList={MarkDetailsList}
@@ -1157,7 +1177,7 @@ const ProgressReportNew = () => {
 
           {StudentId == "0" && parsedDataList?.length > 0 &&
             parsedDataList.map((parsedItem, i) => (
-              <AllStudents key={i} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
+              <AllStudents key={i} isFailCriteria={isFailCriteria} totalCount={totalCount} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
                 handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
                 USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
                 USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}

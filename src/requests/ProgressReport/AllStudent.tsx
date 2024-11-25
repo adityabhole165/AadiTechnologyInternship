@@ -5,7 +5,7 @@ import ProgressReportMarkView from "src/components/ProgressReportNew/ProgressRep
 
 // Note : data1 is used for representing the isTotalConsiderForProgressReport Setting key flag.
 
-const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, formattedText,
+const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleClose, handleClick, open1, formattedText,
     USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
 }) => {
     // #region  All useState hooks
@@ -726,6 +726,8 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
                     )}
                     <Box sx={{ overflowX: 'auto' }}>
                         <ProgressReportGradeView
+                            isFailCriteria={isFailCriteria}
+                            totalCount={totalCount}
                             EntireDataList={IStudentList}
                             IsTotalConsiderForProgressReport={data1}
                             HeaderArray1={ShowHeader1}
@@ -836,6 +838,8 @@ const AllStudents = ({ data1, IStudentList, handleClose, handleClick, open1, for
                     )}
                     <Box sx={{ overflowX: 'auto' }}>
                         <ProgressReportMarkView
+                            isFailCriteria={isFailCriteria}
+                            totalCount={totalCount}
                             HeaderArray={ShowHeader}
                             SubHeaderArray={ShowSubHeader}
                             MarkDetailsList={ShowData}

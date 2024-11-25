@@ -48,7 +48,7 @@ const ProgressReportSlice = createSlice({
     ISPrePrimaryExamPublishStatus: {},
     ISgetIsTermExamPublished: null,
     ISgetIsFinalResultPublished: null,
-    
+
 
   },
   reducers: {
@@ -265,7 +265,7 @@ export const GetAllStudentsProgressSheet =
       dispatch(ProgressReportSlice.actions.GetAllStudentsProgressSheet(response.data));
     }
 export const CDAStudentProgressReport =
-  (data: IStudentProgressReportBody, IsGradingStandardFlag): AppThunk =>
+  (data: IStudentProgressReportBody, IsGradingStandardFlag, totalCount, isFailCriteria): AppThunk =>
     async (dispatch, getState) => {
       dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.StudentProgressReport(data); // dataList2; //
@@ -283,7 +283,8 @@ export const CDAStudentProgressReport =
           School_Name: item.School_Name,
           School_Orgn_Name: item.School_Orgn_Name,
           Standard_Id: item.Standard_Id,
-          Standard_Division_Id: item.Standard_Division_Id
+          Standard_Division_Id: item.Standard_Division_Id,
+          IsFailCriteriaNotApplicable: item.IsFailCriteriaNotApplicable
 
         };
       });
@@ -670,7 +671,6 @@ export const CDAStudentProgressReport =
                     IsGrades: "Y"
                   })
                 }
-
                 columns.push({
                   MarksScored: Item.FailCount !== '' && Item.Grade_Name !== '-99'
                     ? `${Item.Grade_Name} [${matchingMarksDetails?.Remarks}]`
@@ -682,6 +682,57 @@ export const CDAStudentProgressReport =
               }
             })
           }
+          // 🔗
+          if (true) {
+            response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+              let testTypeLength = response.data.ListTestTypeIdDetails.length;
+              if (Item.SchoolWise_Test_Id == Test.Test_Id) {
+                let isDataPushed = false; // Flag to track if data has been pushed
+                const matchingMarksDetails = response.data.ListMarkssDetails.find(
+                  (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
+                );
+                if (isFailCriteria === 'N' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                  columns.push({
+                    MarksScored: Item.Result.trim(),
+                    TotalMarks: "-",
+                    IsAbsent: "N",
+                    IsGrades: "Y",
+                    Result: Item.Result.trim(),
+                    Rank: Item.rank
+                  })
+                }
+                if (totalCount !== '0' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                  columns.push({
+                    MarksScored: Item.rank.trim().includes('999') ? '-' : Item.rank.trim(),
+                    TotalMarks: "-",
+                    IsAbsent: "N",
+                    IsGrades: "Y",
+                    Result: Item.Result.trim(),
+                    Rank: Item.rank
+                  })
+                }
+              }
+            })
+          }
+          // response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+          //   columns.push({
+          //     MarksScored: Item.Result.trim(),
+          //     TotalMarks: "-",
+          //     IsAbsent: "N",
+          //     IsGrades: "Y",
+          //     Result: Item.Result.trim(),
+          //     Rank: Item.rank
+          //   })
+          //   columns.push({
+          //     MarksScored: Item.rank.trim(),
+          //     TotalMarks: "-",
+          //     IsAbsent: "N",
+          //     IsGrades: "Y",
+          //     Result: Item.Result.trim(),
+          //     Rank: Item.rank
+          //   })
+          // })
+
           // }
           rows.push({
             TestName: Test.Test_Name,
@@ -839,6 +890,38 @@ export const CDAStudentProgressReport =
                   TotalMarks: "-",
                   IsAbsent: "N"
                 })
+              }
+            })
+          }
+          if (true) {
+            response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+              let testTypeLength = response.data.ListTestTypeIdDetails.length;
+              if (Item.SchoolWise_Test_Id == Test.Test_Id) {
+                let isDataPushed = false; // Flag to track if data has been pushed
+                const matchingMarksDetails = response.data.ListMarkssDetails.find(
+                  (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
+                );
+                if (isFailCriteria === 'N' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                  columns.push({
+                    MarksScored: Item.Result.trim(),
+                    TotalMarks: "-",
+                    IsAbsent: "N",
+                    IsGrades: "Y",
+                    Result: Item.Result.trim(),
+                    Rank: Item.rank
+                  })
+                }
+                if (totalCount !== '0' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                  columns.push({
+                    MarksScored: Item.rank.trim().includes('999') ? '-' : Item.rank.trim(),
+                    TotalMarks: "-",
+                    IsAbsent: "N",
+                    IsGrades: "Y",
+                    Result: Item.Result.trim(),
+                    Rank: Item.rank
+                  })
+                }
+
               }
             })
           }
