@@ -145,3 +145,77 @@ export interface IGetSubjectExamScheduleResult {
     }
   ],
 }
+
+export interface IGetStandardsForExamCopyBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asSchoolwiseExamId: number;
+}
+
+export interface IGetStandardsForExamCopyResult {
+  GetCopyExamStandardList: [
+    {
+      Standard_Id: string;
+      Standard_Name: string;
+    }
+  ],
+}
+
+export interface IUpdateExamScheduleInstructionsBody {
+  asSchoolId: number;
+  asSchoolwiseStandardExamScheduleId: number;
+  asInstructions: string;
+  asUpdatedById: number;
+}
+export interface IUpdateExamScheduleInstructionsResult {
+  string;
+}
+
+export interface IUpdateStandardWiseExamScheduleBody {
+  asSchoolId: number;
+  asStandardwiseExamScheduleId: number;
+  asUpdatedById: number;
+}
+
+export interface IUpdateStandardWiseExamScheduleResult {
+  string;
+}
+
+export interface ICopyStandardTestBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asStandardId: number;
+  asSourceStandardTestId: number;
+  asDestinationStandardsxml: string;
+}
+
+export interface ICopyStandardTestResult {
+  string;
+}
+
+export interface IInsertExamScheduleBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asStandardId: number;
+  asSchoolwiseTestId: number;
+  asStandardTestId: number;
+  asInsertedById: number;
+  asScreenId: number;
+  asSchoolwiseStandardExamScheduleId: number;
+  asExamDetailsXML: string;
+}
+export interface IInsertExamScheduleResult {
+  string;
+}
+
+export interface ISumbitExamScheduleBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asUpdatedById: number;
+  asStandardId: number;
+  asIsUnSubmit: number;
+  asSchoolwiseTestId: number;
+}
+export interface ISumbitExamScheduleResult {
+  string;
+}
