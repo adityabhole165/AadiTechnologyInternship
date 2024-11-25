@@ -160,10 +160,10 @@ const StandardwiseExamScheduleTable = () => {
                                     <Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" />
                                 </TableCell> */}
                                 <TableCell>
-                                    {row.id === 1 ? (
-                                        <Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small"/>
+                                    {row.id === 0 ? (
+                                        <Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" />
                                     ) : (
-                                        <Datepicker DateValue={SelectDate} onDateChange={(value) => onSelectRowDate(row.id, value)} label={undefined} size="small"/>
+                                        <Datepicker DateValue={SelectDate} onDateChange={(value) => onSelectRowDate(row.id, value)} label={undefined} size="small" />
                                     )}
                                 </TableCell>
                                 <TableCell padding="checkbox" sx={{ pl: 2, py: 0.5 }} >
