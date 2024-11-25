@@ -1,8 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import IGetAllStandards, {
+  ICopyStandardTestBody,
   IGetExamScheduleBody,
   IGetExamsList,
-  IGetSubjectExamScheduleBody
+  IGetStandardsForExamCopyBody,
+  IGetSubjectExamScheduleBody,
+  IInsertExamScheduleBody,
+  ISumbitExamScheduleBody,
+  IUpdateExamScheduleInstructionsBody,
+  IUpdateStandardWiseExamScheduleBody
 } from 'src/interfaces/Teacher/TExamSchedule';
 import { AppThunk } from 'src/store';
 
@@ -21,6 +27,12 @@ const SelectStandardExamslice = createSlice({
     RStandardwTest: [],
     ExamSchedule: [],
     SubjectExamSchedule: [],
+    StandardsForExamCopy: [],
+    UpdateExamScheduleInstructionsMsg: '',
+    UpdateStandardWiseExamScheduleMsg: '',
+    CopyStandardTestMsg: '',
+    InsertExamSchedule: '',
+    SumbitExamSchedule: '',
     Loading: true
   },
   reducers: {
@@ -53,6 +65,49 @@ const SelectStandardExamslice = createSlice({
     },
     SubjectExamSchedule(state, action) {
       state.SubjectExamSchedule = action.payload;
+    },
+    StandardsForExamCopy(state, action) {
+      state.StandardsForExamCopy = action.payload;
+    },
+    getUpdateExamScheduleInstructionsMsg(state, action) {
+      state.Loading = false;
+      state.UpdateExamScheduleInstructionsMsg = action.payload;
+    },
+    resetUpdateExamScheduleInstructionsMsg(state) {
+      state.Loading = false;
+      state.UpdateExamScheduleInstructionsMsg = '';
+    },
+    getUpdateStandardWiseExamScheduleMsg(state, action) {
+      state.Loading = false;
+      state.UpdateStandardWiseExamScheduleMsg = action.payload;
+    },
+    resetUpdateStandardWiseExamScheduleMsg(state) {
+      state.Loading = false;
+      state.UpdateStandardWiseExamScheduleMsg = '';
+    },
+    getCopyStandardTestMsg(state, action) {
+      state.Loading = false;
+      state.CopyStandardTestMsg = action.payload;
+    },
+    resetCopyStandardTestMsg(state) {
+      state.Loading = false;
+      state.CopyStandardTestMsg = '';
+    },
+    getInsertExamSchedule(state, action) {
+      state.Loading = false;
+      state.InsertExamSchedule = action.payload;
+    },
+    resetInsertExamSchedule(state) {
+      state.Loading = false;
+      state.InsertExamSchedule = '';
+    },
+    getSumbitExamSchedule(state, action) {
+      state.Loading = false;
+      state.SumbitExamSchedule = action.payload;
+    },
+    resetSumbitExamSchedule(state) {
+      state.Loading = false;
+      state.SumbitExamSchedule = '';
     },
     getLoading(state, action) {
       state.Loading = true;
@@ -293,6 +348,72 @@ export const GetSubjectExamSchedule =
       });
       dispatch(SelectStandardExamslice.actions.SubjectExamSchedule(DataList));
     };
+
+export const GetStandardsForExamCopy =
+  (data: IGetStandardsForExamCopyBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SelectStandardExamslice.actions.getLoading(true));
+      const response = await GetTExamResultListApi.GetStandardsForExamCopy(data);
+
+      const StandardForCopy = response?.data?.GetCopyExamStandardList.map((item) => {
+        return {
+          Id: item.Standard_Id,
+          Standard: item.Standard_Name
+        };
+      });
+      dispatch(SelectStandardExamslice.actions.StandardsForExamCopy(StandardForCopy));
+    };
+
+export const GetUpdateExamScheduleInstructions = (data: IUpdateExamScheduleInstructionsBody): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.getLoading(true));
+  const response = await GetTExamResultListApi.UpdateExamScheduleInstructions(data);
+  dispatch(SelectStandardExamslice.actions.getUpdateExamScheduleInstructionsMsg(response.data));
+};
+
+export const resetUpdateExamScheduleInstructions = (): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.resetUpdateExamScheduleInstructionsMsg());
+};
+
+export const GetUpdateStandardWiseExamScheduleMsg = (data: IUpdateStandardWiseExamScheduleBody): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.getLoading(true));
+  const response = await GetTExamResultListApi.UpdateStandardWiseExamSchedule(data);
+  dispatch(SelectStandardExamslice.actions.getUpdateStandardWiseExamScheduleMsg(response.data));
+};
+
+export const resetUpdateStandardWiseExamScheduleMsg = (): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.resetUpdateStandardWiseExamScheduleMsg());
+};
+
+export const GetCopyStandardTestMsg = (data: ICopyStandardTestBody): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.getLoading(true));
+  const response = await GetTExamResultListApi.CopyExamschedule(data);
+  dispatch(SelectStandardExamslice.actions.getCopyStandardTestMsg(response.data));
+};
+
+export const resetCopyStandardTestMsg = (): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.resetCopyStandardTestMsg());
+};
+
+export const GetInsertExamSchedule = (data: IInsertExamScheduleBody): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.getLoading(true));
+  const response = await GetTExamResultListApi.InsertExamSchedule(data);
+  dispatch(SelectStandardExamslice.actions.getInsertExamSchedule(response.data));
+};
+
+export const resetInsertExamSchedule = (): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.resetInsertExamSchedule());
+};
+
+
+export const GetSumbitExamSchedule = (data: ISumbitExamScheduleBody): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.getLoading(true));
+  const response = await GetTExamResultListApi.SumbitExamSchedule(data);
+  dispatch(SelectStandardExamslice.actions.getSumbitExamSchedule(response.data));
+};
+
+export const resetSumbitExamSchedule = (): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.resetSumbitExamSchedule());
+};
 export default SelectStandardExamslice.reducer;
 
 
