@@ -76,8 +76,18 @@ const StandardwiseExamScheduleTable = () => {
             ? new Date().toISOString().split('T')[0]
             : getCalendarDateFormatDateNew(AssignedDate)
     );
-    const onSelectDate = (value) => {
+    const [examRows, setExamRows] = useState(examData.map(row => ({
+        ...row,
+        selectedDate: SelectDate // Initialize with first selected date
+    })));
+    const onSelectDate = (value: string) => {
         SetSelectDate(value);
+        setExamRows(rows => rows.map(row => ({ ...row, selectedDate: value })));
+    };
+
+    // Handle date change for other rows (does not affect the first row or others)
+    const onSelectRowDate = (id: number, value: string) => {
+        setExamRows(rows => rows.map(row => row.id === id ? { ...row, selectedDate: value } : row));
     };
 
     const renderTimeSelects = (time: { hour: string; minute: string; period: 'AM' | 'PM' }) => (
@@ -121,7 +131,7 @@ const StandardwiseExamScheduleTable = () => {
                                 <TableCell sx={{ py: 1, color: 'white' }} padding="checkbox"  > <strong><Checkbox /></strong></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell sx={{ py: 1, color: 'white' }}><strong>
-                                    <TextField size="small" sx={{color: 'white',}}></TextField></strong>
+                                    <TextField size="small" sx={{ color: 'white', }}></TextField></strong>
                                 </TableCell>
                                 <TableCell sx={{ py: 1, color: 'white' }}><strong><Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" /> </strong></TableCell>
                                 <TableCell sx={{ py: 1, color: 'white' }}><strong><Checkbox checked={row.timed} /></strong></TableCell>
@@ -146,8 +156,15 @@ const StandardwiseExamScheduleTable = () => {
                                 <TableCell sx={{ py: 0.5 }}>{row.subject}</TableCell>
                                 <TableCell sx={{ py: 0.5 }}><TextField size="small">
                                 </TextField></TableCell>
-                                <TableCell sx={{ py: 0.5 }}>
+                                {/* <TableCell sx={{ py: 0.5 }}>
                                     <Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" />
+                                </TableCell> */}
+                                <TableCell>
+                                    {row.id === 1 ? (
+                                        <Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small"/>
+                                    ) : (
+                                        <Datepicker DateValue={SelectDate} onDateChange={(value) => onSelectRowDate(row.id, value)} label={undefined} size="small"/>
+                                    )}
                                 </TableCell>
                                 <TableCell padding="checkbox" sx={{ pl: 2, py: 0.5 }} >
                                     <Checkbox checked={row.timed} />
