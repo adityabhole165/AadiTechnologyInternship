@@ -281,14 +281,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Calendar',
-      title: 'Exam Shedule',
-      icon: <Dataset />,
-      link: '/extended-sidebar/Teacher/Texamschedule',
-      screenId: 0,
-      visible: true
-    },
-    {
-      id: 'Calendar',
       title: 'Holidays',  // getPageName(14),
       icon: <DateRangeOutlinedIcon />,
       link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
@@ -469,13 +461,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
       screenId: 0
     },
-    {
-      id: 'Extra Screens',
-      title: 'Exam Schedule Full Access',
-      icon: <AutoStoriesIcon />,
-      link: '/extended-sidebar/Teacher/ExamScheduleBaseScreen',
-      screenId: 0
-    }
   ];
 
   // #endregion
@@ -771,10 +756,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       sideList.push(
         {
           id: 'Calendar',
-          title: 'Exam Shedule',
+          title: 'Exam Schedule',
           icon: <Dataset />,
-          link: '/extended-sidebar/Teacher/Texamschedule',
-          screenId: 0
+          link: GetScreenAccessPermissionByPageID(19) === 'N' ? '/extended-sidebar/Teacher/Texamschedule' : '/extended-sidebar/Teacher/ExamScheduleBaseScreen',
+          screenId: 19
         });
     }
   } else {
@@ -789,10 +774,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     sideList.push(
       {
         id: 'Calendar',
-        title: 'Exam Shedule',
+        title: 'Exam Schedule',
         icon: <Dataset />,
-        link: '/extended-sidebar/Teacher/Texamschedule',
-        screenId: 0
+        link: GetScreenAccessPermissionByPageID(19) === 'N' ? '/extended-sidebar/Teacher/Texamschedule' : '/extended-sidebar/Teacher/ExamScheduleBaseScreen',
+        screenId: 19
       });
     sideList.push(
       {
