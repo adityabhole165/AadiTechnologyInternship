@@ -22,7 +22,7 @@ function ContactGroupEditTable({ GPID = 0 }) {
   const dispatch = useDispatch();
   const { showAlert, closeAlert } = useContext(AlertContext);
   const schoolId = localStorage.getItem('localSchoolId');
-  const asUserId = sessionStorage.getItem('Id');
+  // const asUserId = sessionStorage.getItem('Id');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
 
 
@@ -38,12 +38,6 @@ function ContactGroupEditTable({ GPID = 0 }) {
   }, []);
 
 
-  /*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Function to delete a user from a group
-   * @param {number} UserId - user id to be deleted
-   */
-  /******  0c17b12f-c033-4f43-a774-782037391c80  *******/
   const handleDelete = (UserId) => {
     const DeleteMailingGroupUserBody: IDeleteMailingGroupUserBody = {
       asSchoolId: Number(schoolId),
@@ -64,17 +58,18 @@ function ContactGroupEditTable({ GPID = 0 }) {
           closeAlert();
         },
         onConfirm: () => {
-
           dispatch(CDADeleteMailingGroupUserMsg(DeleteMailingGroupUserBody));
+          dispatch(CDAGetUser(UserBody));
           closeAlert();
         },
       });
 
-
-
     }
+    useEffect(() => {
+      dispatch(CDADeleteMailingGroupUserMsg(DeleteMailingGroupUserBody));
+      dispatch(CDAGetUser(UserBody));
+    }, []);
   }
-
 
 
   return (
