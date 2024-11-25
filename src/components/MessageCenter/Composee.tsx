@@ -796,38 +796,48 @@ function Form13() {
     sessionStorage.removeItem('GroupSelectionId');
   }, [])
 
-  const clickConfirm = () => {
-    {
-      sessionStorage.getItem('GroupSelectionId') === '9' ? (
-        showAlert({
-          title: 'Please Confirm',
-          message: 'No group is selected. Are you sure you want to continue?',
-          variant: 'warning',
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          onCancel: () => {
-            closeAlert();
-          },
-          onConfirm: () => {
-            closeAlert();
-          },
-        })
-      ) : (
-        showAlert({
-          title: 'Please Confirm',
-          message: 'No User is selected. Are you sure you want to continue?',
-          variant: 'warning',
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          onCancel: () => {
-            closeAlert();
-          },
-          onConfirm: () => {
-            closeAlert();
-          },
-        })
-      )
-    };
+  function hasNonEmptyArray(obj) {
+    console.log(
+      'obj', obj
+    );
+
+    return Object.values(obj).some(array => Array.isArray(array) && array.length > 0);
+  }
+
+  const clickConfirm = (RecipientsObject) => {
+    if (sessionStorage.getItem('GroupSelectionId') === '9' && RecipientsObject.ContactGroup.length === 0 &&
+      RecipientsObject.RecipientName.length === 0) {
+      showAlert({
+        title: 'Please Confirm',
+        message: 'No group is selected. Are you sure you want to continue?',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          closeAlert();
+        },
+      })
+      // Need To Add condition over here | Note 🔔   windows + .
+    } else if (6 < 4) {
+      console.log(RecipientsObject, 'checkthis');
+
+      showAlert({
+        title: 'Please Confirm',
+        message: 'No User is selected. Are you sure you want to continue?',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          closeAlert();
+        },
+      })
+    }
     handleCloseDialog();
   };
   const [recipientsCC, setRecipientsCC] = useState(
@@ -1495,7 +1505,7 @@ function Form13() {
                 Cancel
               </Button>
               <Button
-                onClick={clickConfirm}
+                onClick={() => { clickConfirm(RecipientsObject) }}
                 sx={{
                   color: 'green',
                   '&:hover': {
