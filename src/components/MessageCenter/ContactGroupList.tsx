@@ -141,7 +141,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     asEndIndex: page * rowsPerPage,
     asSortDirection: SortDirection.toString(),
     asStandardDivisionId: Number(StandardClass),
-    asFilter: SearchUser.toString()
+    asFilter: ''   //SearchUser.toString()
   };
   useEffect(() => {
     dispatch(CDAGetUserName(UserName));
@@ -164,9 +164,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       setPreviousStandardClass(StandardClass); // Update previousStandardClass
     }
   };
-  // const clickStandardClass = (Value) => {
-  //   setStandardClass(Value);
-  // }
+
   const clickGroupName = (Value) => {
     setGroupName(Value);
   }
@@ -226,9 +224,11 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         isValid = false;
       }
       // Validate selected users
-      if (selected.length === 0) {
-        setErrorSelectedUser("At least one user should be selected for the Group.");
-        isValid = false;
+      if (GPID === 0) {
+        if (selected.length === 0) {
+          setErrorSelectedUser("At least one user should be selected for the Group.");
+          isValid = false;
+        }
       }
       // If validation fails, stop the process
       if (!isValid) return;
