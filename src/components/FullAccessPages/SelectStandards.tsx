@@ -1,24 +1,31 @@
-import React from 'react';
-import { Grid, Typography, Checkbox, FormControlLabel, Box } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Grid, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { IGetStandardsForExamCopyBody } from 'src/interfaces/Teacher/TExamSchedule';
+import { GetStandardsForExamCopy } from 'src/requests/TExamschedule/TExamschedule';
+import { RootState } from 'src/store';
 
-const standards = [
-  { label: 'Nursery' },
-  { label: 'Junior KG' },
-  { label: 'Senior KG' },
-  { label: '1' },
-  { label: '2' },
-  { label: '4' },
-  { label: '5' },
-  { label: '6' },
-  { label: '7' },
-  { label: '8' },
-  { label: '9' },
-  { label: '10' },
-];
 
 const SelectStandards: React.FC = () => {
+  const { StandardId, TestId } = useParams();
+  const dispatch = useDispatch();
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const standards = useSelector((state: RootState) => state.StandardAndExamList.StandardsForExamCopy);
+
+
+  useEffect(() => {
+    const GetStandardsForExamCopyBody: IGetStandardsForExamCopyBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      asSchoolwiseExamId: Number(TestId),
+    };
+
+    dispatch(GetStandardsForExamCopy(GetStandardsForExamCopyBody))
+  }, [])
   return (
-    <Box sx={{pl:0.5}}>
+    <Box sx={{ pl: 0.5 }}>
       <Typography variant="h5" color="primary" gutterBottom>
         Select Standards :
       </Typography>
@@ -27,7 +34,7 @@ const SelectStandards: React.FC = () => {
           <Grid item xs={3} sm={2} md={1} key={index}>
             <FormControlLabel
               control={<Checkbox />}
-              label={standard.label}
+              label={standard.Standard}
               labelPlacement="bottom"
             />
           </Grid>
