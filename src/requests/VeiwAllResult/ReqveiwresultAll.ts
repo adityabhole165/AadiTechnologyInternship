@@ -117,7 +117,7 @@ export const GetStudentResultList =
             //         // Text6: item.Result == '' ? 'N/A' : item.Result
             //     };
             // });
-            // dispatch(VeiwResultSlice.actions.AllStudentResultList(StudentList));
+            dispatch(VeiwResultSlice.actions.AllStudentResultList(response.data));
             //  console.log(StudentList, 'StudentList');
         };
 
@@ -139,6 +139,7 @@ export const StudentNameList =
             //  console.log(response, "nameeeee")
         };
 
+// #region Proto Type
 
 export const GetsingleStudentResultVA =
     (data: IGetsingleStudentBody): AppThunk =>
