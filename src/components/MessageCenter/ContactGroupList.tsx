@@ -70,7 +70,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
 
   const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
-  console.log(SortDirection, "@@###$$$$$$")
 
   const [SortBy, setSortBy] = useState('Name');
   const getuserlist: any = useSelector((state: RootState) => state.getuser1.GetUser);
@@ -84,8 +83,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   useEffect(() => {
     setSelectedd(USContactGroupUserRoles)
   }, [USContactGroupUserRoles]);
-
-  console.log(USGetUserName, "USGetUserName");
   const singleTotalCount: number = useMemo(() => {
     if (!Array.isArray(USGetUserName)) {
       return 0;
@@ -238,11 +235,18 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         asAcademicYearId: Number(academicYearId),
         asMailingGroupXML: getXML(),
       };
-
-
-      await dispatch(CDAaddUpdateGroup(SaveContactGroup));
+      if (GPID === 0) {
+        // Add group
+        await dispatch(CDAaddUpdateGroup(SaveContactGroup));
+      } else {
+        // Update existing group
+        await dispatch(CDAaddUpdateGroup(SaveContactGroup));
+      }
       dispatch(resetAddUpdateGroup());
       dispatch(ContactGroup(ContactgroupBody));
+      // await dispatch(CDAaddUpdateGroup(SaveContactGroup));
+      // dispatch(resetAddUpdateGroup());
+      // dispatch(ContactGroup(ContactgroupBody));
 
       setGroupName(''); // Clear Group Name field
       setSelected([]); // Clear selected users
@@ -263,15 +267,14 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   // Mock function to check if group name already exists
   // You would replace this with an actual API call
   const isGroupNameExists = async (groupName) => {
-
     try {
       const existingGroupNames = getuserlist.map((item) => (item.Value));
       return existingGroupNames.includes(groupName.trim());
     } catch (error) {
       return false; // Assume name doesn't exist on error
     }
-
   };
+
 
 
   useEffect(() => {
@@ -280,7 +283,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         if (USAddUpdateGroup.toLowerCase().includes('success')) {
           toast.success(USAddUpdateGroup);
           dispatch(resetAddUpdateGroup());
-
           setGroupName(''); // Clear Group Name
           setSelected([]); // Clear selected users
           setSelectedd([]);
@@ -291,7 +293,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
           setErrorSelectedUser('');
           setErrorGroupNameExists('');
           setIsSubmitting(false);
-          // onClose(); // Close the dialog if needed
+
         } else {
           toast.error(USAddUpdateGroup);
         }
@@ -689,7 +691,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
               }
             }}
           >
-            {GPID === 0 ? 'Add' : 'Update'}
+            Add
+            {/* {GPID === 0 ? 'Add' : 'Update'} */}
           </Button>
         </DialogActions>
       </Box>

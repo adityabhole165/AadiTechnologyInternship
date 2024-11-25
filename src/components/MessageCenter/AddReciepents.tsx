@@ -24,7 +24,6 @@ import {
   IGetStudentsUser,
   IUsergroup
 } from 'src/interfaces/AdminSMSCenter/To1';
-import { IAddUpdateGroupBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
@@ -36,30 +35,28 @@ import {
   GetStudent,
   GetUser
 } from 'src/requests/AdminSMSCenter/To1';
-import { CDAaddUpdateGroup, resetDeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup';
+import { resetDeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import ContactGroupList from './ContactGroupList';
 import SelectallAddrecipents from './SelectallAddrecipents';
 
 const AddReciepents = ({
-  teacherstudentid,
   RecipientName,
   RecipientId,
   recipientListClick,
   contactGroupList,
   classIdList,
   IsConfirm,
-  getGroupRadio
+  getGroupRadio,
+  getGroupRadio1
 }) => {
-
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
   const [showRecipients, setShowRecipients] = useState(false);
   const [IsConfirm1, setIsConfirm1] = useState('');
-
   //const navigate = useNavigate();
   const [selectedRecipents, setSelectedRecipents] = useState(
     RecipientName || []
@@ -68,18 +65,13 @@ const AddReciepents = ({
     RecipientId || []
   );
   const [classId, setClassId] = useState(classIdList || []);
-  console.log(teacherstudentid, '6666666666666666')
-
   const [contactGroup, setContactGroup] = useState(contactGroupList || []);
-  //const [techerStudent1, setTeacherStudent1] = useState('');
   const [adminandSW, setAdminandSW] = useState();
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
-
   const [studentlist, setStudentlist] = useState('');
-  console.log(studentlist, "studentlist");
   const [teacherStudent, setTecherStudent] = useState([]);
-  const [techerStudent1, setTeacherStudent1] = useState(teacherstudentid || '');
+  const [techerStudent1, setTeacherStudent1] = useState('');
   const [show, setShow] = useState(true);
   const [SearchByName, setSearchByName] = useState('');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -88,8 +80,6 @@ const AddReciepents = ({
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = sessionStorage.getItem('Id');
   const MessageCenterFullAccess = GetScreenPermission('Message Center');
-
-  console.log(MessageCenterFullAccess, '###### ')
   const [entireSchool, setEntireSchool] = useState([
     {
       Id: 'Entire School',
@@ -98,19 +88,14 @@ const AddReciepents = ({
       isActive: false
     }
   ]);
-
-  // Api for Admin principle and Software co-ordinator
   const getGetAdminAndprincipalUsers: any = useSelector(
     (state: RootState) =>
       state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
   );
-
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
   );
-  console.log(getuserlist, 'getuserlist');
-
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
     (state: RootState) => state.getuser1.Loading
@@ -170,7 +155,6 @@ const AddReciepents = ({
   useEffect(() => {
     dispatch(getShowPTA(showPTA));
   }, []);
-  console.log(asUserId, "$$$$$4444")
   const handleDelete = (recipient) => {
     const updatedRecipients = selectedRecipents.filter((r) => r !== recipient);
     const updatedRecipientIds = selectedRecipentsId.filter(
@@ -399,33 +383,33 @@ const AddReciepents = ({
     populateRecipient(value);
   };
 
-  function getXML() {
-    let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
-    asUpdateSelectXML +=
-      " <GroupId>" + 0 + "</GroupId>\r\n  " +
-      "<Name>" + "students" + "</Name>\r\n  " +
-      "<lstUserRoles>\r\n  " +
-      "<UserRoles>\r\n  " +
-      "<User_Role_Id>" + 3 + "</User_Role_Id>\r\n  " +
-      "</UserRoles>\r\n  " +
-      "</lstUserRoles>\r\n  " +
-      "<Users>" + "6926, 7040, 6904, 5781, 5892, 5821 " + "</Users>\r\n  " +
-      "<IsDefault>" + false + "</IsDefault>\r\n  " +
-      "<IsAllDeactivated>" + false + "</IsAllDeactivated>"
+  // function getXML() {
+  //   let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
+  //   asUpdateSelectXML +=
+  //     " <GroupId>" + 0 + "</GroupId>\r\n  " +
+  //     "<Name>" + "students" + "</Name>\r\n  " +
+  //     "<lstUserRoles>\r\n  " +
+  //     "<UserRoles>\r\n  " +
+  //     "<User_Role_Id>" + 3 + "</User_Role_Id>\r\n  " +
+  //     "</UserRoles>\r\n  " +
+  //     "</lstUserRoles>\r\n  " +
+  //     "<Users>" + "6926, 7040, 6904, 5781, 5892, 5821 " + "</Users>\r\n  " +
+  //     "<IsDefault>" + false + "</IsDefault>\r\n  " +
+  //     "<IsAllDeactivated>" + false + "</IsAllDeactivated>"
 
-    asUpdateSelectXML += "\r\n</MailingGroup>";
-    return asUpdateSelectXML
-  }
+  //   asUpdateSelectXML += "\r\n</MailingGroup>";
+  //   return asUpdateSelectXML
+  // }
 
-  const clickConfirm = () => {
-    const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
-      asSchoolId: Number(schoolId),
-      asAcademicYearId: Number(academicYearId),
-      asMailingGroupXML: getXML(),
-    }
-    dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
-    dispatch(ContactGroup(ContactgroupBody))
-  };
+  // const clickConfirm = () => {
+  //   const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
+  //     asSchoolId: Number(schoolId),
+  //     asAcademicYearId: Number(academicYearId),
+  //     asMailingGroupXML: getXML(),
+  //   }
+  //   dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
+  //   dispatch(ContactGroup(ContactgroupBody))
+  // };
 
 
   const populateRecipient = (itemList) => {
@@ -504,7 +488,9 @@ const AddReciepents = ({
   const ClickGroupRadio = (value) => {
     getGroupRadio(value.Id);
   }
-
+  const ClickGroupRadio1 = (value) => {
+    getGroupRadio1(value.isActive);
+  }
   return (
     <>
       <Box>
@@ -581,6 +567,8 @@ const AddReciepents = ({
                       {/* <Card> */}
                       <Box>
                         <ListSelect
+
+
                           ClickGroupRadio={ClickGroupRadio}
                           Itemlist={teacherStudent}
                           onChange={teacherStudentChange}
@@ -709,7 +697,7 @@ const AddReciepents = ({
                       Itemlist={list}
                       onChange={onChangeTeacher}
                       ContactGP={techerStudent1}
-                    />
+                      ClickGroupRadio1={ClickGroupRadio1} />
                   )
                   )}
                 </Grid>
@@ -761,7 +749,6 @@ const AddReciepents = ({
         <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
           Add/Update Contact Group
         </Typography>
-
         <DialogContent>
           <Box>
             <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} GPUserName={''} />
@@ -774,3 +761,5 @@ const AddReciepents = ({
 };
 
 export default AddReciepents;
+
+

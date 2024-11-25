@@ -391,7 +391,12 @@ const Compose = () => {
           RecipientName={RecipientsArray.RecipientName}
           RecipientId={RecipientsArray.RecipientId}
           recipientListClick={RecipientsListFun}
-        ></AddReciepents>
+          contactGroupList={undefined}
+          classIdList={undefined}
+          IsConfirm={undefined}
+          getGroupRadio={undefined}
+          getGroupRadio1={undefined}>
+        </AddReciepents>
       </div>
     </Box>
   );

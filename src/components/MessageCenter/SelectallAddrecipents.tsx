@@ -5,10 +5,12 @@ const SelectallAddrecipents = ({
   Itemlist,
   onChange,
   isSingleSelect = false,
-  ContactGP = '0'
+  ContactGP = '0',
+  ClickGroupRadio1
 }) => {
 
   const onClick = (value) => {
+    ClickGroupRadio1(value);
     Itemlist = Itemlist.map((obj) =>
       obj.Id === value.Id
         ? { ...obj, isActive: value.isActive }

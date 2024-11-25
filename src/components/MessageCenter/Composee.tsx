@@ -134,25 +134,29 @@ function Form13() {
     RecipientId: [],
     ClassId: []
   });
-  const [groupSelectionId, setGroupSelectionId] = useState<string>('');  // Provide initial value
+
+  const [groupSelectionId, setGroupSelectionId] = useState<string>('');  // Provide initial 
+
+  const getGroupRadio1 = (isActive) => {
+    if (isActive !== undefined) {
+      sessionStorage.setItem('GroupSelectionId1', isActive);
+    }
+  }
   const getGroupRadio = (value) => {
     if (value !== undefined) {
       sessionStorage.setItem('GroupSelectionId', value);
     }
   }
-
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
   const [open, setOpen] = useState(false);
   const [Sopen, setSopen] = useState(false);
   const [finalBase642Duplicate, setFinalBase642Duplicate] = useState([]);
-
   const [FileNameOfAttachment, setFileNameOfAttachment] = useState([]);
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const aRef = useRef(null);
-
   const originalMessageBody = localStorage.getItem('messageBody');
   const MSGBody = originalMessageBody?.replace(/(\r\n|\r|\n)/g, '<br>');
   useEffect(() => { }, [finalBase642New]);
@@ -165,7 +169,6 @@ function Form13() {
       dispatch(addRecipients(PayLoadObject));
     }
   }, []);
-
   useEffect(() => {
     if (AttachmentArray != undefined) {
       if (AttachmentArray != 'null') {
@@ -224,11 +227,7 @@ function Form13() {
   const [schTimeerror, setSchTimeerror] = useState('');
   const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
   const [requestReadReceipt, setRequestReadReceipt] = useState(false);
-  const [teacherstudentid, setteacherstudentid] = useState('');
-  // const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
-  // const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
-  // const [schTimeerror, setSchTimeerror] = useState('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
   const [subjecterror, setSubjecterror] = useState('');
   const [contenterror, setContenterror] = useState('');
@@ -335,22 +334,6 @@ function Form13() {
       'xls',
       'xlsx'
     ];
-
-    // if (fileExtension != undefined || null) {
-    //   if (!allowedFileTypes.includes(fileExtension)) {
-    //     setFilerror('Invalid file format.');
-    //     //setFilerror('File does not support. Please check note');
-    //     return false;
-    //   } else if (allowedFileTypes.includes(fileExtension)) {
-    //     setFilerror(null);
-    //     return true;
-    //   }
-    //   if (fileData?.size > 50e6) {
-    //     setFilerror('Total file size should be less than 50 MB.');
-    //     return false;
-    //   }
-    // }
-
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
         setFilerror('Invalid file format.');
@@ -418,7 +401,7 @@ function Form13() {
       asIsSoftwareCordinatorCc: '',
       asDisplayTextCc: RecipientsCCObject.RecipientName.toString()
     };
-    console.log(RecipientsObject, "---------------");
+
 
     MessageCenterApi.SendMessage(sendMessageAPIBody)
       .then((res: any) => {
@@ -798,16 +781,14 @@ function Form13() {
     //   isError = true;
     // } else {
     dispatch(getSaveDraftMessage(SaveDraftBody));
-    // }
+
   };
 
   useEffect(() => {
     if (SaveDraftM !== '') {
       toast.success(SaveDraftM, { toastId: 'success1' });
       dispatch(resetSaveDraftMessage());
-      // setTimeout(RediretToSentPage, 100);
-      // setLoading(false);
-      // navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
+
     }
   }, [SaveDraftM]);
   useEffect(() => {
@@ -816,7 +797,6 @@ function Form13() {
   }, [])
 
   const clickConfirm = () => {
-
     {
       sessionStorage.getItem('GroupSelectionId') === '9' ? (
         showAlert({
@@ -853,10 +833,7 @@ function Form13() {
   const [recipientsCC, setRecipientsCC] = useState(
     RecipientsCCObject.RecipientName || []
   );
-  // useEffect(() => {console.log('123',recipientsCC);
-  // }, [recipientsCC])
 
-  // Update local recipients state whenever the RecipientsCCObject changes
   useEffect(() => {
     setRecipientsCC(RecipientsCCObject.RecipientName || []);
   }, [RecipientsCCObject.RecipientName]);
@@ -1497,7 +1474,8 @@ function Form13() {
                 recipientListClick={RecipientsListFun}
                 contactGroupList={RecipientsObject.ContactGroup}
                 classIdList={RecipientsCCObject.ClassId}
-                IsConfirm={IsConfirm} teacherstudentid={teacherstudentid} />
+                IsConfirm={IsConfirm}
+                getGroupRadio1={getGroupRadio1} />
             ) : (
               <AddReciepents
                 getGroupRadio={getGroupRadio}
@@ -1506,8 +1484,8 @@ function Form13() {
                 recipientListClick={RecipientsCCListFun}
                 contactGroupList={RecipientsObject.ContactGroup}
                 classIdList={RecipientsCCObject.ClassId}
-                IsConfirm={IsConfirm} teacherstudentid={teacherstudentid}
-              />
+                IsConfirm={IsConfirm}
+                getGroupRadio1={getGroupRadio1} />
 
             )}
           </Box>
