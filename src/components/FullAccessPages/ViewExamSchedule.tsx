@@ -145,7 +145,7 @@ const ViewExamSchedule = () => {
                 getExamlist && getExamlist.length > 0 && getExamlist.map((exam, index) => {
 
                     const filteredSubList = SubList.filter(item => item.SchoolwiseStandardExamScheduleId === exam.Schoolwise_Standard_Exam_Schedule_Id);
-
+                    const currentInstructions = exam.Text6
                     return filteredSubList.length > 0 ? (
                         <Box key={index} sx={{ backgroundColor: 'white' }}>
                             <Box
@@ -220,7 +220,7 @@ const ViewExamSchedule = () => {
                                                     <TableRow>
                                                         <TableCell colSpan={7} sx={{ color: 'darkblue', py: 1, textAlign: 'left' }}>
                                                             <strong>Instruction: </strong>
-                                                            {Instructions.replace(/<\/?br\s\/?>/gi, ' ') || '-'}
+                                                            {currentInstructions.replace(/<\/?br\s\/?>/gi, ' ') || '-'}
                                                         </TableCell>
                                                     </TableRow>
                                                 </TableBody>
