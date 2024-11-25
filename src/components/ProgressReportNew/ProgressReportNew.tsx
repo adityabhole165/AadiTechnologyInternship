@@ -337,10 +337,9 @@ const ProgressReportNew = () => {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(AcademicYear),
     asStandardDivId: GetOldStudentDetails.StandardDivisionId,
-    asStudentId: Number(StudentId)
+    asStudentId: GetOldStudentDetails.StudentId
 
   };
-
 
   const AcademicYearsOfStudentBody: IGetAcademicYearsOfStudentBody = {
     aiSchoolId: asSchoolId,
@@ -472,14 +471,17 @@ const ProgressReportNew = () => {
 
 
   useEffect(() => {
-    dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
-
-  }, [GetOldStudentDetails.StandardDivisionId, AcademicYear]);
-
-  useEffect(() => {
     dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
 
-  }, [GetOldStudentDetails.StandardDivisionId, AcademicYear]);
+  }, [GetOldStudentDetails.StandardDivisionId,GetOldStudentDetails.StudentId, AcademicYear]);
+
+  useEffect(() => {
+    dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
+
+  }, [GetOldStudentDetails.StandardDivisionId,  AcademicYear]);
+
+  
+
 
 
   useEffect(() => {
