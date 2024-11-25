@@ -4,7 +4,7 @@ import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } fro
 import { blue } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 
-const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1, MarkDetailsList1, IsTotalConsiderForProgressReport }) => {
+const ProgressReportGradeView = ({ isFailCriteria, totalCount, EntireDataList, HeaderArray1, SubHeaderArray1, MarkDetailsList1, IsTotalConsiderForProgressReport }) => {
   // const getListDisplayName = (ShortName) => {
   //     let returnVal = ""
   //     ListDisplayNameDetails1.map((Item) => {
@@ -100,6 +100,20 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
                     </Typography></TableCell>
                 ))
                 }
+                <>
+                  {isFailCriteria === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                    <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                      <Typography color="black" textAlign={'center'} px={0}>
+                        <b>Result</b>
+                      </Typography>
+                    </TableCell>}
+                  {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                    <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                      <Typography color="black" textAlign={'center'} px={0}>
+                        <b>Rank</b>
+                      </Typography>
+                    </TableCell>}
+                </>
               </TableRow>
               <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                 {HeaderArray1.map((item) => (
@@ -139,8 +153,23 @@ const ProgressReportGradeView = ({ EntireDataList, HeaderArray1, SubHeaderArray1
                   <Typography color="black" textAlign={'center'} mx={2}  >
                     <b style={{ marginRight: "0px" }}>Grade</b>
                   </Typography></TableCell>}
+              <>
+                {isFailCriteria === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                  <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                    <Typography color="black" textAlign={'center'} px={0}>
+                      <b>Result</b>
+                    </Typography>
+                  </TableCell>}
+                {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                  <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                    <Typography color="black" textAlign={'center'} px={0}>
+                      <b>Rank</b>
+                    </Typography>
+                  </TableCell>}
+              </>
             </TableRow>
             )}
+
           <TableRow>
             {SubHeaderArray1.map((item) => (
               <><TableCell sx={{ py: 1, textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>

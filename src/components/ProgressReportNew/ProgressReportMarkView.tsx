@@ -2,7 +2,7 @@ import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } fro
 import { blue } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 
-const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
+const ProgressReportMarkView = ({isFailCriteria, totalCount, EntireDataList, ThirdHeaderRow, HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
  const [data, setData] = useState<any>([]);
     const getListDisplayName = (ShortName) => {
         let returnVal = "";
@@ -224,7 +224,22 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                                 <b>Grade</b>
                                             </Typography>
                                         </TableCell>
+
                                     </>}
+                                    <>
+                                    {isFailCriteria === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                    <TableCell rowSpan={3} sx={{ py:1, minWidth:'140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`}} >
+                                            <Typography color="black" textAlign={'center'} px={0}>
+                                                <b>Result</b>
+                                            </Typography>
+                                        </TableCell>}
+                                        {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                        <TableCell rowSpan={3} sx={{ py:1, minWidth:'140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`}} >
+                                            <Typography color="black" textAlign={'center'} px={0}>
+                                                <b>Rank</b>
+                                            </Typography>
+                                        </TableCell> }
+                                    </>
                             </TableRow>
                             <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                                 {findRow2()?.map((item, index) => (
@@ -305,6 +320,20 @@ const ProgressReportMarkView = ({ EntireDataList, ThirdHeaderRow, HeaderArray, S
                                             </Typography>
                                         </TableCell>
                                     </>}
+                                    <>
+                                    {isFailCriteria === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                    <TableCell rowSpan={3} sx={{ py:1, minWidth:'140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`}} >
+                                            <Typography color="black" textAlign={'center'} px={0}>
+                                                <b>Result</b>
+                                            </Typography>
+                                        </TableCell>}
+                                        {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                        <TableCell rowSpan={3} sx={{ py:1, minWidth:'140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`}} >
+                                            <Typography color="black" textAlign={'center'} px={0}>
+                                                <b>Rank</b>
+                                            </Typography>
+                                        </TableCell>}
+                                    </>
                         </TableRow>
                     )}
 
