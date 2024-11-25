@@ -20,6 +20,8 @@ import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressReportGradeView from './ProgressReportGradeView';
 import ProgressReportMarkView from './ProgressReportMarkView';
+import GradeConfigurationDetails from './GradeConfigurationDetails';
+import Studentdetails from './Studentdetails';
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -885,125 +887,18 @@ const ProgressReportNew = () => {
                   < Box ref={printRef}>
                     {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                       <>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                          <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Typography variant="h4">Grade Configuration Details</Typography>
-                          </Link>
-
-                          <Dialog
-                            open={open1}
-                            onClose={handleClose}
-                            maxWidth="md" scroll="body"
-                            sx={{ minHeight: '400px' }}
-                            PaperProps={{
-                              sx: {
-                                borderRadius: "15px",
-                              }
-                            }}>
-                            <DialogTitle sx={{ bgcolor: '#223354' }}>
-
-                              <ClearIcon onClick={handleClose}
-                                sx={{
-                                  color: 'white',
-                                  // background:'white',
-                                  borderRadius: '7px',
-                                  position: 'absolute',
-                                  top: '5px',
-                                  right: '8px',
-                                  cursor: 'pointer',
-                                  '&:hover': {
-                                    color: 'red'
-                                  }
-                                }} />
-                            </DialogTitle>
-
-                            <DialogContent>
-                              <Typography variant="h3" my={1}>
-                                Grade Configuration Details
-                              </Typography>
-                              <Typography variant="h4" my={1}>
-                                Subjects :-
-                              </Typography>
-                              <GradeConfigurationList
-                                configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id !== "")}
-                                HeaderArray={headerArray}
-                              />
-                            </DialogContent>
-                            <DialogContent>
-                              <Typography variant="h4" >
-                                Co-Curricular Subjects :-
-                              </Typography>
-                              <GradeConfigurationList
-                                configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id !== "")}
-                                HeaderArray={headerArray}
-                              />
-                            </DialogContent>
-                          </Dialog>
-                        </Box>
-
-                        <Box sx={{ mt: 1, background: 'white' }}>
-
-                          {/* {USlistStudentsDetails.map((subject, index) => (
-                          <div key={index}>
-                            <Typography variant="h4" textAlign="center" color="primary" mb={1}>
-                              {subject.School_Orgn_Name}
-                            </Typography>
-                            <hr />
-                            <Typography variant="h3" textAlign="center" color="black" mb={1}>
-                              {subject.School_Name}
-                            </Typography>
-                            <hr />
-                            <Typography variant="h4" textAlign="center" color="black" mb={1}>
-                              Progress Report
-                            </Typography>
-                          </div>
-                        ))} */}
-
-                          {USlistStudentsDetails.map((subject, index) => (
-                            <Table sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }} key={index}>
-                              <TableBody>
-
-                                <TableRow sx={{ textAlign: 'center', color: 'primary', border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'primary', py: 1, fontSize: '18px !important', }}>
-
-                                    {subject.School_Orgn_Name}
-                                  </TableCell>
-                                </TableRow>
-
-
-                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 800, color: 'black', py: 1, fontSize: '26px !important', }}>
-                                    {subject.School_Name}
-                                  </TableCell>
-                                </TableRow>
-
-
-                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'black', py: 1, fontSize: '18px !important', }}>
-
-                                    Progress Report
-                                  </TableCell>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          ))}
-
-
-                          <Table>
-                            <TableBody>
-                              {USlistStudentsDetails.map((item) => {
-                                return (
-                                  <TableRow sx={{ bgcolor: '#38548A' }}>
-                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
-                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
-                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
-                                  </TableRow>
-                                )
-                              })}
-                            </TableBody>
-                          </Table>
-                        </Box>
+                         <GradeConfigurationDetails
+                         handleClick={handleClick}
+                         open1={open1}
+                         handleClose={handleClose}
+                         USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                         USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                         headerArray={headerArray}
+                         />
+                         <Studentdetails
+                         USlistStudentsDetails={USlistStudentsDetails}
+                         />
+    
                         {hasTotalConsiderationN && (
                           <div
                             style={{ backgroundColor: 'white', padding: '8px' }}
@@ -1025,106 +920,17 @@ const ProgressReportNew = () => {
                       </>
                       :
                       <>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                          <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Typography variant="h4">Grade Configuration Details</Typography>
-                          </Link>
-
-                          <Dialog
-                            open={open1}
-                            onClose={handleClose}
-                            maxWidth="md" scroll="body"
-                            sx={{ minHeight: '400px' }}
-                            PaperProps={{
-                              sx: {
-                                borderRadius: "15px",
-                              }
-                            }}>
-                            <DialogTitle sx={{ bgcolor: '#223354' }}>
-
-                              <ClearIcon onClick={handleClose}
-                                sx={{
-                                  color: 'white',
-                                  // background:'white',
-                                  borderRadius: '7px',
-                                  position: 'absolute',
-                                  top: '5px',
-                                  right: '8px',
-                                  cursor: 'pointer',
-                                  '&:hover': {
-                                    color: 'red'
-                                  }
-                                }} />
-                            </DialogTitle>
-
-                            <DialogContent>
-                              <Typography variant="h3" my={1}>
-                                Grade Configuration Details
-                              </Typography>
-                              <Typography variant="h4" my={1}>
-                                Subjects :-
-                              </Typography>
-                              <GradeConfigurationList
-                                configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id !== "")}
-                                HeaderArray={headerArray}
-                              />
-                            </DialogContent>
-                            <DialogContent>
-                              <Typography variant="h4" >
-                                Co-Curricular Subjects :-
-                              </Typography>
-                              <GradeConfigurationList
-                                configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id !== "")}
-                                HeaderArray={headerArray}
-                              />
-                            </DialogContent>
-                          </Dialog>
-                        </Box>
-                        <Box sx={{ mt: 1, background: 'white', }}>
-
-                          {USlistStudentsDetails.map((subject, index) => (
-                            <Table sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }} key={index}>
-                              <TableBody>
-
-                                <TableRow sx={{ textAlign: 'center', color: 'primary', border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'primary', py: 1, fontSize: '18px !important', }}>
-
-                                    {subject.School_Orgn_Name}
-                                  </TableCell>
-                                </TableRow>
-
-
-                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 800, color: 'black', py: 1, fontSize: '26px !important', }}>
-                                    {subject.School_Name}
-                                  </TableCell>
-                                </TableRow>
-
-
-                                <TableRow sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                                  <TableCell colSpan={6} sx={{ textAlign: 'center', fontWeight: 700, color: 'black', py: 1, fontSize: '18px !important', }}>
-
-                                    Progress Report
-                                  </TableCell>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          ))}
-                          <Table >
-                            <TableBody>
-                              {USlistStudentsDetails.map((item) => {
-                                return (
-                                  <TableRow sx={{ bgcolor: '#38548A' }}>
-                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
-                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
-                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                                    <TableCell sx={{ py: 1.5, textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
-                                  </TableRow>
-                                )
-                              })}
-                            </TableBody>
-                          </Table>
-                        </Box>
+                       <GradeConfigurationDetails
+                         handleClick={handleClick}
+                         open1={open1}
+                         handleClose={handleClose}
+                         USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                         USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                         headerArray={headerArray}
+                         />
+                         <Studentdetails
+                         USlistStudentsDetails={USlistStudentsDetails}
+                         />
                         {hasTotalConsiderationN && (
                           <div
                             style={{ backgroundColor: 'white', padding: '8px' }}
