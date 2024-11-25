@@ -1,11 +1,23 @@
 import IGetAllStandards, {
   GetExamsListResult,
   GetStandardListResult,
+  ICopyStandardTestBody,
+  ICopyStandardTestResult,
   IGetExamScheduleBody,
   IGetExamScheduleResult,
   IGetExamsList,
+  IGetStandardsForExamCopyBody,
+  IGetStandardsForExamCopyResult,
   IGetSubjectExamScheduleBody,
-  IGetSubjectExamScheduleResult
+  IGetSubjectExamScheduleResult,
+  IInsertExamScheduleBody,
+  IInsertExamScheduleResult,
+  ISumbitExamScheduleBody,
+  ISumbitExamScheduleResult,
+  IUpdateExamScheduleInstructionsBody,
+  IUpdateExamScheduleInstructionsResult,
+  IUpdateStandardWiseExamScheduleBody,
+  IUpdateStandardWiseExamScheduleResult
 } from 'src/interfaces/Teacher/TExamSchedule';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -28,11 +40,38 @@ const GetSubjectExamScheduleList = (data: IGetSubjectExamScheduleBody) => {
   return http.post<IGetSubjectExamScheduleResult>('School/getSubjectExamScheduleList', data);
 };
 
+const GetStandardsForExamCopy = (data: IGetStandardsForExamCopyBody) => {
+  return http.post<IGetStandardsForExamCopyResult>('School/GetStandardsForExamCopy', data);
+};
+const UpdateExamScheduleInstructions = (data: IUpdateExamScheduleInstructionsBody) => {
+  return http.post<IUpdateExamScheduleInstructionsResult>('School/UpdateExamScheduleInstructions', data);
+};
+
+const UpdateStandardWiseExamSchedule = (data: IUpdateStandardWiseExamScheduleBody) => {
+  return http.post<IUpdateStandardWiseExamScheduleResult>('School/UpdateExamScheduleInstructions', data);
+};
+
+const CopyExamschedule = (data: ICopyStandardTestBody) => {
+  return http.post<ICopyStandardTestResult>('School/UpdateExamScheduleInstructions', data);
+};
+
+const InsertExamSchedule = (data: IInsertExamScheduleBody) => {
+  return http.post<IInsertExamScheduleResult>('Teacher/InsertExamSchedule', data);
+};
+const SumbitExamSchedule = (data: ISumbitExamScheduleBody) => {
+  return http.post<ISumbitExamScheduleResult>('Teacher/InsertExamSchedule', data);
+};
 const GetTExamResultListApi = {
   GetAllStandards,
   GetExamsList,
   GetExamScheduleFullAcc,
-  GetSubjectExamScheduleList
+  GetSubjectExamScheduleList,
+  GetStandardsForExamCopy,
+  UpdateExamScheduleInstructions,
+  UpdateStandardWiseExamSchedule,
+  CopyExamschedule,
+  InsertExamSchedule,
+  SumbitExamSchedule
 };
 
 export default GetTExamResultListApi;
