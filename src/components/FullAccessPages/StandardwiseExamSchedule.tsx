@@ -10,16 +10,16 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { GetUpdateExamScheduleInstructions, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
+import { GetInsertExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
 import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
-import { IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
 
 
 const StandardwiseExamSchedule = () => {
-    const { StandardId, TestId } = useParams();
+    const { StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId } = useParams();
     const dispatch = useDispatch();
     const [openDialog, setOpenDialog] = useState(false);
     const [IsConfirm, setIsConfirm] = useState('');
@@ -48,6 +48,21 @@ const StandardwiseExamSchedule = () => {
     const SubHeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandard);
     const HeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandardwTest);
     const UpdateExamScheduleInstructions = useSelector((state: RootState) => state.StandardAndExamList.UpdateExamScheduleInstructionsMsg);
+    const USInsertExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.InsertExamSchedule);
+
+    function getXML() {
+        let Insertxml = "\r\n<SubjectwiseStandardExamSchedule>\r\n";
+
+        Insertxml +=
+            "<Subject_Id>" + 2374 + "</Subject_Id>" +
+            "<ExamTypes>" + "" + "</ExamTypes>" +
+            "<Exam_Start_Date>" + "04-10-2024 00:00:00" + "</Exam_Start_Date>" +
+            "<Exam_End_Date>" + "04-10-2024 00:00:00" + "</Exam_End_Date>" +
+            "<Description>" + "" + "</Description>";
+
+        Insertxml += "\r\n</SubjectwiseStandardExamSchedule>";
+        return Insertxml;
+    }
 
     useEffect(() => {
         const RExamScheduleBody = {
@@ -61,13 +76,38 @@ const StandardwiseExamSchedule = () => {
     useEffect(() => {
         const UpdateExamScheduleInstructionsBody: IUpdateExamScheduleInstructionsBody = {
             asSchoolId: Number(asSchoolId),
-            asSchoolwiseStandardExamScheduleId: Number(TestId),
+            asSchoolwiseStandardExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
             asInstructions: currentInstruction,
             asUpdatedById: asUserId
         }
         dispatch(GetUpdateExamScheduleInstructions(UpdateExamScheduleInstructionsBody));
 
     }, [])
+
+    const SumbitExamScheduleBody: ISumbitExamScheduleBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asUpdatedById: Number(asUserId),
+        asStandardId: Number(StandardId),
+        asIsUnSubmit: 0,
+        asSchoolwiseTestId: Number(TestId)
+    }
+
+    const onClickSave = () => {
+        const InsertExamScheduleBody: IInsertExamScheduleBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asStandardId: Number(StandardId),
+            asSchoolwiseTestId: Number(TestId),
+            asStandardTestId: Number(StandardTestId),
+            asInsertedById: asUserId,
+            asScreenId: 0,
+            asSchoolwiseStandardExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
+            asExamDetailsXML: getXML()
+        }
+        dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
+    }
+
 
     const getClassName = () => {
         let returnVal = ""
@@ -88,6 +128,9 @@ const StandardwiseExamSchedule = () => {
         })
         return returnVal;
     }
+    const onClickSubmit = () => {
+        dispatch(GetSumbitExamSchedule(SumbitExamScheduleBody))
+    };
 
     const handleOpenDialog = (isRecipients) => {
         setIsConfirm('');
@@ -176,7 +219,9 @@ const StandardwiseExamSchedule = () => {
                                 '&:hover': {
                                     backgroundColor: green[600]
                                 }
-                            }}>
+                            }}
+                                onClick={onClickSave}
+                            >
                                 <SaveIcon />
                             </IconButton>
                         </Tooltip>
@@ -189,7 +234,9 @@ const StandardwiseExamSchedule = () => {
                                 '&:hover': {
                                     backgroundColor: green[600]
                                 }
-                            }}>
+                            }}
+                                onClick={onClickSubmit}
+                            >
                                 <CheckRoundedIcon />
                             </IconButton>
                         </Tooltip>

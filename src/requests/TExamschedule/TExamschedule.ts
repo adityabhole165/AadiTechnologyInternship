@@ -301,7 +301,9 @@ export const RExamSchedule =
                 Header: Standards.standard_name,
                 SubHeader: Tests.SchoolWise_TestName,
                 TestId: Tests.SchoolWise_TestId,
-                StandardId: Standards.standard_id
+                StandardId: Standards.standard_id,
+                SchoolwiseStandardExamScheduleId: ConfigExam[0].Schoolwise_Standard_Exam_Schedule_Id,
+                StandardTestId: ConfigExam[0].Standard_Test_Id
               });
             }
           }
