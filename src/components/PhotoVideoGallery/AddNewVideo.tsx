@@ -213,10 +213,10 @@ const AddNewVideo = () => {
             sx={{ gap: 0.1, display: 'flex', flexDirection: 'column' }}
           >
             <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}>
-              <b>Note 1:</b> Video should be from <strong>www.youtube.com</strong>, URL Example: http://www.youtube.com/v/bAUT_Pux73w.
+              Video should be from <strong>www.youtube.com</strong>, URL Example: http://www.youtube.com/v/bAUT_Pux73w.
             </Alert>
             <Alert variant="filled" severity="info">
-              <b>Note 2:</b> When you edit any gallery, changes made to the gallery name, dates, user roles, and classes will be applied to all subjects of the respective gallery.
+             When you edit any gallery, changes made to the gallery name, dates, user roles, and classes will be applied to all subjects of the respective gallery.
             </Alert>
           </AccordionDetails>
         </Accordion>
