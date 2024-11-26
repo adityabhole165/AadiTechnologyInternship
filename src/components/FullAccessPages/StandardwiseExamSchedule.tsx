@@ -10,8 +10,8 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
-import { GetInsertExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { ICopyStandardTestBody, IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
+import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
@@ -64,6 +64,16 @@ const StandardwiseExamSchedule = () => {
         return Insertxml;
     }
 
+    function getXML1() {
+        let Insertxml = "<ArrayOfInt><int>";
+
+        Insertxml +=
+            "<Data>" + "1077" + "</Data>"
+
+        Insertxml += "</int></ArrayOfInt>";
+        return Insertxml;
+    }
+
     useEffect(() => {
         const RExamScheduleBody = {
             asSchoolId: Number(asSchoolId),
@@ -108,7 +118,16 @@ const StandardwiseExamSchedule = () => {
         dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
     }
 
-
+    const onClickC0pyExamSchedule = () => {
+        const InsertExamScheduleBody: ICopyStandardTestBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asStandardId: Number(StandardId),
+            asSourceStandardTestId: Number(TestId),
+            asDestinationStandardsxml: getXML1()
+        }
+        dispatch(GetCopyStandardTestMsg(InsertExamScheduleBody))
+    }
     const getClassName = () => {
         let returnVal = ""
 
@@ -356,7 +375,7 @@ const StandardwiseExamSchedule = () => {
                         Cancel
                     </Button>
                     <Button
-                        // onClick={clickConfirm}
+                        onClick={onClickC0pyExamSchedule}
                         sx={{
                             color: 'green',
                             '&:hover': {
