@@ -132,8 +132,8 @@ export const getDateMonthYearDayDash = (date) => {
 };
 
 export const getDateMonthYear = (date) => {
-  let arrDate = date.split(' ')[0].split('-'); 
-  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;  
+  let arrDate = date.split(' ')[0].split('-');
+  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;
 
   return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
 };
@@ -145,7 +145,7 @@ export function extractTimenew(datetimeString) {
   // Convert 24-hour format to 12-hour format
   const hour12 = parseInt(hours, 10) % 12 || 12; // Convert to 12-hour format (handling 0 as 12)
   const period = parseInt(hours, 10) >= 12 ? 'PM' : 'AM'; // Determine AM or PM
-  
+
   // Return time in the format "08:00 AM"
   return `${hour12.toString().padStart(2, '0')}:${minutes} ${period}`;
 }
@@ -746,6 +746,20 @@ export const SchoolScreensAccessPermission = () => {
   }
   return flag;
 }
+
+export const extractTimeforExamSchedule = (datetime) => {
+  const [date, time] = datetime.split(" "); // Split into date and time
+  const [hour, minute] = time.split(":"); // Correct splitting of time by ":"
+  const numericHour = parseInt(hour, 10);
+  const period = numericHour >= 12 ? "PM" : "AM"; // Determine AM or PM
+  const formattedHour = numericHour % 12 === 0 ? 12 : numericHour % 12; // Convert to 12-hour format
+
+  return {
+    hour: formattedHour.toString().padStart(2, "0"), // Ensure two-digit hour
+    minute: minute.padStart(2, "0"), // Ensure two-digit minute
+    period: period,
+  };
+};
 
 export const getWithoutHTML = (value) => {
   var div = document.createElement('div');
