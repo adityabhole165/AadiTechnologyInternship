@@ -48,7 +48,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const [page, setPage] = useState<number>(1);
   const rowsPerPageOptions = [5, 10, 20, 30, 40];
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [selectedd, setSelectedd] = useState([]);
+
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [previousStandardClass, setPreviousStandardClass] = useState(null); // Store the previous selected StandardClass to compar
@@ -80,8 +82,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const USAddUpdateGroup: any = useSelector((state: RootState) => state.ContactGroup.IAddUpdateGroup);
 
   useEffect(() => {
-    setSelectedd(USContactGroupUserRoles)
+    setSelectedd(USContactGroupUserRoles.split(',').map(item => item.trim()))
   }, [USContactGroupUserRoles]);
+  console.log(USContactGroupUserRoles, "UseSelector", selectedd)
+
   const singleTotalCount: number = useMemo(() => {
     if (!Array.isArray(USGetUserName)) {
       return 0;
@@ -172,7 +176,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       "<Name>" + GroupName + "</Name>\r\n  " +
       "<lstUserRoles>\r\n";
     selectedd.forEach(roleId => {
-      asUpdateSelectXML += "    <UserRoles>\r\n      <User_Role_Id>" + roleId + "</User_Role_Id>\r\n    </UserRoles>\r\n";
+      asUpdateSelectXML += "    <UserRoles>\r\n  <User_Role_Id>" + roleId + "</User_Role_Id>\r\n    </UserRoles>\r\n";
     });
     asUpdateSelectXML +=
       "  </lstUserRoles>\r\n  " +
@@ -183,122 +187,257 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     asUpdateSelectXML += "\r\n</MailingGroup>";
     return asUpdateSelectXML;
   }
+
   const onClear = async () => {
     setGroupName(''); // Clear Group Name field
     setSelected([]); // Clear selected users
-    setSelectedd([]);
-    setSelectAll(false); // Clear selected roles
+    setSelectedd([]); // Clear selected roles
+    setSelectAll(false); // Clear "Select All" role checkbox
   }
+
   const clickConfirm = async () => {
-    try {
-      if (isSubmitting) return;
-      setIsSubmitting(true); // Set flag to indicate submission in progress
-      let isValid = true;
-      setErrorGroupName('');
-      setErrorUserRole('');
-      setErrorSelectedUser('');
-      setErrorGroupNameExists('');
-      if (!GroupName || !selectedd || !selected) {
-        setErrorTypeName('Please correct following errors.');
-        isValid = false;
-      }
-      // Validate Group Name not blank
-      if (!GroupName.trim()) {
-        setErrorGroupName('Group Name should not be blank.');
-        isValid = false;
-      }
-      // Validate if Group Name already exists
-      if (GPID === 0) {
-        if (await isGroupNameExists(GroupName)) {
-          setErrorGroupNameExists('Group Name already exists.');
-          isValid = false;
-        }
-      }
-      // Validate user role selection
-      if (selectedd.length === 0) {
-        setErrorUserRole("At least one applicable role should be selected.");
-        isValid = false;
-      }
-      // Validate selected users
-      if (GPID === 0) {
-        if (selected.length === 0) {
-          setErrorSelectedUser("At least one user should be selected for the Group.");
-          isValid = false;
-        }
-      }
-      // If validation fails, stop the process
-      if (!isValid) return;
-      // Prepare data to save
-      const SaveContactGroup = {
-        asSchoolId: Number(schoolId),
-        asAcademicYearId: Number(academicYearId),
-        asMailingGroupXML: getXML(),
-      };
-      if (GPID === 0) {
-        // Add group
-        await dispatch(CDAaddUpdateGroup(SaveContactGroup));
-      } else {
-        // Update existing group
-        await dispatch(CDAaddUpdateGroup(SaveContactGroup));
-      }
-      dispatch(resetAddUpdateGroup());
-      dispatch(ContactGroup(ContactgroupBody));
-      // await dispatch(CDAaddUpdateGroup(SaveContactGroup));
-      // dispatch(resetAddUpdateGroup());
-      // dispatch(ContactGroup(ContactgroupBody));
+    if (isSubmitting) return;
+    let isValid = true;
+    setErrorGroupName('');
+    setErrorUserRole('');
+    setErrorSelectedUser('');
+    setErrorGroupNameExists('');
+    setErrorTypeName('');
 
-      setGroupName(''); // Clear Group Name field
-      setSelected([]); // Clear selected users
-      setSelectedd([]);
-      setSelectAll(false); // Clear selected roles
-      setErrorTypeName(''); // Clear error message
-      setErrorGroupName(''); // Clear error message
-      setErrorUserRole(''); // Clear error message
-      setErrorSelectedUser(''); // Clear error message
-      setErrorGroupNameExists(''); // Clear error message
-
-    } catch (error) {
-      console.error(error);
-      setIsSubmitting(false);
+    // Validate required fields
+    if (!GroupName || !selectedd || !selected) {
+      setErrorTypeName('Please correct the following errors.');
+      isValid = false;
     }
+
+    // Validate Group Name
+    if (!GroupName.trim()) {
+      setErrorGroupName('Group Name should not be blank.');
+      isValid = false;
+    }
+
+    // Validate if Group Name already exists
+    if (GPID === 0) {
+      if (await isGroupNameExists(GroupName)) {
+        setErrorGroupNameExists('Group Name already exists.');
+        isValid = false;
+      }
+    }
+
+    // Validate user role selection
+    if (selectedd.length === 0) {
+      setErrorUserRole('At least one applicable role should be selected.');
+      isValid = false;
+    }
+
+    // Validate selected users
+    if (GPID === 0) {
+      if (selected.length === 0) {
+        setErrorSelectedUser('At least one user should be selected for the group.');
+        isValid = false;
+      }
+    }
+
+    if (!isValid) return;
+
+    const SaveContactGroup = {
+      asSchoolId: Number(schoolId),
+      asAcademicYearId: Number(academicYearId),
+      asMailingGroupXML: getXML(),
+    };
+
+    // Check if GPID is 0 (indicating a new group) or if it's an existing group
+    if (GPID === 0) {
+      // Add a new group
+      dispatch(CDAaddUpdateGroup(SaveContactGroup));
+    } else {
+      // Update existing group
+      dispatch(CDAaddUpdateGroup(SaveContactGroup));
+    }
+    // Reset the form fields and state after submission
+    dispatch(resetAddUpdateGroup());
+    dispatch(ContactGroup(ContactgroupBody));
+
+    setGroupName(''); // Clear Group Name field
+    setSelected([]); // Clear selected users
+    setSelectedd([]); // Clear selected roles
+    setSelectAll(false); // Reset "Select All"
+    setErrorTypeName(''); // Clear error message
+    setErrorGroupName(''); // Clear error message
+    setErrorUserRole(''); // Clear error message
+    setErrorSelectedUser(''); // Clear error message
+    setErrorGroupNameExists(''); // Clear error message
   };
 
   // Mock function to check if group name already exists
-  // You would replace this with an actual API call
   const isGroupNameExists = async (groupName) => {
     try {
-      const existingGroupNames = getuserlist.map((item) => (item.Value));
+      const existingGroupNames = getuserlist.map(item => item.Value);
       return existingGroupNames.includes(groupName.trim());
     } catch (error) {
-      return false; // Assume name doesn't exist on error
+      return false; // Assume the name doesn't exist on error
     }
   };
 
-
-
+  // useEffect to handle success or error messages after group is added/updated
   useEffect(() => {
     if (USAddUpdateGroup) {
       if (typeof USAddUpdateGroup === 'string') {
         if (USAddUpdateGroup.toLowerCase().includes('success')) {
           toast.success(USAddUpdateGroup);
           dispatch(resetAddUpdateGroup());
-          setGroupName(''); // Clear Group Name
-          setSelected([]); // Clear selected users
+          dispatch(ContactGroup(ContactgroupBody));
+          setGroupName('');
+          setSelected([]);
           setSelectedd([]);
-          setSelectAll(false); // Clear selected roles
+          setSelectAll(false);
           setErrorTypeName('');
           setErrorGroupName('');
           setErrorUserRole('');
           setErrorSelectedUser('');
           setErrorGroupNameExists('');
-          setIsSubmitting(false);
-
         } else {
           toast.error(USAddUpdateGroup);
         }
       }
     }
   }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected]);
+  // function getXML() {
+  //   let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
+
+  //   asUpdateSelectXML +=
+  //     " <GroupId>" + GPID + "</GroupId>\r\n  " +
+  //     "<Name>" + GroupName + "</Name>\r\n  " +
+  //     "<lstUserRoles>\r\n";
+  //   selectedd.forEach(roleId => {
+  //     asUpdateSelectXML += "    <UserRoles>\r\n      <User_Role_Id>" + roleId + "</User_Role_Id>\r\n    </UserRoles>\r\n";
+  //   });
+  //   asUpdateSelectXML +=
+  //     "  </lstUserRoles>\r\n  " +
+  //     "<Users>" + selected + "</Users>\r\n  " +
+  //     "<IsDefault>" + false + "</IsDefault>\r\n  " +
+  //     "<IsAllDeactivated>" + false + "</IsAllDeactivated>";
+
+  //   asUpdateSelectXML += "\r\n</MailingGroup>";
+  //   return asUpdateSelectXML;
+  // }
+  // const onClear = async () => {
+  //   setGroupName(''); // Clear Group Name field
+  //   setSelected([]); // Clear selected users
+  //   setSelectedd([]);
+  //   setSelectAll(false); // Clear selected roles
+  // }
+  // const clickConfirm = async () => {
+  //   // try {
+  //   if (isSubmitting) return;
+  //   // setIsSubmitting(true); // Set flag to indicate submission in progress
+  //   let isValid = true;
+  //   setErrorGroupName('');
+  //   setErrorUserRole('');
+  //   setErrorSelectedUser('');
+  //   setErrorGroupNameExists('');
+  //   if (!GroupName || !selectedd || !selected) {
+  //     setErrorTypeName('Please correct following errors.');
+  //     isValid = false;
+  //   }
+  //   // Validate Group Name not blank
+  //   if (!GroupName.trim()) {
+  //     setErrorGroupName('Group Name should not be blank.');
+  //     isValid = false;
+  //   }
+  //   // Validate if Group Name already exists
+  //   if (GPID === 0) {
+  //     if (await isGroupNameExists(GroupName)) {
+  //       setErrorGroupNameExists('Group Name already exists.');
+  //       isValid = false;
+  //     }
+  //   }
+  //   // Validate user role selection
+  //   if (selectedd.length === 0) {
+  //     setErrorUserRole("At least one applicable role should be selected.");
+  //     isValid = false;
+  //   }
+  //   // Validate selected users
+  //   if (GPID === 0) {
+  //     if (selected.length === 0) {
+  //       setErrorSelectedUser("At least one user should be selected for the Group.");
+  //       isValid = false;
+  //     }
+  //   }
+  //   // If validation fails, stop the process
+  //   if (!isValid) return;
+  //   // Prepare data to save
+  //   const SaveContactGroup = {
+  //     asSchoolId: Number(schoolId),
+  //     asAcademicYearId: Number(academicYearId),
+  //     asMailingGroupXML: getXML(),
+  //   };
+  //   if (GPID === 0) {
+  //     // Add group
+  //     dispatch(CDAaddUpdateGroup(SaveContactGroup));
+  //   } else {
+  //     // Update existing group
+  //     dispatch(CDAaddUpdateGroup(SaveContactGroup));
+  //   }
+  //   dispatch(resetAddUpdateGroup());
+  //   dispatch(ContactGroup(ContactgroupBody));
+  //   //  dispatch(CDAaddUpdateGroup(SaveContactGroup));
+  //   // dispatch(resetAddUpdateGroup());
+  //   // dispatch(ContactGroup(ContactgroupBody));
+
+  //   setGroupName(''); // Clear Group Name field
+  //   setSelected([]); // Clear selected users
+  //   setSelectedd([]);
+  //   setSelectAll(false); // Clear selected roles
+  //   setErrorTypeName(''); // Clear error message
+  //   setErrorGroupName(''); // Clear error message
+  //   setErrorUserRole(''); // Clear error message
+  //   setErrorSelectedUser(''); // Clear error message
+  //   setErrorGroupNameExists(''); // Clear error message
+
+  //   // } catch (error) {
+  //   //   console.error(error);
+  //   //   setIsSubmitting(false);
+  //   // }
+  // };
+
+  // // Mock function to check if group name already exists
+  // // You would replace this with an actual API call
+  // const isGroupNameExists = async (groupName) => {
+  //   try {
+  //     const existingGroupNames = getuserlist.map((item) => (item.Value));
+  //     return existingGroupNames.includes(groupName.trim());
+  //   } catch (error) {
+  //     return false; // Assume name doesn't exist on error
+  //   }
+  // };
+
+
+
+  // useEffect(() => {
+  //   if (USAddUpdateGroup) {
+  //     if (typeof USAddUpdateGroup === 'string') {
+  //       if (USAddUpdateGroup.toLowerCase().includes('success')) {
+  //         toast.success(USAddUpdateGroup);
+  //         dispatch(resetAddUpdateGroup());
+  //         dispatch(ContactGroup(ContactgroupBody));
+  //         setGroupName('');
+  //         setSelected([]);
+  //         setSelectedd([]);
+  //         setSelectAll(false);
+  //         setErrorTypeName('');
+  //         setErrorGroupName('');
+  //         setErrorUserRole('');
+  //         setErrorSelectedUser('');
+  //         setErrorGroupNameExists('');
+  //         // setIsSubmitting(false);
+
+  //       } else {
+  //         toast.error(USAddUpdateGroup);
+  //       }
+  //     }
+  //   }
+  // }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected]);
 
 
   // useEffect(() => {
@@ -403,8 +542,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     );
 
   };
-
-
   const handleSearchByUserName = (value) => {
     setSearchByUserName(value);
   };
@@ -690,8 +827,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
               }
             }}
           >
-            Add
-            {/* {GPID === 0 ? 'Add' : 'Update'} */}
+
+            {GPID === 0 ? 'Add' : 'Update'}
           </Button>
         </DialogActions>
       </Box>
