@@ -34,8 +34,7 @@ import { StyledTableCell, StyledTableRow } from '../DataTable';
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly } = useParams();
-
+    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly ,AcademicYear} = useParams();
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId == undefined ? "0" : StandardDivisionId);
     const [SelectExamCT, setExamCT] = useState(TestId == undefined ? "" : TestId);
@@ -161,7 +160,7 @@ const ExamResultToppers = () => {
             dispatch(StandarddropdownListST(StandardDropdownBodyST));
             // setClassCT("0")
         }
-    }, [radioBtn]);
+    }, [radioBtn,AcademicYear]);
 
     useEffect(() => {
         if (GetClassdropdownCT.length > 0 && radioBtn == '1') {
@@ -174,7 +173,7 @@ const ExamResultToppers = () => {
             setStandardST(getStandardFromCT())
 
         }
-    }, [GetClassdropdownCT, GetStandarddropdownST])
+    }, [GetClassdropdownCT, GetStandarddropdownST,AcademicYear])
 
     useEffect(() => {
 
@@ -185,7 +184,7 @@ const ExamResultToppers = () => {
             dispatch(StandardExamdropdownListST(ExamDropdownBodyST));
             setExamCT(SelectExamCT)
         }
-    }, [radioBtn, SelectClassCT, SelectStandardST]);
+    }, [radioBtn, SelectClassCT, SelectStandardST,AcademicYear]);
 
     useEffect(() => {
         let SelectExamTemp = "0"
@@ -225,14 +224,14 @@ const ExamResultToppers = () => {
             }
 
         }
-    }, [GetExamdropdownCT, GetExamdropdownST])
+    }, [GetExamdropdownCT, GetExamdropdownST,AcademicYear])
 
 
     useEffect(() => {
         if (radioBtn == '1') {
             dispatch(ClassSubjectdropdownListCT(SubjectDropdownBodyCT));
         }
-    }, [SelectExamCT]);
+    }, [SelectExamCT,AcademicYear]);
     useEffect(() => {
         dispatch(ClassToppersList(ToppersListBodyCT));
     }, [SelectClassCT, SelectExamCT, SelectSubjectCT]);
@@ -240,10 +239,10 @@ const ExamResultToppers = () => {
         if (radioBtn == '2') {
             dispatch(StandardSubjectdropdownListST(SubjectDropdownBodyST));
         }
-    }, [SelectExamST]);
+    }, [SelectExamST,AcademicYear]);
     useEffect(() => {
         dispatch(StandardToppersList(StandardToppersBodyST));
-    }, [SelectStandardST, SelectExamST, SelectSubjectST]);
+    }, [SelectStandardST, SelectExamST, SelectSubjectST,AcademicYear]);
 
 
 
@@ -296,32 +295,32 @@ const ExamResultToppers = () => {
 
     const LatestExamSTBody: IGetLatestExamIdandDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
         asStandardDivId: null,
         asStandardId: Number(SelectStandardST)
     };
 
     const ClassDropdownBodyCT: IGetClassDivandStandardDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
         IsStandardList: false
     };
     const ExamDropdownBodyCT: IGetLatestExamIdandDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
         asStandardDivId: Number(SelectClassCT),
         asStandardId: 0
     };
     const SubjectDropdownBodyCT: IGetSubjectDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asAcademicYearId:Number (AcademicYear ?AcademicYear : asAcademicYearId),
         asStandardDivId: Number(SelectClassCT),
         asStandardId: null,
         asTestId: Number(SelectExamCT)
     };
     const ToppersListBodyCT: IGetClassandStandardToppersListBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
         asStandardDivId: Number(SelectClassCT),
         asStandardId: null,
         asTestId: Number(SelectExamCT),
@@ -330,25 +329,25 @@ const ExamResultToppers = () => {
 
     const StandardDropdownBodyST: IGetClassDivandStandardDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
         IsStandardList: true
     };
     const ExamDropdownBodyST: IGetLatestExamIdandDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asAcademicYearId:Number (AcademicYear ?AcademicYear : asAcademicYearId),
         asStandardDivId: 0,
         asStandardId: Number(SelectStandardST)
     };
     const SubjectDropdownBodyST: IGetSubjectDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
         asStandardDivId: null,
         asStandardId: Number(SelectStandardST),
         asTestId: Number(SelectExamST)
     };
     const StandardToppersBodyST: IGetClassandStandardToppersListBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
         asStandardDivId: 0,
         asStandardId: Number(SelectStandardST),
         asTestId: Number(SelectExamST),

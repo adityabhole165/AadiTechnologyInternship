@@ -703,7 +703,7 @@ const ProgressReportNew = () => {
 
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' +  true);
+    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/'+ GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/'+ AcademicYear + '/' +true);
   };
 
   console.log( GetOldStudentDetails,"value");

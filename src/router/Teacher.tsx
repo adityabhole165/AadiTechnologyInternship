@@ -591,17 +591,14 @@ const teacherRoutes = [
   //   element: <ExamResultToppers />
   // },
   {
-    path: 'Toppers/:TeacherId/:StandardDivisionId/:standardId/:examtopperProp',
+    path: 'Toppers/:TeacherId/:StandardDivisionId/:standardId/:AcademicYear/:examtopperProp',
     element: <Toppers />
   },
   {
     path: 'Toppers/:TeacherId/:StandardDivisionId/:TestId/:standardId/:IsReadOnly',
     element: <Toppers />
   },
-  {
-    path: 'Toppers/:selectTeacher/:GetOldStudentDetails.StandardDivisionId/:GetOldStudentDetails.StandardId/:AcademicYear/:examtopperProp',
-    element: <Toppers />
-  },
+  
   {
     path: 'StandardToppers',
     element: <StandardToppers />
