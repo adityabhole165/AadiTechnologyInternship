@@ -48,11 +48,11 @@ const UpdateExamScheduleInstructions = (data: IUpdateExamScheduleInstructionsBod
 };
 
 const UpdateStandardWiseExamSchedule = (data: IUpdateStandardWiseExamScheduleBody) => {
-  return http.post<IUpdateStandardWiseExamScheduleResult>('School/UpdateExamScheduleInstructions', data);
+  return http.post<IUpdateStandardWiseExamScheduleResult>('School/UpdateStandardWiseExamSchedule', data);
 };
 
 const CopyExamschedule = (data: ICopyStandardTestBody) => {
-  return http.post<ICopyStandardTestResult>('School/UpdateExamScheduleInstructions', data);
+  return http.post<ICopyStandardTestResult>('School/CopyExamschedule', data);
 };
 
 const InsertExamSchedule = (data: IInsertExamScheduleBody) => {
