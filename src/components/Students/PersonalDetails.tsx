@@ -157,9 +157,9 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
   const OccupationDropdown = useSelector((state: RootState) => state.StudentUI.ISOcupationDropdown);
   const CategoryDropdown = useSelector((state: RootState) => state.StudentUI.ISCategoryDropdown);
 
-  const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
-  console.log(USGetSingleStudentDetails, '🔲USGetSingleStudentDetails');
-  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
+  //const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
+  //console.log(USGetSingleStudentDetails, '🔲USGetSingleStudentDetails');
+  //const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
 
   const DeleteStudentPhotoMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteStudentPhotoMsg);
 
@@ -183,23 +183,23 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
   // }, []);
 
   //#region Date Formation
-  const formatDOB = (date) => {
-    try {
-      // Handle DD-MM-YYYY format with or without time
-      if (date.includes('-')) {
-        const [day, month, year] = date.split(' ')[0].split('-');
-        if (day.length === 2) {
-          return `${year}-${month}-${day}`;
-        }
-      }
+  // const formatDOB = (date) => {
+  //   try {
+  //     // Handle DD-MM-YYYY format with or without time
+  //     if (date.includes('-')) {
+  //       const [day, month, year] = date.split(' ')[0].split('-');
+  //       if (day.length === 2) {
+  //         return `${year}-${month}-${day}`;
+  //       }
+  //     }
 
-      // If already in YYYY-MM-DD format or needs conversion
-      const d = new Date(date);
-      return d.toISOString().split('T')[0];
-    } catch {
-      return '';
-    }
-  };
+  //     // If already in YYYY-MM-DD format or needs conversion
+  //     const d = new Date(date);
+  //     return d.toISOString().split('T')[0];
+  //   } catch {
+  //     return '';
+  //   }
+  // };
   const calculateAge = (dob: string, tillDate: string): string => {
     if (!dob || !tillDate) return '';
 
@@ -219,46 +219,46 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
 
   //#endregion
 
-  useEffect(() => {
-    if ((USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) || (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0)) {
-      const studentData = USGetSingleStudentDetails[0];
-      const AdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
-      setForm(prevForm => ({
-        ...prevForm,
-        firstName: studentData.First_Name || '',
-        middleName: studentData.Middle_Name || '',
-        lastName: studentData.Last_Name || '',
-        motherName: studentData.Mother_Name || '',
-        motherNumber: studentData.Mobile_Number || '',
-        parentName: studentData.Parent_Name || '',
-        fatherNumber: studentData.Mobile_Number2 || '',
-        email: studentData.Email_Address || '',
-        parentOccupation: studentData.Parent_Occupation || '',
-        address: studentData.Address || '',
-        city: studentData.City || '',
-        state: studentData.State || '',
-        pin: studentData.Pincode || '',
-        placeOfBirth: studentData.Birth_Place || '',
-        birthTaluka: AdditionalData.BirthTaluka || '',
-        birthDistrict: AdditionalData.BirthDistrict || '',
-        birthState: AdditionalData.BirthState || '',
-        religion: studentData.Religion || '',
-        casteAndSubCaste: studentData.CasteAndSubCaste || '',
-        category: studentData.Category_Id || '',
-        dateOfBirth: formatDOB(studentData.DOB) || '',
-        nationality: studentData.Nationality || '',
-        motherTongue: studentData.Mother_Tongue || '',
-        gender: studentData.Sex || '',
-        bloodGroup: studentData.Blood_Group || '',
-        aadharCardNumber: studentData.AadharCardNo || '',
-        nameOnAadharCard: studentData.NameOnAadharCard || '',
-        aadharCardScanCopy: studentData?.AadharCard_Photo_Copy_Path || '',
-        photoFilePath: studentData.Photo_File_Path || null,
-        photoFilePathImage: studentData.Photo_file_Path_Image || null
-      }));
-    }
-    console.log(form, 'form');
-  }, [USGetSingleStudentDetails]);
+  // useEffect(() => {
+  //   if ((USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) || (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0)) {
+  //     const studentData = USGetSingleStudentDetails[0];
+  //     const AdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
+  //     setForm(prevForm => ({
+  //       ...prevForm,
+  //       firstName: studentData.First_Name || '',
+  //       middleName: studentData.Middle_Name || '',
+  //       lastName: studentData.Last_Name || '',
+  //       motherName: studentData.Mother_Name || '',
+  //       motherNumber: studentData.Mobile_Number || '',
+  //       parentName: studentData.Parent_Name || '',
+  //       fatherNumber: studentData.Mobile_Number2 || '',
+  //       email: studentData.Email_Address || '',
+  //       parentOccupation: studentData.Parent_Occupation || '',
+  //       address: studentData.Address || '',
+  //       city: studentData.City || '',
+  //       state: studentData.State || '',
+  //       pin: studentData.Pincode || '',
+  //       placeOfBirth: studentData.Birth_Place || '',
+  //       birthTaluka: AdditionalData.BirthTaluka || '',
+  //       birthDistrict: AdditionalData.BirthDistrict || '',
+  //       birthState: AdditionalData.BirthState || '',
+  //       religion: studentData.Religion || '',
+  //       casteAndSubCaste: studentData.CasteAndSubCaste || '',
+  //       category: studentData.Category_Id || '',
+  //       dateOfBirth: formatDOB(studentData.DOB) || '',
+  //       nationality: studentData.Nationality || '',
+  //       motherTongue: studentData.Mother_Tongue || '',
+  //       gender: studentData.Sex || '',
+  //       bloodGroup: studentData.Blood_Group || '',
+  //       aadharCardNumber: studentData.AadharCardNo || '',
+  //       nameOnAadharCard: studentData.NameOnAadharCard || '',
+  //       aadharCardScanCopy: studentData?.AadharCard_Photo_Copy_Path || '',
+  //       photoFilePath: studentData.Photo_File_Path || null,
+  //       photoFilePathImage: studentData.Photo_file_Path_Image || null
+  //     }));
+  //   }
+  //   console.log(form, 'form');
+  // }, [USGetSingleStudentDetails]);
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -278,6 +278,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
       onTabChange(updatedForm); // Notify parent of updated data
       return updatedForm;
     });
+    onChange(name, fieldValue);
     // setForm((prevForm) => ({
     //   ...prevForm,
     //   [name]: fieldValue
@@ -288,13 +289,13 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
     setErrors({ ...errors, [name]: false });
   };
 
-  const handleDropdownChange = (name: string, value: any) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value
-    }));
-    setErrors((prev) => ({ ...prev, [name]: false }));
-  };
+  // const handleDropdownChange = (name: string, value: any) => {
+  //   setForm((prevForm) => ({
+  //     ...prevForm,
+  //     [name]: value
+  //   }));
+  //   setErrors((prev) => ({ ...prev, [name]: false }));
+  // };
 
   function handleContactNoChange(e) {
     const numericValue = e.target.value.replace(/\D/g, '');
@@ -304,10 +305,11 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
         ...prevForm,
         [e.target.name]: numericValue
       }));
+      onChange(e.target.name, numericValue);
     }
   }
 
-  const age = form.dateOfBirth ? calculateAge(form.dateOfBirth, compareAgeTillDate) : '';
+  const age = personal.dateOfBirth ? calculateAge(personal.dateOfBirth, compareAgeTillDate) : '';
 
   //#region WebCam/StPhoto 
   const [open, setOpen] = useState(false);
@@ -319,7 +321,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
 
   const generateImageName = (prefix) => {
     const dateTime = new Date().toISOString();
-    return `${form.firstName}_${prefix}_${dateTime}.png`;
+    return `${personal.firstName}_${prefix}_${dateTime}.png`;
   };
 
   const processImage = (imageData, prefix) => {
@@ -338,6 +340,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
       ...prevForm,
       photoFilePath: newImageName
     }));
+    onChange('photoFilePath', newImageName);
   };
 
   const handleImageChange = (event) => {
@@ -387,7 +390,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
     // Reset the form photo to null to remove the image
     setUploadedImage(null);
     setCapturedImage(null);
-    setForm({ ...form, photoFilePath: null });
+    setForm({ ...personal, photoFilePath: null });
 
     if (fileInputRef.current) {
       fileInputRef.current.value = ''; // Reset the file input so the file name disappears
@@ -443,8 +446,8 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
       asSchoolId: Number(localStorage.getItem('localSchoolId')),
       asStudentId: SchoolWise_Student_Id
     };
-    if (form.photoFilePath) {
-      console.log('👎', form.photoFilePath);
+    if (personal.photoFilePath) {
+      console.log('👎', personal.photoFilePath);
       showAlert({
         title: 'Please Confirm',
         message: 'Are you sure you want to delete Student Photo?',
@@ -484,7 +487,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
     //setImageFile(value.Name);
     setbase64URL2(value.Value);
     setImageFileExtention(value.FileExtension);
-    console.log('1️⃣', form.aadharCardScanCopy);
+    console.log('1️⃣', personal.aadharCardScanCopy);
     console.log('2️⃣', base64URL2);
     console.log('3️⃣', imageFileExtention);
 
@@ -494,7 +497,8 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
       ...prevForm,
       aadharCardScanCopy: value.Name,
     }));
-    console.log('🆕1️⃣aadharCardScanCopy', form.aadharCardScanCopy);
+    onChange('aadharCardScanCopy', value.Name);
+    console.log('🆕1️⃣aadharCardScanCopy', personal.aadharCardScanCopy);
   };
 
   //let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/Student Documents/"
@@ -601,7 +605,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                   </span>
                 }
                 variant="outlined"
-                value={form.firstName}
+                value={personal.firstName}
                 onChange={handleInputChange}
                 error={errors.firstName}
                 helperText={errors.firstName ? 'This field is required' : ''}
@@ -609,39 +613,39 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               />
             </Grid>
 
-            {form.middleName !== undefined && (
+            {personal.middleName !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="middleName"
                   label="Middle Name"
                   variant="outlined"
-                  value={form.middleName}
+                  value={personal.middleName}
                   onChange={handleInputChange}
                   fullWidth
                 />
               </Grid>
             )}
 
-            {form.lastName !== undefined && (
+            {personal.lastName !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="lastName"
                   label="Last Name"
                   variant="outlined"
-                  value={form.lastName}
+                  value={personal.lastName}
                   onChange={handleInputChange}
                   fullWidth
                 />
               </Grid>
             )}
 
-            {form.motherName !== undefined && (
+            {personal.motherName !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="motherName"
                   label="Mother Name"
                   variant="outlined"
-                  value={form.motherName}
+                  value={personal.motherName}
                   onChange={handleInputChange}
                   error={errors.motherName}
                   helperText={errors.motherName ? 'This field is required' : ''}
@@ -650,30 +654,30 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               </Grid>
             )}
 
-            {form.motherNumber !== undefined && (
+            {personal.motherNumber !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="motherNumber"
                   label="Mobile No. 1"
                   variant="outlined"
-                  value={form.motherNumber}
+                  value={personal.motherNumber}
                   onChange={handleContactNoChange}
-                  error={form.motherNumber.toString() !== '' && form.motherNumber.toString().length < 10 ? true : false}
+                  error={personal.motherNumber.toString() !== '' && personal.motherNumber.toString().length < 10 ? true : false}
                   helperText={
-                    form.motherNumber.toString() !== '' && form.motherNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
+                    personal.motherNumber.toString() !== '' && personal.motherNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
                   }
                   fullWidth
                 />
               </Grid>
             )}
 
-            {form.email !== undefined && (
+            {personal.email !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="email"
                   label="E-mail"
                   variant="outlined"
-                  value={form.email}
+                  value={personal.email}
                   onChange={handleInputChange}
                   error={errors.email}
                   helperText={errors.email ? 'This field is required' : ''}
@@ -682,7 +686,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               </Grid>
             )}
 
-            {form.parentName !== undefined && (
+            {personal.parentName !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="parentName"
@@ -692,7 +696,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                     </span>
                   }
                   variant="outlined"
-                  value={form.parentName}
+                  value={personal.parentName}
                   onChange={handleInputChange}
                   error={errors.parentName}
                   helperText={errors.parentName ? 'This field is required' : ''}
@@ -701,18 +705,18 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               </Grid>
             )}
 
-            {form.fatherNumber !== undefined && (
+            {personal.fatherNumber !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="fatherNumber"
                   label="Mobile No. 2"
                   variant="outlined"
-                  value={form.fatherNumber}
+                  value={personal.fatherNumber}
                   onChange={handleContactNoChange}
                   fullWidth
-                  error={form.fatherNumber.toString() !== '' && form.fatherNumber.toString().length < 10 ? true : false}
+                  error={personal.fatherNumber.toString() !== '' && personal.fatherNumber.toString().length < 10 ? true : false}
                   helperText={
-                    form.fatherNumber.toString() !== '' && form.fatherNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
+                    personal.fatherNumber.toString() !== '' && personal.fatherNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
                   }
                 />
               </Grid>
@@ -723,12 +727,10 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               <SearchableDropdown
                 sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
                 ItemList={OccupationDropdown}
-                onChange={(value) =>
-                  handleDropdownChange('parentOccupation', value)
-                }
+                onChange={(value) => onChange('parentOccupation', value)}
                 label={'Parent Occupation'}
                 mandatory
-                defaultValue={form.parentOccupation}
+                defaultValue={personal.parentOccupation}
                 size="medium"
               />
             </Grid>
@@ -794,7 +796,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
         <Grid item xs={12}>
           <Grid container spacing={2}>
             {/* Address */}
-            {form.address !== undefined && (
+            {personal.address !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="address"
@@ -804,7 +806,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                     </span>
                   }
                   variant="outlined"
-                  value={form.address}
+                  value={personal.address}
                   onChange={handleInputChange}
                   error={errors.address}
                   helperText={errors.address ? 'This field is required' : ''}
@@ -814,7 +816,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               </Grid>
             )}
             {/* City */}
-            {form.city !== undefined && (
+            {personal.city !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="city"
@@ -824,7 +826,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                     </span>
                   }
                   variant="outlined"
-                  value={form.city}
+                  value={personal.city}
                   onChange={handleInputChange}
                   error={errors.city}
                   helperText={errors.city ? 'This field is required' : ''}
@@ -833,7 +835,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               </Grid>
             )}
             {/* State */}
-            {form.state !== undefined && (
+            {personal.state !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="state"
@@ -843,7 +845,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                     </span>
                   }
                   variant="outlined"
-                  value={form.state}
+                  value={personal.state}
                   onChange={handleInputChange}
                   error={errors.state}
                   helperText={errors.state ? 'This field is required' : ''}
@@ -852,7 +854,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               </Grid>
             )}
             {/* PIN Code */}
-            {form.pin !== undefined && (
+            {personal.pin !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="pin"
@@ -862,7 +864,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                     </span>
                   }
                   variant="outlined"
-                  value={form.pin}
+                  value={personal.pin}
                   onChange={handleInputChange}
                   error={errors.pin}
                   helperText={errors.pin ? 'This field is required' : ''}
@@ -871,10 +873,10 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               </Grid>
             )}
             {/* Date of Birth */}
-            {form.dateOfBirth !== undefined && (
+            {personal.dateOfBirth !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <Datepicker
-                  DateValue={form.dateOfBirth}
+                  DateValue={personal.dateOfBirth}
                   onDateChange={handleInputChange}
                   size={'medium'}
                   label={'Date of Birth'} />
@@ -908,7 +910,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               </Grid>
             )}
             {/* Remaining Fields */}
-            {form.placeOfBirth !== undefined && (
+            {personal.placeOfBirth !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="placeOfBirth"
@@ -918,7 +920,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                     </span>
                   }
                   variant="outlined"
-                  value={form.placeOfBirth}
+                  value={personal.placeOfBirth}
                   onChange={handleInputChange}
                   error={errors.placeOfBirth}
                   helperText={errors.placeOfBirth ? 'This field is required' : ''}
@@ -926,49 +928,49 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                 />
               </Grid>
             )}
-            {form.birthTaluka !== undefined && (
+            {personal.birthTaluka !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="birthTaluka"
                   label="Birth Taluka"
                   variant="outlined"
-                  value={form.birthTaluka}
+                  value={personal.birthTaluka}
                   onChange={handleInputChange}
                   fullWidth
                 />
               </Grid>
             )}
-            {form.birthDistrict !== undefined && (
+            {personal.birthDistrict !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="birthDistrict"
                   label="Birth District"
                   variant="outlined"
-                  value={form.birthDistrict}
+                  value={personal.birthDistrict}
                   onChange={handleInputChange}
                   fullWidth
                 />
               </Grid>
             )}
-            {form.birthState !== undefined && (
+            {personal.birthState !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="birthState"
                   label="Birth State"
                   variant="outlined"
-                  value={form.birthState}
+                  value={personal.birthState}
                   onChange={handleInputChange}
                   fullWidth
                 />
               </Grid>
             )}
-            {form.nationality !== undefined && (
+            {personal.nationality !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="nationality"
                   label="Nationality"
                   variant="outlined"
-                  value={form.nationality}
+                  value={personal.nationality}
                   onChange={handleInputChange}
                   error={errors.nationality}
                   helperText={
@@ -978,13 +980,13 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                 />
               </Grid>
             )}
-            {form.religion !== undefined && (
+            {personal.religion !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="religion"
                   label="Religion"
                   variant="outlined"
-                  value={form.religion}
+                  value={personal.religion}
                   onChange={handleInputChange}
                   fullWidth
                 />
@@ -994,9 +996,9 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               <SearchableDropdown
                 sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
                 ItemList={CategoryDropdown}
-                onChange={(value) => handleDropdownChange('category', value)}
+                onChange={(value) => onChange('category', value)}
                 label={'Category'}
-                defaultValue={form.category}
+                defaultValue={personal.category}
                 size="medium"
               />
             </Grid>
@@ -1009,7 +1011,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                   </span>
                 }
                 variant="outlined"
-                value={form.casteAndSubCaste}
+                value={personal.casteAndSubCaste}
                 onChange={handleInputChange}
                 error={errors.casteAndSubCaste}
                 helperText={errors.casteAndSubCaste ? 'This field is required' : ''}
@@ -1021,20 +1023,20 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                 name="motherTongue"
                 label="MotherTongue"
                 variant="outlined"
-                value={form.motherTongue}
+                value={personal.motherTongue}
                 onChange={handleInputChange}
                 fullWidth
               />
             </Grid>
 
             {/* Other Fields */}
-            {form.gender !== undefined && (
+            {personal.gender !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="gender"
                   label="Gender"
                   variant="outlined"
-                  value={form.gender}
+                  value={personal.gender}
                   onChange={handleInputChange}
                   fullWidth
                   select
@@ -1050,9 +1052,9 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               <SearchableDropdown
                 sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
                 ItemList={BloodGroupDropdown}
-                onChange={(value) => handleDropdownChange('bloodGroup', value)}
+                onChange={(value) => onChange('bloodGroup', value)}
                 label={'Blood Group'}
-                defaultValue={form.bloodGroup}
+                defaultValue={personal.bloodGroup}
                 size="medium"
               />
             </Grid>
@@ -1061,7 +1063,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                 name="aadharCardNumber"
                 label="Aadhar Card Number"
                 variant="outlined"
-                value={form.aadharCardNumber}
+                value={personal.aadharCardNumber}
                 onChange={handleInputChange}
                 fullWidth
               />
@@ -1071,7 +1073,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                 name="nameOnAadharCard"
                 label="Name on Adhar Card"
                 variant="outlined"
-                value={form.nameOnAadharCard}
+                value={personal.nameOnAadharCard}
                 onChange={handleInputChange}
                 fullWidth
               />
@@ -1083,7 +1085,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
                 MaxfileSize={MaxfileSize2}
                 ChangeFile={ChangeFile2}
                 errorMessage={''}
-                FileName={form.aadharCardScanCopy}
+                FileName={personal.aadharCardScanCopy}
                 FileLabel={'Select Aadhar Card'}
                 width={'100%'}
                 height={"52px"}

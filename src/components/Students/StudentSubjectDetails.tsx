@@ -15,7 +15,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetAllGroupsOfStream, CDAGetAllStreams, CDAStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
-const StudentSubjectDetails = ({ onTabChange }) => {
+const StudentSubjectDetails = ({ streamwiseSubject, onChange, onTabChange }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
@@ -43,9 +43,12 @@ const StudentSubjectDetails = ({ onTabChange }) => {
   // const [CompetiticeExams, setCompetiticeExams] = useState('');
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState({});
+  useEffect(() => {
+    console.log('5️⃣streamwiseSubject data from Parent', streamwiseSubject);
+  }, [streamwiseSubject]);
 
   //#region API Calls
-  const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
+  //const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
   //console.log('🎈GetStudentStreamwiseSubjectDetails:', GetStudentStreamwiseSubjectDetails);
   const GetAllStreamsDrop = useSelector((state: RootState) => state.StudentUI.ISGetAllStreams);
   //console.log('GetAllStreamsDrop:', GetAllStreamsDrop);
@@ -70,39 +73,39 @@ const StudentSubjectDetails = ({ onTabChange }) => {
   // }, []);
   //#endregion
 
-  useEffect(() => {
-    if (GetStudentStreamwiseSubjectDetails && GetStudentStreamwiseSubjectDetails.length > 0) {
-      const StudentStreamwiseSubjectDetails = GetStudentStreamwiseSubjectDetails[0];
+  // useEffect(() => {
+  //   if (GetStudentStreamwiseSubjectDetails && GetStudentStreamwiseSubjectDetails.length > 0) {
+  //     const StudentStreamwiseSubjectDetails = GetStudentStreamwiseSubjectDetails[0];
 
-      // Split optional subjects if StreamId is 3
-      let optionalSubject1 = "";
-      let optionalSubject2 = "";
+  //     // Split optional subjects if StreamId is 3
+  //     let optionalSubject1 = "";
+  //     let optionalSubject2 = "";
 
-      if (StudentStreamwiseSubjectDetails.StreamId === "3" && StudentStreamwiseSubjectDetails.OptionalSubjects) {
-        const optionalSubjects = StudentStreamwiseSubjectDetails.OptionalSubjects.split(',');
-        optionalSubject1 = optionalSubjects[0] || "";
-        optionalSubject2 = optionalSubjects[1] || "";
-      } else {
-        optionalSubject1 = StudentStreamwiseSubjectDetails.OptionalSubjects || "";
-      }
+  //     if (StudentStreamwiseSubjectDetails.StreamId === "3" && StudentStreamwiseSubjectDetails.OptionalSubjects) {
+  //       const optionalSubjects = StudentStreamwiseSubjectDetails.OptionalSubjects.split(',');
+  //       optionalSubject1 = optionalSubjects[0] || "";
+  //       optionalSubject2 = optionalSubjects[1] || "";
+  //     } else {
+  //       optionalSubject1 = StudentStreamwiseSubjectDetails.OptionalSubjects || "";
+  //     }
 
-      // Initialize competitive exams
-      const competitiveExams = StudentStreamwiseSubjectDetails.CompitativeExam?.split(',').map(Number) || [];
+  //     // Initialize competitive exams
+  //     const competitiveExams = StudentStreamwiseSubjectDetails.CompitativeExam?.split(',').map(Number) || [];
 
-      setForm(prevForm => ({
-        ...prevForm,
-        streamId: StudentStreamwiseSubjectDetails.StreamId || "",
-        groupId: StudentStreamwiseSubjectDetails.GroupId || "",
-        compulsorySubjects: StudentStreamwiseSubjectDetails.CompulsorySubjects || "",
-        optionalSubject1,
-        optionalSubject2,
-        competitiveExams,
+  //     setForm(prevForm => ({
+  //       ...prevForm,
+  //       streamId: StudentStreamwiseSubjectDetails.StreamId || "",
+  //       groupId: StudentStreamwiseSubjectDetails.GroupId || "",
+  //       compulsorySubjects: StudentStreamwiseSubjectDetails.CompulsorySubjects || "",
+  //       optionalSubject1,
+  //       optionalSubject2,
+  //       competitiveExams,
 
-      }));
-      // Set visibility of second optional subject dropdown
-      //setShowSecondOptional(StudentStreamwiseSubjectDetails.StreamId === "3");
-    }
-  }, [GetStudentStreamwiseSubjectDetails, GetAllStreamsDrop]);
+  //     }));
+  //     // Set visibility of second optional subject dropdown
+  //     //setShowSecondOptional(StudentStreamwiseSubjectDetails.StreamId === "3");
+  //   }
+  // }, [GetStudentStreamwiseSubjectDetails, GetAllStreamsDrop]);
   // console.log('🤬', form);
   const GetAllStremsBody: IGetAllStreamsBody = {
     asSchoolId: 122,
@@ -116,26 +119,26 @@ const StudentSubjectDetails = ({ onTabChange }) => {
   // Fetch groups when stream changes
   useEffect(() => {
     //setShowSecondOptional(form.streamId === "3");
-    if (form.streamId) {
+    if (streamwiseSubject.streamId) {
       const GetAllGroupsOfStreamBody: IGetAllGroupsOfStreamBody = {
         asSchoolId: 122,
-        asStreamId: Number(form.streamId),
+        asStreamId: Number(streamwiseSubject.streamId),
       };
       dispatch(CDAGetAllGroupsOfStream(GetAllGroupsOfStreamBody));
 
       // Reset optionalSubject2 when switching away from StreamId 3
-      if (form.streamId !== "3") {
+      if (streamwiseSubject.streamId !== "3") {
         setForm(prev => ({
           ...prev,
           optionalSubject2: ''
         }));
       }
     }
-  }, [form.streamId]);
+  }, [streamwiseSubject.streamId]);
 
   const StreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
     asSchoolId: 122,
-    asStreamGroupId: Number(form.groupId),
+    asStreamGroupId: Number(streamwiseSubject.groupId),
     asAcademicYearId: 10
   }
 
@@ -143,14 +146,14 @@ const StudentSubjectDetails = ({ onTabChange }) => {
     //console.log('🙌StreamwiseSubjectDetailsBody:', StreamwiseSubjectDetailsBody);
     dispatch(CDAStreamwiseSubjectDetails(StreamwiseSubjectDetailsBody));//Compulsary,OPtional,CompitativeExams dropdown
     // dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
-  }, [form.groupId]);
+  }, [streamwiseSubject.groupId]);
 
   //#endregion
 
   // Update visibility of second optional subject based on both conditions
   useEffect(() => {
-    setShowSecondOptional(form.streamId === "3" || Boolean(form.optionalSubject2));
-  }, [form.streamId, form.optionalSubject2]);
+    setShowSecondOptional(streamwiseSubject.streamId === "3" || Boolean(streamwiseSubject.optionalSubject2));
+  }, [streamwiseSubject.streamId, streamwiseSubject.optionalSubject2]);
 
   // Auto-select the single group if available
   useEffect(() => {
@@ -164,50 +167,48 @@ const StudentSubjectDetails = ({ onTabChange }) => {
   }, [GetAllGroupsOfStreamDrop]);
 
 
-  const streamList = [
-    { id: 1, Name: 'Science', value: 'science' },
-    { id: 2, Name: 'Commerce', value: 'commerce' },
-    { id: 3, Name: 'Arts', value: 'arts' },
-  ];
-
-  const groupList = [
-    { id: 1, Name: 'Group A', value: 'groupA' },
-    { id: 2, Name: 'Group B', value: 'groupB' },
-    { id: 3, Name: 'Group C', value: 'groupC' },
-  ];
-
-  const optionalSubjectsList = [
-    { id: 1, Name: 'Physical Education', value: 'Physical Education' },
-    { id: 2, Name: 'Computer Science', value: 'Computer Science' },
-  ];
-
-  const competitiveExamsList = [
-    { id: 1, Name: 'JEE', value: 'jee' },
-    { id: 2, Name: 'EXTRA COACHING', value: 'extracoaching' },
-  ];
-
   //const compulsorySubjects = ['Mathematics', 'English', 'Biology']; // Example compulsory subjects
-  const handleDropdownChange = (name: string, value: any) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value
-    }));
-    setErrors((prev) => ({ ...prev, [name]: false }));
-  };
+  // const handleDropdownChange = (name: string, value: any) => {
+  //   setForm((prevForm) => ({
+  //     ...prevForm,
+  //     [name]: value
+  //   }));
+  //   setErrors((prev) => ({ ...prev, [name]: false }));
+  // };
 
+  // const handleCheckboxChange = (examId: number) => {
+  //   setForm((prevForm) => ({
+  //     ...prevForm,
+  //     CompetitiveExams: prevForm.competitiveExams.includes(examId)
+  //       ? prevForm.competitiveExams.filter(id => id !== examId)
+  //       : [...prevForm.competitiveExams, examId],
+
+  //       onChange('competitiveExams', CompetitiveExams);
+  //   }));
+  // };
   const handleCheckboxChange = (examId: number) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      competitiveExams: prevForm.competitiveExams.includes(examId)
+    setForm((prevForm) => {
+      const updatedExams = prevForm.competitiveExams.includes(examId)
         ? prevForm.competitiveExams.filter(id => id !== examId)
-        : [...prevForm.competitiveExams, examId]
-    }));
+        : [...prevForm.competitiveExams, examId];
+
+      // Convert array to comma-separated string 
+      const updatedExamsString = updatedExams.join(',');
+
+      // Notify parent of updated data 
+      onChange('competitiveExams', updatedExamsString);
+
+      return {
+        ...prevForm,
+        competitiveExams: updatedExams
+      };
+    });
   };
 
   const validateForm = () => {
     const newErrors = {};
     // Add validation for second optional subject when StreamId is 3
-    if (form.streamId === "3" && showSecondOptional && !form.optionalSubject2) {
+    if (streamwiseSubject.streamId === "3" && showSecondOptional && !streamwiseSubject.optionalSubject2) {
       newErrors['optionalSubject2'] = true;
     }
     setErrors(newErrors);
@@ -233,9 +234,9 @@ const StudentSubjectDetails = ({ onTabChange }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            defaultValue={form.streamId}
+            defaultValue={streamwiseSubject.streamId}
             ItemList={GetAllStreamsDrop}
-            onChange={(value) => handleDropdownChange('streamId', value)}
+            onChange={(value) => onChange('streamId', value)}
             label={'Stream'}
             size={'medium'}
           />
@@ -244,9 +245,9 @@ const StudentSubjectDetails = ({ onTabChange }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            defaultValue={form.groupId}
+            defaultValue={streamwiseSubject.groupId}
             ItemList={GetAllGroupsOfStreamDrop}
-            onChange={(value) => handleDropdownChange('groupId', value)}
+            onChange={(value) => onChange('groupId', value)}
             label={'Group'}
             size={'medium'}
           />
@@ -257,7 +258,7 @@ const StudentSubjectDetails = ({ onTabChange }) => {
             name='compulsorySubjects'
             label="Compulsory Subjects"
             variant="outlined"
-            value={form.compulsorySubjects}
+            value={streamwiseSubject.compulsorySubjects}
             InputProps={{
               readOnly: true,
             }}
@@ -269,9 +270,9 @@ const StudentSubjectDetails = ({ onTabChange }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            defaultValue={form.optionalSubject1}
+            defaultValue={streamwiseSubject.optionalSubject1}
             ItemList={FillFirstOptionalSubjects}
-            onChange={(value) => handleDropdownChange('optionalSubject1', value)}
+            onChange={(value) => onChange('optionalSubject1', value)}
             //onChange={handleOptionalSubjectChange}
             label={'Optional Subject'}
             size={'medium'}
@@ -282,9 +283,9 @@ const StudentSubjectDetails = ({ onTabChange }) => {
           <Grid item xs={3}>
             <SearchableDropdown
               sx={{ minWidth: '300px' }}
-              defaultValue={form.optionalSubject2}
+              defaultValue={streamwiseSubject.optionalSubject2}
               ItemList={FillSecondOptionalSubjectArts}
-              onChange={(value) => handleDropdownChange('optionalSubject2', value)}
+              onChange={(value) => onChange('optionalSubject2', value)}
               //onChange={handleOptionalSubjectChange}
               label={'Optional Subject Arts'}
               size={'medium'}
@@ -312,7 +313,7 @@ const StudentSubjectDetails = ({ onTabChange }) => {
                 key={exam.Id}
                 control={
                   <Checkbox
-                    checked={form.competitiveExams.includes(Number(exam.Id))}
+                    checked={streamwiseSubject.competitiveExams.includes(Number(exam.Id))}
                     onChange={() => handleCheckboxChange(Number(exam.Id))}
                   />
                 }

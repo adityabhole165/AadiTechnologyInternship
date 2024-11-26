@@ -509,7 +509,7 @@ export interface IUpdateStudentStreamwiseSubjectDetailsBody {
     asStreamId: number
     GroupId: number
     CompulsorySubject: string
-    chkCompitativeExams: number
+    chkCompitativeExams: string
     OptSubjectOne: number
     OptSubjectTwo: number
 }

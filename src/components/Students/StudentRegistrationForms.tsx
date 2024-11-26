@@ -36,8 +36,8 @@ import { IGenerateTransportFeeEntriesBody, IUpdateStudentTrackingDetailsBody } f
 import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
-import { GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
-import { CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails, CDARetriveStudentStreamwiseSubject } from 'src/requests/Students/RequestStudentUI';
+import { CDAGenerateTransportFeeEntries, GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
+import { CDAAddStudentAdditionalDetails, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails, CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
@@ -360,34 +360,68 @@ const StudentRegistrationForm = () => {
       standard1: '',
       standard2: '',
     },
+    additional: {
+      lastSchoolName: '',
+      lastSchoolAddress: '',
+      standard: '',
+      schoolUDISENo: '',
+      schoolBoardName: '',
+      isRecognised: '',
+      // lastSchoolRollNumber: '',
+      //  lastSchoolYear: '',
+      houseNumber: '',
+      mainArea: '', // New field
+      subareaName: '', // New field
+      landmark: '', // New field
+      taluka: '', // New field
+      district: '', // New field
+
+      admissionStandard: '', // New field
+      admissionAcademicYear: '', // New field
+      previousMarksObtained: '', // New field
+      previousMarksOutOf: '', // New field
+      subjectNames: '', // New field
+      previousYearOfPassing: '', // New field
+      currentAcademicYear: '', // New field
+      currentStandard: '' // New field
+    },
+    streamwiseSubject: {
+      streamId: '',
+      groupId: '',
+      compulsorySubjects: '',
+      optionalSubject: '',
+      optionalSubject1: '',
+      optionalSubject2: '',
+      competitiveExams: '',
+    },
 
   });
 
+  const requiredFieldsMap = {
+    admission: ['registrationNumber', 'admissionDate', 'joiningDate', 'studentRollNumber'],
+    personal: [
+      'firstName',
+      'parentName',
+      'address',
+      'city',
+      'pin',
+      'state',
+      'dateOfBirth',
+      'placeOfBirth',
+      'casteAndSubCaste',
+    ],
+    family: ['fatherDOB', 'motherDOB', 'marriageAnniversaryDate'],
+  };
+
   const calculateCompletion = (tabName: string, data: any) => {
-    let requiredFields = [];
-    if (tabName === 'admission') {
-      requiredFields = ['registrationNumber', 'admissionDate', 'joiningDate', 'studentRollNumber'];
-    } else if (tabName === 'personal') {
-      requiredFields = [
-        'firstName',
-        'parentName',
-        'address',
-        'city',
-        'pin',
-        'state',
-        'dateOfBirth',
-        'placeOfBirth',
-        'casteAndSubCaste',
-      ];
-    } else if (tabName === 'family') {
-      requiredFields = ['fatherDOB', 'motherDOB', 'marriageAnniversaryDate'];
-    }
+    // Get required fields dynamically from the map
+    const requiredFields = requiredFieldsMap[tabName] || [];
 
-    const unfilledFields = requiredFields.filter((field) => !data[field]);
-    // Count completed fields
+    // Calculate completed and unfilled fields
     const completedFields = requiredFields.filter((field) => !!data[field]).length;
+    const unfilledFields = requiredFields.filter((field) => !data[field]);
 
-    // Calculate percentage
+    // Calculate completion percentage
     const completionPercentage = (completedFields / requiredFields.length) * 100;
 
     // Update the tabCompletion state
@@ -400,26 +434,29 @@ const StudentRegistrationForm = () => {
   };
 
   useEffect(() => {
+    // Calculate overall profile completion dynamically
     const totalTabs = Object.keys(tabCompletion).length;
     const totalProgress = Object.values(tabCompletion).reduce((acc, curr) => acc + curr, 0);
     setProfileCompletion(Math.round(totalProgress / totalTabs));
   }, [tabCompletion]);
 
   useEffect(() => {
-    calculateCompletion('admission', admissionDetailsData);
-    calculateCompletion('personal', personalDetailsData);
-    calculateCompletion('family', familyDetailsData);
-  }, []); // Runs only on the initial mount
+    // Dynamically loop through all tabs in the map
+    Object.keys(requiredFieldsMap).forEach((tabName) => {
+      calculateCompletion(tabName, form[tabName]);
+    });
+  }, [form]); // Trigger recalculation whenever the form changes
+
 
   //#region Validation
   const handleValidation = () => {
     const allMessages = [];
 
-    const admissionValidation = calculateCompletion('admission', admissionDetailsData);
-    const personalValidation = calculateCompletion('personal', personalDetailsData);
-    const familyValidation = calculateCompletion('family', familyDetailsData);
+    const admissionValidation = calculateCompletion('admission', form.admission);
+    const personalValidation = calculateCompletion('personal', form.personal);
+    const familyValidation = calculateCompletion('family', form.family);
 
-    // Collect unfilled fields for each tab
+    //Collect unfilled fields for each tab
     [admissionValidation, personalValidation, familyValidation].forEach(({ unfilledFields, tabName }) => {
       unfilledFields.forEach((field) => {
         allMessages.push(`"${field}" is missing in ${tabName} tab.`);
@@ -457,19 +494,19 @@ const StudentRegistrationForm = () => {
   //#region CallBack
   const onAdmissionTab = (updatedData) => {
     setAdmissionDetailsData(updatedData);
-    calculateCompletion('admission', updatedData);
+    // calculateCompletion('admission', updatedData);
     console.log('1️⃣Admission', admissionDetailsData);
   };
 
   const onPersonalTab = (updatedData) => {
     setPersonalDetailsData(updatedData);
-    calculateCompletion('personal', updatedData);
+    // calculateCompletion('personal', updatedData);
     console.log('2️⃣Personal', personalDetailsData);
   };
 
   const onFamilyTab = (updatedData) => {
     setFamilyDetailsData(updatedData);
-    calculateCompletion('family', updatedData);
+    // calculateCompletion('family', updatedData);
     console.log('3️⃣Family', familyDetailsData);
   };
 
@@ -532,6 +569,7 @@ const StudentRegistrationForm = () => {
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
+  const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
 
   useEffect(() => {
     if ((USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) ||
@@ -540,6 +578,22 @@ const StudentRegistrationForm = () => {
       const studentData = USGetSingleStudentDetails[0];
       const AdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
       const FormNumber = GetFromNumber[0];
+      const StreamwiseSubject = GetStudentStreamwiseSubjectDetails[0];
+
+      // Split optional subjects if StreamId is 3
+      let optionalSubject1 = "";
+      let optionalSubject2 = "";
+
+      if (StreamwiseSubject.StreamId === "3" && StreamwiseSubject.OptionalSubjects) {
+        const optionalSubjects = StreamwiseSubject.OptionalSubjects.split(',');
+        optionalSubject1 = optionalSubjects[0] || "";
+        optionalSubject2 = optionalSubjects[1] || "";
+      } else {
+        optionalSubject1 = StreamwiseSubject.OptionalSubjects || "";
+      }
+
+      // Initialize competitive exams
+      const competitiveExams = StreamwiseSubject.CompitativeExam?.split(',').map(Number) || [];
 
       setForm((prevForm) => ({
         ...prevForm,
@@ -658,9 +712,44 @@ const StudentRegistrationForm = () => {
           standard1: AdditionalData?.StandardName1 || "",
           standard2: AdditionalData?.StandardName2 || "",
         },
+        additional: {
+          ...prevForm.additional,
+          lastSchoolName: studentData?.LastSchoolName || '',
+          lastSchoolAddress: studentData?.LastSchoolAddress || '',
+          standard: studentData?.LastCompletedStd || '',
+          schoolUDISENo: studentData?.LastSchoolUDISENo || '',
+          schoolBoardName: studentData?.LastCompletedBoard || '',
+          isRecognised: studentData?.IsRecognisedBoard === "True" ? 'Yes' : 'No',
+          // lastSchoolRollNumber: '',
+          //  lastSchoolYear: '',
+          houseNumber: AdditionalData.HouseNoPlotNo || '',
+          mainArea: AdditionalData.MainArea || '',
+          subareaName: AdditionalData.SubareaName || '',
+          landmark: AdditionalData.Landmark || '',
+          taluka: AdditionalData.Taluka || '',
+          district: AdditionalData.District || '',
+
+          admissionStandard: AdditionalData.AddmissionStandard || '',
+          admissionAcademicYear: AdditionalData.AddmissionAcademicYear || '',
+          previousMarksObtained: AdditionalData.PreviousMarksObtained || '',
+          previousMarksOutOf: AdditionalData.PreviousMarksOutOff || '',
+          subjectNames: AdditionalData.SubjectNames || '',
+          previousYearOfPassing: AdditionalData.PreviousYearOfPassing || '',
+          currentAcademicYear: AdditionalData.CurrentAcademicYear || '',
+          currentStandard: AdditionalData.CurrentStandard || '',
+        },
+        streamwiseSubject: {
+          ...prevForm.streamwiseSubject,
+          streamId: StreamwiseSubject.StreamId || "",
+          groupId: StreamwiseSubject.GroupId || "",
+          compulsorySubjects: StreamwiseSubject.CompulsorySubjects || "",
+          optionalSubject1,
+          optionalSubject2,
+          competitiveExams,
+        },
       }));
     }
-  }, [USGetSingleStudentDetails, GetStudentAdditionalDetails, GetFromNumber]);
+  }, [USGetSingleStudentDetails, GetStudentAdditionalDetails, GetFromNumber, GetStudentStreamwiseSubjectDetails]);
 
   useEffect(() => {
     console.log('Nested Form🆕', form);
@@ -761,48 +850,48 @@ const StudentRegistrationForm = () => {
     "asID": 0, // Missing
     "asAcademicYearId": academicYearId,
     "asFormNumber": Number(form.admission?.formNumber) || 0, // Missing
-    "asPhoto_file_Path": personalDetailsData?.photoFilePath || "", // Missing
-    "asFirst_Name": personalDetailsData?.firstName || "",
-    "asMiddle_Name": personalDetailsData?.middleName || "",
-    "asLast_Name": personalDetailsData?.lastName || "",
-    "asMother_Name": personalDetailsData?.motherName || "",
-    "asBlood_Group": personalDetailsData?.bloodGroup || "",
+    "asPhoto_file_Path": form.personal?.photoFilePath || "", // Missing
+    "asFirst_Name": form.personal?.firstName || "",
+    "asMiddle_Name": form.personal?.middleName || "",
+    "asLast_Name": form.personal?.lastName || "",
+    "asMother_Name": form.personal?.motherName || "",
+    "asBlood_Group": form.personal?.bloodGroup || "",
     "asEnrolment_Number": form.admission?.registrationNumber || "",
-    "asParent_Name": personalDetailsData?.parentName || "",
-    "asParent_Occupation": personalDetailsData?.parentOccupation || "",
+    "asParent_Name": form.personal?.parentName || "",
+    "asParent_Occupation": form.personal?.parentOccupation || "",
     "asOther_Occupation": "",
-    "asAddress": personalDetailsData?.address || "",
-    "asCity": personalDetailsData?.city || "",
-    "asState": personalDetailsData?.state || "",
-    "asPincode": personalDetailsData?.pin || "",
+    "asAddress": form.personal?.address || "",
+    "asCity": form.personal?.city || "",
+    "asState": form.personal?.state || "",
+    "asPincode": form.personal?.pin || "",
     "asResidence_Phone_Number": "9224286937",
-    "asMobile_Number": personalDetailsData?.motherNumber || "",
-    "asMobile_Number2": personalDetailsData?.fatherNumber || "",
+    "asMobile_Number": form.personal?.motherNumber || "",
+    "asMobile_Number2": form.personal?.fatherNumber || "",
     "asOffice_Number": "9270362059",
     "asNeighbour_Number": "",
     "asUpdated_By_Id": teacherId,
     "asUpdate_Date": "2024-10-10",
-    "asDOB": formatDOB(personalDetailsData?.dateOfBirth) || "2011-03-29",
-    "asBirth_Place": personalDetailsData?.placeOfBirth || "",
-    "asNationality": personalDetailsData?.nationality || "",
-    "asSex": personalDetailsData?.gender || "",
+    "asDOB": formatDOB(form.personal?.dateOfBirth) || "2011-03-29",
+    "asBirth_Place": form.personal?.placeOfBirth || "",
+    "asNationality": form.personal?.nationality || "",
+    "asSex": form.personal?.gender || "",
     "asSalutation_Id": "6",
-    "asCategory_Id": personalDetailsData?.category || "",
-    "asCasteAndSubCaste": personalDetailsData?.casteAndSubCaste || "",
+    "asCategory_Id": form.personal?.category || "",
+    "asCasteAndSubCaste": form.personal?.casteAndSubCaste || "",
     "asAdmission_Date": formatDOB(form.admission?.admissionDate) || "",
     "asJoining_Date": formatDOB(form.admission?.joiningDate) || "",
     "asDateOfBirthInText": "Twenty One March Two Thousand Eleven",
     "asOptional_Subject_Id": "0",
-    "asMother_Tongue": personalDetailsData.motherTongue || "",
+    "asMother_Tongue": form.personal?.motherTongue || "",
     "asLastSchoolName": "",
     "asLastSchoolAddress": "",
     "asLastCompletedStd": "",
     "asLastSchoolUDISENo": "",
     "asLastCompletedBoard": "",
     "asIsRecognisedBoard": "True",
-    "asAadharCardNo": personalDetailsData?.aadharCardNumber || "",
-    "asNameOnAadharCard": personalDetailsData?.nameOnAadharCard || "",
-    "asAadharCard_Photo_Copy_Path": personalDetailsData?.aadharCardScanCopy || "",
+    "asAadharCardNo": form.personal?.aadharCardNumber || "",
+    "asNameOnAadharCard": form.personal?.nameOnAadharCard || "",
+    "asAadharCard_Photo_Copy_Path": form.personal?.aadharCardScanCopy || "",
     "asFamily_Photo_Copy_Path": "",
     "asUDISENumber": form.admission?.UDISENumber || "",
     "asBoardRegistrationNo": form.admission?.boardRegistrationNumber || "",
@@ -828,77 +917,77 @@ const StudentRegistrationForm = () => {
     "asAnnualIncome": 0,
     "asStandard_Id": standardId, // Missing
     "asDivision_Id": DivisionId, // Missing
-    "asReligion": personalDetailsData?.religion || "",
+    "asReligion": form.personal?.religion || "",
     "asYearWise_Student_Id": YearWise_Student_Id,
     "asParentUserId": 0
   }
 
   const AddStudentAdditionalDetailsBody: IAddStudentAdditionalDetailsBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asAdmissionAcadmicYear: additionalInfoData?.admissionAcademicYear || "",
-    asAdmissionStandard: additionalInfoData?.admissionStandard || "",
-    asCurrentAcademicYear: additionalInfoData?.currentAcademicYear || "",
-    asCurrentStandard: additionalInfoData?.currentStandard || "",
+    asAdmissionAcadmicYear: form.additional?.admissionAcademicYear || "",
+    asAdmissionStandard: form.additional?.admissionStandard || "",
+    asCurrentAcademicYear: form.additional?.currentAcademicYear || "",
+    asCurrentStandard: form.additional?.currentStandard || "",
     asIsHandicapped: form.admission?.isHandicapped || false,
-    asPreviousMarksObtained: additionalInfoData?.previousMarksObtained || "",
-    asPreviousMarksOutOff: additionalInfoData?.previousMarksOutOf || "",
-    asPreviousYearOfPassing: additionalInfoData?.previousYearOfPassing || "",
-    asSubjectNames: additionalInfoData?.subjectNames || "",
+    asPreviousMarksObtained: form.additional?.previousMarksObtained || "",
+    asPreviousMarksOutOff: form.additional?.previousMarksOutOf || "",
+    asPreviousYearOfPassing: form.additional?.previousYearOfPassing || "",
+    asSubjectNames: form.additional?.subjectNames || "",
     asSchoolwiseStudentId: 3556,
     asUserid: 4463,
-    asReligion: personalDetailsData?.religion || "",
-    asBirthTaluka: personalDetailsData?.birthTaluka || "",
-    asBirthDistrict: personalDetailsData?.birthDistrict || "",
-    asHouseNoPlotNo: additionalInfoData?.houseNumber || "",
-    asMainArea: additionalInfoData?.mainArea || "",
-    asSubareaName: additionalInfoData?.subareaName || "",
-    asLandmark: additionalInfoData?.landmark || "",
-    asTaluka: additionalInfoData?.taluka || "",
-    asDistrict: additionalInfoData?.district || "",
+    asReligion: form.personal?.religion || "",
+    asBirthTaluka: form.personal?.birthTaluka || "",
+    asBirthDistrict: form.personal?.birthDistrict || "",
+    asHouseNoPlotNo: form.additional?.houseNumber || "",
+    asMainArea: form.additional?.mainArea || "",
+    asSubareaName: form.additional?.subareaName || "",
+    asLandmark: form.additional?.landmark || "",
+    asTaluka: form.additional?.taluka || "",
+    asDistrict: form.additional?.district || "",
     asFeeAreaName: Number(form.admission?.feeAreaNames) || 0,
     asFatherOccupation: familyDetailsData?.fatherOccupation || "",
-    asFatherQualification: familyDetailsData?.fatherQualification || "",
-    asFatherEmail: familyDetailsData?.fatherEmail || "",
-    asFatherOfficeName: familyDetailsData?.fatherOfficeName || "",
-    asFatherOfficeAddress: familyDetailsData?.fatherOfficeAddress || "",
-    asMotherOccupation: familyDetailsData?.motherOccupation || "",
-    asMotherQualification: familyDetailsData?.motherQualification || "",
-    asMotherEmail: familyDetailsData?.motherEmail || "",
-    asMotherOfficeName: familyDetailsData?.motherOfficeName || "",
-    asMotherOfficeAddress: familyDetailsData?.motherOfficeAddress || "",
-    asFatherDOB: formatDOB(familyDetailsData?.fatherDOB) || "",
-    asMotherDOB: formatDOB(familyDetailsData?.motherDOB) || "",
-    asFatherDesignation: familyDetailsData?.fatherDesignation || "",
-    asMotherDesignation: familyDetailsData?.motherDesignation || "",
-    asFatherPhoto: familyDetailsData?.fatherPhoto || "",
-    asMotherPhoto: familyDetailsData?.motherPhoto || "",
-    asAnniversaryDate: familyDetailsData?.marriageAnniversaryDate || "",
-    asLocalGuardianPhoto: familyDetailsData?.localGuardianPhoto || "",
-    asRelativeName: familyDetailsData?.relativeFullName || "",
+    asFatherQualification: form.family?.fatherQualification || "",
+    asFatherEmail: form.family?.fatherEmail || "",
+    asFatherOfficeName: form.family?.fatherOfficeName || "",
+    asFatherOfficeAddress: form.family?.fatherOfficeAddress || "",
+    asMotherOccupation: form.family?.motherOccupation || "",
+    asMotherQualification: form.family?.motherQualification || "",
+    asMotherEmail: form.family?.motherEmail || "",
+    asMotherOfficeName: form.family?.motherOfficeName || "",
+    asMotherOfficeAddress: form.family?.motherOfficeAddress || "",
+    asFatherDOB: formatDOB(form.family?.fatherDOB) || "",
+    asMotherDOB: formatDOB(form.family?.motherDOB) || "",
+    asFatherDesignation: form.family?.fatherDesignation || "",
+    asMotherDesignation: form.family?.motherDesignation || "",
+    asFatherPhoto: form.family?.fatherPhoto || "",
+    asMotherPhoto: form.family?.motherPhoto || "",
+    asAnniversaryDate: form.family?.marriageAnniversaryDate || "",
+    asLocalGuardianPhoto: form.family?.localGuardianPhoto || "",
+    asRelativeName: form.family?.relativeFullName || "",
     asFatherBinaryPhoto: null,       //Need to work on this
     asMotherBinaryPhoto: null,
     asRelativeBinaryPhoto: null,
-    asFatherWeight: familyDetailsData?.fatherWeight || 0,
-    asMotherWeight: familyDetailsData?.motherWeight || 0,
-    asFatherHeight: familyDetailsData?.fatherHeight || 0,
-    asMotherHeight: familyDetailsData?.motherHeight || 0,
-    asFatherAadharcardNo: familyDetailsData?.fatherAadharCard || "",
-    asMotherAadharcardNo: familyDetailsData?.motherAadharCard || "",
-    asFatherBloodGroup: familyDetailsData?.fatherBloodGroup || "",
-    asMotherBloodGroup: familyDetailsData?.motherBloodGroup || "",
-    asFamilyMonthlyIncome: familyDetailsData?.familyMonthlyIncome || 0.00,
-    asCWSN: familyDetailsData?.cwsn || "",
-    asFatherAnnualIncome: familyDetailsData?.fatherAnnualIncome || 0.00,
-    asMotherAnnualIncome: familyDetailsData?.motherAnnualIncome || 0.00,
-    asBirthState: personalDetailsData?.birthState || "",
-    asName1: familyDetailsData?.name1 || "",
-    asAge1: familyDetailsData?.age1 || 0,
-    asInstitute1: familyDetailsData?.institution1 || "",
-    asStandard1: familyDetailsData?.standard1 || "",
-    asName2: familyDetailsData?.name2 || "",
-    asAge2: familyDetailsData?.age2 || 0,
-    asInstitute2: familyDetailsData?.institution2 || "",
-    asStandard2: familyDetailsData?.standard2 || "",
+    asFatherWeight: form.family?.fatherWeight || 0,
+    asMotherWeight: form.family?.motherWeight || 0,
+    asFatherHeight: form.family?.fatherHeight || 0,
+    asMotherHeight: form.family?.motherHeight || 0,
+    asFatherAadharcardNo: form.family?.fatherAadharCard || "",
+    asMotherAadharcardNo: form.family?.motherAadharCard || "",
+    asFatherBloodGroup: form.family?.fatherBloodGroup || "",
+    asMotherBloodGroup: form.family?.motherBloodGroup || "",
+    asFamilyMonthlyIncome: form.family?.familyMonthlyIncome || 0.00,
+    asCWSN: form.family?.cwsn || "",
+    asFatherAnnualIncome: form.family?.fatherAnnualIncome || 0.00,
+    asMotherAnnualIncome: form.family?.motherAnnualIncome || 0.00,
+    asBirthState: form.personal?.birthState || "",
+    asName1: form.family?.name1 || "",
+    asAge1: form.family?.age1 || 0,
+    asInstitute1: form.family?.institution1 || "",
+    asStandard1: form.family?.standard1 || "",
+    asName2: form.family?.name2 || "",
+    asAge2: form.family?.age2 || 0,
+    asInstitute2: form.family?.institution2 || "",
+    asStandard2: form.family?.standard2 || "",
     asResidenceType: Number(form.admission?.residenceTypes) || 0,
     asRFID: form.admission?.RFID || "",
   }
@@ -906,12 +995,12 @@ const StudentRegistrationForm = () => {
   const UpdateStudentStreamwiseSubjectDetailsBody: IUpdateStudentStreamwiseSubjectDetailsBody = {
     asSchoolId: 122,
     asStudentId: 4584,
-    asStreamId: Number(streamwiseSubjectData?.streamId) || 0,
-    GroupId: Number(streamwiseSubjectData?.groupId) || 0,
-    CompulsorySubject: streamwiseSubjectData?.compulsorySubjects || '',
-    chkCompitativeExams: Number(streamwiseSubjectData?.competitiveExams) || 0,
-    OptSubjectOne: Number(streamwiseSubjectData?.optionalSubject1) || 0,
-    OptSubjectTwo: Number(streamwiseSubjectData?.optionalSubject2) || 0,
+    asStreamId: Number(form.streamwiseSubject?.streamId) || 0,
+    GroupId: Number(form.streamwiseSubject?.groupId) || 0,
+    CompulsorySubject: form.streamwiseSubject?.compulsorySubjects || '',
+    chkCompitativeExams: form.streamwiseSubject?.competitiveExams || "0",
+    OptSubjectOne: Number(form.streamwiseSubject?.optionalSubject1) || 0,
+    OptSubjectTwo: Number(form.streamwiseSubject?.optionalSubject2) || 0,
   }
 
   const transportFeeBody: IGenerateTransportFeeEntriesBody = {
@@ -925,24 +1014,24 @@ const StudentRegistrationForm = () => {
     try {
       // Update Student Details
       console.log('Sending update with data:', updateStudentBody);
-      //await dispatch(CDAUpdateStudent(updateStudentBody));
+      await dispatch(CDAUpdateStudent(updateStudentBody));
 
       // Add Additional Student Details
       if (additionalDetailsBody) {
         console.log('Sending additional details:', additionalDetailsBody);
-        // await dispatch(CDAAddStudentAdditionalDetails(additionalDetailsBody));
+        await dispatch(CDAAddStudentAdditionalDetails(additionalDetailsBody));
       }
 
       // Update Streamwise Subject Details
       if (streamwiseSubjectDetailsBody) {
         console.log('Updating streamwise subject details:', streamwiseSubjectDetailsBody);
-        // await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(streamwiseSubjectDetailsBody));
+        await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(streamwiseSubjectDetailsBody));
       }
 
       // Generate Transport Fee Entries
       if (transportFeeBody) {
         console.log('Generating transport fee entries:', transportFeeBody);
-        //await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
+        await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
       }
 
       console.log('API calls completed successfully.');
@@ -955,12 +1044,12 @@ const StudentRegistrationForm = () => {
     e.preventDefault(); // Prevent default form submission behavior
 
     // Validate the form
-    // const isFormValid = handleValidation();
+    const isFormValid = handleValidation();
 
-    // if (!isFormValid) {
-    //   console.log('😶 Form submission halted due to validation errors.');
-    //   return;
-    // }
+    if (!isFormValid) {
+      console.log('😶 Form submission halted due to validation errors.');
+      return;
+    }
 
     // Validation passed, proceed with API calls
     try {
@@ -1003,8 +1092,7 @@ const StudentRegistrationForm = () => {
   };
 
   // Updating a property in family
-  const handleFamilyChange = (e) => {
-    const { name, value } = e.target;
+  const handleFamilyChange = (name: string, value: any) => {
     setForm((prevForm) => ({
       ...prevForm,
       family: {
@@ -1014,6 +1102,27 @@ const StudentRegistrationForm = () => {
     }));
   };
 
+  // Updating a property in additional
+  const handleAdditionalChange = (name: string, value: any) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      additional: {
+        ...prevForm.additional,
+        [name]: value,
+      },
+    }));
+  };
+
+  // Updating a property in additional
+  const handleStreamwiseSubjectChange = (name: string, value: any) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      streamwiseSubject: {
+        ...prevForm.streamwiseSubject,
+        [name]: value,
+      },
+    }));
+  };
 
 
   // const handleUpdate = () => {
@@ -1305,21 +1414,16 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <FamilyDetails onTabChange={onFamilyTab} />
+              <FamilyDetails family={form.family} onChange={handleFamilyChange} onTabChange={onFamilyTab} />
             </Grid>
           </Grid>
         )}
         {currentTab === 4 && (
           <Grid container spacing={1}>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              {/* {status.personalDetails !== null && (
-                                <Alert severity={status.personalDetails ? 'success' : 'error'}>
-                                    {status.personalDetails ? 'Draft saved successfully!' : 'Some fields are missing or incorrect.'}
-                                </Alert>
-                            )} */}
             </Grid>
             <Grid item xs={12}>
-              <AdditionalDetails onTabChange={onAdditionalInfoTab} />
+              <AdditionalDetails additional={form.additional} onChange={handleAdditionalChange} onTabChange={onAdditionalInfoTab} />
             </Grid>
           </Grid>
         )}
@@ -1333,7 +1437,7 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <StudentSubjectDetails onTabChange={onStudentStreamwiseSubjectTab} />
+              <StudentSubjectDetails streamwiseSubject={form.streamwiseSubject} onChange={handleStreamwiseSubjectChange} onTabChange={onStudentStreamwiseSubjectTab} />
             </Grid>
           </Grid>
         )}

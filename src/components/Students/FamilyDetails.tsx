@@ -22,7 +22,7 @@ import { CDADeleteFamilyPhoto, CDADeleteFatherPhoto, CDADeleteGuardianPhoto, CDA
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const FamilyDetails = ({ onTabChange }) => {
+const FamilyDetails = ({ family, onChange, onTabChange }) => {
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
@@ -78,6 +78,11 @@ const FamilyDetails = ({ onTabChange }) => {
     standard2: '',
   });
 
+  useEffect(() => {
+    if (family) {
+      console.log('3️⃣family data from Parent', family);
+    }
+  }, [family]);
 
   const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
   const MaxfileSize = 5000000;
@@ -137,62 +142,62 @@ const FamilyDetails = ({ onTabChange }) => {
   };
   //#endregion
 
-  useEffect(() => {
-    if ((GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) || (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0)) {
-      const FamilyData: any = GetStudentAdditionalDetails;
-      const studentData = USGetSingleStudentDetails[0];// Get first item from array
-      setForm(prevForm => ({
-        ...prevForm,
-        fatherQualification: FamilyData?.FatherQualification || "",
-        fatherEmail: FamilyData?.FatherEmail || "",
-        fatherOfficeName: FamilyData?.FatherOfficeName || "",
-        fatherOfficeAddress: FamilyData?.FatherOfficeAddress || "",
-        fatherDesignation: FamilyData?.FatherDesignation || "",
-        fatherDOB: formatDOB(FamilyData?.FatherDOB) || "",
-        fatherPhoto: FamilyData?.FatherPhoto || "",
-        fatherWeight: FamilyData?.FatherWeight || "",
-        fatherHeight: FamilyData?.FatherHeight || "",
-        fatherBloodGroup: FamilyData?.FatherBloodGroup || "",
-        fatherAadharCard: FamilyData?.FatherAadharcardNo || "",
-        fatherAnnualIncome: FamilyData?.FatherAnnualIncome || "",
+  // useEffect(() => {
+  //   if ((GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) || (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0)) {
+  //     const FamilyData: any = GetStudentAdditionalDetails;
+  //     const studentData = USGetSingleStudentDetails[0];// Get first item from array
+  //     setForm(prevForm => ({
+  //       ...prevForm,
+  //       fatherQualification: FamilyData?.FatherQualification || "",
+  //       fatherEmail: FamilyData?.FatherEmail || "",
+  //       fatherOfficeName: FamilyData?.FatherOfficeName || "",
+  //       fatherOfficeAddress: FamilyData?.FatherOfficeAddress || "",
+  //       fatherDesignation: FamilyData?.FatherDesignation || "",
+  //       fatherDOB: formatDOB(FamilyData?.FatherDOB) || "",
+  //       fatherPhoto: FamilyData?.FatherPhoto || "",
+  //       fatherWeight: FamilyData?.FatherWeight || "",
+  //       fatherHeight: FamilyData?.FatherHeight || "",
+  //       fatherBloodGroup: FamilyData?.FatherBloodGroup || "",
+  //       fatherAadharCard: FamilyData?.FatherAadharcardNo || "",
+  //       fatherAnnualIncome: FamilyData?.FatherAnnualIncome || "",
 
-        // Mother's Information
-        motherOccupation: FamilyData?.MotherOccupation || "",
-        motherQualification: FamilyData?.MotherQualification || "",
-        motherEmail: FamilyData?.MotherEmail || "",
-        motherOfficeName: FamilyData?.MotherOfficeName || "",
-        motherOfficeAddress: FamilyData?.MotherOfficeAddress || "",
-        motherDesignation: FamilyData?.MotherDesignation || "",
-        motherDOB: formatDOB(FamilyData?.MotherDOB) || "",
-        motherPhoto: FamilyData?.MotherPhoto || "",
-        motherWeight: FamilyData?.MotherWeight || "",
-        motherHeight: FamilyData?.MotherHeight || "",
-        motherAadharCard: FamilyData?.MotherAadharcardNo || "",
-        motherBloodGroup: FamilyData?.MotherBloodGroup || "",
-        motherAnnualIncome: FamilyData?.MotherAnnualIncome || "",
+  //       // Mother's Information
+  //       motherOccupation: FamilyData?.MotherOccupation || "",
+  //       motherQualification: FamilyData?.MotherQualification || "",
+  //       motherEmail: FamilyData?.MotherEmail || "",
+  //       motherOfficeName: FamilyData?.MotherOfficeName || "",
+  //       motherOfficeAddress: FamilyData?.MotherOfficeAddress || "",
+  //       motherDesignation: FamilyData?.MotherDesignation || "",
+  //       motherDOB: formatDOB(FamilyData?.MotherDOB) || "",
+  //       motherPhoto: FamilyData?.MotherPhoto || "",
+  //       motherWeight: FamilyData?.MotherWeight || "",
+  //       motherHeight: FamilyData?.MotherHeight || "",
+  //       motherAadharCard: FamilyData?.MotherAadharcardNo || "",
+  //       motherBloodGroup: FamilyData?.MotherBloodGroup || "",
+  //       motherAnnualIncome: FamilyData?.MotherAnnualIncome || "",
 
-        // Family Information
-        marriageAnniversaryDate: formatDOB(FamilyData?.AnniversaryDate) || "",
-        localGuardianPhoto: FamilyData?.GuardianPhoto || "",
-        familyMonthlyIncome: FamilyData?.FamilyMonthlyIncome || "",
-        cwsn: FamilyData?.CWSN || "",
-        relativeFullName: FamilyData?.RelativeName || "",
-        residencePhoneNumber: studentData?.Residence_Phone_Number || "",  //Single 
-        neighbourPhoneNumber: studentData?.Neighbour_Number || "",
-        officePhoneNumber: studentData?.Office_Number || "",
-        familyPhoto: studentData?.Family_Photo_Copy_Path || "",           //Single
-        name1: FamilyData?.Name1 || "",
-        name2: FamilyData?.Name2 || "",
-        age1: FamilyData?.Age1 || "",
-        age2: FamilyData?.Age2 || "",
-        institution1: FamilyData?.Institution1 || "",
-        institution2: FamilyData?.Institution2 || "",
-        standard1: FamilyData?.StandardName1 || "",
-        standard2: FamilyData?.StandardName2 || "",
-      }));
-    }
-    console.log(form, '🔲form');
-  }, [GetStudentAdditionalDetails, USGetSingleStudentDetails]);
+  //       // Family Information
+  //       marriageAnniversaryDate: formatDOB(FamilyData?.AnniversaryDate) || "",
+  //       localGuardianPhoto: FamilyData?.GuardianPhoto || "",
+  //       familyMonthlyIncome: FamilyData?.FamilyMonthlyIncome || "",
+  //       cwsn: FamilyData?.CWSN || "",
+  //       relativeFullName: FamilyData?.RelativeName || "",
+  //       residencePhoneNumber: studentData?.Residence_Phone_Number || "",  //Single 
+  //       neighbourPhoneNumber: studentData?.Neighbour_Number || "",
+  //       officePhoneNumber: studentData?.Office_Number || "",
+  //       familyPhoto: studentData?.Family_Photo_Copy_Path || "",           //Single
+  //       name1: FamilyData?.Name1 || "",
+  //       name2: FamilyData?.Name2 || "",
+  //       age1: FamilyData?.Age1 || "",
+  //       age2: FamilyData?.Age2 || "",
+  //       institution1: FamilyData?.Institution1 || "",
+  //       institution2: FamilyData?.Institution2 || "",
+  //       standard1: FamilyData?.StandardName1 || "",
+  //       standard2: FamilyData?.StandardName2 || "",
+  //     }));
+  //   }
+  //   console.log(form, '🔲form');
+  // }, [GetStudentAdditionalDetails, USGetSingleStudentDetails]);
 
   //#endregion
 
@@ -213,7 +218,7 @@ const FamilyDetails = ({ onTabChange }) => {
       onTabChange(updatedForm); // Notify parent of updated data
       return updatedForm;
     });
-
+    onChange(name, fieldValue);
     //onTabChange({ firstName: fieldValue, })
     // Remove error when the user starts filling the field
     setErrors({ ...errors, [name]: false });
@@ -225,7 +230,7 @@ const FamilyDetails = ({ onTabChange }) => {
       onTabChange(updatedForm); // Notify parent of updated data
       return updatedForm;
     });
-
+    onChange(name, date);
     // Remove error when the user starts filling the field
     setErrors((prevErrors) => ({ ...prevErrors, [name]: false }));
   };
@@ -256,7 +261,7 @@ const FamilyDetails = ({ onTabChange }) => {
       ...prevForm,
       [key]: value.Name, // Dynamically update the key in the form
     }));
-
+    onChange(key, value.Name);
     setbase64URL2(value.Value);
     setImageFileExtention(value.FileExtension);
   };
@@ -273,8 +278,8 @@ const FamilyDetails = ({ onTabChange }) => {
   // };
 
   const viewPhoto = (key) => {
-    const fileName = form[key];
-    const url = `${localStorage.getItem("SiteURL")}RITESCHOOL/DOWNLOADS/Student Documents/${fileName}`;
+    const fileName = family[key];
+    const url = `${localStorage.getItem("SiteURL")}RITESCHOOL/DOWNLOADS/StudentDocuments/${fileName}`;
     const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
 
     if (fileName) {
@@ -315,7 +320,7 @@ const FamilyDetails = ({ onTabChange }) => {
   // };
 
   const deleteImageReusable = (key, deleteAction, alertMessage) => {
-    const fileName = form[key];
+    const fileName = family[key];
     const deleteBody = {
       asSchoolId: Number(localStorage.getItem('localSchoolId')),
       asStudentId: SchoolWise_Student_Id,
@@ -337,28 +342,29 @@ const FamilyDetails = ({ onTabChange }) => {
         },
       });
     }
+    onChange(key, '');
   };
 
 
   useEffect(() => {
     if (DeleteFamilyPhotoMsg !== '') {
       toast.success(DeleteFamilyPhotoMsg);
-      setForm((prevForm) => ({ ...prevForm, familyPhoto: '', }));              // delete photo
+      //setForm((prevForm) => ({ ...prevForm, familyPhoto: '', }));              // delete photo
       dispatch(CDAresetDeletePhotoMsg());
     }
     if (DeleteFatherPhotoMsg !== '') {
       toast.success(DeleteFatherPhotoMsg);
-      setForm((prevForm) => ({ ...prevForm, fatherPhoto: '', }));              // delete photo
+      //setForm((prevForm) => ({ ...prevForm, fatherPhoto: '', }));              // delete photo
       dispatch(CDAresetDeletePhotoMsg());
     }
     if (DeleteMotherPhotoMsg !== '') {
       toast.success(DeleteMotherPhotoMsg);
-      setForm((prevForm) => ({ ...prevForm, motherPhoto: '', }));              // delete photo
+      //setForm((prevForm) => ({ ...prevForm, motherPhoto: '', }));              // delete photo
       dispatch(CDAresetDeletePhotoMsg());
     }
     if (DeleteGuardianPhotoMsg !== '') {
       toast.success(DeleteGuardianPhotoMsg);
-      setForm((prevForm) => ({ ...prevForm, localGuardianPhoto: '', }));              // delete photo
+      //setForm((prevForm) => ({ ...prevForm, localGuardianPhoto: '', }));              // delete photo
       dispatch(CDAresetDeletePhotoMsg());
     }
   }, [DeleteFamilyPhotoMsg, DeleteFatherPhotoMsg, DeleteMotherPhotoMsg, DeleteGuardianPhotoMsg]);
@@ -456,7 +462,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="fatherQualification"
             label="Father Qualification "
             variant="outlined"
-            value={form.fatherQualification}
+            value={family.fatherQualification}
             onChange={handleInputChange}
             fullWidth
           />
@@ -467,7 +473,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="fatherEmail"
             label="Father E-mail"
             variant="outlined"
-            value={form.fatherEmail}
+            value={family.fatherEmail}
             onChange={handleInputChange}
             fullWidth
           />
@@ -478,7 +484,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="fatherOfficeName"
             label="Father Office Name"
             variant="outlined"
-            value={form.fatherOfficeName}
+            value={family.fatherOfficeName}
             onChange={handleInputChange}
             fullWidth
           />
@@ -489,7 +495,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="fatherOfficeAddress"
             label="Father Office Address"
             variant="outlined"
-            value={form.fatherOfficeAddress}
+            value={family.fatherOfficeAddress}
             onChange={handleInputChange}
             fullWidth
           />
@@ -500,7 +506,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="fatherDesignation"
             label="Father Designation"
             variant="outlined"
-            value={form.fatherDesignation}
+            value={family.fatherDesignation}
             onChange={handleInputChange}
             fullWidth
           />
@@ -508,7 +514,7 @@ const FamilyDetails = ({ onTabChange }) => {
 
         <Grid item xs={12} md={3}>
           <Datepicker
-            DateValue={form.fatherDOB}
+            DateValue={family.fatherDOB}
             onDateChange={handleDateChange('fatherDOB')}
             size={'medium'}
             label="Fathr's DOB" />
@@ -519,7 +525,7 @@ const FamilyDetails = ({ onTabChange }) => {
           <SingleFile
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
-            FileName={form.fatherPhoto}
+            FileName={family.fatherPhoto}
             ChangeFile={(value) => handlePhotoChange('fatherPhoto', value)}
             FileLabel={'Father Photo'}
             width={'100%'}
@@ -569,7 +575,7 @@ const FamilyDetails = ({ onTabChange }) => {
             label="Father Weight (Kg)"
             variant="outlined"
             type="number"
-            value={form.fatherWeight}
+            value={family.fatherWeight}
             onChange={handleInputChange}
             fullWidth
             inputProps={{
@@ -585,7 +591,7 @@ const FamilyDetails = ({ onTabChange }) => {
             label="Father Height (Cm)"
             variant="outlined"
             type="number"
-            value={form.fatherHeight}
+            value={family.fatherHeight}
             onChange={handleInputChange}
             fullWidth
             inputProps={{
@@ -600,7 +606,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="fatherBloodGroup"
             label="Father Blood Group"
             variant="outlined"
-            value={form.fatherBloodGroup}
+            value={family.fatherBloodGroup}
             onChange={handleInputChange}
             fullWidth
           />
@@ -611,7 +617,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="fatherAadharCard"
             label="Father Aadhar Card Number"
             variant="outlined"
-            value={form.fatherAadharCard}
+            value={family.fatherAadharCard}
             onChange={handleInputChange}
             fullWidth
           />
@@ -622,7 +628,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="fatherAnnualIncome"
             label="Father Annual Income"
             variant="outlined"
-            value={form.fatherAnnualIncome}
+            value={family.fatherAnnualIncome}
             onChange={handleInputChange}
             fullWidth
           />
@@ -638,7 +644,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="motherOccupation"
             label="Mother Occupation"
             variant="outlined"
-            value={form.motherOccupation}
+            value={family.motherOccupation}
             onChange={handleInputChange}
             fullWidth
           />
@@ -649,7 +655,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="motherQualification"
             label="Mother Qualification"
             variant="outlined"
-            value={form.motherQualification}
+            value={family.motherQualification}
             onChange={handleInputChange}
             fullWidth
           />
@@ -660,7 +666,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="motherEmail"
             label="Mother E-mail"
             variant="outlined"
-            value={form.motherEmail}
+            value={family.motherEmail}
             onChange={handleInputChange}
             fullWidth
           />
@@ -671,7 +677,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="motherOfficeName"
             label="Mother Office Name"
             variant="outlined"
-            value={form.motherOfficeName}
+            value={family.motherOfficeName}
             onChange={handleInputChange}
             fullWidth
           />
@@ -682,7 +688,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="motherOfficeAddress"
             label="Mother Office Address"
             variant="outlined"
-            value={form.motherOfficeAddress}
+            value={family.motherOfficeAddress}
             onChange={handleInputChange}
             fullWidth
           />
@@ -693,7 +699,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="motherDesignation"
             label="Mother Designation"
             variant="outlined"
-            value={form.motherDesignation}
+            value={family.motherDesignation}
             onChange={handleInputChange}
             fullWidth
           />
@@ -702,7 +708,7 @@ const FamilyDetails = ({ onTabChange }) => {
         <Grid item xs={12} md={3}>
 
           <Datepicker
-            DateValue={form.motherDOB}
+            DateValue={family.motherDOB}
             onDateChange={handleDateChange('motherDOB')}
             size={'medium'}
             label="Mother's DOB"
@@ -714,7 +720,7 @@ const FamilyDetails = ({ onTabChange }) => {
           <SingleFile
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
-            FileName={form.motherPhoto}
+            FileName={family.motherPhoto}
             ChangeFile={(value) => handlePhotoChange('motherPhoto', value)}
             FileLabel={'Mother Photo'}
             width={'100%'}
@@ -765,7 +771,7 @@ const FamilyDetails = ({ onTabChange }) => {
             label="Mother Weight (Kg)"
             variant="outlined"
             type="number"
-            value={form.motherWeight}
+            value={family.motherWeight}
             onChange={handleInputChange}
             fullWidth
             inputProps={{
@@ -781,7 +787,7 @@ const FamilyDetails = ({ onTabChange }) => {
             label="Mother Height (Cm)"
             variant="outlined"
             type="number"
-            value={form.motherHeight}
+            value={family.motherHeight}
             onChange={handleInputChange}
             fullWidth
             inputProps={{
@@ -796,7 +802,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="motherBloodGroup"
             label="Mother Blood Group"
             variant="outlined"
-            value={form.motherBloodGroup}
+            value={family.motherBloodGroup}
             onChange={handleInputChange}
             fullWidth
           />
@@ -807,7 +813,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="motherAadharCard"
             label="Mother Aadhar Card Number"
             variant="outlined"
-            value={form.motherAadharCard}
+            value={family.motherAadharCard}
             onChange={handleInputChange}
             fullWidth
           />
@@ -818,7 +824,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="motherAnnualIncome"
             label="Mother Annual Income"
             variant="outlined"
-            value={form.motherAnnualIncome}
+            value={family.motherAnnualIncome}
             onChange={handleInputChange}
             fullWidth
           />
@@ -827,7 +833,7 @@ const FamilyDetails = ({ onTabChange }) => {
         <Grid item xs={12} md={3}>
 
           <Datepicker
-            DateValue={form.marriageAnniversaryDate}
+            DateValue={family.marriageAnniversaryDate}
             onDateChange={handleDateChange('marriageAnniversaryDate')}
             size={'medium'}
             label="Marriage Anniversary Date"
@@ -839,7 +845,7 @@ const FamilyDetails = ({ onTabChange }) => {
           <SingleFile
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
-            FileName={form.localGuardianPhoto}
+            FileName={family.localGuardianPhoto}
             ChangeFile={(value) => handlePhotoChange('localGuardianPhoto', value)}
             FileLabel={'Local Guadian Photo'}
             width={'100%'}
@@ -888,7 +894,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="familyMonthlyIncome"
             label="Family Monthly Income"
             variant="outlined"
-            value={form.familyMonthlyIncome}
+            value={family.familyMonthlyIncome}
             onChange={handleInputChange}
             fullWidth
           />
@@ -898,7 +904,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="cwsn"
             label="CWSN"
             variant="outlined"
-            value={form.cwsn}
+            value={family.cwsn}
             onChange={handleInputChange}
             fullWidth
           />
@@ -908,7 +914,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="relativeFullName"
             label="Relative Full Name"
             variant="outlined"
-            value={form.relativeFullName}
+            value={family.relativeFullName}
             onChange={handleInputChange}
             fullWidth
           />
@@ -918,11 +924,11 @@ const FamilyDetails = ({ onTabChange }) => {
             name="residencePhoneNumber"
             label="Residence Phone Number"
             variant="outlined"
-            value={form.residencePhoneNumber}
+            value={family.residencePhoneNumber}
             onChange={handleContactNoChange}
-            error={form.residencePhoneNumber.toString() !== '' && form.residencePhoneNumber.toString().length < 10 ? true : false}
+            error={family.residencePhoneNumber.toString() !== '' && family.residencePhoneNumber.toString().length < 10 ? true : false}
             helperText={
-              form.residencePhoneNumber.toString() !== '' && form.residencePhoneNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
+              family.residencePhoneNumber.toString() !== '' && family.residencePhoneNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
             }
             fullWidth
           />
@@ -932,7 +938,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="neighbourPhoneNumber"
             label="Neighbour's Phone Number"
             variant="outlined"
-            // value={form.neighbourPhoneNumber}
+            value={family.neighbourPhoneNumber}
             onChange={handleInputChange}
             fullWidth
           />
@@ -942,7 +948,7 @@ const FamilyDetails = ({ onTabChange }) => {
             name="OfficePhoneNumber"
             label="Office Phone Number"
             variant="outlined"
-            // value={form.neighbourPhoneNumber}
+            value={family.officePhoneNumber}
             onChange={handleInputChange}
             fullWidth
           />
@@ -953,7 +959,7 @@ const FamilyDetails = ({ onTabChange }) => {
           <SingleFile
             ValidFileTypes={ValidFileTypes2}
             MaxfileSize={MaxfileSize2}
-            FileName={form.familyPhoto}
+            FileName={family.familyPhoto}
             ChangeFile={(value) => handlePhotoChange('familyPhoto', value)}
             FileLabel={'Family Photo'}
             width={'100%'}
