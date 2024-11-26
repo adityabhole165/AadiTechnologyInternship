@@ -59,9 +59,8 @@ const FileUploadComponent: React.FC = () => {
                 {/* File Input */}
                 <Grid item xs={12} sm={6} md={4} lg={4} xl={2}>
                     <Tooltip
-                        title={`Supports only ${ValidFileTypes.join(", ")} file types. File size should not exceed ${(MaxfileSize / 1000000).toFixed(1)} MB.`}
-                        arrow
-                    >
+                        title={'Supports files of types - .BMP, .JPG, .JPEG, .PNG with total size upto 10 MB. At least one file must be selected.'}
+                        >
                         <Button
                             sx={{
                                 width: 'auto',

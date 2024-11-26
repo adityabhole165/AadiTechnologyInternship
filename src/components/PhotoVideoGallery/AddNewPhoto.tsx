@@ -1,26 +1,20 @@
 import { QuestionMark } from "@mui/icons-material";
+import SaveIcon from '@mui/icons-material/Save';
 import {
   Box,
+  Button,
   Checkbox,
   FormControlLabel,
-  FormGroup,
   Grid,
   IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Stack,
   TextField,
   Tooltip,
-  Typography,
   useMediaQuery
 } from "@mui/material";
-import { green, grey } from "@mui/material/colors";
+import { green, grey, red } from "@mui/material/colors";
 import { useState } from "react";
 import CommonPageHeader from "../CommonPageHeader";
-import SaveIcon from '@mui/icons-material/Save';
 import ClassSectionSelector from "./ClassSectionSelector";
 import FileUploadComponent from "./FileUploadComponent";
 
@@ -128,25 +122,25 @@ const AddNewPhoto = () => {
         ]}
         rightActions={
           <>
-          <Tooltip
-            title={
-              "Create new photo galleries or add photos to existing gallery. You can also view all gallery photos by clicking on SlideShow.You can also add or view videos into gallery."
-            }
-          >
-            <IconButton
-              sx={{
-                color: "white",
-                backgroundColor: grey[500],
-                "&:hover": {
-                  backgroundColor: grey[600],
-                },
-              }}
+            <Tooltip
+              title={
+                "Create new photo galleries or add photos to existing gallery. You can also view all gallery photos by clicking on SlideShow.You can also add or view videos into gallery."
+              }
             >
-              <QuestionMark />
-            </IconButton>
-          </Tooltip>
+              <IconButton
+                sx={{
+                  color: "white",
+                  backgroundColor: grey[500],
+                  "&:hover": {
+                    backgroundColor: grey[600],
+                  },
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
 
-          {editId ? (
+            {editId ? (
               <>
                 <Tooltip title={'Update Photo'}>
                   <IconButton
@@ -157,15 +151,15 @@ const AddNewPhoto = () => {
                         backgroundColor: green[600],
                       },
                     }}
-                    // onClick={handleUpdate}
-                    // disabled={!formData.url || !formData.title}
+                  // onClick={handleUpdate}
+                  // disabled={!formData.url || !formData.title}
                   >
                     <SaveIcon />
                   </IconButton>
                 </Tooltip>
               </>
             ) : (
-              <Tooltip title={'Save Photo'}>
+              <Tooltip title={'Save'}>
                 <IconButton
                   sx={{
                     color: 'white',
@@ -174,7 +168,7 @@ const AddNewPhoto = () => {
                       backgroundColor: green[600],
                     },
                   }}
-                  // onClick={handleAdd}
+                // onClick={handleAdd}
                 // disabled={!formData.url || !formData.title}
                 >
                   <SaveIcon />
@@ -190,14 +184,14 @@ const AddNewPhoto = () => {
         </Typography> */}
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth 
-            label={
-              <span>
-               Gallery Name <span style={{ color: 'red' }}> *</span>
-              </span>
-            }
-            variant="outlined" 
-             />
+            <TextField fullWidth
+              label={
+                <span>
+                  Gallery Name <span style={{ color: 'red' }}> *</span>
+                </span>
+              }
+              variant="outlined"
+            />
           </Grid>
 
           <Grid item xs={12} sm={6}>
@@ -205,40 +199,63 @@ const AddNewPhoto = () => {
           </Grid>
         </Grid>
         <Grid xs={12} sm={6}>
-        <FileUploadComponent />
+          <FileUploadComponent />
         </Grid>
-        <Box pt={2}>
+        <Box pt={2} >
           <Box>
             <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} />
           </Box>
         </Box>
+        <Box sx={{ backgroundColor: "lightgrey", pl: 1, mt: 2, }}>
+          <FormControlLabel
+            sx={{ mr: 0 }}
+            control={<Checkbox checked={selectAll} onChange={handleSelectAll} />} label={""}
+          />
+          <strong>Associated Sections</strong>
+
+        </Box>
         <Grid container spacing={2} alignItems="center" >
-        <Grid item xs={12}>
-          <Typography variant="h4" sx={{ fontWeight: "bold", pt: 2 }} >
-            <strong>Associated Sections :</strong> 
-          </Typography>
-        
-          <FormControlLabel
-            control={<Checkbox checked={selectAll} onChange={handleSelectAll} />}
-            label="Select All"
-          />
-          
-          <FormControlLabel
-            control={<Checkbox checked={undefined} onChange={undefined} />}
-            label="Pre-Primary"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={undefined} onChange={undefined} />}
-            label="Primary"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={undefined} onChange={undefined} />}
-            label="Secondary"
-          />
-          
+          <Grid item xs={12}>
+            <Box pl={1}>
+              <FormControlLabel
+                control={<Checkbox checked={undefined} onChange={undefined} />}
+                label="Pre-Primary"
+              />
+              <FormControlLabel
+                control={<Checkbox checked={undefined} onChange={undefined} />}
+                label="Primary"
+              />
+              <FormControlLabel
+                control={<Checkbox checked={undefined} onChange={undefined} />}
+                label="Secondary"
+              />
+            </Box>
           </Grid>
-          </Grid>
+        </Grid>
+        <Grid item xs={12} md={12} mt={2}>
+          <Stack direction={"row"} gap={2} alignItems={"center"}>
+            <Button
+              // onClick={resetForm}
+              sx={{
+                // backgroundColor: green[100],
+                color: 'red',
+                ':hover': { backgroundColor: red[100] }
+              }}>
+              Cancel
+            </Button>
+            <Button
+              // onClick={ClickSave1}
+              sx={{
+                // backgroundColor: green[100],
+                color: 'green',
+                ':hover': { backgroundColor: green[100] }
+              }} >
+              Save
+            </Button>
+          </Stack>
+        </Grid>
       </Box>
+
     </Box>
   );
 };

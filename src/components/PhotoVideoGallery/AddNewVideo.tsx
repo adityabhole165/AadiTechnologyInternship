@@ -1,14 +1,13 @@
 import { QuestionMark } from '@mui/icons-material'
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, TextField, Tooltip, Typography, useMediaQuery } from '@mui/material'
-import { green, grey } from '@mui/material/colors'
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, Stack, TextField, Tooltip, Typography, useMediaQuery } from '@mui/material'
+import { green, grey, red } from '@mui/material/colors'
 
 import SaveIcon from '@mui/icons-material/Save'
 import { useState } from 'react'
 import CommonPageHeader from '../CommonPageHeader'
 import ClassSectionSelector from './ClassSectionSelector'
 import VideoUrlComponent from './VideoUrlComponent'
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown'
 
 
 
@@ -171,8 +170,8 @@ const AddNewVideo = () => {
                         backgroundColor: green[600],
                       },
                     }}
-                    // onClick={handleUpdate}
-                    // disabled={!formData.url || !formData.title}
+                  // onClick={handleUpdate}
+                  // disabled={!formData.url || !formData.title}
                   >
                     <SaveIcon />
                   </IconButton>
@@ -188,7 +187,7 @@ const AddNewVideo = () => {
                       backgroundColor: green[600],
                     },
                   }}
-                  // onClick={handleAdd}
+                // onClick={handleAdd}
                 // disabled={!formData.url || !formData.title}
                 >
                   <SaveIcon />
@@ -228,26 +227,26 @@ const AddNewVideo = () => {
         </Typography>0.00 */}
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
-            <TextField fullWidth variant="outlined"  
-             label={
-              <span>
-              Video Name <span style={{ color: 'red' }}> *</span>
-              </span>
-            } />
+            <TextField fullWidth variant="outlined"
+              label={
+                <span>
+                  Video Name <span style={{ color: 'red' }}> *</span>
+                </span>
+              } />
           </Grid>
 
           {/* For devloper add searchable Dropdown for Url Source  */}
           <Grid item xs={12} sm={4}>
-            <TextField fullWidth  variant="outlined"
-             label={
-              <span>
-              Url Source <span style={{ color: 'red' }}> *</span>
-              </span>
-            } />
-            
+            <TextField fullWidth variant="outlined"
+              label={
+                <span>
+                  Url Source <span style={{ color: 'red' }}> *</span>
+                </span>
+              } />
+
 
           </Grid>
-          
+
 
           <Grid item xs={12} sm={4}>
             <FormControlLabel control={<Checkbox />} label="Show On External Website? " />
@@ -255,35 +254,34 @@ const AddNewVideo = () => {
         </Grid>
 
         <Box>
-          <VideoUrlComponent/>
-          </Box>
+          <VideoUrlComponent />
+        </Box>
         <Box pt={2}>
           <Box>
             <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} />
           </Box>
 
-          <Grid container spacing={2} alignItems="center">
+          <Box sx={{ backgroundColor: "lightgrey", paddingLeft: 1, mt: 1 }}>
+            <FormControlLabel
+              sx={{ mr: 0 }}
+              control={<Checkbox
+                name="selectAll"
+                checked={roles.selectAll} />} label={''}
+            />
+            <strong> Associated User Roles  </strong>
+
+
+          </Box>
+
+          <Grid container spacing={2} alignItems="center" pl={1}>
             <Grid item xs={12}>
-              <Typography variant="h4" sx={{ fontWeight: "bold", pt: 2 }}>
-                Associated User Roles :
-              </Typography>
               <FormGroup row>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="selectAll"
-                      checked={roles.selectAll}
-                      // onChange={handleCheckboxChange}
-                    />
-                  }
-                  label="Select All"
-                />
                 <FormControlLabel
                   control={
                     <Checkbox
                       name="admin"
                       checked={roles.admin}
-                      // onChange={handleCheckboxChange}
+                    // onChange={handleCheckboxChange}
                     />
                   }
                   label="Admin"
@@ -293,7 +291,7 @@ const AddNewVideo = () => {
                     <Checkbox
                       name="teacher"
                       checked={roles.teacher}
-                      // onChange={handleCheckboxChange}
+                    // onChange={handleCheckboxChange}
                     />
                   }
                   label="Teacher"
@@ -303,7 +301,7 @@ const AddNewVideo = () => {
                     <Checkbox
                       name="student"
                       checked={roles.student}
-                      // onChange={handleCheckboxChange}
+                    // onChange={handleCheckboxChange}
                     />
                   }
                   label="Student"
@@ -313,7 +311,7 @@ const AddNewVideo = () => {
                     <Checkbox
                       name="adminStaff"
                       checked={roles.adminStaff}
-                      // onChange={handleCheckboxChange}
+                    // onChange={handleCheckboxChange}
                     />
                   }
                   label="Admin Staff"
@@ -323,7 +321,7 @@ const AddNewVideo = () => {
                     <Checkbox
                       name="otherStaff"
                       checked={roles.otherStaff}
-                      // onChange={handleCheckboxChange}
+                    // onChange={handleCheckboxChange}
                     />
                   }
                   label="Other Staff"
@@ -332,7 +330,28 @@ const AddNewVideo = () => {
             </Grid>
           </Grid>
         </Box>
-      
+        <Grid item xs={12} md={12} mt={2}>
+          <Stack direction={"row"} gap={2} alignItems={"center"}>
+            <Button
+              // onClick={resetForm}
+              sx={{
+                // backgroundColor: green[100],
+                color: 'red',
+                ':hover': { backgroundColor: red[100] }
+              }}>
+              Cancel
+            </Button>
+            <Button
+              // onClick={ClickSave1}
+              sx={{
+                // backgroundColor: green[100],
+                color: 'green',
+                ':hover': { backgroundColor: green[100] }
+              }} >
+              Save
+            </Button>
+          </Stack>
+        </Grid>
       </Box>
     </Box>
   )

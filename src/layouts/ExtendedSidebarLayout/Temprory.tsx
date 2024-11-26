@@ -60,12 +60,12 @@ import { GetIsPrePrimaryTeacher, GetScreenAccessPermissionByPageID, logoURL } fr
 import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDetails/AbsentStudentDetailsPopup';
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
-
+import BlockIcon from '@mui/icons-material/Block';
 import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
 import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
-
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import { PersonOff } from '@mui/icons-material';
 import { IsPrePrimaryExamConfigurationBody } from 'src/interfaces/ExamResult/IExamResult';
 import { IGetAllowedPagesForUserBody, IGetScreensAccessPermissions } from 'src/interfaces/SchoolSetting/schoolSettings';
@@ -601,6 +601,20 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Exam Schedule Full Access',
       icon: <AutoStoriesIcon />,
       link: '/extended-sidebar/Teacher/ExamScheduleBaseScreen',
+      screenId: 0
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Block Progress Report',
+      icon: <BlockIcon />,
+      link: '/extended-sidebar/Teacher/BlockProgressReportBaseScreen',
+      screenId: 0
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Feedback Details',
+      icon: <FeedbackIcon  />,
+      link: '/extended-sidebar/Teacher/FeedbackDetailsBaseScreen',
       screenId: 0
     }
   ];
