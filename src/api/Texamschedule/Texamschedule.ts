@@ -59,7 +59,7 @@ const InsertExamSchedule = (data: IInsertExamScheduleBody) => {
   return http.post<IInsertExamScheduleResult>('Teacher/InsertExamSchedule', data);
 };
 const SumbitExamSchedule = (data: ISumbitExamScheduleBody) => {
-  return http.post<ISumbitExamScheduleResult>('Teacher/InsertExamSchedule', data);
+  return http.post<ISumbitExamScheduleResult>('Teacher/SumbitExamSchedule', data);
 };
 const GetTExamResultListApi = {
   GetAllStandards,
