@@ -251,7 +251,7 @@ const StandardwiseExamSchedule = () => {
             >
                 <DialogTitle sx={{ bgcolor: '#223354' }}>
                     <Tooltip
-                        title={'Add/edit delete contact group(s).'}
+                        title={'Add or update Instruction for exam.'}
                         placement="bottom-end"
                     >
                         <QuestionMark
@@ -318,7 +318,7 @@ const StandardwiseExamSchedule = () => {
             >
                 <DialogTitle sx={{ bgcolor: '#223354' }}>
                     <Tooltip
-                        title={'Add/edit delete contact group(s).'}
+                        title={'Add or update Instruction for exam.'}
                         placement="bottom-end"
                     >
                         <QuestionMark
