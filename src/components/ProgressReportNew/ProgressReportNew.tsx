@@ -700,10 +700,14 @@ const ProgressReportNew = () => {
   };
 
 
-  const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/Toppers');
 
+
+  const Toppers = (value) => {
+    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' +  true);
   };
+
+  console.log( GetOldStudentDetails,"value");
+  
 
   return (
     <Box sx={{ px: 2 }}>
@@ -783,7 +787,7 @@ const ProgressReportNew = () => {
           </Tooltip>
 
 
-          {open && SchoolScreensAccessPermission()   &&  (
+          {open && (SchoolScreensAccessPermission() && AcademicYear !== asAcademicYearId  )&&  (
             <Tooltip title="Toppers">
               <span>
                 <IconButton
