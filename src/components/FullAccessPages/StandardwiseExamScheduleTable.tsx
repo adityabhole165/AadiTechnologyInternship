@@ -15,9 +15,13 @@ import {
     TextField,
     Tooltip
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { IGetSubjectExamScheduleBody } from 'src/interfaces/Teacher/TExamSchedule';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import { GetSubjectExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
 interface ExamEntry {
@@ -37,6 +41,7 @@ interface ExamEntry {
         period: 'AM' | 'PM';
     };
     description: string;
+    IsNew: boolean;
 }
 
 const generateTimeOptions = () => {
@@ -49,28 +54,19 @@ const generateTimeOptions = () => {
 const minuteOptions = ['00', '15', '30', '45'];
 const periodOptions = ['AM', 'PM'];
 const examData1: ExamEntry[] = [
-    { id: 1, subject: "Mathematics", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Final Math Exam" },
-];
-const examData: ExamEntry[] = [
-    { id: 1, subject: "Mathematics", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Final Math Exam" },
-    { id: 2, subject: "Science", examType: "Midterm", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Midterm Science Exam" },
-    { id: 3, subject: "Physics", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Physics Exam" },
-    { id: 4, subject: "Chemistry", examType: "Midterm", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Chemistry Midterm Exam" },
-    { id: 5, subject: "Biology", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Biology Final Exam" },
-    { id: 6, subject: "Social Science", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Social Science Final Exam" },
-    { id: 7, subject: "Geography", examType: "Midterm", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Geography Midterm Exam" },
-    { id: 8, subject: "Computer Studies", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Computer Studies Final Exam" },
-    { id: 9, subject: "Art & Craft", examType: "Midterm", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Art & Craft Midterm Exam" },
-    { id: 10, subject: "Music", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Music Final Exam" },
-    { id: 11, subject: "Dance/Tabla", examType: "Midterm", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Dance/Tabla Midterm Exam" },
-    { id: 12, subject: "Library", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Library Exam" },
-    { id: 13, subject: "G.K.", examType: "Midterm", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "General Knowledge Exam" },
-    { id: 14, subject: "C.C.A.", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Cultural Activities Exam" }
+    { id: 1, subject: "Mathematics", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Final Math Exam", IsNew: true },
 ];
 
 const StandardwiseExamScheduleTable = () => {
-    const { AssignedDate } = useParams();
+    const { AssignedDate, StandardId, StandardTestId } = useParams();
+    const dispatch = useDispatch();
     const timeOptions = generateTimeOptions();
+    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asSchoolId = localStorage.getItem('localSchoolId');
+    const examData = useSelector((state: RootState) => state.StandardAndExamList.SubjectExamSchedule);
+    console.log(examData, 'examData');
+
+
     const [SelectDate, SetSelectDate] = useState(
         AssignedDate == undefined
             ? new Date().toISOString().split('T')[0]
@@ -80,6 +76,7 @@ const StandardwiseExamScheduleTable = () => {
         ...row,
         selectedDate: SelectDate // Initialize with first selected date
     })));
+
     const onSelectDate = (value: string) => {
         SetSelectDate(value);
         setExamRows(rows => rows.map(row => ({ ...row, selectedDate: value })));
@@ -89,6 +86,17 @@ const StandardwiseExamScheduleTable = () => {
     const onSelectRowDate = (id: number, value: string) => {
         setExamRows(rows => rows.map(row => row.id === id ? { ...row, selectedDate: value } : row));
     };
+
+    useEffect(() => {
+        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
+            asStandardId: Number(StandardId),
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asStandardwiseExamScheduleId: Number(StandardTestId),
+
+        }
+        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
+    }, [])
 
     const renderTimeSelects = (time: { hour: string; minute: string; period: 'AM' | 'PM' }) => (
         <Box display="flex" gap={1}>

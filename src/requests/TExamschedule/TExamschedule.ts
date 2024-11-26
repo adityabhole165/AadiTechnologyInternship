@@ -13,7 +13,7 @@ import IGetAllStandards, {
 import { AppThunk } from 'src/store';
 
 import GetTExamResultListApi from 'src/api/Texamschedule/Texamschedule';
-import { getDateMonthYear } from 'src/components/Common/Util';
+import { extractTimeforExamSchedule, getDateMonthYear } from 'src/components/Common/Util';
 
 const SelectStandardExamslice = createSlice({
   name: 'selectexam',
@@ -329,6 +329,28 @@ export const RExamSchedule =
       dispatch(SelectStandardExamslice.actions.ExamSchedule(Array));
     };
 
+// export const GetSubjectExamSchedule =
+//   (data: IGetSubjectExamScheduleBody): AppThunk =>
+//     async (dispatch) => {
+//       dispatch(SelectStandardExamslice.actions.getLoading(true));
+//       const response = await GetTExamResultListApi.GetSubjectExamScheduleList(data);
+
+//       const DataList = response?.data?.listStandardwiseSubject.map((item) => {
+//         return {
+//           Text1: item.SubjectWize_Standard_Exam_Schedule_Id,
+//           subject: item.Subject_Name,
+//           id: item.Subject_Id,
+//           Text4: item.Start_DateTime,
+//           Text5: item.End_DateTime,
+//           examType: item.TestType,
+//           TotalTime: item.TotalTime,
+//           description: item.Description,
+//           Marks: item.Marks
+//         };
+//       });
+//       dispatch(SelectStandardExamslice.actions.SubjectExamSchedule(DataList));
+//     };
+
 export const GetSubjectExamSchedule =
   (data: IGetSubjectExamScheduleBody): AppThunk =>
     async (dispatch) => {
@@ -336,16 +358,19 @@ export const GetSubjectExamSchedule =
       const response = await GetTExamResultListApi.GetSubjectExamScheduleList(data);
 
       const DataList = response?.data?.listStandardwiseSubject.map((item) => {
+        const startTime = extractTimeforExamSchedule(item.Start_DateTime);
+        const endTime = extractTimeforExamSchedule(item.End_DateTime);
+
         return {
-          Text1: item.SubjectWize_Standard_Exam_Schedule_Id,
           subject: item.Subject_Name,
           id: item.Subject_Id,
-          Text4: item.Start_DateTime,
-          Text5: item.End_DateTime,
           examType: item.TestType,
-          TotalTime: item.TotalTime,
+          examDate: getDateMonthYear(item.Start_DateTime),
+          startTime: startTime,
+          endTime: endTime,
           description: item.Description,
-          Marks: item.Marks
+          IsNew: true,
+          timed: !!(startTime && endTime), 
         };
       });
       dispatch(SelectStandardExamslice.actions.SubjectExamSchedule(DataList));
