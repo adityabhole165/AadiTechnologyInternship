@@ -212,6 +212,24 @@ const ProgressReportNew = () => {
 
   }, [USlistStudentsDetails])
 
+
+
+  const [progressReportMessage, setProgressReportMessage] = useState(null);
+
+  useEffect(() => {
+    if (USlistStudentsDetails?.length > 0) {
+      const message = USlistStudentsDetails.map((item, index) => (
+        <b key={index}>
+          Progress Report is not available for the student : {item.Roll_No} - {item.Student_Name}.
+        </b>
+      ));
+      setProgressReportMessage(message);
+    }
+  }, [USlistStudentsDetails]);
+
+  
+
+
   const GetClassTeacher = () => {
     let returnVal = false
     USlistStudentsDetails.map((item) => {
@@ -475,14 +493,14 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
 
-  }, [GetOldStudentDetails.StandardDivisionId,GetOldStudentDetails.StudentId, AcademicYear]);
+  }, [GetOldStudentDetails.StandardDivisionId, GetOldStudentDetails.StudentId, AcademicYear]);
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
 
-  }, [GetOldStudentDetails.StandardDivisionId,  AcademicYear]);
+  }, [GetOldStudentDetails.StandardDivisionId, AcademicYear]);
 
-  
+
 
 
 
@@ -876,7 +894,7 @@ const ProgressReportNew = () => {
 
 
 
-          {(EntireDataList?.listStudentsDetails || []).length === 0 && StudentId !== "0" ?
+          {((EntireDataList?.listStudentsDetails || []).length === 0 && StudentId !== "0") && USIsTestPublishedForStudentIS ?
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>Assessment result is not available for this student.</b>
             </Typography>
@@ -887,18 +905,18 @@ const ProgressReportNew = () => {
                   < Box ref={printRef}>
                     {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                       <>
-                         <GradeConfigurationDetails
-                         handleClick={handleClick}
-                         open1={open1}
-                         handleClose={handleClose}
-                         USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
-                         USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
-                         headerArray={headerArray}
-                         />
-                         <Studentdetails
-                         USlistStudentsDetails={USlistStudentsDetails}
-                         />
-    
+                        <GradeConfigurationDetails
+                          handleClick={handleClick}
+                          open1={open1}
+                          handleClose={handleClose}
+                          USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                          USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                          headerArray={headerArray}
+                        />
+                        <Studentdetails
+                          USlistStudentsDetails={USlistStudentsDetails}
+                        />
+
                         {hasTotalConsiderationN && (
                           <div
                             style={{ backgroundColor: 'white', padding: '8px' }}
@@ -920,17 +938,17 @@ const ProgressReportNew = () => {
                       </>
                       :
                       <>
-                       <GradeConfigurationDetails
-                         handleClick={handleClick}
-                         open1={open1}
-                         handleClose={handleClose}
-                         USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
-                         USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
-                         headerArray={headerArray}
-                         />
-                         <Studentdetails
-                         USlistStudentsDetails={USlistStudentsDetails}
-                         />
+                        <GradeConfigurationDetails
+                          handleClick={handleClick}
+                          open1={open1}
+                          handleClose={handleClose}
+                          USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                          USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                          headerArray={headerArray}
+                        />
+                        <Studentdetails
+                          USlistStudentsDetails={USlistStudentsDetails}
+                        />
                         {hasTotalConsiderationN && (
                           <div
                             style={{ backgroundColor: 'white', padding: '8px' }}
@@ -963,7 +981,9 @@ const ProgressReportNew = () => {
 
                   </ Box>
                 ) : (
-                  <Typography
+
+
+                   AcademicYear == asAcademicYearId ? <Typography
                     variant="body1"
                     sx={{
                       textAlign: 'center',
@@ -975,8 +995,17 @@ const ProgressReportNew = () => {
                     }}
                   >
                     <b>No exam of this class has been published for the current academic year.</b>
-                  </Typography>
-                )
+                  </Typography> : <span>
+
+                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+
+                    <b> {progressReportMessage}</b>
+
+
+                    </Typography>
+                  </span> 
+
+              )
               ) : null}
 
 
