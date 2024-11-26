@@ -10,11 +10,12 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { GetUpdateExamScheduleInstructions, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
 import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
+import { IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
 
 
 const StandardwiseExamSchedule = () => {
@@ -43,8 +44,10 @@ const StandardwiseExamSchedule = () => {
 
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
+    const asUserId = Number(localStorage.getItem('UserId'));
     const SubHeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandard);
     const HeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandardwTest);
+    const UpdateExamScheduleInstructions = useSelector((state: RootState) => state.StandardAndExamList.UpdateExamScheduleInstructionsMsg);
 
     useEffect(() => {
         const RExamScheduleBody = {
@@ -53,6 +56,17 @@ const StandardwiseExamSchedule = () => {
         }
 
         dispatch(RExamSchedule(RExamScheduleBody))
+    }, [])
+
+    useEffect(() => {
+        const UpdateExamScheduleInstructionsBody: IUpdateExamScheduleInstructionsBody = {
+            asSchoolId: Number(asSchoolId),
+            asSchoolwiseStandardExamScheduleId: Number(TestId),
+            asInstructions: currentInstruction,
+            asUpdatedById: asUserId
+        }
+        dispatch(GetUpdateExamScheduleInstructions(UpdateExamScheduleInstructionsBody));
+
     }, [])
 
     const getClassName = () => {
