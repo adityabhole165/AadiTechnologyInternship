@@ -1,29 +1,30 @@
-import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Link, Stack, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Card5 from 'src/libraries/mainCard/Card5';
-import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import AllStudents from 'src/requests/ProgressReport/AllStudent';
 import { DataParserAndFormatter } from 'src/requests/ProgressReport/PotoType';
 import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
-import { getSchoolConfigurations } from '../Common/Util';
+import { getSchoolConfigurations, SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import GradeConfigurationDetails from './GradeConfigurationDetails';
 import ProgressReportGradeView from './ProgressReportGradeView';
 import ProgressReportMarkView from './ProgressReportMarkView';
-import GradeConfigurationDetails from './GradeConfigurationDetails';
 import Studentdetails from './Studentdetails';
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const TeacherIdsession = sessionStorage.getItem('TeacherId');
@@ -227,7 +228,8 @@ const ProgressReportNew = () => {
     }
   }, [USlistStudentsDetails]);
 
-  
+
+
 
 
   const GetClassTeacher = () => {
@@ -698,7 +700,10 @@ const ProgressReportNew = () => {
   };
 
 
+  const Toppers = (value) => {
+    navigate('/extended-sidebar/Teacher/Toppers');
 
+  };
 
   return (
     <Box sx={{ px: 2 }}>
@@ -777,6 +782,30 @@ const ProgressReportNew = () => {
             </IconButton>
           </Tooltip>
 
+
+          {open && SchoolScreensAccessPermission()   &&  (
+            <Tooltip title="Toppers">
+              <span>
+                <IconButton
+                  onClick={Toppers}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600],
+                    },
+                  }}
+                >
+                  <WorkspacePremiumIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
+          )}
+
+
+
+
+
           {/* {(open && StudentId !== "0") && AcademicYear !== asAcademicYearId &&   (
             <Box>
               <Tooltip title={'Print'}>
@@ -826,53 +855,56 @@ const ProgressReportNew = () => {
           </div>)}
 
         </Grid>
-        <Grid xs={6} >
-          {open && (
-            <span>
+        {!SchoolScreensAccessPermission() &&
+          <Grid xs={6} >
+            {open && (
+              <span>
 
 
 
-              {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
+                {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
 
 
 
-                {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || !IsPrePrimary && getIsTermExamPublished === true ?
+                  {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || !IsPrePrimary && getIsTermExamPublished === true ?
 
-                  <Card5
-                    text1={academictermsResult[0]?.TermName}
-                    text2=""
-                    clickIcon={() => { downloadProgress(1); }}
-                  />
+                    <Card5
+                      text1={academictermsResult[0]?.TermName}
+                      text2=""
+                      clickIcon={() => { downloadProgress(1); }}
+                    />
 
-                  : <span></span>
+                    : <span></span>
+
+                  }
+
+                  {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true || !IsPrePrimary && getIsFinalResultPublished === true ?
+
+                    <Card5
+                      text1={academictermsResult[1]?.TermName}
+                      text2=""
+                      clickIcon={() => { downloadProgress(2); }}
+                    />
+
+                    : <span></span>
+
+                  }
+                </Stack>
 
                 }
 
-                {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true || !IsPrePrimary && getIsFinalResultPublished === true ?
-
-                  <Card5
-                    text1={academictermsResult[1]?.TermName}
-                    text2=""
-                    clickIcon={() => { downloadProgress(2); }}
-                  />
-
-                  : <span></span>
-
-                }
-              </Stack>
-
-              }
 
 
 
 
 
 
+              </span>
+            )}
 
-            </span>
-          )}
+          </Grid>}
 
-        </Grid>
+
       </Grid>
 
       <ErrorMessage1 Error={Error}></ErrorMessage1>
@@ -983,7 +1015,7 @@ const ProgressReportNew = () => {
                 ) : (
 
 
-                   AcademicYear == asAcademicYearId ? <Typography
+                  AcademicYear == asAcademicYearId ? <Typography
                     variant="body1"
                     sx={{
                       textAlign: 'center',
@@ -999,13 +1031,13 @@ const ProgressReportNew = () => {
 
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
 
-                    <b> {progressReportMessage}</b>
+                      <b> {progressReportMessage}</b>
 
 
                     </Typography>
-                  </span> 
+                  </span>
 
-              )
+                )
               ) : null}
 
 
