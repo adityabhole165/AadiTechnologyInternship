@@ -206,14 +206,16 @@ const ProgressReportNew = () => {
   }, [UsGetSchoolSettings])
   const [isFailCriteria, setIsFailCriteria] = useState('N');
   useEffect(() => {
-    console.log(USlistStudentsDetails, 'checkthisout');
+   
     if (USlistStudentsDetails?.length > 0) {
       setIsFailCriteria(USlistStudentsDetails[0]?.IsFailCriteriaNotApplicable);
     }
 
   }, [USlistStudentsDetails])
 
-
+  console.log(isFailCriteria, 'isFailCriteria');
+  console.log(totalCount, 'totalCount');
+ 
 
   const [progressReportMessage, setProgressReportMessage] = useState(null);
 
@@ -487,10 +489,9 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
 
-  }, []);
+  }, [asSchoolId,AcademicYear]);
 
-  console.log(USIsTestPublishedForStdDiv, "USIsTestPublishedForStdDiv");
-
+  
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
