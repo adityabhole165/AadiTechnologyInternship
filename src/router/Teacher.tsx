@@ -598,7 +598,7 @@ const teacherRoutes = [
     path: 'Toppers/:TeacherId/:StandardDivisionId/:TestId/:standardId/:IsReadOnly',
     element: <Toppers />
   },
-  
+
   {
     path: 'StandardToppers',
     element: <StandardToppers />
@@ -823,6 +823,10 @@ const teacherRoutes = [
     element: <ExamScheduleBasescreen />
   },
   {
+    path: 'StandardwiseExamSchedule/:StandardId/:TestId/:SchoolwiseStandardExamScheduleId/:StandardTestId',
+    element: <StandardwiseExamSchedule />
+  },
+  {
     path: 'StandardwiseExamSchedule/:StandardId/:TestId',
     element: <StandardwiseExamSchedule />
   },
@@ -839,30 +843,30 @@ const teacherRoutes = [
     path: 'ReceivedSMSOwn',
     element: <ReceivedSMSOwn />
   },
- {
-  path: 'PhotoVideoGalleryBaseScreen',
-  element: <PhotoVideoGalleryBaseScreen />
-},
-{
-  path: 'AddNewPhoto',
-  element: <AddNewPhoto />
-},
-{
-  path: 'AddNewVideo',
-  element: <AddNewVideo />
-},
-{
-  path: 'ViewPhotoFile',
-  element: <ViewPhotoFile />
-},
-{
-  path: 'ViewVideoGallery',
-  element: <ViewVideoGallery />
-},
-{
-  path: 'BlockProgressReportBaseScreen',
-  element: <BlockProgressReportBaseScreen />
-},
+  {
+    path: 'PhotoVideoGalleryBaseScreen',
+    element: <PhotoVideoGalleryBaseScreen />
+  },
+  {
+    path: 'AddNewPhoto',
+    element: <AddNewPhoto />
+  },
+  {
+    path: 'AddNewVideo',
+    element: <AddNewVideo />
+  },
+  {
+    path: 'ViewPhotoFile',
+    element: <ViewPhotoFile />
+  },
+  {
+    path: 'ViewVideoGallery',
+    element: <ViewVideoGallery />
+  },
+  {
+    path: 'BlockProgressReportBaseScreen',
+    element: <BlockProgressReportBaseScreen />
+  },
 ];
 
 export default teacherRoutes;
