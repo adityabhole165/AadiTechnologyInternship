@@ -64,7 +64,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 //   </div>
 // )
 
-const PersonalDetails = ({ onTabChange }) => {
+const PersonalDetails = ({ personal, onChange, onTabChange }) => {
   const [usingWebcam, setUsingWebcam] = useState(false);
   const webcamRef = useRef(null);
 
@@ -109,6 +109,10 @@ const PersonalDetails = ({ onTabChange }) => {
   });
   //console.log('form', form.parentOccupation);
   const { showAlert, closeAlert } = useContext(AlertContext);
+
+  useEffect(() => {
+    console.log('2️⃣personal data from Parent', personal);
+  }, [personal]);
 
   const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
   const MaxfileSize = 5000000;

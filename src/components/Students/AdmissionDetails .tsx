@@ -32,7 +32,7 @@ import {
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const AdmissionDetails = ({ onTabChange }) => {
+const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
@@ -71,6 +71,10 @@ const AdmissionDetails = ({ onTabChange }) => {
     isHandicapped: false,
   });
 
+  useEffect(() => {
+    console.log('1️⃣admission data from parent', admission);
+  }, [admission]);
+
   const FeeAreaNamesDrop = useSelector((state: RootState) => state.StudentUI.ISFeeAreaNames);
   const DisabilitiesDropdown = useSelector((state: RootState) => state.StudentUI.ISDisabilitiesDropdown);
   const ResidenceTypesDropdown = useSelector((state: RootState) => state.StudentUI.ISResidenceTypesDropdown);
@@ -82,11 +86,11 @@ const AdmissionDetails = ({ onTabChange }) => {
   const StaffUserRoleDropdown = useSelector((state: RootState) => state.StudentUI.ISUserRoles);
   const StaffNameDropdown = useSelector((state: RootState) => state.StudentUI.ISStaffName);
   //
-  const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
+  //const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   //console.log(USGetSingleStudentDetails, 'USGetSingleStudentDetails');
 
-  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
-  const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
+  //const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
+  //const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
 
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const IsRTEApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsRTEApplicable || false;
@@ -152,63 +156,59 @@ const AdmissionDetails = ({ onTabChange }) => {
 
   }, []);
 
+  // useEffect(() => {
+  //   if ((USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) || (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) || (GetFromNumber && GetFromNumber.length > 0)) {
+  //     const studentData = USGetSingleStudentDetails[0];
+  //     const AdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
+  //     const FormNumber = GetFromNumber[0];
+  //     setForm(prevForm => ({
+  //       ...prevForm,
+  //       userName: studentData.User_Login || '',
+  //       sendSMS: studentData.Send_SMS === 'False' ? false : true,
+  //       newAdmission: studentData.Is_New_Student === 'False' ? false : true,
+  //       isRTEApplicable: studentData.Is_RTE_Student === 'False' ? false : true,
+  //       rteCategory: studentData.RTECategoryId || '',
+  //       rteApplicationForm: studentData.RTEApplicationFormNo || '',
+  //       formNumber: FormNumber?.FormNumber || '',
+  //       registrationNumber: studentData.Enrolment_Number || '0',        //remember to add   studentData.Enrolment_Number ||
+  //       admissionDate: studentData.Admission_date || '',
+  //       joiningDate: studentData.Joining_Date || '',
+  //       studentRollNumber: studentData.Roll_No || '',
+  //       UDISENumber: studentData.UDISENumber || '',
+  //       BoardRegistrationNumber: studentData.BoardRegistrationNo || '',
+  //       SaralNo: studentData.SaralNo || '',
+  //       PENNumber: studentData.PENNumber || '', // Not found
+  //       secondlanguage: studentData.SecondLanguageSubjectId || '',
+  //       thirdlanguage: studentData.ThirdLanguageSubjectId || '',
+  //       applicableRules: studentData.Rule_Id || '',
+  //       staffUserRole: studentData.User_Role_Id || '',
+  //       staffName: studentData.staffName || '',
+  //       residenceTypes: studentData.ResidenceTypeId || '',
+  //       feeAreaNames: AdditionalData?.FeeAreaName || '',
+  //       RFID: AdditionalData?.RFID || '', // not found
+  //       isStaffKid: studentData.IsStaffKid === 'False' ? false : true,
+  //       isOnlyChild: studentData.IsOnlyChild === 'False' ? false : true,
+  //       isRiseAndShine: studentData.IsRiseAndShine === 'False' ? false : true,
+  //       isMinority: studentData.Minority === 'False' ? false : true,
+  //       isForDayBoarding: studentData.IsForDayBoarding === 'False' ? false : true,
+  //       isDayBoardingFeePaid: studentData.IsDayBoardingFeePaid === 'False' ? false : true,
+  //       isHandicapped: AdditionalData?.IsHandicapped || false, // not found
+
+  //     }));
+  //   }
+  // }, [USGetSingleStudentDetails, GetStudentAdditionalDetails, GetFromNumber]);
+
+
   useEffect(() => {
-    if ((USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) || (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) || (GetFromNumber && GetFromNumber.length > 0)) {
-      const studentData = USGetSingleStudentDetails[0];
-      const AdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
-      const FormNumber = GetFromNumber[0];
-      setForm(prevForm => ({
-        ...prevForm,
-        userName: studentData.User_Login || '',
-        sendSMS: studentData.Send_SMS === 'False' ? false : true,
-        newAdmission: studentData.Is_New_Student === 'False' ? false : true,
-        isRTEApplicable: studentData.Is_RTE_Student === 'False' ? false : true,
-        rteCategory: studentData.RTECategoryId || '',
-        rteApplicationForm: studentData.RTEApplicationFormNo || '',
-        formNumber: FormNumber?.FormNumber || '',
-        registrationNumber: studentData.Enrolment_Number || '0',        //remember to add   studentData.Enrolment_Number ||
-        admissionDate: studentData.Admission_date || '',
-        joiningDate: studentData.Joining_Date || '',
-        studentRollNumber: studentData.Roll_No || '',
-        UDISENumber: studentData.UDISENumber || '',
-        BoardRegistrationNumber: studentData.BoardRegistrationNo || '',
-        SaralNo: studentData.SaralNo || '',
-        PENNumber: studentData.PENNumber || '', // Not found
-        secondlanguage: studentData.SecondLanguageSubjectId || '',
-        thirdlanguage: studentData.ThirdLanguageSubjectId || '',
-        applicableRules: studentData.Rule_Id || '',
-        staffUserRole: studentData.User_Role_Id || '',
-        staffName: studentData.staffName || '',
-        residenceTypes: studentData.ResidenceTypeId || '',
-        feeAreaNames: AdditionalData?.FeeAreaName || '',
-        RFID: AdditionalData?.RFID || '', // not found
-        isStaffKid: studentData.IsStaffKid === 'False' ? false : true,
-        isOnlyChild: studentData.IsOnlyChild === 'False' ? false : true,
-        isRiseAndShine: studentData.IsRiseAndShine === 'False' ? false : true,
-        isMinority: studentData.Minority === 'False' ? false : true,
-        isForDayBoarding: studentData.IsForDayBoarding === 'False' ? false : true,
-        isDayBoardingFeePaid: studentData.IsDayBoardingFeePaid === 'False' ? false : true,
-        isHandicapped: AdditionalData?.IsHandicapped || false, // not found
-
-      }));
-    }
-  }, [USGetSingleStudentDetails, GetStudentAdditionalDetails, GetFromNumber]);
-
-
-  useEffect(() => {
-    // const roleId = form.staffUserRole === 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null;
-    // console.log('staffUserRole', form.staffUserRole);
-    // console.log('roleId', roleId);
-
     const GetStaffName: IStaffNameBody = {
       asSchoolId: Number(localStorage.getItem('localSchoolId')),
       asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-      asUserRoleId: Number(form.staffUserRole) //=== 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null
+      asUserRoleId: Number(admission.staffUserRole) //=== 'Teacher' ? 2 : form.staffUserRole === 'Admin Staff' ? 6 : null
     }
-    //  console.log("GetStaffName", GetStaffName)
+    //console.log("GetStaffName", GetStaffName)
     dispatch(CDAStaffName(GetStaffName));
 
-  }, [form.staffUserRole]);
+  }, [admission.staffUserRole]);
 
 
   const [errors, setErrors] = useState({
@@ -233,15 +233,15 @@ const AdmissionDetails = ({ onTabChange }) => {
     SetSelectDate(value);
   };
 
-  const handleDropdownChange = (name: string, value: any) => {
-    setForm((prevForm) => {
-      const updatedForm = { ...prevForm, [name]: value };
-      onTabChange(updatedForm); // Notify parent of updated data
-      return updatedForm;
-    });
+  // const handleDropdownChange = (name: string, value: any) => {
+  //   setForm((prevForm) => {
+  //     const updatedForm = { ...prevForm, [name]: value };
+  //     onTabChange(updatedForm); // Notify parent of updated data
+  //     return updatedForm;
+  //   });
 
-    setErrors((prev) => ({ ...prev, [name]: false }));
-  };
+  //   setErrors((prev) => ({ ...prev, [name]: false }));
+  // };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked, files } = e.target;
@@ -259,18 +259,19 @@ const AdmissionDetails = ({ onTabChange }) => {
       const updatedForm = { ...prevForm, [name]: fieldValue };
       onTabChange(updatedForm); // Notify parent of updated data
       return updatedForm;
-    });
 
+    });
+    onChange(name, fieldValue);
     //onTabChange({ firstName: fieldValue, })
     // Remove error when the user starts filling the field
     setErrors({ ...errors, [name]: false });
   };
 
-  useEffect(() => {
-    if (!ShowDayBoardingOptionOnStudentsScreen) {
-      setForm((prevForm) => ({ ...prevForm, isForDayBoarding: false }));
-    }
-  }, [ShowDayBoardingOptionOnStudentsScreen]);
+  // useEffect(() => {
+  //   if (!ShowDayBoardingOptionOnStudentsScreen) {
+  //     setForm((prevForm) => ({ ...prevForm, isForDayBoarding: false }));
+  //   }
+  // }, [ShowDayBoardingOptionOnStudentsScreen]);
 
   const validateForm = () => {
     const newErrors = {
@@ -284,7 +285,7 @@ const AdmissionDetails = ({ onTabChange }) => {
       rteApplicationForm: form.isRTEApplicable && !form.rteApplicationForm
     };
     setErrors(newErrors);
-    console.log(!Object.values(newErrors).includes(true));
+    //console.log(!Object.values(newErrors).includes(true));
     return !Object.values(newErrors).includes(true);
   };
   const applicableRules = [
@@ -350,7 +351,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             name="userName"
             label={<span>User Name</span>}
             variant="outlined"
-            value={form.userName}
+            value={admission.userName}
             onChange={handleInputChange}
             error={errors.userName}
             helperText={errors.userName ? 'This field is required' : ''}
@@ -362,7 +363,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="sendSMS"
-                checked={form.sendSMS}
+                checked={admission.sendSMS}
                 onChange={handleInputChange}
               />
             }
@@ -374,7 +375,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="newAdmission"
-                checked={form.newAdmission}
+                checked={admission.newAdmission}
                 onChange={handleInputChange}
                 disabled={true} // Checkbox is always disabled
               />
@@ -387,7 +388,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="isRTEApplicable"
-                checked={form.isRTEApplicable}
+                checked={admission.isRTEApplicable}
                 onChange={handleInputChange}
                 disabled={true} // Checkbox is always disabled
               />
@@ -395,14 +396,14 @@ const AdmissionDetails = ({ onTabChange }) => {
             label="Is RTE Applicable?"
           />
         </Grid>
-        {form.isRTEApplicable && (
+        {admission.isRTEApplicable && (
           <Grid container spacing={2} pt={2} pl={2}>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <SearchableDropdown
                 sx={{ minWidth: '300px' }}
                 ItemList={IsRTEApplicable ? DisabilitiesDropdown : []}
-                onChange={(value) => handleDropdownChange('rteCategory', IsRTEApplicable ? value : '0')}
-                defaultValue={form.rteCategory}
+                onChange={(value) => onChange('rteCategory', IsRTEApplicable ? value : '0')}
+                defaultValue={admission.rteCategory}
                 label={'RTE Category'}
                 size={'medium'}
                 disabled={!IsRTEApplicable} // Checkbox is always disabled
@@ -428,7 +429,7 @@ const AdmissionDetails = ({ onTabChange }) => {
               <TextField
                 name="rteApplicationForm"
                 label="RTE Application Form"
-                value={form.rteApplicationForm}
+                value={admission.rteApplicationForm}
                 onChange={handleInputChange}
                 fullWidth
                 error={errors.rteApplicationForm}
@@ -438,7 +439,7 @@ const AdmissionDetails = ({ onTabChange }) => {
                 sx={{
                   backgroundColor: errors.rteApplicationForm
                     ? 'red'
-                    : form.rteApplicationForm
+                    : admission.rteApplicationForm
                       ? 'lightblue'
                       : 'inherit'
                 }}
@@ -459,14 +460,14 @@ const AdmissionDetails = ({ onTabChange }) => {
             name="formNumber"
             label="Form Number"
             variant="outlined"
-            value={form.formNumber}
+            value={admission.formNumber}
             onChange={handleInputChange}
             error={errors.formNumber}
             helperText={errors.formNumber ? 'This field is required' : ''}
             sx={{
               backgroundColor: errors.registrationNumber
                 ? 'white'
-                : form.registrationNumber
+                : admission.registrationNumber
                   ? 'white'
                   : 'inherit'
             }}
@@ -488,8 +489,8 @@ const AdmissionDetails = ({ onTabChange }) => {
               }
               variant="outlined"
               //defaultValue={USGetSingleStudentDetails[0].Enrolment_Number}
-              value={form.registrationNumber}
-              defaultValue={form.registrationNumber}
+              value={admission.registrationNumber}
+              defaultValue={admission.registrationNumber}
               onChange={handleInputChange}
               error={errors.registrationNumber}
               helperText={
@@ -503,9 +504,8 @@ const AdmissionDetails = ({ onTabChange }) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <Datepicker
-            DateValue={form.admissionDate}
+            DateValue={admission.admissionDate}
             onDateChange={onSelectDate}
-            // label={'Start Date'}
             size={'medium'}
             label={'Admission Date'}
 
@@ -531,7 +531,7 @@ const AdmissionDetails = ({ onTabChange }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <Datepicker
-            DateValue={form.joiningDate}
+            DateValue={admission.joiningDate}
             onDateChange={onSelectDate}
             // label={'Start Date'}
             size={'medium'}
@@ -572,7 +572,7 @@ const AdmissionDetails = ({ onTabChange }) => {
               </span>
             }
             variant="outlined"
-            value={form.studentRollNumber}
+            value={admission.studentRollNumber}
             onChange={handleInputChange}
             error={errors.studentRollNumber}
             helperText={
@@ -581,7 +581,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             sx={{
               backgroundColor: errors.registrationNumber
                 ? 'white'
-                : form.registrationNumber
+                : admission.registrationNumber
                   ? 'white'
                   : 'inherit'
             }}
@@ -590,30 +590,30 @@ const AdmissionDetails = ({ onTabChange }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
-            name="StudentUDISEnumber"
+            name="UDISENumber"
             label="Student UDISE number"
             variant="outlined"
-            value={form.UDISENumber}
+            value={admission.UDISENumber}
             onChange={handleInputChange}
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
-            name="BoardRegistrationNumber"
+            name="boardRegistrationNumber"
             label="Board Registration Number"
             variant="outlined"
-            value={form.BoardRegistrationNumber}
+            value={admission.boardRegistrationNumber}
             onChange={handleInputChange}
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
-            name="SaralNo"
+            name="saralNo"
             label="Saral No"
             variant="outlined"
-            value={form.SaralNo}
+            value={admission.saralNo}
             onChange={handleInputChange}
             fullWidth
           />
@@ -623,7 +623,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             name="PENNumber"
             label="PEN Number"
             variant="outlined"
-            value={form.PENNumber}
+            value={admission.PENNumber}
             onChange={handleInputChange}
             fullWidth
           />
@@ -632,20 +632,19 @@ const AdmissionDetails = ({ onTabChange }) => {
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={SecondLangDropdown.length > 0 ? SecondLangDropdown : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]}
-            onChange={(value) => handleDropdownChange('secondlanguage', value)}
+            onChange={(value) => onChange('secondlanguage', value)}
             label={'Second Language'}
-            defaultValue={form.secondlanguage}
+            defaultValue={admission.secondlanguage}
             size={'medium'}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={ThirdLangDropdown.length > 0 ? ThirdLangDropdown : SecondLangDropdown.length > 0 ? SecondLangDropdown :
-              [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]}
-            onChange={(value) => handleDropdownChange('thirdlanguage', value)}
+            ItemList={ThirdLangDropdown.length > 0 ? ThirdLangDropdown : [{ Text: Constants.S_SELECT, Value: Constants.S_ZERO }]}
+            onChange={(value) => onChange('thirdlanguage', value)}
             label={'Third Language'}
-            defaultValue={form.thirdlanguage}
+            defaultValue={admission.thirdlanguage}
             size={'medium'}
           />
         </Grid>
@@ -654,9 +653,9 @@ const AdmissionDetails = ({ onTabChange }) => {
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={FeeRuleConcession}
-            onChange={(value) => handleDropdownChange('applicableRules', value)}
+            onChange={(value) => onChange('applicableRules', value)}
             label={'Applicable Rule'}
-            defaultValue={form.applicableRules}
+            defaultValue={admission.applicableRules}
             size={'medium'}
           />
         </Grid>
@@ -664,8 +663,8 @@ const AdmissionDetails = ({ onTabChange }) => {
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={StaffUserRoleDropdown}
-            onChange={(value) => handleDropdownChange('staffUserRole', value)}
-            defaultValue={form.staffUserRole}
+            onChange={(value) => onChange('staffUserRole', value)}
+            defaultValue={admission.staffUserRole}
             label={'Staff User Role'}
             size={'medium'}
           />
@@ -674,9 +673,9 @@ const AdmissionDetails = ({ onTabChange }) => {
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={StaffNameDropdown}
-            onChange={(value) => handleDropdownChange('staffName', value)}
+            onChange={(value) => onChange('staffName', value)}
             label={'Staff Name'}
-            defaultValue={form.staffName}
+            defaultValue={admission.staffName}
             size={'medium'}
           />
         </Grid>
@@ -684,8 +683,8 @@ const AdmissionDetails = ({ onTabChange }) => {
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ResidenceTypesDropdown}
-            onChange={(value) => handleDropdownChange('residenceTypes', value)}
-            defaultValue={form.residenceTypes}
+            onChange={(value) => onChange('residenceTypes', value)}
+            defaultValue={admission.residenceTypes}
             label={' Residence Type'}
             size={'medium'}
           />
@@ -694,9 +693,9 @@ const AdmissionDetails = ({ onTabChange }) => {
           <SearchableDropdown
             sx={{ minWidth: '15vw' }}
             ItemList={FeeAreaNamesDrop}
-            onChange={handleInputChange}
+            onChange={(value) => onChange('feeAreaNames', value)}
             label={'Fee Area Name'}
-            //defaultValue={form.parentOccupation}
+            defaultValue={admission.feeAreaNames}
             size={'medium'}
           />
         </Grid>
@@ -705,7 +704,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             name="RFID"
             label="RFID"
             variant="outlined"
-            value={form.RFID}
+            value={admission.RFID}
             onChange={handleInputChange}
             fullWidth
           />
@@ -715,7 +714,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="isStaffKid"
-                checked={form.isStaffKid}
+                checked={admission.isStaffKid}
                 onChange={handleInputChange}
               />
             }
@@ -727,7 +726,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="isOnlyChild"
-                checked={form.isOnlyChild}
+                checked={admission.isOnlyChild}
                 onChange={handleInputChange}
               />
             }
@@ -739,7 +738,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="isRiseAndShine"
-                checked={form.isRiseAndShine}
+                checked={admission.isRiseAndShine}
                 onChange={handleInputChange}
               />
             }
@@ -751,7 +750,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="isMinority"
-                checked={form.isMinority}
+                checked={admission.isMinority}
                 onChange={handleInputChange}
               />
             }
@@ -764,7 +763,7 @@ const AdmissionDetails = ({ onTabChange }) => {
               control={
                 <Checkbox
                   name="isForDayBoarding"
-                  checked={form.isForDayBoarding}
+                  checked={admission.isForDayBoarding}
                   onChange={handleInputChange}
                 />
               }
@@ -777,7 +776,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="isDayBoardingFeePaid"
-                checked={form.isDayBoardingFeePaid}
+                checked={admission.isDayBoardingFeePaid}
                 onChange={handleInputChange}
               />
             }
@@ -789,7 +788,7 @@ const AdmissionDetails = ({ onTabChange }) => {
             control={
               <Checkbox
                 name="isHandicapped"
-                checked={form.isHandicapped}
+                checked={admission.isHandicapped}
                 onChange={handleInputChange}
               />
             }
