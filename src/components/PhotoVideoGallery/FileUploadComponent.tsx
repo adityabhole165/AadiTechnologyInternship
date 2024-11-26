@@ -128,7 +128,7 @@ const FileUploadComponent: React.FC = () => {
                         }}
           
           >
-                    Add Files
+                    Add Photos 
                 </Button>
             </Grid>
         </Grid>

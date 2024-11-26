@@ -223,9 +223,9 @@ const AddNewVideo = () => {
         </Accordion>
       </Box>
       <Box padding={2} sx={{ backgroundColor: "white" }}>
-        <Typography variant="h5" gutterBottom sx={{pb:2}}>
+        {/* <Typography variant="h5" gutterBottom sx={{pb:2}}>
           Video Gallery Details :
-        </Typography>
+        </Typography> */}
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
             <TextField fullWidth variant="outlined"  
@@ -265,7 +265,7 @@ const AddNewVideo = () => {
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12}>
               <Typography variant="h4" sx={{ fontWeight: "bold", pt: 2 }}>
-                Associated User Role(s):
+                Associated User Roles :
               </Typography>
               <FormGroup row>
                 <FormControlLabel

@@ -64,10 +64,10 @@ const VideoUrlComponent: React.FC = () => {
                     color: '#38548A',
                     backgroundColor: blue[100]
                 }}} >
-            Add Video
+            Add Videos
           </Button>
         </Grid>
-      </Grid>
+      </Grid>   
 
       {/* Video List Table */}
       {videoList.length > 0 && (

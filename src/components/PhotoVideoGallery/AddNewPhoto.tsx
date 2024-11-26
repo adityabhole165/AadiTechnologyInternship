@@ -185,9 +185,9 @@ const AddNewPhoto = () => {
         }
       />
       <Box padding={2} sx={{ backgroundColor: "white" }}>
-        <Typography variant="h5" gutterBottom sx={{pb:2}}>
+        {/* <Typography variant="h5" gutterBottom sx={{pb:2}}>
           Photo Gallery Details
-        </Typography>
+        </Typography> */}
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth 
@@ -215,7 +215,7 @@ const AddNewPhoto = () => {
         <Grid container spacing={2} alignItems="center" >
         <Grid item xs={12}>
           <Typography variant="h4" sx={{ fontWeight: "bold", pt: 2 }} >
-            <strong>Associated Section(s):</strong> 
+            <strong>Associated Sections :</strong> 
           </Typography>
         
           <FormControlLabel

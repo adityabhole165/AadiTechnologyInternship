@@ -221,9 +221,9 @@ const PhotoVideoGalleryBaseScreen = () => {
                 {/* Display Page Content */}
                 {selectedOption === 'photo' ? (
                     <Box sx={{ px: 2, pt: 1 }}>
-                        <Typography variant="h4" gutterBottom>
+                        {/* <Typography variant="h4" gutterBottom>
                             Photo Gallery
-                        </Typography>
+                        </Typography> */}
 
                         {/* Record Format */}
                         {photoData.length > 0 ? (
@@ -259,9 +259,9 @@ const PhotoVideoGalleryBaseScreen = () => {
                     </Box>
                 ) : (
                     <Box sx={{ px: 2, py: 1 }}>
-                        <Typography variant="h4" gutterBottom>
+                        {/* <Typography variant="h4" gutterBottom>
                             Video Gallery
-                        </Typography>
+                        </Typography> */}
 
                         {/* Record Format */}
                         {videoData.length > 0 ? (
