@@ -40,10 +40,9 @@ interface Group {
 interface ContactGroupListProps {
   onClose,
   GPID: number,
-  GPName: string,
-  GPUserName: string
+  GPName: string
 }
-const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, GPName = '', GPUserName = '' }) => {
+const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, GPName = '' }) => {
   const dispatch = useDispatch();
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(1);

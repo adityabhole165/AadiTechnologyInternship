@@ -751,7 +751,7 @@ const AddReciepents = ({
         </Typography>
         <DialogContent>
           <Box>
-            <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} GPUserName={''} />
+            <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} />
           </Box>
 
         </DialogContent>
