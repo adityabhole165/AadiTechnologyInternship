@@ -225,7 +225,7 @@ const AddNewVideo = () => {
       <Box padding={2} sx={{ backgroundColor: "white" }}>
         {/* <Typography variant="h5" gutterBottom sx={{pb:2}}>
           Video Gallery Details :
-        </Typography> */}
+        </Typography>0.00 */}
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
             <TextField fullWidth variant="outlined"  

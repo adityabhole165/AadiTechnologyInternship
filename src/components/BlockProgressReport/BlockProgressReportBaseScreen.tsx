@@ -169,21 +169,16 @@ const BlockProgressReportBaseScreen = () => {
             </Box>
             <Box sx={{ backgroundColor: 'white' }}>
                 {/* Display Page Content */}
-                {selectedOption === 'photo' ? (
+                {selectedOption === 'Unblocked' ? (
                     <Box sx={{ px: 2, py: 1}}>
-                        <Typography variant="h4" gutterBottom>
-                            Show Blocked Students
-                        </Typography>
+                        
                         <ShowBlockedStudentsTable rowsData={rowsData} />
 
  
                     </Box>
                 ) : (
                     <Box sx={{ px: 2, py: 1 }}>
-                        <Typography variant="h4" gutterBottom>
-                            Show Unblocked Students
-                        </Typography>
-
+                      
                          <ShowUnblockedStudentsTable rowsData={rowsData1} />
 
 
