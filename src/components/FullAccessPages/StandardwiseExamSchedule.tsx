@@ -51,16 +51,16 @@ const StandardwiseExamSchedule = () => {
     const USInsertExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.InsertExamSchedule);
 
     function getXML() {
-        let Insertxml = "\r\n<SubjectwiseStandardExamSchedule>\r\n";
+        let Insertxml = "<SubjectwiseStandardExamSchedule>\r\n";
 
         Insertxml +=
-            "<Subject_Id>" + 2374 + "</Subject_Id>" +
+            "<Subject_Id>" + "2374" + "</Subject_Id>" +
             "<ExamTypes>" + "" + "</ExamTypes>" +
             "<Exam_Start_Date>" + "04-10-2024 00:00:00" + "</Exam_Start_Date>" +
             "<Exam_End_Date>" + "04-10-2024 00:00:00" + "</Exam_End_Date>" +
             "<Description>" + "" + "</Description>";
 
-        Insertxml += "\r\n</SubjectwiseStandardExamSchedule>";
+        Insertxml += "</SubjectwiseStandardExamSchedule>";
         return Insertxml;
     }
 
@@ -437,7 +437,7 @@ const StandardwiseExamSchedule = () => {
                             '&:hover': { color: 'green', backgroundColor: green[100] }
                         }}
                     >
-                        {editMode ? 'Update Instruction' : 'Add Instruction'}
+                        Submit
                     </Button>
                 </DialogActions>
 
