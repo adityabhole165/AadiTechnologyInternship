@@ -92,23 +92,30 @@ const StandardwiseExamScheduleTable = () => {
             rows.map(row => (row.id === id ? { ...row, selectedDate: value } : row))
         );
     };
+
+    const onToggleTimed = (id: number, isTimed: boolean) => {
+        setExamRows(rows =>
+            rows.map(row => (row.id === id ? { ...row, timed: isTimed } : row))
+        );
+    };
+
     const onClickAddNewRow = (subject: string) => {
         const newRow: ExamEntry = {
             id: examRows.length > 0 ? Math.max(...examRows.map(r => r.id)) + 1 : 1,
             subject: subject, // Assign the clicked subject
             examType: '',
             examDate: SelectDate,
-            timed: false,
+            timed: true,
             startTime: { hour: '08', minute: '00', period: 'AM' },
             endTime: { hour: '09', minute: '00', period: 'AM' },
             description: '',
             IsNew: true
         };
-    
+
         // Insert the new row below rows of the same subject
         const updatedRows = [];
         let subjectInserted = false;
-    
+
         for (const row of examRows) {
             updatedRows.push(row);
             if (row.subject === subject && !subjectInserted) {
@@ -116,15 +123,15 @@ const StandardwiseExamScheduleTable = () => {
                 subjectInserted = true;
             }
         }
-    
+
         // If no match is found, append the row at the end
         if (!subjectInserted) {
             updatedRows.push(newRow);
         }
-    
+
         setExamRows(updatedRows);
     };
-    
+
     useEffect(() => {
         const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
             asStandardId: Number(StandardId),
@@ -136,23 +143,26 @@ const StandardwiseExamScheduleTable = () => {
         dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
     }, [])
 
-    const renderTimeSelects = (time: { hour: string; minute: string; period: 'AM' | 'PM' }) => (
+    const renderTimeSelects = (
+        time: { hour: string; minute: string; period: 'AM' | 'PM' },
+        disabled: boolean
+    ) => (
         <Box display="flex" gap={1}>
-            <Select value={time.hour} size="small">
+            <Select value={time.hour} size="small" disabled={disabled}>
                 {timeOptions.map(hour => (
                     <MenuItem key={hour} value={hour}>
                         {hour}
                     </MenuItem>
                 ))}
             </Select>
-            <Select value={time.minute} size="small">
+            <Select value={time.minute} size="small" disabled={disabled}>
                 {minuteOptions.map(minute => (
                     <MenuItem key={minute} value={minute}>
                         {minute}
                     </MenuItem>
                 ))}
             </Select>
-            <Select value={time.period} size="small">
+            <Select value={time.period} size="small" disabled={disabled}>
                 {periodOptions.map(period => (
                     <MenuItem key={period} value={period}>
                         {period}
@@ -161,6 +171,7 @@ const StandardwiseExamScheduleTable = () => {
             </Select>
         </Box>
     );
+
 
     return (
         <Box >
@@ -186,9 +197,9 @@ const StandardwiseExamScheduleTable = () => {
                                     <TextField size="small" sx={{ color: 'white', }}></TextField></strong>
                                 </TableCell>
                                 <TableCell sx={{ py: 1, color: 'white' }}><strong><Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" /> </strong></TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}><strong><Checkbox checked={row.timed} /></strong></TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}><strong>{renderTimeSelects(row.startTime)}</strong></TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}><strong>{renderTimeSelects(row.endTime)}</strong></TableCell>
+                                <TableCell sx={{ py: 1, color: 'white' }}><strong><Checkbox checked={row.timed} onChange={(e) => onToggleTimed(row.id, e.target.checked)} /></strong></TableCell>
+                                <TableCell sx={{ py: 1, color: 'white' }}><strong>{renderTimeSelects(row.startTime, !row.timed)}</strong></TableCell>
+                                <TableCell sx={{ py: 1, color: 'white' }}><strong>{renderTimeSelects(row.endTime, !row.timed)}</strong></TableCell>
                                 <TableCell sx={{ py: 1, color: 'white' }}>
                                     <TextField
                                         fullWidth size="small" />
@@ -207,9 +218,6 @@ const StandardwiseExamScheduleTable = () => {
                                 <TableCell sx={{ py: 0.5 }}>{row.subject}</TableCell>
                                 <TableCell sx={{ py: 0.5 }}><TextField size="small">
                                 </TextField></TableCell>
-                                {/* <TableCell sx={{ py: 0.5 }}>
-                                    <Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" />
-                                </TableCell> */}
                                 <TableCell>
                                     {row.id === 0 ? (
                                         <Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" />
@@ -218,10 +226,14 @@ const StandardwiseExamScheduleTable = () => {
                                     )}
                                 </TableCell>
                                 <TableCell padding="checkbox" sx={{ pl: 2, py: 0.5 }} >
-                                    <Checkbox checked={row.timed} />
+                                    <Checkbox checked={row.timed} onChange={(e) => onToggleTimed(row.id, e.target.checked)} />
                                 </TableCell>
-                                <TableCell sx={{ py: 0.5 }}>{renderTimeSelects(row.startTime)}</TableCell>
-                                <TableCell sx={{ py: 0.5 }}>{renderTimeSelects(row.endTime)}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>
+                                    {renderTimeSelects(row.startTime, !row.timed)}
+                                </TableCell>
+                                <TableCell sx={{ py: 0.5 }}>
+                                    {renderTimeSelects(row.endTime, !row.timed)}
+                                </TableCell>
                                 <TableCell>
                                     <Tooltip title={row.description}>
                                         <TextField value={row.description} fullWidth size="small" />
