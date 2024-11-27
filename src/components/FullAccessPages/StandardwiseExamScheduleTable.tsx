@@ -64,29 +64,67 @@ const StandardwiseExamScheduleTable = () => {
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
     const examData = useSelector((state: RootState) => state.StandardAndExamList.SubjectExamSchedule);
-    console.log(examData, 'examData');
-
-
+    const [examRows, setExamRows] = useState<ExamEntry[]>([]);
     const [SelectDate, SetSelectDate] = useState(
         AssignedDate == undefined
             ? new Date().toISOString().split('T')[0]
             : getCalendarDateFormatDateNew(AssignedDate)
     );
-    const [examRows, setExamRows] = useState(examData.map(row => ({
-        ...row,
-        selectedDate: SelectDate // Initialize with first selected date
-    })));
+
+    useEffect(() => {
+        if (examData.length > 0) {
+            setExamRows(
+                examData.map(row => ({
+                    ...row,
+                    selectedDate: SelectDate // Initialize with the selected date
+                }))
+            );
+        }
+    }, [examData, SelectDate]);
 
     const onSelectDate = (value: string) => {
         SetSelectDate(value);
         setExamRows(rows => rows.map(row => ({ ...row, selectedDate: value })));
     };
 
-    // Handle date change for other rows (does not affect the first row or others)
     const onSelectRowDate = (id: number, value: string) => {
-        setExamRows(rows => rows.map(row => row.id === id ? { ...row, selectedDate: value } : row));
+        setExamRows(rows =>
+            rows.map(row => (row.id === id ? { ...row, selectedDate: value } : row))
+        );
     };
-
+    const onClickAddNewRow = (subject: string) => {
+        const newRow: ExamEntry = {
+            id: examRows.length > 0 ? Math.max(...examRows.map(r => r.id)) + 1 : 1,
+            subject: subject, // Assign the clicked subject
+            examType: '',
+            examDate: SelectDate,
+            timed: false,
+            startTime: { hour: '08', minute: '00', period: 'AM' },
+            endTime: { hour: '09', minute: '00', period: 'AM' },
+            description: '',
+            IsNew: true
+        };
+    
+        // Insert the new row below rows of the same subject
+        const updatedRows = [];
+        let subjectInserted = false;
+    
+        for (const row of examRows) {
+            updatedRows.push(row);
+            if (row.subject === subject && !subjectInserted) {
+                updatedRows.push(newRow); // Insert new row after the clicked subject
+                subjectInserted = true;
+            }
+        }
+    
+        // If no match is found, append the row at the end
+        if (!subjectInserted) {
+            updatedRows.push(newRow);
+        }
+    
+        setExamRows(updatedRows);
+    };
+    
     useEffect(() => {
         const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
             asStandardId: Number(StandardId),
@@ -102,17 +140,23 @@ const StandardwiseExamScheduleTable = () => {
         <Box display="flex" gap={1}>
             <Select value={time.hour} size="small">
                 {timeOptions.map(hour => (
-                    <MenuItem key={hour} value={hour}>{hour}</MenuItem>
+                    <MenuItem key={hour} value={hour}>
+                        {hour}
+                    </MenuItem>
                 ))}
             </Select>
             <Select value={time.minute} size="small">
                 {minuteOptions.map(minute => (
-                    <MenuItem key={minute} value={minute}>{minute}</MenuItem>
+                    <MenuItem key={minute} value={minute}>
+                        {minute}
+                    </MenuItem>
                 ))}
             </Select>
             <Select value={time.period} size="small">
                 {periodOptions.map(period => (
-                    <MenuItem key={period} value={period}>{period}</MenuItem>
+                    <MenuItem key={period} value={period}>
+                        {period}
+                    </MenuItem>
                 ))}
             </Select>
         </Box>
@@ -147,7 +191,6 @@ const StandardwiseExamScheduleTable = () => {
                                 <TableCell sx={{ py: 1, color: 'white' }}><strong>{renderTimeSelects(row.endTime)}</strong></TableCell>
                                 <TableCell sx={{ py: 1, color: 'white' }}>
                                     <TextField
-                                        // value={row.description} 
                                         fullWidth size="small" />
                                 </TableCell>
                                 <TableCell sx={{ py: 1, color: 'white' }}></TableCell>
@@ -156,7 +199,7 @@ const StandardwiseExamScheduleTable = () => {
                         ))}
                     </TableHead>
                     <TableBody>
-                        {examData.map((row) => (
+                        {examRows.map((row) => (
                             <TableRow key={row.id} hover>
                                 <TableCell padding="checkbox" sx={{ py: 0.5 }}>
                                     <Checkbox />
@@ -186,7 +229,7 @@ const StandardwiseExamScheduleTable = () => {
                                 </TableCell>
                                 <TableCell sx={{ py: 0.5 }}>
                                     <Tooltip title="Add">
-                                        <IconButton>
+                                        <IconButton onClick={() => onClickAddNewRow(row.subject)}>
                                             <AddIcon></AddIcon>
                                         </IconButton>
                                     </Tooltip>
