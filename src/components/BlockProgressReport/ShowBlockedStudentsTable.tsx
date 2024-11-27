@@ -17,7 +17,10 @@ import {
     TableRow,
     TextField,
     Tooltip,
+    Typography,
 } from '@mui/material';
+import { green } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
@@ -28,7 +31,6 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
-
     // Handle checkbox for individual rows
     const handleCheckboxClick = (row) => {
         setSelectedRows((prev) =>
@@ -47,6 +49,7 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
             setSelectedRows([]);
         }
     };
+
 
     // Handle sorting
     const handleSort = (column) => {
@@ -162,7 +165,7 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
                                         multiline
                                         fullWidth
                                         minRows={1}
-                                        disabled 
+                                        disabled
                                         onChange={(e) => handleReasonChange(row, e.target.value)}
                                         sx={{
                                             '& .MuiInputBase-root': {
@@ -186,8 +189,31 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
             </TableContainer>
 
             {/* Popup for editing */}
-            <Dialog open={isPopupOpen} onClose={handlePopupClose}>
-                <DialogTitle>Edit Reason</DialogTitle>
+            <Dialog open={isPopupOpen} onClose={handlePopupClose}
+                fullWidth
+                maxWidth="sm"
+                PaperProps={{
+                    sx: {
+                        borderRadius: "15px",
+                    }
+                }} >
+                <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+                    <ClearIcon onClick={handlePopupClose}
+                        sx={{
+                            color: 'white',
+                            borderRadius: '7px',
+                            position: 'absolute',
+                            top: '5px',
+                            right: '8px',
+                            cursor: 'pointer',
+                            '&:hover': {
+                                color: 'red',
+                            }
+                        }} />
+                </DialogTitle>
+                <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
+                    Edit Reason
+                </Typography>
                 <DialogContent>
                     <TextField
                         fullWidth
@@ -197,11 +223,18 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
                         onChange={(e) => setPopupReason(e.target.value)}
                     />
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handlePopupClose} color="secondary">
+                <DialogActions sx={{ p: 2 }}>
+                    <Button onClick={handlePopupClose} color="error">
                         Cancel
                     </Button>
-                    <Button onClick={handleUpdate} color="primary">
+                    <Button onClick={handleUpdate} sx={{
+                        color: 'green',
+                        //  backgroundColor: grey[500],
+                        '&:hover': {
+                            color: 'green',
+                            backgroundColor: green[100]
+                        }
+                    }}>
                         Update
                     </Button>
                 </DialogActions>
