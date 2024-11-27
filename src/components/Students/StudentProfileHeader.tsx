@@ -1,5 +1,5 @@
 import { Avatar, Grid, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { RootState } from 'src/store';
@@ -7,12 +7,14 @@ import { RootState } from 'src/store';
 const StudentProfileHeader: React.FC = () => {
     const location = useLocation();
     const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id, Enrolment_Number, } = location.state || {};
+    const [profilePhoto, setprofilePhoto] = useState(null);
     const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
     const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
 
     const studentDetails = USGetSingleStudentDetails[0] || {};
     const {
         Photo_File_Path,
+        Photo_file_Path_Image,
         ConfirmedByText,
         UpdatedByText,
         AdmissionStandard,
@@ -21,7 +23,22 @@ const StudentProfileHeader: React.FC = () => {
 
     const showConfirmedByName = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowConfirmedByName === true;
 
-    //console.log('School Settings:', UsGetSchoolSettings);
+    console.log('💀studentDetails on profile header:', studentDetails);
+
+    useEffect(() => {
+        if (Photo_File_Path && Photo_file_Path_Image) {
+            const base64Image = Photo_file_Path_Image;
+            const newImageName = Photo_File_Path.split('/').pop(); // Extract file name
+            const fileExtension = Photo_File_Path.split('.').pop(); // Extract file extension
+            const imageData = `data:image/${fileExtension};base64,${Photo_file_Path_Image}`;
+
+            setprofilePhoto({
+                src: imageData,                      //`data:image/jpeg;base64,${personal.photoFilePathImage}`,
+                name: newImageName,                 //personal.photoFilePath.split('/').pop(), // Extract file name
+                base64: base64Image, // Use the file path from API
+            });
+        }
+    }, [Photo_File_Path, Photo_file_Path_Image]);
     //console.log('Show Confirmed By Name:', showConfirmedByName);
     // Function to format text with first two words in bold
     const formatTextWithBoldFirstTwo = (text: string) => {
@@ -49,8 +66,8 @@ const StudentProfileHeader: React.FC = () => {
 
             <Grid item xs={12} sm={8} container alignItems="center">
                 <Avatar
-                    alt="Student Photo"
-                    src={Photo_File_Path || "/default-student-photo.jpg"}// Replace with actual photo URL
+                    src={profilePhoto}// Replace with actual photo URL
+                    alt={profilePhoto || "Student photo"}
                     sx={{ width: 80, height: 80, marginRight: '16px' }}
                 />
                 <div>
