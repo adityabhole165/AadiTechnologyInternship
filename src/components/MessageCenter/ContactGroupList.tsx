@@ -48,7 +48,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const rowsPerPageOptions = [5, 10, 20, 30, 40];
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedd, setSelectedd] = useState([]);
-  // console.log(selectedd, "🤞🤞🤞🤞");
+  //console.log(selectedd, "🤞🤞🤞🤞");
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [previousStandardClass, setPreviousStandardClass] = useState(null);
@@ -75,13 +75,16 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const USGetStandardClass: any = useSelector((state: RootState) => state.ContactGroup.IGetStandardClass);
   const USGetUserName: any = useSelector((state: RootState) => state.ContactGroup.IlistGetUserName);
   const USAddUpdateGroup: any = useSelector((state: RootState) => state.ContactGroup.IAddUpdateGroup);
+
   useEffect(() => {
-    if (typeof USContactGroupUserRoles === "string") {
-      setSelectedd(
-        USContactGroupUserRoles.split(",").map(item => item.trim())
-      );
-    } else {
-      setSelectedd([]);
+    if (GPID !== 0) {
+      if (typeof USContactGroupUserRoles === "string") {
+        setSelectedd(
+          USContactGroupUserRoles.split(",").map(item => item.trim())
+        );
+      } else {
+        setSelectedd([]);
+      }
     }
   }, [USContactGroupUserRoles]);
   //console.log(USContactGroupUserRoles.length, "😂😂😂")
@@ -384,7 +387,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                   setGroupName(value);
                 }
               }}
-
             />
             <ErrorMessage1 Error={ErrorTypeName}></ErrorMessage1>
             <ErrorMessage1 Error={ErrorGroupName}></ErrorMessage1>
