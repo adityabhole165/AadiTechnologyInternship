@@ -302,6 +302,9 @@ const ViewVideoGallery = Loader(
 const BlockProgressReportBaseScreen = Loader(
   lazy(() => import('src/components/BlockProgressReport/BlockProgressReportBaseScreen'))
 );
+const FeedbackDetailsBasescreen = Loader(
+  lazy(() => import('src/components/FeedbackDetails/FeedbackDetailsBasescreen'))
+);
 const teacherRoutes = [
   {
     path: 'WebDashBoard',
@@ -866,6 +869,10 @@ const teacherRoutes = [
   {
     path: 'BlockProgressReportBaseScreen',
     element: <BlockProgressReportBaseScreen />
+  },
+  {
+    path: 'FeedbackDetailsBasescreen',
+    element: <FeedbackDetailsBasescreen />
   },
 ];
 
