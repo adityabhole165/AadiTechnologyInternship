@@ -289,6 +289,7 @@ const StudentRegistrationForm = () => {
       fatherNumber: '',
       email: '',
       parentOccupation: '',
+      otherOccupation: '',
       address: '',
       city: '',
       state: '',
@@ -642,6 +643,7 @@ const StudentRegistrationForm = () => {
           fatherNumber: studentData.Mobile_Number2 || '',
           email: studentData.Email_Address || '',
           parentOccupation: studentData.Parent_Occupation || '',
+          otherOccupation: studentData.Other_Occupation || '',
           address: studentData.Address || '',
           city: studentData.City || '',
           state: studentData.State || '',
@@ -835,7 +837,44 @@ const StudentRegistrationForm = () => {
     } catch {
       return '';
     }
-  };//#endregion
+  };
+
+  function getCurrentDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const numberToWords = (num) => {
+    const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+    const teens = ["Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+    const tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+    if (num < 10) return ones[num];
+    if (num < 20) return teens[num - 11];
+    if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 ? " " + ones[num % 10] : "");
+
+    const hundred = Math.floor(num / 100);
+    const remainder = num % 100;
+    return ones[hundred] + " Hundred" + (remainder ? " " + numberToWords(remainder) : "");
+  };
+
+  const dateToText = (dateString) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    const dayText = numberToWords(day);
+    const monthText = months[month - 1];
+    const yearText = numberToWords(year).replace("Twenty", "Two Thousand");
+
+    return `${dayText} ${monthText} ${yearText}`;
+  };
+  //#endregion
 
   //#region API CAlls
   const UpdateStudentResult = useSelector((state: RootState) => state.StudentUI.ISUpdateStudent);
@@ -860,54 +899,54 @@ const StudentRegistrationForm = () => {
     "asEnrolment_Number": form.admission?.registrationNumber || "",
     "asParent_Name": form.personal?.parentName || "",
     "asParent_Occupation": form.personal?.parentOccupation || "",
-    "asOther_Occupation": "",
+    "asOther_Occupation": form.personal?.otherOccupation || "",
     "asAddress": form.personal?.address || "",
     "asCity": form.personal?.city || "",
     "asState": form.personal?.state || "",
     "asPincode": form.personal?.pin || "",
-    "asResidence_Phone_Number": "9224286937",
+    "asResidence_Phone_Number": form.family?.residencePhoneNumber || "9224286937",
     "asMobile_Number": form.personal?.motherNumber || "",
     "asMobile_Number2": form.personal?.fatherNumber || "",
-    "asOffice_Number": "9270362059",
-    "asNeighbour_Number": "",
+    "asOffice_Number": form.family?.officePhoneNumber || "9270362059",
+    "asNeighbour_Number": form.family?.neighbourPhoneNumber || "",
     "asUpdated_By_Id": teacherId,
-    "asUpdate_Date": "2024-10-10",
+    "asUpdate_Date": getCurrentDate() || "2024-12-10",
     "asDOB": formatDOB(form.personal?.dateOfBirth) || "2011-03-29",
     "asBirth_Place": form.personal?.placeOfBirth || "",
     "asNationality": form.personal?.nationality || "",
     "asSex": form.personal?.gender || "",
-    "asSalutation_Id": "6",
+    "asSalutation_Id": form.personal?.gender === "F" ? "6" : "5",
     "asCategory_Id": form.personal?.category || "",
     "asCasteAndSubCaste": form.personal?.casteAndSubCaste || "",
     "asAdmission_Date": formatDOB(form.admission?.admissionDate) || "",
     "asJoining_Date": formatDOB(form.admission?.joiningDate) || "",
-    "asDateOfBirthInText": "Twenty One March Two Thousand Eleven",
-    "asOptional_Subject_Id": "0",
+    "asDateOfBirthInText": dateToText(form.personal?.dateOfBirth) || "Twenty Lol One March Two Thousand Eleven",
+    "asOptional_Subject_Id": "0",             // Missing
     "asMother_Tongue": form.personal?.motherTongue || "",
-    "asLastSchoolName": "",
-    "asLastSchoolAddress": "",
-    "asLastCompletedStd": "",
-    "asLastSchoolUDISENo": "",
-    "asLastCompletedBoard": "",
-    "asIsRecognisedBoard": "True",
+    "asLastSchoolName": form.additional?.lastSchoolName || "",
+    "asLastSchoolAddress": form.additional?.lastSchoolAddress || "",
+    "asLastCompletedStd": form.additional?.standard || "",
+    "asLastSchoolUDISENo": form.additional?.schoolUDISENo || "",
+    "asLastCompletedBoard": form.additional?.schoolBoardName || "",
+    "asIsRecognisedBoard": form.additional?.isRecognised === "Yes" ? "True" : "False",
     "asAadharCardNo": form.personal?.aadharCardNumber || "",
     "asNameOnAadharCard": form.personal?.nameOnAadharCard || "",
     "asAadharCard_Photo_Copy_Path": form.personal?.aadharCardScanCopy || "",
-    "asFamily_Photo_Copy_Path": "",
+    "asFamily_Photo_Copy_Path": form.family?.familyPhoto || "",
     "asUDISENumber": form.admission?.UDISENumber || "",
     "asBoardRegistrationNo": form.admission?.boardRegistrationNumber || "",
     "asIsRiseAndShine": form.admission?.isRiseAndShine === false ? "False" : "True",
-    "asAdmissionSectionId": "0",
-    "asGRNumber": "",
-    "asStudentUniqueNo": "",
+    "asAdmissionSectionId": "0",              //Only for SVP or SVNP
+    "asGRNumber": "",                         //Not Found on Screen or only for JOS school
+    "asStudentUniqueNo": "",                  //Not Found on Screen
     "asSaralNo": form.admission?.saralNo || "",
     "asIsOnlyChild": form.admission?.isOnlyChild === false ? "False" : "True",
     "asMinority": form.admission?.isMinority === false ? "False" : "True",
     "asRoll_No": form.admission?.studentRollNumber || "",
     "asRule_Id": form.admission?.applicableRules || "",
     "asIsStaffKid": form.admission?.isStaffKid === false ? false : true,
-    "asHeight": 0,
-    "asWeight": 0,
+    "asHeight": 0,    //Not Found on Screen
+    "asWeight": 0,    //Not Found on Screen
     "asUpdated_By_id": Number(teacherId),
     "asRTECategoryId": Number(form.admission?.rteCategory) || 0,
     "asSecondLanguageSubjectId": form.admission?.secondlanguage || "",
@@ -915,7 +954,7 @@ const StudentRegistrationForm = () => {
     "asIsForDayBoarding": form.admission?.isForDayBoarding === false ? false : true,
     "asFeeCategoryDetailsId": "0",     // ❌This is the cause of problem
     "asRTEApplicationFormNo": form.admission?.rteApplicationForm || "",
-    "asAnnualIncome": 0,
+    "asAnnualIncome": 0,                    //Not Found on Screen
     "asStandard_Id": standardId, // Missing
     "asDivision_Id": DivisionId, // Missing
     "asReligion": form.personal?.religion || "",

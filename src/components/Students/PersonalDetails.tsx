@@ -816,6 +816,18 @@ const PersonalDetails = ({ personal, onChange }) => {
 
         <Grid item xs={12}>
           <Grid container spacing={2}>
+            {personal.parentOccupation == '5' && (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <TextField
+                  name="otherOccupation"
+                  label="Other Occupation"
+                  variant="outlined"
+                  value={personal.parentOccupation == '5' ? personal.otherOccupation : ''}
+                  onChange={handleInputChange}
+                  fullWidth
+                />
+              </Grid>
+            )}
             {/* Address */}
             {personal.address !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>

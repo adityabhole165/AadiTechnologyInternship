@@ -400,7 +400,7 @@ const AdmissionDetails = ({ admission, onChange }) => {
                 name="isRTEApplicable"
                 checked={admission.isRTEApplicable}
                 onChange={handleInputChange}
-                disabled={admission.isRTEApplicable === 'True' ? false : true} // Checkbox is always disabled
+                disabled={admission.isRTEApplicable === true ? false : true} // Checkbox is always disabled
               />
             }
             label="Is RTE Applicable?"
