@@ -81,8 +81,17 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const USGetUserName: any = useSelector((state: RootState) => state.ContactGroup.IlistGetUserName);
   const USAddUpdateGroup: any = useSelector((state: RootState) => state.ContactGroup.IAddUpdateGroup);
 
+  // useEffect(() => {
+  //   setSelectedd(USContactGroupUserRoles.split(',').map(item => item.trim()))
+  // }, [USContactGroupUserRoles]);
   useEffect(() => {
-    setSelectedd(USContactGroupUserRoles.split(',').map(item => item.trim()))
+    if (typeof USContactGroupUserRoles === "string") {
+      setSelectedd(
+        USContactGroupUserRoles.split(",").map(item => item.trim())
+      );
+    } else {
+      setSelectedd([]);
+    }
   }, [USContactGroupUserRoles]);
   console.log(USContactGroupUserRoles, "UseSelector", selectedd)
 
