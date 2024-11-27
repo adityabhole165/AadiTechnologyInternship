@@ -39,6 +39,7 @@ const ContactGroupSlice = createSlice({
             state.IGetUserName = action.payload;
         },
         RAddUpdateGroup(state, action) {
+            // state.Loading = false;
             state.IAddUpdateGroup = action.payload
         },
         RresetAddUpdateGroup(state) {
@@ -84,27 +85,25 @@ const ContactGroupSlice = createSlice({
 
 export const CDAGetContactGroup = (data: IGetContactGroupsBody): AppThunk =>
     async (dispatch) => {
-        try {
-            dispatch(ContactGroupSlice.actions.getLoading(true));
 
-            const response = await ContactGroupApi.GetContactGroupApi(data);
+        dispatch(ContactGroupSlice.actions.getLoading(true));
 
-            // Map the response data
-            const contactGroups = response.data.ContactGroups.map((item) => ({
-                GroupId: item.GroupId,
-                GroupName: item.GroupName,
-                Users: item.Users,
-                IsDefault: item.IsDefault,
-                IsAllDeactivated: item.IsAllDeactivated
-            }));
-            const contactGroupUserRoles = response.data.ContactGroupUserRoles; // "2,3,5"
-            // const rolesArray = contactGroupUserRoles.split(',').map(String);
-            // Dispatch actions to update state
-            dispatch(ContactGroupSlice.actions.RContactGroups(contactGroups));
-            dispatch(ContactGroupSlice.actions.RContactGroupUserRoles(response.data.ContactGroupUserRoles));
-        } catch (error) {
-            //dispatch(ContactGroupSlice.actions.seterror(error instanceof Error ? error.message : 'An error occurred'));
-        }
+        const response = await ContactGroupApi.GetContactGroupApi(data);
+
+        // Map the response data
+        const contactGroups = response.data.ContactGroups.map((item) => ({
+            GroupId: item.GroupId,
+            GroupName: item.GroupName,
+            Users: item.Users,
+            IsDefault: item.IsDefault,
+            IsAllDeactivated: item.IsAllDeactivated
+        }));
+        const contactGroupUserRoles = response.data.ContactGroupUserRoles; // "2,3,5"
+        // const rolesArray = contactGroupUserRoles.split(',').map(String);
+        // Dispatch actions to update state
+        dispatch(ContactGroupSlice.actions.RContactGroups(contactGroups));
+        dispatch(ContactGroupSlice.actions.RContactGroupUserRoles(response.data.ContactGroupUserRoles));
+
     };
 
 
@@ -120,10 +119,9 @@ export const CDAGetStandardClass =
                     Value: item.SchoolWise_Standard_Division_id
                 };
             });
-            //StandardClass.unshift({ Id: '0', Name: 'Select', Value: '0' });
+            // StandardClass.unshift({ Id: '1', Name: 'Nursery-A', Value: '1' });
             dispatch(ContactGroupSlice.actions.RGetStandardClass(StandardClass));
         };
-
 export const CDAGetUserRole =
     (data: IGetUserRoleBody): AppThunk =>
         async (dispatch) => {
@@ -136,7 +134,7 @@ export const CDAGetUserRole =
                     Value: item.User_Role_Id
                 };
             });
-            //userRole.unshift({ Id: '0', Name: 'Select', Value: '0' });
+            // userRole.unshift({ Id: '1', Name: 'Admin', Value: '1' });
             dispatch(ContactGroupSlice.actions.RGetUserRole(userRole));
         };
 
@@ -166,6 +164,7 @@ export const CDAGetUserName =
 export const CDAaddUpdateGroup =
     (data: IAddUpdateGroupBody): AppThunk =>
         async (dispatch) => {
+            dispatch(ContactGroupSlice.actions.getLoading(true));
             const response = await ContactGroupApi.AddUpdateGroupApi(data);
             dispatch(ContactGroupSlice.actions.RAddUpdateGroup(response.data));
         }
