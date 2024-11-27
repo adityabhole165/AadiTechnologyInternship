@@ -6,18 +6,24 @@ import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import {
+  IGetStudentPrrogressReportBody,
+  IViewBody
+} from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
 import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Card5 from 'src/libraries/mainCard/Card5';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { StudentDetailsGA, ViewResultGA } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
 import AllStudents from 'src/requests/ProgressReport/AllStudent';
 import { DataParserAndFormatter } from 'src/requests/ProgressReport/PotoType';
 import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations, SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import FinalResultTable from './FinalResultTable';
 import GradeConfigurationDetails from './GradeConfigurationDetails';
 import ProgressReportGradeView from './ProgressReportGradeView';
 import ProgressReportMarkView from './ProgressReportMarkView';
@@ -189,6 +195,41 @@ const ProgressReportNew = () => {
   // }, [UsGetSchoolSettings])
 
 
+  // Final result Data
+ 
+ 
+ 
+  const SubjectDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetails);
+  const ViewProgress = useSelector((state: RootState) => state.FinalResultGenerateAll.getViewResult);
+  const MarkDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getMarkDetailsView);
+  const SubjectDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetailsView);
+  const GradesDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getGradesDetailsView);
+  const showOnlyGrades = ViewProgress.some((item) => item.ShowOnlyGrades.trim() === 'true');
+  const totalconsidration = SubjectDetailsView.filter((item) => item.Total_Consideration === "N")
+  const ToppersCount = UsGetSchoolSettings?.GetSchoolSettingsResult?.ToppersCount
+  const TotalPerGradeView = useSelector((state: RootState) => state.FinalResultGenerateAll.getTotalPerGradeView);
+  const PercentageDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getPerDetails);
+  const hasTopRanks = TotalPerGradeView?.some((item) =>
+    [1, 2, 3].includes(item.rank)
+  );
+
+  const [IsTotalConsiderForProgressReport1, setIsTotalConsiderForProgressReport1] = useState('');
+  useEffect(() => {
+    if (UsGetSchoolSettings != null)
+        setIsTotalConsiderForProgressReport1(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+    console.log(IsTotalConsiderForProgressReport, "IsTotalConsiderForProgressReport ✅✅✅✅");
+    // setIsTotalConsiderForProgressReport('False');
+}, [UsGetSchoolSettings])
+
+
+  
+
+// Fianl result data end here 
+
+
+
+
+
 
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -206,7 +247,7 @@ const ProgressReportNew = () => {
   }, [UsGetSchoolSettings])
   const [isFailCriteria, setIsFailCriteria] = useState('N');
   useEffect(() => {
-   
+
     if (USlistStudentsDetails?.length > 0) {
       setIsFailCriteria(USlistStudentsDetails[0]?.IsFailCriteriaNotApplicable);
     }
@@ -215,7 +256,7 @@ const ProgressReportNew = () => {
 
   console.log(isFailCriteria, 'isFailCriteria');
   console.log(totalCount, 'totalCount');
- 
+
 
   const [progressReportMessage, setProgressReportMessage] = useState(null);
 
@@ -413,7 +454,26 @@ const ProgressReportNew = () => {
 
 
 
+  useEffect(() => {
+    const GetViewResultBody: IViewBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(AcademicYear),
+      asStudentId: Number(GetOldStudentDetails.StudentId),
+      asWithGrace: 0,
+    };
+    dispatch(ViewResultGA(GetViewResultBody));
+  }, [GetOldStudentDetails.StudentId, AcademicYear]);
 
+  useEffect(() => {
+    const GetStudentPrrogressReportBody: IGetStudentPrrogressReportBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcadmeicYearId: Number(AcademicYear),
+      asStudentId: Number(GetOldStudentDetails.StudentId),
+      asUserId: Number(asUserId)
+    };
+
+    dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
+  }, [IsTotalConsiderForProgressReport, AcademicYear, GetOldStudentDetails.StudentId]);
 
 
   const downloadProgress = (termId) => {
@@ -489,9 +549,9 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
 
-  }, [asSchoolId,AcademicYear]);
+  }, [asSchoolId, AcademicYear]);
 
-  
+
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
@@ -704,11 +764,11 @@ const ProgressReportNew = () => {
 
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/'+ GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/'+ AcademicYear + '/' +true);
+    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + true);
   };
 
-  console.log( GetOldStudentDetails,"value");
-  
+  console.log(GetOldStudentDetails, "value");
+
 
   return (
     <Box sx={{ px: 2 }}>
@@ -788,7 +848,7 @@ const ProgressReportNew = () => {
           </Tooltip>
 
 
-          {open && (SchoolScreensAccessPermission() && AcademicYear !== asAcademicYearId  )&&  (
+          {open && (SchoolScreensAccessPermission() && AcademicYear !== asAcademicYearId) && (
             <Tooltip title="Toppers">
               <span>
                 <IconButton
@@ -1073,8 +1133,33 @@ const ProgressReportNew = () => {
       } */}
 
 
+      {SchoolScreensAccessPermission() &&
+        <Grid xs={6} >
+          {open && (
+            <>
+              {StudentId !== "0" && AcademicYear !== asAcademicYearId &&
+                <FinalResultTable
+                  ViewProgress={ViewProgress}
+                  totalconsidration={totalconsidration}
+                  SubjectDetailsView={SubjectDetailsView}
+                  IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport1}
+                  showOnlyGrades={showOnlyGrades}
+                  ToppersCount={ToppersCount}
+                  hasTopRanks={hasTopRanks}
+                  PercentageDetails={PercentageDetails}
+                  TotalPerGradeView={TotalPerGradeView}
+                  GradesDetailsView={GradesDetailsView}
+                  MarkDetailsView={MarkDetailsView}
+          
+              
+                />
+              }
 
+            </>
 
+          )}
+
+        </Grid>}
 
     </Box>
   )
