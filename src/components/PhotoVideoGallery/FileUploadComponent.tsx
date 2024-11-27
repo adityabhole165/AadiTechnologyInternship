@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
     Box,
     Button,
+    Chip,
     Grid,
     Stack,
     Table,
@@ -14,7 +15,7 @@ import {
     Typography,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import React, { useState } from "react";
 
 const FileUploadComponent: React.FC = () => {
     const [files, setFiles] = useState<File[]>([]);
@@ -52,7 +53,18 @@ const FileUploadComponent: React.FC = () => {
         setFiles([]); // Reset file input
         setComment(""); // Reset comment field
     };
-
+    const handleDeleteFile = (entryIndex: number, fileIndex: number) => {
+        setFileList((prevList) =>
+          prevList.map((entry, idx) =>
+            idx === entryIndex
+              ? {
+                  ...entry,
+                  fileNames: entry.fileNames.filter((_, fIdx) => fIdx !== fileIndex),
+                }
+              : entry
+          ).filter((entry) => entry.fileNames.length > 0) // Remove entry if all files are deleted
+        );
+      };
     return (
         <Box pt={2}>
             <Grid container spacing={2}>
@@ -60,7 +72,7 @@ const FileUploadComponent: React.FC = () => {
                 <Grid item xs={12} sm={6} md={4} lg={4} xl={2}>
                     <Tooltip
                         title={'Supports files of types - .BMP, .JPG, .JPEG, .PNG with total size upto 10 MB. At least one file must be selected.'}
-                        >
+                    >
                         <Button
                             sx={{
                                 width: 'auto',
@@ -85,7 +97,7 @@ const FileUploadComponent: React.FC = () => {
                                     whiteSpace: "nowrap",
                                 }}
                             >
-                                {files.length > 0 ? <CloudUploadIcon sx={{color:'#38548A'}}   /> : <CloudUploadIcon sx={{color:'#38548A'}}/>}
+                                {files.length > 0 ? <CloudUploadIcon sx={{ color: '#38548A' }} /> : <CloudUploadIcon sx={{ color: '#38548A' }} />}
                                 <Typography variant="body2" noWrap>
                                     {files.length > 0
                                         ? files.map((file) => file.name).join(", ")
@@ -107,7 +119,7 @@ const FileUploadComponent: React.FC = () => {
                     <TextField
                         label="Comment"
                         variant="outlined"
-                         value={comment}
+                        value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         fullWidth
                     />
@@ -125,40 +137,51 @@ const FileUploadComponent: React.FC = () => {
                                 backgroundColor: blue[100]
                             }
                         }}
-          
-          >
-                    Add Photos 
-                </Button>
-            </Grid>
-        </Grid>
 
-      {/* Table to display files */ }
-    {
-        fileList.length > 0 && (
-            <Table sx={{ mt: 3, border: 1, borderColor: "grey.300" }}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>
-                            <Typography color="primary"><strong>File Names</strong></Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography color="primary"><strong>Comment</strong></Typography>
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {fileList.map((entry, index) => (
-                        <TableRow key={index}>
-                            <TableCell>{entry.fileNames.join(", ")}</TableCell>
-                            <TableCell>{entry.comment}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        )
-    }
-    </Box >
-  );
+                    >
+                        Add Photos
+                    </Button>
+                </Grid>
+            </Grid>
+
+            {/* Table to display files */}
+            {
+                fileList.length > 0 && (
+                    <Table sx={{ mt: 3, border: 1, borderColor: "grey.300" }}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>
+                                    <Typography color="primary"><strong>File Names</strong></Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Typography color="primary"><strong>Comment</strong></Typography>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {fileList.map((entry, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>  <Stack direction="row" spacing={1} flexWrap="wrap">
+                                        {entry.fileNames.map((fileName, idx) => (
+                                            <Chip
+                                                key={idx}
+                                                label={fileName}
+                                                variant="outlined"
+                                                color="primary"
+                                                onDelete={() => handleDeleteFile(index, idx)}
+                                                sx={{ margin: 0.5 }}
+                                            />
+                                        ))}
+                                    </Stack></TableCell>
+                                    <TableCell>{entry.comment}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )
+            }
+        </Box >
+    );
 };
 
 export default FileUploadComponent;
