@@ -457,3 +457,11 @@ export interface IgetIsFinalResultPublishedBody {
 }
 
 
+export interface IGetLatestExamIdBody {
+    asSchoolId: string
+    asAcademicYearId: string
+    asStandardDivId: string
+    asStandardId:string
+}
+
+

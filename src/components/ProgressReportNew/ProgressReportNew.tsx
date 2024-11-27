@@ -6,12 +6,12 @@ import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import {
   IGetStudentPrrogressReportBody,
   IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
-import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody,IGetLatestExamIdBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Card5 from 'src/libraries/mainCard/Card5';
@@ -19,7 +19,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { StudentDetailsGA, ViewResultGA } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
 import AllStudents from 'src/requests/ProgressReport/AllStudent';
 import { DataParserAndFormatter } from 'src/requests/ProgressReport/PotoType';
-import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAGetLatestExamId, CDAGetLatestExamId1, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations, SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -188,6 +188,12 @@ const ProgressReportNew = () => {
 
 
   const progressReportFilePath: any = useSelector((state: RootState) => state.ProgressReportNew.ProgressReportDownload);
+  
+  const LatestExamId: any = useSelector((state: RootState) => state.ProgressReportNew.ISLatestExamId);
+  const LatestExamId1: any = useSelector((state: RootState) => state.ProgressReportNew.ISLatestExamId1);
+
+  console.log(LatestExamId,"oo",LatestExamId1);
+  
   // useEffect(() => {
   //   if (UsGetSchoolSettings != null)
   //     setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
@@ -196,9 +202,9 @@ const ProgressReportNew = () => {
 
 
   // Final result Data
- 
- 
- 
+
+
+
   const SubjectDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetails);
   const ViewProgress = useSelector((state: RootState) => state.FinalResultGenerateAll.getViewResult);
   const MarkDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getMarkDetailsView);
@@ -216,15 +222,15 @@ const ProgressReportNew = () => {
   const [IsTotalConsiderForProgressReport1, setIsTotalConsiderForProgressReport1] = useState('');
   useEffect(() => {
     if (UsGetSchoolSettings != null)
-        setIsTotalConsiderForProgressReport1(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+      setIsTotalConsiderForProgressReport1(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
     console.log(IsTotalConsiderForProgressReport, "IsTotalConsiderForProgressReport ✅✅✅✅");
     // setIsTotalConsiderForProgressReport('False');
-}, [UsGetSchoolSettings])
+  }, [UsGetSchoolSettings])
 
 
-  
 
-// Fianl result data end here 
+
+  // Fianl result data end here 
 
 
 
@@ -452,6 +458,28 @@ const ProgressReportNew = () => {
     asStandardDivisionId: GetOldStudentDetails.StandardDivisionId,
   }
 
+  const GetLatestExamIdBody: IGetLatestExamIdBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: AcademicYear,
+    asStandardDivId: GetOldStudentDetails.StandardDivisionId,
+    asStandardId: "0"
+  }
+
+  const GetLatestExamIdBody1: IGetLatestExamIdBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: AcademicYear,
+    asStandardDivId: "0",
+    asStandardId:  GetOldStudentDetails.StandardId 
+  } 
+  useEffect(() => {
+    dispatch(CDAGetLatestExamId(GetLatestExamIdBody));
+
+  }, [AcademicYear, GetOldStudentDetails.StandardDivisionId]);
+
+  useEffect(() => {
+    dispatch(CDAGetLatestExamId1(GetLatestExamIdBody1));
+
+  }, [AcademicYear, GetOldStudentDetails.StandardId]);
 
 
   useEffect(() => {
@@ -764,7 +792,7 @@ const ProgressReportNew = () => {
 
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + true);
+    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId +'/'+GetOldStudentDetails.StandardId+'/'+AcademicYear +'/'+LatestExamId+'/'+LatestExamId1+'/'+true);
   };
 
   console.log(GetOldStudentDetails, "value");
@@ -979,136 +1007,115 @@ const ProgressReportNew = () => {
 
 
 
+      {open && (
+        <span>
+          {StudentId !== "0" ? (
+            USIsTestPublishedForStdDiv === true || USIsTestPublishedForStudentIS === true || AcademicYear !== asAcademicYearId ? (
+              < Box ref={printRef}>
+                {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
+                  <>
+                    <GradeConfigurationDetails
+                      handleClick={handleClick}
+                      open1={open1}
+                      handleClose={handleClose}
+                      USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                      USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                      headerArray={headerArray}
+                    />
+                    <Studentdetails
+                      USlistStudentsDetails={USlistStudentsDetails}
+                    />
 
+                    {hasTotalConsiderationN && (
+                      <div
+                        style={{ backgroundColor: 'white', padding: '8px' }}
+                        dangerouslySetInnerHTML={{ __html: formattedText }}
+                      />
+
+                    )}
+                    <Box sx={{ overflowX: 'auto' }}>
+                      <ProgressReportGradeView
+                        totalCount={totalCount}
+                        isFailCriteria={isFailCriteria}
+                        EntireDataList={EntireDataList}
+                        IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                        HeaderArray1={HeaderArray1}
+                        SubHeaderArray1={SubHeaderArray1}
+                        MarkDetailsList1={IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? MarkDetailsList : MarkDetailsList1}
+                      />
+                    </Box>
+                  </>
+                  :
+                  <>
+                    <GradeConfigurationDetails
+                      handleClick={handleClick}
+                      open1={open1}
+                      handleClose={handleClose}
+                      USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                      USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                      headerArray={headerArray}
+                    />
+                    <Studentdetails
+                      USlistStudentsDetails={USlistStudentsDetails}
+                    />
+                    {hasTotalConsiderationN && (
+                      <div
+                        style={{ backgroundColor: 'white', padding: '8px' }}
+                        dangerouslySetInnerHTML={{ __html: formattedText }}
+                      />
+
+                    )}
+                    <Box sx={{ overflowX: 'auto' }}>
+                      <ProgressReportMarkView
+                        isFailCriteria={isFailCriteria}
+                        totalCount={totalCount}
+                        HeaderArray={HeaderArray}
+                        SubHeaderArray={SubHeaderArray}
+                        MarkDetailsList={MarkDetailsList}
+                        ListDisplayNameDetails={ListDisplayNameDetails}
+                        IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                        USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
+                        USListMarkssDetails={USListMarkssDetails}
+                        ListTestTypeIdDetails={USListTestTypeIdDetails}
+                        ThirdHeaderRow={ThirdHeaderColumn}
+                        EntireDataList={EntireDataList}
+                      />
+                    </Box>
+                  </>
+                  :
+                  null
+                }
+
+
+
+              </ Box>
+            ) : (<Typography
+              variant="body1"
+              sx={{
+                textAlign: 'center',
+                marginTop: 4,
+                backgroundColor: '#324b84',
+                padding: 1,
+                borderRadius: 2,
+                color: 'white',
+              }}
+            >
+              <b>No exam of this class has been published for the current academic year.</b>
+            </Typography>
+
+            )
+          )
+            : null}
+
+
+
+        </span>
+      )}
 
 
 
       {open && (
         <div>
-
-
-
-
-
-
-          {((EntireDataList?.listStudentsDetails || []).length === 0 && StudentId !== "0") && USIsTestPublishedForStudentIS ?
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>Assessment result is not available for this student.</b>
-            </Typography>
-
-            : <span>
-              {StudentId !== "0" ? (
-                USIsTestPublishedForStdDiv === true ? (
-                  < Box ref={printRef}>
-                    {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
-                      <>
-                        <GradeConfigurationDetails
-                          handleClick={handleClick}
-                          open1={open1}
-                          handleClose={handleClose}
-                          USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
-                          USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
-                          headerArray={headerArray}
-                        />
-                        <Studentdetails
-                          USlistStudentsDetails={USlistStudentsDetails}
-                        />
-
-                        {hasTotalConsiderationN && (
-                          <div
-                            style={{ backgroundColor: 'white', padding: '8px' }}
-                            dangerouslySetInnerHTML={{ __html: formattedText }}
-                          />
-
-                        )}
-                        <Box sx={{ overflowX: 'auto' }}>
-                          <ProgressReportGradeView
-                            totalCount={totalCount}
-                            isFailCriteria={isFailCriteria}
-                            EntireDataList={EntireDataList}
-                            IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
-                            HeaderArray1={HeaderArray1}
-                            SubHeaderArray1={SubHeaderArray1}
-                            MarkDetailsList1={IsTotalConsiderForProgressReport.toLowerCase() === 'true' ? MarkDetailsList : MarkDetailsList1}
-                          />
-                        </Box>
-                      </>
-                      :
-                      <>
-                        <GradeConfigurationDetails
-                          handleClick={handleClick}
-                          open1={open1}
-                          handleClose={handleClose}
-                          USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
-                          USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
-                          headerArray={headerArray}
-                        />
-                        <Studentdetails
-                          USlistStudentsDetails={USlistStudentsDetails}
-                        />
-                        {hasTotalConsiderationN && (
-                          <div
-                            style={{ backgroundColor: 'white', padding: '8px' }}
-                            dangerouslySetInnerHTML={{ __html: formattedText }}
-                          />
-
-                        )}
-                        <Box sx={{ overflowX: 'auto' }}>
-                          <ProgressReportMarkView
-                            isFailCriteria={isFailCriteria}
-                            totalCount={totalCount}
-                            HeaderArray={HeaderArray}
-                            SubHeaderArray={SubHeaderArray}
-                            MarkDetailsList={MarkDetailsList}
-                            ListDisplayNameDetails={ListDisplayNameDetails}
-                            IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
-                            USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
-                            USListMarkssDetails={USListMarkssDetails}
-                            ListTestTypeIdDetails={USListTestTypeIdDetails}
-                            ThirdHeaderRow={ThirdHeaderColumn}
-                            EntireDataList={EntireDataList}
-                          />
-                        </Box>
-                      </>
-                      :
-                      null
-                    }
-
-
-
-                  </ Box>
-                ) : (
-
-
-                  AcademicYear == asAcademicYearId ? <Typography
-                    variant="body1"
-                    sx={{
-                      textAlign: 'center',
-                      marginTop: 4,
-                      backgroundColor: '#324b84',
-                      padding: 1,
-                      borderRadius: 2,
-                      color: 'white',
-                    }}
-                  >
-                    <b>No exam of this class has been published for the current academic year.</b>
-                  </Typography> : <span>
-
-                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-
-                      <b> {progressReportMessage}</b>
-
-
-                    </Typography>
-                  </span>
-
-                )
-              ) : null}
-
-
-
-            </span>}
-
           {StudentId == "0" && parsedDataList?.length > 0 &&
             parsedDataList.map((parsedItem, i) => (
               <AllStudents key={i} isFailCriteria={isFailCriteria} totalCount={totalCount} data1={IsTotalConsiderForProgressReport} IStudentList={parsedItem}
@@ -1150,8 +1157,8 @@ const ProgressReportNew = () => {
                   TotalPerGradeView={TotalPerGradeView}
                   GradesDetailsView={GradesDetailsView}
                   MarkDetailsView={MarkDetailsView}
-          
-              
+
+
                 />
               }
 

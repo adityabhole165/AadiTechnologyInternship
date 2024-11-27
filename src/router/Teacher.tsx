@@ -594,7 +594,7 @@ const teacherRoutes = [
   //   element: <ExamResultToppers />
   // },
   {
-    path: 'Toppers/:TeacherId/:StandardDivisionId/:standardId/:AcademicYear/:examtopperProp',
+    path: 'Toppers/:TeacherId/:StandardDivisionId/:standardId/:AcademicYear/:LatestExamId/:LatestExamId1/:examtopperProp',
     element: <Toppers />
   },
   {

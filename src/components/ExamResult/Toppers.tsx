@@ -34,7 +34,7 @@ import { StyledTableCell, StyledTableRow } from '../DataTable';
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly ,AcademicYear} = useParams();
+    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly ,AcademicYear,LatestExamId,LatestExamId1} = useParams();
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId == undefined ? "0" : StandardDivisionId);
     const [SelectExamCT, setExamCT] = useState(TestId == undefined ? "" : TestId);
@@ -190,13 +190,13 @@ const ExamResultToppers = () => {
         let SelectExamTemp = "0"
         if (GetExamdropdownCT.length > 0 && radioBtn == '1') {
             if (IsPageload) {
-                SelectExamTemp = TestId == undefined ? GetExamdropdownCT[0].Value : TestId
+                SelectExamTemp = TestId == undefined ? LatestExamId ? LatestExamId : GetExamdropdownCT[0].Value  : TestId
             }
             else {
                 if (CanEdit == 'Y') {
 
                     if (GetExamdropdownCT[0].Value === '-1') {
-                        SelectExamTemp = GetExamdropdownCT[0].Value
+                        SelectExamTemp = LatestExamId ? LatestExamId : GetExamdropdownCT[0].Value 
                     } else {
                         SelectExamTemp = GetLatestclassExam
                     }
@@ -213,7 +213,7 @@ const ExamResultToppers = () => {
         }
         if (GetExamdropdownST.length > 0 && radioBtn == '2') {
             if (CanEdit == 'Y') {
-                SelectExamTemp = GetExamdropdownST[0].Value;
+                SelectExamTemp = LatestExamId ? LatestExamId : GetExamdropdownCT[0].Value 
             } else {
                 SelectExamTemp = SelectExamCT
             }
