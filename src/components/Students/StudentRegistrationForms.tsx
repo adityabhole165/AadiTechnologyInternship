@@ -240,11 +240,11 @@ const StudentRegistrationForm = () => {
   const [profileCompletion, setProfileCompletion] = useState(0);
   const [validationMessages, setValidationMessages] = useState<string[]>([]);
 
-  const [admissionDetailsData, setAdmissionDetailsData] = useState<RAdmissionDetails>({});
-  const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
+  // const [admissionDetailsData, setAdmissionDetailsData] = useState<RAdmissionDetails>({});
+  // const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
   const [familyDetailsData, setFamilyDetailsData] = useState<RFamilyDetails>({});
-  const [additionalInfoData, setAdditionalInfoData] = useState<RAdditionalInfoDetails>({});
-  const [streamwiseSubjectData, setStreamwiseSubjectData] = useState<RStreamwiseSubjectDetails>({});
+  // const [additionalInfoData, setAdditionalInfoData] = useState<RAdditionalInfoDetails>({});
+  // const [streamwiseSubjectData, setStreamwiseSubjectData] = useState<RStreamwiseSubjectDetails>({});
 
   const [form, setForm] = useState({
     admission: {
@@ -493,31 +493,31 @@ const StudentRegistrationForm = () => {
 
   //#region CallBack
   const onAdmissionTab = (updatedData) => {
-    setAdmissionDetailsData(updatedData);
+    //setAdmissionDetailsData(updatedData);
     // calculateCompletion('admission', updatedData);
-    console.log('1️⃣Admission', admissionDetailsData);
+    //console.log('1️⃣Admission', admissionDetailsData);
   };
 
   const onPersonalTab = (updatedData) => {
-    setPersonalDetailsData(updatedData);
+    //setPersonalDetailsData(updatedData);
     // calculateCompletion('personal', updatedData);
-    console.log('2️⃣Personal', personalDetailsData);
+    //console.log('2️⃣Personal', personalDetailsData);
   };
 
   const onFamilyTab = (updatedData) => {
-    setFamilyDetailsData(updatedData);
+    //setFamilyDetailsData(updatedData);
     // calculateCompletion('family', updatedData);
-    console.log('3️⃣Family', familyDetailsData);
+    //console.log('3️⃣Family', familyDetailsData);
   };
 
   const onAdditionalInfoTab = (updateddata) => {
-    setAdditionalInfoData(updateddata);
-    console.log('4️⃣Additional', additionalInfoData);
+    //setAdditionalInfoData(updateddata);
+    //console.log('4️⃣Additional', additionalInfoData);
   }
 
   const onStudentStreamwiseSubjectTab = (updateddata) => {
-    setStreamwiseSubjectData(updateddata);
-    console.log('5️⃣StreamwiseSubject', streamwiseSubjectData);
+    //setStreamwiseSubjectData(updateddata);
+    //console.log('5️⃣StreamwiseSubject', streamwiseSubjectData);
   }
   //#endregion
   const handleNextTab = () => {
@@ -1069,6 +1069,18 @@ const StudentRegistrationForm = () => {
     }
   };
 
+  useEffect(() => {
+    const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody = {
+      asSchoolId: Number(schoolId),
+      asStudentId: SchoolWise_Student_Id,
+      asInsertedById: Number(teacherId),
+      asID: (UpdateStudentResult as any).iReturnValue, // Accessing iReturnValue here
+      asAcademicYearId: Number(academicYearId)
+    }
+    //dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
+  }, [UpdateStudentResult]);
+
+  //#region EventHandlers
   const handleAdmissionChange = (name: string, value: any) => {
     setForm((prevForm) => ({
       ...prevForm,
@@ -1123,7 +1135,7 @@ const StudentRegistrationForm = () => {
       },
     }));
   };
-
+  ///#endregion
 
   // const handleUpdate = () => {
   //   console.log('Sending update with data:', UpdateStudentBody);
@@ -1137,16 +1149,6 @@ const StudentRegistrationForm = () => {
   //   dispatch(CDAGenerateTransportFeeEntries({ asSchoolId: Number(schoolId), asAcademicYearId: Number(academicYearId), asStudentId: Number(SchoolWise_Student_Id), asUpdatedById: Number(teacherId) }));
   // };
 
-  useEffect(() => {
-    const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody = {
-      asSchoolId: Number(schoolId),
-      asStudentId: SchoolWise_Student_Id,
-      asInsertedById: Number(teacherId),
-      asID: (UpdateStudentResult as any).iReturnValue, // Accessing iReturnValue here
-      asAcademicYearId: Number(academicYearId)
-    }
-    //dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
-  }, [UpdateStudentResult]);
 
   //#endregion
   const onSelectDate = (value) => {

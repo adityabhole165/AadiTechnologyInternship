@@ -10,6 +10,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
@@ -38,41 +39,42 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
   const { AssignedDate } = useParams();
 
-  const [form, setForm] = useState({
-    userName: '',
-    sendSMS: false,
-    newAdmission: false,
-    isRTEApplicable: false,
-    rteCategory: '',
-    rteApplicationForm: '',
-    formNumber: '',
-    registrationNumber: '',
-    admissionDate: '',
-    joiningDate: '',
-    studentRollNumber: '',
-    UDISENumber: '',
-    BoardRegistrationNumber: '',
-    SaralNo: '',
-    PENNumber: '',
-    secondlanguage: '',
-    thirdlanguage: '',
-    applicableRules: '',
-    staffUserRole: '',
-    staffName: '',
-    residenceTypes: '',
-    feeAreaNames: '',
-    RFID: '',
-    isStaffKid: false,
-    isOnlyChild: false,
-    isRiseAndShine: false,
-    isMinority: false,
-    isForDayBoarding: false,
-    isDayBoardingFeePaid: false,
-    isHandicapped: false,
-  });
+  // const [form, setForm] = useState({
+  //   userName: '',
+  //   sendSMS: false,
+  //   newAdmission: false,
+  //   isRTEApplicable: false,
+  //   rteCategory: '',
+  //   rteApplicationForm: '',
+  //   formNumber: '',
+  //   registrationNumber: '',
+  //   admissionDate: '',
+  //   joiningDate: '',
+  //   studentRollNumber: '',
+  //   UDISENumber: '',
+  //   BoardRegistrationNumber: '',
+  //   SaralNo: '',
+  //   PENNumber: '',
+  //   secondlanguage: '',
+  //   thirdlanguage: '',
+  //   applicableRules: '',
+  //   staffUserRole: '',
+  //   staffName: '',
+  //   residenceTypes: '',
+  //   feeAreaNames: '',
+  //   RFID: '',
+  //   isStaffKid: false,
+  //   isOnlyChild: false,
+  //   isRiseAndShine: false,
+  //   isMinority: false,
+  //   isForDayBoarding: false,
+  //   isDayBoardingFeePaid: false,
+  //   isHandicapped: false,
+  // });
 
   useEffect(() => {
     console.log('1️⃣admission data from parent', admission);
+    console.log('📅admission Date from Parent', admission.admissionDate);
   }, [admission]);
 
   const FeeAreaNamesDrop = useSelector((state: RootState) => state.StudentUI.ISFeeAreaNames);
@@ -91,6 +93,10 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
 
   //const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   //const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
+  const IsAnyExamPublished = useSelector((state: RootState) => state.StudentUI.ISAnyExamPublished);
+  const examListResult = IsAnyExamPublished?.[0];
+  const isExamPublished = examListResult?.IsExamPublishedStatus === "True"; // Check the condition
+  console.log('📃IsAnyExamPublished', isExamPublished);
 
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const IsRTEApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsRTEApplicable || false;
@@ -130,11 +136,29 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
     asIsExamPublished: 0
   };
 
+  const formatDate = (date) => {
+    try {
+      // Handle DD-MM-YYYY format with or without time
+      if (date.includes('-')) {
+        const [day, month, year] = date.split(' ')[0].split('-');
+        if (day.length === 2) {
+          return `${year}-${month}-${day}`;
+        }
+      }
+
+      // If already in YYYY-MM-DD format or needs conversion
+      const d = new Date(date);
+      return d.toISOString().split('T')[0];
+    } catch {
+      return '';
+    }
+  };
+
   const CheckAttendanceMarkedBody: ICheckIfAttendanceMarkedBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    dateTime: "2014-06-09",
-    asDivisionId: 1299,
-    asStandardId: 1082
+    dateTime: formatDate(admission.joiningDate) || "2014-06-09",
+    asDivisionId: DivisionId,
+    asStandardId: standardId
   };
 
   // const FeeAreaNamesBody: IGetFeeAreaNamesBody = {
@@ -254,74 +278,60 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
     } else {
       fieldValue = value;
     }
+    console.log('🎯', e.target)
+    // setForm((prevForm) => {
+    //   const updatedForm = { ...prevForm, [name]: fieldValue };
+    //   onTabChange(updatedForm); // Notify parent of updated data
+    //   return updatedForm;
 
-    setForm((prevForm) => {
-      const updatedForm = { ...prevForm, [name]: fieldValue };
-      onTabChange(updatedForm); // Notify parent of updated data
-      return updatedForm;
-
-    });
+    // });
     onChange(name, fieldValue);
     //onTabChange({ firstName: fieldValue, })
     // Remove error when the user starts filling the field
     setErrors({ ...errors, [name]: false });
   };
 
+  const handleDateChange = (name: string) => (date: Date | null) => {
+    const formattedDate = date
+      ? moment(date).format('DD-MM-YYYY HH:mm:ss') // Format the date
+      : ''; // Use an empty string if the date is null
+
+    onChange(name, formattedDate); // Pass the formatted date to parent
+
+  };
   // useEffect(() => {
   //   if (!ShowDayBoardingOptionOnStudentsScreen) {
   //     setForm((prevForm) => ({ ...prevForm, isForDayBoarding: false }));
   //   }
   // }, [ShowDayBoardingOptionOnStudentsScreen]);
 
-  const validateForm = () => {
-    const newErrors = {
-      userName: !form.userName,
-      formNumber: !form.formNumber,
-      registrationNumber: !form.registrationNumber,
-      admissionDate: !form.admissionDate,
-      joiningDate: !form.joiningDate,
-      studentRollNumber: !form.studentRollNumber,
-      rteCategory: form.isRTEApplicable && !form.rteCategory,
-      rteApplicationForm: form.isRTEApplicable && !form.rteApplicationForm
-    };
-    setErrors(newErrors);
-    //console.log(!Object.values(newErrors).includes(true));
-    return !Object.values(newErrors).includes(true);
-  };
-  const applicableRules = [
-    { id: 1, Name: '50% Fee Concession' },
-    { id: 2, Name: '75% Fee Concession' }
-  ];
-  const StaffUserRole = [
-    { id: 1, Name: 'Teacher' },
-    { id: 2, Name: 'Admin Staff' }
-  ];
-  const ResidenceType = [
-    { id: 1, Name: 'Flat Owners' },
-    { id: 2, Name: 'Tenants' }
-  ];
-  const SchoolBoardName = [
-    { id: 1, Name: 'ICSE' },
-    { id: 2, Name: 'SSC' },
-    { id: 3, Name: 'CBSE' },
-    { id: 4, Name: 'OTHERS' }
-  ];
+  // const validateForm = () => {
+  //   const newErrors = {
+  //     userName: !form.userName,
+  //     formNumber: !form.formNumber,
+  //     registrationNumber: !form.registrationNumber,
+  //     admissionDate: !form.admissionDate,
+  //     joiningDate: !form.joiningDate,
+  //     studentRollNumber: !form.studentRollNumber,
+  //     rteCategory: form.isRTEApplicable && !form.rteCategory,
+  //     rteApplicationForm: form.isRTEApplicable && !form.rteApplicationForm
+  //   };
+  //   setErrors(newErrors);
+  //   //console.log(!Object.values(newErrors).includes(true));
+  //   return !Object.values(newErrors).includes(true);
+  // };
 
-  const Recognised = [
-    { id: 1, Name: 'Yes' },
-    { id: 2, Name: 'No' }
-  ];
 
-  const handleSave = () => {
-    const isValid = validateForm();
-    //onSave(isValid);
-    setMessage(
-      isValid
-        ? 'Draft saved successfully!'
-        : 'Please fill in all required fields.'
-    );
-    setTimeout(() => setMessage(''), 2000);
-  };
+  // const handleSave = () => {
+  //   const isValid = validateForm();
+  //   //onSave(isValid);
+  //   setMessage(
+  //     isValid
+  //       ? 'Draft saved successfully!'
+  //       : 'Please fill in all required fields.'
+  //   );
+  //   setTimeout(() => setMessage(''), 2000);
+  // };
 
   const Constants = {
     S_SELECT: 'Select',
@@ -329,9 +339,9 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
     // add other constants here
   };
   //#region DataTransfer 
-  useEffect(() => {
-    onTabChange(form); // Sends the initial form state to the parent when component mounts
-  }, [form]);
+  // useEffect(() => {
+  //   onTabChange(form); // Sends the initial form state to the parent when component mounts
+  // }, [form]);
   //#endregion
 
   return (
@@ -505,7 +515,7 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <Datepicker
             DateValue={admission.admissionDate}
-            onDateChange={onSelectDate}
+            onDateChange={handleDateChange('admissionDate')}
             size={'medium'}
             label={'Admission Date'}
 
@@ -532,7 +542,7 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <Datepicker
             DateValue={admission.joiningDate}
-            onDateChange={onSelectDate}
+            onDateChange={handleDateChange('joiningDate')}
             // label={'Start Date'}
             size={'medium'}
             label={'Joining Date'}
@@ -636,6 +646,7 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
             label={'Second Language'}
             defaultValue={admission.secondlanguage}
             size={'medium'}
+            disabled={isExamPublished}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -646,6 +657,7 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
             label={'Third Language'}
             defaultValue={admission.thirdlanguage}
             size={'medium'}
+            disabled={isExamPublished}
           />
         </Grid>
 

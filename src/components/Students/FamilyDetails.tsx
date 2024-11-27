@@ -10,6 +10,7 @@ import {
   Typography
 } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
+import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -225,14 +226,12 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
   };
 
   const handleDateChange = (name: string) => (date: Date | null) => {
-    setForm((prevForm) => {
-      const updatedForm = { ...prevForm, [name]: date };
-      onTabChange(updatedForm); // Notify parent of updated data
-      return updatedForm;
-    });
-    onChange(name, date);
-    // Remove error when the user starts filling the field
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: false }));
+    const formattedDate = date
+      ? moment(date).format('DD-MM-YYYY HH:mm:ss') // Format the date
+      : ''; // Use an empty string if the date is null
+
+    onChange(name, formattedDate); // Pass the formatted date to parent
+
   };
 
   function handleContactNoChange(e) {

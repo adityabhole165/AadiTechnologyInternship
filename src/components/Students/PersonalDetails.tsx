@@ -20,6 +20,7 @@ import {
 import { red } from '@mui/material/colors';
 import green from '@mui/material/colors/green';
 import { User } from 'lucide-react';
+import moment from 'moment';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { FaCamera, FaRedo, FaStop } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +35,6 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDADeleteStudentPhoto, CDAresetDeletePhotoMsg } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
-
 
 
 // const CaptureButton = ({ onClick }) => (
@@ -289,13 +289,14 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
     setErrors({ ...errors, [name]: false });
   };
 
-  // const handleDropdownChange = (name: string, value: any) => {
-  //   setForm((prevForm) => ({
-  //     ...prevForm,
-  //     [name]: value
-  //   }));
-  //   setErrors((prev) => ({ ...prev, [name]: false }));
-  // };
+  const handleDateChange = (name: string) => (date: Date | null) => {
+    const formattedDate = date
+      ? moment(date).format('DD-MM-YYYY HH:mm:ss') // Format the date
+      : ''; // Use an empty string if the date is null
+
+    onChange(name, formattedDate); // Pass the formatted date to parent
+
+  };
 
   function handleContactNoChange(e) {
     const numericValue = e.target.value.replace(/\D/g, '');
@@ -877,7 +878,7 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <Datepicker
                   DateValue={personal.dateOfBirth}
-                  onDateChange={handleInputChange}
+                  onDateChange={handleDateChange('dateOfBirth')}
                   size={'medium'}
                   label={'Date of Birth'} />
                 {/* <TextField
