@@ -574,6 +574,7 @@ function Form13() {
   };
 
   const RecipientsListFun = (e) => {
+    clickConfirmFunc(e);
     setRecipientsObject(e);
     setdisplayOfRecipients('none');
     setdisplayOfComposePage('block');
@@ -804,7 +805,10 @@ function Form13() {
     return Object.values(obj).some(array => Array.isArray(array) && array.length > 0);
   }
 
-  const clickConfirm = (RecipientsObject) => {
+  const clickConfirm = () => {
+    handleCloseDialog();
+  }
+  const clickConfirmFunc = (e) => {
     // if (RecipientsObject.RecipientName.length === 0) {
     //   showAlert({
     //     title: 'Please Confirm',
@@ -822,8 +826,8 @@ function Form13() {
     //   })
     // }
     // else { "" }
-    if (sessionStorage.getItem('GroupSelectionId') === '9' && RecipientsObject.ContactGroup.length === 0 &&
-      RecipientsObject.RecipientName.length === 0) {
+    if (sessionStorage.getItem('GroupSelectionId') === '9' && e.ContactGroup.length === 0 &&
+      e.RecipientName.length === 0) {
       showAlert({
         title: 'Please Confirm',
         message: 'No group is selected. Are you sure you want to continue?',
@@ -838,7 +842,7 @@ function Form13() {
         },
       })
       // Need To Add condition over here | Note 🔔   windows + .
-    } else if (RecipientsObject.RecipientName.length === 0) {
+    } else if (e.RecipientName.length === 0) {
       console.log(RecipientsObject, 'checkthis');
 
       showAlert({
@@ -855,8 +859,7 @@ function Form13() {
         },
       })
     }
-    handleCloseDialog();
-  };
+  }
   const [recipientsCC, setRecipientsCC] = useState(
     RecipientsCCObject.RecipientName || []
   );
@@ -1522,7 +1525,7 @@ function Form13() {
                 Cancel
               </Button>
               <Button
-                onClick={() => { clickConfirm(RecipientsObject) }}
+                onClick={() => { clickConfirm() }}
                 sx={{
                   color: 'green',
                   '&:hover': {
