@@ -883,8 +883,8 @@ const ProgressReportNew = () => {
             </IconButton>
           </Tooltip>
 
-
-          {open &&
+          {SchoolScreensAccessPermission() &&
+            open &&
             (AcademicYear !== asAcademicYearId) &&
             ((EntireDataList?.listStudentsDetails || []).length !== 0) &&
             (!USIsGradingStandard && ShowTopppers) && (
@@ -904,7 +904,8 @@ const ProgressReportNew = () => {
                   </IconButton>
                 </span>
               </Tooltip>
-            )}
+            )
+          }
 
 
 
