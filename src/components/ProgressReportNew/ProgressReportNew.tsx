@@ -11,7 +11,7 @@ import {
   IGetStudentPrrogressReportBody,
   IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
-import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody,IGetLatestExamIdBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetLatestExamIdBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Card5 from 'src/libraries/mainCard/Card5';
@@ -188,12 +188,12 @@ const ProgressReportNew = () => {
 
 
   const progressReportFilePath: any = useSelector((state: RootState) => state.ProgressReportNew.ProgressReportDownload);
-  
+
   const LatestExamId: any = useSelector((state: RootState) => state.ProgressReportNew.ISLatestExamId);
   const LatestExamId1: any = useSelector((state: RootState) => state.ProgressReportNew.ISLatestExamId1);
 
-  console.log(LatestExamId,"oo",LatestExamId1);
-  
+  console.log(LatestExamId, "oo", LatestExamId1);
+
   // useEffect(() => {
   //   if (UsGetSchoolSettings != null)
   //     setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
@@ -260,8 +260,16 @@ const ProgressReportNew = () => {
 
   }, [USlistStudentsDetails])
 
-  console.log(isFailCriteria, 'isFailCriteria');
-  console.log(totalCount, 'totalCount');
+  const [ShowTopppers, setShowTopppers] = useState(false);
+  useEffect(() => {
+    if (UsGetSchoolSettings != null)
+      setShowTopppers(UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowTopppers);
+
+
+  }, [UsGetSchoolSettings])
+
+  console.log(USIsGradingStandard, 'USIsGradingStandard', ShowTopppers, "ShowTopppers");
+
 
 
   const [progressReportMessage, setProgressReportMessage] = useState(null);
@@ -469,8 +477,8 @@ const ProgressReportNew = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: AcademicYear,
     asStandardDivId: "0",
-    asStandardId:  GetOldStudentDetails.StandardId 
-  } 
+    asStandardId: GetOldStudentDetails.StandardId
+  }
   useEffect(() => {
     dispatch(CDAGetLatestExamId(GetLatestExamIdBody));
 
@@ -792,7 +800,7 @@ const ProgressReportNew = () => {
 
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId +'/'+GetOldStudentDetails.StandardId+'/'+AcademicYear +'/'+LatestExamId+'/'+LatestExamId1+'/'+true);
+    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + LatestExamId + '/' + LatestExamId1 + '/' + true);
   };
 
   console.log(GetOldStudentDetails, "value");
@@ -876,24 +884,28 @@ const ProgressReportNew = () => {
           </Tooltip>
 
 
-          {open && (SchoolScreensAccessPermission() && AcademicYear !== asAcademicYearId) && (
-            <Tooltip title="Toppers">
-              <span>
-                <IconButton
-                  onClick={Toppers}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: blue[500],
-                    '&:hover': {
-                      backgroundColor: blue[600],
-                    },
-                  }}
-                >
-                  <WorkspacePremiumIcon />
-                </IconButton>
-              </span>
-            </Tooltip>
-          )}
+          {open &&
+            (AcademicYear !== asAcademicYearId) &&
+            ((EntireDataList?.listStudentsDetails || []).length !== 0) &&
+            (!USIsGradingStandard && ShowTopppers) && (
+              <Tooltip title="Toppers">
+                <span>
+                  <IconButton
+                    onClick={Toppers}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: blue[500],
+                      '&:hover': {
+                        backgroundColor: blue[600],
+                      },
+                    }}
+                  >
+                    <WorkspacePremiumIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            )}
+
 
 
 

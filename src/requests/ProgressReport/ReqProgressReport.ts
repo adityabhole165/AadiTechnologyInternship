@@ -153,6 +153,7 @@ const ProgressReportSlice = createSlice({
 
 
     RIsGradingStandard(state, action) {
+      state.Loading = false;
       state.IsGradingStandarBodyIS = action.payload;
     },
     RTestPublishedForStdDivBody(state, action) {
@@ -162,6 +163,7 @@ const ProgressReportSlice = createSlice({
       state.RIsTestPublishedForStudentIS = action.payload;
     },
     RGetSchoolSettings(state, action) {
+      state.Loading = false;
       state.IsGetSchoolSettings = action.payload;
     },
 
@@ -1176,6 +1178,7 @@ export const CDAGetAllMarksGradeConfiguration1 =
 export const CDAIsGradingStandard =
   (data: IsGradingStandarBody): AppThunk =>
     async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.IsGradingStandard(data);
 
 
@@ -1198,6 +1201,7 @@ export const CDAIsTestPublishedForStudent =
 export const CDAGetSchoolSettings =
   (data: GetSchoolSettingsBody): AppThunk =>
     async (dispatch) => {
+      dispatch(ProgressReportSlice.actions.setLoading());
       const response = await ApiProgressReport.GetSchoolSettings(data)
 
       dispatch(ProgressReportSlice.actions.RGetSchoolSettings(response.data));
