@@ -48,7 +48,7 @@ import UploadDocList from 'src/components/PerformanceGradeAssignment/UploadDocLi
 import { AlertContext } from 'src/contexts/AlertContext';
 
 
-const AdmissionDocumentInformation = ({ onSave }) => {
+const AdmissionDocumentInformation = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const schoolId = localStorage.getItem('SchoolId');
@@ -365,12 +365,12 @@ const AdmissionDocumentInformation = ({ onSave }) => {
     return !Object.values(newErrors).includes(true);
   };
 
-  const handleSave = () => {
-    const isValid = validateForm();
-    onSave(isValid);
-    setMessage(isValid ? 'Draft saved successfully!' : 'Please fill in all required fields.');
-    setTimeout(() => setMessage(''), 2000);
-  };
+  // const handleSave = () => {
+  //   const isValid = validateForm();
+  //   onSave(isValid);
+  //   setMessage(isValid ? 'Draft saved successfully!' : 'Please fill in all required fields.');
+  //   setTimeout(() => setMessage(''), 2000);
+  // };
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [documentList, setDocumentList] = useState([]); // Assume this is your document data

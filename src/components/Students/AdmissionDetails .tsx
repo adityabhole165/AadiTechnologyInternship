@@ -33,7 +33,7 @@ import {
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
+const AdmissionDetails = ({ admission, onChange }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
@@ -96,7 +96,7 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
   const IsAnyExamPublished = useSelector((state: RootState) => state.StudentUI.ISAnyExamPublished);
   const examListResult = IsAnyExamPublished?.[0];
   const isExamPublished = examListResult?.IsExamPublishedStatus === "True"; // Check the condition
-  console.log('📃IsAnyExamPublished', isExamPublished);
+  //console.log('📃IsAnyExamPublished', isExamPublished);
 
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const IsRTEApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsRTEApplicable || false;
@@ -400,7 +400,7 @@ const AdmissionDetails = ({ admission, onChange, onTabChange }) => {
                 name="isRTEApplicable"
                 checked={admission.isRTEApplicable}
                 onChange={handleInputChange}
-                disabled={true} // Checkbox is always disabled
+                disabled={admission.isRTEApplicable === 'True' ? false : true} // Checkbox is always disabled
               />
             }
             label="Is RTE Applicable?"

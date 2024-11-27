@@ -64,7 +64,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 //   </div>
 // )
 
-const PersonalDetails = ({ personal, onChange, onTabChange }) => {
+const PersonalDetails = ({ personal, onChange }) => {
   const [usingWebcam, setUsingWebcam] = useState(false);
   const webcamRef = useRef(null);
 
@@ -273,11 +273,11 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
       fieldValue = value;
     }
 
-    setForm((prevForm) => {
-      const updatedForm = { ...prevForm, [name]: fieldValue };
-      onTabChange(updatedForm); // Notify parent of updated data
-      return updatedForm;
-    });
+    // setForm((prevForm) => {
+    //   const updatedForm = { ...prevForm, [name]: fieldValue };
+    //   onTabChange(updatedForm); // Notify parent of updated data
+    //   return updatedForm;
+    // });
     onChange(name, fieldValue);
     // setForm((prevForm) => ({
     //   ...prevForm,
@@ -320,6 +320,22 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageName, setImageName] = useState('');
 
+  // Update uploadedImage state when photoFilePath is available in props
+  useEffect(() => {
+    if (personal?.photoFilePath && personal?.photoFilePathImage) {
+      const base64Image = personal.photoFilePathImage;
+      const newImageName = personal.photoFilePath.split('/').pop(); // Extract file name
+      const fileExtension = personal.photoFilePath.split('.').pop(); // Extract file extension
+      const imageData = `data:image/${fileExtension};base64,${personal.photoFilePathImage}`;
+
+      setUploadedImage({
+        src: imageData,                      //`data:image/jpeg;base64,${personal.photoFilePathImage}`,
+        name: newImageName,                 //personal.photoFilePath.split('/').pop(), // Extract file name
+        base64: base64Image, // Use the file path from API
+      });
+    }
+  }, [personal.photoFilePath, personal.photoFilePathImage]);
+
   const generateImageName = (prefix) => {
     const dateTime = new Date().toISOString();
     return `${personal.firstName}_${prefix}_${dateTime}.png`;
@@ -343,6 +359,10 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
     }));
     onChange('photoFilePath', newImageName);
   };
+
+  useEffect(() => {
+    console.log('uploadedImage', uploadedImage);
+  }, [uploadedImage]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -391,8 +411,8 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
     // Reset the form photo to null to remove the image
     setUploadedImage(null);
     setCapturedImage(null);
-    setForm({ ...personal, photoFilePath: null });
-
+    //setForm({ ...personal, photoFilePath: null });
+    onChange('photoFilePath', '');
     if (fileInputRef.current) {
       fileInputRef.current.value = ''; // Reset the file input so the file name disappears
     }
@@ -532,9 +552,9 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
 
 
   //#region DataTransfer 
-  useEffect(() => {
-    onTabChange(form); // Sends the initial form state to the parent when component mounts
-  }, [form]);
+  // useEffect(() => {
+  //   onTabChange(form); // Sends the initial form state to the parent when component mounts
+  // }, [form]);
   //#endregion
 
   //#endregion
@@ -748,12 +768,12 @@ const PersonalDetails = ({ personal, onChange, onTabChange }) => {
             {uploadedImage ? (
               <img
                 src={uploadedImage.src}
-                alt="Uploaded"
+                alt={uploadedImage.name || "Uploaded Image"}
                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
               />
             ) : (
               <User
-                style={{ objectFit: 'cover' }} />
+                style={{ objectFit: 'cover', fontSize: '4rem', color: '#ccc' }} />
             )}
           </Box>
 

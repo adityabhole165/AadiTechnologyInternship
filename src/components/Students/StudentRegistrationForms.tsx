@@ -402,6 +402,7 @@ const StudentRegistrationForm = () => {
     personal: [
       'firstName',
       'parentName',
+      'parentOccupation',
       'address',
       'city',
       'pin',
@@ -492,11 +493,11 @@ const StudentRegistrationForm = () => {
   };
 
   //#region CallBack
-  const onAdmissionTab = (updatedData) => {
-    //setAdmissionDetailsData(updatedData);
-    // calculateCompletion('admission', updatedData);
-    //console.log('1️⃣Admission', admissionDetailsData);
-  };
+  // const onAdmissionTab = (updatedData) => {
+  //   //setAdmissionDetailsData(updatedData);
+  //   // calculateCompletion('admission', updatedData);
+  //   //console.log('1️⃣Admission', admissionDetailsData);
+  // };
 
   const onPersonalTab = (updatedData) => {
     //setPersonalDetailsData(updatedData);
@@ -580,20 +581,20 @@ const StudentRegistrationForm = () => {
       const FormNumber = GetFromNumber[0];
       const StreamwiseSubject = GetStudentStreamwiseSubjectDetails[0];
 
-      // Split optional subjects if StreamId is 3
-      let optionalSubject1 = "";
-      let optionalSubject2 = "";
+      // // Split optional subjects if StreamId is 3
+      // let optionalSubject1 = "";
+      // let optionalSubject2 = "";
 
-      if (StreamwiseSubject.StreamId === "3" && StreamwiseSubject.OptionalSubjects) {
-        const optionalSubjects = StreamwiseSubject.OptionalSubjects.split(',');
-        optionalSubject1 = optionalSubjects[0] || "";
-        optionalSubject2 = optionalSubjects[1] || "";
-      } else {
-        optionalSubject1 = StreamwiseSubject.OptionalSubjects || "";
-      }
+      // if (StreamwiseSubject.StreamId === "3" && StreamwiseSubject.OptionalSubjects) {
+      //   const optionalSubjects = StreamwiseSubject.OptionalSubjects.split(',');
+      //   optionalSubject1 = optionalSubjects[0] || "";
+      //   optionalSubject2 = optionalSubjects[1] || "";
+      // } else {
+      //   optionalSubject1 = StreamwiseSubject.OptionalSubjects || "";
+      // }
 
-      // Initialize competitive exams
-      const competitiveExams = StreamwiseSubject.CompitativeExam?.split(',').map(Number) || [];
+      // // Initialize competitive exams
+      // const competitiveExams = StreamwiseSubject.CompitativeExam?.split(',').map(Number) || [];
 
       setForm((prevForm) => ({
         ...prevForm,
@@ -607,8 +608,8 @@ const StudentRegistrationForm = () => {
           rteApplicationForm: studentData.RTEApplicationFormNo || '',
           formNumber: FormNumber?.FormNumber || '',
           registrationNumber: studentData.Enrolment_Number || '0',
-          admissionDate: studentData.Admission_date || '',
-          joiningDate: studentData.Joining_Date || '',
+          admissionDate: formatDOB(studentData.Admission_date) || '',
+          joiningDate: formatDOB(studentData.Joining_Date) || '',
           studentRollNumber: studentData.Roll_No || '',
           UDISENumber: studentData.UDISENumber || '',
           BoardRegistrationNumber: studentData.BoardRegistrationNo || '',
@@ -740,12 +741,12 @@ const StudentRegistrationForm = () => {
         },
         streamwiseSubject: {
           ...prevForm.streamwiseSubject,
-          streamId: StreamwiseSubject.StreamId || "",
-          groupId: StreamwiseSubject.GroupId || "",
-          compulsorySubjects: StreamwiseSubject.CompulsorySubjects || "",
-          optionalSubject1,
-          optionalSubject2,
-          competitiveExams,
+          // streamId: StreamwiseSubject.StreamId || "",
+          // groupId: StreamwiseSubject.GroupId || "",
+          // compulsorySubjects: StreamwiseSubject.CompulsorySubjects || "",
+          // optionalSubject1,
+          // optionalSubject2,
+          // competitiveExams,
         },
       }));
     }
@@ -1380,14 +1381,14 @@ const StudentRegistrationForm = () => {
         {currentTab === 0 && (
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <AdmissionDetails admission={form.admission} onChange={handleAdmissionChange} onTabChange={onAdmissionTab} />
+              <AdmissionDetails admission={form.admission} onChange={handleAdmissionChange} />
             </Grid>
           </Grid>
         )}
         {currentTab === 1 && (
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <PersonalDetails personal={form.personal} onChange={handlePersonalChange} onTabChange={onPersonalTab} />
+              <PersonalDetails personal={form.personal} onChange={handlePersonalChange} />
             </Grid>
           </Grid>
         )}
@@ -1402,7 +1403,7 @@ const StudentRegistrationForm = () => {
                             )} */}
             </Grid>
             <Grid item xs={12}>
-              <AddmissionDocumentInformation onSave={handleSave} />
+              <AddmissionDocumentInformation />
             </Grid>
           </Grid>
         )}
