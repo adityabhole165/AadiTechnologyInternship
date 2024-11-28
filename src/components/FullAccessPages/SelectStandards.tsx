@@ -48,14 +48,17 @@
 
 
 import { Box, Checkbox, FormControlLabel, Grid, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { IGetStandardsForExamCopyBody } from 'src/interfaces/Teacher/TExamSchedule';
 import { GetStandardsForExamCopy } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
-
-const SelectStandards: React.FC = () => {
+interface SelectStandardsProps {
+  selectedStandards: number[];
+  setSelectedStandards: React.Dispatch<React.SetStateAction<number[]>>;
+}
+const SelectStandards: React.FC<SelectStandardsProps> = ({ selectedStandards, setSelectedStandards }) => {
   const { StandardId, TestId } = useParams();
   const dispatch = useDispatch();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -63,7 +66,7 @@ const SelectStandards: React.FC = () => {
   const standards = useSelector((state: RootState) => state.StandardAndExamList.StandardsForExamCopy);
 
   // State to track selected standards' IDs
-  const [selectedStandards, setSelectedStandards] = useState<number[]>([]);
+  //const [selectedStandards, setSelectedStandards] = useState<number[]>([]);
 
   useEffect(() => {
     const GetStandardsForExamCopyBody: IGetStandardsForExamCopyBody = {

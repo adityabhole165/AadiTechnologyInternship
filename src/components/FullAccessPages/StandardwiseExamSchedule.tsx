@@ -7,10 +7,11 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { ICopyStandardTestBody, IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
+import { AlertContext } from 'src/contexts/AlertContext';
+import { IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
 import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -24,6 +25,7 @@ const StandardwiseExamSchedule = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [IsConfirm, setIsConfirm] = useState('');
     const [showRecipients, setShowRecipients] = useState(false);
+    const [selectedStandards, setSelectedStandards] = useState<number[]>([]);
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
@@ -34,10 +36,7 @@ const StandardwiseExamSchedule = () => {
     const handleCloseDialog1 = () => {
         setOpenDialog1(false);
     };
-    const [instructions, setInstructions] = useState([
-        // { id: 1, text: 'Initial instruction 1' },
-        // { id: 2, text: 'Initial instruction 2' }
-    ]);
+    const [instructions, setInstructions] = useState([]);
     const [currentInstruction, setCurrentInstruction] = useState('');
     const [editMode, setEditMode] = useState(false);
     const [selectedInstructionId, setSelectedInstructionId] = useState(null);
@@ -65,15 +64,16 @@ const StandardwiseExamSchedule = () => {
     }
 
     function getXML1() {
-        let Insertxml = "<ArrayOfInt><int>";
+        console.log(selectedStandards, 'selectedStandards');
 
-        Insertxml +=
-            "<Data>" + "1077" + "</Data>"
+        let Insertxml = "<ArrayOfInt><int>";
+        selectedStandards.forEach(value => {
+            Insertxml += `<Data>${value}</Data>`;
+        });
 
         Insertxml += "</int></ArrayOfInt>";
         return Insertxml;
     }
-
     useEffect(() => {
         const RExamScheduleBody = {
             asSchoolId: Number(asSchoolId),
@@ -81,17 +81,6 @@ const StandardwiseExamSchedule = () => {
         }
 
         dispatch(RExamSchedule(RExamScheduleBody))
-    }, [])
-
-    useEffect(() => {
-        const UpdateExamScheduleInstructionsBody: IUpdateExamScheduleInstructionsBody = {
-            asSchoolId: Number(asSchoolId),
-            asSchoolwiseStandardExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
-            asInstructions: currentInstruction,
-            asUpdatedById: asUserId
-        }
-        dispatch(GetUpdateExamScheduleInstructions(UpdateExamScheduleInstructionsBody));
-
     }, [])
 
     const SumbitExamScheduleBody: ISumbitExamScheduleBody = {
@@ -117,17 +106,46 @@ const StandardwiseExamSchedule = () => {
         }
         dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
     }
+    const { showAlert, closeAlert } = useContext(AlertContext);
 
-    const onClickC0pyExamSchedule = () => {
-        const InsertExamScheduleBody: ICopyStandardTestBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asStandardId: Number(StandardId),
-            asSourceStandardTestId: Number(TestId),
-            asDestinationStandardsxml: getXML1()
+    const onClickCopyExamSchedule = () => {
+        // Handle the schedule copy with confirmation popup
+        if (selectedStandards.length > 0) {
+            showAlert({
+                title: 'Please Confirm',
+                message: 'Exam schedule will be copied for the subjects which are applicable to selected standard(s) and it will override the existing schedule of standards. Do you want to continue?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+
+                    const InsertExamScheduleBody = {
+                        asSchoolId: Number(asSchoolId),
+                        asAcademicYearId: Number(asAcademicYearId),
+                        asStandardId: Number(StandardId),
+                        asSourceStandardTestId: Number(TestId),
+                        asDestinationStandardsxml: getXML1() // Assuming getXML1 returns the XML string
+                    };
+
+                    dispatch(GetCopyStandardTestMsg(InsertExamScheduleBody));
+
+                    closeAlert();
+                }
+            });
+        } else {
+            showAlert({
+                title: 'No Standards Selected',
+                message: 'Please select at least one standard before proceeding.',
+                variant: 'info',
+                confirmButtonText: 'OK',
+                onConfirm: () => closeAlert(),
+            });
         }
-        dispatch(GetCopyStandardTestMsg(InsertExamScheduleBody))
-    }
+    };
+
     const getClassName = () => {
         let returnVal = ""
 
@@ -158,6 +176,7 @@ const StandardwiseExamSchedule = () => {
     };
     const handleOpenDialog1 = (isRecipients) => {
         setIsConfirm1('');
+        setEditMode(true);
         setShowRecipients1(isRecipients);
         setOpenDialog1(true);
     };
@@ -166,10 +185,22 @@ const StandardwiseExamSchedule = () => {
             setInstructions(prev =>
                 prev.map(inst => inst.id === selectedInstructionId ? { ...inst, text: currentInstruction } : inst)
             );
-        } else {
+        } else if (editMode) {
+            setInstructions(prev =>
+                prev.map(inst => inst.id === selectedInstructionId ? { ...inst, text: currentInstruction } : inst)
+            );
+        }
+        else {
             const newInstruction = { id: instructions.length + 1, text: currentInstruction };
             setInstructions([...instructions, newInstruction]);
         }
+        const UpdateExamScheduleInstructionsBody: IUpdateExamScheduleInstructionsBody = {
+            asSchoolId: Number(asSchoolId),
+            asSchoolwiseStandardExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
+            asInstructions: currentInstruction,
+            asUpdatedById: asUserId
+        }
+        dispatch(GetUpdateExamScheduleInstructions(UpdateExamScheduleInstructionsBody));
         handleCloseDialog1();
     };
     return (
@@ -330,23 +361,6 @@ const StandardwiseExamSchedule = () => {
                 PaperProps={{ sx: { borderRadius: '15px' } }}
             >
                 <DialogTitle sx={{ bgcolor: '#223354' }}>
-                    <Tooltip
-                        title={'Add or update Instruction for exam.'}
-                        placement="bottom-end"
-                    >
-                        <QuestionMark
-                            sx={{
-                                color: 'white',
-                                // background:'white',
-                                borderRadius: '10px',
-                                position: 'absolute',
-                                top: '4px',
-                                right: '35px',
-                                cursor: 'pointer',
-                                '&:hover': { backgroundColor: grey[600] }
-                            }}
-                        />
-                    </Tooltip>
                     <ClearIcon
                         onClick={handleCloseDialog}
                         sx={{
@@ -367,7 +381,10 @@ const StandardwiseExamSchedule = () => {
                 </Typography>
 
                 <DialogContent>
-                    <SelectStandards />
+                    <SelectStandards
+                        selectedStandards={selectedStandards}
+                        setSelectedStandards={setSelectedStandards}
+                    />
 
                 </DialogContent>
                 <DialogActions sx={{ py: 2, px: 3 }}>
@@ -375,7 +392,7 @@ const StandardwiseExamSchedule = () => {
                         Cancel
                     </Button>
                     <Button
-                        onClick={onClickC0pyExamSchedule}
+                        onClick={onClickCopyExamSchedule}
                         sx={{
                             color: 'green',
                             '&:hover': {
