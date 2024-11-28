@@ -32,11 +32,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import { IGenerateTransportFeeEntriesBody, IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import { IGenerateTransportFeeEntriesBody, IGetStudentNameForAchievementControlBody, IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
 import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
-import { CDAGenerateTransportFeeEntries, GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
+import { CDAGenerateTransportFeeEntries, CDAGetStudentNameForAchievementControl, GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { CDAAddStudentAdditionalDetails, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails, CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
@@ -1189,8 +1189,36 @@ const StudentRegistrationForm = () => {
   //   dispatch(CDAGenerateTransportFeeEntries({ asSchoolId: Number(schoolId), asAcademicYearId: Number(academicYearId), asStudentId: Number(SchoolWise_Student_Id), asUpdatedById: Number(teacherId) }));
   // };
 
+  //#region AddNotePopup
+  const [registrationNumber, setRegistrationNumber] = useState('');
+  const [studentName, setStudentName] = useState('');
 
+  const GetStudentNameForAchievementControl = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentNameForAchievementControl);
+  console.log('1️⃣AddNotePopup', GetStudentNameForAchievementControl);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setRegistrationNumber(value);
+  };
+
+  useEffect(() => {
+    const GetStudentNameForAchievementControlBody: IGetStudentNameForAchievementControlBody = {
+      asSchoolId: 18,
+      asStudentId: 3556
+    }
+    dispatch(CDAGetStudentNameForAchievementControl(GetStudentNameForAchievementControlBody));
+  }, [])
+
+  useEffect(() => {
+    if (GetStudentNameForAchievementControl && GetStudentNameForAchievementControl.length > 0) {
+      const StNameRegNo = GetStudentNameForAchievementControl[0];
+      setRegistrationNumber(StNameRegNo.RegistrationNo);
+      setStudentName(StNameRegNo.StudentName);
+    }
+  }, [GetStudentNameForAchievementControl])
   //#endregion
+  //#endregion
+  //
   const onSelectDate = (value) => {
     SetSelectDate(value);
   };
@@ -1554,8 +1582,10 @@ const StudentRegistrationForm = () => {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
-                  name="RegistrationNumber"
+                  name="registrationNumber"
                   label="Registration Number"
+                  value={registrationNumber}
+                  onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
                 />
@@ -1564,6 +1594,8 @@ const StudentRegistrationForm = () => {
                 <TextField
                   name="StudentName"
                   label="Student Name"
+                  value={studentName}
+                  onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
                 />
