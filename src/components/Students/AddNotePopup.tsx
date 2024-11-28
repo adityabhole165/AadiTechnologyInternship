@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
+import { Clear as ClearIcon, Visibility } from '@mui/icons-material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
   List,
   ListItem,
-  Typography,
-  Grid,
   TextField,
-  IconButton,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@mui/material';
-import { Clear as ClearIcon, Visibility } from '@mui/icons-material';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
-import { useParams } from 'react-router';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
-import SingleFile from 'src/libraries/File/SingleFile';
 import { red } from '@mui/material/colors';
-import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import React, { useState } from 'react';
+import { useParams } from 'react-router';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import SingleFile from 'src/libraries/File/SingleFile';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import { getCalendarDateFormatDateNew } from '../Common/Util';
 
 interface AddNotePopupProps {
   open: boolean;
@@ -174,18 +172,18 @@ const AddNotePopup: React.FC<AddNotePopupProps> = ({ open, onClose }) => {
         </Grid>
         <Grid xs={12} spacing={2} mt={2}>
           <Grid item>
-          <ResizableTextField
-          name='description' 
-          label={
-            <span>
-                Description
-            </span>
-        }
-        sx={{
-          resize: 'both'
-      }}  
-          multiline
-          fullWidth/>
+            <ResizableTextField
+              name='description'
+              label={
+                <span>
+                  Description
+                </span>
+              }
+              sx={{
+                resize: 'both'
+              }}
+              multiline
+              fullWidth />
           </Grid>
         </Grid>
         <List>
