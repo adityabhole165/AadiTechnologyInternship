@@ -61,11 +61,11 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                 },
             });
             const ContactgroupBody: IContactGRPBody = {
-                asSchoolId: schoolId,
-                asAcademicYearId: academicYearId,
-                asGroupId: '0',
-                asUserRoleId: RoleId,
-                asUserId: asUserId
+                asSchoolId: Number(schoolId),
+                asAcademicYearId: Number(academicYearId),
+                asGroupId: 0,
+                asUserRoleId: Number(RoleId),
+                asUserId: Number(asUserId)
             };
             dispatch(ContactGroup(ContactgroupBody));
         }
@@ -225,6 +225,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                     <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
                                         Add/Update Contact Group
                                     </Typography>
+
                                     <DialogContent>
                                         <Box>
                                             <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} GPName={Item.Name} />

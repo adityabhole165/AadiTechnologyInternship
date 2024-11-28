@@ -39,7 +39,7 @@ const ContactGroupSlice = createSlice({
             state.IGetUserName = action.payload;
         },
         RAddUpdateGroup(state, action) {
-            // state.Loading = false;
+            state.Loading = false;
             state.IAddUpdateGroup = action.payload
         },
         RresetAddUpdateGroup(state) {

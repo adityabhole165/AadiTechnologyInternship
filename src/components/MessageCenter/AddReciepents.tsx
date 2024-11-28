@@ -146,11 +146,11 @@ const AddReciepents = ({
     asAcademicYearId: academicYearId
   };
   const ContactgroupBody: IContactGRPBody = {
-    asSchoolId: schoolId,
-    asAcademicYearId: academicYearId,
-    asGroupId: '0',
-    asUserRoleId: RoleId,
-    asUserId: asUserId
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asGroupId: 0,
+    asUserRoleId: Number(RoleId),
+    asUserId: Number(asUserId)
   };
   useEffect(() => {
     dispatch(getShowPTA(showPTA));
@@ -753,21 +753,6 @@ const AddReciepents = ({
           <Box>
             <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} />
           </Box>
-          {/* <Button >
-            Close
-          </Button>
-          <Button
-            onClick={undefined}
-            sx={{
-              color: 'green',
-              '&:hover': {
-                color: 'green',
-                backgroundColor: green[100]
-              }
-            }}
-          >
-            Confirm
-          </Button> */}
         </DialogContent>
       </Dialog>
     </>

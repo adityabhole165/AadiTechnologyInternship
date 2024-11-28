@@ -153,11 +153,11 @@ export interface IShowPTAOptionResult {
 
 // contact group
 export interface IContactGRPBody {
-  asSchoolId: string;
-  asUserId: string;
-  asAcademicYearId: string;
-  asGroupId: string;
-  asUserRoleId: string;
+  asSchoolId: number;
+  asUserId: number;
+  asAcademicYearId: number;
+  asGroupId: number;
+  asUserRoleId: number;
 }
 export interface IContactGRPResult {
   GroupId: number;

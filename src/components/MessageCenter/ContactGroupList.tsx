@@ -114,11 +114,11 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   }, []);
 
   const ContactgroupBody: IContactGRPBody = {
-    asSchoolId: schoolId,
-    asAcademicYearId: academicYearId,
-    asGroupId: '0',
-    asUserRoleId: RoleId,
-    asUserId: asUserId.toString()
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asGroupId: 0,
+    asUserRoleId: Number(RoleId),
+    asUserId: asUserId
   };
 
   const UserRole: IGetUserRoleBody = {
@@ -202,19 +202,19 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     setErrorGroupNameExists('');
   }
   const clickConfirm = async () => {
-    if (isSubmitting) return;
+    //if (isSubmitting) return;
     let isValid = true;
     setErrorGroupName('');
     setErrorUserRole('');
     setErrorSelectedUser('');
     setErrorGroupNameExists('');
     setErrorTypeName('');
-    if (!GroupName || !selectedd || !selected) {
-      setErrorTypeName('Please correct the following errors.');
-      isValid = false;
-    }
+    // if (!GroupName || !selectedd || !selected) {
+    //   setErrorTypeName('Please correct the following errors.');
+    //   isValid = false;
+    // }
     if (!GroupName.trim()) {
-      setErrorGroupName('Group Name should not be blank.');
+      setErrorGroupName('Group name should not be blank.');
       isValid = false;
     }
     if (GPID === 0) {
@@ -240,7 +240,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       asMailingGroupXML: getXML(),
     };
     dispatch(CDAaddUpdateGroup(SaveContactGroup));
-    dispatch(resetAddUpdateGroup());
+    // dispatch(resetAddUpdateGroup());
     //dispatch(ContactGroup(ContactgroupBody));
     setGroupName('');
     setSelected([]);
@@ -254,7 +254,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   };
   useEffect(() => {
     if (USAddUpdateGroup != "") {
-      toast.success(USAddUpdateGroup)
+      toast.success(USAddUpdateGroup);
+      // dispatch(CDAaddUpdateGroup());
       dispatch(resetAddUpdateGroup());
       dispatch(ContactGroup(ContactgroupBody));
     }
@@ -366,11 +367,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   return (
     <>
       <Box>
-
         <Grid container spacing={2}>
-
           <Grid item xs={4}>
-
             <TextField
               fullWidth
               label={
@@ -388,14 +386,18 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                 }
               }}
             />
-            <ErrorMessage1 Error={ErrorTypeName}></ErrorMessage1>
-            <ErrorMessage1 Error={ErrorGroupName}></ErrorMessage1>
-            <ErrorMessage1 Error={ErrorSelectedUser}></ErrorMessage1>
-            <ErrorMessage1 Error={ErrorUserRole}></ErrorMessage1>
-            <ErrorMessage1 Error={ErrorGroupNameExists}></ErrorMessage1>
+
           </Grid>
         </Grid>
-
+        <Grid sx={{ marginTop: 1 }} >
+          <Typography>
+            <ErrorMessage1 Error={ErrorTypeName}></ErrorMessage1>
+            <ErrorMessage1 Error={ErrorGroupName}></ErrorMessage1>
+            <ErrorMessage1 Error={ErrorUserRole}></ErrorMessage1>
+            <ErrorMessage1 Error={ErrorSelectedUser}></ErrorMessage1>
+            <ErrorMessage1 Error={ErrorGroupNameExists}></ErrorMessage1>
+          </Typography>
+        </Grid>
         <Grid item xs={12}>
           <Typography pt={1}>
             <b>Applicable To </b>
