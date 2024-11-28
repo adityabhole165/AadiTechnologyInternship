@@ -753,7 +753,6 @@ const AddReciepents = ({
           <Box>
             <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} />
           </Box>
-
         </DialogContent>
       </Dialog>
     </>

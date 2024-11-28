@@ -240,7 +240,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       asMailingGroupXML: getXML(),
     };
     dispatch(CDAaddUpdateGroup(SaveContactGroup));
-    //dispatch(resetAddUpdateGroup());
+    dispatch(resetAddUpdateGroup());
     //dispatch(ContactGroup(ContactgroupBody));
     setGroupName('');
     setSelected([]);

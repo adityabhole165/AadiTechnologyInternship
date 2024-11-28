@@ -225,10 +225,9 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                     <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
                                         Add/Update Contact Group
                                     </Typography>
-
                                     <DialogContent>
                                         <Box>
-                                            <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} GPName={Item.Name} GPUserName={Item.Users} />
+                                            <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} GPName={Item.Name} />
                                         </Box>
                                     </DialogContent>
                                 </Dialog>

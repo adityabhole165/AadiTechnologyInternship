@@ -109,10 +109,10 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
     asAcademicYearId: academicYearId
   };
   const ContactgroupBody: IContactGRPBody = {
-    asScholId: schoolId,
+    asSchoolId: schoolId,
     asAcademicYearId: academicYearId,
     asGroupId: '0',
-    asUserRoleId: '3',
+    asUserRoleId: '2',
     asUserId: asUserId
   };
   useEffect(() => {
@@ -461,7 +461,7 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
         <>
           {RoleId === '6' && (
             <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
-              <ListSelect Itemlist={entireSchool} onChange={onChange} />
+              <ListSelect Itemlist={entireSchool} onChange={onChange} ClickGroupRadio={undefined} />
             </Box>
           )}
           {show === true ? (
@@ -482,8 +482,7 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
                         >
                           <ListSelect
                             Itemlist={staffAndAdmin}
-                            onChange={adminandSWChange}
-                          />
+                            onChange={adminandSWChange} ClickGroupRadio={undefined} />
                         </Box>
                       </Card>
                     </Grid>
@@ -493,8 +492,7 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
                           <ListSelect
                             Itemlist={teacherStudent}
                             onChange={teacherStudentChange}
-                            isSingleSelect={true}
-                          />
+                            isSingleSelect={true} ClickGroupRadio={undefined} />
                         </Box>
                       </Card>
                     </Grid>
@@ -530,8 +528,7 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
                   ) : (
                     <SelectallAddrecipents
                       Itemlist={list}
-                      onChange={onChangeTeacher}
-                    />
+                      onChange={onChangeTeacher} ClickGroupRadio1={undefined} />
                   )}
                 </Grid>
               </Grid>

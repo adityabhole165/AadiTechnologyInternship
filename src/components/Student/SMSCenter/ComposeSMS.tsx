@@ -15,6 +15,7 @@ import { Styles } from 'src/assets/style/student-style';
 import TimepickerTwofields from 'src/components/AddSchoolNitice/TimepickerTwofields';
 import { formatAMPM, getCalendarDateFormatDateNew, isFutureDateTime } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
+import AddReciepents from 'src/components/MessageCenter/AddReciepents';
 import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
@@ -43,6 +44,7 @@ const ComposeSMSform = () => {
     const [scheduledTime, setScheduledTime] = React.useState(new Date());
     const [requestSchedule, setRequestSchedule] = useState(false);
     const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
+    const [IsConfirm, setIsConfirm] = useState('');
     const [RecipientsArray, setRecipientsArray] = useState(
         {
             RecipientName: [],
@@ -454,8 +456,17 @@ const ComposeSMSform = () => {
     const onSelectDate = (value) => {
         SetSelectDate(value);
     };
+    const getGroupRadio = (value) => {
+        if (value !== undefined) {
+            sessionStorage.setItem('GroupSelectionId', value);
+        }
+    }
 
-
+    const getGroupRadio1 = (isActive) => {
+        if (isActive !== undefined) {
+            sessionStorage.setItem('GroupSelectionId1', isActive);
+        }
+    }
     return (
         <>
 
@@ -903,11 +914,20 @@ const ComposeSMSform = () => {
 
                     <DialogContent>
                         <Box>
-                            <AddReciepentsSMS
+                            <AddReciepents
+                                getGroupRadio={getGroupRadio}
                                 RecipientName={RecipientsObject.RecipientName}
                                 RecipientId={RecipientsObject.RecipientId}
                                 recipientListClick={RecipientsListFun}
-                            />
+                                contactGroupList={RecipientsObject.ContactGroup}
+                                classIdList={RecipientsObject.ClassId}
+                                IsConfirm={IsConfirm}
+                                getGroupRadio1={getGroupRadio1} />
+                            {/* <AddReciepentsSMS
+                                RecipientName={RecipientsObject.RecipientName}
+                                RecipientId={RecipientsObject.RecipientId}
+                                recipientListClick={RecipientsListFun}
+                            /> */}
                         </Box>
                     </DialogContent>
                 </Dialog>
