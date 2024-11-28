@@ -10,9 +10,10 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
-import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
@@ -48,6 +49,7 @@ const StandardwiseExamSchedule = () => {
     const HeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandardwTest);
     const UpdateExamScheduleInstructions = useSelector((state: RootState) => state.StandardAndExamList.UpdateExamScheduleInstructionsMsg);
     const USInsertExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.InsertExamSchedule);
+    const CopyExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.CopyStandardTestMsg);
 
     function getXML() {
         let Insertxml = "<SubjectwiseStandardExamSchedule>\r\n";
@@ -145,6 +147,17 @@ const StandardwiseExamSchedule = () => {
             });
         }
     };
+
+    useEffect(() => {
+        if (CopyExamSchedule !== '') {
+            if (CopyExamSchedule === "Exam Schedule has been copied successfully!!!") {
+                toast.success(CopyExamSchedule);
+            } else {
+                toast.error(CopyExamSchedule);
+            }
+            dispatch(resetCopyStandardTestMsg()); // Resetting the message state
+        }
+    }, [CopyExamSchedule]);
 
     const getClassName = () => {
         let returnVal = ""
