@@ -715,7 +715,7 @@ const AddReciepents = ({
       >
         <DialogTitle sx={{ bgcolor: '#223354' }}>
           <Tooltip
-            title={'Add/edit delete contact group(s).'}
+            title={'Add / edit delete contact group(s).'}
             placement="bottom-end"
           >
             <QuestionMark
@@ -747,7 +747,7 @@ const AddReciepents = ({
           />
         </DialogTitle>
         <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-          Add/Update Contact Group
+          Add Contact Group
         </Typography>
         <DialogContent>
           <Box>

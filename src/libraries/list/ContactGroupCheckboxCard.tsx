@@ -191,7 +191,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                 >
                                     <DialogTitle sx={{ bgcolor: '#223354' }}>
                                         <Tooltip
-                                            title={'Add/edit delete contact group(s).'}
+                                            title={'Add / edit delete contact group(s).'}
                                             placement="bottom-end"
                                         >
                                             <QuestionMark
@@ -223,7 +223,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                         />
                                     </DialogTitle>
                                     <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-                                        Add/Update Contact Group
+                                        Update Contact Group
                                     </Typography>
 
                                     <DialogContent>

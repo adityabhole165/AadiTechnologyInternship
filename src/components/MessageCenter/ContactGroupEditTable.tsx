@@ -50,7 +50,7 @@ function ContactGroupEditTable({ GPID = 0 }) {
 
       showAlert({
         title: 'Please Confirm',
-        message: 'Are you sure you want to remove this user from selected Group?',
+        message: 'Are you sure you want to remove this user from selected group?',
         variant: 'warning',
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',

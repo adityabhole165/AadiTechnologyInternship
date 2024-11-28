@@ -80,22 +80,7 @@ const CheckboxCard = ({ Item, onClick }) => {
                 </ClickAwayListener>
 
               </Grid>
-              {/* <Grid container>
-                <Grid item xs={3}>
-                  <IconButton
-                  //onClickEdit={() => onClick({ Id: Item.Id, isActive: !Item.isActive })}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </Grid>
-                <Grid item xs={3}>
-                  <IconButton onClick={() => onClick({ Id: Item.Id, isActive: !Item.isActive })}>
 
-                    <DeleteForeverIcon />
-
-                  </IconButton>
-                </Grid>
-              </Grid> */}
             </>
           )}
         </Box>
