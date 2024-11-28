@@ -47,7 +47,7 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
 
             showAlert({
                 title: 'Please Confirm',
-                message: 'Are you sure you want to remove this Group?',
+                message: 'Are you sure you want to remove this group?',
                 variant: 'warning',
                 confirmButtonText: 'Confirm',
                 cancelButtonText: 'Cancel',
