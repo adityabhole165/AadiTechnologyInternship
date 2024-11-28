@@ -24,6 +24,9 @@ import AddNewFeedback from './AddNewFeedback';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { ClearIcon } from '@mui/x-date-pickers';
+import FeedbackTable from './FeedbackTable';
+import FeedbackApp from './FeedbackTable';
+import SingleFile2 from 'src/libraries/File/SingleFile2';
 
 
 const FeedbackDetailsBasescreen = () => {
@@ -59,7 +62,80 @@ const FeedbackDetailsBasescreen = () => {
   const handleClosePopup = () => {
     setPopupOpen(false);
   };
+  const [feedbackData, setFeedbackData] = useState([
+    { date: '27 Nov 2024', linkName: 'Aadi' },
+    { date: '14 Feb 2012', linkName: 'Global Cancer Concern 24-01-2012' },
+  ]);
+  const [popupOpens, setPopupOpens] = useState(false);
+  const [popupMode, setPopupMode] = useState('add');
+  const [currentData, setCurrentData] = useState(null);
+
+  const handleAdd = () => {
+    setPopupMode('add');
+    setCurrentData(null);
+    setPopupOpen(true);
+  };
+
+  const handleEdit = (index) => {
+    setLinkName(feedbackData[index].linkName); // Populate the linkName input field with the selected row's linkName
+    setEditIndex(index); // Set the edit index to the selected row
+  };
+
+  const handleDelete = (index) => {
+    const updatedData = feedbackData.filter((_, i) => i !== index);
+    setFeedbackData(updatedData);
+  };
+
+  const handlePopupSubmit = (newData) => {
+    if (popupMode === 'add') {
+      setFeedbackData([...feedbackData, { date: new Date().toLocaleDateString(), ...newData }]);
+    } else if (popupMode === 'edit') {
+      const updatedData = feedbackData.map((item) =>
+        item.linkName === currentData.linkName ? { ...item, ...newData } : item
+      );
+      setFeedbackData(updatedData);
+    }
+  };
+ 
+  const [linkName, setLinkName] = useState('');
+  const [editIndex, setEditIndex] = useState(null);
+  const [NoticeFile, setNoticeFile] = useState('');
+  const [base64URL, setBase64URL] = useState('');
+
+  const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
+  const MaxfileSize = 3000000;
+
+  const ChangeFile = (value) => {
+    setNoticeFile(value.Name);
+    setBase64URL(value.Value);
+  };
+
+  const handleAddOrUpdate = () => {
+    if (!linkName) {
+      alert('Link Name is required!');
+      return;
+    }
+
+    if (editIndex !== null) {
+        // Update existing entry
+        const updatedData = [...feedbackData];
+        updatedData[editIndex] = { ...updatedData[editIndex], linkName }; // Update the linkName in the selected row
+        setFeedbackData(updatedData);
+        setEditIndex(null); // Reset editing mode
+      } else {
+        // Add new entry
+        const newData = {
+          date: new Date().toLocaleDateString(),
+          linkName,
+        };
+        setFeedbackData([...feedbackData, newData]);
+      }
   
+      setLinkName(''); // Reset input field after adding/updating
+    };
+
+ 
+
 
   return (
     <Box px={2}>
@@ -159,7 +235,56 @@ const FeedbackDetailsBasescreen = () => {
             <FeedbackFromUsersTable data={dummyData} rowsPerPage={rowsPerPage} />
           </>
         ) : (
-          <AddNewFeedback />
+            <>
+            <Grid container spacing={2} mb={2}>
+              {/* Form Section */}
+              <Grid item xs={12} md={4}>
+                <TextField
+                  label={
+                    <span>
+                      Link Name<span style={{ color: 'red' }}> *</span>
+                    </span>
+                  }
+                  value={linkName}
+                  onChange={(e) => setLinkName(e.target.value)}
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} md={4} mt={1}>
+                <SingleFile2
+                  ValidFileTypes={ValidFileTypes}
+                  MaxfileSize={MaxfileSize}
+                  ChangeFile={ChangeFile}
+                  FileName={NoticeFile}
+                  FileLabel="Select File"
+                  width="100%"
+                  height="52px"
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Button
+                  onClick={handleAddOrUpdate}
+                  sx={{
+                    mt: 2,
+                    // backgroundColor: green[100],
+                    color: 'blue',
+                    ':hover': { backgroundColor: blue[100] }
+                  }} 
+                 
+                >
+                  {editIndex !== null ? 'Update' : 'Upload'}
+                </Button>
+              </Grid>
+            </Grid>
+            <Box>
+              <FeedbackTable
+                data={feedbackData}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            </Box>
+          </>
         )}
       </Box>
 

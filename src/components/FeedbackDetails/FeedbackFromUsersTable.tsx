@@ -1,4 +1,4 @@
-import { Delete, Edit } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -16,6 +16,7 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -213,11 +214,14 @@ const FeedbackFromUsersTable: React.FC<FeedbackFromUsersTableProps> = ({ data: i
                   <TableCell sx={{ py: 0.5 }}>{row.email}</TableCell>
                   <TableCell sx={{ py: 0.5 }}>{row.comments}</TableCell>
                   <TableCell sx={{ textAlign: "center", py: 0.5 }}>
+                  <Tooltip title={'Delete'} >
                     <IconButton color="primary">
                       <Edit />
                     </IconButton>
+                    </Tooltip>
                   </TableCell>
                   <TableCell sx={{ textAlign: "center", py: 0.5 }}>
+                  <Tooltip title={'Delete'} >
                     <IconButton
                       sx={{
                         color: "#38548A",
@@ -229,6 +233,7 @@ const FeedbackFromUsersTable: React.FC<FeedbackFromUsersTableProps> = ({ data: i
                     >
                       <DeleteForeverIcon />
                     </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))}
