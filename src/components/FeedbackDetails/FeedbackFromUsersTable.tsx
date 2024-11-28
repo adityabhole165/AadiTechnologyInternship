@@ -1,6 +1,7 @@
 import { Delete, Edit } from "@mui/icons-material";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
   Box,
   Card,
@@ -107,7 +108,7 @@ const FeedbackFromUsersTable: React.FC<FeedbackFromUsersTableProps> = ({ data: i
                       },
                     }}
                   >
-                    <Delete />
+                    <DeleteForeverIcon />
                   </IconButton>
                 </Box>
               </CardContent>
@@ -187,7 +188,7 @@ const FeedbackFromUsersTable: React.FC<FeedbackFromUsersTableProps> = ({ data: i
                 <TableCell sx={{ color: "white", py: 1.5 }}>
                   <strong>Email</strong>
                 </TableCell>
-                <TableCell sx={{ color: "white", py: 1.5 }}>
+                <TableCell sx={{ color: "white", py: 1.5, width: "50%" }}>
                   <strong>Comments</strong>
                 </TableCell>
                 <TableCell sx={{ color: "white", textAlign: "center", py: 1.5 }}>
@@ -226,7 +227,7 @@ const FeedbackFromUsersTable: React.FC<FeedbackFromUsersTableProps> = ({ data: i
                         },
                       }}
                     >
-                      <Delete />
+                      <DeleteForeverIcon />
                     </IconButton>
                   </TableCell>
                 </TableRow>
