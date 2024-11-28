@@ -6,7 +6,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Chec
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -16,6 +16,7 @@ import TimepickerTwofields from 'src/components/AddSchoolNitice/TimepickerTwofie
 import { formatAMPM, getCalendarDateFormatDateNew, isFutureDateTime } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import AddReciepents from 'src/components/MessageCenter/AddReciepents';
+import { AlertContext } from 'src/contexts/AlertContext';
 import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
@@ -25,13 +26,13 @@ import { RootState } from 'src/store';
 import AddReciepentsSMS from './AddReciepientSMS';
 import UserTemplateIdForm from './UserTemplateIdForm';
 
-
 const ComposeSMSform = () => {
     const classes = Styles();
     const navigate = useNavigate();
     const theme = useTheme();
     toast.configure();
     const [isManualEntryEnabled, setIsManualEntryEnabled] = useState(false);
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const [mobileNumbers, setMobileNumbers] = useState('');
     const [error, setError] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
@@ -154,10 +155,15 @@ const ComposeSMSform = () => {
             setinitialMessage(0);
         }
     };
-
     const handleCloseDialog = () => {
         setOpenDialog(false);
+        // setIsConfirm('true');
     };
+    const handleConfirmDialog = () => {
+        setOpenDialog(false);
+        setIsConfirm('true');
+    };
+
     const handleCloseDialog1 = () => {
         setOpenDialog1(false);
     };
@@ -372,6 +378,7 @@ const ComposeSMSform = () => {
     };
 
     const RecipientsListFun = (e) => {
+        clickConfirmFunc(e);
         setRecipientsArray(e);
         setdisplayOfTo_RecipientsPage('none');
         setdisplayOfCompose_Page('block');
@@ -465,6 +472,46 @@ const ComposeSMSform = () => {
     const getGroupRadio1 = (isActive) => {
         if (isActive !== undefined) {
             sessionStorage.setItem('GroupSelectionId1', isActive);
+        }
+    }
+
+
+    const clickConfirm = () => {
+        handleConfirmDialog()
+    }
+    const clickConfirmFunc = (e) => {
+        if (sessionStorage.getItem('GroupSelectionId') === '9' && e.ContactGroup.length === 0 &&
+            e.RecipientName.length === 0) {
+            showAlert({
+                title: 'Please Confirm',
+                message: 'No group is selected. Are you sure you want to continue?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+                    closeAlert();
+                },
+            })
+            // Need To Add condition over here | Note 🔔   windows + .
+        } else if (e.RecipientName.length === 0) {
+            console.log(RecipientsObject, 'checkthis');
+
+            showAlert({
+                title: 'Please Confirm',
+                message: 'No User is selected. Are you sure you want to continue?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+                    closeAlert();
+                },
+            })
         }
     }
     return (
@@ -929,7 +976,27 @@ const ComposeSMSform = () => {
                                 recipientListClick={RecipientsListFun}
                             /> */}
                         </Box>
+
                     </DialogContent>
+                    <DialogActions sx={{ m: 2 }}>
+                        <Button onClick={handleCloseDialog} color={'error'}>
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() => { clickConfirm() }}
+                            sx={{
+                                color: 'green',
+                                '&:hover': {
+                                    color: 'green',
+                                    backgroundColor: green[100]
+                                }
+                            }}
+                        >
+                            Confirm
+
+                        </Button>
+                    </DialogActions>
+
                 </Dialog>
 
                 <Dialog
@@ -967,23 +1034,7 @@ const ComposeSMSform = () => {
                             <UserTemplateIdForm rows={rows} />
                         </Box>
                     </DialogContent>
-                    <DialogActions sx={{ m: 2 }}>
-                        <Button onClick={handleCloseDialog1} color={'error'}>
-                            Close
-                        </Button>
-                        <Button
-                            onClick={undefined}
-                            sx={{
-                                color: 'green',
-                                '&:hover': {
-                                    color: 'green',
-                                    backgroundColor: green[100]
-                                }
-                            }}
-                        >
-                            Confirm
-                        </Button>
-                    </DialogActions>
+
                 </Dialog>
 
 

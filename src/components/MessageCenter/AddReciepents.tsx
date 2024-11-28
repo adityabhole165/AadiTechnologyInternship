@@ -753,6 +753,21 @@ const AddReciepents = ({
           <Box>
             <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} />
           </Box>
+          {/* <Button >
+            Close
+          </Button>
+          <Button
+            onClick={undefined}
+            sx={{
+              color: 'green',
+              '&:hover': {
+                color: 'green',
+                backgroundColor: green[100]
+              }
+            }}
+          >
+            Confirm
+          </Button> */}
         </DialogContent>
       </Dialog>
     </>

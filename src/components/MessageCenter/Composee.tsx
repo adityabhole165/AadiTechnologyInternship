@@ -42,6 +42,7 @@ import { ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessag
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
+//export const AlertContext = createContext<AlertContext>({} as AlertContext);
 import {
   BoxContent,
   CardDetail8,
@@ -303,6 +304,10 @@ function Form13() {
   };
 
   const handleCloseDialog = () => {
+    setOpenDialog(false);
+    // setIsConfirm('true');
+  };
+  const handleConfirmDialog = () => {
     setOpenDialog(false);
     setIsConfirm('true');
   };
@@ -804,9 +809,12 @@ function Form13() {
 
     return Object.values(obj).some(array => Array.isArray(array) && array.length > 0);
   }
-
-  const clickConfirm = () => {
+  const clickClose = () => {
     handleCloseDialog();
+  }
+  const clickConfirm = () => {
+    handleConfirmDialog()
+    // handleCloseDialog();
   }
   const clickConfirmFunc = (e) => {
     // if (RecipientsObject.RecipientName.length === 0) {
