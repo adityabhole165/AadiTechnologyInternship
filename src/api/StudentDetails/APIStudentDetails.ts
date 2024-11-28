@@ -1,15 +1,23 @@
 import {
+    IDeleteStudentAchievementDetailsBody,
     IGenerateTransportFeeEntriesBody,
     IGetAcademicDatesForStandardBody,
     IGetAcademicDatesForStandardResult,
     IGetFormNumberBody,
     IGetFormNumberResult,
     IGetStandardwiseMinMaxDOBBody, IGetStandardwiseMinMaxDOBResult,
+    IGetStudentAchievementDetailsBody,
+    IGetStudentAchievementDetailsResult,
     IGetStudentMandatoryFieldsBody,
     IGetStudentMandatoryFieldsResult,
+    IGetStudentNameForAchievementControlBody,
+    IGetStudentNameForAchievementControlResult,
+    IGetStudentsAllAchievementDetailsBody,
+    IGetStudentsAllAchievementDetailsResult,
     IGetStudentsSiblingDetailBody,
     IGetStudentsSiblingDetailResult,
     IGetStudentUIPreConditionMsgBody, IGetStudentUIPreConditionMsgResult,
+    ISaveStudentAchievementDetailsBody,
     IsClassTeacherBody,
     IsClassTeacherResult,
     IUpdateStudentTrackingDetailsBody
@@ -50,6 +58,27 @@ const UpdateStudentTrackingDetails = (data: IUpdateStudentTrackingDetailsBody) =
     return http.post<String>('Teacher/UpdateStudentTrackingDetails', data);
 };//used
 
+//Add Note Popup
+//1
+const GetStudentNameForAchievementControlApi = (data: IGetStudentNameForAchievementControlBody) => {
+    return http.post<IGetStudentNameForAchievementControlResult[]>('Teacher/GetStudentNameForAchievementControl', data);
+};
+//2 List
+const GetStudentsAllAchievementDetailsApi = (data: IGetStudentsAllAchievementDetailsBody) => {
+    return http.post<IGetStudentsAllAchievementDetailsResult[]>('Teacher/GetStudentsAllAchievementDetails', data);
+};
+//3 Edit
+const GetStudentAchievementDetailsApi = (data: IGetStudentAchievementDetailsBody) => {
+    return http.post<IGetStudentAchievementDetailsResult[]>('Teacher/GetStudentAchievementDetails', data);
+};
+//4 Save
+const SaveStudentAchievementDetailsApi = (data: ISaveStudentAchievementDetailsBody) => {
+    return http.post<string>('Teacher/SaveStudentAchievementDetails', data);
+};
+//5 Delete
+const DeleteStudentAchievementDetailsApi = (data: IDeleteStudentAchievementDetailsBody) => {
+    return http.post<string>('Teacher/DeleteStudentAchievementDetails', data);
+};
 
 const APIStudentDetails = {
     GetStandardwiseMinMaxDOB,
@@ -60,7 +89,9 @@ const APIStudentDetails = {
     GetStudentsSiblingDetail,
     GetAcademicDatesForStandard,
     GetStudentMandatoryFields,
-    UpdateStudentTrackingDetails
+    UpdateStudentTrackingDetails,
+    GetStudentNameForAchievementControlApi, GetStudentsAllAchievementDetailsApi, GetStudentAchievementDetailsApi,
+    SaveStudentAchievementDetailsApi, DeleteStudentAchievementDetailsApi
 
 };
 

@@ -106,5 +106,65 @@ export interface IUpdateStudentTrackingDetailsBody {
     asID: number
     asAcademicYearId: number
 }
+//Add Note Popup
+
+export interface IGetStudentNameForAchievementControlBody {
+    asSchoolId: number
+    asStudentId: number
+}
+
+export interface IGetStudentNameForAchievementControlResult {
+    StudentName: string
+    RegistrationNo: string
+}
+
+export interface IGetStudentsAllAchievementDetailsBody {
+    asSchoolId: number
+    asStudentId: number
+}
+
+export interface IGetStudentsAllAchievementDetailsResult {
+    AchievementId: string
+    ClassName: string
+    Description: string
+    Attachment: string
+    AchievementDate: string
+}
+export interface IGetStudentAchievementDetailsBody {
+    asAchievementId: number
+    asSchoolId: number
+    asStudentId: number
+}
+
+export interface IGetStudentAchievementDetailsResult {
+    AchievementId: string
+    AchievementDate: string
+    Description: string
+    Attachment: string
+}
+export interface ISaveStudentAchievementDetailsBody {
+    asAchievementId: number
+    asStudentId: number
+    asAchievementDate: string
+    asDescription: string
+    asAttachment: string
+    asSchoolId: number
+    asAcademicYearId: number
+    asUpdatedById: number
+    asSaveFeature: string
+    asFolderName: string
+    asBase64String: string
+}
+export interface IDeleteStudentAchievementDetailsBody {
+    asSchoolId: number
+    asStudentId: number
+    asAchievementId: number
+    asUpdatedById: number
+}
+
+
+
+
+
 
 
