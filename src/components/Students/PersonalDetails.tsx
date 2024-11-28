@@ -1211,8 +1211,8 @@ const PersonalDetails = ({ personal, onChange }) => {
           <Box>
             <Typography variant="h2" sx={{ pt: 2, pl: 1 }}>Upload Photo</Typography>
             <Box sx={{ background: 'white', top: '1px', alignItems: 'center', pl: 1, pr: 2, pt: 2 }}>
-              <Grid container spacing={2}  >
-                <Grid item xs={6} sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2, border: 2, borderColor: 'gray.300', width: '100%', height: '100%', overflow: 'hidden', }}
+              <Grid container spacing={2} >
+                <Grid item xs={6} sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2, border: 2, borderColor: 'gray.300', maxWidth: '100%', maxHeight: '100%', overflow: 'hidden', }}
                 >
                   {isWebcamActive ? (
                     <>
@@ -1220,10 +1220,13 @@ const PersonalDetails = ({ personal, onChange }) => {
                         audio={false}
                         ref={webcamRef}
                         screenshotFormat="image/png"
+                        height={310}
+                        width={1280}
                         //className="w-full h-full object-contain"
                         style={{
-                          width: '100%',
-                          height: '100%',
+                          //maxWidth: '100%',
+                          // maxHeight: '100%',
+                          position: 'relative',
                           objectFit: 'contain', // To maintain aspect ratio
                           borderRadius: '4%', // Match the captured image's rounded corners
                         }}
@@ -1252,12 +1255,12 @@ const PersonalDetails = ({ personal, onChange }) => {
                   )}
                 </Grid>
                 {/* {capturedImage && ( */}
-                <Grid item xs={6} sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2, border: 2, width: '100%', height: '100%' }}>
+                <Grid item xs={6} sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2, border: 2, maxWidth: '100%', maxHeight: '100%', overflow: 'auto', }}>
                   {capturedImage && (
                     <img
                       src={capturedImage}
                       alt="Captured"
-                      style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%', borderRadius: '4%' }}
+                      style={{ minWidth: '100%', minHeight: '100%', borderRadius: '4%', objectFit: 'contain' }}
                     />
                   )}
                 </Grid>

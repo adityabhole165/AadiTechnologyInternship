@@ -101,7 +101,7 @@ const AdmissionDetails = ({ admission, onChange }) => {
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const IsRTEApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsRTEApplicable || false;
   const ShowDayBoardingOptionOnStudentsScreen = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowDayBoardingOptionOnStudentsScreen || false;
-
+  const IsConcessionApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsConcessionApplicable || false;
   //console.log(GetFromNumber, 'GetFromNumber');
 
   // const GetStudentRecordDataResult: IMasterDatastudentBody = {
@@ -660,17 +660,18 @@ const AdmissionDetails = ({ admission, onChange }) => {
             disabled={isExamPublished}
           />
         </Grid>
-
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={FeeRuleConcession}
-            onChange={(value) => onChange('applicableRules', value)}
-            label={'Applicable Rule'}
-            defaultValue={admission.applicableRules}
-            size={'medium'}
-          />
-        </Grid>
+        {IsConcessionApplicable &&
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <SearchableDropdown
+              sx={{ minWidth: '300px' }}
+              ItemList={IsConcessionApplicable == true ? FeeRuleConcession : []}
+              onChange={(value) => onChange('applicableRules', value)}
+              label={'Applicable Rule'}
+              defaultValue={IsConcessionApplicable == true ? admission.applicableRules : '0'}
+              size={'medium'}
+            />
+          </Grid>
+        }
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
@@ -721,18 +722,20 @@ const AdmissionDetails = ({ admission, onChange }) => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="isStaffKid"
-                checked={admission.isStaffKid}
-                onChange={handleInputChange}
-              />
-            }
-            label="Is Staff Kid?"
-          />
-        </Grid>
+        {IsConcessionApplicable &&
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="isStaffKid"
+                  checked={admission.isStaffKid}
+                  onChange={handleInputChange}
+                />
+              }
+              label="Is Staff Kid?"
+            />
+          </Grid>
+        }
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <FormControlLabel
             control={

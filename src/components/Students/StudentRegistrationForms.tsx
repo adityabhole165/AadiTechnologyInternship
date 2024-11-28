@@ -1299,44 +1299,42 @@ const StudentRegistrationForm = () => {
           </>
         }
       />
-      <Box sx={{ backgroundColor: 'white', p: 1 }}>
+      <Box sx={{ backgroundColor: 'white', p: 1, mb: 1 }}>
         <StudentProfileHeader />
       </Box>
-
-      {/* Profile Completion Bar */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          my: 1,
-          backgroundColor: 'white',
-          p: 2
-        }}
-      >
+      <Box sx={{ backgroundColor: 'white', p: 2, mb: 1 }}>
         {validationMessages.length > 0 && (
-          <div className="">
-            <ul>
-              {validationMessages.map((message, index) => (
-                <li key={index} style={{ color: 'red', fontWeight: 'bold' }}>
-                  {message}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Box pt={1}>
+            {validationMessages.map((message, index) => (
+              <Typography key={index} variant="h5" style={{ color: 'red' }}>
+                {message}
+              </Typography>
+            ))}
+          </Box>
         )}
-        <Typography variant="body1" sx={{ mr: 2 }}>
-          Completeness
-        </Typography>
-        <LinearProgress
-          variant="determinate"
-          value={profileCompletion}
-          sx={{ flexGrow: 1, height: 10 }}
-        />
-        <Typography variant="body1" sx={{ ml: 2 }}>
-          {profileCompletion}%
-        </Typography>
+        {/* Profile Completion Bar */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            my: 1,
+            backgroundColor: 'white',
+            p: 1
+          }}
+        >
+          <Typography variant="body1" sx={{ mr: 2 }}>
+            Completeness
+          </Typography>
+          <LinearProgress
+            variant="determinate"
+            value={profileCompletion}
+            sx={{ flexGrow: 1, height: 10 }}
+          />
+          <Typography variant="body1" sx={{ ml: 2 }}>
+            {profileCompletion}%
+          </Typography>
+        </Box>
       </Box>
-
       <Box
         sx={{
           backgroundColor: 'white',
