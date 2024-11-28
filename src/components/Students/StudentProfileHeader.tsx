@@ -26,20 +26,27 @@ const StudentProfileHeader: React.FC = () => {
     console.log('💀studentDetails on profile header:', studentDetails);
 
     useEffect(() => {
+        console.log("Photo_File_Path:", Photo_File_Path);
+        console.log("Photo_file_Path_Image:", Photo_file_Path_Image);
+
         if (Photo_File_Path && Photo_file_Path_Image) {
-            const base64Image = Photo_file_Path_Image;
-            const newImageName = Photo_File_Path.split('/').pop(); // Extract file name
-            const fileExtension = Photo_File_Path.split('.').pop(); // Extract file extension
+            // const base64Image = Photo_file_Path_Image;
+            //const newImageName = Photo_File_Path.split('/').pop(); // Extract file name
+            const fileExtension = Photo_File_Path.split('.').pop() || "jpeg"; // Extract file extension
             const imageData = `data:image/${fileExtension};base64,${Photo_file_Path_Image}`;
 
             setprofilePhoto({
                 src: imageData,                      //`data:image/jpeg;base64,${personal.photoFilePathImage}`,
-                name: newImageName,                 //personal.photoFilePath.split('/').pop(), // Extract file name
-                base64: base64Image, // Use the file path from API
+                name: Photo_File_Path.split('/').pop(),
+                base64: Photo_file_Path_Image, // Use the file path from API
             });
         }
     }, [Photo_File_Path, Photo_file_Path_Image]);
-    //console.log('Show Confirmed By Name:', showConfirmedByName);
+
+    useEffect(() => {
+        console.log("Profile Photo State:", profilePhoto);
+    }, [profilePhoto]);
+
     // Function to format text with first two words in bold
     const formatTextWithBoldFirstTwo = (text: string) => {
         if (!text) return null;
@@ -66,8 +73,8 @@ const StudentProfileHeader: React.FC = () => {
 
             <Grid item xs={12} sm={8} container alignItems="center">
                 <Avatar
-                    src={profilePhoto}// Replace with actual photo URL
-                    alt={profilePhoto || "Student photo"}
+                    src={profilePhoto?.src || "/path/to/default-image.jpg"}// Replace with actual photo URL
+                    alt={profilePhoto?.name || "Student photo"}
                     sx={{ width: 80, height: 80, marginRight: '16px' }}
                 />
                 <div>
