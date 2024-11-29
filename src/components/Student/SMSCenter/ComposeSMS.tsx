@@ -570,10 +570,10 @@ const ComposeSMSform = () => {
                         </AccordionSummary>
                         <AccordionDetails sx={{ gap: 0.1, display: 'flex', flexDirection: 'column' }}>
                             <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}>
-                                <b>Note 1 : </b> {note}
+                                {note}
                             </Alert>
-                            <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}><b>Note 2 : </b> {note1}</Alert>
-                            <Alert variant="filled" severity="info"><b>Note 3 : </b> {note2}</Alert>
+                            <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}> {note1}</Alert>
+                            <Alert variant="filled" severity="info">{note2}</Alert>
                         </AccordionDetails>
                     </Accordion>
                 </Paper>
