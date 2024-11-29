@@ -136,12 +136,12 @@ export interface IGetSubjectExamScheduleResult {
   ],
   Instructionss: [
     {
-      Instructions: string;
+      Instructionss: string;
     }
   ],
   IsSubmitedd: [
     {
-      IsSubmited: string;
+      IsSubmitedd: string;
     }
   ],
 }

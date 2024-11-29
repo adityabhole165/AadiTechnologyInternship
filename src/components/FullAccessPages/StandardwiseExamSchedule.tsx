@@ -52,8 +52,8 @@ const StandardwiseExamSchedule = () => {
     const USInsertExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.InsertExamSchedule);
     const CopyExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.CopyStandardTestMsg);
     const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
-
     const Instructionss = useSelector((state: RootState) => state.StandardAndExamList.Instructionss);
+
     function getXML() {
         let Insertxml = "<SubjectwiseStandardExamSchedule>\r\n";
 
@@ -197,19 +197,22 @@ const StandardwiseExamSchedule = () => {
         dispatch(GetSumbitExamSchedule(SumbitExamScheduleBody))
     };
 
-    const handleOpenDialog = (isRecipients) => {
+    const handleOpenDialog = (instructionText) => {
+        setEditMode(false);
         setIsConfirm('');
-        setShowRecipients(isRecipients);
+        setCurrentInstruction(instructionText);
         setOpenDialog(true);
     };
-    const handleOpenDialog1 = (isRecipients) => {
+    const handleOpenDialog1 = (instructionText) => {
         setIsConfirm1('');
         setEditMode(true);
-        setShowRecipients1(isRecipients);
+        setCurrentInstruction(instructionText);
         setOpenDialog1(true);
     };
+
     const handleAddOrUpdateInstruction = () => {
-        if (editMode && selectedInstructionId != null) {
+
+        if (selectedInstructionId != null) {
             setInstructions(prev =>
                 prev.map(inst => inst.id === selectedInstructionId ? { ...inst, text: currentInstruction } : inst)
             );
@@ -230,7 +233,15 @@ const StandardwiseExamSchedule = () => {
         }
         dispatch(GetUpdateExamScheduleInstructions(UpdateExamScheduleInstructionsBody));
         handleCloseDialog1();
+        window.location.reload();
     };
+
+    const [isExpanded, setIsExpanded] = useState(Instructionss.length > 0);
+
+    const handleAccordionToggle = () => {
+        setIsExpanded(!isExpanded);
+    };
+
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -291,118 +302,133 @@ const StandardwiseExamSchedule = () => {
 
 
                         <Tooltip title="Save">
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor:
-                                        getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
-                                            ? 'gray'
-                                            : green[500], // Disabled color if submitted
-                                    '&:hover': {
+                            <span>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
                                         backgroundColor:
                                             getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
                                                 ? 'gray'
-                                                : green[600] // Prevent hover color when disabled
-                                    }
-                                }}
-                                onClick={onClickSave}
-                                disabled={getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"}
-                            >
-                                <SaveIcon />
-                            </IconButton>
+                                                : green[500], // Disabled color if submitted
+                                        '&:hover': {
+                                            backgroundColor:
+                                                getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
+                                                    ? 'gray'
+                                                    : green[600] // Prevent hover color when disabled
+                                        }
+                                    }}
+                                    onClick={onClickSave}
+                                    disabled={getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"}
+                                >
+                                    <SaveIcon />
+                                </IconButton>
+                            </span>
                         </Tooltip>
 
                         {/* Conditionally Render Submit or Unsubmit */}
                         {getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? (
                             <Tooltip title="Unsubmit">
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: red[500],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: red[600] }
-                                    }}
-                                    onClick={undefined} 
-                                >
-                                    <Close />
-                                </IconButton>
+                                <span>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: red[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: red[600] }
+                                        }}
+                                        onClick={undefined}
+                                    >
+                                        <Close />
+                                    </IconButton>
+                                </span>
                             </Tooltip>
                         ) : (
                             <Tooltip title="Submit">
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: green[500],
-                                        '&:hover': {
-                                            backgroundColor: green[600]
-                                        }
-                                    }}
-                                    onClick={onClickSubmit} 
-                                >
-                                    <CheckRoundedIcon />
-                                </IconButton>
+                                <span>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={onClickSubmit}
+                                    >
+                                        <CheckRoundedIcon />
+                                    </IconButton>
+                                </span>
                             </Tooltip>
                         )}
 
                         <Tooltip title="Copy Schedule">
-                            <IconButton sx={{
-                                color: 'white',
-                                backgroundColor: blue[500],
-                                '&:hover': {
-                                    backgroundColor: blue[600]
-                                }
-                            }}
-                                onClick={() => handleOpenDialog(true)}
-                            >
-                                <ContentCopyIcon />
-                            </IconButton>
+                            <span>
+                                <IconButton sx={{
+                                    color: 'white',
+                                    backgroundColor: blue[500],
+                                    '&:hover': {
+                                        backgroundColor: blue[600]
+                                    }
+                                }}
+                                    onClick={() => handleOpenDialog(true)}
+                                >
+                                    <ContentCopyIcon />
+                                </IconButton>
+                            </span>
                         </Tooltip>
                         <Tooltip title="Add Instructions">
-                            <IconButton sx={{
-                                color: 'white',
-                                backgroundColor: blue[500],
-                                '&:hover': {
-                                    backgroundColor: blue[600]
-                                }
-                            }}
-                                onClick={() => handleOpenDialog1(true)}
-                            >
-                                <AddBoxRoundedIcon />
-                            </IconButton>
+                            <span>
+                                <IconButton sx={{
+                                    color: 'white',
+                                    backgroundColor: blue[500],
+                                    '&:hover': {
+                                        backgroundColor: blue[600]
+                                    }
+                                }}
+                                    onClick={() => handleOpenDialog1(true)}
+                                    disabled={Instructionss.length > 0 && Instructionss[0]?.Instructionss !== ""}
+                                >
+                                    <AddBoxRoundedIcon />
+                                </IconButton>
+                            </span>
                         </Tooltip>
                     </>
                 }
             />
             <Box>
-
-                <Accordion sx={{ mt: 1, mb: 1 }}>
+                <Accordion sx={{ mt: 1, mb: 1 }} expanded={isExpanded}
+                    onChange={handleAccordionToggle}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h5"> <strong>More Instructions</strong> </Typography>
+                        <Typography variant="h5"><strong>More Instructions</strong></Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Box display="flex" flexDirection="column" gap={2}>
-                            {instructions.map(instruction => (
-                                <Box key={instruction.id} display="flex" alignItems="center" justifyContent="space-between">
-                                    <Typography variant="body1">{instruction.text}</Typography>
-                                    <Button
-                                        // variant="contained"
-                                        sx={{
-                                            color: 'blue',
-                                            '&:hover': {
+                            {Instructionss[0]?.Instructionss.length > 0 ? (
+                                Instructionss.map((instruction, index) => (
+                                    <Box key={index} display="flex" alignItems="center" justifyContent="space-between">
+                                        <Typography variant="body1">{instruction.Instructionss}</Typography>
+                                        <Button
+                                            sx={{
                                                 color: 'blue',
-                                                backgroundColor: blue[100]
-                                            }
-                                        }}
-                                        onClick={() => handleOpenDialog1(instruction.text)}
-                                    >
-                                        Update Instruction
-                                    </Button>
-                                </Box>
-                            ))}
+                                                '&:hover': {
+                                                    color: 'blue',
+                                                    backgroundColor: blue[100]
+                                                }
+                                            }}
+                                            onClick={() => handleOpenDialog1(instruction.Instructionss)}
+                                        >
+                                            Update Instruction
+                                        </Button>
+                                    </Box>
+                                ))
+                            ) : (
+                                null
+                            )}
                         </Box>
                     </AccordionDetails>
                 </Accordion>
             </Box>
+
             <Box>
                 <StandardwiseExamScheduleTable />
             </Box>
@@ -501,7 +527,7 @@ const StandardwiseExamSchedule = () => {
                     />
                 </DialogTitle>
                 <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-                    {editMode ? 'Update Instruction' : 'Add Instructions'}
+                    {currentInstruction && currentInstruction.length > 0 ? 'Update Instructions' : 'Add Instructions'}
                 </Typography>
                 <DialogContent>
                     <TextField
@@ -510,7 +536,7 @@ const StandardwiseExamSchedule = () => {
                         multiline
                         rows={3}
                         variant="outlined"
-                        value={currentInstruction}
+                        value={currentInstruction || ''}
                         onChange={(e) => setCurrentInstruction(e.target.value)}
                         sx={{ mt: 2 }}
                     />
