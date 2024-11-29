@@ -92,159 +92,159 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                         IsAllDeactivated={Item.IsAllDeactivated}
                         IsExamSubmitted={Item.IsExamSubmitted}
                     />
-                    {Item.IsAllDeactivated ? (
+                    {/* {Item.IsAllDeactivated ? (
                         <ItemSize>{Item.Name}</ItemSize>
-                    ) : (
-                        <>
-                            <Grid item container xs={12}>
-                                <Tooltip
+                    ) : ( */}
+                    <>
+                        <Grid item container xs={12}>
+                            <Tooltip
 
-                                    title={
-                                        <React.Fragment>
-                                            <Typography variant="h6" sx={{ mb: 1, color: 'white' }}>{Item.Name}</Typography>
-                                            <Typography variant="body1" sx={{ color: 'white' }}>{Item.Users}</Typography>
-                                        </React.Fragment>
-                                    }
-                                    placement="right"
-                                    disableFocusListener
-                                    disableTouchListener
-                                    PopperProps={{ disablePortal: true }}
-                                    componentsProps={{
-                                        tooltip: { sx: { py: 0.7, width: '200px' } },
-                                    }}
-                                >
-                                    <ItemSize>
+                                title={
+                                    <React.Fragment>
+                                        <Typography variant="h6" sx={{ mb: 1, color: 'white' }}>{Item.Name}</Typography>
+                                        <Typography variant="body1" sx={{ color: 'white' }}>{Item.Users}</Typography>
+                                    </React.Fragment>
+                                }
+                                placement="right"
+                                disableFocusListener
+                                disableTouchListener
+                                PopperProps={{ disablePortal: true }}
+                                componentsProps={{
+                                    tooltip: { sx: { py: 0.7, width: '200px' } },
+                                }}
+                            >
+                                <ItemSize>
 
-                                        {
-                                            Item.Name !== '' ? (
-                                                // <Tooltip title={Item.Name} placement='right'>
-                                                <Typography sx={{ width: '130px', overflow: 'hidden', color: '#38548A	' }}>
-                                                    {Item.Name}
-                                                </Typography>
-                                                // </Tooltip>
-                                            ) : (
-                                                <Avatar
-                                                    alt="user.name"
-                                                    src={
-                                                        localStorage.getItem('SiteURL') +
-                                                        'RITeSchool/Uploads/OnlineExamImages/' +
-                                                        Item.path1
-                                                    }
-                                                    sx={{
-                                                        width: '180px',
-                                                        height: '160px',
-                                                        border: '2px solid gray',
-                                                        textAlign: 'center',
-                                                    }}
-                                                    variant="square"
-                                                    aria-label="add"
-                                                ></Avatar>
-                                            )}
-                                    </ItemSize>
-                                </Tooltip>
-                            </Grid>
+                                    {
+                                        Item.Name !== '' ? (
+                                            // <Tooltip title={Item.Name} placement='right'>
+                                            <Typography sx={{ width: '130px', overflow: 'hidden', color: '#38548A	' }}>
+                                                {Item.Name}
+                                            </Typography>
+                                            // </Tooltip>
+                                        ) : (
+                                            <Avatar
+                                                alt="user.name"
+                                                src={
+                                                    localStorage.getItem('SiteURL') +
+                                                    'RITeSchool/Uploads/OnlineExamImages/' +
+                                                    Item.path1
+                                                }
+                                                sx={{
+                                                    width: '180px',
+                                                    height: '160px',
+                                                    border: '2px solid gray',
+                                                    textAlign: 'center',
+                                                }}
+                                                variant="square"
+                                                aria-label="add"
+                                            ></Avatar>
+                                        )}
+                                </ItemSize>
+                            </Tooltip>
+                        </Grid>
 
 
-                            <Grid container>
-                                <Grid item xs={4}>
-                                    {MessageCenterFullAccess === 'Y' && (
-                                        <IconButton sx={{
-                                            ml: 1,
+                        <Grid container>
+                            <Grid item xs={4}>
+                                {MessageCenterFullAccess === 'Y' && (
+                                    <IconButton sx={{
+                                        ml: 1,
+                                        p: 0,
+                                        textAlign: 'left',
+                                        color: '#38548A	',
+                                        '&:hover': {
+                                            color: '#38548A',
                                             p: 0,
-                                            textAlign: 'left',
+                                            backgroundColor: grey[300]
+                                        }
+                                    }}
+
+                                        onClick={() => handleOpenDialog(true)}
+                                    >
+                                        <Tooltip title="Edit" >
+                                            <EditIcon sx={{ p: 0 }} />
+                                        </Tooltip>
+                                    </IconButton>
+                                )}
+                            </Grid>
+                            <Grid item xs={4}>
+                                {MessageCenterFullAccess === 'Y' && (
+                                    <IconButton
+                                        onClick={() => onDelete(Item.Id)}
+                                        sx={{
+                                            ml: 4.5,
+                                            p: 0,
                                             color: '#38548A	',
                                             '&:hover': {
-                                                color: '#38548A',
+                                                color: 'red',
                                                 p: 0,
-                                                backgroundColor: grey[300]
+                                                backgroundColor: red[100]
                                             }
                                         }}
 
-                                            onClick={() => handleOpenDialog(true)}
-                                        >
-                                            <Tooltip title="Edit" >
-                                                <EditIcon sx={{ p: 0 }} />
-                                            </Tooltip>
-                                        </IconButton>
-                                    )}
-                                </Grid>
-                                <Grid item xs={4}>
-                                    {MessageCenterFullAccess === 'Y' && (
-                                        <IconButton
-                                            onClick={() => onDelete(Item.Id)}
-                                            sx={{
-                                                ml: 4.5,
-                                                p: 0,
-                                                color: '#38548A	',
-                                                '&:hover': {
-                                                    color: 'red',
-                                                    p: 0,
-                                                    backgroundColor: red[100]
-                                                }
-                                            }}
+                                    >
+                                        <Tooltip title="Delete" >
 
-                                        >
-                                            <Tooltip title="Delete" >
-
-                                                <DeleteForeverIcon sx={{ p: 0 }} />
-                                            </Tooltip>
-
-                                        </IconButton>
-                                    )}
-                                </Grid>
-                                <Dialog
-                                    open={openDialog}
-                                    onClose={handleCloseDialog}
-                                    fullWidth
-                                    maxWidth="md"
-                                    PaperProps={{ sx: { borderRadius: '15px' } }}
-                                >
-                                    <DialogTitle sx={{ bgcolor: '#223354' }}>
-                                        <Tooltip
-                                            title={'Add / edit delete contact group(s).'}
-                                            placement="bottom-end"
-                                        >
-                                            <QuestionMark
-                                                sx={{
-                                                    color: 'white',
-                                                    // background:'white',
-                                                    borderRadius: '10px',
-                                                    position: 'absolute',
-                                                    top: '4px',
-                                                    right: '35px',
-                                                    cursor: 'pointer',
-                                                    '&:hover': { backgroundColor: grey[600] }
-                                                }}
-                                            />
+                                            <DeleteForeverIcon sx={{ p: 0 }} />
                                         </Tooltip>
-                                        <ClearIcon
-                                            onClick={handleCloseDialog}
+
+                                    </IconButton>
+                                )}
+                            </Grid>
+                            <Dialog
+                                open={openDialog}
+                                onClose={handleCloseDialog}
+                                fullWidth
+                                maxWidth="md"
+                                PaperProps={{ sx: { borderRadius: '15px' } }}
+                            >
+                                <DialogTitle sx={{ bgcolor: '#223354' }}>
+                                    <Tooltip
+                                        title={'Add / edit delete contact group(s).'}
+                                        placement="bottom-end"
+                                    >
+                                        <QuestionMark
                                             sx={{
                                                 color: 'white',
-                                                borderRadius: '7px',
+                                                // background:'white',
+                                                borderRadius: '10px',
                                                 position: 'absolute',
-                                                top: '5px',
-                                                right: '8px',
+                                                top: '4px',
+                                                right: '35px',
                                                 cursor: 'pointer',
-                                                '&:hover': {
-                                                    color: 'red'
-                                                }
+                                                '&:hover': { backgroundColor: grey[600] }
                                             }}
                                         />
-                                    </DialogTitle>
-                                    <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-                                        Update Contact Group
-                                    </Typography>
+                                    </Tooltip>
+                                    <ClearIcon
+                                        onClick={handleCloseDialog}
+                                        sx={{
+                                            color: 'white',
+                                            borderRadius: '7px',
+                                            position: 'absolute',
+                                            top: '5px',
+                                            right: '8px',
+                                            cursor: 'pointer',
+                                            '&:hover': {
+                                                color: 'red'
+                                            }
+                                        }}
+                                    />
+                                </DialogTitle>
+                                <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
+                                    Update Contact Group
+                                </Typography>
 
-                                    <DialogContent>
-                                        <Box>
-                                            <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} GPName={Item.Name} />
-                                        </Box>
-                                    </DialogContent>
-                                </Dialog>
-                            </Grid>
-                        </>
-                    )}
+                                <DialogContent>
+                                    <Box>
+                                        <ContactGroupList onClose={handleCloseDialog} GPID={Item.Id} GPName={Item.Name} />
+                                    </Box>
+                                </DialogContent>
+                            </Dialog>
+                        </Grid>
+                    </>
+                    {/* )} */}
                 </Box>
             </List>
         </Box>
