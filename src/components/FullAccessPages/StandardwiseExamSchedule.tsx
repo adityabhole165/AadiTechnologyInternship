@@ -1,19 +1,20 @@
 import { QuestionMark } from '@mui/icons-material';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import Close from '@mui/icons-material/Close';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SaveIcon from '@mui/icons-material/Save';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
-import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { IGetSubjectExamScheduleBody, IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
+import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetSubjectExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
@@ -50,7 +51,9 @@ const StandardwiseExamSchedule = () => {
     const UpdateExamScheduleInstructions = useSelector((state: RootState) => state.StandardAndExamList.UpdateExamScheduleInstructionsMsg);
     const USInsertExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.InsertExamSchedule);
     const CopyExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.CopyStandardTestMsg);
+    const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
 
+    const Instructionss = useSelector((state: RootState) => state.StandardAndExamList.Instructionss);
     function getXML() {
         let Insertxml = "<SubjectwiseStandardExamSchedule>\r\n";
 
@@ -83,6 +86,18 @@ const StandardwiseExamSchedule = () => {
         }
 
         dispatch(RExamSchedule(RExamScheduleBody))
+    }, [])
+
+
+    useEffect(() => {
+        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
+            asStandardId: Number(StandardId),
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
+
+        }
+        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
     }, [])
 
     const SumbitExamScheduleBody: ISumbitExamScheduleBody = {
@@ -276,33 +291,59 @@ const StandardwiseExamSchedule = () => {
 
 
                         <Tooltip title="Save">
-                            <IconButton sx={{
-                                color: 'white',
-                                backgroundColor: green[500],
-                                '&:hover': {
-                                    backgroundColor: green[600]
-                                }
-                            }}
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor:
+                                        getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
+                                            ? 'gray'
+                                            : green[500], // Disabled color if submitted
+                                    '&:hover': {
+                                        backgroundColor:
+                                            getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
+                                                ? 'gray'
+                                                : green[600] // Prevent hover color when disabled
+                                    }
+                                }}
                                 onClick={onClickSave}
+                                disabled={getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"}
                             >
                                 <SaveIcon />
                             </IconButton>
                         </Tooltip>
 
-                        {/* Submit Button */}
-                        <Tooltip title="Submit">
-                            <IconButton sx={{
-                                color: 'white',
-                                backgroundColor: green[500],
-                                '&:hover': {
-                                    backgroundColor: green[600]
-                                }
-                            }}
-                                onClick={onClickSubmit}
-                            >
-                                <CheckRoundedIcon />
-                            </IconButton>
-                        </Tooltip>
+                        {/* Conditionally Render Submit or Unsubmit */}
+                        {getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? (
+                            <Tooltip title="Unsubmit">
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: red[500],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: red[600] }
+                                    }}
+                                    onClick={undefined} 
+                                >
+                                    <Close />
+                                </IconButton>
+                            </Tooltip>
+                        ) : (
+                            <Tooltip title="Submit">
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: green[500],
+                                        '&:hover': {
+                                            backgroundColor: green[600]
+                                        }
+                                    }}
+                                    onClick={onClickSubmit} 
+                                >
+                                    <CheckRoundedIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+
                         <Tooltip title="Copy Schedule">
                             <IconButton sx={{
                                 color: 'white',
