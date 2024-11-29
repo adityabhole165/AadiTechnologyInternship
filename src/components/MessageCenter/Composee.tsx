@@ -817,23 +817,7 @@ function Form13() {
     // handleCloseDialog();
   }
   const clickConfirmFunc = (e) => {
-    // if (RecipientsObject.RecipientName.length === 0) {
-    //   showAlert({
-    //     title: 'Please Confirm',
-    //     message: 'No User/Contact group is selected. Are you sure you want to continue?',
-    //     variant: 'warning',
-    //     confirmButtonText: 'Confirm',
-    //     cancelButtonText: 'Cancel',
-    //     onCancel: () => {
-    //       closeAlert();
-    //     },
 
-    //     onConfirm: () => {
-    //       closeAlert();
-    //     },
-    //   })
-    // }
-    // else { "" }
     if (sessionStorage.getItem('GroupSelectionId') === '9' && e.ContactGroup.length === 0 &&
       e.RecipientName.length === 0) {
       showAlert({
@@ -855,7 +839,7 @@ function Form13() {
 
       showAlert({
         title: 'Please Confirm',
-        message: 'No User is selected. Are you sure you want to continue?',
+        message: 'No user is selected. Are you sure you want to continue?',
         variant: 'warning',
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',
