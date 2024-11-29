@@ -54,8 +54,8 @@ const AddNewFeedback: React.FC = () => {
       <Grid container spacing={3}>
         {/* Feedback For Section */}
         <Grid item xs={12}>
-          <Typography variant="body1" >
-            Feedback For :
+          <Typography variant="h5" >
+            Feedback For 
           </Typography>
           <FormControlLabel
             control={
@@ -79,8 +79,8 @@ const AddNewFeedback: React.FC = () => {
 
         {/* Feedback Type Section */}
         <Grid item xs={12}>
-          <Typography variant="body1" >
-            Feedback Type :
+          <Typography variant="h5" >
+            Feedback Type 
           </Typography>
           <FormControlLabel
             control={
