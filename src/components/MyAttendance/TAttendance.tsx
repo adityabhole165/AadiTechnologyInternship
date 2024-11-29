@@ -450,10 +450,11 @@ const TAttendance = () => {
     });
     return '<Attendance>' + returnXML + '</Attendance>';
   };
+  const userId = sessionStorage.getItem('Id');
   const SaveAttendance = () => {
     const GetSaveStudentAttendance: ISaveStudentAttendenceBody = {
       asSchoolId: Number(asSchoolId),
-      asInsertedById: Number(asTeacherId),
+      asInsertedById: Number(userId),
       asStudentsAttendanceXML: getXML(),
       asAttendanceDate: assignedDate,
       asStandardDivisionId: Number(selectClasstecahernew),
