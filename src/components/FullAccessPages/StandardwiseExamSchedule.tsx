@@ -212,7 +212,7 @@ const StandardwiseExamSchedule = () => {
 
     const handleAddOrUpdateInstruction = () => {
 
-        if (selectedInstructionId != null) {
+        if (editMode && selectedInstructionId != null) {
             setInstructions(prev =>
                 prev.map(inst => inst.id === selectedInstructionId ? { ...inst, text: currentInstruction } : inst)
             );
@@ -233,7 +233,9 @@ const StandardwiseExamSchedule = () => {
         }
         dispatch(GetUpdateExamScheduleInstructions(UpdateExamScheduleInstructionsBody));
         handleCloseDialog1();
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     };
 
     const [isExpanded, setIsExpanded] = useState(Instructionss.length > 0);
@@ -241,6 +243,8 @@ const StandardwiseExamSchedule = () => {
     const handleAccordionToggle = () => {
         setIsExpanded(!isExpanded);
     };
+
+
 
     return (
         <Box px={2}>
@@ -527,7 +531,7 @@ const StandardwiseExamSchedule = () => {
                     />
                 </DialogTitle>
                 <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-                    {currentInstruction && currentInstruction.length > 0 ? 'Update Instructions' : 'Add Instructions'}
+                    {'Exam Instructions'}
                 </Typography>
                 <DialogContent>
                     <TextField
