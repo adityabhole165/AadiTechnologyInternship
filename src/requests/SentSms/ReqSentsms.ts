@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiSentsms from 'src/api/SentSms/Sentsms';
-import { ICheckIfPersonalAddressExistsBody, IDeleteSMSBody,ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetDetailsOfGroupsBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
+import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IDeleteSMSBody, IExportSentItemsBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetDetailsOfGroupsBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
 import { AppThunk } from 'src/store';
 
 const SliceSentsms = createSlice({
@@ -17,9 +17,10 @@ const SliceSentsms = createSlice({
     ISCheckIfPersonalAddressGroupAlreadyExists: 'NoResponse',
     ISUpdatePersonalAddressBookGroupMsg: '',
     ISDeletePersonalAddressBookGroupMsg: '',
-    ISDeleteSMS:'',
+    ISDeleteSMS: '',
     ISGetDetailsOfGroups: [],
-    Loading: false
+    Loading: false,
+    ISExportSentItems: [],
   },
 
 
@@ -94,9 +95,18 @@ const SliceSentsms = createSlice({
     RDeleteSMSApi(state, action) {
       state.ISDeleteSMS = action.payload;
     },
+    ResetDelete(state,) {
+      state.ISDeleteSMS = '';
+    },
 
 
-    
+    RExportSentItems(state, action) {
+      state.ISExportSentItems = action.payload;
+    },
+
+
+
+
   }
 });
 
@@ -118,7 +128,7 @@ export const CDAGetSentItems =
           SenderName: item.SenderName,
           SMSShootId: item.SMSShootId,
           IsActive: false,
-         
+
         };
       });
       dispatch(SliceSentsms.actions.RGetSentItems(SentItems));
@@ -313,12 +323,25 @@ export const CDAGetGetDetailsOfGroups =
 
 
 
-      export const CDADeleteSMSApi =
-      (data: IDeleteSMSBody): AppThunk =>
-        async (dispatch) => {
-          const response = await ApiSentsms.DeleteSMSApi(data);
-          dispatch(SliceSentsms.actions.RDeleteSMSApi(response.data));
-        };
+export const CDADeleteSMSApi =
+  (data: IDeleteSMSBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiSentsms.DeleteSMSApi(data);
+      dispatch(SliceSentsms.actions.RDeleteSMSApi(response.data));
+    };
 
+
+export const CDAResetDelete =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceSentsms.actions.ResetDelete());
+    }
+
+export const CDAExportSentItems =
+  (data: IExportSentItemsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiSentsms.ExportSentItemsApi(data);
+      dispatch(SliceSentsms.actions.RExportSentItems(response.data));
+    };
 
 export default SliceSentsms.reducer;

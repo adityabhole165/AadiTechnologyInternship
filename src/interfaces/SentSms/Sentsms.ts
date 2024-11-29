@@ -174,3 +174,26 @@ export interface IDeleteSMSBody {
   asSMS_Id: any
   asSchoolId: number
 }
+
+
+export interface IExportSentItemsBody {
+  asSchoolId: number
+  asUser_Id: number
+  asReceiver_User_Role_Id: number
+  asAcademic_Year_Id: number
+  asSortExp: string
+  asprm_StartIndex: number
+  asPageSize: number
+  asName: string
+  asContent: string
+  asViewAllSMS: number
+}
+
+export interface IExportSentItemsResult {
+  RowID: string
+  TotalRows: string
+  From: string
+  To: string
+  SMSText: string
+  SendDate: string
+}

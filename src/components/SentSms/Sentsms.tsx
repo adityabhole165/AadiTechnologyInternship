@@ -7,12 +7,13 @@ import { useEffect, useState,useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import CommonPageHeader from 'src/components/CommonPageHeader';
-import { IDeleteSMSBody, IGetSentItemsBody } from 'src/interfaces/SentSms/Sentsms';
-import { CDADeleteSMSApi, CDAGetSentItems } from 'src/requests/SentSms/ReqSentsms';
+import { IDeleteSMSBody, IExportSentItemsBody, IGetSentItemsBody } from 'src/interfaces/SentSms/Sentsms';
+import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems ,CDAResetDelete} from 'src/requests/SentSms/ReqSentsms';
 import { RootState } from 'src/store';
 import SentsmsList from './SentsmsList';
 import { AlertContext } from 'src/contexts/AlertContext';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { toast } from 'react-toastify';
 const Sentsms = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -57,7 +58,13 @@ const Sentsms = () => {
     const DeleteSMS = useSelector(
         (state: RootState) => state.SentSms.ISDeleteSMS
     );
+    const UsExportSentItems = useSelector(
+        (state: RootState) => state.SentSms.ISExportSentItems
+    );
 
+    
+    console.log(UsExportSentItems,"UsExportSentItems");
+    
     useEffect(() => {
         setSmsList(USGetSentItems);
     }, [USGetSentItems]);
@@ -102,6 +109,21 @@ const Sentsms = () => {
         "asViewAllSMS": 0
     };
 
+    const ExportSentItemsBody: IExportSentItemsBody = {
+        
+            "asSchoolId" : asSchoolId,
+            "asUser_Id" : asUserId,
+            "asReceiver_User_Role_Id" : 2,
+            "asAcademic_Year_Id" : asAcademicYearId,
+            "asSortExp" : "ORDER BY Insert_Date DESC",
+            "asprm_StartIndex" : 0,
+            "asPageSize" : 20,
+            "asName" : regNoOrName,
+            "asContent" : "",
+            "asViewAllSMS" : 0
+        
+    };
+
 
  
 
@@ -136,6 +158,16 @@ const Sentsms = () => {
     
       };
    
+      useEffect(() => {
+        if (DeleteSMS != '') {
+          dispatch(CDAResetDelete());
+          toast.success(DeleteSMS);
+         
+          dispatch(CDAGetSentItems(GetSentItemsBody));
+    
+        }
+      }, [DeleteSMS]);
+
 
 
     const handleClickEdit = () => {
@@ -155,7 +187,11 @@ const Sentsms = () => {
     useEffect(() => {
         dispatch(CDAGetSentItems(GetSentItemsBody));
     }, []);
+    useEffect(() => {
+        dispatch(CDAExportSentItems(ExportSentItemsBody));
+    }, []);
 
+    
   
 
 
