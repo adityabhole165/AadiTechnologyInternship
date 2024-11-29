@@ -66,12 +66,20 @@ function SearchableDropdown({ ItemList, onChange, label, defaultValue = '',
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
 
+  // const handleKeyDown = (event) => {
+  //   if (/[&@*%#!0-9-^_$()+=]/.test(event.key)) {
+  //     event.preventDefault();
+  //   }
+  // };
   const handleKeyDown = (event) => {
-    if (/[&@*%#!0-9-^_$()+=]/.test(event.key)) {
+    // Allow alphanumeric input, dash (-), space, and basic navigation keys
+    const allowedKeys =
+      /[a-zA-Z0-9\s-]/.test(event.key) ||
+      ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete'].includes(event.key);
+    if (!allowedKeys) {
       event.preventDefault();
     }
   };
-
   return (
     <Autocomplete
       value={ItemList.find((item) => item.Value == defaultValue) || null}
