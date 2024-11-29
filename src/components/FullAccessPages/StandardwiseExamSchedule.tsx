@@ -42,6 +42,7 @@ const StandardwiseExamSchedule = () => {
     const [currentInstruction, setCurrentInstruction] = useState('');
     const [editMode, setEditMode] = useState(false);
     const [selectedInstructionId, setSelectedInstructionId] = useState(null);
+    const [isUnsubmitted, setIsUnsubmitted] = useState(false);
 
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
@@ -108,6 +109,20 @@ const StandardwiseExamSchedule = () => {
         asIsUnSubmit: 0,
         asSchoolwiseTestId: Number(TestId)
     }
+
+    const handleUnsubmit = () => {
+        const unSubmitBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asUpdatedById: Number(asUserId),
+            asStandardId: Number(StandardId),
+            asIsUnSubmit: 1,
+            asSchoolwiseTestId: Number(TestId)
+        };
+        dispatch(GetSumbitExamSchedule(unSubmitBody));
+        setIsUnsubmitted(true);
+        toast.success('Exam schedule has been Unsubmited successfully!!!');
+    };
 
     const onClickSave = () => {
         const InsertExamScheduleBody: IInsertExamScheduleBody = {
@@ -195,6 +210,8 @@ const StandardwiseExamSchedule = () => {
     }
     const onClickSubmit = () => {
         dispatch(GetSumbitExamSchedule(SumbitExamScheduleBody))
+        toast.success('Exam schedule has been submited successfully!!!');
+        setIsUnsubmitted(false);
     };
 
     const handleOpenDialog = (instructionText) => {
@@ -310,19 +327,13 @@ const StandardwiseExamSchedule = () => {
                                 <IconButton
                                     sx={{
                                         color: 'white',
-                                        backgroundColor:
-                                            getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
-                                                ? 'gray'
-                                                : green[500], // Disabled color if submitted
+                                        backgroundColor: isUnsubmitted ? green[500] : 'gray', // Enable if unsubmitted, else gray
                                         '&:hover': {
-                                            backgroundColor:
-                                                getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
-                                                    ? 'gray'
-                                                    : green[600] // Prevent hover color when disabled
+                                            backgroundColor: isUnsubmitted ? green[600] : 'gray'
                                         }
                                     }}
                                     onClick={onClickSave}
-                                    disabled={getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"}
+                                    disabled={!isUnsubmitted} // Disable if not unsubmitted
                                 >
                                     <SaveIcon />
                                 </IconButton>
@@ -330,23 +341,8 @@ const StandardwiseExamSchedule = () => {
                         </Tooltip>
 
                         {/* Conditionally Render Submit or Unsubmit */}
-                        {getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? (
-                            <Tooltip title="Unsubmit">
-                                <span>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: red[500],
-                                            height: '36px !important',
-                                            ':hover': { backgroundColor: red[600] }
-                                        }}
-                                        onClick={undefined}
-                                    >
-                                        <Close />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        ) : (
+                        {isUnsubmitted ? (
+                            // Show Submit button when unsubmitted
                             <Tooltip title="Submit">
                                 <span>
                                     <IconButton
@@ -357,14 +353,30 @@ const StandardwiseExamSchedule = () => {
                                                 backgroundColor: green[600]
                                             }
                                         }}
-                                        onClick={onClickSubmit}
+                                        onClick={onClickSubmit} // Submit function
                                     >
                                         <CheckRoundedIcon />
                                     </IconButton>
                                 </span>
                             </Tooltip>
+                        ) : (
+                            // Show Unsubmit button when submitted
+                            <Tooltip title="Unsubmit">
+                                <span>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: red[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: red[600] }
+                                        }}
+                                        onClick={handleUnsubmit} // Unsubmit function
+                                    >
+                                        <Close />
+                                    </IconButton>
+                                </span>
+                            </Tooltip>
                         )}
-
                         <Tooltip title="Copy Schedule">
                             <span>
                                 <IconButton sx={{
