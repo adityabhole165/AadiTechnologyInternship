@@ -1,39 +1,23 @@
 // ExampleTable.tsx
-import React from 'react';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 import {
+  IconButton,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  IconButton,
-  Button
+  TableRow
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { red } from '@mui/material/colors';
+import { useEffect } from 'react';
 
-// Define the type for table row data
-interface TableData {
-  className: string;
-  date: string;
-  description: string;
-}
 
-// Define props for the component
-interface ExampleTableProps {
-  data: TableData[];
-  onEdit: (rowIndex: number) => void;
-  onDelete: (rowIndex: number) => void;
-}
-
-const AddNotePopupList: React.FC<ExampleTableProps> = ({
-  data,
-  onEdit,
-  onDelete
-}) => {
+const AddNotePopupList = ({ data, onEdit, onDelete }) => {
+  useEffect(() => {
+    console.log('AddNotePopupList', data);
+  }, [data]);
   return (
     <div>
       <TableContainer>
@@ -62,12 +46,13 @@ const AddNotePopupList: React.FC<ExampleTableProps> = ({
           <TableBody>
             {data.map((row, index) => (
               <TableRow key={index}>
-                <TableCell sx={{ py: 1 }}>{row.className}</TableCell>
-                <TableCell sx={{ py: 1 }}>{row.date}</TableCell>
-                <TableCell sx={{ py: 1 }}>{row.description}</TableCell>
-                <TableCell sx={{ py: 1 }}></TableCell>
+                <TableCell sx={{ py: 1 }}>{row.Text1}</TableCell>
+                <TableCell sx={{ py: 1 }}>{row.Text2}</TableCell>
+                <TableCell sx={{ py: 1 }}>{row.Text3}</TableCell>
+                <TableCell sx={{ py: 1 }}>{row.Text4}</TableCell>
                 <TableCell sx={{ py: 1 }}>
-                  <IconButton color="primary" onClick={() => onEdit(index)}>
+                  <IconButton color="primary"
+                    onClick={() => onEdit(row.Id)}>
                     <EditIcon />
                   </IconButton>
                 </TableCell>
@@ -81,7 +66,7 @@ const AddNotePopupList: React.FC<ExampleTableProps> = ({
                         backgroundColor: red[100]
                       }
                     }}
-                    onClick={() => onDelete(index)}
+                    onClick={() => onDelete(row.Id)}
                   >
                     <DeleteForeverIcon />
                   </IconButton>

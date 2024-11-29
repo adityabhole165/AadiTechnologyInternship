@@ -320,6 +320,7 @@ const PersonalDetails = ({ personal, onChange }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageName, setImageName] = useState('');
 
+  //#region orgPhotos
   // Update uploadedImage state when photoFilePath is available in props
   useEffect(() => {
     if (personal?.photoFilePath && personal?.photoFilePathImage) {

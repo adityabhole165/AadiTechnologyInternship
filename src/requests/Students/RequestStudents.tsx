@@ -70,7 +70,8 @@ export const CDAGetStudentsList =
                     Text11: item.Is_Locked,
                     Text12: item.YearWise_Student_Id,
                     Text13: item.SchoolWise_Student_Id,
-                    Text14: item.StandardDivision
+                    Text14: item.StandardDivision,
+                    Text15: item.Joining_Date,
                 })
             })
             dispatch(StudentsSlice.actions.RGetStudentsList(responseData));

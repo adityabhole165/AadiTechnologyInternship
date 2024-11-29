@@ -313,6 +313,8 @@ const StudentBaseScreen = () => {
                                                                                 StandardDivision_Id: item.Text14,
                                                                                 Enrolment_Number: item.Text3,
                                                                                 NewMode: 'N',
+                                                                                Joining_Date: item.Text15
+
                                                                             }
                                                                         })} />
                                                                 </Tooltip>
