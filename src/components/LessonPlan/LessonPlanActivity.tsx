@@ -1,6 +1,6 @@
 import { Grid, TextField, Typography, alpha } from '@mui/material';
 
-const LessonPlanActivity = ({ ApprovalData, errorComment, onChangeApproverComment }) => {
+const LessonPlanActivity = ({ ApprovalData, errorComment = '', onChangeApproverComment = (e, i) => { } }) => {
     return (
         <>
             <Typography variant={"h5"} mb={1}>

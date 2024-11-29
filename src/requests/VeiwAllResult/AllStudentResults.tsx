@@ -63,8 +63,8 @@ const AllStdResult = ({ dataList, index, isTotalConsider, isConfigured, isExamUn
         let Grades = response?.listSubjectDetails?.map((item, i) => {
             return {
                 Id: item.ID_Num,
-                Name: item.Grade,
-                Value: item.Grade
+                Name: `${item.Grade}`,
+                Value: `${item.Grade}`
             };
         });
         let Total = response?.listMarksDetails?.map((item, i) => {
@@ -116,7 +116,7 @@ const AllStdResult = ({ dataList, index, isTotalConsider, isConfigured, isExamUn
 
     return (
         <> {open && (
-            <Box >
+            <Box key={index} >
                 {5 > 0 ? (
                     <Box>
                         <Box sx={{ backgroundColor: 'white' }}>
@@ -321,6 +321,8 @@ const AllStdResult = ({ dataList, index, isTotalConsider, isConfigured, isExamUn
                     </Typography>
                 )}
             </Box>)}
+            <Box sx={{ borderBottom: '2px dotted #000', width: '100%', mb: 4, mt: 4 }} />
+
 
         </>
     )

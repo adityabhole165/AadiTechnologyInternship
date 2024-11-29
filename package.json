@@ -71,6 +71,8 @@
     "formik-mui-lab": "^1.0.0-alpha.3",
     "framer-motion": "^6.2.7",
     "history": "5.1.0",
+    "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.2",
     "i": "^0.3.7",
     "i18next": "21.5.2",
     "i18next-browser-languagedetector": "6.1.2",

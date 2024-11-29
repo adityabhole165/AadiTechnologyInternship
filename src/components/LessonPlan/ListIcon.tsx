@@ -227,7 +227,7 @@ function ListIcon({
                                     {item.IsSubmitted === "True" && (
                                         <Link
                                             component="button"
-                                            onClick={() => clickExport(item.Id)}
+                                            onClick={() => clickExport({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })}
                                             sx={{
                                                 color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit', cursor: 'pointer'
                                             }}

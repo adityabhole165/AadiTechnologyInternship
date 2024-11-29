@@ -39,6 +39,7 @@ export function DataParserAndFormatter(toConvert) {
             IsPreprimaryStandard: result?.IsPreprimaryStandard === 0 ? "False" : "True",
             Roll_No: result?.Roll_No?.toString(),
             School_Name: result?.School_Name,
+            School_Orgn_Name: result?.School_Orgn_Name,
             ShowOnlyGrades: result?.ShowOnlyGrades.toString(),
             Standard_Division_Id: result?.Standard_Division_Id?.toString(),
             Standard_Id: result?.Standard_Id?.toString(),

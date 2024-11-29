@@ -3,8 +3,8 @@ import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-// import jsPDF from 'jspdf';
-import { useContext, useEffect, useState } from 'react';
+import html2pdf from 'html2pdf.js';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -20,7 +20,6 @@ import {
   IUpdateReadSuggestionBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAddOrEditLessonPlanDetails,
   CDAGetAllTeachersOfLessonPlan,
@@ -36,9 +35,12 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { AlertContext } from 'src/contexts/AlertContext';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
+import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
+import { GetAddOrEditLessonPlanDetails } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import ExportLessonPlan from './ExportLessonPlan';
 import IsHighliteStaus from './LessonPlanContext';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
@@ -74,6 +76,7 @@ const LessonPlanBaseScreen = () => {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const rowsPerPageOptions = [20, 50, 100, 200];
   const [page, setPage] = useState(1);
+  const [TeacherName1, setTeacherName1] = useState(sessionStorage.getItem('StudentName'));
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -173,15 +176,14 @@ const LessonPlanBaseScreen = () => {
     asUserId: Number(selectClasstecahernew),
   }
 
+  // import for jspd
+  const [listObj, setListObj] = useState({
+    userId: '',
+    startDate: '',
+    endDate: ''
+  });
+  // () => clickEdit({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })
 
-  const downloadJsonToPdf = () => {
-    // const doc = new jsPDF();
-    const jsonString = JSON.stringify(LessonPlanReport, null, 2);
-    // doc.text(20, 20, 'Lesson Plan Report:');
-    // doc.text(20, 30, jsonString);
-    // doc.save('lesson_plan_report.pdf');
-    // doc.save('sample-file.pdf')
-  };
 
 
 
@@ -409,13 +411,23 @@ const LessonPlanBaseScreen = () => {
   };
 
 
-  const ClickSelctTecher = (value) => {
-    setselectClasstecahernew(value)
+  const ClickSelectTeacher = (item) => {
+    console.log('teacher name', item);
+
+    setselectClasstecahernew(item.Value);
+    setTeacherName1(item.Name);
   }
 
 
 
   const ClickEdit = (value) => {
+    let obj = {
+      userId: value.UserId,
+      startDate: value.StartDate,
+      endDate: value.EndDate
+    };
+    console.log('whats this', obj);
+
     navigate('/extended-sidebar/Teacher/AddLessonPlan/Edit/' +
       value.UserId + '/' +
       value.StartDate.replaceAll(' ', '-') + '/' +
@@ -484,6 +496,104 @@ const LessonPlanBaseScreen = () => {
   useEffect(() => {
     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
   }, [page, rowsPerPage]);
+  // #region Export Logic
+  // Export | Print Logic
+  const printRef = useRef(null);
+
+  const clickPrint = async () => {
+    if (printRef.current) {
+      const element = printRef.current;
+
+      try {
+        // Use html2pdf for better multi-page handling
+        const opt = {
+          margin: [10, 10, 10, 10], // top, right, bottom, left
+          filename: `${crypto.randomUUID()}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            allowTaint: true,
+            removeContainer: true
+          },
+          jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+          },
+          pagebreak: {
+            mode: ['avoid-all', 'css', 'legacy']
+          }
+        };
+
+        // Use html2pdf to generate PDF
+        await html2pdf().set(opt).from(element).save();
+
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        alert('Failed to generate PDF. Please try again.');
+      }
+    }
+  };
+
+  // For making the content selectable in PDF
+  const PrintableView = () => {
+    return (
+      <div ref={printRef} style={{
+        userSelect: 'text',  // Makes text selectable
+        WebkitUserSelect: 'text',  // For webkit browsers
+        MozUserSelect: 'text',  // For Firefox
+        msUserSelect: 'text'  // For Internet Explorer/Edge
+      }}>
+        {/* Your existing content goes here */}
+        {/* The content of the previous component */}
+      </div>
+    );
+  };
+  const AddOrEditLessonPlanDetails: any = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
+  const [LessonPlanDetails, setLessonPlanDetails] = useState<[]>();
+  const [downloadPdf, setDownloadPdf] = useState(false);
+  useEffect(() => {
+    if (LessonPlanDetails?.length > 0 && downloadPdf) {
+      // alert('Lesson Plan Downloaded Successfully');
+      clickPrint();
+      setDownloadPdf(false);
+    }
+  }, [downloadPdf, LessonPlanDetails])
+  useEffect(() => {
+    if (AddOrEditLessonPlanDetails?.length > 0) {
+      setLessonPlanDetails(AddOrEditLessonPlanDetails);
+    }
+  }, [AddOrEditLessonPlanDetails])
+  const [dates, setDates] = useState({
+    startDate: '',
+    endDate: ''
+  });
+  const downloadJsonToPdf = async (value) => {
+    const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asStandardDivId: 0,
+      asUserId: value.UserId,
+      asReportingUserId: asUserId,
+      asStartDate: value.StartDate,
+      asEndDate: value.EndDate,
+      IsNewMode: false
+    };
+    setDates({
+      startDate: value.StartDate,
+      endDate: value.EndDate
+    });
+
+    try {
+      await dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody));
+      // Only call clickPrint after the dispatch is successful
+      setDownloadPdf(true);
+    } catch (error) {
+      console.error("Error during dispatch:", error);
+    }
+  };
 
   return (
     <>
@@ -494,10 +604,10 @@ const LessonPlanBaseScreen = () => {
             <>
               {USGetAllTeachersOfLessonPlan.length > 1 && (
                 <Box sx={{ background: 'white' }}>
-                  <SearchableDropdown
+                  <SearchableDropdown1
                     sx={{ minWidth: '25vw' }}
                     ItemList={USGetAllTeachersOfLessonPlan}
-                    onChange={ClickSelctTecher}
+                    onChange={ClickSelectTeacher}
                     label={'Select Teacher:'}
                     defaultValue={selectClasstecahernew}
                     mandatory
@@ -673,7 +783,6 @@ const LessonPlanBaseScreen = () => {
               '&:hover': {
                 color: 'red',
                 //  backgroundColor: red[100]
-
               }
             }} />
         </DialogTitle>
@@ -705,7 +814,11 @@ const LessonPlanBaseScreen = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
+      {/* exampleLessonDetails, onTextChange, Action, IsEditingAllowed  */}
+      <span style={{ display: 'none' }}>
+        <ExportLessonPlan printRef={printRef} LesssonPlanDetails={LessonPlanDetails} TeacherName={TeacherName1}
+          startDate={dates.startDate} endDate={dates.endDate} />
+      </span>
     </>
   );
 
