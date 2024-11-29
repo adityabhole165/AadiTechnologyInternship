@@ -118,7 +118,7 @@ export const CDAGetSentItems =
           SenderName: item.SenderName,
           SMSShootId: item.SMSShootId,
           IsActive: false,
-
+         
         };
       });
       dispatch(SliceSentsms.actions.RGetSentItems(SentItems));

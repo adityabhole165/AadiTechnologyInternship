@@ -71,21 +71,22 @@ const Sentsms = () => {
 
 
     const clickSearch = () => {
-        // if (regNoOrName === '') {
-        //   setPagedRequisition(GetPagedRequisition);
-        // } else {
-        //   setPagedRequisition(
-        //     GetPagedRequisition.filter((item) => {
-        //       const text1Match = item.RequisitionCode.toLowerCase().includes(
-        //         regNoOrName.toLowerCase()
-        //       );
-        //       const text2Match = item.RequisitionName.toLowerCase().includes(
-        //         regNoOrName.toLowerCase()
-        //       );
-        //       return text1Match || text2Match;
-        //     })
-        //   );
-        // }
+        if (regNoOrName === '') {
+            setSmsList(USGetSentItems);
+        } else {
+            setSmsList(
+                USGetSentItems.filter((item) => {
+              const text1Match = item.SenderName.toLowerCase().includes(
+                regNoOrName.toLowerCase()
+              );
+              const text2Match = item.StatusId.toLowerCase().includes(
+                regNoOrName.toLowerCase()
+              );
+              return text1Match || text2Match;
+            })
+          );
+        }
+        dispatch(CDAGetSentItems(GetSentItemsBody));
     };
 
     const GetSentItemsBody: IGetSentItemsBody = {
@@ -96,7 +97,7 @@ const Sentsms = () => {
         "asSortExp": "ORDER BY Insert_Date DESC",
         "asprm_StartIndex": 0,
         "asPageSize": 100000,
-        "asName": "",
+        "asName": regNoOrName,
         "asContent": "",
         "asViewAllSMS": 0
     };
