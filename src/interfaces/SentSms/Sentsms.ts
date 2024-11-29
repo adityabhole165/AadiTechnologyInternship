@@ -170,3 +170,7 @@ export interface IGetDetailsOfGroupsResult {
   Name: string
   PersonalAddressBookId: string
 }
+export interface IDeleteSMSBody {
+  asSMS_Id: any
+  asSchoolId: number
+}

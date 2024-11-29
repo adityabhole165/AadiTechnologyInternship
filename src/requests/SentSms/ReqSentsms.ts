@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiSentsms from 'src/api/SentSms/Sentsms';
-import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetDetailsOfGroupsBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
+import { ICheckIfPersonalAddressExistsBody, IDeleteSMSBody,ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetDetailsOfGroupsBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
 import { AppThunk } from 'src/store';
 
 const SliceSentsms = createSlice({
@@ -17,6 +17,7 @@ const SliceSentsms = createSlice({
     ISCheckIfPersonalAddressGroupAlreadyExists: 'NoResponse',
     ISUpdatePersonalAddressBookGroupMsg: '',
     ISDeletePersonalAddressBookGroupMsg: '',
+    ISDeleteSMS:'',
     ISGetDetailsOfGroups: [],
     Loading: false
   },
@@ -90,6 +91,12 @@ const SliceSentsms = createSlice({
     RClearDeletePersonalAddressBookGroupMsg(state) {
       state.ISDeletePersonalAddressBookGroupMsg = '';
     },
+    RDeleteSMSApi(state, action) {
+      state.ISDeleteSMS = action.payload;
+    },
+
+
+    
   }
 });
 
@@ -306,7 +313,12 @@ export const CDAGetGetDetailsOfGroups =
 
 
 
-
+      export const CDADeleteSMSApi =
+      (data: IDeleteSMSBody): AppThunk =>
+        async (dispatch) => {
+          const response = await ApiSentsms.DeleteSMSApi(data);
+          dispatch(SliceSentsms.actions.RDeleteSMSApi(response.data));
+        };
 
 
 export default SliceSentsms.reducer;
