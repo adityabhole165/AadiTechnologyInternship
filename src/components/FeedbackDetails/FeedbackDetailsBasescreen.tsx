@@ -81,11 +81,16 @@ const FeedbackDetailsBasescreen = () => {
     setEditIndex(index); // Set the edit index to the selected row
   };
 
+//   const handleDelete = (index) => {
+//     const updatedData = feedbackData.filter((_, i) => i !== index);
+//     setFeedbackData(updatedData);
+//   };
   const handleDelete = (index) => {
-    const updatedData = feedbackData.filter((_, i) => i !== index);
-    setFeedbackData(updatedData);
+    const confirmDelete = window.confirm(`Delete row ${index + 1}?`);
+    if (confirmDelete) {
+        setFeedbackData((prevData) => prevData.filter((_, i) => i !== index));
+    }
   };
-
   const handlePopupSubmit = (newData) => {
     if (popupMode === 'add') {
       setFeedbackData([...feedbackData, { date: new Date().toLocaleDateString(), ...newData }]);
