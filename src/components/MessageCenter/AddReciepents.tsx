@@ -25,7 +25,6 @@ import {
   IUsergroup
 } from 'src/interfaces/AdminSMSCenter/To1';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import ListSelect from 'src/libraries/list/ListSelect';
 import {
@@ -642,35 +641,37 @@ const AddReciepents = ({
                     </Box>
                   )}
 
-                  {Loading ? (
-                    <SuspenseLoader />
-                  ) : (list.length === 0 ? (
-                    (isSelected('Student') ||
-                      isTeacherSelected()) && studentlist !== '' && (
-                      <Typography
-                        variant="h6"
-                        align="center"
-                        color="blue"
-                        sx={{
-                          textAlign: 'center',
-                          marginTop: 1,
-                          backgroundColor: '#324b84',
-                          padding: 1,
-                          borderRadius: 2,
-                          color: 'white'
-                        }}
-                      >
-                        No record found.
-                      </Typography>
+                  {
+                    // Loading ? (
+                    //   <SuspenseLoader />
+                    // ) : 
+                    (list.length === 0 ? (
+                      (isSelected('Student') ||
+                        isTeacherSelected()) && studentlist !== '' && (
+                        <Typography
+                          variant="h6"
+                          align="center"
+                          color="blue"
+                          sx={{
+                            textAlign: 'center',
+                            marginTop: 1,
+                            backgroundColor: '#324b84',
+                            padding: 1,
+                            borderRadius: 2,
+                            color: 'white'
+                          }}
+                        >
+                          No record found.
+                        </Typography>
+                      )
+                    ) : (
+                      <SelectallAddrecipents
+                        Itemlist={list}
+                        onChange={onChangeTeacher}
+                        ContactGP={techerStudent1}
+                        ClickGroupRadio1={ClickGroupRadio1} />
                     )
-                  ) : (
-                    <SelectallAddrecipents
-                      Itemlist={list}
-                      onChange={onChangeTeacher}
-                      ContactGP={techerStudent1}
-                      ClickGroupRadio1={ClickGroupRadio1} />
-                  )
-                  )}
+                    )}
                 </Grid>
               </Grid>
             </>
