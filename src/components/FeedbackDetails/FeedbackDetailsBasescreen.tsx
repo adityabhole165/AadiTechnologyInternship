@@ -345,6 +345,9 @@ const FeedbackDetailsBasescreen = () => {
                 </DialogContent>
                 <DialogActions>
                     <Grid item xs={12} display="flex" justifyContent="flex-end" gap={2} pr={2} pb={2}>
+                    <Button color="error" onClick={handleClosePopup}>
+                            Clear
+                        </Button>
                         <Button color="error" onClick={handleClosePopup}>
                             Close
                         </Button>
