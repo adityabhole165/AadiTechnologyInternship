@@ -27,6 +27,8 @@ const SelectStandardExamslice = createSlice({
     RStandardwTest: [],
     ExamSchedule: [],
     SubjectExamSchedule: [],
+    Instructionss: [],
+    IsSubmitedd: [],
     StandardsForExamCopy: [],
     UpdateExamScheduleInstructionsMsg: '',
     UpdateStandardWiseExamScheduleMsg: '',
@@ -68,6 +70,12 @@ const SelectStandardExamslice = createSlice({
     },
     StandardsForExamCopy(state, action) {
       state.StandardsForExamCopy = action.payload;
+    },
+    Instructionss(state, action) {
+      state.Instructionss = action.payload;
+    },
+    IsSubmitedd(state, action) {
+      state.IsSubmitedd = action.payload;
     },
     getUpdateExamScheduleInstructionsMsg(state, action) {
       state.Loading = false;
@@ -370,10 +378,12 @@ export const GetSubjectExamSchedule =
           endTime: endTime,
           description: item.Description,
           IsNew: true,
-          timed: !!(startTime && endTime), 
+          timed: !!(startTime && endTime),
         };
       });
       dispatch(SelectStandardExamslice.actions.SubjectExamSchedule(DataList));
+      dispatch(SelectStandardExamslice.actions.IsSubmitedd(response.data.IsSubmitedd));
+      dispatch(SelectStandardExamslice.actions.Instructionss(response.data.Instructionss));
     };
 
 export const GetStandardsForExamCopy =
