@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ContactGroupApi from "src/api/ContactGroup/ContactGroupApi";
-import { IAddUpdateGroupBody, IDeleteMailGroupBody, IDeleteMailingGroupUserBody, IGetContactGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody, IGetUsersBody } from "src/interfaces/ContactGroup/IContactGroup";
+import { IAddUpdateGroupBody, ICountUsersAndStoreCountsBody, IDeleteMailGroupBody, IDeleteMailingGroupUserBody, IGetContactGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody, IGetUsersBody } from "src/interfaces/ContactGroup/IContactGroup";
 import { AppThunk } from "src/store";
 
 const ContactGroupSlice = createSlice({
@@ -11,6 +11,8 @@ const ContactGroupSlice = createSlice({
         IGetStandardClass: [],
         IGetUserName: [],
         IlistGetUserName: [],
+        IlistUserRole: [],
+        IlistTotalCounts: [],
         IlistGetUserNameCount: [],
         IAddUpdateGroup: '',
         IDeleteMailGroupMsg: '',
@@ -51,6 +53,13 @@ const ContactGroupSlice = createSlice({
         },
         RlistGetUserNameCount(state, action) {
             state.IlistGetUserNameCount = action.payload;
+        },
+        RlistUserRole(state, action) {
+            state.IlistUserRole = action.payload;
+        },
+        RlistTotalCounts(state, action) {
+            state.Loading = false;
+            state.IlistTotalCounts = action.payload;
         },
         RDeleteMailGroupMsg(state, action) {
             state.Loading = false;
@@ -206,5 +215,24 @@ export const CDAGetUser =
             dispatch(ContactGroupSlice.actions.RGetUser(userRole));
         };
 
+export const CDACountUsersAndStoreCounts =
+    (data: ICountUsersAndStoreCountsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await ContactGroupApi.CountUsersAndStoreCountsApi(data);
+            let UserName = response.data.listUserRole.map((item, i) => {
+                return {
+                    Role: item.Role,
+                    Count: item.Count
+                }
+            });
+            let UserTotalCount = response.data.listTotalCounts.map((item, i) => {
+                return {
+                    TotalCount: item.TotalCount
+                }
 
+            });
+
+            dispatch(ContactGroupSlice.actions.RlistUserRole(UserName));
+            dispatch(ContactGroupSlice.actions.RlistTotalCounts(UserTotalCount));
+        };
 export default ContactGroupSlice.reducer;

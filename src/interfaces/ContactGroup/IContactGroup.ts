@@ -9,13 +9,6 @@ export interface IGetUserNameBody {
     asStandardDivisionId: number,
     asFilter: string
 }
-// export interface IGetUserNameResult {
-//     UserId: string,
-//     UserName: string,
-//     IsInGroup: string,
-//     IsDeactivated: string
-// }
-
 export interface IGetUserNameResult {
     listGetUserName: [
         {
@@ -32,20 +25,6 @@ export interface IGetUserNameResult {
         }
     ]
 }
-// export interface IGetMailingGroupsBody {
-//     asSchoolId: number,
-//     asAcademicYearId: number,
-//     asGroupId: number,
-//     asRoleId: number,
-//     asUserId: number
-// }
-// export interface IGetMailingGroupsResult {
-//     GroupId: string,
-//     GroupName: string,
-//     Users: string,
-//     IsDefault: string,
-//     IsAllDeactivated: string
-// }
 export interface IGetContactGroupsBody {
     asSchoolId: string,
     asAcademicYearId: string,
@@ -118,4 +97,26 @@ export interface IGetUsersResult {
     UserId: string,
     UserName: string,
     IsDeactivated: string,
+}
+export interface ICountUsersAndStoreCountsBody {
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asGroupId: number,
+    asRoleId: number,
+    asStandardDivisionId: number,
+    asCount: number,
+    asFilter: string
+}
+export interface ICountUsersAndStoreCountsResult {
+    listUserRole: [
+        {
+            Role: string,
+            Count: string
+        }
+    ];
+    listTotalCounts: [
+        {
+            TotalCount: string
+        }
+    ]
 }

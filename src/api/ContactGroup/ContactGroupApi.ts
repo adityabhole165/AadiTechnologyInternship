@@ -1,6 +1,8 @@
 import {
     IAddUpdateGroupBody,
     IAddUpdateGroupResult,
+    ICountUsersAndStoreCountsBody,
+    ICountUsersAndStoreCountsResult,
     IDeleteMailGroupBody,
     IDeleteMailingGroupUserBody,
     IGetContactGroupsBody,
@@ -45,6 +47,9 @@ const DeleteMailingGroupUserApi = (data: IDeleteMailingGroupUserBody) => {
 const GetUsersApi = (data: IGetUsersBody) => {
     return http.post<IGetUsersResult[]>('Teacher/GetUsers', data);
 };
+const CountUsersAndStoreCountsApi = (data: ICountUsersAndStoreCountsBody) => {
+    return http.post<ICountUsersAndStoreCountsResult>('Teacher/CountUsersAndStoreCounts', data);
+}
 
 const ContactGroupApi = {
     UserNameApi,
@@ -54,6 +59,7 @@ const ContactGroupApi = {
     AddUpdateGroupApi,
     DeleteGroupApi,
     DeleteMailingGroupUserApi,
-    GetUsersApi
+    GetUsersApi,
+    CountUsersAndStoreCountsApi
 };
 export default ContactGroupApi;

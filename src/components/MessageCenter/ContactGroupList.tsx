@@ -23,13 +23,13 @@ import { green } from '@mui/material/colors';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { IGetContactGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup';
+import { ICountUsersAndStoreCountsBody, IGetContactGroupsBody, IGetStandardClassBody, IGetUserNameBody, IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { ContactGroup } from 'src/requests/AdminSMSCenter/To1';
-import { CDAaddUpdateGroup, CDAGetContactGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole, resetAddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
+import { CDAaddUpdateGroup, CDACountUsersAndStoreCounts, CDAGetContactGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole, resetAddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 import ContactGroupEditTable from './ContactGroupEditTable';
 interface Group {
@@ -43,17 +43,18 @@ interface ContactGroupListProps {
 }
 const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, GPName = '' }) => {
   const dispatch = useDispatch();
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
-  const rowsPerPageOptions = [5, 10, 20, 30, 40];
+  const rowsPerPageOptions = [10, 20, 30, 40, 50, 60];
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedd, setSelectedd] = useState([]);
-  //console.log(selectedd, "🤞🤞🤞🤞");
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [previousStandardClass, setPreviousStandardClass] = useState(null);
-  const [UsersRole, setUserRole] = useState('1');
-  const [StandardClass, setStandardClass] = useState('1293');
+  const [UsersRole, setUserRole] = useState('0');
+  const [StandardClass, setStandardClass] = useState('0'); //1293
   const [GroupName, setGroupName] = useState(GPName);
   const [ErrorUserRole, setErrorUserRole] = useState('');
   const [ErrorSelectedUser, setErrorSelectedUser] = useState('');
@@ -68,6 +69,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const asUserId = Number(localStorage.getItem('UserId'));
   const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [SortBy, setSortBy] = useState('Name');
+
+
   const getuserlist: any = useSelector((state: RootState) => state.getuser1.GetUser);
   const USContactGroup: any = useSelector((state: RootState) => state.ContactGroup.IContactGroups);
   const USContactGroupUserRoles: any = useSelector((state: RootState) => state.ContactGroup.IContactGroupUserRoles);
@@ -75,6 +78,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const USGetStandardClass: any = useSelector((state: RootState) => state.ContactGroup.IGetStandardClass);
   const USGetUserName: any = useSelector((state: RootState) => state.ContactGroup.IlistGetUserName);
   const USAddUpdateGroup: any = useSelector((state: RootState) => state.ContactGroup.IAddUpdateGroup);
+  const USCountUsersAndStoreCounts: any = useSelector((state: RootState) => state.ContactGroup.IlistTotalCounts);
 
   useEffect(() => {
     if (GPID !== 0) {
@@ -87,21 +91,34 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       }
     }
   }, [USContactGroupUserRoles]);
-  //console.log(USContactGroupUserRoles.length, "😂😂😂")
 
   const singleTotalCount: number = useMemo(() => {
-    if (!Array.isArray(USGetUserName)) {
+    if (!Array.isArray(USCountUsersAndStoreCounts)) {
       return 0;
     }
-    return USGetUserName.reduce((acc: number, item: any) => {
+    return USCountUsersAndStoreCounts.reduce((acc: number, item: any) => {
       const count = Number(item.TotalCount);
       if (isNaN(count)) {
         return acc;
       }
       return acc + count;
     }, 0);
-  }, [USGetUserName]);
+  }, [USCountUsersAndStoreCounts]);
 
+
+  const UserCount: ICountUsersAndStoreCountsBody = {
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asGroupId: 0,
+    asRoleId: Number(UsersRole),
+    asStandardDivisionId: Number(StandardClass),
+    asCount: 0,
+    asFilter: 'N'
+
+  }
+  useEffect(() => {
+    dispatch(CDACountUsersAndStoreCounts(UserCount))
+  }, [UsersRole, StandardClass])
   const ContactGpBody: IGetContactGroupsBody = {
     asSchoolId: schoolId.toString(),
     asAcademicYearId: academicYearId,
@@ -127,6 +144,10 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   useEffect(() => {
     dispatch(CDAGetUserRole(UserRole));
   }, []);
+  useEffect(() => {
+    if (USGetUserRole.length > 0)
+      setUserRole(USGetUserRole[0].Id);
+  }, [USGetUserRole]);
 
   const StandardsClass: IGetStandardClassBody = {
     asSchoolId: Number(schoolId),
@@ -135,6 +156,11 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   useEffect(() => {
     dispatch(CDAGetStandardClass(StandardsClass));
   }, [schoolId, academicYearId]);
+  useEffect(() => {
+    if (USGetStandardClass.length > 0)
+      setStandardClass(USGetStandardClass[0].Id);
+  }, [USGetStandardClass]);
+
   const UserName: IGetUserNameBody = {
     asSchoolId: Number(schoolId),
     asAcademicYearId: Number(academicYearId),
@@ -151,10 +177,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   }, [dispatch, page, rowsPerPage, UsersRole, StandardClass, SortDirection]);
 
   useEffect(() => {
-    const searchString = SearchUser.join(','); // Convert array to string
-    console.log("Updated SearchUser as a string:", searchString);
+    const searchString = SearchUser.join(',');
   }, [SearchUser]);
-
   useEffect(() => {
     setGroupName(GPName);
   }, [GPName]);
@@ -164,7 +188,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const clickStandardClass = (Value) => {
     if (Value !== StandardClass) {
       setStandardClass(Value);
-      setPreviousStandardClass(StandardClass); // Update previousStandardClass
+      setPreviousStandardClass(StandardClass);
     }
   };
 
@@ -173,7 +197,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   }
   function getXML() {
     let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
-
     asUpdateSelectXML +=
       " <GroupId>" + GPID + "</GroupId>\r\n  " +
       "<Name>" + GroupName + "</Name>\r\n  " +
@@ -320,8 +343,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         ? prevSelected.filter((id) => id !== userId)
         : [...prevSelected, userId]
     );
-    // console.log(userId, "✌✌😒👌");
-
   };
   const handleSearchByUserName = (value) => {
     setSearchByUserName(value);
@@ -363,7 +384,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   };
 
 
-
+  console.log(endRecord, "🤞🤞👌")
   return (
     <>
       <Box>
@@ -465,17 +486,12 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                 handleSearchByUserName(value);
               }
             }}
-            // onChange={(e) => {
-            //   handleSearchByUserName(e.target.value)
-            // }}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === 'Tab') {
                 clickSearch();
               }
             }}
-
           />
-
         </Grid>
         <Grid item xs={1.5}>
           <IconButton
@@ -564,13 +580,18 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
               </TableBody>
             </Table>
           </TableContainer>
-          <ButtonGroupComponent
-            ChangeRowsPerPage={ChangeRowsPerPage}
-            rowsPerPageOptions={rowsPerPageOptions}
-            rowsPerPage={rowsPerPage}
-            PageChange={PageChange}
-            pagecount={pageCount}
-          />
+
+          {singleTotalCount > 9 ? (
+            <ButtonGroupComponent
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              rowsPerPage={rowsPerPage}
+              PageChange={PageChange}
+              pagecount={pageCount}
+            />
+          ) : (
+            <span></span>
+          )}
         </Box>
       ) : (
         <Box sx={{ backgroundColor: '#D2FDFC' }}>
