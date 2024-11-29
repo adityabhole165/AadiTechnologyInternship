@@ -383,35 +383,6 @@ const AddReciepents = ({
     populateRecipient(value);
   };
 
-  // function getXML() {
-  //   let asUpdateSelectXML = "<MailingGroup xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  ";
-  //   asUpdateSelectXML +=
-  //     " <GroupId>" + 0 + "</GroupId>\r\n  " +
-  //     "<Name>" + "students" + "</Name>\r\n  " +
-  //     "<lstUserRoles>\r\n  " +
-  //     "<UserRoles>\r\n  " +
-  //     "<User_Role_Id>" + 3 + "</User_Role_Id>\r\n  " +
-  //     "</UserRoles>\r\n  " +
-  //     "</lstUserRoles>\r\n  " +
-  //     "<Users>" + "6926, 7040, 6904, 5781, 5892, 5821 " + "</Users>\r\n  " +
-  //     "<IsDefault>" + false + "</IsDefault>\r\n  " +
-  //     "<IsAllDeactivated>" + false + "</IsAllDeactivated>"
-
-  //   asUpdateSelectXML += "\r\n</MailingGroup>";
-  //   return asUpdateSelectXML
-  // }
-
-  // const clickConfirm = () => {
-  //   const SaveInvestmentDeclaration: IAddUpdateGroupBody = {
-  //     asSchoolId: Number(schoolId),
-  //     asAcademicYearId: Number(academicYearId),
-  //     asMailingGroupXML: getXML(),
-  //   }
-  //   dispatch(CDAaddUpdateGroup(SaveInvestmentDeclaration))
-  //   dispatch(ContactGroup(ContactgroupBody))
-  // };
-
-
   const populateRecipient = (itemList) => {
     itemList?.map((obj) => {
       if (

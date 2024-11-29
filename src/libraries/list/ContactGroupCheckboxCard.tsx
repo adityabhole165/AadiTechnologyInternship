@@ -9,6 +9,7 @@ import { CDADeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup
 //import { useState } from 'react';
 import { grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
+import React from 'react';
 import { GetScreenPermission } from 'src/components/Common/Util';
 import ContactGroupList from 'src/components/MessageCenter/ContactGroupList';
 import { AlertContext } from 'src/contexts/AlertContext';
@@ -74,8 +75,6 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
         setEditGroupName(Name)
     }
     const handleOpenDialog = (isRecipients) => {
-        // setIsConfirm1('');
-        // setShowRecipients(isRecipients);
         setOpenDialog(true);
     };
     const handleCloseDialog = () => {
@@ -99,8 +98,13 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                         <>
                             <Grid item container xs={12}>
                                 <Tooltip
-                                    title={Item.Users}
-                                    arrow
+
+                                    title={
+                                        <React.Fragment>
+                                            <Typography variant="h6" sx={{ mb: 1, color: 'white' }}>{Item.Name}</Typography>
+                                            <Typography variant="body1" sx={{ color: 'white' }}>{Item.Users}</Typography>
+                                        </React.Fragment>
+                                    }
                                     placement="right"
                                     disableFocusListener
                                     disableTouchListener
@@ -110,26 +114,32 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                     }}
                                 >
                                     <ItemSize>
-                                        {Item.Name !== '' ? (
-                                            Item.Name
-                                        ) : (
-                                            <Avatar
-                                                alt="user.name"
-                                                src={
-                                                    localStorage.getItem('SiteURL') +
-                                                    'RITeSchool/Uploads/OnlineExamImages/' +
-                                                    Item.path1
-                                                }
-                                                sx={{
-                                                    width: '180px',
-                                                    height: '160px',
-                                                    border: '2px solid gray',
-                                                    textAlign: 'center',
-                                                }}
-                                                variant="square"
-                                                aria-label="add"
-                                            ></Avatar>
-                                        )}
+
+                                        {
+                                            Item.Name !== '' ? (
+                                                // <Tooltip title={Item.Name} placement='right'>
+                                                <Typography sx={{ width: '130px', overflow: 'hidden', color: '#38548A	' }}>
+                                                    {Item.Name}
+                                                </Typography>
+                                                // </Tooltip>
+                                            ) : (
+                                                <Avatar
+                                                    alt="user.name"
+                                                    src={
+                                                        localStorage.getItem('SiteURL') +
+                                                        'RITeSchool/Uploads/OnlineExamImages/' +
+                                                        Item.path1
+                                                    }
+                                                    sx={{
+                                                        width: '180px',
+                                                        height: '160px',
+                                                        border: '2px solid gray',
+                                                        textAlign: 'center',
+                                                    }}
+                                                    variant="square"
+                                                    aria-label="add"
+                                                ></Avatar>
+                                            )}
                                     </ItemSize>
                                 </Tooltip>
                             </Grid>

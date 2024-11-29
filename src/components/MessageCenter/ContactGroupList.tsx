@@ -546,20 +546,21 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                 overflow: 'hidden'
               }}
             >
-              <TableHead>
+              <TableHead >
                 <TableRow sx={{
                   background: (theme) => theme.palette.secondary.main,
                   color: (theme) => theme.palette.common.white,
 
                 }}
                 >
-                  <TableCell padding="checkbox" sx={{ py: 0.5, color: 'white', }}>
+                  <TableCell padding="checkbox" sx={{ py: 0, color: 'white', }}>
                     <Checkbox
                       checked={selectAll}
-                      onChange={handleSelectAll} />
-
+                      onChange={handleSelectAll}
+                      size='small'
+                    />
                   </TableCell>
-                  <TableCell sx={{ color: 'white' }}>
+                  <TableCell sx={{ py: 0, color: 'white' }}>
                     <b onClick={() => handleSortChange('Name')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
                       User Name {SortBy === 'Name' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                     </b>
@@ -568,13 +569,15 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
               </TableHead>
               <TableBody>
                 {SearchUser.map((item) => (
-                  <TableRow key={item.UserId}>
-                    <TableCell padding="checkbox" sx={{ py: 0.5 }}>
+                  <TableRow key={item.UserId} >
+                    <TableCell padding="checkbox" sx={{ py: 0 }}>
                       <Checkbox
                         checked={selected.includes(item.UserId)}
-                        onChange={() => handleCheckboxChange(item.UserId)} />
+                        onChange={() => handleCheckboxChange(item.UserId)}
+                        size='small'
+                      />
                     </TableCell>
-                    <TableCell sx={{ py: 0.5 }}>{item.UserName}</TableCell>
+                    <TableCell sx={{ py: 0 }}>{item.UserName}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
