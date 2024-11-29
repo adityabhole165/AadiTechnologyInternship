@@ -196,8 +196,7 @@ const Sentsms = () => {
                     >
                         <SearchTwoTone />
                     </IconButton>
-
-                    <Tooltip title={"Delete"}>
+                                <Tooltip title={"Delete"}>
                                     <IconButton
                                         onClick={clickdelete}
                                         sx={{
