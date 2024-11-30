@@ -35,11 +35,11 @@ import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IDeleteStudentAchievementDetailsBody, IGenerateTransportFeeEntriesBody, IGetStudentAchievementDetailsBody, IGetStudentNameForAchievementControlBody, IGetStudentsAllAchievementDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import { IDeleteStudentAchievementDetailsBody, IGenerateTransportFeeEntriesBody, IGetStudentAchievementDetailsBody, IGetStudentNameForAchievementControlBody, IGetStudentsAllAchievementDetailsBody, IGetStudentsSiblingDetailBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
 import { IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
-import { CDADeleteStudentAchievementDetailsMsg, CDAEditGetStudentAchievementDetails, CDAGenerateTransportFeeEntries, CDAGetStudentNameForAchievementControl, CDAGetStudentsAllAchievementList, CDAResetDeleteStudentAchievementDetailsMsg, CDAResetSaveStudentAchievementDetailsMsg, CDASaveStudentAchievementDetailsMsg, GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
+import { CDADeleteStudentAchievementDetailsMsg, CDAEditGetStudentAchievementDetails, CDAGenerateTransportFeeEntries, CDAGetStudentNameForAchievementControl, CDAGetStudentsAllAchievementList, CDAGetStudentsSiblingDetail, CDAResetDeleteStudentAchievementDetailsMsg, CDAResetSaveStudentAchievementDetailsMsg, CDASaveStudentAchievementDetailsMsg, GetFormNumber } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { CDAAddStudentAdditionalDetails, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails, CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
@@ -542,11 +542,6 @@ const StudentRegistrationForm = () => {
     streamDetails: null
   });
 
-  const handleOpenDialog1 = (isRecipients) => {
-    setIsConfirm1('');
-    setShowRecipients(isRecipients);
-    setOpenDialog1(true);
-  };
 
   const handleCloseDialog1 = () => {
     setOpenDialog1(false);
@@ -1196,15 +1191,15 @@ const StudentRegistrationForm = () => {
   const MaxAchievementfileSize = 1048576;
 
   const GetStudentNameForAchievementControl = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentNameForAchievementControl);
-  console.log('1️⃣AddNotePopup', GetStudentNameForAchievementControl);
+  //console.log('1️⃣AddNotePopup', GetStudentNameForAchievementControl);
   const GetStudentsAllAchievementList = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentsAllAchievementList);
-  console.log('2️⃣AchivementList', GetStudentsAllAchievementList);
+  //console.log('2️⃣AchivementList', GetStudentsAllAchievementList);
   const GetStudentAchievementDetailsEdit = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentAchievementDetailsEdit);
-  console.log('3️⃣AchivementEdit', GetStudentAchievementDetailsEdit);
+  //console.log('3️⃣AchivementEdit', GetStudentAchievementDetailsEdit);
   const SaveStudentAchievementDetailsMsg = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISSaveStudentAchievementDetailsMsg);
-  console.log('4️⃣SaveAchivement', SaveStudentAchievementDetailsMsg);
+  //console.log('4️⃣SaveAchivement', SaveStudentAchievementDetailsMsg);
   const DeleteStudentAchievementDetailsMsg = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISDeleteStudentAchievementDetailsMsg);
-  console.log('5️⃣DeleteAchivement', DeleteStudentAchievementDetailsMsg);
+  //console.log('5️⃣DeleteAchivement', DeleteStudentAchievementDetailsMsg);
 
 
   const GetStudentsAllAchievementDetailsBody: IGetStudentsAllAchievementDetailsBody = {
@@ -1386,9 +1381,17 @@ const StudentRegistrationForm = () => {
   }
   //#endregion
   //#endregion
-  //
-  const onSelectDate = (value) => {
-    SetSelectDate(value);
+  //#region SiblingPopup
+  const GetStudentsSiblingDetail = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetStudentsSiblingDetail);
+  console.log('1️⃣SiblingPopup', GetStudentsSiblingDetail);
+
+  const handleOpenDialog1 = () => {
+    setOpenDialog1(true);
+    const GetStudentsSiblingDetailBody: IGetStudentsSiblingDetailBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+    };
+    dispatch(CDAGetStudentsSiblingDetail(GetStudentsSiblingDetailBody));
+
   };
   // const validateAllTabs = () => {
   //     const updatedStatus = {
@@ -1442,6 +1445,7 @@ const StudentRegistrationForm = () => {
 
             <Tooltip title={'Add  Sibling Details'}>
               <IconButton
+                onClick={() => handleOpenDialog1()}
                 sx={{
                   color: 'white',
                   backgroundColor: blue[500],
@@ -1905,7 +1909,7 @@ const StudentRegistrationForm = () => {
               <b> Master Aadvik Prashant Dalavi</b>
             </Card>
             <Box>
-              <CheckboxList />
+              <CheckboxList itemList={GetStudentsSiblingDetail} />
             </Box>
           </DialogContent>
           <DialogActions sx={{ m: 2 }}>

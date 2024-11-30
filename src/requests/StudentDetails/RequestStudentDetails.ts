@@ -152,7 +152,7 @@ export const GetFormNumber =
             const formNumberList = response.data?.FormNumberList || [];
             dispatch(GetStandardwiseMinMaxDOBslice.actions.GetFormNumber(formNumberList));
         };
-export const GetStudentsSiblingDetail =
+export const CDAGetStudentsSiblingDetail =
     (data: IGetStudentsSiblingDetailBody): AppThunk =>
         async (dispatch) => {
             const response = await APIStudentDetails.GetStudentsSiblingDetail(data);
