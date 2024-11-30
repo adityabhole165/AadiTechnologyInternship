@@ -113,7 +113,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     asRoleId: Number(UsersRole),
     asStandardDivisionId: Number(StandardClass),
     asCount: 0,
-    asFilter: 'N'
+    asFilter: ''
 
   }
   useEffect(() => {

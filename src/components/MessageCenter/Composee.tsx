@@ -587,6 +587,7 @@ function Form13() {
 
   const RecipientsCCListFun = (e) => {
     setRecipientsCCObject(e);
+    clickConfirmFunc(e);
     setdisplayOfCCRecipients('none');
     setdisplayOfComposePage('block');
   };
