@@ -616,6 +616,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <FeedbackIcon  />,
       link: '/extended-sidebar/Teacher/FeedbackDetailsBaseScreen',
       screenId: 0
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Student Details',
+      icon: <FeedbackIcon  />,
+      link: '/extended-sidebar/Teacher/StudentDetailsBaseScreen',
+      screenId: 0
     }
   ];
   // #endregion

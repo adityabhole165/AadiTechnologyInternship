@@ -305,7 +305,10 @@ const BlockProgressReportBaseScreen = Loader(
 const FeedbackDetailsBasescreen = Loader(
   lazy(() => import('src/components/FeedbackDetails/FeedbackDetailsBasescreen'))
 );
-const teacherRoutes = [
+const StudentDetailsBaseScreen = Loader(
+  lazy(() => import('src/components/StudentDetails/StudentDetailsBaseScreen').then(module => ({ default: module.StudentDetailsBaseScreen }))));
+
+  const teacherRoutes = [
   {
     path: 'WebDashBoard',
     element: <DashBoard />
@@ -873,6 +876,10 @@ const teacherRoutes = [
   {
     path: 'FeedbackDetailsBasescreen',
     element: <FeedbackDetailsBasescreen />
+  },
+  {
+    path: 'StudentDetailsBaseScreen',
+    element: <StudentDetailsBaseScreen />
   },
 ];
 

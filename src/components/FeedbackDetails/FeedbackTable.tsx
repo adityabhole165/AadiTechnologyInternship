@@ -169,6 +169,5 @@ const FeedbackTable = ({ data, onEdit, onDelete }) => {
       </TableBody>
     </Table>
   );
-
 };
 export default FeedbackTable;
