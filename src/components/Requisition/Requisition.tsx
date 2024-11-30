@@ -297,6 +297,8 @@ const StatusRequisition = () => {
   useEffect(() => {
     dispatch(RequisitionStatus(Requisition));
   }, []);
+
+  
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, CountGetPagedRequisition.TotalCount);
   const pagecount = Math.ceil(CountGetPagedRequisition.TotalCount / rowsPerPage);

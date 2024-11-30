@@ -1,40 +1,43 @@
 
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, IconButton, TextField, Tooltip } from '@mui/material';
-import { grey, red } from '@mui/material/colors';
-import { useEffect, useState,useContext } from 'react';
+import { blue, grey, red } from '@mui/material/colors';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 import CommonPageHeader from 'src/components/CommonPageHeader';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeleteSMSBody, IExportSentItemsBody, IGetSentItemsBody } from 'src/interfaces/SentSms/Sentsms';
-import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems ,CDAResetDelete} from 'src/requests/SentSms/ReqSentsms';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
+import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems, CDAResetDelete } from 'src/requests/SentSms/ReqSentsms';
 import { RootState } from 'src/store';
 import SentsmsList from './SentsmsList';
-import { AlertContext } from 'src/contexts/AlertContext';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { toast } from 'react-toastify';
+
 const Sentsms = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const StandardDivisionId = Number(
-      sessionStorage.getItem('StandardDivisionId')
+        sessionStorage.getItem('StandardDivisionId')
     );
     const asUpdatedById = localStorage.getItem('Id');
     const asTeacherId = sessionStorage.getItem('TeacherId');
-
-    
     const asUserId = Number(localStorage.getItem('UserId'));
     const [regNoOrName, setRegNoOrName] = useState('');
     const [sortExpression, setSortExpression] = useState('ORDER BY Insert_Date DESC');
     const [SmsList, setSmsList] = useState([]);
     const [SmsListID, setSmsListID] = useState('');
     const { showAlert, closeAlert } = useContext(AlertContext);
-
-    console.log(SmsListID, "SmsListID");
-
+    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const rowsPerPageOptions = [20, 50, 100, 200];
+    const [page, setPage] = useState(1);
+    const startIndex = (page - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
     const [headerArray, setHeaderArray] = useState([
         { Id: 1, Header: 'To', SortOrder: null, sortKey: 'RequisitionCode' },
         { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'RequisitionName' },
@@ -62,20 +65,9 @@ const Sentsms = () => {
         (state: RootState) => state.SentSms.ISExportSentItems
     );
 
-    
-    console.log(UsExportSentItems,"UsExportSentItems");
-    
-    useEffect(() => {
-        setSmsList(USGetSentItems);
-    }, [USGetSentItems]);
-    console.log(USGetSentItems, "USGetSentItems");
-
-
     const handleRegNoOrNameChange = (value) => {
         setRegNoOrName(value);
     };
-
-
 
     const clickSearch = () => {
         if (regNoOrName === '') {
@@ -83,90 +75,87 @@ const Sentsms = () => {
         } else {
             setSmsList(
                 USGetSentItems.filter((item) => {
-              const text1Match = item.SenderName.toLowerCase().includes(
-                regNoOrName.toLowerCase()
-              );
-              const text2Match = item.StatusId.toLowerCase().includes(
-                regNoOrName.toLowerCase()
-              );
-              return text1Match || text2Match;
-            })
-          );
+                    const text1Match = item.SenderName.toLowerCase().includes(
+                        regNoOrName.toLowerCase()
+                    );
+                    const text2Match = item.StatusId.toLowerCase().includes(
+                        regNoOrName.toLowerCase()
+                    );
+                    return text1Match || text2Match;
+                })
+            );
         }
         dispatch(CDAGetSentItems(GetSentItemsBody));
     };
 
+
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1);
+    };
+
+    const PageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+
     const GetSentItemsBody: IGetSentItemsBody = {
-        "asSchoolId": asSchoolId,
-        "asUser_Id": asUserId,
-        "asReceiver_User_Role_Id": 2,
-        "asAcademic_Year_Id": asAcademicYearId,
+        asSchoolId: asSchoolId,
+        asUser_Id: asUserId,
+        asReceiver_User_Role_Id: 2,
+        asAcademic_Year_Id: asAcademicYearId,
         "asSortExp": "ORDER BY Insert_Date DESC",
-        "asprm_StartIndex": 0,
-        "asPageSize": 100000,
-        "asName": regNoOrName,
+        asprm_StartIndex: startIndex,
+        asPageSize: endIndex,
+        asName: regNoOrName,
         "asContent": "",
-        "asViewAllSMS": 0
+        asViewAllSMS: 0
     };
 
     const ExportSentItemsBody: IExportSentItemsBody = {
-        
-            "asSchoolId" : asSchoolId,
-            "asUser_Id" : asUserId,
-            "asReceiver_User_Role_Id" : 2,
-            "asAcademic_Year_Id" : asAcademicYearId,
-            "asSortExp" : "ORDER BY Insert_Date DESC",
-            "asprm_StartIndex" : 0,
-            "asPageSize" : 20,
-            "asName" : regNoOrName,
-            "asContent" : "",
-            "asViewAllSMS" : 0
-        
+        asSchoolId: asSchoolId,
+        asUser_Id: asUserId,
+        asReceiver_User_Role_Id: 2,
+        asAcademic_Year_Id: asAcademicYearId,
+        "asSortExp": "ORDER BY Insert_Date DESC",
+        asprm_StartIndex: startIndex,
+        asPageSize: endIndex,
+        asName: regNoOrName,
+        "asContent": "",
+        asViewAllSMS: 0
+
     };
 
-
- 
-
-
-
-     const clickdelete = () => {
-
+    const clickdelete = () => {
         const DeleteSMSBody: IDeleteSMSBody = {
             "asSMS_Id": SmsListID.toString(),
             "asSchoolId": asSchoolId
         };
         showAlert({
-          title: 'Please Confirm',
-          message:
-            'Are you sure you want to delete the selected SMS(s)?',
-          variant: 'warning',
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          onCancel: () => {
-            closeAlert();
-          },
-          onConfirm: () => {
-            dispatch(CDADeleteSMSApi(DeleteSMSBody));
-    
-    
-            closeAlert();
-          }
+            title: 'Please Confirm',
+            message:
+                'Are you sure you want to delete the selected SMS(s)?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(CDADeleteSMSApi(DeleteSMSBody));
+                closeAlert();
+            }
         });
-    
-    
-    
-    
-      };
-   
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         if (DeleteSMS != '') {
-          dispatch(CDAResetDelete());
-          toast.success(DeleteSMS);
-         
-          dispatch(CDAGetSentItems(GetSentItemsBody));
-    
+            dispatch(CDAResetDelete());
+            toast.success(DeleteSMS);
+
+            dispatch(CDAGetSentItems(GetSentItemsBody));
+
         }
-      }, [DeleteSMS]);
+    }, [DeleteSMS]);
 
 
 
@@ -174,25 +163,103 @@ const Sentsms = () => {
 
     }
 
-
-
-
-
     const Changevalue = (updatedList) => {
         setSmsList(updatedList);  // Update SmsList with the updated list
         const activeItems = updatedList.filter(item => item.IsActive).map(item => item.Id);
         setSmsListID(activeItems);  // Update SmsListID based on active items
     };
 
-    useEffect(() => {
-        dispatch(CDAGetSentItems(GetSentItemsBody));
-    }, []);
+
+    const convertToCSV = () => {
+        // Prepare headers
+        const headers = [
+            'RowID',
+            'From',
+            'To',
+            'SMSText',
+            'SendDate',
+        ];
+
+        // Prepare rows
+        const rows = UsExportSentItems.map(item => {
+            const row = [
+                item.RowID,
+                item.From,
+                item.To,
+                item.SMSText,
+                item.SendDate,
+
+
+
+            ];
+
+            return row;
+        });
+
+        const csvContent = [
+            headers.join(','),
+            ...rows.map(row =>
+                row.map(cell =>
+                    `"${String(cell || '').replace(/"/g, '""')}"`
+                ).join(',')
+            ),
+        ].join('\n');
+
+        return csvContent;
+    };
+
+    const exportToExcel = () => {
+        try {
+            const csvContent = convertToCSV();
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `SentSmsDetails.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+           console.error('Error exporting to CSV:', error);
+        }
+    };
+
+    const Exportremark = () => {
+        const confirmMessage = "This Action will show only saved details. Do you want to continue?";
+
+
+        showAlert({
+            title: 'Please Confirm',
+            message: confirmMessage,
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                exportToExcel();
+
+
+                closeAlert();
+            }
+        });
+
+    };
+
+
     useEffect(() => {
         dispatch(CDAExportSentItems(ExportSentItemsBody));
-    }, []);
+    }, [startIndex, endIndex, regNoOrName]);
 
+    useEffect(() => {
+        dispatch(CDAGetSentItems(GetSentItemsBody));
+    }, [startIndex, endIndex, regNoOrName]);
     
-  
+    useEffect(() => {
+        setSmsList(USGetSentItems);
+    }, [USGetSentItems]);
 
 
 
@@ -233,21 +300,43 @@ const Sentsms = () => {
                     >
                         <SearchTwoTone />
                     </IconButton>
-                                <Tooltip title={"Delete"}>
-                                    <IconButton
-                                        onClick={clickdelete}
-                                        sx={{
-                                            color: '#223354',
-                                            mt: 0.7,
-                                            '&:hover': {
-                                                color: 'red',
-                                                backgroundColor: red[100]
-                                            }
-                                        }}
-                                    >
-                                        <DeleteForeverIcon />
-                                    </IconButton>
-                                </Tooltip>
+
+                    <Box>
+                        <Tooltip title={"Delete"}>
+                            <IconButton
+                                onClick={clickdelete}
+                                sx={{
+                                    color: '#223354',
+                                    mt: 0.7,
+                                    '&:hover': {
+                                        color: 'red',
+                                        backgroundColor: red[100]
+                                    }
+                                }}
+                            >
+                                <DeleteForeverIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Box>
+
+                    <Box>
+                        <Tooltip title={'Export'}>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: blue[500],
+                                    '&:hover': {
+                                        backgroundColor: blue[600]
+                                    }
+                                }}
+                                onClick={Exportremark}  >
+                                <Download />
+                            </IconButton>
+                        </Tooltip>
+
+                    </Box>
+
+
 
                     <Box>
                         <Tooltip title={'Here you can see list of existing requisition according to status.'}>
@@ -277,6 +366,14 @@ const Sentsms = () => {
                 clickEdit={handleClickEdit}
                 clickchange={Changevalue}
             />
+            <ButtonGroupComponent
+                rowsPerPage={rowsPerPage}
+                ChangeRowsPerPage={ChangeRowsPerPage}
+                rowsPerPageOptions={rowsPerPageOptions}
+                PageChange={PageChange}
+                pagecount={''}
+            />
+
 
 
 

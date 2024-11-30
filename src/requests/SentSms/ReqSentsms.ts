@@ -341,7 +341,18 @@ export const CDAExportSentItems =
   (data: IExportSentItemsBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiSentsms.ExportSentItemsApi(data);
-      dispatch(SliceSentsms.actions.RExportSentItems(response.data));
+      let SentItems = response.data.map((item, i) => {
+        return {
+          RowID: item.RowID,
+          From: item.From,
+          To: item.To,
+          SMSText: item.SMSText,
+          SendDate:item.SendDate,
+          
+
+        };
+      });
+      dispatch(SliceSentsms.actions.RExportSentItems(SentItems));
     };
 
 export default SliceSentsms.reducer;
