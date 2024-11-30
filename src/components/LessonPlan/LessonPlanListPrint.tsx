@@ -1,9 +1,10 @@
 import { Accordion, AccordionDetails, Box, Grid, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, alpha, styled } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { RootState } from 'src/store';
-import LessonPlanActivity from './LessonPlanActivity';
+import { formatDateTo12Hour } from '../Common/Util';
 const LessonPlanListPrint = ({ exampleLessonDetails, Action = 'View', IsEditingAllowed = false, printRef, TeacherName,
     startDate, endDate
 }) => {
@@ -185,7 +186,7 @@ const LessonPlanListPrint = ({ exampleLessonDetails, Action = 'View', IsEditingA
                     MozUserSelect: 'text',  // For Firefox
                     msUserSelect: 'text',  // For Internet Explorer/Edge
                     // Ensure content can break across pages
-                    // pageBreakInside: 'avoid' 
+                    pageBreakInside: 'avoid'
                 }}
                 ref={printRef}>
                 <Box>
@@ -323,7 +324,68 @@ const LessonPlanListPrint = ({ exampleLessonDetails, Action = 'View', IsEditingA
                         </Accordion >
                     </div>
                 ))}
-                <LessonPlanActivity ApprovalData={ApprovalData} />
+                {/* <LessonPlanActivity ApprovalData={ApprovalData} /> */}
+                <div style={{ marginTop: '20px' }}>
+                    <Table sx={{ borderCollapse: 'collapse' }}>
+                        {ApprovalData.length > 0 && ApprovalData.map((item, index) => (
+                            <>
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledCell sx={{ color: "primary.main", fontWeight: 'bold', background: (theme) => alpha(theme.palette.primary.main, 0.1), border: (theme) => `1px solid ${theme.palette.primary.light}` }}>
+                                            Name:
+                                        </StyledCell>
+                                        <StyledCell sx={{ color: "primary.main", background: (theme) => alpha(theme.palette.primary.main, 0.1), border: (theme) => `1px solid ${theme.palette.primary.light}` }}>
+                                            {item.Text2}
+                                        </StyledCell>
+                                        <StyledCell sx={{ color: "primary.main", fontWeight: 'bold', background: (theme) => alpha(theme.palette.primary.main, 0.1), border: (theme) => `1px solid ${theme.palette.primary.light}` }}>
+                                            {item.Text3}
+                                        </StyledCell>
+                                        <StyledCell sx={{ color: "primary.main", background: (theme) => alpha(theme.palette.primary.main, 0.1), border: (theme) => `1px solid ${theme.palette.primary.light}` }}>
+                                            {item.Text4 !== '' ? formatDateTo12Hour(item.Text4) : ''}
+                                        </StyledCell>
+                                    </TableRow>
+                                </TableHead>
+                                {item.ApprovalSortOrder !== '0' &&
+                                    <TableBody>
+                                        <TableRow>
+                                            <StyledCell colSpan={4} sx={{ fontWeight: 'bold', borderTop: 'none', border: (theme) => `1px solid ${theme.palette.primary.light}` }}>
+                                                {item.Text5 === '' ? <span style={{ color: grey[400] }}>Comment</span> : item.Text5}
+                                            </StyledCell>
+                                        </TableRow>
+                                    </TableBody>}
+                            </>
+                        ))}
+                    </Table>
+                    {/* <Table>
+                        <TableHead>
+                            <TableRow>
+                                <StyledCell sx={{ background: (theme) => alpha(theme.palette.primary.main, 0.2) }} colSpan={2}>
+                                    Comments
+                                </StyledCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {ApprovalData.length > 0 && ApprovalData.map((item, index) => (
+                                <>
+                                    <TableRow>
+                                        <StyledCell sx={{ fontWeight: 'bold' }}>
+                                            {index + 1}. {item.Text2}
+                                            {item.Text5 !== '' &&
+                                                <>
+                                                    <br />
+                                                    {item.Text5}
+                                                </>
+                                            }
+                                        </StyledCell>
+                                        <StyledCell >
+                                            <span style={{ fontWeight: 'bold' }}>{item.Text3}</span> {item.Text4 !== '' ? formatDateTo12Hour(item.Text4) : ''}
+                                        </StyledCell>
+                                    </TableRow>
+                                </>
+                            ))}
+                        </TableBody>
+                    </Table> */}
+                </div>
             </div>
         </>
     )

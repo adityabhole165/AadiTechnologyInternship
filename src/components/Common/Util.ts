@@ -767,3 +767,23 @@ export const getWithoutHTML = (value) => {
   var text = div.textContent || div.innerText || '';
   return text;
 };
+
+export const formatDateTo12Hour = (dateString: string): string => {
+  // Parse the input date string
+  const [datePart, timePart] = dateString?.split(' ');
+  const [day, month, year] = datePart?.split('-').map(Number);
+  const [hours, minutes, seconds] = timePart?.split(':').map(Number);
+
+  // Create a Date object
+  const date = new Date(year, month - 1, day, hours, minutes, seconds);
+
+  // Format to 12-hour time
+  const formattedHours = date.getHours() % 12 || 12;
+  const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+
+  // Pad minutes and seconds with leading zeros
+  const formattedMinutes = String(date.getMinutes()).padStart(2, '0');
+  const formattedSeconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${day}-${month}-${year} ${formattedHours}:${formattedMinutes} ${ampm}`;
+};
