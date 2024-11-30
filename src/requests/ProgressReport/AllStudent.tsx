@@ -67,6 +67,7 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                 School_Orgn_Name: item.School_Orgn_Name,
                 Standard_Id: item.Standard_Id,
                 Standard_Division_Id: item.Standard_Division_Id,
+                IsFailCriteriaNotApplicable: item.IsFailCriteriaNotApplicable
             };
         });
 
@@ -346,6 +347,37 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                         }
                     });
                 }
+                if (true) {
+                    response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+                        let testTypeLength = response.data.ListTestTypeIdDetails.length;
+                        if (Item.SchoolWise_Test_Id == Test.Test_Id) {
+                            let isDataPushed = false; // Flag to track if data has been pushed
+                            const matchingMarksDetails = response.data.ListMarkssDetails.find(
+                                (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
+                            );
+                            if (isFailCriteria === 'N' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                                columns.push({
+                                    MarksScored: Item.Result.trim(),
+                                    TotalMarks: "-",
+                                    IsAbsent: "N",
+                                    IsGrades: "Y",
+                                    Result: Item.Result.trim(),
+                                    Rank: Item.rank
+                                })
+                            }
+                            if (totalCount !== '0' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                                columns.push({
+                                    MarksScored: Item.rank.trim().includes('999') ? '-' : Item.rank.trim(),
+                                    TotalMarks: "-",
+                                    IsAbsent: "N",
+                                    IsGrades: "Y",
+                                    Result: Item.Result.trim(),
+                                    Rank: Item.rank
+                                })
+                            }
+                        }
+                    })
+                }
 
 
                 rows.push({
@@ -460,6 +492,37 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                             });
                         }
                     });
+                }
+                if (true) {
+                    response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+                        let testTypeLength = response.data.ListTestTypeIdDetails.length;
+                        if (Item.SchoolWise_Test_Id == Test.Test_Id) {
+                            let isDataPushed = false; // Flag to track if data has been pushed
+                            const matchingMarksDetails = response.data.ListMarkssDetails.find(
+                                (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
+                            );
+                            if (isFailCriteria === 'N' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                                columns.push({
+                                    MarksScored: Item.Result.trim(),
+                                    TotalMarks: "-",
+                                    IsAbsent: "N",
+                                    IsGrades: "Y",
+                                    Result: Item.Result.trim(),
+                                    Rank: Item.rank
+                                })
+                            }
+                            if (totalCount !== '0' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
+                                columns.push({
+                                    MarksScored: Item.rank.trim().includes('999') ? '-' : Item.rank.trim(),
+                                    TotalMarks: "-",
+                                    IsAbsent: "N",
+                                    IsGrades: "Y",
+                                    Result: Item.Result.trim(),
+                                    Rank: Item.rank
+                                })
+                            }
+                        }
+                    })
                 }
 
                 rows1.push({

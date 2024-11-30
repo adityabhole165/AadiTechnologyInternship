@@ -508,7 +508,7 @@ const ProgressReportNew = () => {
       asUserId: Number(asUserId)
     };
 
-    dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
+    dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
   }, [IsTotalConsiderForProgressReport, AcademicYear, GetOldStudentDetails.StudentId]);
 
 

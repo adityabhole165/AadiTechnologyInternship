@@ -122,7 +122,7 @@ const FinalResultGenerateAllSlice = createSlice({
 });
 // ViewResultGA
 export const StudentDetailsGA =
-    (data: IGetStudentPrrogressReportBody, data12: string): AppThunk =>
+    (data: IGetStudentPrrogressReportBody, data12: string, totalCount: string): AppThunk =>
         async (dispatch, getState) => {
             const asSchoolId = localStorage.getItem('localSchoolId');
             const GetSchoolSettings: GetSchoolSettingsBody = {
@@ -431,6 +431,37 @@ export const StudentDetailsGA =
                             }
 
                         })
+                        if (true) {
+                            response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+                                let testTypeLength = response.data.ListTestTypeIdDetails.length;
+                                if (Item.SchoolWise_Test_Id == Test.Test_Id) {
+                                    let isDataPushed = false; // Flag to track if data has been pushed
+                                    const matchingMarksDetails = response.data.ListMarkssDetails.find(
+                                        (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
+                                    );
+                                    if (response.data.listStudentsDetails[0]?.IsFailCriteriaNotApplicable === 'N' && data1.toLowerCase() === 'true') {
+                                        columns.push({
+                                            MarksScored: Item.Result.trim(),
+                                            TotalMarks: "-",
+                                            IsAbsent: "N",
+                                            IsGrades: "Y",
+                                            Result: Item.Result.trim(),
+                                            Rank: Item.rank
+                                        })
+                                    }
+                                    if (totalCount !== '0' && data1.toLowerCase() === 'true') {
+                                        columns.push({
+                                            MarksScored: Item.rank.trim().includes('999') ? '-' : Item.rank.trim(),
+                                            TotalMarks: "-",
+                                            IsAbsent: "N",
+                                            IsGrades: "Y",
+                                            Result: Item.Result.trim(),
+                                            Rank: Item.rank
+                                        })
+                                    }
+                                }
+                            })
+                        }
                         if (Test.Test_Id === `-1`) {
                             columns.push({
                                 MarksScored: `-`,
@@ -450,6 +481,21 @@ export const StudentDetailsGA =
                                 TotalMarks: "-",
                                 IsAbsent: "N"
                             })
+                            if (response.data.listStudentsDetails[0]?.IsFailCriteriaNotApplicable === 'N' && data1.toLowerCase() === 'true') {
+                                columns.push({
+                                    MarksScored: `-`,
+                                    TotalMarks: "-",
+                                    IsAbsent: "N"
+                                })
+                            }
+                            if (totalCount !== '0' && data1.toLowerCase() === 'true') {
+                                columns.push({
+                                    MarksScored: `-`,
+                                    TotalMarks: "-",
+                                    IsAbsent: "N"
+                                })
+                            }
+                            // 🚩
                         }
                     }
 
@@ -484,7 +530,9 @@ export const StudentDetailsGA =
                     Text5: item.Academic_Year,
                     School_Name: item.School_Name,
                     School_Orgn_Name: item.School_Orgn_Name,
-                    standardDivId: item.Standard_Division_Id
+                    standardDivId: item.Standard_Division_Id,
+                    IsFailCriteriaNotApplicable: item.IsFailCriteriaNotApplicable
+
                 };
             });
             dispatch(FinalResultGenerateAllSlice.actions.StudentDetails(abc));

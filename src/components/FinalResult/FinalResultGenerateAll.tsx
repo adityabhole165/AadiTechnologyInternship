@@ -71,6 +71,13 @@ const GenerateAll = ({ }) => {
         return returnVal
 
     }
+    const [totalCount, setTotalCount] = useState('0');
+    useEffect(() => {
+        if (UsGetSchoolSettings != null)
+            setTotalCount(UsGetSchoolSettings?.GetSchoolSettingsResult?.ToppersCount.toString());
+        console.log(totalCount, 'this is count setting');
+
+    }, [UsGetSchoolSettings])
     useEffect(() => {
         console.log("isGenerated 🎯🎯🎯🎯🎯", MarkDetailsList);
 
@@ -178,7 +185,7 @@ const GenerateAll = ({ }) => {
             asUserId: Number(asUserId)
         };
 
-        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
+        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
     }, [IsTotalConsiderForProgressReport]);
 
     useEffect(() => {
@@ -300,7 +307,7 @@ const GenerateAll = ({ }) => {
             />
             {StudentDetailsUS && (
 
-                //  {showProgressReport && (
+                //  {showProgressReport && ( -
                 <div >
                     {(IsView == 'false' && isGenerated) && (
                         <div>
@@ -397,6 +404,18 @@ const GenerateAll = ({ }) => {
                                                                         </Typography>
                                                                     </TableCell>
                                                                 </>}
+                                                            {StudentDetailsUS[0]?.IsFailCriteriaNotApplicable === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                                <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                                                                    <Typography color="black" textAlign={'center'} px={0}>
+                                                                        <b>Result</b>
+                                                                    </Typography>
+                                                                </TableCell>}
+                                                            {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                                <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                                                                    <Typography color="black" textAlign={'center'} px={0}>
+                                                                        <b>Rank</b>
+                                                                    </Typography>
+                                                                </TableCell>}
                                                         </TableRow>
                                                         <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                                                             {findRow2()?.map((item, index) => (
@@ -475,6 +494,18 @@ const GenerateAll = ({ }) => {
                                                                     </Typography>
                                                                 </TableCell>
                                                             </>}
+                                                        {StudentDetailsUS[0]?.IsFailCriteriaNotApplicable === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                            <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                                                                <Typography color="black" textAlign={'center'} px={0}>
+                                                                    <b>Result</b>
+                                                                </Typography>
+                                                            </TableCell>}
+                                                        {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                            <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                                                                <Typography color="black" textAlign={'center'} px={0}>
+                                                                    <b>Rank</b>
+                                                                </Typography>
+                                                            </TableCell>}
                                                     </TableRow>
                                                 )}
                                                 <TableRow>
@@ -647,7 +678,7 @@ const GenerateAll = ({ }) => {
                                                         Rank
                                                     </TableCell>
                                                 )}
-                                                {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && (
+                                                {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && (
                                                     <TableCell
                                                         sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}
                                                     >
@@ -711,7 +742,7 @@ const GenerateAll = ({ }) => {
                                                         }
                                                         return null;
                                                     })}
-                                                    {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                    {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
                                                         if (index === 0) {
                                                             return (
                                                                 <TableCell
@@ -765,7 +796,7 @@ const GenerateAll = ({ }) => {
                                                             return null;
                                                         })}
 
-                                                        {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                        {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
                                                             if (index === 0) {
                                                                 return (
                                                                     <TableCell
