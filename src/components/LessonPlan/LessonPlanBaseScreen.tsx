@@ -505,10 +505,25 @@ const LessonPlanBaseScreen = () => {
       const element = printRef.current;
 
       try {
+        // Fallback UUID generation function
+        const generateUUID = () => {
+          // Check if crypto.randomUUID is available
+          if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+            return crypto.randomUUID();
+          }
+
+          // Fallback UUID generation
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          });
+        };
+
         // Use html2pdf for better multi-page handling
         const opt = {
           margin: [10, 10, 10, 10], // top, right, bottom, left
-          filename: `${crypto.randomUUID()}.pdf`,
+          filename: `${generateUUID()}.pdf`,
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: {
             scale: 2,
