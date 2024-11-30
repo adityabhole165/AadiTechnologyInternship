@@ -82,7 +82,7 @@ function RemarkList({
             <TableRow
               sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
             >
-              <TableCell></TableCell>
+              {/* <TableCell></TableCell> */}
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
@@ -120,6 +120,7 @@ function RemarkList({
                     onChange={() => {
                       onClick(item.Id);
                     }}
+                    size='small'
                   />
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} >
