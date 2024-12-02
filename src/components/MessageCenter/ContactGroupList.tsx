@@ -80,8 +80,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const USAddUpdateGroup: any = useSelector((state: RootState) => state.ContactGroup.IAddUpdateGroup);
   const USUserCount: any = useSelector((state: RootState) => state.ContactGroup.IUserCount);
 
-  console.log(USUserCount, "👌👌")
-
   useEffect(() => {
     if (GPID !== 0) {
       if (typeof USContactGroupUserRoles === "string") {
@@ -226,17 +224,12 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     setErrorGroupNameExists('');
   }
   const clickConfirm = async () => {
-    //if (isSubmitting) return;
     let isValid = true;
     setErrorGroupName('');
     setErrorUserRole('');
     setErrorSelectedUser('');
     setErrorGroupNameExists('');
     setErrorTypeName('');
-    // if (!GroupName || !selectedd || !selected) {
-    //   setErrorTypeName('Please correct the following errors.');
-    //   isValid = false;
-    // }
     if (!GroupName.trim()) {
       setErrorGroupName('Group name should not be blank.');
       isValid = false;
@@ -264,8 +257,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       asMailingGroupXML: getXML(),
     };
     dispatch(CDAaddUpdateGroup(SaveContactGroup));
-    // dispatch(resetAddUpdateGroup());
-    //dispatch(ContactGroup(ContactgroupBody));
     setGroupName('');
     setSelected([]);
     setSelectedd([]);
@@ -279,33 +270,11 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   useEffect(() => {
     if (USAddUpdateGroup != "") {
       toast.success(USAddUpdateGroup);
-      // dispatch(CDAaddUpdateGroup());
       dispatch(resetAddUpdateGroup());
       dispatch(ContactGroup(ContactgroupBody));
     }
   }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected, GPID])
-  // useEffect(() => {
-  //   if (USAddUpdateGroup) {
-  //     if (typeof USAddUpdateGroup === 'string') {
-  //       if (USAddUpdateGroup.toLowerCase().includes('success')) {
-  //         toast.success(USAddUpdateGroup)
-  //         dispatch(resetAddUpdateGroup());
-  //         dispatch(ContactGroup(ContactgroupBody));
-  //         setGroupName('');
-  //         setSelected([]);
-  //         setSelectedd([]);
-  //         setSelectAll(false);
-  //         setErrorTypeName('');
-  //         setErrorGroupName('');
-  //         setErrorUserRole('');
-  //         setErrorSelectedUser('');
-  //         setErrorGroupNameExists('');
-  //       } else {
-  //         toast.error(USAddUpdateGroup);
-  //       }
-  //     }
-  //   }
-  // }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected, GPID]);
+
   const isGroupNameExists = async (groupName) => {
     const existingGroupNames = getuserlist.map(item => item.Value);
     return existingGroupNames.includes(groupName.trim());
@@ -383,9 +352,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
       setSortDirection('asc');
     }
   };
-
-
-  console.log(endRecord, "🤞🤞👌")
   return (
     <>
       <Box>
@@ -478,7 +444,6 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                 Search By Name <span style={{ color: 'red' }}>*</span>
               </span>
             }
-            // multiline
             rows={1}
             value={SearchByUserName}
             onChange={(e) => {
