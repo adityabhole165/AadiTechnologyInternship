@@ -90,7 +90,7 @@ const DeleteStudentAchievementDetailsApi = (data: IDeleteStudentAchievementDetai
 //Add Sibling Details Pop
 //1
 const GetStudentDetailsForSiblingApi = (data: IGetStudentDetailsForSiblingBody) => {
-    return http.post<IGetStudentDetailsForSiblingResult>('Teacher/GetStudentDetailsForSibling', data);
+    return http.post<IGetStudentDetailsForSiblingResult[]>('Teacher/GetStudentDetailsForSibling', data);
 };
 //2
 const GetStudentSiblingListApi = (data: IGetStudentSiblingListBody) => {

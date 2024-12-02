@@ -12,6 +12,7 @@ import {
     IGetStudentMandatoryFieldsBody,
     IGetStudentNameForAchievementControlBody,
     IGetStudentsAllAchievementDetailsBody,
+    IGetStudentSiblingListBody,
     IGetStudentsListBody,
     IGetStudentsSiblingDetailBody,
     IGetStudentUIPreConditionMsgBody,
@@ -304,7 +305,7 @@ export const CDAGetStudentDetailsForSiblingPop =
             dispatch(GetStandardwiseMinMaxDOBslice.actions.RGetStudentDetailsForSibling(response.data));
         };
 export const CDAGetStudentSiblingList =
-    (data: IGetStudentDetailsForSiblingBody): AppThunk =>
+    (data: IGetStudentSiblingListBody): AppThunk =>
         async (dispatch) => {
             const response = await APIStudentDetails.GetStudentSiblingListApi(data);
             let responseData = response.data.map((item, i) => {

@@ -1,14 +1,38 @@
-import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
-import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { blue, grey, green } from '@mui/material/colors';
-import React from 'react';
-import CommonPageHeader from '../CommonPageHeader';
+import { SearchTwoTone } from '@mui/icons-material';
 import SaveIcon from '@mui/icons-material/Save';
 import SquareIcon from '@mui/icons-material/Square';
-
-import StudentTable from './StudentTable';
+import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { green } from '@mui/material/colors';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { IGetStudentDetailsForSiblingBody, IGetStudentSiblingListBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import { CDAGetStudentDetailsForSiblingPop, CDAGetStudentSiblingList } from 'src/requests/StudentDetails/RequestStudentDetails';
+import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 import AddSiblingStudentTable from './AddSiblingStudentTable';
+import StudentTable from './StudentTable';
+
 const EnterStudentSiblingDetails = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const {
+    Name,
+    standardId,
+    DivisionId,
+    YearWise_Student_Id,
+    SchoolWise_Student_Id,
+    StandardDivision_Id,
+    Enrolment_Number,
+    Joining_Date
+  } = location.state || {};
+  //console.log('LOcation', location.state);
+
+  // Session & Local Variables
+  const schoolId = localStorage.getItem('SchoolId');
+  const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const teacherId = sessionStorage.getItem('Id');
+
   const students = [
     { id: 2057, name: 'Master Pranav Digambar Dubal', class: '10 - D' },
     { id: 2060, name: 'Miss Ishita Dattatray Gaikwad', class: '10 - A' },
@@ -20,6 +44,30 @@ const EnterStudentSiblingDetails = () => {
     { id: 2068, name: 'Master Shambhuraj Abhijit Ghule', class: '10 - A' },
     { id: 2069, name: 'Master Shlok Ashwinkumar Gilda', class: '10 - A' }
   ];
+
+  const StudentDetailsForSibling = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentDetailsForSibling);
+  const oStudentDetailsForSibling: any = StudentDetailsForSibling;
+  const StudentName = oStudentDetailsForSibling?.StudentFullName;         //Student Name
+  console.log('1️⃣StudentName', StudentName);
+
+  const GetStudentSiblingList = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentSiblingList);
+  console.log('2️⃣GetStudentSiblingList', GetStudentSiblingList);
+
+  useEffect(() => {
+    //document.title = 'Enter Student Sibling Details';
+    const GetStudentDetailsForSiblingBody: IGetStudentDetailsForSiblingBody = {
+      asSchoolId: 18,
+      asAcademicYearId: 55,
+      asYearwiseStudentId: 40467
+    }
+    dispatch(CDAGetStudentDetailsForSiblingPop(GetStudentDetailsForSiblingBody))
+    const GetStudentSiblingListBody: IGetStudentSiblingListBody = {
+      asSchoolId: 18,
+      asAcademicYearId: 55,
+      asYearwiseStudentId: 40467
+    }
+    dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
+  }, []);
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -37,9 +85,11 @@ const EnterStudentSiblingDetails = () => {
         rightActions={
           <>
             <TextField
-              sx={{ width: '15vw' }}
+              sx={{ width: '18vw' }}
               fullWidth
+              name="StudentName"
               label={'Student Name'}
+              value={StudentName || ''}
               variant="outlined"
               size="small"
             />
@@ -53,8 +103,8 @@ const EnterStudentSiblingDetails = () => {
               }
               variant="outlined"
               size="small"
-              //   value={searchTerm}
-              //   onChange={(e) => handleSearch(e.target.value)}
+            //   value={searchTerm}
+            //   onChange={(e) => handleSearch(e.target.value)}
             />
             <Tooltip title="Search">
               <IconButton
@@ -103,7 +153,7 @@ const EnterStudentSiblingDetails = () => {
           </>
         }
       />
-      <Box sx={{ background: 'white', p: 1, mb:1 }}>
+      <Box sx={{ background: 'white', p: 1, mb: 1 }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
@@ -115,11 +165,11 @@ const EnterStudentSiblingDetails = () => {
         </Box>
       </Box>
       <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
-        <Typography variant="h4" sx={{ py: 1}}>
-         
+        <Typography variant="h4" sx={{ py: 1 }}>
+
           Sibling Details
         </Typography>
-        <AddSiblingStudentTable />
+        <AddSiblingStudentTable itemList={GetStudentSiblingList} />
       </Box>
 
       <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
