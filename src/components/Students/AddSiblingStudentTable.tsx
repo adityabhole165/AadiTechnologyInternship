@@ -14,7 +14,7 @@ import {
 import { red } from "@mui/material/colors";
 
 
-const AddSiblingStudentTable = ({ itemList = [] }) => {
+const AddSiblingStudentTable = ({ itemList = [], onDelete }) => {
   // Delete Handler
   const handleDelete = (StudentSiblingId: string) => {
     alert(`Delete action for Reg No: ${StudentSiblingId}`);
@@ -23,9 +23,9 @@ const AddSiblingStudentTable = ({ itemList = [] }) => {
   return (
     <Box>
       {itemList.length === 0 ? (
-        <Paper sx={{ padding: 2, textAlign: 'center' }}>
-          <Typography variant="h6" color="textSecondary">
-            No records found.
+        <Paper sx={{ padding: 2, textAlign: 'center', backgroundColor: '#D2FDFC' }}>
+          <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+            No record found.
           </Typography>
         </Paper>
       ) : (
@@ -61,7 +61,7 @@ const AddSiblingStudentTable = ({ itemList = [] }) => {
                           backgroundColor: red[100]
                         }
                       }}
-                      onClick={() => handleDelete(row.StudentSiblingId)}
+                      onClick={() => onDelete(row.StudentSiblingId)}
                     >
                       <DeleteForeverIcon />
                     </IconButton>

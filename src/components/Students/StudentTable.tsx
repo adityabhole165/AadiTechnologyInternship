@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
 import {
+  Checkbox,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Checkbox,
-  Paper,
 } from '@mui/material';
+import { useState } from 'react';
 
 const StudentTable = ({ students }) => {
   const [selected, setSelected] = useState([]);
@@ -39,17 +39,17 @@ const StudentTable = ({ students }) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table"
-                    sx={{
-                        border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-                    }}>
+        sx={{
+          border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+        }}>
         <TableHead>
           <TableRow sx={{
-                                background: (theme) => theme.palette.secondary.main,
-                                color: (theme) => theme.palette.common.white,
-                            }}>
-            <TableCell sx={{ color: "white" , py:1}}>
+            background: (theme) => theme.palette.secondary.main,
+            color: (theme) => theme.palette.common.white,
+          }}>
+            <TableCell sx={{ color: "white", py: 1 }}>
               <Checkbox
-              size='small'
+                size='small'
                 indeterminate={
                   selected.length > 0 && selected.length < students.length
                 }
@@ -57,24 +57,24 @@ const StudentTable = ({ students }) => {
                 onChange={handleSelectAllClick}
               />
             </TableCell>
-            <TableCell sx={{ color: "white" , py:1}}>Reg. No.</TableCell>
-            <TableCell sx={{ color: "white" , py:1}}>Student Name</TableCell>
-            <TableCell sx={{ color: "white" , py:1}}>Class</TableCell>
+            <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
+            <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
+            <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {students.map((student) => (
-            <TableRow key={student.id} selected={isSelected(student.id)}>
-              <TableCell sx={{py:0.5}}>
+            <TableRow key={student.YearwiseStudentId} selected={isSelected(student.YearwiseStudentId)}>
+              <TableCell sx={{ py: 0.5 }}>
                 <Checkbox
                   size='small'
-                  checked={isSelected(student.id)}
-                  onChange={() => handleCheckboxClick(student.id)}
+                  checked={isSelected(student.YearwiseStudentId)}
+                  onChange={() => handleCheckboxClick(student.YearwiseStudentId)}
                 />
               </TableCell>
-              <TableCell sx={{py:0.5}}>{student.id}</TableCell>
-              <TableCell sx={{py:0.5}}>{student.name}</TableCell>
-              <TableCell sx={{py:0.5}}>{student.class}</TableCell>
+              <TableCell sx={{ py: 0.5 }}>{student.RegNo}</TableCell>
+              <TableCell sx={{ py: 0.5 }}>{student.StudentName}</TableCell>
+              <TableCell sx={{ py: 0.5 }}>{student.ClassName}</TableCell>
             </TableRow>
           ))}
         </TableBody>

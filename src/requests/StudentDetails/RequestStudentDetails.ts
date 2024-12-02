@@ -365,7 +365,7 @@ export const CDADeleteStudentSiblingDetailsMsg =
             dispatch(GetStandardwiseMinMaxDOBslice.actions.RDeleteStudentSiblingDetailsMsg(response.data));
 
         };
-export const CDAResetDeleteStudentSiblingDetailsMsg =
+export const ResetDeleteStudentSiblingDetailsMsg =
     (): AppThunk =>
         async (dispatch) => {
             dispatch(GetStandardwiseMinMaxDOBslice.actions.getLoading(true));

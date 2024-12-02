@@ -3,11 +3,13 @@ import SaveIcon from '@mui/icons-material/Save';
 import SquareIcon from '@mui/icons-material/Square';
 import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { IGetStudentDetailsForSiblingBody, IGetStudentSiblingListBody } from 'src/interfaces/StudentDetails/IStudentDetails';
-import { CDAGetStudentDetailsForSiblingPop, CDAGetStudentSiblingList } from 'src/requests/StudentDetails/RequestStudentDetails';
+import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
+import { IDeleteStudentSiblingDetailsBody, IGetStudentDetailsForSiblingBody, IGetStudentSiblingListBody, IGetStudentsListBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import { CDADeleteStudentSiblingDetailsMsg, CDAGetStudentDetailsForSiblingPop, CDAGetStudentSiblingList, CDASearchStudentsList, ResetDeleteStudentSiblingDetailsMsg } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import AddSiblingStudentTable from './AddSiblingStudentTable';
@@ -32,6 +34,7 @@ const EnterStudentSiblingDetails = () => {
   const schoolId = localStorage.getItem('SchoolId');
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const teacherId = sessionStorage.getItem('Id');
+  const { showAlert, closeAlert } = useContext(AlertContext);
 
   const students = [
     { id: 2057, name: 'Master Pranav Digambar Dubal', class: '10 - D' },
@@ -44,30 +47,85 @@ const EnterStudentSiblingDetails = () => {
     { id: 2068, name: 'Master Shambhuraj Abhijit Ghule', class: '10 - A' },
     { id: 2069, name: 'Master Shlok Ashwinkumar Gilda', class: '10 - A' }
   ];
-
+  //StudentName
   const StudentDetailsForSibling = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentDetailsForSibling);
   const oStudentDetailsForSibling: any = StudentDetailsForSibling;
   const StudentName = oStudentDetailsForSibling?.StudentFullName;         //Student Name
   console.log('1️⃣StudentName', StudentName);
-
+  //Sibling List
   const GetStudentSiblingList = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentSiblingList);
   console.log('2️⃣GetStudentSiblingList', GetStudentSiblingList);
+  //Search List
+  const SearchStudentsList = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentsList);
+  console.log('3️⃣SearchStudentsList', SearchStudentsList);
+  //DeleteMsg
+  const DeleteStudentSiblingDetailsMsg = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISDeleteStudentSiblingDetailsMsg);
+  console.log('5️⃣DeleteStudentSiblingDetailsMsg', DeleteStudentSiblingDetailsMsg);
+
+  const GetStudentSiblingListBody: IGetStudentSiblingListBody = {
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asYearwiseStudentId: YearWise_Student_Id
+  }
 
   useEffect(() => {
     //document.title = 'Enter Student Sibling Details';
     const GetStudentDetailsForSiblingBody: IGetStudentDetailsForSiblingBody = {
-      asSchoolId: 18,
-      asAcademicYearId: 55,
-      asYearwiseStudentId: 40467
+      asSchoolId: Number(schoolId),
+      asAcademicYearId: Number(academicYearId),
+      asYearwiseStudentId: YearWise_Student_Id
     }
     dispatch(CDAGetStudentDetailsForSiblingPop(GetStudentDetailsForSiblingBody))
-    const GetStudentSiblingListBody: IGetStudentSiblingListBody = {
-      asSchoolId: 18,
-      asAcademicYearId: 55,
-      asYearwiseStudentId: 40467
-    }
     dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
   }, []);
+
+  useEffect(() => {
+    const GetStudentsListBody: IGetStudentsListBody = {
+      "asSchoolId": Number(schoolId),
+      "asAcademicYearId": Number(academicYearId),
+      "asYearwiseStudentId": YearWise_Student_Id,
+      "asFilter": "tupe",
+      "asStartIndex": 0,
+      "asEndIndex": 20,
+      "asSortExpression": "RegNo"
+
+    }
+    dispatch(CDASearchStudentsList(GetStudentsListBody))
+  }, []);
+
+  const handleDelete = (StudentSiblingId) => {
+    const DeleteStudentSiblingDetailsBody: IDeleteStudentSiblingDetailsBody = {
+      asSchoolId: Number(schoolId),
+      asAcademicYearId: Number(academicYearId),
+      asYearwiseSiblingStudentId: YearWise_Student_Id,
+      asSiblingStudentId: Number(StudentSiblingId),
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete this record?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(CDADeleteStudentSiblingDetailsMsg(DeleteStudentSiblingDetailsBody))
+        closeAlert();
+      }
+    });
+  };
+  useEffect(() => {
+    if (DeleteStudentSiblingDetailsMsg !== '') {
+      toast.success(DeleteStudentSiblingDetailsMsg);
+      dispatch(ResetDeleteStudentSiblingDetailsMsg());
+
+      dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
+    }
+  }, [DeleteStudentSiblingDetailsMsg]);
+
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -169,11 +227,11 @@ const EnterStudentSiblingDetails = () => {
 
           Sibling Details
         </Typography>
-        <AddSiblingStudentTable itemList={GetStudentSiblingList} />
+        <AddSiblingStudentTable itemList={GetStudentSiblingList} onDelete={handleDelete} />
       </Box>
 
       <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
-        <StudentTable students={students} />
+        <StudentTable students={SearchStudentsList} />
       </Box>
     </Box>
   );

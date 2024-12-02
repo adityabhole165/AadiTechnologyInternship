@@ -87,6 +87,7 @@ const SaveStudentAchievementDetailsApi = (data: ISaveStudentAchievementDetailsBo
 const DeleteStudentAchievementDetailsApi = (data: IDeleteStudentAchievementDetailsBody) => {
     return http.post<string>('Teacher/DeleteStudentAchievementDetails', data);
 };
+
 //Add Sibling Details Pop
 //1
 const GetStudentDetailsForSiblingApi = (data: IGetStudentDetailsForSiblingBody) => {
