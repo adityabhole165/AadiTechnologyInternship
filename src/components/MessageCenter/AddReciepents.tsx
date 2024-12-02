@@ -155,6 +155,8 @@ const AddReciepents = ({
     dispatch(getShowPTA(showPTA));
   }, []);
   const handleDelete = (recipient) => {
+    // To Do: remove it with proper logic
+    setShow(true);
     const updatedRecipients = selectedRecipents.filter((r) => r !== recipient);
     const updatedRecipientIds = selectedRecipentsId.filter(
       (id, index) => selectedRecipents[index] !== recipient
