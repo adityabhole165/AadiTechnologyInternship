@@ -72,7 +72,7 @@ const EnterStudentSiblingDetails = () => {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={'Add/Edit student details and click on "Save".'}>
+            {/* <Tooltip title={'Add/Edit student details and click on "Save".'}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -84,7 +84,7 @@ const EnterStudentSiblingDetails = () => {
               >
                 <QuestionMark />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
 
             <Tooltip title={'Save'}>
               <IconButton
