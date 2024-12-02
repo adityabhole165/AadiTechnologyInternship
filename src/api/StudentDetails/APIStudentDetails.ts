@@ -1,5 +1,6 @@
 import {
     IDeleteStudentAchievementDetailsBody,
+    IDeleteStudentSiblingDetailsBody,
     IGenerateTransportFeeEntriesBody,
     IGetAcademicDatesForStandardBody,
     IGetAcademicDatesForStandardResult,
@@ -8,16 +9,23 @@ import {
     IGetStandardwiseMinMaxDOBBody, IGetStandardwiseMinMaxDOBResult,
     IGetStudentAchievementDetailsBody,
     IGetStudentAchievementDetailsResult,
+    IGetStudentDetailsForSiblingBody,
+    IGetStudentDetailsForSiblingResult,
     IGetStudentMandatoryFieldsBody,
     IGetStudentMandatoryFieldsResult,
     IGetStudentNameForAchievementControlBody,
     IGetStudentNameForAchievementControlResult,
     IGetStudentsAllAchievementDetailsBody,
     IGetStudentsAllAchievementDetailsResult,
+    IGetStudentSiblingListBody,
+    IGetStudentSiblingListResult,
+    IGetStudentsListBody,
+    IGetStudentsListResult,
     IGetStudentsSiblingDetailBody,
     IGetStudentsSiblingDetailResult,
     IGetStudentUIPreConditionMsgBody, IGetStudentUIPreConditionMsgResult,
     ISaveStudentAchievementDetailsBody,
+    ISaveStudentSiblingDetailsBody,
     IsClassTeacherBody,
     IsClassTeacherResult,
     IUpdateStudentTrackingDetailsBody
@@ -79,6 +87,27 @@ const SaveStudentAchievementDetailsApi = (data: ISaveStudentAchievementDetailsBo
 const DeleteStudentAchievementDetailsApi = (data: IDeleteStudentAchievementDetailsBody) => {
     return http.post<string>('Teacher/DeleteStudentAchievementDetails', data);
 };
+//Add Sibling Details Pop
+//1
+const GetStudentDetailsForSiblingApi = (data: IGetStudentDetailsForSiblingBody) => {
+    return http.post<IGetStudentDetailsForSiblingResult>('Teacher/GetStudentDetailsForSibling', data);
+};
+//2
+const GetStudentSiblingListApi = (data: IGetStudentSiblingListBody) => {
+    return http.post<IGetStudentSiblingListResult[]>('Teacher/GetStudentSiblingList', data);
+};
+//3
+const GetStudentsListApi = (data: IGetStudentsListBody) => {
+    return http.post<IGetStudentsListResult[]>('Teacher/GetStudentsList', data);
+};
+//4
+const SaveStudentSiblingDetailsApi = (data: ISaveStudentSiblingDetailsBody) => {
+    return http.post<string>('Teacher/SaveStudentSiblingDetails', data);
+};
+//5
+const DeleteStudentSiblingDetailsApi = (data: IDeleteStudentSiblingDetailsBody) => {
+    return http.post<string>('Teacher/DeleteStudentSiblingDetails', data);
+};
 
 const APIStudentDetails = {
     GetStandardwiseMinMaxDOB,
@@ -91,7 +120,8 @@ const APIStudentDetails = {
     GetStudentMandatoryFields,
     UpdateStudentTrackingDetails,
     GetStudentNameForAchievementControlApi, GetStudentsAllAchievementDetailsApi, GetStudentAchievementDetailsApi,
-    SaveStudentAchievementDetailsApi, DeleteStudentAchievementDetailsApi
+    SaveStudentAchievementDetailsApi, DeleteStudentAchievementDetailsApi,
+    GetStudentDetailsForSiblingApi, GetStudentSiblingListApi, GetStudentsListApi, SaveStudentSiblingDetailsApi, DeleteStudentSiblingDetailsApi
 
 };
 

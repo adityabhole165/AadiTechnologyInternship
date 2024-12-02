@@ -2,17 +2,21 @@ import { createSlice } from '@reduxjs/toolkit';
 import APIStudentDetails from 'src/api/StudentDetails/APIStudentDetails';
 import {
     IDeleteStudentAchievementDetailsBody,
+    IDeleteStudentSiblingDetailsBody,
     IGenerateTransportFeeEntriesBody,
     IGetAcademicDatesForStandardBody,
     IGetFormNumberBody,
     IGetStandardwiseMinMaxDOBBody,
     IGetStudentAchievementDetailsBody,
+    IGetStudentDetailsForSiblingBody,
     IGetStudentMandatoryFieldsBody,
     IGetStudentNameForAchievementControlBody,
     IGetStudentsAllAchievementDetailsBody,
+    IGetStudentsListBody,
     IGetStudentsSiblingDetailBody,
     IGetStudentUIPreConditionMsgBody,
     ISaveStudentAchievementDetailsBody,
+    ISaveStudentSiblingDetailsBody,
     IsClassTeacherBody,
     IUpdateStudentTrackingDetailsBody,
 } from 'src/interfaces/StudentDetails/IStudentDetails';
@@ -36,6 +40,12 @@ const GetStandardwiseMinMaxDOBslice = createSlice({
         ISGetStudentAchievementDetailsEdit: [],
         ISSaveStudentAchievementDetailsMsg: '',
         ISDeleteStudentAchievementDetailsMsg: '',
+        //Add Sibling Popup
+        ISGetStudentDetailsForSibling: [],
+        ISGetStudentSiblingList: [],
+        ISGetStudentsList: [],
+        ISSaveStudentSiblingDetailsMsg: '',
+        ISDeleteStudentSiblingDetailsMsg: '',
         Loading: true
 
     },
@@ -98,6 +108,34 @@ const GetStandardwiseMinMaxDOBslice = createSlice({
         },
         ResetDeleteStudentAchievementDetailsMsg(state) {
             state.ISDeleteStudentAchievementDetailsMsg = '';
+            state.Loading = false;
+        },
+        RGetStudentDetailsForSibling(state, action) {
+            state.ISGetStudentDetailsForSibling = action.payload;
+            state.Loading = false;
+        },
+        RGetStudentSiblingList(state, action) {
+            state.ISGetStudentSiblingList = action.payload;
+            state.Loading = false;
+        },
+        RGetStudentsList(state, action) {
+            state.ISGetStudentsList = action.payload;
+            state.Loading = false;
+        },
+        RSaveStudentSiblingDetailsMsg(state, action) {
+            state.ISSaveStudentSiblingDetailsMsg = action.payload;
+            state.Loading = false;
+        },
+        ResetSaveStudentSiblingDetailsMsg(state) {
+            state.ISSaveStudentSiblingDetailsMsg = '';
+            state.Loading = false;
+        },
+        RDeleteStudentSiblingDetailsMsg(state, action) {
+            state.ISDeleteStudentSiblingDetailsMsg = action.payload;
+            state.Loading = false;
+        },
+        ResetDeleteStudentSiblingDetailsMsg(state) {
+            state.ISSaveStudentSiblingDetailsMsg = '';
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -257,5 +295,79 @@ export const CDAResetDeleteStudentAchievementDetailsMsg =
         async (dispatch) => {
             dispatch(GetStandardwiseMinMaxDOBslice.actions.getLoading(true));
             dispatch(GetStandardwiseMinMaxDOBslice.actions.ResetDeleteStudentAchievementDetailsMsg());
+        }
+//Add Sibling Popup
+export const CDAGetStudentDetailsForSiblingPop =
+    (data: IGetStudentDetailsForSiblingBody): AppThunk =>
+        async (dispatch) => {
+            const response = await APIStudentDetails.GetStudentDetailsForSiblingApi(data);
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.RGetStudentDetailsForSibling(response.data));
+        };
+export const CDAGetStudentSiblingList =
+    (data: IGetStudentDetailsForSiblingBody): AppThunk =>
+        async (dispatch) => {
+            const response = await APIStudentDetails.GetStudentSiblingListApi(data);
+            let responseData = response.data.map((item, i) => {
+                return (
+                    {
+                        Yearwise_Student_Id: item.Yearwise_Student_Id,
+                        RegNo: item.RegNo,
+                        StudentName: item.StudentName,
+                        Standard_Name: item.Standard_Name,
+                        Division_Name: item.Division_Name,
+                        IsLeftStudent: item.IsLeftStudent,
+                        StudentSiblingId: item.StudentSiblingId,
+                    }
+                );
+            });
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.RGetStudentSiblingList(responseData));
+        };
+export const CDASearchStudentsList =
+    (data: IGetStudentsListBody): AppThunk =>
+        async (dispatch) => {
+            const response = await APIStudentDetails.GetStudentsListApi(data);
+            let responseData = response.data.map((item, i) => {
+                return (
+                    {
+                        RowID: item.RowID,
+                        TotalRows: item.TotalRows,
+                        SchoolwiseStudentId: item.SchoolwiseStudentId,
+                        YearwiseStudentId: item.YearwiseStudentId,
+                        RegNo: item.RegNo,
+                        StudentName: item.StudentName,
+                        ClassName: item.ClassName,
+                        DivisionName: item.DivisionName,
+                    }
+                );
+            });
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.RGetStudentsList(responseData));
+        };
+export const CDASaveStudentSiblingDetailsMsg =
+    (data: ISaveStudentSiblingDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.getLoading(true));
+            const response = await APIStudentDetails.SaveStudentSiblingDetailsApi(data);
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.RSaveStudentSiblingDetailsMsg(response.data));
+
+        };
+export const CDAResetSaveStudentSiblingDetailsMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.getLoading(true));
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.ResetSaveStudentSiblingDetailsMsg());
+        }
+export const CDADeleteStudentSiblingDetailsMsg =
+    (data: IDeleteStudentSiblingDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.getLoading(true));
+            const response = await APIStudentDetails.DeleteStudentSiblingDetailsApi(data);
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.RDeleteStudentSiblingDetailsMsg(response.data));
+
+        };
+export const CDAResetDeleteStudentSiblingDetailsMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.getLoading(true));
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.ResetDeleteStudentSiblingDetailsMsg());
         }
 export default GetStandardwiseMinMaxDOBslice.reducer;

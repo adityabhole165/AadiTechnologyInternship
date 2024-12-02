@@ -161,6 +161,72 @@ export interface IDeleteStudentAchievementDetailsBody {
     asAchievementId: number
     asUpdatedById: number
 }
+//Add Sibling Deatails Pop
+
+export interface IGetStudentDetailsForSiblingBody {
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asYearwiseStudentId: number
+}
+
+export interface IGetStudentDetailsForSiblingResult {
+    YearWise_Student_Id: string,
+    Enrolment_Number: string,
+    StudentFullName: string,
+    Student_Id: string,
+    Standard_Name: string
+}
+export interface IGetStudentSiblingListBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asYearwiseStudentId: number
+}
+
+export interface IGetStudentSiblingListResult {
+    Yearwise_Student_Id: string
+    RegNo: string
+    StudentName: string
+    Standard_Name: string
+    Division_Name: string
+    IsLeftStudent: string
+    StudentSiblingId: string
+}
+export interface IGetStudentsListBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asYearwiseStudentId: number
+    asFilter: string
+    asStartIndex: number
+    asEndIndex: number
+    asSortExpression: string
+}
+
+export interface IGetStudentsListResult {
+    RowID: string
+    TotalRows: string
+    SchoolwiseStudentId: string
+    YearwiseStudentId: string
+    RegNo: string
+    StudentName: string
+    ClassName: string
+    DivisionName: string
+}
+export interface ISaveStudentSiblingDetailsBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asStudentSiblingsXML: string
+    asInsertedById: number
+    asUpdatedById: number
+}
+export interface IDeleteStudentSiblingDetailsBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asYearwiseSiblingStudentId: number
+    asSiblingStudentId: number
+}
+
+
+
 
 
 
