@@ -148,7 +148,7 @@ const AddReciepents = ({
     asSchoolId: Number(schoolId),
     asAcademicYearId: Number(academicYearId),
     asGroupId: 0,
-    asUserRoleId: Number(RoleId),
+    asUserRoleId: MessageCenterFullAccess === 'Y' ? 0 : Number(RoleId),
     asUserId: Number(asUserId)
   };
   useEffect(() => {
