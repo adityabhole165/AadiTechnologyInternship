@@ -1,4 +1,3 @@
-
 import { Suspense, lazy } from 'react';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
 import AddLeaveDetails from 'src/components/LeaveDetails/AddLeaveDetails';
@@ -9,15 +8,20 @@ import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubject
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
-(
-  <Suspense fallback={<SuspenseLoader />}>
-    <Component {...props} />
-  </Suspense>
-);
+  (
+    <Suspense fallback={<SuspenseLoader />}>
+      <Component {...props} />
+    </Suspense>
+  );
 
 // const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
 const PerformanceGradeAssignmentBaseScreen = Loader(
-  lazy(() => import('src/components/PerformanceGradeAssignment/PerformanceGradeAssignmentBaseScreen'))
+  lazy(
+    () =>
+      import(
+        'src/components/PerformanceGradeAssignment/PerformanceGradeAssignmentBaseScreen'
+      )
+  )
 );
 
 const TAttendance = Loader(
@@ -55,7 +59,10 @@ const AddAnnualPlaner = Loader(
   lazy(() => import('src/components/AnnualPlanner/AddAnnualPlaner'))
 );
 const PerformanceEvaluation = Loader(
-  lazy(() => import('src/components/PerformanceGradeAssignment/PerformanceEvaluation'))
+  lazy(
+    () =>
+      import('src/components/PerformanceGradeAssignment/PerformanceEvaluation')
+  )
 );
 const MonthwiseAttandance = Loader(
   lazy(() => import('src/components/Attendance/MonthwiseAttandance'))
@@ -165,54 +172,63 @@ const AadharCard = Loader(
 );
 const WeeklyTimetable = Loader(
   lazy(() => import('src/components/WeeklyTimetable/WeeklyTimetable'))
-)
+);
 // const ExamResultToppers = Loader(
 //   lazy(() => import('src/components/ExamResult/ExamResultToppers'))
 // )
 const AssignProgressReportSubject = Loader(
   lazy(
-    () => import('src/components/AssignPrePrimaryGrades/AssignProgressReportSubject')
+    () =>
+      import(
+        'src/components/AssignPrePrimaryGrades/AssignProgressReportSubject'
+      )
   )
 );
 const AssignPrePrimarySubjectGrades = Loader(
   lazy(
-    () => import('src/components/AssignPrePrimaryGrades/AssignPrePrimarySubjectGrades')
+    () =>
+      import(
+        'src/components/AssignPrePrimaryGrades/AssignPrePrimarySubjectGrades'
+      )
   )
 );
 
-const Toppers = Loader(
-  lazy(() => import('src/components/ExamResult/Toppers'))
-)
+const Toppers = Loader(lazy(() => import('src/components/ExamResult/Toppers')));
 const SubjectMarkList = Loader(
   lazy(() => import('src/components/ExamResult/SubjectMarkList'))
-)
+);
 
 const AddHomeworkNew = Loader(
   lazy(() => import('src/components/AddHomeworkNew/AddHomeworkNew'))
 );
 const ViewResultAll = Loader(
   lazy(() => import('src/components/ViewResultAll/ViewResultAll'))
-)
+);
 const ViewFinalResult = Loader(
   lazy(() => import('src/components/ViewFinalResult/ViewFinalResult'))
-)
+);
 const GenerateAll = Loader(
   lazy(() => import('src/components/FinalResult/FinalResultGenerateAll'))
-)
+);
 
 const ProgressReportNew = Loader(
   lazy(() => import('src/components/ProgressReportNew/ProgressReportNew'))
-)
+);
 
 const Studentwiseprogressreport = Loader(
-  lazy(() => import('src/components/StudentWiseProgressReport/Studentwiseprogressreport'))
-)
+  lazy(
+    () =>
+      import(
+        'src/components/StudentWiseProgressReport/Studentwiseprogressreport'
+      )
+  )
+);
 const AllNoticeList = Loader(
   lazy(() => import('src/components/AddSchoolNitice/AllNoticeList'))
-)
+);
 const SchoolNoticeBasescreen = Loader(
   lazy(() => import('src/components/AddSchoolNitice/SchoolNoticeBasescreen'))
-)
+);
 const AddSchoolNotice = Loader(
   lazy(() => import('src/components/AddSchoolNitice/AddSchoolNotice1'))
 );
@@ -221,48 +237,67 @@ const AddSchoolNoticeFT = Loader(
 );
 
 const InvestmentDeclaration = Loader(
-  lazy(() => import('src/components/InvestmentDeclaration/InvestmentDeclaration'))
+  lazy(
+    () => import('src/components/InvestmentDeclaration/InvestmentDeclaration')
+  )
 );
 const InvestmentDetailsDocument = Loader(
-  lazy(() => import('src/components/InvestmentDeclaration/InvestmentDetailsDocument'))
+  lazy(
+    () =>
+      import('src/components/InvestmentDeclaration/InvestmentDetailsDocument')
+  )
 );
 const RequistionView = Loader(
   lazy(() => import('src/components/Requisition/RequistionView'))
-)
+);
 const ViewLeaveDetails = Loader(
   lazy(() => import('src/components/LeaveDetails/ViewLeaveDetails'))
-)
+);
 
 const PerEvalViewReport = Loader(
-  lazy(() => import('src/components/PerformanceGradeAssignment/PerfEvalViewReport'))
-)
+  lazy(
+    () => import('src/components/PerformanceGradeAssignment/PerfEvalViewReport')
+  )
+);
 const PersonalAddressBook = Loader(
-  lazy(() => import('src/components/SMSCenter/PersonalAddressBook/PersonalAddressBook'))
-)
-
+  lazy(
+    () =>
+      import('src/components/SMSCenter/PersonalAddressBook/PersonalAddressBook')
+  )
+);
 
 const PreprimaryProgressReport = Loader(
-  lazy(() => import('src/components/PreprimaryProgressReport/PreprimaryProgressReport'))
-)
+  lazy(
+    () =>
+      import('src/components/PreprimaryProgressReport/PreprimaryProgressReport')
+  )
+);
 const StudentwiseprogressreportEdit = Loader(
-  lazy(() => import('src/components/StudentWiseProgressReport/StudentwiseprogressreportEdit'))
-)
+  lazy(
+    () =>
+      import(
+        'src/components/StudentWiseProgressReport/StudentwiseprogressreportEdit'
+      )
+  )
+);
 const PreprimaryProgressReportView = Loader(
-  lazy(() => import('src/components/StudentWiseProgressReport/PreprimaryProgressReportView'))
-)
+  lazy(
+    () =>
+      import(
+        'src/components/StudentWiseProgressReport/PreprimaryProgressReportView'
+      )
+  )
+);
 const StudentBaseScreen = Loader(
   lazy(() => import('src/components/Students/StudentBaseScreen'))
-)
+);
 const LibraryBaseScreen = Loader(
   lazy(() => import('src/components/SchoolLibrary/LibraryBaseScreen'))
-)
+);
 const ClaimedBookDetailsPage = Loader(
   lazy(() => import('src/components/SchoolLibrary/ClaimedBookDetailsPage'))
-)
-const Sentsms = Loader(
-  lazy(() => import('src/components/SentSms/Sentsms'))
-)
-
+);
+const Sentsms = Loader(lazy(() => import('src/components/SentSms/Sentsms')));
 
 const DashBoard = Loader(
   lazy(() => import('src/componentsWeb/DashBoard/DashBoard'))
@@ -281,11 +316,16 @@ const ReceivedSMSOwn = Loader(
 const StudentRegistrationForms = Loader(
   lazy(() => import('src/components/Students/StudentRegistrationForms'))
 );
+const EnterStudentSiblingDetails = Loader(
+  lazy(() => import('src/components/Students/EnterStudentSiblingDetails'))
+);
 const StandardwiseExamSchedule = Loader(
   lazy(() => import('src/components/FullAccessPages/StandardwiseExamSchedule'))
 );
 const PhotoVideoGalleryBaseScreen = Loader(
-  lazy(() => import('src/components/PhotoVideoGallery/PhotoVideoGalleryBaseScreen'))
+  lazy(
+    () => import('src/components/PhotoVideoGallery/PhotoVideoGalleryBaseScreen')
+  )
 );
 const AddNewPhoto = Loader(
   lazy(() => import('src/components/PhotoVideoGallery/AddNewPhoto'))
@@ -300,15 +340,23 @@ const ViewVideoGallery = Loader(
   lazy(() => import('src/components/PhotoVideoGallery/ViewVideoGallery'))
 );
 const BlockProgressReportBaseScreen = Loader(
-  lazy(() => import('src/components/BlockProgressReport/BlockProgressReportBaseScreen'))
+  lazy(
+    () =>
+      import('src/components/BlockProgressReport/BlockProgressReportBaseScreen')
+  )
 );
 const FeedbackDetailsBasescreen = Loader(
   lazy(() => import('src/components/FeedbackDetails/FeedbackDetailsBasescreen'))
 );
 const StudentDetailsBaseScreen = Loader(
-  lazy(() => import('src/components/StudentDetails/StudentDetailsBaseScreen').then(module => ({ default: module.StudentDetailsBaseScreen }))));
+  lazy(() =>
+    import('src/components/StudentDetails/StudentDetailsBaseScreen').then(
+      (module) => ({ default: module.StudentDetailsBaseScreen })
+    )
+  )
+);
 
-  const teacherRoutes = [
+const teacherRoutes = [
   {
     path: 'WebDashBoard',
     element: <DashBoard />
@@ -881,6 +929,10 @@ const StudentDetailsBaseScreen = Loader(
     path: 'StudentDetailsBaseScreen',
     element: <StudentDetailsBaseScreen />
   },
+  {
+    path: 'EnterStudentSiblingDetails',
+    element: <EnterStudentSiblingDetails />
+  }
 ];
 
 export default teacherRoutes;
