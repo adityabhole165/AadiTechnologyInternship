@@ -29,7 +29,7 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { ContactGroup } from 'src/requests/AdminSMSCenter/To1';
-import { CDAaddUpdateGroup, CDACountUsersAndStoreCounts, CDAGetContactGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole, resetAddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
+import { CDAaddUpdateGroup, CDAGetContactGroup, CDAGetStandardClass, CDAGetUserName, CDAGetUserRole, CDAUserCount, resetAddUpdateGroup } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
 import ContactGroupEditTable from './ContactGroupEditTable';
 interface Group {
@@ -78,7 +78,9 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   const USGetStandardClass: any = useSelector((state: RootState) => state.ContactGroup.IGetStandardClass);
   const USGetUserName: any = useSelector((state: RootState) => state.ContactGroup.IlistGetUserName);
   const USAddUpdateGroup: any = useSelector((state: RootState) => state.ContactGroup.IAddUpdateGroup);
-  const USCountUsersAndStoreCounts: any = useSelector((state: RootState) => state.ContactGroup.IlistTotalCounts);
+  const USUserCount: any = useSelector((state: RootState) => state.ContactGroup.IUserCount);
+
+  console.log(USUserCount, "👌👌")
 
   useEffect(() => {
     if (GPID !== 0) {
@@ -93,17 +95,17 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
   }, [USContactGroupUserRoles]);
 
   const singleTotalCount: number = useMemo(() => {
-    if (!Array.isArray(USCountUsersAndStoreCounts)) {
+    if (!Array.isArray(USUserCount)) {
       return 0;
     }
-    return USCountUsersAndStoreCounts.reduce((acc: number, item: any) => {
+    return USUserCount.reduce((acc: number, item: any) => {
       const count = Number(item.TotalCount);
       if (isNaN(count)) {
         return acc;
       }
       return acc + count;
     }, 0);
-  }, [USCountUsersAndStoreCounts]);
+  }, [USUserCount]);
 
 
   const UserCount: ICountUsersAndStoreCountsBody = {
@@ -112,12 +114,11 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     asGroupId: 0,
     asRoleId: Number(UsersRole),
     asStandardDivisionId: Number(StandardClass),
-    asCount: 0,
     asFilter: ''
 
   }
   useEffect(() => {
-    dispatch(CDACountUsersAndStoreCounts(UserCount))
+    dispatch(CDAUserCount(UserCount))
   }, [UsersRole, StandardClass])
   const ContactGpBody: IGetContactGroupsBody = {
     asSchoolId: schoolId.toString(),

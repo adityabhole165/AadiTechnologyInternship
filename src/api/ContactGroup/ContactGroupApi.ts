@@ -48,7 +48,7 @@ const GetUsersApi = (data: IGetUsersBody) => {
     return http.post<IGetUsersResult[]>('Teacher/GetUsers', data);
 };
 const CountUsersAndStoreCountsApi = (data: ICountUsersAndStoreCountsBody) => {
-    return http.post<ICountUsersAndStoreCountsResult>('Teacher/CountUsersAndStoreCounts', data);
+    return http.post<ICountUsersAndStoreCountsResult[]>('Teacher/CountUsersAndStoreCounts', data);
 }
 
 const ContactGroupApi = {

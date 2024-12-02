@@ -104,19 +104,8 @@ export interface ICountUsersAndStoreCountsBody {
     asGroupId: number,
     asRoleId: number,
     asStandardDivisionId: number,
-    asCount: number,
     asFilter: string
 }
 export interface ICountUsersAndStoreCountsResult {
-    listUserRole: [
-        {
-            Role: string,
-            Count: string
-        }
-    ];
-    listTotalCounts: [
-        {
-            TotalCount: string
-        }
-    ]
+    TotalCount: string,
 }
