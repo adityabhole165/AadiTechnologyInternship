@@ -292,7 +292,7 @@ const AddReciepents = ({
     );
     setTeacherStudent1('');
     populateRecipient(value);
-    setShow(!show);
+    // setShow(!show);
   };
   const clickSearch = () => {
     if (SearchByName === '') {

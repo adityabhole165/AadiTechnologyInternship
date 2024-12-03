@@ -15,7 +15,6 @@ import { Styles } from 'src/assets/style/student-style';
 import TimepickerTwofields from 'src/components/AddSchoolNitice/TimepickerTwofields';
 import { formatAMPM, getCalendarDateFormatDateNew, isFutureDateTime } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
-import AddReciepents from 'src/components/MessageCenter/AddReciepents';
 import { AlertContext } from 'src/contexts/AlertContext';
 import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
@@ -905,9 +904,16 @@ const ComposeSMSform = () => {
 
                 </Box>
                 <div style={{ display: displayOfTo_RecipientsPage }}>
-                    <AddReciepentsSMS RecipientName={RecipientsArray.RecipientName}
-                        RecipientId={RecipientsArray.RecipientId}
-                        recipientListClick={RecipientsListFun}></AddReciepentsSMS>
+                    <AddReciepentsSMS
+                        getGroupRadio={getGroupRadio}
+                        RecipientName={RecipientsObject.RecipientName}
+                        RecipientId={RecipientsObject.RecipientId}
+                        recipientListClick={RecipientsListFun}
+                        contactGroupList={RecipientsObject.ContactGroup}
+                        classIdList={RecipientsObject.ClassId}
+                        IsConfirm={IsConfirm}
+                        getGroupRadio1={getGroupRadio1}
+                    />
                 </div>
 
                 <Dialog
@@ -961,7 +967,7 @@ const ComposeSMSform = () => {
 
                     <DialogContent>
                         <Box>
-                            <AddReciepents
+                            {/* <AddReciepents
                                 getGroupRadio={getGroupRadio}
                                 RecipientName={RecipientsObject.RecipientName}
                                 RecipientId={RecipientsObject.RecipientId}
@@ -969,12 +975,17 @@ const ComposeSMSform = () => {
                                 contactGroupList={RecipientsObject.ContactGroup}
                                 classIdList={RecipientsObject.ClassId}
                                 IsConfirm={IsConfirm}
-                                getGroupRadio1={getGroupRadio1} />
-                            {/* <AddReciepentsSMS
+                                getGroupRadio1={getGroupRadio1} /> */}
+                            <AddReciepentsSMS
+                                getGroupRadio={getGroupRadio}
                                 RecipientName={RecipientsObject.RecipientName}
                                 RecipientId={RecipientsObject.RecipientId}
                                 recipientListClick={RecipientsListFun}
-                            /> */}
+                                contactGroupList={RecipientsObject.ContactGroup}
+                                classIdList={RecipientsObject.ClassId}
+                                IsConfirm={IsConfirm}
+                                getGroupRadio1={getGroupRadio1}
+                            />
                         </Box>
 
                     </DialogContent>

@@ -1,8 +1,26 @@
-import { Box, Button, Card, Grid, TextField, Typography } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import { QuestionMark } from '@mui/icons-material';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import SquareIcon from '@mui/icons-material/Square';
+import {
+  Box,
+  Chip,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+  TextField,
+  Tooltip,
+  Typography
+} from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import { GetScreenPermission } from 'src/components/Common/Util';
+import ContactGroupList from 'src/components/MessageCenter/ContactGroupList';
 import SelectallAddrecipents from 'src/components/MessageCenter/SelectallAddrecipents';
 import {
   GetAdminAndprincipalUsers,
@@ -10,33 +28,52 @@ import {
   IUsergroup
 } from 'src/interfaces/AdminSMSCenter/To1';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import ListSelect from 'src/libraries/list/ListSelect';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   ContactGroup,
   GetGetAdminAndprincipalUsers,
+  getShowPTA,
   GetStudent,
-  GetUser,
-  getShowPTA
+  GetUser
 } from 'src/requests/AdminSMSCenter/To1';
+import { resetDeleteMailGroupMsg } from 'src/requests/ContactGroup/ReqContactGroup';
 import { RootState } from 'src/store';
+// import { GetScreenPermission } from '../Common/Util';
+// import ContactGroupList from './ContactGroupList';
+// import SelectallAddrecipents from './SelectallAddrecipents';
 
-
-const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) => {
+const AddReciepentsSMS = ({
+  RecipientName,
+  RecipientId,
+  recipientListClick,
+  contactGroupList,
+  classIdList,
+  IsConfirm,
+  getGroupRadio,
+  getGroupRadio1
+}) => {
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedRecipents, setSelectedRecipents] = useState([]);
-  const [selectedRecipentsId, setSelectedRecipentsId] = useState([]);
-  const [classId, setClassId] = useState([]);
-  const [contactGroup, setContactGroup] = useState([]);
-  const [techerStudent1, setTeacherStudent1] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
+  const [showRecipients, setShowRecipients] = useState(false);
+  const [IsConfirm1, setIsConfirm1] = useState('');
+  //const navigate = useNavigate();
+  const [selectedRecipents, setSelectedRecipents] = useState(
+    RecipientName || []
+  );
+  const [selectedRecipentsId, setSelectedRecipentsId] = useState(
+    RecipientId || []
+  );
+  const [classId, setClassId] = useState(classIdList || []);
+  const [contactGroup, setContactGroup] = useState(contactGroupList || []);
   const [adminandSW, setAdminandSW] = useState();
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
   const [studentlist, setStudentlist] = useState('');
   const [teacherStudent, setTecherStudent] = useState([]);
+  const [techerStudent1, setTeacherStudent1] = useState('');
   const [show, setShow] = useState(true);
   const [SearchByName, setSearchByName] = useState('');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -44,7 +81,7 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
   const RoleId = sessionStorage.getItem('RoleId');
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = sessionStorage.getItem('Id');
-
+  const MessageCenterFullAccess = GetScreenPermission('Message Center');
   const [entireSchool, setEntireSchool] = useState([
     {
       Id: 'Entire School',
@@ -53,19 +90,15 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
       isActive: false
     }
   ]);
-
-  // Api for Admin principle and Software co-ordinator
   const getGetAdminAndprincipalUsers: any = useSelector(
     (state: RootState) =>
       state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
   );
-  console.log(getGetAdminAndprincipalUsers, "getGetAdminAndprincipalUsers");
-
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
   );
-
+  // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
     (state: RootState) => state.getuser1.Loading
   );
@@ -73,14 +106,20 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
   const getClass: any = useSelector(
     (state: RootState) => state.getuser1.getClass
   );
-
   const getstudentlist: any = useSelector(
     (state: RootState) => state.getuser1.getStudent
   );
   const getPTAOption: any = useSelector(
     (state: RootState) => state.getuser1.PTAOption
   );
-
+  const USDeleteContactGroup: any = useSelector(
+    (state: RootState) => state.ContactGroup.IDeleteMailGroupMsg);
+  useEffect(() => {
+    if (USDeleteContactGroup !== '') {
+      toast.success(USDeleteContactGroup);
+      dispatch(resetDeleteMailGroupMsg());
+    }
+  }, [USDeleteContactGroup]);
   // const Student = getstudentlist.GetStudentsUserResult;
 
   const adminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
@@ -109,16 +148,26 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
     asAcademicYearId: academicYearId
   };
   const ContactgroupBody: IContactGRPBody = {
-    asSchoolId: schoolId,
-    asAcademicYearId: academicYearId,
-    asGroupId: '0',
-    asUserRoleId: '2',
-    asUserId: asUserId
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asGroupId: 0,
+    asUserRoleId: MessageCenterFullAccess === 'Y' ? 0 : Number(RoleId),
+    asUserId: Number(asUserId)
   };
   useEffect(() => {
     dispatch(getShowPTA(showPTA));
   }, []);
+  const handleDelete = (recipient) => {
+    // To Do: remove it with proper logic
+    setShow(true);
+    const updatedRecipients = selectedRecipents.filter((r) => r !== recipient);
+    const updatedRecipientIds = selectedRecipentsId.filter(
+      (id, index) => selectedRecipents[index] !== recipient
+    );
 
+    setSelectedRecipents(updatedRecipients);
+    setSelectedRecipentsId(updatedRecipientIds);
+  };
   useEffect(() => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
@@ -185,9 +234,15 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
   }, [adminandSW]);
 
   useEffect(() => {
-    setStaffAndAdmin(getGetAdminAndprincipalUsers);
+    setStaffAndAdmin(
+      getGetAdminAndprincipalUsers?.map((obj) => {
+        return {
+          ...obj,
+          isActive: RecipientId.includes(obj.Id) ? true : false
+        };
+      })
+    );
   }, [getGetAdminAndprincipalUsers]);
-
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
     if (techerStudent1 == '9') {
@@ -248,7 +303,7 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
     } else {
       setList(
         getuserlist.filter((item) => {
-          const text1Match = item.Value.toLowerCase().includes(
+          const text1Match = item.Name.toLowerCase().includes(
             SearchByName.toLowerCase()
           );
           return text1Match;
@@ -258,7 +313,7 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
   };
   const handleSearchByName = (value) => {
     setSearchByName(value);
-  }
+  };
 
   const teacherStudentChange = (value) => {
     setList([]);
@@ -380,6 +435,9 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
       );
     });
   };
+  useEffect(() => {
+    if (IsConfirm != '') clickOkay();
+  }, [IsConfirm]);
   const clickOkay = () => {
     recipientListClick({
       RecipientName: selectedRecipents,
@@ -389,28 +447,39 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
     });
     // navigate('/extended-sidebar/MessageCenter/Compose');
   };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  const handleClick = () => {
+    navigate('/extended-sidebar/SMSCenter/ContactGroup'); // Replace with your desired route path
+  };
+
+  const handleOpenDialog = (isRecipients) => {
+    setIsConfirm1('');
+    setShowRecipients(isRecipients);
+    setOpenDialog(true);
+  };
+
+  const ClickGroupRadio = (value) => {
+    getGroupRadio(value.Id);
+  }
+  const ClickGroupRadio1 = (value) => {
+    getGroupRadio1(value.isActive);
+  }
+
+
   return (
     <>
       <Box>
-        <Grid xs={12} sm={12}>
-          {/* Searchable Dropdown For Search Teacher  */}
+        <Grid xs={12} sm={12} mt={0.7} item>
 
-          {/* <SearchableDropdown
-            sx={{ minWidth: '15vw' }}
-            // ItemList={Requision}
-            // onChange={GetRequisitionStatusDropdown}
-            label={'Status'}
-            // defaultValue={SelectResult.toString()}
-            mandatory
-            size={"small"}
-          /> */}
           <TextField
-            sx={{ width: '15vw' }}
+            sx={{ width: '15vw', mt: 0 }}
             fullWidth
             label="Search By Name"
             value={SearchByName}
             variant={'outlined'}
-            size={"small"}
+            size={'small'}
             onChange={(e) => {
               handleSearchByName(e.target.value);
             }}
@@ -424,80 +493,79 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
 
         {/* field and back Compose code  */}
         <Grid container>
-          <Grid item xs={12} sm={10}  >
+          <Grid item xs={12} sm={10}>
+
             <TextField
               fullWidth
-              disabled
-              multiline
+              // multiline
               placeholder="Selected Recipient"
-              id="body"
               margin="normal"
-              style={{ scrollBehavior: 'auto' }}
-              value={selectedRecipents
-                .map((obj) => (obj !== undefined ? obj.trim() : ''))
-                .join('; ')}
-              sx={{
-                height: '50px',
-                overflow: 'auto',
-                border: '0.1px solid #c4c5c5',
-                borderRadius: '5.3px'
+              InputProps={{
+                startAdornment: (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', overflowY: 'scroll', minWidth: '100%', height: '115px' }}>
+                    {selectedRecipents.map((recipient, index) => (
+                      <Chip
+                        key={index}
+                        label={recipient?.trim()}
+                        onDelete={() => handleDelete(recipient)} // Handle chip deletion
+                        sx={{ my: 1, mx: 0.5, }}
+                      />
+                    ))}
+                  </Box>
+                ),
+                readOnly: true // Ensure the TextField is read-only
               }}
-            /></Grid>
-          <Grid item xs={6} sm={2} mt={2}>
-            <Button onClick={clickOkay}
-              sx={{
-                color: '#38548A',
-                width: '150px',
-                ml: 1,
-                '&:hover': {
-                  color: '#38548A',
-                  backgroundColor: blue[100]
-                }
-              }}>
-              Back to Compose
-            </Button>
+              value={''}
+
+            />
           </Grid>
+
         </Grid>
         <>
-          {RoleId === '6' && (
-            <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
-              <ListSelect Itemlist={entireSchool} onChange={onChange} ClickGroupRadio={undefined} />
-            </Box>
-          )}
+
+
           {show === true ? (
             <>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <Grid container spacing={1}>
                     <Grid item xs={6} sm={12}>
-                      <Card>
-                        <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
-                          height={
-                            RoleId === '3'
-                              ? '50px'
-                              : RoleId === '2'
-                                ? '97px'
-                                : '180px'
-                          }
-                        >
-                          <ListSelect
-                            Itemlist={staffAndAdmin}
-                            onChange={adminandSWChange} ClickGroupRadio={undefined} />
-                        </Box>
-                      </Card>
+                      {/* <Card> */}
+                      <Box >
+                        <ListSelect
+                          ClickGroupRadio={ClickGroupRadio}
+                          Itemlist={staffAndAdmin}
+                          onChange={adminandSWChange}
+                        />
+                      </Box>
+                      {/* </Card> */}
                     </Grid>
                     <Grid item xs={6} sm={12}>
-                      <Card>
-                        <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                          <ListSelect
-                            Itemlist={teacherStudent}
-                            onChange={teacherStudentChange}
-                            isSingleSelect={true} ClickGroupRadio={undefined} />
-                        </Box>
-                      </Card>
+                      {/* <Card> */}
+                      <Box>
+                        <ListSelect
+
+
+                          ClickGroupRadio={ClickGroupRadio}
+                          Itemlist={teacherStudent}
+                          onChange={teacherStudentChange}
+                          isSingleSelect={true}
+                        />
+                      </Box>
+
                     </Grid>
+                    {MessageCenterFullAccess === 'Y' && (
+                      <Grid item xs={6} sm={12}>
+                        <Box sx={{ borderColor: 'grey.300' }}>
+                          <ListSelect ClickGroupRadio={ClickGroupRadio} Itemlist={entireSchool} onChange={onChange} />
+                        </Box>
+                      </Grid>
+                    )}
+
                   </Grid>
                 </Grid>
+
+
                 <Grid item xs={12} sm={6}>
                   {techerStudent1 === '3' && (
                     // <DropdownofAddrecipent
@@ -506,38 +574,170 @@ const AddReciepentsSMS = ({ RecipientName, RecipientId, recipientListClick }) =>
                     //   label="Select Class"
                     //   handleChange={classChange}
                     // />
-                    <SearchableDropdown
+                    <DropdownofAddrecipent
                       sx={{ minWidth: '300px' }}
                       ItemList={getClass}
                       onChange={classChange}
                       label={'Select Class'}
                       defaultValue={studentlist}
-                      size={"small"}></SearchableDropdown>
+                      size={'small'}
+                    ></DropdownofAddrecipent>
+                  )}
+                  {techerStudent1 === '9' && (
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 0.5 }}>
+                      <Box sx={{ background: 'white', pt: 1 }}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            gap: '20px',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <Typography
+                            variant="h4"
+                            sx={{
+                              mb: 0,
+                              lineHeight: 'normal',
+                              alignSelf: 'center',
+                              paddingBottom: '2px'
+                            }}
+                          >
+                            Legend
+                          </Typography>
+                          <Box sx={{ display: 'flex', gap: '20px' }}>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                gap: 1,
+                                alignItems: 'center'
+                              }}
+                            >
+                              <SquareIcon
+                                style={{
+                                  color: 'grey',
+                                  fontSize: 25,
+                                  position: 'relative',
+                                  top: '-2px'
+                                }}
+                              />
+                              <Typography>Deactivated User</Typography>
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box>
+                      <Box>
+                        {MessageCenterFullAccess === 'Y' && (
+                          <Tooltip title="Add New Group">
+                            <IconButton
+                              sx={{
+                                color: '#38548A',
+                                backgroundColor: grey[100],
+                                '&:hover': {
+                                  color: '#38548A',
+                                  backgroundColor: blue[100]
+                                }
+                              }}
+                              onClick={() => handleOpenDialog(true)}
+                            >
+                              <GroupAddIcon />
+                            </IconButton>
+                          </Tooltip>
 
+                        )}
+                      </Box>
+                    </Box>
                   )}
 
-                  {Loading ? (
-                    <SuspenseLoader />
-                  ) : list.length === 0 ? (
-                    !isSelected('Student') &&
-                    isTeacherSelected() && (
-                      <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-                        No record found.
-                      </Typography>
+                  {
+                    // Loading ? (
+                    //   <SuspenseLoader />
+                    // ) : 
+                    (list.length === 0 ? (
+                      (isSelected('Student') ||
+                        isTeacherSelected()) && studentlist !== '' && (
+                        <Typography
+                          variant="h6"
+                          align="center"
+                          color="blue"
+                          sx={{
+                            textAlign: 'center',
+                            marginTop: 1,
+                            backgroundColor: '#324b84',
+                            padding: 1,
+                            borderRadius: 2,
+                            color: 'white'
+                          }}
+                        >
+                          No record found.
+                        </Typography>
+                      )
+                    ) : (
+                      <SelectallAddrecipents
+                        Itemlist={list}
+                        onChange={onChangeTeacher}
+                        ContactGP={techerStudent1}
+                        ClickGroupRadio1={ClickGroupRadio1} />
                     )
-                  ) : (
-                    <SelectallAddrecipents
-                      Itemlist={list}
-                      onChange={onChangeTeacher} ClickGroupRadio1={undefined} />
-                  )}
+                    )}
                 </Grid>
               </Grid>
             </>
           ) : null}
         </>
       </Box>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        fullWidth
+        maxWidth="md"
+        PaperProps={{ sx: { borderRadius: '15px' } }}
+      >
+        <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <Tooltip
+            title={'Add / edit delete contact group(s).'}
+            placement="bottom-end"
+          >
+            <QuestionMark
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '10px',
+                position: 'absolute',
+                top: '4px',
+                right: '35px',
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: grey[600] }
+              }}
+            />
+          </Tooltip>
+          <ClearIcon
+            onClick={handleCloseDialog}
+            sx={{
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red'
+              }
+            }}
+          />
+        </DialogTitle>
+        <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
+          Add Contact Group
+        </Typography>
+        <DialogContent>
+          <Box>
+            <ContactGroupList onClose={handleCloseDialog} GPID={0} GPName={''} />
+          </Box>
+        </DialogContent>
+      </Dialog>
     </>
   );
-};
+}
 
 export default AddReciepentsSMS;
+
+
