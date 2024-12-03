@@ -12,11 +12,11 @@ import { toast } from 'react-toastify';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeleteSMSBody, IExportSentItemsBody, IGetSentItemsBody } from 'src/interfaces/SentSms/Sentsms';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems, CDAResetDelete } from 'src/requests/SentSms/ReqSentsms';
 import { RootState } from 'src/store';
 import SentsmsList from './SentsmsList';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const Sentsms = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -29,6 +29,7 @@ const Sentsms = () => {
     const asTeacherId = sessionStorage.getItem('TeacherId');
     const asUserId = Number(localStorage.getItem('UserId'));
     const [regNoOrName, setRegNoOrName] = useState('');
+    const [regNoOrName1, setRegNoOrName1] = useState('');
 
     const [SmsList, setSmsList] = useState([]);
     const [SmsListID, setSmsListID] = useState('');
@@ -77,7 +78,39 @@ const Sentsms = () => {
         setRegNoOrName(value);
     };
 
+    const handleRegNoOrNameChange1 = (value) => {
+        setRegNoOrName1(value);
+    }; 
+
+    const clickSearch1 = () => {
+        if (regNoOrName1 === '') {
+            setSmsList(USGetSentItems);
+        } else {
+            setSmsList(
+                USGetSentItems.filter((item) => {
+                    const text1Match = item.SenderName.toLowerCase().includes(
+                        regNoOrName.toLowerCase()
+                    );
+                    const text2Match = item.StatusId.toLowerCase().includes(
+                        regNoOrName.toLowerCase()
+                    );
+                    const text3Match = item.Subject.toLowerCase().includes(
+                        regNoOrName.toLowerCase()
+                    );
+                    const text4Match = item.Insert_Date.toLowerCase().includes(
+                        regNoOrName.toLowerCase()
+                    );
+
+                    return (text1Match || text2Match) || (text3Match || text4Match);
+                })
+            );
+        }
+        dispatch(CDAGetSentItems(GetSentItemsBody));
+    };
+
+
     const clickSearch = () => {
+        clickSearch1()
         if (regNoOrName === '') {
             setSmsList(USGetSentItems);
         } else {
@@ -89,7 +122,9 @@ const Sentsms = () => {
                     const text2Match = item.StatusId.toLowerCase().includes(
                         regNoOrName.toLowerCase()
                     );
-                    return text1Match || text2Match;
+                    
+
+                    return text1Match || text2Match ;
                 })
             );
         }
@@ -116,8 +151,8 @@ const Sentsms = () => {
         asSortExp: sortExpression,
         asprm_StartIndex: startIndex,
         asPageSize: endIndex,
-        asName: "",
-        asContent: regNoOrName,
+        asName: regNoOrName,
+        asContent: regNoOrName1 ,
         asViewAllSMS: 0
     }
 
@@ -129,8 +164,8 @@ const Sentsms = () => {
         asSortExp: sortExpression,
         asprm_StartIndex: startIndex,
         asPageSize: endIndex,
-        asName: "",
-        asContent: regNoOrName,
+        asName: regNoOrName,
+        asContent: regNoOrName1,
         asViewAllSMS: 0
 
     };
@@ -261,11 +296,11 @@ const Sentsms = () => {
 
     useEffect(() => {
         dispatch(CDAExportSentItems(ExportSentItemsBody));
-    }, [startIndex, endIndex, regNoOrName,sortExpression]);
+    }, [startIndex, endIndex, sortExpression]);
 
     useEffect(() => {
         dispatch(CDAGetSentItems(GetSentItemsBody));
-    }, [startIndex, endIndex, regNoOrName, sortExpression]);
+    }, [startIndex, endIndex, sortExpression]);
 
     useEffect(() => {
         setSmsList(USGetSentItems);
@@ -275,7 +310,7 @@ const Sentsms = () => {
 
     return (
         <Box sx={{ px: 2 }}>
-             {( Loading) && <SuspenseLoader />}
+            {(Loading) && <SuspenseLoader />}
             <CommonPageHeader
                 navLinks={[
                     { title: 'Sent Sms', path: '/extended-sidebar/Teacher/Requisition' }
@@ -285,12 +320,29 @@ const Sentsms = () => {
                     <TextField
                         sx={{ width: '15vw' }}
                         fullWidth
-                        label="Item Code/ Requisition"
+                        label="Name / Reg. No. / User Name :"
                         value={regNoOrName}
                         variant={'outlined'}
                         size={"small"}
                         onChange={(e) => {
                             handleRegNoOrNameChange(e.target.value);
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === 'Tab') {
+                                clickSearch();
+                            }
+                        }}
+                    />
+
+                    <TextField
+                        sx={{ width: '15vw' }}
+                        fullWidth
+                        label="Content:"
+                        value={regNoOrName1}
+                        variant={'outlined'}
+                        size={"small"}
+                        onChange={(e) => {
+                            handleRegNoOrNameChange1(e.target.value);
                         }}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
@@ -418,7 +470,29 @@ const Sentsms = () => {
 
 
 
-            </Box>}
+            </Box>
+
+
+            }
+
+            {
+                SmsList.length == 0 ? <Typography
+                    variant="body1"
+                    sx={{
+                        textAlign: 'center',
+                        marginTop: 4,
+                        backgroundColor: '#324b84',
+                        padding: 1,
+                        borderRadius: 2,
+                        color: 'white',
+                    }}
+                >
+                    <b>No Records Found.</b>
+                </Typography>
+                    : (
+                        <span></span>
+                    )
+            }
 
 
 
