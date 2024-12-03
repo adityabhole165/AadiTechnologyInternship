@@ -52,6 +52,7 @@ const StandardwiseExamSchedule = () => {
     const UpdateExamScheduleInstructions = useSelector((state: RootState) => state.StandardAndExamList.UpdateExamScheduleInstructionsMsg);
     const USInsertExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.InsertExamSchedule);
     const CopyExamSchedule = useSelector((state: RootState) => state.StandardAndExamList.CopyStandardTestMsg);
+    const examData = useSelector((state: RootState) => state.StandardAndExamList.SubjectExamSchedule);
     const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
     const Instructionss = useSelector((state: RootState) => state.StandardAndExamList.Instructionss);
 
@@ -72,14 +73,15 @@ const StandardwiseExamSchedule = () => {
     function getXML1() {
         console.log(selectedStandards, 'selectedStandards');
 
-        let Insertxml = "<ArrayOfInt><int>";
+        let Insertxml = '<ArrayOfInt xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\r\n';
         selectedStandards.forEach(value => {
-            Insertxml += `<Data>${value}</Data>`;
+            Insertxml += `  <int>${value}</int>\r\n`;
         });
 
-        Insertxml += "</int></ArrayOfInt>";
+        Insertxml += "</ArrayOfInt>";
         return Insertxml;
     }
+
     useEffect(() => {
         const RExamScheduleBody = {
             asSchoolId: Number(asSchoolId),
@@ -319,21 +321,26 @@ const StandardwiseExamSchedule = () => {
                                 <QuestionMark />
                             </IconButton>
                         </Tooltip>
-
-
-
                         <Tooltip title="Save">
                             <span>
                                 <IconButton
                                     sx={{
                                         color: 'white',
-                                        backgroundColor: isUnsubmitted ? green[500] : 'gray', // Enable if unsubmitted, else gray
+                                        backgroundColor:
+                                            (!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
+                                                ? green[500]
+                                                : 'gray', // Enable if unsubmitted or empty, else gray
                                         '&:hover': {
-                                            backgroundColor: isUnsubmitted ? green[600] : 'gray'
-                                        }
+                                            backgroundColor:
+                                                (!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
+                                                    ? green[600]
+                                                    : 'gray',
+                                        },
                                     }}
                                     onClick={onClickSave}
-                                    disabled={!isUnsubmitted} // Disable if not unsubmitted
+                                    disabled={
+                                        !(!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
+                                    } // Enable Save button only if unsubmitted or empty
                                 >
                                     <SaveIcon />
                                 </IconButton>
@@ -341,8 +348,23 @@ const StandardwiseExamSchedule = () => {
                         </Tooltip>
 
                         {/* Conditionally Render Submit or Unsubmit */}
-                        {isUnsubmitted ? (
-                            // Show Submit button when unsubmitted
+                        {!getIsSubmitedd || getIsSubmitedd.length === 0 ? (
+                            // Case: Empty or null - Show disabled Submit button, hide Unsubmit button
+                            <Tooltip title="Submit">
+                                <span>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: 'gray', // Disabled appearance
+                                        }}
+                                        disabled={true} // Always disabled when null or empty
+                                    >
+                                        <CheckRoundedIcon />
+                                    </IconButton>
+                                </span>
+                            </Tooltip>
+                        ) : getIsSubmitedd[0]?.IsSubmitedd === "False" ? (
+                            // Case: Unsubmitted - Show Submit button
                             <Tooltip title="Submit">
                                 <span>
                                     <IconButton
@@ -350,8 +372,8 @@ const StandardwiseExamSchedule = () => {
                                             color: 'white',
                                             backgroundColor: green[500],
                                             '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
+                                                backgroundColor: green[600],
+                                            },
                                         }}
                                         onClick={onClickSubmit} // Submit function
                                     >
@@ -360,7 +382,7 @@ const StandardwiseExamSchedule = () => {
                                 </span>
                             </Tooltip>
                         ) : (
-                            // Show Unsubmit button when submitted
+                            // Case: Submitted - Show Unsubmit button
                             <Tooltip title="Unsubmit">
                                 <span>
                                     <IconButton
@@ -368,7 +390,7 @@ const StandardwiseExamSchedule = () => {
                                             color: 'white',
                                             backgroundColor: red[500],
                                             height: '36px !important',
-                                            ':hover': { backgroundColor: red[600] }
+                                            ':hover': { backgroundColor: red[600] },
                                         }}
                                         onClick={handleUnsubmit} // Unsubmit function
                                     >
@@ -377,6 +399,7 @@ const StandardwiseExamSchedule = () => {
                                 </span>
                             </Tooltip>
                         )}
+
                         <Tooltip title="Copy Schedule">
                             <span>
                                 <IconButton sx={{

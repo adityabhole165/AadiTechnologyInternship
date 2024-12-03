@@ -13,12 +13,11 @@ import {
     TableHead,
     TableRow,
     TextField,
-    Tooltip
+    Tooltip,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { IGetSubjectExamScheduleBody } from 'src/interfaces/Teacher/TExamSchedule';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import { GetSubjectExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
@@ -26,6 +25,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 
 interface ExamEntry {
     id: number;
+    SubjectWizeStandardExamScheduleId: number;
     subject: string;
     examType: string;
     examDate: string;
@@ -41,82 +41,134 @@ interface ExamEntry {
         period: 'AM' | 'PM';
     };
     description: string;
-    IsNew: boolean;
+    isNew: boolean;
+    selected: boolean;
 }
 
-const generateTimeOptions = () => {
-    const hours = Array.from({ length: 12 }, (_, i) =>
-        (i + 1).toString().padStart(2, '0')
-    );
-    return hours;
-};
-
-const minuteOptions = ['00', '15', '30', '45'];
+const generateTimeOptions = () => Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0'));
+const minuteOptions = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"];
 const periodOptions = ['AM', 'PM'];
-const examData1: ExamEntry[] = [
-    { id: 1, subject: "Mathematics", examType: "Final", examDate: "12-Nov-2024", timed: true, startTime: { hour: "08", minute: "00", period: "AM" }, endTime: { hour: "09", minute: "00", period: "AM" }, description: "Final Math Exam", IsNew: true },
-];
 
 const StandardwiseExamScheduleTable = () => {
-    const { AssignedDate, StandardId, StandardTestId } = useParams();
+    const { AssignedDate, StandardId, SchoolwiseStandardExamScheduleId } = useParams();
     const dispatch = useDispatch();
     const timeOptions = generateTimeOptions();
+
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
     const examData = useSelector((state: RootState) => state.StandardAndExamList.SubjectExamSchedule);
-    const [examRows, setExamRows] = useState<ExamEntry[]>([]);
-    const [SelectDate, SetSelectDate] = useState(
-        AssignedDate == undefined
-            ? new Date().toISOString().split('T')[0]
-            : getCalendarDateFormatDateNew(AssignedDate)
-    );
 
+    // Separate states for header row and table rows
+    const [headerRow, setHeaderRow] = useState<ExamEntry>({
+        id: 0,
+        SubjectWizeStandardExamScheduleId: 0,
+        subject: '',
+        examType: '',
+        examDate: '',
+        timed: true,
+        startTime: { hour: '08', minute: '00', period: 'AM' },
+        endTime: { hour: '08', minute: '00', period: 'AM' },
+        description: '',
+        isNew: true,
+        selected: false,
+    });
+
+    const [tableRows, setTableRows] = useState<ExamEntry[]>([]);
+    const [selectAll, setSelectAll] = useState(false);
+
+    // Fetch data and populate table rows
     useEffect(() => {
         if (examData.length > 0) {
-            setExamRows(
+            setTableRows(
                 examData.map(row => ({
                     ...row,
-                    selectedDate: SelectDate // Initialize with the selected date
+                    selected: false, // Add selected property
                 }))
             );
         }
-    }, [examData, SelectDate]);
+    }, [examData]);
 
-    const onSelectDate = (value: string) => {
-        SetSelectDate(value);
-        setExamRows(rows => rows.map(row => ({ ...row, selectedDate: value })));
-    };
+    useEffect(() => {
+        const fetchExamSchedule = async () => {
+            const requestBody = {
+                asStandardId: Number(StandardId),
+                asSchoolId: Number(asSchoolId),
+                asAcademicYearId: Number(asAcademicYearId),
+                asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
+            };
+            dispatch(GetSubjectExamSchedule(requestBody));
+        };
+        fetchExamSchedule();
+    }, [StandardId, asSchoolId, asAcademicYearId, SchoolwiseStandardExamScheduleId, dispatch]);
 
-    const onSelectRowDate = (id: number, value: string) => {
-        setExamRows(rows =>
-            rows.map(row => (row.id === id ? { ...row, selectedDate: value } : row))
+    // Handlers for header row changes
+    const handleHeaderChange = (field: keyof ExamEntry, value: any) => {
+        setHeaderRow(prev => ({ ...prev, [field]: value }));
+        setTableRows(rows =>
+            rows.map(row => {
+                if (row.selected) {
+                    return {
+                        ...row,
+                        [field]: value, // Set the field value only for selected rows
+                    };
+                }
+                return row; // Keep other rows unchanged
+            })
         );
     };
 
-    const onToggleTimed = (id: number, isTimed: boolean) => {
-        setExamRows(rows =>
-            rows.map(row => (row.id === id ? { ...row, timed: isTimed } : row))
+    // Handlers for table rows
+    const handleSelectAll = (checked: boolean) => {
+        setSelectAll(checked);
+        setTableRows(rows => rows.map(row => ({ ...row, selected: checked })));
+    };
+
+    const handleRowChange = (id: number, field: keyof ExamEntry, value: any) => {
+        setTableRows(rows =>
+            rows.map(row => (row.id === id ? { ...row, [field]: value } : row))
         );
+    };
+
+    useEffect(() => {
+        examData.map(item => (item.SubjectWizeStandardExamScheduleId != "0" ?
+            setTableRows(rows =>
+                rows.map(row => (row.id === item.id ? { ...row, "selected": true } : row))
+            ) :
+            setTableRows(rows =>
+                rows.map(row => (row.id === item.id ? { ...row, "selected": false } : row))
+            )
+        ))
+    }, [examData])
+
+    const handleAddRow = () => {
+        const newRow: ExamEntry = {
+            ...headerRow,
+            id: tableRows.length > 0 ? Math.max(...tableRows.map(r => r.id)) + 1 : 1,
+            isNew: true,
+        };
+        setTableRows(rows => [...rows, newRow]);
     };
 
     const onClickAddNewRow = (subject: string) => {
         const newRow: ExamEntry = {
-            id: examRows.length > 0 ? Math.max(...examRows.map(r => r.id)) + 1 : 1,
+            id: tableRows.length > 0 ? Math.max(...tableRows.map(r => r.id)) + 1 : 1,
+            SubjectWizeStandardExamScheduleId: 0,
             subject: subject, // Assign the clicked subject
             examType: '',
-            examDate: SelectDate,
+            examDate: AssignedDate ? getCalendarDateFormatDateNew(AssignedDate) : new Date().toISOString().split('T')[0],
             timed: true,
             startTime: { hour: '08', minute: '00', period: 'AM' },
             endTime: { hour: '09', minute: '00', period: 'AM' },
             description: '',
-            IsNew: true
+            isNew: true,
+            selected: true
         };
 
         // Insert the new row below rows of the same subject
         const updatedRows = [];
         let subjectInserted = false;
 
-        for (const row of examRows) {
+        for (const row of tableRows) {
             updatedRows.push(row);
             if (row.subject === subject && !subjectInserted) {
                 updatedRows.push(newRow); // Insert new row after the clicked subject
@@ -129,40 +181,29 @@ const StandardwiseExamScheduleTable = () => {
             updatedRows.push(newRow);
         }
 
-        setExamRows(updatedRows);
+        setTableRows(updatedRows);
     };
-
-    useEffect(() => {
-        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
-            asStandardId: Number(StandardId),
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asStandardwiseExamScheduleId: Number(StandardTestId),
-
-        }
-        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
-    }, [])
-
     const renderTimeSelects = (
         time: { hour: string; minute: string; period: 'AM' | 'PM' },
-        disabled: boolean
+        disabled: boolean,
+        onChange: (field: string, value: string) => void
     ) => (
         <Box display="flex" gap={1}>
-            <Select value={time.hour} size="small" disabled={disabled}>
+            <Select value={time.hour} size="small" disabled={disabled} onChange={e => onChange('hour', e.target.value)}>
                 {timeOptions.map(hour => (
                     <MenuItem key={hour} value={hour}>
                         {hour}
                     </MenuItem>
                 ))}
             </Select>
-            <Select value={time.minute} size="small" disabled={disabled}>
+            <Select value={time.minute} size="small" disabled={disabled} onChange={e => onChange('minute', e.target.value)}>
                 {minuteOptions.map(minute => (
                     <MenuItem key={minute} value={minute}>
                         {minute}
                     </MenuItem>
                 ))}
             </Select>
-            <Select value={time.period} size="small" disabled={disabled}>
+            <Select value={time.period} size="small" disabled={disabled} onChange={e => onChange('period', e.target.value)}>
                 {periodOptions.map(period => (
                     <MenuItem key={period} value={period}>
                         {period}
@@ -174,70 +215,114 @@ const StandardwiseExamScheduleTable = () => {
 
 
     return (
-        <Box >
+        <Box>
             <TableContainer component={Paper} variant="outlined">
                 <Table>
                     <TableHead>
                         <TableRow sx={{ background: theme => theme.palette.secondary.main, color: theme => theme.palette.common.white }}>
                             <TableCell padding="checkbox"></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>Subject</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>Exam Type</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>Exam Date</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>Time?</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>Start Time</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>End Time</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>Description</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>New</strong></TableCell>
+                            <TableCell><strong>Subject</strong></TableCell>
+                            <TableCell><strong>Exam Type</strong></TableCell>
+                            <TableCell><strong>Exam Date</strong></TableCell>
+                            <TableCell><strong>Timed?</strong></TableCell>
+                            <TableCell><strong>Start Time</strong></TableCell>
+                            <TableCell><strong>End Time</strong></TableCell>
+                            <TableCell><strong>Description</strong></TableCell>
+                            <TableCell><strong>New</strong></TableCell>
                         </TableRow>
-                        {examData1.map((row) => (
-                            <TableRow sx={{ color: theme => theme.palette.common.white, background: theme => theme.palette.secondary.main, }}>
-                                <TableCell sx={{ py: 1, color: 'white' }} padding="checkbox"  > <strong><Checkbox /></strong></TableCell>
-                                <TableCell></TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}><strong>
-                                    <TextField size="small" sx={{ color: 'white', }}></TextField></strong>
-                                </TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}><strong><Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" /> </strong></TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}><strong><Checkbox checked={row.timed} onChange={(e) => onToggleTimed(row.id, e.target.checked)} /></strong></TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}><strong>{renderTimeSelects(row.startTime, !row.timed)}</strong></TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}><strong>{renderTimeSelects(row.endTime, !row.timed)}</strong></TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}>
-                                    <TextField
-                                        fullWidth size="small" />
-                                </TableCell>
-                                <TableCell sx={{ py: 1, color: 'white' }}></TableCell>
-                            </TableRow>
+                        <TableRow sx={{ color: theme => theme.palette.common.white, background: theme => theme.palette.secondary.main, }}>
+                            <TableCell padding="checkbox">
+                                <Checkbox checked={selectAll} onChange={e => handleSelectAll(e.target.checked)} />
+                            </TableCell>
+                            <TableCell>
 
-                        ))}
+                            </TableCell>
+                            <TableCell>
+                                <TextField
+                                    value={headerRow.examType}
+                                    onChange={e => handleHeaderChange('examType', e.target.value)}
+                                    size="small"
+                                />
+                            </TableCell>
+                            <TableCell>
+                                <Datepicker
+                                    DateValue={headerRow.examDate}
+                                    onDateChange={value => handleHeaderChange('examDate', value)}
+                                    size="small" label={undefined} />
+                            </TableCell>
+                            <TableCell>
+                                <Checkbox
+                                    checked={headerRow.timed}
+                                    onChange={e => handleHeaderChange('timed', e.target.checked)}
+                                />
+                            </TableCell>
+                            <TableCell>
+                                {renderTimeSelects(headerRow.startTime, false, (field, value) =>
+                                    handleHeaderChange('startTime', { ...headerRow.startTime, [field]: value })
+                                )}
+                            </TableCell>
+                            <TableCell>
+                                {renderTimeSelects(headerRow.endTime, false, (field, value) =>
+                                    handleHeaderChange('endTime', { ...headerRow.endTime, [field]: value })
+                                )}
+                            </TableCell>
+                            <TableCell>
+                                <TextField
+                                    value={headerRow.description}
+                                    onChange={e => handleHeaderChange('description', e.target.value)}
+                                    size="small"
+                                />
+                            </TableCell>
+                            <TableCell>
+
+                            </TableCell>
+                        </TableRow>
                     </TableHead>
                     <TableBody>
-                        {examRows.map((row) => (
-                            <TableRow key={row.id} hover>
-                                <TableCell padding="checkbox" sx={{ py: 0.5 }}>
-                                    <Checkbox />
+                        {tableRows.map(row => (
+                            <TableRow key={row.id}>
+                                <TableCell padding="checkbox">
+                                    <Checkbox
+                                        checked={row.selected}
+                                        onChange={e => handleRowChange(row.id, 'selected', e.target.checked)}
+                                    />
                                 </TableCell>
-                                <TableCell sx={{ py: 0.5 }}>{row.subject}</TableCell>
-                                <TableCell sx={{ py: 0.5 }}><TextField size="small">
-                                </TextField></TableCell>
+                                <TableCell>{row.subject}</TableCell>
                                 <TableCell>
-                                    {row.id === 0 ? (
-                                        <Datepicker DateValue={SelectDate} onDateChange={onSelectDate} label={undefined} size="small" />
-                                    ) : (
-                                        <Datepicker DateValue={SelectDate} onDateChange={(value) => onSelectRowDate(row.id, value)} label={undefined} size="small" />
+                                    <TextField
+                                        value={row.examType}
+                                        onChange={e => handleRowChange(row.id, 'examType', e.target.value)}
+                                        size="small"
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                    <Datepicker
+                                        DateValue={row.examDate}
+                                        onDateChange={value => handleRowChange(row.id, 'examDate', value)}
+                                        size="small" label={undefined} />
+                                </TableCell>
+                                <TableCell>
+                                    <Checkbox
+                                        checked={row.timed}
+                                        onChange={e => handleRowChange(row.id, 'timed', e.target.checked)}
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                    {renderTimeSelects(row.startTime, !row.timed, (field, value) =>
+                                        handleRowChange(row.id, 'startTime', { ...row.startTime, [field]: value })
                                     )}
                                 </TableCell>
-                                <TableCell padding="checkbox" sx={{ pl: 2, py: 0.5 }} >
-                                    <Checkbox checked={row.timed} onChange={(e) => onToggleTimed(row.id, e.target.checked)} />
-                                </TableCell>
-                                <TableCell sx={{ py: 0.5 }}>
-                                    {renderTimeSelects(row.startTime, !row.timed)}
-                                </TableCell>
-                                <TableCell sx={{ py: 0.5 }}>
-                                    {renderTimeSelects(row.endTime, !row.timed)}
+                                <TableCell>
+                                    {renderTimeSelects(row.endTime, !row.timed, (field, value) =>
+                                        handleRowChange(row.id, 'endTime', { ...row.endTime, [field]: value })
+                                    )}
                                 </TableCell>
                                 <TableCell>
-                                    <Tooltip title={row.description}>
-                                        <TextField value={row.description} fullWidth size="small" />
-                                    </Tooltip>
+                                    <TextField
+                                        value={row.description}
+                                        onChange={e => handleRowChange(row.id, 'description', e.target.value)}
+                                        size="small"
+                                    />
                                 </TableCell>
                                 <TableCell sx={{ py: 0.5 }}>
                                     <Tooltip title="Add">

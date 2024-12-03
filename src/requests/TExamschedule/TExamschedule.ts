@@ -370,6 +370,7 @@ export const GetSubjectExamSchedule =
         const endTime = extractTimeforExamSchedule(item.End_DateTime);
 
         return {
+          SubjectWizeStandardExamScheduleId: item.SubjectWize_Standard_Exam_Schedule_Id,
           subject: item.Subject_Name,
           id: item.Subject_Id,
           examType: item.TestType,
