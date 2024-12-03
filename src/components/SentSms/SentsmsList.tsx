@@ -20,7 +20,7 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit,clickchange
             if (item.Id === id) {
                 return {
                     ...item,
-                    SortOrder: item.SortOrder === 'desc' ? 'asc' : 'desc'
+                    SortOrder: item.SortOrder === 'DESC' ? 'ASC' : 'DESC'
                 };
             } else {
                 return { ...item, SortOrder: null };
@@ -79,7 +79,7 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit,clickchange
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'left' }}>
                                         <b>{item.Header}</b>
                                         {item.SortOrder !== null && i < 3 ? ( // Show sorting icons only for the first 3 columns
-                                            item.SortOrder === "desc" ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
+                                            item.SortOrder === "DESC" ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
                                         ) : null}
                                     </div>
                                 </TableCell>

@@ -29,6 +29,7 @@ const SliceSentsms = createSlice({
       state.Loading = true;
     },
     RGetSentItems(state, action) {
+      state.Loading = false;
       state.ISGetSentItems = action.payload;
     },
     RGetDetailsOfGroups(state, action) {
@@ -93,6 +94,7 @@ const SliceSentsms = createSlice({
       state.ISDeletePersonalAddressBookGroupMsg = '';
     },
     RDeleteSMSApi(state, action) {
+      state.Loading = false;
       state.ISDeleteSMS = action.payload;
     },
     ResetDelete(state,) {
@@ -101,6 +103,7 @@ const SliceSentsms = createSlice({
 
 
     RExportSentItems(state, action) {
+      state.Loading = false;
       state.ISExportSentItems = action.payload;
     },
 
@@ -113,6 +116,7 @@ const SliceSentsms = createSlice({
 export const CDAGetSentItems =
   (data: IGetSentItemsBody): AppThunk =>
     async (dispatch) => {
+      dispatch(SliceSentsms.actions.getLoading(true));
       const response = await ApiSentsms.GetSentItemsapi(data);
       let SentItems = response.data.map((item, i) => {
         return {
@@ -326,6 +330,7 @@ export const CDAGetGetDetailsOfGroups =
 export const CDADeleteSMSApi =
   (data: IDeleteSMSBody): AppThunk =>
     async (dispatch) => {
+      dispatch(SliceSentsms.actions.getLoading(true));
       const response = await ApiSentsms.DeleteSMSApi(data);
       dispatch(SliceSentsms.actions.RDeleteSMSApi(response.data));
     };
@@ -340,6 +345,7 @@ export const CDAResetDelete =
 export const CDAExportSentItems =
   (data: IExportSentItemsBody): AppThunk =>
     async (dispatch) => {
+      dispatch(SliceSentsms.actions.getLoading(true));
       const response = await ApiSentsms.ExportSentItemsApi(data);
       let SentItems = response.data.map((item, i) => {
         return {

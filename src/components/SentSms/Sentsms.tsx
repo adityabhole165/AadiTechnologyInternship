@@ -3,7 +3,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, IconButton, TextField, Tooltip } from '@mui/material';
+import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupCo
 import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems, CDAResetDelete } from 'src/requests/SentSms/ReqSentsms';
 import { RootState } from 'src/store';
 import SentsmsList from './SentsmsList';
-
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const Sentsms = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ const Sentsms = () => {
     const asTeacherId = sessionStorage.getItem('TeacherId');
     const asUserId = Number(localStorage.getItem('UserId'));
     const [regNoOrName, setRegNoOrName] = useState('');
-    const [sortExpression, setSortExpression] = useState('ORDER BY Insert_Date DESC');
+
     const [SmsList, setSmsList] = useState([]);
     const [SmsListID, setSmsListID] = useState('');
     const { showAlert, closeAlert } = useContext(AlertContext);
@@ -38,12 +38,15 @@ const Sentsms = () => {
     const [page, setPage] = useState(1);
     const startIndex = (page - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
+
+    const [sortExpression, setSortExpression] = useState('ORDER BY Insert_Date DESC ');
+
     const [headerArray, setHeaderArray] = useState([
-        { Id: 1, Header: 'To', SortOrder: null, sortKey: 'RequisitionCode' },
-        { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'RequisitionName' },
-        { Id: 3, Header: 'Send Date', SortOrder: null, sortKey: 'StatusName' },
+        { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
+        { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
+        { Id: 3, Header: 'Send Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
         { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
-        { Id: 5, Header: 'Status', SortOrder: 'desc', sortKey: 'Created_Date' },
+        { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
 
     ]);
     const handleHeaderClick = (updatedHeaderArray) => {
@@ -54,9 +57,14 @@ const Sentsms = () => {
     };
 
 
-    const USGetSentItems = useSelector(
+    const USGetSentItems: any = useSelector(
         (state: RootState) => state.SentSms.ISGetSentItems
     );
+
+    const Loading: any = useSelector((state: RootState) => state.SentSms.Loading);
+
+
+    const totalRows = USGetSentItems.length > 0 ? USGetSentItems[0].TotalRows : null;
 
     const DeleteSMS = useSelector(
         (state: RootState) => state.SentSms.ISDeleteSMS
@@ -88,7 +96,9 @@ const Sentsms = () => {
         dispatch(CDAGetSentItems(GetSentItemsBody));
     };
 
-
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, totalRows);
+    const pagecount = Math.ceil(totalRows / rowsPerPage);
     const ChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1);
@@ -103,24 +113,24 @@ const Sentsms = () => {
         asUser_Id: asUserId,
         asReceiver_User_Role_Id: 2,
         asAcademic_Year_Id: asAcademicYearId,
-        "asSortExp": "ORDER BY Insert_Date DESC",
+        asSortExp: sortExpression,
         asprm_StartIndex: startIndex,
         asPageSize: endIndex,
-        asName: regNoOrName,
-        "asContent": "",
+        asName: "",
+        asContent: regNoOrName,
         asViewAllSMS: 0
-    };
+    }
 
     const ExportSentItemsBody: IExportSentItemsBody = {
         asSchoolId: asSchoolId,
         asUser_Id: asUserId,
         asReceiver_User_Role_Id: 2,
         asAcademic_Year_Id: asAcademicYearId,
-        "asSortExp": "ORDER BY Insert_Date DESC",
+        asSortExp: sortExpression,
         asprm_StartIndex: startIndex,
         asPageSize: endIndex,
-        asName: regNoOrName,
-        "asContent": "",
+        asName: "",
+        asContent: regNoOrName,
         asViewAllSMS: 0
 
     };
@@ -221,7 +231,7 @@ const Sentsms = () => {
             link.click();
             document.body.removeChild(link);
         } catch (error) {
-           console.error('Error exporting to CSV:', error);
+            console.error('Error exporting to CSV:', error);
         }
     };
 
@@ -251,12 +261,12 @@ const Sentsms = () => {
 
     useEffect(() => {
         dispatch(CDAExportSentItems(ExportSentItemsBody));
-    }, [startIndex, endIndex, regNoOrName]);
+    }, [startIndex, endIndex, regNoOrName,sortExpression]);
 
     useEffect(() => {
         dispatch(CDAGetSentItems(GetSentItemsBody));
-    }, [startIndex, endIndex, regNoOrName]);
-    
+    }, [startIndex, endIndex, regNoOrName, sortExpression]);
+
     useEffect(() => {
         setSmsList(USGetSentItems);
     }, [USGetSentItems]);
@@ -265,6 +275,7 @@ const Sentsms = () => {
 
     return (
         <Box sx={{ px: 2 }}>
+             {( Loading) && <SuspenseLoader />}
             <CommonPageHeader
                 navLinks={[
                     { title: 'Sent Sms', path: '/extended-sidebar/Teacher/Requisition' }
@@ -359,20 +370,56 @@ const Sentsms = () => {
 
                 </>}
             />
-            <SentsmsList
-                HeaderArray={headerArray}
-                ItemList={SmsList}
-                ClickHeader={handleHeaderClick}
-                clickEdit={handleClickEdit}
-                clickchange={Changevalue}
-            />
-            <ButtonGroupComponent
-                rowsPerPage={rowsPerPage}
-                ChangeRowsPerPage={ChangeRowsPerPage}
-                rowsPerPageOptions={rowsPerPageOptions}
-                PageChange={PageChange}
-                pagecount={''}
-            />
+            {SmsList.length > 0 && <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                {
+                    SmsList.length > 0 ? (
+                        <div style={{ flex: 1, textAlign: 'center' }}>
+                            <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                                <Box component="span" fontWeight="fontWeightBold">
+                                    {startRecord} to {endRecord}
+                                </Box>
+                                {' '}out of{' '}
+                                <Box component="span" fontWeight="fontWeightBold">
+                                    {totalRows}
+                                </Box>{' '}
+                                {totalRows === 1 ? 'record' : 'records'}
+                            </Typography>
+                        </div>
+
+                    ) : (
+                        <span></span>
+
+                    )
+                }
+
+                <SentsmsList
+                    HeaderArray={headerArray}
+                    ItemList={SmsList}
+                    ClickHeader={handleHeaderClick}
+                    clickEdit={handleClickEdit}
+                    clickchange={Changevalue}
+                />
+
+                {
+                    endRecord > 19 ? (
+                        <ButtonGroupComponent
+                            rowsPerPage={rowsPerPage}
+                            ChangeRowsPerPage={ChangeRowsPerPage}
+                            rowsPerPageOptions={rowsPerPageOptions}
+                            PageChange={PageChange}
+                            pagecount={pagecount}
+                        />
+
+                    ) : (
+                        <span></span>
+
+                    )
+                }
+
+
+
+            </Box>}
+
 
 
 
