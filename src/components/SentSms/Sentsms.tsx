@@ -1,10 +1,11 @@
 
+import { AddTwoTone } from '@mui/icons-material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { blue, grey, red } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -80,7 +81,7 @@ const Sentsms = () => {
 
     const handleRegNoOrNameChange1 = (value) => {
         setRegNoOrName1(value);
-    }; 
+    };
 
     const clickSearch1 = () => {
         if (regNoOrName1 === '') {
@@ -122,9 +123,9 @@ const Sentsms = () => {
                     const text2Match = item.StatusId.toLowerCase().includes(
                         regNoOrName.toLowerCase()
                     );
-                    
 
-                    return text1Match || text2Match ;
+
+                    return text1Match || text2Match;
                 })
             );
         }
@@ -152,7 +153,7 @@ const Sentsms = () => {
         asprm_StartIndex: startIndex,
         asPageSize: endIndex,
         asName: regNoOrName,
-        asContent: regNoOrName1 ,
+        asContent: regNoOrName1,
         asViewAllSMS: 0
     }
 
@@ -204,9 +205,18 @@ const Sentsms = () => {
 
 
 
-    const handleClickEdit = () => {
 
-    }
+
+    const handleClickEdit = () => {
+        navigate('/extended-sidebar/Teacher/SMSCenter');
+    };
+
+
+    const NewSms = (ViewId) => {
+        navigate('/extended-sidebar/Teacher/SMSCenter');
+    };
+
+
 
     const Changevalue = (updatedList) => {
         setSmsList(updatedList);  // Update SmsList with the updated list
@@ -364,23 +374,28 @@ const Sentsms = () => {
                         <SearchTwoTone />
                     </IconButton>
 
-                    <Box>
+
+                    {SmsList.length > 0 && <Box>
                         <Tooltip title={"Delete"}>
                             <IconButton
                                 onClick={clickdelete}
+
                                 sx={{
                                     color: '#223354',
-                                    mt: 0.7,
+                                    backgroundColor: red[200],
                                     '&:hover': {
-                                        color: 'red',
-                                        backgroundColor: red[100]
+                                        backgroundColor: red[600]
                                     }
                                 }}
+
+
+
                             >
                                 <DeleteForeverIcon />
                             </IconButton>
                         </Tooltip>
-                    </Box>
+                    </Box>}
+                    
 
                     <Box>
                         <Tooltip title={'Export'}>
@@ -398,7 +413,20 @@ const Sentsms = () => {
                         </Tooltip>
 
                     </Box>
+                     <Tooltip title={'New Sms'}>
+                        <IconButton
+                            onClick={NewSms}
+                            sx={{
+                                color: 'white',
+                                backgroundColor: green[500],
+                                height: '36px !important',
+                                ':hover': { backgroundColor: green[600] },
 
+                            }}
+                        >
+                            <AddTwoTone />
+                        </IconButton>
+                    </Tooltip>
 
 
                     <Box>
@@ -476,7 +504,7 @@ const Sentsms = () => {
             }
 
             {
-                SmsList.length == 0 ? <Typography
+                SmsList.length == 0  && !Loading? <Typography
                     variant="body1"
                     sx={{
                         textAlign: 'center',
