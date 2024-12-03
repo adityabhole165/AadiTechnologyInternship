@@ -254,7 +254,7 @@ const StudentRegistrationForm = () => {
     Enrolment_Number,
     Joining_Date
   } = location.state || {};
-  //console.log('LOcation', location.state);
+  //console.log('LOcation StudentRegistrationForm', location.state);
 
   // Session & Local Variables
   const schoolId = localStorage.getItem('SchoolId');
@@ -1629,7 +1629,18 @@ const StudentRegistrationForm = () => {
   //     }
   // };
   const handleNavigation = () => {
-    navigate('/extended-sidebar/Teacher/EnterStudentSiblingDetails');
+    navigate('/extended-sidebar/Teacher/EnterStudentSiblingDetails', {
+      state: {
+        Name,
+        standardId,
+        DivisionId,
+        YearWise_Student_Id,
+        SchoolWise_Student_Id,
+        StandardDivision_Id,
+        Enrolment_Number,
+        Joining_Date
+      }
+    });
   };
   return (
     <Box sx={{ px: 2 }}>

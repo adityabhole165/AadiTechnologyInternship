@@ -23,11 +23,11 @@ const AddSiblingStudentTable = ({ itemList = [], onDelete }) => {
   return (
     <Box>
       {itemList.length === 0 ? (
-        <Paper sx={{ padding: 2, textAlign: 'center', backgroundColor: '#D2FDFC' }}>
-          <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-            No record found.
-          </Typography>
-        </Paper>
+        // <Paper sx={{ padding: 2, textAlign: 'center', backgroundColor: '#D2FDFC' }}>
+        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+          No record found.
+        </Typography>
+        // </Paper>
       ) : (
         <TableContainer component={Paper}>
           <Table aria-label="simple table"

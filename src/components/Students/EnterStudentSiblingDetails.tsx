@@ -3,12 +3,12 @@ import SaveIcon from '@mui/icons-material/Save';
 import SquareIcon from '@mui/icons-material/Square';
 import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IDeleteStudentSiblingDetailsBody, IGetStudentDetailsForSiblingBody, IGetStudentSiblingListBody, IGetStudentsListBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import { IDeleteStudentSiblingDetailsBody, IGetStudentDetailsForSiblingBody, IGetStudentSiblingListBody } from 'src/interfaces/StudentDetails/IStudentDetails';
 import { CDADeleteStudentSiblingDetailsMsg, CDAGetStudentDetailsForSiblingPop, CDAGetStudentSiblingList, CDASearchStudentsList, ResetDeleteStudentSiblingDetailsMsg } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -28,7 +28,8 @@ const EnterStudentSiblingDetails = () => {
     Enrolment_Number,
     Joining_Date
   } = location.state || {};
-  //console.log('LOcation', location.state);
+  console.log('LOcation EnterStudentSiblingDetails', location.state);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Session & Local Variables
   const schoolId = localStorage.getItem('SchoolId');
@@ -36,17 +37,7 @@ const EnterStudentSiblingDetails = () => {
   const teacherId = sessionStorage.getItem('Id');
   const { showAlert, closeAlert } = useContext(AlertContext);
 
-  const students = [
-    { id: 2057, name: 'Master Pranav Digambar Dubal', class: '10 - D' },
-    { id: 2060, name: 'Miss Ishita Dattatray Gaikwad', class: '10 - A' },
-    { id: 2061, name: 'Miss Sanskruti Dilip Gaikwad', class: '10 - A' },
-    { id: 2063, name: 'Miss Arya Krushnakumar Garde', class: '10 - D' },
-    { id: 2065, name: 'Miss Nirmayee Nagesh Ghatpande', class: '10 - A' },
-    { id: 2066, name: 'Master Harshwardhan Vijay Ghule', class: '10 - D' },
-    { id: 2067, name: 'Miss Rajlaxmi Vijay Ghule', class: '10 - B' },
-    { id: 2068, name: 'Master Shambhuraj Abhijit Ghule', class: '10 - A' },
-    { id: 2069, name: 'Master Shlok Ashwinkumar Gilda', class: '10 - A' }
-  ];
+
   //StudentName
   const StudentDetailsForSibling = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentDetailsForSibling);
   const oStudentDetailsForSibling: any = StudentDetailsForSibling;
@@ -60,7 +51,7 @@ const EnterStudentSiblingDetails = () => {
   console.log('3️⃣SearchStudentsList', SearchStudentsList);
   //DeleteMsg
   const DeleteStudentSiblingDetailsMsg = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISDeleteStudentSiblingDetailsMsg);
-  console.log('5️⃣DeleteStudentSiblingDetailsMsg', DeleteStudentSiblingDetailsMsg);
+  //console.log('5️⃣DeleteStudentSiblingDetailsMsg', DeleteStudentSiblingDetailsMsg);
 
   const GetStudentSiblingListBody: IGetStudentSiblingListBody = {
     asSchoolId: Number(schoolId),
@@ -79,19 +70,24 @@ const EnterStudentSiblingDetails = () => {
     dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
   }, []);
 
-  useEffect(() => {
-    const GetStudentsListBody: IGetStudentsListBody = {
-      "asSchoolId": Number(schoolId),
-      "asAcademicYearId": Number(academicYearId),
-      "asYearwiseStudentId": YearWise_Student_Id,
-      "asFilter": "tupe",
-      "asStartIndex": 0,
-      "asEndIndex": 20,
-      "asSortExpression": "RegNo"
+  //#region Search
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    // setIsSearchPerformed(true);
 
-    }
-    dispatch(CDASearchStudentsList(GetStudentsListBody))
-  }, []);
+    const GetStudentsListBody = {
+      asSchoolId: Number(schoolId),
+      asAcademicYearId: Number(academicYearId),
+      asYearwiseStudentId: YearWise_Student_Id,
+      asFilter: term.trim() || '',                // search term dynamically
+      asStartIndex: 0,
+      asEndIndex: 20,
+      asSortExpression: "RegNo"
+    };
+
+    dispatch(CDASearchStudentsList(GetStudentsListBody));
+
+  };
 
   const handleDelete = (StudentSiblingId) => {
     const DeleteStudentSiblingDetailsBody: IDeleteStudentSiblingDetailsBody = {
@@ -161,12 +157,14 @@ const EnterStudentSiblingDetails = () => {
               }
               variant="outlined"
               size="small"
-            //   value={searchTerm}
-            //   onChange={(e) => handleSearch(e.target.value)}
+              value={searchTerm}
+              onChange={(e) => handleSearch(e.target.value)}
+            //onChange={handleSearchChange}
             />
             <Tooltip title="Search">
               <IconButton
-                // onClick={() => handleSearch(searchTerm)}
+                onClick={() => handleSearch(searchTerm)}
+                //onClick={handleSearch}
                 sx={{
                   background: (theme) => theme.palette.primary.main,
                   color: 'white',
