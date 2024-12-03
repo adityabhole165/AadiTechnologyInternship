@@ -43,6 +43,7 @@ interface ExamEntry {
     description: string;
     isNew: boolean;
     selected: boolean;
+    TotalTime: string;
 }
 
 const generateTimeOptions = () => Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0'));
@@ -58,6 +59,7 @@ const StandardwiseExamScheduleTable = () => {
     const asSchoolId = localStorage.getItem('localSchoolId');
     const examData = useSelector((state: RootState) => state.StandardAndExamList.SubjectExamSchedule);
     const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
+    const isSubmitted = getIsSubmitedd[0]?.IsSubmitedd === 'True';
     // Separate states for header row and table rows
     const [headerRow, setHeaderRow] = useState<ExamEntry>({
         id: 0,
@@ -65,12 +67,13 @@ const StandardwiseExamScheduleTable = () => {
         subject: '',
         examType: '',
         examDate: '',
-        timed: true,
+        timed: false,
         startTime: { hour: '08', minute: '00', period: 'AM' },
         endTime: { hour: '08', minute: '00', period: 'AM' },
         description: '',
         isNew: true,
         selected: false,
+        TotalTime: '00:00'
     });
 
     const [tableRows, setTableRows] = useState<ExamEntry[]>([]);
@@ -87,7 +90,17 @@ const StandardwiseExamScheduleTable = () => {
             );
         }
     }, [examData]);
-
+    useEffect(() => {
+        if (examData.length > 0) {
+            const updatedRows = examData.map((row: any, index: number) => {
+                return {
+                    ...row,
+                    timed: row.TotalTime === "00:00" ? false : row.timed, // If TotalTime is "00:00", uncheck timed
+                };
+            });
+            setTableRows(updatedRows);
+        }
+    }, [examData]);
     useEffect(() => {
         const fetchExamSchedule = async () => {
             const requestBody = {
@@ -123,12 +136,27 @@ const StandardwiseExamScheduleTable = () => {
         setTableRows(rows => rows.map(row => ({ ...row, selected: checked })));
     };
 
+    // const handleRowChange = (id: number, field: keyof ExamEntry, value: any) => {
+    //     setTableRows(rows =>
+    //         rows.map(row => (row.id === id ? { ...row, [field]: value } : row))
+    //     );
+    // };
+
     const handleRowChange = (id: number, field: keyof ExamEntry, value: any) => {
         setTableRows(rows =>
-            rows.map(row => (row.id === id ? { ...row, [field]: value } : row))
+            rows.map(row => {
+                if (row.id === id) {
+                    if (field === "selected") {
+                        // If 'selected' is checked, also check 'timed', otherwise uncheck 'timed'
+                        const newTimedValue = value ? true : false;
+                        return { ...row, [field]: value, timed: newTimedValue };
+                    }
+                    return { ...row, [field]: value };
+                }
+                return row;
+            })
         );
     };
-
     useEffect(() => {
         examData.map(item => (item.SubjectWizeStandardExamScheduleId != "0" ?
             setTableRows(rows =>
@@ -156,12 +184,13 @@ const StandardwiseExamScheduleTable = () => {
             subject: subject, // Assign the clicked subject
             examType: '',
             examDate: AssignedDate ? getCalendarDateFormatDateNew(AssignedDate) : new Date().toISOString().split('T')[0],
-            timed: true,
+            timed: false,
             startTime: { hour: '08', minute: '00', period: 'AM' },
             endTime: { hour: '09', minute: '00', period: 'AM' },
             description: '',
             isNew: true,
-            selected: true
+            selected: false,
+            TotalTime: '00:00'
         };
 
         // Insert the new row below rows of the same subject
@@ -176,7 +205,6 @@ const StandardwiseExamScheduleTable = () => {
             }
         }
 
-        // If no match is found, append the row at the end
         if (!subjectInserted) {
             updatedRows.push(newRow);
         }
@@ -232,7 +260,7 @@ const StandardwiseExamScheduleTable = () => {
                         </TableRow>
                         <TableRow sx={{ color: theme => theme.palette.common.white, background: theme => theme.palette.secondary.main, }}>
                             <TableCell padding="checkbox">
-                                <Checkbox checked={selectAll} disabled={getIsSubmitedd[0]?.IsSubmitedd} onChange={e => handleSelectAll(e.target.checked)} />
+                                <Checkbox checked={selectAll} disabled={isSubmitted} onChange={e => handleSelectAll(e.target.checked)} />
                             </TableCell>
                             <TableCell>
 
@@ -242,19 +270,20 @@ const StandardwiseExamScheduleTable = () => {
                                     value={headerRow.examType}
                                     onChange={e => handleHeaderChange('examType', e.target.value)}
                                     size="small"
-                                    disabled={getIsSubmitedd[0]?.IsSubmitedd}
+                                    disabled={isSubmitted}
                                 />
                             </TableCell>
                             <TableCell>
                                 <Datepicker4
                                     DateValue={headerRow.examDate}
                                     onDateChange={value => handleHeaderChange('examDate', value)}
-                                    size="small" label={undefined} disabled={getIsSubmitedd[0]?.IsSubmitedd} />
+                                    size="small" label={undefined} disabled={isSubmitted} />
                             </TableCell>
                             <TableCell>
                                 <Checkbox
-                                    checked={headerRow.timed} disabled={getIsSubmitedd[0]?.IsSubmitedd}
+                                    checked={headerRow.timed}
                                     onChange={e => handleHeaderChange('timed', e.target.checked)}
+                                    disabled={isSubmitted}
                                 />
                             </TableCell>
                             <TableCell>
@@ -277,7 +306,7 @@ const StandardwiseExamScheduleTable = () => {
                                 <TextField
                                     value={headerRow.description}
                                     onChange={e => handleHeaderChange('description', e.target.value)}
-                                    size="small" disabled={getIsSubmitedd[0]?.IsSubmitedd}
+                                    size="small" disabled={isSubmitted}
                                 />
                             </TableCell>
                             <TableCell>
@@ -290,14 +319,14 @@ const StandardwiseExamScheduleTable = () => {
                             <TableRow key={row.id}>
                                 <TableCell padding="checkbox">
                                     <Checkbox
-                                        checked={row.selected} disabled={getIsSubmitedd[0]?.IsSubmitedd}
+                                        checked={row.selected} disabled={isSubmitted}
                                         onChange={e => handleRowChange(row.id, 'selected', e.target.checked)}
                                     />
                                 </TableCell>
                                 <TableCell>{row.subject}</TableCell>
                                 <TableCell>
                                     <TextField
-                                        value={row.examType} disabled={getIsSubmitedd[0]?.IsSubmitedd}
+                                        value={row.examType} disabled={isSubmitted}
                                         onChange={e => handleRowChange(row.id, 'examType', e.target.value)}
                                         size="small"
                                     />
@@ -307,13 +336,14 @@ const StandardwiseExamScheduleTable = () => {
                                         DateValue={row.examDate}
                                         onDateChange={value => handleRowChange(row.id, 'examDate', value)}
                                         size="small" label={undefined}
-                                        disabled={getIsSubmitedd[0]?.IsSubmitedd}
+                                        disabled={isSubmitted}
                                     />
                                 </TableCell>
                                 <TableCell>
                                     <Checkbox
-                                        checked={row.timed} disabled={getIsSubmitedd[0]?.IsSubmitedd}
+                                        checked={row.selected ? row.timed : false}
                                         onChange={e => handleRowChange(row.id, 'timed', e.target.checked)}
+                                        disabled={isSubmitted || !row.selected}
                                     />
                                 </TableCell>
                                 <TableCell>
@@ -335,14 +365,14 @@ const StandardwiseExamScheduleTable = () => {
 
                                 <TableCell>
                                     <TextField
-                                        value={row.description} disabled={getIsSubmitedd[0]?.IsSubmitedd}
+                                        value={row.description} disabled={isSubmitted}
                                         onChange={e => handleRowChange(row.id, 'description', e.target.value)}
                                         size="small"
                                     />
                                 </TableCell>
                                 <TableCell sx={{ py: 0.5 }}>
                                     <Tooltip title="Add">
-                                        <IconButton disabled={getIsSubmitedd[0]?.IsSubmitedd} onClick={() => onClickAddNewRow(row.subject)}>
+                                        <IconButton disabled={isSubmitted} onClick={() => onClickAddNewRow(row.subject)}>
                                             <AddIcon></AddIcon>
                                         </IconButton>
                                     </Tooltip>

@@ -379,6 +379,7 @@ export const GetSubjectExamSchedule =
           endTime: endTime,
           description: item.Description,
           IsNew: true,
+          TotalTime: item.TotalTime,
           timed: !!(startTime && endTime),
         };
       });
