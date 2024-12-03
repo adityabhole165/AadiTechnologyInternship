@@ -18,7 +18,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import Datepicker4 from 'src/libraries/DateSelector/Datepicker4';
 import { GetSubjectExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
@@ -57,7 +57,7 @@ const StandardwiseExamScheduleTable = () => {
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
     const examData = useSelector((state: RootState) => state.StandardAndExamList.SubjectExamSchedule);
-
+    const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
     // Separate states for header row and table rows
     const [headerRow, setHeaderRow] = useState<ExamEntry>({
         id: 0,
@@ -232,7 +232,7 @@ const StandardwiseExamScheduleTable = () => {
                         </TableRow>
                         <TableRow sx={{ color: theme => theme.palette.common.white, background: theme => theme.palette.secondary.main, }}>
                             <TableCell padding="checkbox">
-                                <Checkbox checked={selectAll} onChange={e => handleSelectAll(e.target.checked)} />
+                                <Checkbox checked={selectAll} disabled={getIsSubmitedd[0]?.IsSubmitedd} onChange={e => handleSelectAll(e.target.checked)} />
                             </TableCell>
                             <TableCell>
 
@@ -242,35 +242,42 @@ const StandardwiseExamScheduleTable = () => {
                                     value={headerRow.examType}
                                     onChange={e => handleHeaderChange('examType', e.target.value)}
                                     size="small"
+                                    disabled={getIsSubmitedd[0]?.IsSubmitedd}
                                 />
                             </TableCell>
                             <TableCell>
-                                <Datepicker
+                                <Datepicker4
                                     DateValue={headerRow.examDate}
                                     onDateChange={value => handleHeaderChange('examDate', value)}
-                                    size="small" label={undefined} />
+                                    size="small" label={undefined} disabled={getIsSubmitedd[0]?.IsSubmitedd} />
                             </TableCell>
                             <TableCell>
                                 <Checkbox
-                                    checked={headerRow.timed}
+                                    checked={headerRow.timed} disabled={getIsSubmitedd[0]?.IsSubmitedd}
                                     onChange={e => handleHeaderChange('timed', e.target.checked)}
                                 />
                             </TableCell>
                             <TableCell>
-                                {renderTimeSelects(headerRow.startTime, false, (field, value) =>
-                                    handleHeaderChange('startTime', { ...headerRow.startTime, [field]: value })
+                                {renderTimeSelects(
+                                    headerRow.startTime,
+                                    getIsSubmitedd[0]?.IsSubmitedd || false, // Pass the disabled condition here
+                                    (field, value) =>
+                                        handleHeaderChange('startTime', { ...headerRow.startTime, [field]: value })
                                 )}
                             </TableCell>
                             <TableCell>
-                                {renderTimeSelects(headerRow.endTime, false, (field, value) =>
-                                    handleHeaderChange('endTime', { ...headerRow.endTime, [field]: value })
+                                {renderTimeSelects(
+                                    headerRow.endTime,
+                                    getIsSubmitedd[0]?.IsSubmitedd || false, // Pass the disabled condition here
+                                    (field, value) =>
+                                        handleHeaderChange('endTime', { ...headerRow.endTime, [field]: value })
                                 )}
                             </TableCell>
                             <TableCell>
                                 <TextField
                                     value={headerRow.description}
                                     onChange={e => handleHeaderChange('description', e.target.value)}
-                                    size="small"
+                                    size="small" disabled={getIsSubmitedd[0]?.IsSubmitedd}
                                 />
                             </TableCell>
                             <TableCell>
@@ -283,50 +290,59 @@ const StandardwiseExamScheduleTable = () => {
                             <TableRow key={row.id}>
                                 <TableCell padding="checkbox">
                                     <Checkbox
-                                        checked={row.selected}
+                                        checked={row.selected} disabled={getIsSubmitedd[0]?.IsSubmitedd}
                                         onChange={e => handleRowChange(row.id, 'selected', e.target.checked)}
                                     />
                                 </TableCell>
                                 <TableCell>{row.subject}</TableCell>
                                 <TableCell>
                                     <TextField
-                                        value={row.examType}
+                                        value={row.examType} disabled={getIsSubmitedd[0]?.IsSubmitedd}
                                         onChange={e => handleRowChange(row.id, 'examType', e.target.value)}
                                         size="small"
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <Datepicker
+                                    <Datepicker4
                                         DateValue={row.examDate}
                                         onDateChange={value => handleRowChange(row.id, 'examDate', value)}
-                                        size="small" label={undefined} />
+                                        size="small" label={undefined}
+                                        disabled={getIsSubmitedd[0]?.IsSubmitedd}
+                                    />
                                 </TableCell>
                                 <TableCell>
                                     <Checkbox
-                                        checked={row.timed}
+                                        checked={row.timed} disabled={getIsSubmitedd[0]?.IsSubmitedd}
                                         onChange={e => handleRowChange(row.id, 'timed', e.target.checked)}
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    {renderTimeSelects(row.startTime, !row.timed, (field, value) =>
-                                        handleRowChange(row.id, 'startTime', { ...row.startTime, [field]: value })
+                                    {renderTimeSelects(
+                                        row.startTime,
+                                        getIsSubmitedd[0]?.IsSubmitedd || !row.timed,
+                                        (field, value) =>
+                                            handleRowChange(row.id, 'startTime', { ...row.endTime, [field]: value })
                                     )}
                                 </TableCell>
                                 <TableCell>
-                                    {renderTimeSelects(row.endTime, !row.timed, (field, value) =>
-                                        handleRowChange(row.id, 'endTime', { ...row.endTime, [field]: value })
+                                    {renderTimeSelects(
+                                        row.endTime,
+                                        getIsSubmitedd[0]?.IsSubmitedd || !row.timed,
+                                        (field, value) =>
+                                            handleRowChange(row.id, 'endTime', { ...row.endTime, [field]: value })
                                     )}
                                 </TableCell>
+
                                 <TableCell>
                                     <TextField
-                                        value={row.description}
+                                        value={row.description} disabled={getIsSubmitedd[0]?.IsSubmitedd}
                                         onChange={e => handleRowChange(row.id, 'description', e.target.value)}
                                         size="small"
                                     />
                                 </TableCell>
                                 <TableCell sx={{ py: 0.5 }}>
                                     <Tooltip title="Add">
-                                        <IconButton onClick={() => onClickAddNewRow(row.subject)}>
+                                        <IconButton disabled={getIsSubmitedd[0]?.IsSubmitedd} onClick={() => onClickAddNewRow(row.subject)}>
                                             <AddIcon></AddIcon>
                                         </IconButton>
                                     </Tooltip>
