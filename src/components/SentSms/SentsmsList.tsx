@@ -79,7 +79,7 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit,clickchange
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'left' }}>
                                         <b>{item.Header}</b>
                                         {item.SortOrder !== null && i < 3 ? ( // Show sorting icons only for the first 3 columns
-                                            item.SortOrder === "DESC" ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
+                                            item.SortOrder === "DESC" ? <ArrowCircleDown /> : < ArrowCircleUpIcon />
                                         ) : null}
                                     </div>
                                 </TableCell>

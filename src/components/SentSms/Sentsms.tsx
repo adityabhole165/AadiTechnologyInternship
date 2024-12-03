@@ -347,7 +347,7 @@ const Sentsms = () => {
                     <TextField
                         sx={{ width: '15vw' }}
                         fullWidth
-                        label="Content:"
+                        label="Content :"
                         value={regNoOrName1}
                         variant={'outlined'}
                         size={"small"}
@@ -381,9 +381,10 @@ const Sentsms = () => {
                                 onClick={clickdelete}
 
                                 sx={{
-                                    color: '#223354',
-                                    backgroundColor: red[200],
+                                    color: 'white',
+                                    backgroundColor: red[500],
                                     '&:hover': {
+                                        // color: red[300],
                                         backgroundColor: red[600]
                                     }
                                 }}
