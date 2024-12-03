@@ -1,7 +1,8 @@
 import { SearchTwoTone } from '@mui/icons-material';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import SaveIcon from '@mui/icons-material/Save';
 import SquareIcon from '@mui/icons-material/Square';
-import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,11 +10,11 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeleteStudentSiblingDetailsBody, IGetStudentDetailsForSiblingBody, IGetStudentSiblingListBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { CDADeleteStudentSiblingDetailsMsg, CDAGetStudentDetailsForSiblingPop, CDAGetStudentSiblingList, CDASearchStudentsList, ResetDeleteStudentSiblingDetailsMsg } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import AddSiblingStudentTable from './AddSiblingStudentTable';
-import StudentTable from './StudentTable';
 
 const EnterStudentSiblingDetails = () => {
   const dispatch = useDispatch();
@@ -28,9 +29,9 @@ const EnterStudentSiblingDetails = () => {
     Enrolment_Number,
     Joining_Date
   } = location.state || {};
-  console.log('LOcation EnterStudentSiblingDetails', location.state);
+  //console.log('LOcation EnterStudentSiblingDetails', location.state);
   const [searchTerm, setSearchTerm] = useState('');
-
+  //const [selectedIds, setSelectedIds] = useState([]);   // Selected Ids
   // Session & Local Variables
   const schoolId = localStorage.getItem('SchoolId');
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -70,25 +71,125 @@ const EnterStudentSiblingDetails = () => {
     dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
   }, []);
 
+
   //#region Search
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [sortColumn, setSortColumn] = useState<string>('RegNo');
+  const [isAsc, setIsAsc] = useState<boolean>(true);
+  const [sortHeader, setSortHeader] = useState<string>('RegNo');
+  const [isSearchPerformed, setIsSearchPerformed] = useState(false);
+
+  // Constants for pagination
+  const rowsPerPageOptions = [20, 50, 100, 200];
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, count);
+  const pagecount = Math.ceil(count / rowsPerPage);
+
   const handleSearch = (term) => {
     setSearchTerm(term);
-    // setIsSearchPerformed(true);
+    setIsSearchPerformed(true); // Mark search as performed
+  };
+  // useEffect to handle API call on page or rowsPerPage change
+  useEffect(() => {
+    if (!isSearchPerformed) return;
 
     const GetStudentsListBody = {
       asSchoolId: Number(schoolId),
       asAcademicYearId: Number(academicYearId),
       asYearwiseStudentId: YearWise_Student_Id,
-      asFilter: term.trim() || '',                // search term dynamically
-      asStartIndex: 0,
-      asEndIndex: 20,
-      asSortExpression: "RegNo"
+      asFilter: searchTerm.trim() || '', // Maintain the current search term
+      asStartIndex: (page - 1) * rowsPerPage,
+      asEndIndex: rowsPerPage,         // page * rowsPerPage
+      asSortExpression: `${sortColumn} ${isAsc ? 'ASC' : 'DESC'}`,
     };
 
     dispatch(CDASearchStudentsList(GetStudentsListBody));
+  }, [page, rowsPerPage, sortColumn, isAsc, searchTerm, isSearchPerformed]); // Add dependencies to trigger the effect
 
+  //#region checkbox
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const allIds = SearchStudentsList.map((student) => student.YearwiseStudentId);
+      setSelected(allIds);
+    } else {
+      setSelected([]);
+    }
   };
 
+  const handleCheckboxClick = (id) => {
+    const currentIndex = selected.indexOf(id);
+    const newSelected = [...selected];
+
+    if (currentIndex === -1) {
+      newSelected.push(id);
+    } else {
+      newSelected.splice(currentIndex, 1);
+    }
+
+    setSelected(newSelected);
+  };
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+
+  //#region Pagination
+  useEffect(() => {
+    if (SearchStudentsList.length > 0) {
+      let totalRowCount = Number(SearchStudentsList[0].TotalRows);
+      setCount(totalRowCount);
+    }
+  }, [SearchStudentsList]);
+
+  const handleSort = (column) => {
+    if (sortColumn === column) {      // If clicking same column, toggle sort direction
+      setIsAsc(!isAsc);
+    } else {                          // If clicking new column, set it as sort column and default to ascending
+      setSortColumn(column);
+      setIsAsc(true);
+    }
+  };
+
+  const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
+
+  const PageChange = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
+
+  const SortableHeader = ({ column, label }) => {
+    const showSortIcon = sortHeader === column;
+    return (
+      <span
+        style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
+        onClick={() => {
+          handleSort(column);
+          setSortHeader(column);
+        }}
+      >
+        {label}
+        {showSortIcon && ( // Show the icon only for the sorted column
+          <ArrowCircleUpIcon
+            sx={{
+              fontSize: '24px',
+              marginLeft: '4px',
+              rotate: isAsc && sortHeader === column ? '0deg' : '180deg'
+            }}
+          />
+        )}
+      </span>
+    );
+  };
+  //#endregion
+  //#region Save
+  const handleSave = () => {
+    console.log('Selected IDs:', selected);
+    // Call the save API here, passing selectedIds as payload
+  };
+  //#region Delete
   const handleDelete = (StudentSiblingId) => {
     const DeleteStudentSiblingDetailsBody: IDeleteStudentSiblingDetailsBody = {
       asSchoolId: Number(schoolId),
@@ -159,6 +260,11 @@ const EnterStudentSiblingDetails = () => {
               size="small"
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch(searchTerm);
+                }
+              }}
             //onChange={handleSearchChange}
             />
             <Tooltip title="Search">
@@ -194,7 +300,7 @@ const EnterStudentSiblingDetails = () => {
 
             <Tooltip title={'Save'}>
               <IconButton
-                // onClick={handleFormSubmission}
+                onClick={handleSave}
                 sx={{
                   color: 'white',
                   backgroundColor: green[500],
@@ -229,7 +335,79 @@ const EnterStudentSiblingDetails = () => {
       </Box>
 
       <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
-        <StudentTable students={SearchStudentsList} />
+        {/* <StudentTable StudentsList={SearchStudentsList} onSelectionChange={handleSelectionChange} /> */}
+        {count > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+          <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+            <Box component="span" fontWeight="fontWeightBold">
+              {startRecord} to {endRecord}
+            </Box>
+            {' '}out of{' '}
+            <Box component="span" fontWeight="fontWeightBold">
+              {count}
+            </Box>{' '}
+            {count === 1 ? 'record' : 'records'}
+          </Typography>
+        </div> : <span> </span>}
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table"
+            sx={{
+              border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+            }}>
+            <TableHead>
+              <TableRow sx={{
+                background: (theme) => theme.palette.secondary.main,
+                color: (theme) => theme.palette.common.white,
+              }}>
+                <TableCell sx={{ color: "white", py: 1 }}>
+                  <Checkbox
+                    size='small'
+                    indeterminate={selected.length > 0 && selected.length < SearchStudentsList.length}
+                    checked={SearchStudentsList.length > 0 && selected.length === SearchStudentsList.length}
+                    onChange={handleSelectAllClick}
+                  />
+                </TableCell>
+                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                  <SortableHeader column="RegNo" label="Registration Number" />
+                </TableCell>
+                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                  <SortableHeader column="StudentName" label="Student Name" />
+                </TableCell>
+                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                  <SortableHeader column="ClassName" label="Class" />
+                </TableCell>
+                {/* <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
+              <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
+              <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell> */}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {SearchStudentsList.map((student) => (
+                <TableRow key={student.YearwiseStudentId}
+                  selected={isSelected(student.YearwiseStudentId)}>
+                  <TableCell sx={{ py: 0.5 }}>
+                    <Checkbox
+                      size='small'
+                      checked={isSelected(student.YearwiseStudentId)}
+                      onChange={() => handleCheckboxClick(student.YearwiseStudentId)}
+                    />
+                  </TableCell>
+                  <TableCell sx={{ py: 0.5 }}>{student.RegNo}</TableCell>
+                  <TableCell sx={{ py: 0.5 }}>{student.StudentName}</TableCell>
+                  <TableCell sx={{ py: 0.5 }}>{student.ClassName}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {endRecord > 19 && (
+            <ButtonGroupComponent
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              PageChange={PageChange}
+              pagecount={pagecount}
+            />
+          )}
+        </TableContainer>
       </Box>
     </Box>
   );
