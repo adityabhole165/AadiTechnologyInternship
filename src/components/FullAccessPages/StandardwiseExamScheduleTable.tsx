@@ -51,7 +51,7 @@ const minuteOptions = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45
 const periodOptions = ['AM', 'PM'];
 
 const StandardwiseExamScheduleTable = () => {
-    const { AssignedDate, StandardId, SchoolwiseStandardExamScheduleId } = useParams();
+    const { AssignedDate, StandardId, SchoolwiseStandardExamScheduleId, IsConfigured } = useParams();
     const dispatch = useDispatch();
     const timeOptions = generateTimeOptions();
 

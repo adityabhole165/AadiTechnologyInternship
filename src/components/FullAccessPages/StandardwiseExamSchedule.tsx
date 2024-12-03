@@ -22,7 +22,7 @@ import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
 
 
 const StandardwiseExamSchedule = () => {
-    const { StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId } = useParams();
+    const { StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId, IsConfigured } = useParams();
     const dispatch = useDispatch();
     const [openDialog, setOpenDialog] = useState(false);
     const [IsConfirm, setIsConfirm] = useState('');
@@ -329,7 +329,7 @@ const StandardwiseExamSchedule = () => {
                                         backgroundColor:
                                             (!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
                                                 ? green[500]
-                                                : 'gray', // Enable if unsubmitted or empty, else gray
+                                                : 'gray',
                                         '&:hover': {
                                             backgroundColor:
                                                 (!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
@@ -340,31 +340,29 @@ const StandardwiseExamSchedule = () => {
                                     onClick={onClickSave}
                                     disabled={
                                         !(!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
-                                    } // Enable Save button only if unsubmitted or empty
+                                    }
                                 >
                                     <SaveIcon />
                                 </IconButton>
                             </span>
                         </Tooltip>
 
-                        {/* Conditionally Render Submit or Unsubmit */}
                         {!getIsSubmitedd || getIsSubmitedd.length === 0 ? (
-                            // Case: Empty or null - Show disabled Submit button, hide Unsubmit button
+
                             <Tooltip title="Submit">
                                 <span>
                                     <IconButton
                                         sx={{
                                             color: 'white',
-                                            backgroundColor: 'gray', // Disabled appearance
+                                            backgroundColor: 'gray',
                                         }}
-                                        disabled={true} // Always disabled when null or empty
+                                        disabled={true}
                                     >
                                         <CheckRoundedIcon />
                                     </IconButton>
                                 </span>
                             </Tooltip>
                         ) : getIsSubmitedd[0]?.IsSubmitedd === "False" ? (
-                            // Case: Unsubmitted - Show Submit button
                             <Tooltip title="Submit">
                                 <span>
                                     <IconButton
@@ -382,7 +380,6 @@ const StandardwiseExamSchedule = () => {
                                 </span>
                             </Tooltip>
                         ) : (
-                            // Case: Submitted - Show Unsubmit button
                             <Tooltip title="Unsubmit">
                                 <span>
                                     <IconButton
@@ -415,59 +412,62 @@ const StandardwiseExamSchedule = () => {
                                 </IconButton>
                             </span>
                         </Tooltip>
-                        <Tooltip title="Add Instructions">
-                            <span>
-                                <IconButton sx={{
-                                    color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600]
-                                    }
-                                }}
-                                    onClick={() => handleOpenDialog1(true)}
-                                    disabled={Instructionss.length > 0 && Instructionss[0]?.Instructionss !== ""}
-                                >
-                                    <AddBoxRoundedIcon />
-                                </IconButton>
-                            </span>
-                        </Tooltip>
+                        {IsConfigured !== 'false' && (
+                            <Tooltip title="Add Instructions">
+                                <span>
+                                    <IconButton sx={{
+                                        color: 'white',
+                                        backgroundColor: blue[500],
+                                        '&:hover': {
+                                            backgroundColor: blue[600]
+                                        }
+                                    }}
+                                        onClick={() => handleOpenDialog1(true)}
+                                        disabled={Instructionss.length > 0 && Instructionss[0]?.Instructionss !== ""}
+                                    >
+                                        <AddBoxRoundedIcon />
+                                    </IconButton>
+                                </span>
+                            </Tooltip>
+                        )}
                     </>
                 }
             />
-            <Box>
-                <Accordion sx={{ mt: 1, mb: 1 }} expanded={isExpanded}
-                    onChange={handleAccordionToggle}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h5"><strong>More Instructions</strong></Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Box display="flex" flexDirection="column" gap={2}>
-                            {Instructionss[0]?.Instructionss.length > 0 ? (
-                                Instructionss.map((instruction, index) => (
-                                    <Box key={index} display="flex" alignItems="center" justifyContent="space-between">
-                                        <Typography variant="body1">{instruction.Instructionss}</Typography>
-                                        <Button
-                                            sx={{
-                                                color: 'blue',
-                                                '&:hover': {
+            {IsConfigured !== 'false' && (
+                <Box>
+                    <Accordion sx={{ mt: 1, mb: 1 }} expanded={isExpanded}
+                        onChange={handleAccordionToggle}>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="h5"><strong>More Instructions</strong></Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Box display="flex" flexDirection="column" gap={2}>
+                                {Instructionss[0]?.Instructionss.length > 0 ? (
+                                    Instructionss.map((instruction, index) => (
+                                        <Box key={index} display="flex" alignItems="center" justifyContent="space-between">
+                                            <Typography variant="body1">{instruction.Instructionss}</Typography>
+                                            <Button
+                                                sx={{
                                                     color: 'blue',
-                                                    backgroundColor: blue[100]
-                                                }
-                                            }}
-                                            onClick={() => handleOpenDialog1(instruction.Instructionss)}
-                                        >
-                                            Update Instruction
-                                        </Button>
-                                    </Box>
-                                ))
-                            ) : (
-                                null
-                            )}
-                        </Box>
-                    </AccordionDetails>
-                </Accordion>
-            </Box>
-
+                                                    '&:hover': {
+                                                        color: 'blue',
+                                                        backgroundColor: blue[100]
+                                                    }
+                                                }}
+                                                onClick={() => handleOpenDialog1(instruction.Instructionss)}
+                                            >
+                                                Update Instruction
+                                            </Button>
+                                        </Box>
+                                    ))
+                                ) : (
+                                    null
+                                )}
+                            </Box>
+                        </AccordionDetails>
+                    </Accordion>
+                </Box>
+            )}
             <Box>
                 <StandardwiseExamScheduleTable />
             </Box>
@@ -525,6 +525,7 @@ const StandardwiseExamSchedule = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
+
             <Dialog
                 open={openDialog1}
                 onClose={handleCloseDialog1}

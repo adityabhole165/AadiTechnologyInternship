@@ -37,9 +37,9 @@ const ExamScheduleBasescreen = () => {
         console.log(Value, "ClickSchedule");
 
         if (Value.IsConfigured == true) {
-            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardExamScheduleId + '/' + Value.StandardTestId + '/' + (Value.IsConfigured === true ? 'true' : 'false'));
+            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardExamScheduleId + '/' + Value.StandardTestId + '/' + 'true');
         } else {
-            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + (Value.IsConfigured === true ? 'true' : 'false'));
+            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + 'false');
         }
     };
 
