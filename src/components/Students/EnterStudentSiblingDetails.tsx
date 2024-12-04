@@ -9,9 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IDeleteStudentSiblingDetailsBody, IGetStudentDetailsForSiblingBody, IGetStudentSiblingListBody } from 'src/interfaces/StudentDetails/IStudentDetails';
+import { IDeleteStudentSiblingDetailsBody, IGetStudentDetailsForSiblingBody, IGetStudentSiblingListBody, ISaveStudentSiblingDetailsBody } from 'src/interfaces/StudentDetails/IStudentDetails';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { CDADeleteStudentSiblingDetailsMsg, CDAGetStudentDetailsForSiblingPop, CDAGetStudentSiblingList, CDASearchStudentsList, ResetDeleteStudentSiblingDetailsMsg } from 'src/requests/StudentDetails/RequestStudentDetails';
+import { CDADeleteStudentSiblingDetailsMsg, CDAGetStudentDetailsForSiblingPop, CDAGetStudentSiblingList, CDASaveStudentSiblingDetailsMsg, CDASearchStudentsList, ResetDeleteStudentSiblingDetailsMsg, ResetSaveStudentSiblingDetailsMsg } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import AddSiblingStudentTable from './AddSiblingStudentTable';
@@ -36,6 +36,8 @@ const EnterStudentSiblingDetails = () => {
   const schoolId = localStorage.getItem('SchoolId');
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const teacherId = sessionStorage.getItem('Id');
+  const userId = localStorage.getItem('UserId');
+  console.log('userId', userId);
   const { showAlert, closeAlert } = useContext(AlertContext);
 
 
@@ -43,13 +45,15 @@ const EnterStudentSiblingDetails = () => {
   const StudentDetailsForSibling = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentDetailsForSibling);
   const oStudentDetailsForSibling: any = StudentDetailsForSibling;
   const StudentName = oStudentDetailsForSibling?.StudentFullName;         //Student Name
-  console.log('1️⃣StudentName', StudentName);
+  //console.log('1️⃣StudentName', StudentName);
   //Sibling List
   const GetStudentSiblingList = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentSiblingList);
-  console.log('2️⃣GetStudentSiblingList', GetStudentSiblingList);
+  //console.log('2️⃣GetStudentSiblingList', GetStudentSiblingList);
   //Search List
   const SearchStudentsList = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentsList);
-  console.log('3️⃣SearchStudentsList', SearchStudentsList);
+  //console.log('3️⃣SearchStudentsList', SearchStudentsList);
+  const SaveStudentSiblingDetailsMsg = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISSaveStudentSiblingDetailsMsg);
+  //console.log('4️⃣SaveStudentSiblingDetailsMsg', SaveStudentSiblingDetailsMsg);
   //DeleteMsg
   const DeleteStudentSiblingDetailsMsg = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISDeleteStudentSiblingDetailsMsg);
   //console.log('5️⃣DeleteStudentSiblingDetailsMsg', DeleteStudentSiblingDetailsMsg);
@@ -184,11 +188,46 @@ const EnterStudentSiblingDetails = () => {
     );
   };
   //#endregion
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    setIsSearchPerformed(false);
+    setSelected([]);
+    setPage(1);
+  };
   //#region Save
   const handleSave = () => {
     console.log('Selected IDs:', selected);
+    const currentDate = new Date().toLocaleDateString('en-CA'); // Format date as YYYY-MM-DD
+
+    // XML generation
+    const siblingDetailsXML = selected.map(siblingId => (
+      `<SiblingDetails Yearwise_Student_Id='${YearWise_Student_Id}' YearwiseSiblingStudentId='${siblingId}' Insert_Date='${currentDate}' Update_Date='${currentDate}' />`
+    )).join(''); // Join all sibling details to form a single string
+
+    const asStudentSiblingsXML = `<SiblingDetails>${siblingDetailsXML}</SiblingDetails>`;
+
+    const ISaveStudentSiblingDetailsBody: ISaveStudentSiblingDetailsBody = {
+      asSchoolId: Number(schoolId),
+      asAcademicYearId: Number(academicYearId),
+      asStudentSiblingsXML,
+      asInsertedById: Number(userId),
+      asUpdatedById: Number(userId),
+    }
+
+    console.log('Save Payload:', ISaveStudentSiblingDetailsBody);
     // Call the save API here, passing selectedIds as payload
+    dispatch(CDASaveStudentSiblingDetailsMsg(ISaveStudentSiblingDetailsBody))
+
   };
+  useEffect(() => {
+    if (SaveStudentSiblingDetailsMsg !== '') {
+      toast.success(SaveStudentSiblingDetailsMsg);
+      dispatch(ResetSaveStudentSiblingDetailsMsg());
+      dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
+      handleClearSearch();
+    }
+  }, [SaveStudentSiblingDetailsMsg]);
+
   //#region Delete
   const handleDelete = (StudentSiblingId) => {
     const DeleteStudentSiblingDetailsBody: IDeleteStudentSiblingDetailsBody = {
@@ -253,7 +292,7 @@ const EnterStudentSiblingDetails = () => {
               fullWidth
               label={
                 <span>
-                  Name / Reg. No.<span style={{ color: 'red' }}> </span>
+                  Search by Name / Reg. No.<span style={{ color: 'red' }}> </span>
                 </span>
               }
               variant="outlined"
@@ -333,82 +372,83 @@ const EnterStudentSiblingDetails = () => {
         </Typography>
         <AddSiblingStudentTable itemList={GetStudentSiblingList} onDelete={handleDelete} />
       </Box>
-
-      <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
-        {/* <StudentTable StudentsList={SearchStudentsList} onSelectionChange={handleSelectionChange} /> */}
-        {count > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
-          <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-            <Box component="span" fontWeight="fontWeightBold">
-              {startRecord} to {endRecord}
-            </Box>
-            {' '}out of{' '}
-            <Box component="span" fontWeight="fontWeightBold">
-              {count}
-            </Box>{' '}
-            {count === 1 ? 'record' : 'records'}
-          </Typography>
-        </div> : <span> </span>}
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table"
-            sx={{
-              border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-            }}>
-            <TableHead>
-              <TableRow sx={{
-                background: (theme) => theme.palette.secondary.main,
-                color: (theme) => theme.palette.common.white,
+      {isSearchPerformed && SearchStudentsList.length > 0 &&
+        <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
+          {/* <StudentTable StudentsList={SearchStudentsList} onSelectionChange={handleSelectionChange} /> */}
+          {count > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+            <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+              <Box component="span" fontWeight="fontWeightBold">
+                {startRecord} to {endRecord}
+              </Box>
+              {' '}out of{' '}
+              <Box component="span" fontWeight="fontWeightBold">
+                {count}
+              </Box>{' '}
+              {count === 1 ? 'record' : 'records'}
+            </Typography>
+          </div> : <span> </span>}
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table"
+              sx={{
+                border: (theme) => `1px solid ${theme.palette.grey[300]}`,
               }}>
-                <TableCell sx={{ color: "white", py: 1 }}>
-                  <Checkbox
-                    size='small'
-                    indeterminate={selected.length > 0 && selected.length < SearchStudentsList.length}
-                    checked={SearchStudentsList.length > 0 && selected.length === SearchStudentsList.length}
-                    onChange={handleSelectAllClick}
-                  />
-                </TableCell>
-                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
-                  <SortableHeader column="RegNo" label="Registration Number" />
-                </TableCell>
-                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
-                  <SortableHeader column="StudentName" label="Student Name" />
-                </TableCell>
-                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
-                  <SortableHeader column="ClassName" label="Class" />
-                </TableCell>
-                {/* <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
-              <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
-              <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell> */}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {SearchStudentsList.map((student) => (
-                <TableRow key={student.YearwiseStudentId}
-                  selected={isSelected(student.YearwiseStudentId)}>
-                  <TableCell sx={{ py: 0.5 }}>
+              <TableHead>
+                <TableRow sx={{
+                  background: (theme) => theme.palette.secondary.main,
+                  color: (theme) => theme.palette.common.white,
+                }}>
+                  <TableCell sx={{ color: "white", py: 1 }}>
                     <Checkbox
                       size='small'
-                      checked={isSelected(student.YearwiseStudentId)}
-                      onChange={() => handleCheckboxClick(student.YearwiseStudentId)}
+                      indeterminate={selected.length > 0 && selected.length < SearchStudentsList.length}
+                      checked={SearchStudentsList.length > 0 && selected.length === SearchStudentsList.length}
+                      onChange={handleSelectAllClick}
                     />
                   </TableCell>
-                  <TableCell sx={{ py: 0.5 }}>{student.RegNo}</TableCell>
-                  <TableCell sx={{ py: 0.5 }}>{student.StudentName}</TableCell>
-                  <TableCell sx={{ py: 0.5 }}>{student.ClassName}</TableCell>
+                  <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                    <SortableHeader column="RegNo" label="Registration Number" />
+                  </TableCell>
+                  <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                    <SortableHeader column="StudentName" label="Student Name" />
+                  </TableCell>
+                  <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                    <SortableHeader column="ClassName" label="Class" />
+                  </TableCell>
+                  {/* <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
+              <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
+              <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell> */}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          {endRecord > 19 && (
-            <ButtonGroupComponent
-              rowsPerPage={rowsPerPage}
-              ChangeRowsPerPage={ChangeRowsPerPage}
-              rowsPerPageOptions={rowsPerPageOptions}
-              PageChange={PageChange}
-              pagecount={pagecount}
-            />
-          )}
-        </TableContainer>
-      </Box>
+              </TableHead>
+              <TableBody>
+                {SearchStudentsList.map((student) => (
+                  <TableRow key={student.YearwiseStudentId}
+                    selected={isSelected(student.YearwiseStudentId)}>
+                    <TableCell sx={{ py: 0.5 }}>
+                      <Checkbox
+                        size='small'
+                        checked={isSelected(student.YearwiseStudentId)}
+                        onChange={() => handleCheckboxClick(student.YearwiseStudentId)}
+                      />
+                    </TableCell>
+                    <TableCell sx={{ py: 0.5 }}>{student.RegNo}</TableCell>
+                    <TableCell sx={{ py: 0.5 }}>{student.StudentName}</TableCell>
+                    <TableCell sx={{ py: 0.5 }}>{student.ClassName}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            {endRecord > 19 && (
+              <ButtonGroupComponent
+                rowsPerPage={rowsPerPage}
+                ChangeRowsPerPage={ChangeRowsPerPage}
+                rowsPerPageOptions={rowsPerPageOptions}
+                PageChange={PageChange}
+                pagecount={pagecount}
+              />
+            )}
+          </TableContainer>
+        </Box>
+      }
     </Box>
   );
 };
