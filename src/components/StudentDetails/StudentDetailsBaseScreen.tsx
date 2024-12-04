@@ -1,5 +1,14 @@
 import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
-import { Box, Card, CardContent, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  IconButton,
+  TextField,
+  Tooltip,
+  Typography
+} from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
@@ -8,19 +17,65 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 import ThreePRoundedIcon from '@mui/icons-material/ThreePRounded';
 import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
+import { useNavigate } from 'react-router';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 
 export const StudentDetailsBaseScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [isSearchPerformed, setIsSearchPerformed] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const studentData = [
-    { regNo: '4120', class: '9 - D', rollNo: 28, studentName: 'Master Aaryan Sachin Kad', dob: '02-Jan-2018', mobile: '9372648088, 9545993843', image: 'https://via.placeholder.com/150' },
-    { regNo: 'PP3126', class: 'Junior KG - F', rollNo: 28, studentName: 'Master Martand Sandip Tupe', dob: '15-Feb-2019', mobile: '9876543210, 8765432109', image: 'https://via.placeholder.com/150' },
-    { regNo: 'PP3128', class: 'Junior KG - E', rollNo: 28, studentName: 'Master Shambhuraj Nilesh Tupe', dob: '20-Mar-2018', mobile: '9123456789, 9988776655', image: 'https://via.placeholder.com/150' },
-    { regNo: '4012', class: '2 - B', rollNo: 29, studentName: 'Master Shivansh Prasad Pawar', dob: '05-Apr-2017', mobile: '9911223344, 8877665544', image: 'https://via.placeholder.com/150' },
-    { regNo: '4312', class: '1 - C', rollNo: 30, studentName: 'Master Harshal Amol Shinde', dob: '02-Jan-2018', mobile: '9372648088, 9545993843', image: 'https://via.placeholder.com/150' },
+    {
+      regNo: '4120',
+      class: '9 - D',
+      rollNo: 28,
+      studentName: 'Master Aaryan Sachin Kad',
+      dob: '02-Jan-2018',
+      mobile: '9372648088, 9545993843',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      regNo: 'PP3126',
+      class: 'Junior KG - F',
+      rollNo: 28,
+      studentName: 'Master Martand Sandip Tupe',
+      dob: '15-Feb-2019',
+      mobile: '9876543210, 8765432109',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      regNo: 'PP3128',
+      class: 'Junior KG - E',
+      rollNo: 28,
+      studentName: 'Master Shambhuraj Nilesh Tupe',
+      dob: '20-Mar-2018',
+      mobile: '9123456789, 9988776655',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      regNo: '4012',
+      class: '2 - B',
+      rollNo: 29,
+      studentName: 'Master Shivansh Prasad Pawar',
+      dob: '05-Apr-2017',
+      mobile: '9911223344, 8877665544',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      regNo: '4312',
+      class: '1 - C',
+      rollNo: 30,
+      studentName: 'Master Harshal Amol Shinde',
+      dob: '02-Jan-2018',
+      mobile: '9372648088, 9545993843',
+      image: 'https://via.placeholder.com/150'
+    }
   ];
 
   const handleSearch = (term) => {
@@ -30,6 +85,7 @@ export const StudentDetailsBaseScreen = () => {
     if (term.trim() === '') {
       setFilteredData([]);
       setSelectedStudent(null);
+      setCount(0);
       return;
     }
 
@@ -48,23 +104,43 @@ export const StudentDetailsBaseScreen = () => {
     );
 
     if (exactMatch) {
-      setSelectedStudent(exactMatch);  // Exact match, show student details
+      setSelectedStudent(exactMatch); // Exact match, show student details
     } else {
       setSelectedStudent(null); // No exact match, hide student details
     }
 
     // Update filtered data for table display
     setFilteredData(partialMatches);
+    setCount(partialMatches.length);
   };
 
   const handleSelectStudent = (student) => {
     setSelectedStudent(student); // Show the selected student's details
   };
 
+  const rowsPerPageOptions = [5, 50, 100, 200];
+
+  const startRecord =
+    filteredData.length > 0 ? (page - 1) * rowsPerPage + 1 : 0;
+  const endRecord = Math.min(page * rowsPerPage, count);
+  const pagecount = Math.ceil(count / rowsPerPage);
+
+  const PageChange = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
+  const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
   return (
     <Box px={2}>
       <CommonPageHeader
-        navLinks={[{ title: 'Student Details', path: '/extended-sidebar/Teacher/StudentDetailsBaseScreen' }]}
+        navLinks={[
+          {
+            title: 'Student Details',
+            path: '/extended-sidebar/Teacher/StudentDetailsBaseScreen'
+          }
+        ]}
         rightActions={
           <>
             <TextField
@@ -89,8 +165,8 @@ export const StudentDetailsBaseScreen = () => {
                   color: 'white',
                   marginLeft: '0.5rem',
                   '&:hover': {
-                    backgroundColor: (theme) => theme.palette.primary.dark,
-                  },
+                    backgroundColor: (theme) => theme.palette.primary.dark
+                  }
                 }}
               >
                 <SearchTwoTone />
@@ -102,8 +178,8 @@ export const StudentDetailsBaseScreen = () => {
                   color: 'white',
                   backgroundColor: grey[500],
                   '&:hover': {
-                    backgroundColor: grey[600],
-                  },
+                    backgroundColor: grey[600]
+                  }
                 }}
               >
                 <QuestionMark />
@@ -115,9 +191,12 @@ export const StudentDetailsBaseScreen = () => {
                   color: 'white',
                   backgroundColor: blue[500],
                   '&:hover': {
-                    backgroundColor: blue[600],
-                  },
+                    backgroundColor: blue[600]
+                  }
                 }}
+                onClick={() =>
+                  navigate(`/extended-sidebar/Teacher/StudentRegistrationForms`)
+                }
               >
                 <ThreePRoundedIcon />
               </IconButton>
@@ -128,8 +207,8 @@ export const StudentDetailsBaseScreen = () => {
                   color: 'white',
                   backgroundColor: blue[500],
                   '&:hover': {
-                    backgroundColor: blue[600],
-                  },
+                    backgroundColor: blue[600]
+                  }
                 }}
               >
                 <CurrencyExchangeRoundedIcon />
@@ -141,8 +220,8 @@ export const StudentDetailsBaseScreen = () => {
                   color: 'white',
                   backgroundColor: blue[500],
                   '&:hover': {
-                    backgroundColor: blue[600],
-                  },
+                    backgroundColor: blue[600]
+                  }
                 }}
               >
                 <EventNoteOutlinedIcon />
@@ -154,8 +233,8 @@ export const StudentDetailsBaseScreen = () => {
                   color: 'white',
                   backgroundColor: blue[500],
                   '&:hover': {
-                    backgroundColor: blue[600],
-                  },
+                    backgroundColor: blue[600]
+                  }
                 }}
               >
                 <ImportContactsIcon />
@@ -174,11 +253,14 @@ export const StudentDetailsBaseScreen = () => {
               padding: '20px',
               maxWidth: '900px',
               margin: '0 auto',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
             }}
           >
             <CardContent>
-              <Typography variant="h4" style={{ marginBottom: '20px', fontWeight: 'bold' }}>
+              <Typography
+                variant="h4"
+                style={{ marginBottom: '20px', fontWeight: 'bold' }}
+              >
                 Student Details
               </Typography>
               <Grid container spacing={4} alignItems="center">
@@ -190,25 +272,56 @@ export const StudentDetailsBaseScreen = () => {
                     style={{
                       width: '80%',
                       borderRadius: '10px',
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
                     }}
                   />
                 </Grid>
                 {/* Student Details */}
                 <Grid item xs={8}>
-                  <Typography variant="body1" style={{ marginBottom: '10px', fontSize: '16px', color: '#333' }}>
+                  <Typography
+                    variant="body1"
+                    style={{
+                      marginBottom: '10px',
+                      fontSize: '16px',
+                      color: '#333'
+                    }}
+                  >
                     <strong>Student Name:</strong> {selectedStudent.studentName}
                   </Typography>
-                  <Typography variant="body1" style={{ marginBottom: '10px', fontSize: '16px', color: '#333' }}>
+                  <Typography
+                    variant="body1"
+                    style={{
+                      marginBottom: '10px',
+                      fontSize: '16px',
+                      color: '#333'
+                    }}
+                  >
                     <strong>Date of Birth:</strong> {selectedStudent.dob}
                   </Typography>
-                  <Typography variant="body1" style={{ marginBottom: '10px', fontSize: '16px', color: '#333' }}>
+                  <Typography
+                    variant="body1"
+                    style={{
+                      marginBottom: '10px',
+                      fontSize: '16px',
+                      color: '#333'
+                    }}
+                  >
                     <strong>Class:</strong> {selectedStudent.class}
                   </Typography>
-                  <Typography variant="body1" style={{ marginBottom: '10px', fontSize: '16px', color: '#333' }}>
+                  <Typography
+                    variant="body1"
+                    style={{
+                      marginBottom: '10px',
+                      fontSize: '16px',
+                      color: '#333'
+                    }}
+                  >
                     <strong>Roll No.:</strong> {selectedStudent.rollNo}
                   </Typography>
-                  <Typography variant="body1" style={{ fontSize: '16px', color: '#333' }}>
+                  <Typography
+                    variant="body1"
+                    style={{ fontSize: '16px', color: '#333' }}
+                  >
                     <strong>Mobile Number:</strong> {selectedStudent.mobile}
                   </Typography>
                 </Grid>
@@ -219,17 +332,61 @@ export const StudentDetailsBaseScreen = () => {
       </Box>
 
       {/* Student Table */}
-      <Box mt={2} sx={{ backgroundColor: 'white', p: 2 }}>
+
+      <Box sx={{ backgroundColor: 'white', pt: 0.5 }}>
+        {filteredData.length > 0 && (
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <Typography
+              variant="subtitle1"
+              sx={{ margin: '16px 0', textAlign: 'center' }}
+            >
+              <Box component="span" fontWeight="fontWeightBold">
+                {startRecord} to {endRecord}
+              </Box>{' '}
+              out of{' '}
+              <Box component="span" fontWeight="fontWeightBold">
+                {count}
+              </Box>{' '}
+              {count === 1 ? 'record' : 'records'}
+            </Typography>
+          </div>
+        )}
         {isSearchPerformed && filteredData.length === 0 ? (
           <Box textAlign="center">
-            <Typography variant="h6" color="textSecondary">
+            <Typography
+              variant="h6"
+              align="center"
+              color="blue"
+              sx={{
+                textAlign: 'center',
+                marginTop: 1,
+                backgroundColor: '#324b84',
+                padding: 1,
+                borderRadius: 2,
+                color: 'white'
+              }}
+            >
               No record found
             </Typography>
           </Box>
         ) : (
-          <StudentTable data={filteredData} onSelectStudent={handleSelectStudent} />
+          <Box px={2} pb={2}>
+          <StudentTable
+            data={filteredData}
+            onSelectStudent={handleSelectStudent}
+          />
+          </Box>
         )}
       </Box>
+      {filteredData.length > rowsPerPage && (
+        <ButtonGroupComponent
+          rowsPerPage={rowsPerPage}
+          ChangeRowsPerPage={ChangeRowsPerPage}
+          rowsPerPageOptions={rowsPerPageOptions}
+          PageChange={PageChange}
+          pagecount={pagecount}
+        />
+      )}
     </Box>
   );
 };
