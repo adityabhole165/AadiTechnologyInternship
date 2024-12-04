@@ -64,6 +64,7 @@ import {
   CDASaveStudentAchievementDetailsMsg,
   GetFormNumber
 } from 'src/requests/StudentDetails/RequestStudentDetails';
+import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
   CDAAddStudentAdditionalDetails,
   CDAFeeAreaNames,
@@ -238,7 +239,7 @@ interface RStreamwiseSubjectDetails {
 //#endRegion
 
 const StudentRegistrationForm = () => {
-  const { BackN_Student_Ids } = useParams();
+  //const { BackN_Student_Ids } = useParams();
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -252,7 +253,7 @@ const StudentRegistrationForm = () => {
     Enrolment_Number,
     Joining_Date
   } = location.state || {};
-  console.log('LOcation StudentRegistrationForm', location.state);
+  console.log('⛑️LOcation StudentRegistrationForm', location.state);
 
   // Session & Local Variables
   const schoolId = localStorage.getItem('SchoolId');
@@ -620,7 +621,33 @@ const StudentRegistrationForm = () => {
       : getCalendarDateFormatDateNew(AssignedDate)
   );
 
+  useEffect(() => {         //Redux Store 
+    if (location.state) {
+      const NavigationValues = {
+        Name,
+        standardId,
+        DivisionId,
+        YearWise_Student_Id,
+        SchoolWise_Student_Id,
+        StandardDivision_Id,
+        Enrolment_Number,
+        Joining_Date
+      }
+      dispatch((CDANavigationValues(NavigationValues)))
+    }
+  }, [Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id, Enrolment_Number, Joining_Date])
+
+
   //#region UseSelectors
+  const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
+  const RYearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
+  const RSchoolWise_Student_Id = NavigationValues?.SchoolWise_Student_Id;
+  const RDivisionId = NavigationValues?.DivisionId;
+  const RStandardId = NavigationValues?.standardId;
+  useEffect(() => {
+    console.log('0️⃣Redux NavigationValues StudentRegistrationForms:', NavigationValues, RYearWise_Student_Id);
+  }, [NavigationValues]);
+
   const USGetSingleStudentDetails = useSelector(
     (state: RootState) => state.StudentUI.ISGetSingleStudentDetails
   );
@@ -845,20 +872,20 @@ const StudentRegistrationForm = () => {
         const GetMasterData = {
           asSchoolId: Number(localStorage.getItem('localSchoolId')),
           asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-          asStandardId: standardId,
-          asDivisionId: DivisionId
+          asStandardId: standardId ?? RStandardId,
+          asDivisionId: DivisionId ?? RDivisionId
         };
 
         const GetSingleStudentDetails = {
           asSchoolId: Number(localStorage.getItem('localSchoolId')),
           asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-          asStudentId: SchoolWise_Student_Id ?? BackN_Student_Ids // Number(sessionStorage.getItem('Id'))
+          asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
         };
 
         const GetStudentAdditionalDetailsBody = {
           asSchoolId: Number(localStorage.getItem('localSchoolId')),
           //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-          asStudentId: SchoolWise_Student_Id ?? BackN_Student_Ids// Number(sessionStorage.getItem('Id'))
+          asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id// Number(sessionStorage.getItem('Id'))
         };
 
         const FeeAreaNamesBody = {
@@ -867,7 +894,7 @@ const StudentRegistrationForm = () => {
 
         const FormNumberBody = {
           asSchoolId: Number(localStorage.getItem('localSchoolId')),
-          asStudentId: SchoolWise_Student_Id ?? BackN_Student_Ids
+          asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id
         };
 
         const RetriveStudentStreamwiseSubjectBody = {
@@ -1015,7 +1042,7 @@ const StudentRegistrationForm = () => {
 
   const UpdateStudentBody: IUpdateStudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asStudentId: SchoolWise_Student_Id ?? BackN_Student_Ids,
+    asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
     asInsertedById: Number(teacherId), // Missing
     asID: 0, // Missing
     asAcademicYearId: academicYearId,
@@ -1182,7 +1209,7 @@ const StudentRegistrationForm = () => {
   const transportFeeBody: IGenerateTransportFeeEntriesBody = {
     asSchoolId: Number(schoolId),
     asAcademicYearId: Number(academicYearId),
-    asStudentId: Number(SchoolWise_Student_Id ?? BackN_Student_Ids),
+    asStudentId: Number(SchoolWise_Student_Id ?? RSchoolWise_Student_Id),
     asUpdatedById: Number(teacherId)
   };
 
@@ -1261,7 +1288,7 @@ const StudentRegistrationForm = () => {
     const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody =
     {
       asSchoolId: Number(schoolId),
-      asStudentId: SchoolWise_Student_Id ?? BackN_Student_Ids,
+      asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
       asInsertedById: Number(teacherId),
       asID: (UpdateStudentResult as any).iReturnValue, // Accessing iReturnValue here
       asAcademicYearId: Number(academicYearId)
@@ -1377,7 +1404,7 @@ const StudentRegistrationForm = () => {
   const GetStudentsAllAchievementDetailsBody: IGetStudentsAllAchievementDetailsBody =
   {
     asSchoolId: Number(schoolId),
-    asStudentId: SchoolWise_Student_Id ?? BackN_Student_Ids
+    asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
   };
 
   const handleOpenDialog = () => {
@@ -1471,7 +1498,7 @@ const StudentRegistrationForm = () => {
     {
       asAchievementId: Id,
       asSchoolId: Number(schoolId),
-      asStudentId: SchoolWise_Student_Id ?? BackN_Student_Ids
+      asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
     };
     dispatch(
       CDAEditGetStudentAchievementDetails(GetStudentAchievementDetailsBody)
@@ -1481,7 +1508,7 @@ const StudentRegistrationForm = () => {
   const SaveStudentAchievementDetailsBody: ISaveStudentAchievementDetailsBody =
   {
     asAchievementId: achievementId,
-    asStudentId: SchoolWise_Student_Id ?? BackN_Student_Ids,
+    asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
     asAchievementDate: formatDOB(achievementDate) || '2024-07-20',
     asDescription: description || 'LolOne',
     asAttachment: attachment || 'Lol.png',
@@ -1538,7 +1565,7 @@ const StudentRegistrationForm = () => {
     const DeleteStudentAchievementDetailsBody: IDeleteStudentAchievementDetailsBody =
     {
       asSchoolId: Number(schoolId),
-      asStudentId: SchoolWise_Student_Id ?? BackN_Student_Ids,
+      asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
       asAchievementId: Id,
       asUpdatedById: Number(teacherId)
     };
@@ -1623,19 +1650,7 @@ const StudentRegistrationForm = () => {
   //     }
   // };
   const handleNavigation = () => {
-    const StudentId = SchoolWise_Student_Id ?? BackN_Student_Ids;
-    navigate('/extended-sidebar/Teacher/EnterStudentSiblingDetails', {
-      state: {
-        Name,
-        standardId,
-        DivisionId,
-        YearWise_Student_Id,
-        StudentId,
-        StandardDivision_Id,
-        Enrolment_Number,
-        Joining_Date
-      }
-    });
+    navigate('/extended-sidebar/Teacher/EnterStudentSiblingDetails');
   };
   return (
     <Box sx={{ px: 2 }}>
@@ -1711,8 +1726,7 @@ const StudentRegistrationForm = () => {
         }
       />
       <Box sx={{ backgroundColor: 'white', p: 1, mb: 1 }}>
-        <StudentProfileHeader Name={Name} SchoolWise_Student_Id={SchoolWise_Student_Id ?? BackN_Student_Ids}
-          StandardDivision_Id={StandardDivision_Id} Enrolment_Number={Enrolment_Number} />
+        <StudentProfileHeader />
       </Box>
       <Box sx={{ backgroundColor: 'white', p: 2, mb: 1 }}>
         {validationMessages.length > 0 && (

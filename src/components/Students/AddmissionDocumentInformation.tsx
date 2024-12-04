@@ -87,13 +87,20 @@ const AdmissionDocumentInformation = () => {
   const [selectAllSubmitted, setSelectAllSubmitted] = useState(false);
   const [localDocuments, setLocalDocuments] = useState([]);
   console.log('localDocuments', localDocuments);
+
+  const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
+  const RName = NavigationValues?.Name;
+  const RYearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
+  const RSchoolWise_Student_Id = NavigationValues?.SchoolWise_Student_Id;
+  const RDivisionId = NavigationValues?.DivisionId;
+  const RStandardId = NavigationValues?.standardId;
   const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
   // console.log('GetStudentDocumentsList', GetStudentDocumentsList);
 
   const GetStudentDocuments: IStandrdwiseStudentsDocumentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asStandardId: standardId,
-    asStudentId: SchoolWise_Student_Id,
+    asStandardId: standardId ?? RStandardId,
+    asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
     asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
   };
 
@@ -337,7 +344,7 @@ const AdmissionDocumentInformation = () => {
 
   const handleOpenDialog = (index) => {
     setSelectedDocumentIndex(index);
-    setStudentName(Name); // Replace with actual student name logic
+    setStudentName(Name ?? RName); // Replace with actual student name logic
     setDocumentName(GetStudentDocumentsList[index].Name);
     setDocumentId(GetStudentDocumentsList[index].StandardwiseDocumentId);
     setOpen(true);

@@ -10,6 +10,7 @@ const StudentsSlice = createSlice({
     initialState: {
         ISRGetStdDivForTeacher: [],
         ISGetStudentsList: [],
+        NavigationValues: null,
         Loading: true
     },
 
@@ -22,6 +23,9 @@ const StudentsSlice = createSlice({
         RGetStudentsList(state, action) {
             state.ISGetStudentsList = action.payload;
             state.Loading = false;
+        },
+        RSetNavigationValues(state, action) { // New reducer to handle NavigationValues
+            state.NavigationValues = action.payload;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -77,6 +81,11 @@ export const CDAGetStudentsList =
             dispatch(StudentsSlice.actions.RGetStudentsList(responseData));
         }
 
+export const CDANavigationValues =
+    (data): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentsSlice.actions.RSetNavigationValues(data));
+        };
 
 
 export default StudentsSlice.reducer;

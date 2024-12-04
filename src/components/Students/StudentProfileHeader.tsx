@@ -4,10 +4,20 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { RootState } from 'src/store';
 
-const StudentProfileHeader = ({ Name, SchoolWise_Student_Id, StandardDivision_Id, Enrolment_Number, }) => {
+const StudentProfileHeader = () => {
     const location = useLocation();
-    const { standardId, DivisionId, YearWise_Student_Id, } = location.state || {};
+    // const { standardId, DivisionId, YearWise_Student_Id, } = location.state || {};
     const [profilePhoto, setprofilePhoto] = useState(null);
+    const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
+
+    const Name = NavigationValues?.Name;
+    const YearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
+    const SchoolWise_Student_Id = NavigationValues?.SchoolWise_Student_Id;
+    const DivisionId = NavigationValues?.DivisionId;
+    const StandardId = NavigationValues?.standardId;
+    const Enrolment_Number = NavigationValues?.Enrolment_Number;
+    const StandardDivision_Id = NavigationValues?.StandardDivision_Id
+
     const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
     const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
 

@@ -19,17 +19,6 @@ import AddSiblingStudentTable from './AddSiblingStudentTable';
 const EnterStudentSiblingDetails = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const {
-    Name,
-    standardId,
-    DivisionId,
-    YearWise_Student_Id,
-    StudentId,
-    StandardDivision_Id,
-    Enrolment_Number,
-    Joining_Date
-  } = location.state || {};
-  console.log('LOcation EnterStudentSiblingDetails', location.state);
   const [searchTerm, setSearchTerm] = useState('');
   //const [selectedIds, setSelectedIds] = useState([]);   // Selected Ids
   // Session & Local Variables
@@ -40,6 +29,9 @@ const EnterStudentSiblingDetails = () => {
   console.log('userId', userId);
   const { showAlert, closeAlert } = useContext(AlertContext);
 
+  const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
+  const YearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
+  console.log('0️⃣NavigationValues EnterStudentSiblingDetails', NavigationValues, YearWise_Student_Id);
 
   //StudentName
   const StudentDetailsForSibling = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentDetailsForSibling);
@@ -269,7 +261,7 @@ const EnterStudentSiblingDetails = () => {
           { title: 'Students', path: '/extended-sidebar/Teacher/Students' },
           {
             title: 'Enter Students Details',
-            path: `/extended-sidebar/Teacher/StudentRegistrationForms/${StudentId}`
+            path: '/extended-sidebar/Teacher/StudentRegistrationForms'
           },
           {
             title: 'Enter Student Sibling Details',
