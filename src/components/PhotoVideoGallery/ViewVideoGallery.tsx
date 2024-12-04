@@ -26,6 +26,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from "@mui/icons-material/Edit";
 import { ClearIcon } from '@mui/x-date-pickers';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
 
 
@@ -154,7 +155,7 @@ const ViewVideoGallery = () => {
                     onClick={handleUpdate}
                     disabled={!formData.url || !formData.title}
                   >
-                    <SaveIcon />
+                    <SaveAsIcon />
                   </IconButton>
                 </Tooltip>
               </>

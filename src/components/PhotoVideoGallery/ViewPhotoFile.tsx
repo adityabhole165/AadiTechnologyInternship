@@ -7,6 +7,7 @@ import { useState } from 'react'
 import CommonPageHeader from '../CommonPageHeader'
 import SaveIcon from '@mui/icons-material/Save';
 import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
 const ViewPhotoFile = () => {
     const [photos, setPhotos] = useState([
@@ -81,7 +82,7 @@ const ViewPhotoFile = () => {
                     <Tooltip title={'Update'}>
                         <IconButton  onClick={handleUpdatePhoto}
                                 disabled={isUpdateDisabled} sx={{ color: 'white', backgroundColor: green[500], '&:hover': { backgroundColor: green[600] } }}>
-                            <SaveIcon />
+                            <SaveAsIcon />
                         </IconButton>
                     </Tooltip>
                 </>}
