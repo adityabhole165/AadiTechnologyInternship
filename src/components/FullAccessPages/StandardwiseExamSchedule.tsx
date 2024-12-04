@@ -57,14 +57,17 @@ const StandardwiseExamSchedule = () => {
     const Instructionss = useSelector((state: RootState) => state.StandardAndExamList.Instructionss);
 
     function getXML() {
-        let Insertxml = "<SubjectwiseStandardExamSchedule>\r\n";
+        let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
 
-        Insertxml +=
-            "<Subject_Id>" + "2374" + "</Subject_Id>" +
-            "<ExamTypes>" + "" + "</ExamTypes>" +
-            "<Exam_Start_Date>" + "04-10-2024 00:00:00" + "</Exam_Start_Date>" +
-            "<Exam_End_Date>" + "04-10-2024 00:00:00" + "</Exam_End_Date>" +
-            "<Description>" + "" + "</Description>";
+        examData.forEach(subject => {
+            Insertxml += "<SubjectwiseStandardExamSchedule>" +
+                "<Subject_Id>" + subject.Subject_Id + "</Subject_Id>" +
+                "<ExamTypes>" + subject.ExamTypes + "</ExamTypes>" +
+                "<Description>" + subject.Description + "</Description>" +
+                "<Exam_Start_Date>" + subject.Exam_Start_Date + "</Exam_Start_Date>" +
+                "<Exam_End_Date>" + subject.Exam_End_Date + "</Exam_End_Date>" +
+                "</SubjectwiseStandardExamSchedule>\r\n";
+        });
 
         Insertxml += "</SubjectwiseStandardExamSchedule>";
         return Insertxml;
