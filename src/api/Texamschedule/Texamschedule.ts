@@ -1,8 +1,12 @@
 import IGetAllStandards, {
   GetExamsListResult,
   GetStandardListResult,
+  IConfigurationData,
+  IConfigurationResult,
   ICopyStandardTestBody,
   ICopyStandardTestResult,
+  IExamScheduleConfigBody,
+  IExamScheduleConfigResult,
   IGetExamScheduleBody,
   IGetExamScheduleResult,
   IGetExamsList,
@@ -61,6 +65,12 @@ const InsertExamSchedule = (data: IInsertExamScheduleBody) => {
 const SumbitExamSchedule = (data: ISumbitExamScheduleBody) => {
   return http.post<ISumbitExamScheduleResult>('School/SumbitExamSchedule', data);
 };
+const GetIsSchoolConfigured = (data: IExamScheduleConfigBody) => {
+  return http.post<IExamScheduleConfigResult>('School/GetIsSchoolConfigured', data);
+};
+const InsertConfigurationSchoolMaster = (data: IConfigurationData) => {
+  return http.post<IConfigurationResult>('School/InsertConfigurationSchoolMaster', data);
+};
 const GetTExamResultListApi = {
   GetAllStandards,
   GetExamsList,
@@ -71,7 +81,9 @@ const GetTExamResultListApi = {
   UpdateStandardWiseExamSchedule,
   CopyExamschedule,
   InsertExamSchedule,
-  SumbitExamSchedule
+  SumbitExamSchedule,
+  GetIsSchoolConfigured,
+  InsertConfigurationSchoolMaster
 };
 
 export default GetTExamResultListApi;

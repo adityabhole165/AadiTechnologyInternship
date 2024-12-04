@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import IGetAllStandards, {
+  IConfigurationData,
   ICopyStandardTestBody,
+  IExamScheduleConfigBody,
   IGetExamScheduleBody,
   IGetExamsList,
   IGetStandardsForExamCopyBody,
@@ -33,8 +35,10 @@ const SelectStandardExamslice = createSlice({
     UpdateExamScheduleInstructionsMsg: '',
     UpdateStandardWiseExamScheduleMsg: '',
     CopyStandardTestMsg: '',
-    InsertExamSchedule: '',
+    InsertExamSchedule: [],
     SumbitExamSchedule: '',
+    GetIsSchoolConfigured: '',
+    InsertConfigurationSchoolMaster: '',
     Loading: true
   },
   reducers: {
@@ -105,10 +109,6 @@ const SelectStandardExamslice = createSlice({
       state.Loading = false;
       state.InsertExamSchedule = action.payload;
     },
-    resetInsertExamSchedule(state) {
-      state.Loading = false;
-      state.InsertExamSchedule = '';
-    },
     getSumbitExamSchedule(state, action) {
       state.Loading = false;
       state.SumbitExamSchedule = action.payload;
@@ -116,6 +116,14 @@ const SelectStandardExamslice = createSlice({
     resetSumbitExamSchedule(state) {
       state.Loading = false;
       state.SumbitExamSchedule = '';
+    },
+    GetIsSchoolConfigured(state, action) {
+      state.Loading = false;
+      state.GetIsSchoolConfigured = action.payload;
+    },
+    InsertConfigurationSchoolMaster(state, action) {
+      state.Loading = false;
+      state.InsertConfigurationSchoolMaster = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true;
@@ -436,20 +444,31 @@ export const resetCopyStandardTestMsg = (): AppThunk => async (dispatch) => {
 export const GetInsertExamSchedule = (data: IInsertExamScheduleBody): AppThunk => async (dispatch) => {
   dispatch(SelectStandardExamslice.actions.getLoading(true));
   const response = await GetTExamResultListApi.InsertExamSchedule(data);
-  dispatch(SelectStandardExamslice.actions.getInsertExamSchedule(response.data));
+  const ExamSchedule = response?.data?.Table.map((item) => {
+    return {
+      Message: item.Message,
+      ExamScheduleId: item.ExamScheduleId
+    };
+  });
+  dispatch(SelectStandardExamslice.actions.getInsertExamSchedule(ExamSchedule));
 };
-
-export const resetInsertExamSchedule = (): AppThunk => async (dispatch) => {
-  dispatch(SelectStandardExamslice.actions.resetInsertExamSchedule());
-};
-
 
 export const GetSumbitExamSchedule = (data: ISumbitExamScheduleBody): AppThunk => async (dispatch) => {
   dispatch(SelectStandardExamslice.actions.getLoading(true));
   const response = await GetTExamResultListApi.SumbitExamSchedule(data);
   dispatch(SelectStandardExamslice.actions.getSumbitExamSchedule(response.data));
 };
+export const GetIsSchoolConfigured = (data: IExamScheduleConfigBody): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.getLoading(true));
+  const response = await GetTExamResultListApi.GetIsSchoolConfigured(data);
+  dispatch(SelectStandardExamslice.actions.GetIsSchoolConfigured(response.data));
+};
 
+export const InsertConfigurationSchoolMaster = (data: IConfigurationData): AppThunk => async (dispatch) => {
+  dispatch(SelectStandardExamslice.actions.getLoading(true));
+  const response = await GetTExamResultListApi.InsertConfigurationSchoolMaster(data);
+  dispatch(SelectStandardExamslice.actions.InsertConfigurationSchoolMaster(response.data));
+};
 export const resetSumbitExamSchedule = (): AppThunk => async (dispatch) => {
   dispatch(SelectStandardExamslice.actions.resetSumbitExamSchedule());
 };

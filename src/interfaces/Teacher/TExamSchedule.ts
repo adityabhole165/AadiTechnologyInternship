@@ -205,7 +205,12 @@ export interface IInsertExamScheduleBody {
   asExamDetailsXML: string;
 }
 export interface IInsertExamScheduleResult {
-  string;
+  Table: [
+    {
+      Message: string;
+      ExamScheduleId: number;
+    }
+  ],
 }
 
 export interface ISumbitExamScheduleBody {
@@ -217,5 +222,28 @@ export interface ISumbitExamScheduleBody {
   asSchoolwiseTestId: number;
 }
 export interface ISumbitExamScheduleResult {
+  string;
+}
+
+export interface IExamScheduleConfigBody {
+  asSchoolId: number;
+  asOriginalConfigId: number;
+  asAcademicYearId: number;
+}
+export interface IExamScheduleConfigResult {
+  string;
+}
+
+export interface IConfigurationData {
+  asOriginalConfigId: number;
+  asSchoolId: number;
+  asIsConfigure: string;
+  asInsertedById: number;
+  asUpdateById: number;
+  asAcademicYearId: number;
+  aiFinancialYearId: number;
+}
+
+export interface IConfigurationResult {
   string;
 }
