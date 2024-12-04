@@ -52,6 +52,8 @@ const periodOptions = ['AM', 'PM'];
 
 const StandardwiseExamScheduleTable = () => {
     const { AssignedDate, StandardId, SchoolwiseStandardExamScheduleId, IsConfigured } = useParams();
+    console.log(IsConfigured, 'IsConfigured');
+
     const dispatch = useDispatch();
     const timeOptions = generateTimeOptions();
 
@@ -60,6 +62,7 @@ const StandardwiseExamScheduleTable = () => {
     const examData = useSelector((state: RootState) => state.StandardAndExamList.SubjectExamSchedule);
     const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
     const isSubmitted = getIsSubmitedd[0]?.IsSubmitedd === 'True';
+    const isConfigured = IsConfigured === 'true';
     // Separate states for header row and table rows
     const [headerRow, setHeaderRow] = useState<ExamEntry>({
         id: 0,
@@ -77,15 +80,19 @@ const StandardwiseExamScheduleTable = () => {
     });
 
     const [tableRows, setTableRows] = useState<ExamEntry[]>([]);
+    console.log(tableRows, 'tableRows');
+
+    const IsSelected = tableRows.map((item) => item.selected)
+    console.log(IsSelected, 'IsSelected');
+
     const [selectAll, setSelectAll] = useState(false);
 
-    // Fetch data and populate table rows
     useEffect(() => {
         if (examData.length > 0) {
             setTableRows(
                 examData.map(row => ({
                     ...row,
-                    selected: false, // Add selected property
+                    selected: false,
                 }))
             );
         }
@@ -95,7 +102,7 @@ const StandardwiseExamScheduleTable = () => {
             const updatedRows = examData.map((row: any, index: number) => {
                 return {
                     ...row,
-                    timed: row.TotalTime === "00:00" ? false : row.timed, // If TotalTime is "00:00", uncheck timed
+                    timed: row.TotalTime === "00:00" ? false : row.timed,
                 };
             });
             setTableRows(updatedRows);
@@ -143,6 +150,7 @@ const StandardwiseExamScheduleTable = () => {
     // };
 
     const handleRowChange = (id: number, field: keyof ExamEntry, value: any) => {
+
         setTableRows(rows =>
             rows.map(row => {
                 if (row.id === id) {
@@ -315,49 +323,68 @@ const StandardwiseExamScheduleTable = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {tableRows.map(row => (
+                        {tableRows.map((row) => (
                             <TableRow key={row.id}>
                                 <TableCell padding="checkbox">
                                     <Checkbox
-                                        checked={row.selected} disabled={isSubmitted}
-                                        onChange={e => handleRowChange(row.id, 'selected', e.target.checked)}
+                                        checked={row.selected}
+                                        disabled={isSubmitted}
+                                        onChange={(e) => {
+                                            const isChecked = e.target.checked;
+                                            if (!isChecked) {
+                                                handleRowChange(row.id, 'examType', '');
+                                                handleRowChange(row.id, 'timed', false); // Reset timed
+                                                handleRowChange(row.id, 'startTime', { hour: '08', minute: '00', period: 'AM' }); // Reset startTime
+                                                handleRowChange(row.id, 'endTime', { hour: '08', minute: '00', period: 'AM' }); // Reset endTime
+                                                handleRowChange(row.id, 'description', ''); // Reset description
+                                            }
+
+                                            handleRowChange(row.id, 'selected', isChecked); // Update selected state
+                                        }}
                                     />
                                 </TableCell>
+
                                 <TableCell>{row.subject}</TableCell>
                                 <TableCell>
                                     <TextField
-                                        value={row.examType} disabled={isSubmitted}
-                                        onChange={e => handleRowChange(row.id, 'examType', e.target.value)}
+                                        value={!row.selected ? '' : row.examType}
+                                        disabled={isSubmitted || !row.selected}
+                                        onChange={(e) => handleRowChange(row.id, 'examType', e.target.value)}
                                         size="small"
                                     />
                                 </TableCell>
+
                                 <TableCell>
                                     <Datepicker4
                                         DateValue={row.examDate}
-                                        onDateChange={value => handleRowChange(row.id, 'examDate', value)}
-                                        size="small" label={undefined}
-                                        disabled={isSubmitted}
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Checkbox
-                                        checked={row.selected ? row.timed : false}
-                                        onChange={e => handleRowChange(row.id, 'timed', e.target.checked)}
+                                        onDateChange={(value) => handleRowChange(row.id, 'examDate', value)}
+                                        size="small"
+                                        label={undefined}
                                         disabled={isSubmitted || !row.selected}
                                     />
                                 </TableCell>
+
+                                <TableCell>
+                                    <Checkbox
+                                        checked={row.selected ? row.timed : false}
+                                        onChange={(e) => handleRowChange(row.id, 'timed', e.target.checked)}
+                                        disabled={isSubmitted || !row.selected}
+                                    />
+                                </TableCell>
+
                                 <TableCell>
                                     {renderTimeSelects(
                                         row.startTime,
-                                        getIsSubmitedd[0]?.IsSubmitedd || !row.timed,
+                                        isSubmitted || !row.timed,
                                         (field, value) =>
-                                            handleRowChange(row.id, 'startTime', { ...row.endTime, [field]: value })
+                                            handleRowChange(row.id, 'startTime', { ...row.startTime, [field]: value })
                                     )}
                                 </TableCell>
+
                                 <TableCell>
                                     {renderTimeSelects(
                                         row.endTime,
-                                        getIsSubmitedd[0]?.IsSubmitedd || !row.timed,
+                                        isSubmitted || !row.timed,
                                         (field, value) =>
                                             handleRowChange(row.id, 'endTime', { ...row.endTime, [field]: value })
                                     )}
@@ -365,24 +392,30 @@ const StandardwiseExamScheduleTable = () => {
 
                                 <TableCell>
                                     <TextField
-                                        value={row.description} disabled={isSubmitted}
-                                        onChange={e => handleRowChange(row.id, 'description', e.target.value)}
+                                        value={!row.selected ? '' : row.description}
+                                        disabled={isSubmitted || !row.selected}
+                                        onChange={(e) => handleRowChange(row.id, 'description', e.target.value)}
                                         size="small"
                                     />
                                 </TableCell>
+
                                 <TableCell sx={{ py: 0.5 }}>
                                     <Tooltip title="Add">
-                                        <IconButton disabled={isSubmitted} onClick={() => onClickAddNewRow(row.subject)}>
-                                            <AddIcon></AddIcon>
+                                        <IconButton
+                                            disabled={isSubmitted || !row.selected}
+                                            onClick={() => onClickAddNewRow(row.subject)}
+                                        >
+                                            <AddIcon />
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
+
                 </Table>
             </TableContainer>
-        </Box>
+        </Box >
     );
 };
 
