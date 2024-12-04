@@ -185,7 +185,7 @@ export const StudentDetailsBaseScreen = () => {
                 <QuestionMark />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Student Registration">
+            <Tooltip title="Student Details">
               <IconButton
                 sx={{
                   color: 'white',
