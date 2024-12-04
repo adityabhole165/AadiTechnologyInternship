@@ -2,7 +2,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoIcon from '@mui/icons-material/Info';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SendIcon from '@mui/icons-material/Send';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Paper, TextField, Tooltip, Typography, useTheme } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Paper, TextField, Tooltip, Typography, useTheme } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
@@ -513,6 +513,17 @@ const ComposeSMSform = () => {
             })
         }
     }
+    const handleDelete = (index) => {
+        const updatedRecipients = RecipientsArray.RecipientName.filter(
+            (_, i) => i !== index
+        );
+
+        // Update the parent state
+        setRecipientsArray((prev) => ({
+            ...prev,
+            RecipientName: updatedRecipients,
+        }));
+    };
     return (
         <>
 
@@ -683,29 +694,49 @@ const ComposeSMSform = () => {
                         </Grid>
 
                         <Grid container px={2}>
-                            <Grid xs={10.2}  >
+                            <Grid xs={10.2} >
                                 <Box sx={{ mt: "10px" }}>
                                     <TextField
-                                        name="To"
-                                        placeholder='To'
+                                        // name="To"
+                                        label={
+                                            <span style={{ color: '#38548A', marginTop: '10px' }}>
+                                                To <span style={{ color: 'red' }}>*</span>
+                                            </span>
+                                        }
                                         multiline
                                         className={classes.InputField}
                                         onChange={ToFieldChange}
                                         onBlur={ToFieldOnBlur}
                                         onFocus={ToFieldFocus}
                                         InputProps={{
-                                            readOnly: true
+                                            startAdornment: (
+                                                <Box
+                                                    sx={{ display: 'flex', flexWrap: 'wrap', overflowY: 'scroll', minWidth: '100%', height: '100px' }}
+                                                >
+                                                    {RecipientsArray.RecipientName.map((recipient, index) => (
+                                                        <Chip
+                                                            key={index}
+                                                            label={recipient.trim()}
+                                                            onDelete={() => handleDelete(index)}
+                                                            sx={{ my: 1, mx: 0.5, }}
+                                                        />
+                                                    ))}
+                                                </Box>
+                                            ),
+                                            readOnly: true,
                                         }}
-                                        value={RecipientsArray.RecipientName}
-                                        variant="outlined"
+                                        value=""
                                         id="body"
                                         fullWidth
-                                        margin="normal"
-                                        style={{ scrollBehavior: 'auto' }}
-                                        sx={{
-                                            maxHeight: '60px',
-                                            // overflow: 'auto'
-                                        }}
+                                    // margin="normal"
+                                    // sx={{
+                                    //     height: 'auto',
+                                    //     overflow: 'auto',
+                                    //     // border: '0.1px solid #c4c5c5',
+                                    //     borderRadius: '5.3px',
+                                    //     marginLeft: '0px',
+                                    //     mt: '10px'
+                                    // }}
                                     />
                                 </Box>
                                 <div style={{ marginTop: '15px' }}>
@@ -720,6 +751,7 @@ const ComposeSMSform = () => {
                                         sx={{
                                             color: '#38548A',
                                             ml: 1,
+                                            mt: 4,
                                             width: '140px',
                                             '&:hover': {
                                                 color: '#38548A',
@@ -821,7 +853,6 @@ const ComposeSMSform = () => {
                                 </Box>
                             </Grid>
                         </Grid>
-
 
 
                         {/* <Grid item md={3} >
@@ -967,15 +998,6 @@ const ComposeSMSform = () => {
 
                     <DialogContent>
                         <Box>
-                            {/* <AddReciepents
-                                getGroupRadio={getGroupRadio}
-                                RecipientName={RecipientsObject.RecipientName}
-                                RecipientId={RecipientsObject.RecipientId}
-                                recipientListClick={RecipientsListFun}
-                                contactGroupList={RecipientsObject.ContactGroup}
-                                classIdList={RecipientsObject.ClassId}
-                                IsConfirm={IsConfirm}
-                                getGroupRadio1={getGroupRadio1} /> */}
                             <AddReciepents
                                 getGroupRadio={getGroupRadio}
                                 RecipientName={RecipientsObject.RecipientName}
@@ -984,8 +1006,17 @@ const ComposeSMSform = () => {
                                 contactGroupList={RecipientsObject.ContactGroup}
                                 classIdList={RecipientsObject.ClassId}
                                 IsConfirm={IsConfirm}
+                                getGroupRadio1={getGroupRadio1} />
+                            {/* <AddReciepents
+                                getGroupRadio={getGroupRadio}
+                                RecipientName={RecipientsObject.RecipientName}
+                                RecipientId={RecipientsObject.RecipientId}
+                                recipientListClick={RecipientsListFun}
+                                contactGroupList={RecipientsObject.ContactGroup}
+                                classIdList={RecipientsObject.ClassId}
+                                IsConfirm={IsConfirm}
                                 getGroupRadio1={getGroupRadio1}
-                            />
+                            /> */}
                         </Box>
 
                     </DialogContent>
