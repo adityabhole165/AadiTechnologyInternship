@@ -19,6 +19,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import { Styles } from 'src/assets/style/student-style';
 import CommonPageHeader from 'src/components/CommonPageHeader';
+import Sentsms from 'src/components/SentSms/Sentsms';
 import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Student/SMSCenter';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
@@ -211,6 +212,7 @@ function SmsCenter() {
   let url = "/extended-sidebar/Student/viewsms/"
   return (
     <Box sx={{ px: 2 }}>
+
       <CommonPageHeader
         navLinks={[
           {
@@ -313,6 +315,8 @@ function SmsCenter() {
                   <b style={{ color: '#38548A' }}>Compose SMS</b>
                 </Card>
               </RouterLink>
+
+
               <Card
                 sx={{
                   textAlign: 'center',
@@ -332,6 +336,8 @@ function SmsCenter() {
                 <br />
                 <b style={{ color: '#38548A' }}>Received SMS</b>
               </Card>
+
+
               <Card
                 sx={{
                   textAlign: 'center',
@@ -349,7 +355,11 @@ function SmsCenter() {
                 />
                 <br />
                 <b style={{ color: '#38548A' }}>Send Item</b>
+
               </Card>
+
+
+
               <Card
                 sx={{
                   textAlign: 'center',
@@ -447,6 +457,7 @@ function SmsCenter() {
             </Grid>
 
             <Typography variant={'h4'} fontWeight={800} textAlign={'center'} pt={1}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
+
             {activeTab == 'Received SMS' && (
               <Box sx={{ mt: 2 }}>
                 {loading ? (
@@ -518,6 +529,17 @@ function SmsCenter() {
                 </Box>
               </Box>
             )}
+
+
+            <br></br>
+            {activeTab == 'Send Item' && (
+              <Sentsms />
+            )}
+
+
+
+
+
 
           </Grid>
         </Grid>

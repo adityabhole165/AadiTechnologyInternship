@@ -4,13 +4,12 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import CommonPageHeader from 'src/components/CommonPageHeader';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeleteSMSBody, IExportSentItemsBody, IGetSentItemsBody } from 'src/interfaces/SentSms/Sentsms';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
@@ -321,11 +320,12 @@ const Sentsms = () => {
     return (
         <Box sx={{ px: 2 }}>
             {(Loading) && <SuspenseLoader />}
-            <CommonPageHeader
-                navLinks={[
-                    { title: 'Sent Sms', path: '/extended-sidebar/Teacher/Requisition' }
-                ]}
-                rightActions={<>
+
+            <Stack direction="row"
+                alignItems="center"
+                justifyContent="flex-end"
+                gap={1}    >
+                <>
 
                     <TextField
                         sx={{ width: '15vw' }}
@@ -396,7 +396,7 @@ const Sentsms = () => {
                             </IconButton>
                         </Tooltip>
                     </Box>}
-                    
+
 
                     <Box>
                         <Tooltip title={'Export'}>
@@ -414,7 +414,7 @@ const Sentsms = () => {
                         </Tooltip>
 
                     </Box>
-                     <Tooltip title={'New Sms'}>
+                    <Tooltip title={'New Sms'}>
                         <IconButton
                             onClick={NewSms}
                             sx={{
@@ -449,8 +449,13 @@ const Sentsms = () => {
 
 
 
-                </>}
-            />
+                </>
+            </Stack>
+
+
+
+
+
             {SmsList.length > 0 && <Box mb={1} sx={{ p: 2, background: 'white' }}>
                 {
                     SmsList.length > 0 ? (
@@ -505,7 +510,7 @@ const Sentsms = () => {
             }
 
             {
-                SmsList.length == 0  && !Loading? <Typography
+                SmsList.length == 0 && !Loading ? <Typography
                     variant="body1"
                     sx={{
                         textAlign: 'center',
