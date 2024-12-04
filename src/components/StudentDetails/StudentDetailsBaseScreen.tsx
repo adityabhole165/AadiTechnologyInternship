@@ -352,14 +352,14 @@ export const StudentDetailsBaseScreen = () => {
           </div>
         )}
         {isSearchPerformed && filteredData.length === 0 ? (
-          <Box textAlign="center">
+          <Box textAlign="center" sx={{backgroundColor: 'white', p:2 }}>
             <Typography
               variant="h6"
               align="center"
               color="blue"
               sx={{
                 textAlign: 'center',
-                marginTop: 1,
+                marginTop: 0,
                 backgroundColor: '#324b84',
                 padding: 1,
                 borderRadius: 2,
@@ -370,7 +370,7 @@ export const StudentDetailsBaseScreen = () => {
             </Typography>
           </Box>
         ) : (
-          <Box px={2} pb={2}>
+          <Box p={2} >
           <StudentTable
             data={filteredData}
             onSelectStudent={handleSelectStudent}
