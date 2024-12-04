@@ -15,6 +15,7 @@ import { Styles } from 'src/assets/style/student-style';
 import TimepickerTwofields from 'src/components/AddSchoolNitice/TimepickerTwofields';
 import { formatAMPM, getCalendarDateFormatDateNew, isFutureDateTime } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
+import AddReciepents from 'src/components/MessageCenter/AddReciepents';
 import { AlertContext } from 'src/contexts/AlertContext';
 import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
@@ -22,7 +23,6 @@ import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { CardDetail2 } from 'src/libraries/styled/CardStyle';
 import { getAComposeSMSTemplateList } from 'src/requests/AdminSMSCenter/AComposeSMS';
 import { RootState } from 'src/store';
-import AddReciepentsSMS from './AddReciepientSMS';
 import UserTemplateIdForm from './UserTemplateIdForm';
 
 const ComposeSMSform = () => {
@@ -903,8 +903,8 @@ const ComposeSMSform = () => {
                     {/* </ListStyle> */}
 
                 </Box>
-                <div style={{ display: displayOfTo_RecipientsPage }}>
-                    <AddReciepentsSMS
+                {/* <div style={{ display: displayOfTo_RecipientsPage }}>
+                    <AddReciepents
                         getGroupRadio={getGroupRadio}
                         RecipientName={RecipientsObject.RecipientName}
                         RecipientId={RecipientsObject.RecipientId}
@@ -914,7 +914,7 @@ const ComposeSMSform = () => {
                         IsConfirm={IsConfirm}
                         getGroupRadio1={getGroupRadio1}
                     />
-                </div>
+                </div> */}
 
                 <Dialog
                     open={openDialog}
@@ -976,7 +976,7 @@ const ComposeSMSform = () => {
                                 classIdList={RecipientsObject.ClassId}
                                 IsConfirm={IsConfirm}
                                 getGroupRadio1={getGroupRadio1} /> */}
-                            <AddReciepentsSMS
+                            <AddReciepents
                                 getGroupRadio={getGroupRadio}
                                 RecipientName={RecipientsObject.RecipientName}
                                 RecipientId={RecipientsObject.RecipientId}
