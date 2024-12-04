@@ -171,10 +171,26 @@ const Sentsms = () => {
     };
 
     const clickdelete = () => {
+        if (!SmsListID || SmsListID.length === 0) {
+            showAlert({
+                title: 'Error',
+                message: 'At least one SMS should be selected for deletion.',
+                variant: 'error',
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                onConfirm: () => {
+                    closeAlert();
+                }
+                
+            });
+            return;
+        }
+
         const DeleteSMSBody: IDeleteSMSBody = {
             "asSMS_Id": SmsListID.toString(),
             "asSchoolId": asSchoolId
         };
+
         showAlert({
             title: 'Please Confirm',
             message:
@@ -207,20 +223,20 @@ const Sentsms = () => {
 
 
     const handleClickEdit = () => {
-        navigate('/extended-sidebar/Teacher/SMSCenter');
+        navigate('/extended-sidebar/Teacher/ComposeSMS');
     };
 
 
     const NewSms = (ViewId) => {
-        navigate('/extended-sidebar/Teacher/SMSCenter');
+        navigate('/extended-sidebar/Teacher/ComposeSMS');
     };
 
 
 
     const Changevalue = (updatedList) => {
-        setSmsList(updatedList);  // Update SmsList with the updated list
+        setSmsList(updatedList);  
         const activeItems = updatedList.filter(item => item.IsActive).map(item => item.Id);
-        setSmsListID(activeItems);  // Update SmsListID based on active items
+        setSmsListID(activeItems);  
     };
 
 
@@ -334,6 +350,7 @@ const Sentsms = () => {
                         value={regNoOrName}
                         variant={'outlined'}
                         size={"small"}
+                        inputProps={{ maxLength: 50 }}
                         onChange={(e) => {
                             handleRegNoOrNameChange(e.target.value);
                         }}
@@ -351,6 +368,7 @@ const Sentsms = () => {
                         value={regNoOrName1}
                         variant={'outlined'}
                         size={"small"}
+                        inputProps={{ maxLength: 100 }}
                         onChange={(e) => {
                             handleRegNoOrNameChange1(e.target.value);
                         }}
@@ -431,7 +449,7 @@ const Sentsms = () => {
 
 
                     <Box>
-                        <Tooltip title={'Here you can see list of existing requisition according to status.'}>
+                        <Tooltip title={' Displays Sent SMS List.Click on "New SMS" to create and send .'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
