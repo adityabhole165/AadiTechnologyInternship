@@ -371,6 +371,10 @@ const teacherRoutes = [
     element: <StudentRegistrationForms />
   },
   {
+    path: 'StudentRegistrationForms/:BackN_Student_Ids',
+    element: <StudentRegistrationForms />
+  },
+  {
     path: 'AddLeaveDetails/:LeaveDId/:ParamsUserId',
     element: <AddLeaveDetails />
   },

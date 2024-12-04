@@ -1,12 +1,12 @@
 import { Avatar, Grid, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { RootState } from 'src/store';
 
-const StudentProfileHeader: React.FC = () => {
+const StudentProfileHeader = ({ Name, SchoolWise_Student_Id, StandardDivision_Id, Enrolment_Number, }) => {
     const location = useLocation();
-    const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id, Enrolment_Number, } = location.state || {};
+    const { standardId, DivisionId, YearWise_Student_Id, } = location.state || {};
     const [profilePhoto, setprofilePhoto] = useState(null);
     const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
     const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);

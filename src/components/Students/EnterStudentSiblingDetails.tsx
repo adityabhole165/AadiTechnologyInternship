@@ -24,12 +24,12 @@ const EnterStudentSiblingDetails = () => {
     standardId,
     DivisionId,
     YearWise_Student_Id,
-    SchoolWise_Student_Id,
+    StudentId,
     StandardDivision_Id,
     Enrolment_Number,
     Joining_Date
   } = location.state || {};
-  //console.log('LOcation EnterStudentSiblingDetails', location.state);
+  console.log('LOcation EnterStudentSiblingDetails', location.state);
   const [searchTerm, setSearchTerm] = useState('');
   //const [selectedIds, setSelectedIds] = useState([]);   // Selected Ids
   // Session & Local Variables
@@ -269,7 +269,7 @@ const EnterStudentSiblingDetails = () => {
           { title: 'Students', path: '/extended-sidebar/Teacher/Students' },
           {
             title: 'Enter Students Details',
-            path: '/extended-sidebar/Teacher/StudentRegistrationForms'
+            path: `/extended-sidebar/Teacher/StudentRegistrationForms/${StudentId}`
           },
           {
             title: 'Enter Student Sibling Details',
