@@ -1,4 +1,4 @@
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -7,6 +7,7 @@ import { blue, grey } from '@mui/material/colors';
 import PrintIcon from '@mui/icons-material/Print';
 import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone';
 import GradeConfigurationPopup from './GradeConfigurationPopup';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const StudentDetailsExam = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -102,6 +103,43 @@ const StudentDetailsExam = () => {
           open={isPopupOpen}
           onClose={handleClosePopup}
         />
+      </Box>
+      <Box
+        display="flex"
+        justifyContent="right"
+        alignItems="center"
+        gap={2} // Space between buttons
+        sx={{ margin: '16px' }}
+      >
+        {/* Button for Term I */}
+        <Button
+          variant="outlined"
+          startIcon={<DownloadIcon />}
+          sx={{
+            textTransform: 'none',
+            fontSize: '14px',
+            borderColor: '#ccc',
+            color: 'black',
+            backgroundColor:'white'
+          }}
+        >
+          Download Term I Report
+        </Button>
+
+        {/* Button for Term II */}
+        <Button
+          variant="outlined"
+          startIcon={<DownloadIcon />}
+          sx={{
+            textTransform: 'none',
+            fontSize: '14px',
+            borderColor: '#ccc',
+            color: 'black',
+            backgroundColor:'white'
+          }}
+        >
+          Download Term II Report
+        </Button>
       </Box>
 
       <Box textAlign="center" sx={{ backgroundColor: 'white', p: 2 }}>

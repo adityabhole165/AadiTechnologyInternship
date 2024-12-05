@@ -213,11 +213,11 @@ const AttendanceTopperspage = () => {
             path: '/extended-sidebar/Teacher/StudentDetailsBaseScreen'
           },
           {
-            title: 'Attendance Toppers And Old Records',
+            title: 'Attendance',
             path: '/extended-sidebar/Teacher/StudentDetailsAttendance'
           },
           {
-            title: 'Attendance Toppers',
+            title: 'Attendance Toppers And Old Records',
             path: ''
           }
         ]}
@@ -253,6 +253,19 @@ const AttendanceTopperspage = () => {
                 }}
               >
                 <SearchTwoTone />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Displays your monthly attendance as well as top three attendance rankers of current year.">
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMark />
               </IconButton>
             </Tooltip>
           </>

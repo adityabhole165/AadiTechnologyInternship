@@ -23,11 +23,11 @@ const StudentDetailsAttendance = () => {
             path: '/extended-sidebar/Teacher/StudentDetailsBaseScreen'
           },
           {
-            title: 'Attendance Toppers And Old Records',
+            title: 'Attendance',
             path: '/extended-sidebar/Teacher/StudentDetailsAttendance'
           }
         ]}
-        rightActions={
+        rightActions={  
           <>
             {/* <TextField
               sx={{ width: '15vw' }}
