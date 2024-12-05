@@ -354,6 +354,9 @@ const StudentDetailsExam = Loader(
 const StudentDetailsAttendance = Loader(
   lazy(() => import('src/components/StudentDetails/StudentDetailsAttendance'))
 );
+const AttendanceTopperspage = Loader(
+  lazy(() => import('src/components/StudentDetails/AttendanceTopperspage'))
+);
 
 const StudentDetailsBaseScreen = Loader(
   lazy(() =>
@@ -951,6 +954,10 @@ const teacherRoutes = [
   {
     path: 'StudentDetailsExam',
     element: <StudentDetailsExam />
+  },
+  {
+    path: 'AttendanceTopperspage',
+    element: <AttendanceTopperspage />
   }
 ];
 

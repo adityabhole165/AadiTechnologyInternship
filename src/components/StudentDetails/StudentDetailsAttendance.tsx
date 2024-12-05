@@ -5,8 +5,10 @@ import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { useNavigate } from 'react-router';
 
 const StudentDetailsAttendance = () => {
+  const navigate = useNavigate();
       const cardData = [
         { label: 'School working days', value: '0 out of 30' },
         { label: 'Total present days', value: '0 out of 0' },
@@ -62,11 +64,14 @@ const StudentDetailsAttendance = () => {
                     backgroundColor: blue[600]
                   }
                 }}
+                onClick={() =>
+                  navigate(`/extended-sidebar/Teacher/AttendanceTopperspage`)
+                }
               >
                 <MilitaryTechIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Old Attendance Records">
+            {/* <Tooltip title="Old Attendance Records">
               <IconButton
                 // onClick={() => handleSearch(searchTerm)}
                 sx={{
@@ -79,7 +84,7 @@ const StudentDetailsAttendance = () => {
               >
                 <CalendarMonthIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
           </>
         }
       />
