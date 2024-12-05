@@ -11,11 +11,12 @@ import {
   TextField,
   Tooltip
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import CommonPageHeader from '../CommonPageHeader';
 import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
 import { grey, blue } from '@mui/material/colors';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import GradeConfigurationPopup from './GradeConfigurationPopup';
 
 const AttendanceTopperspage = () => {
   const yourAttendance = [
@@ -257,6 +258,7 @@ const AttendanceTopperspage = () => {
           </>
         }
       />
+     
       <Box sx={{ backgroundColor: 'white', px: 2, py: 1 }}>
         <h3>Your Attendance</h3>
         {renderTable(yourAttendance)}
