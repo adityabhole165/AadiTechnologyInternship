@@ -60,13 +60,13 @@ const IsOnLeaveApi = (data: IIsOnLeaveBody) => {
 };
 const IsAnyExamPublishedApi = (data: IIsAnyExamPublishedBody) => {
     return http.post<IIsAnyExamPublishedResult>('School/IsAnyExamPublished', data);
-};
+};//Used
 const CheckIfAttendanceMarkedApi = (data: ICheckIfAttendanceMarkedBody) => {
     return http.post<ICheckIfAttendanceMarkedResult[]>('School/CheckIfAttendanceMarked', data);
 };
 const GetFeeAreaNamesApi = (data: IGetFeeAreaNamesBody) => {
     return http.post<IGetFeeAreaNamesResult[]>('Teacher/GetFeeAreaNames', data);
-};
+};//used
 
 //DELETE Photo API's 1
 const RemoveStudentPhotoApi = (data: IRemoveStudentPhotoBody) => {
