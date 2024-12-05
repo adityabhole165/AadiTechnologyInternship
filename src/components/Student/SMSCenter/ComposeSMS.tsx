@@ -280,7 +280,7 @@ const ComposeSMSform = () => {
     const SchoolSettingsValue = JSON.parse(
         localStorage.getItem('SchoolSettingsValue')
     );
-    const senderUserName = SchoolSettingsValue.SMSSenderUserName;
+    const senderUserName = SchoolSettingsValue?.SMSSenderUserName;
 
     const getTemplateAPIBody: MessageTemplateSMSCenter = {
         asSchoolId: asSchoolId,
