@@ -223,6 +223,9 @@ export const StudentDetailsBaseScreen = () => {
                     backgroundColor: blue[600]
                   }
                 }}
+                onClick={() =>
+                  navigate(`/extended-sidebar/Teacher/StudentDetailsAttendance`)
+                }
               >
                 <EventNoteOutlinedIcon />
               </IconButton>
@@ -236,6 +239,9 @@ export const StudentDetailsBaseScreen = () => {
                     backgroundColor: blue[600]
                   }
                 }}
+                onClick={() =>
+                  navigate(`/extended-sidebar/Teacher/StudentDetailsExam`)
+                }
               >
                 <ImportContactsIcon />
               </IconButton>

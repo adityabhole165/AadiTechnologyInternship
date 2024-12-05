@@ -348,6 +348,13 @@ const BlockProgressReportBaseScreen = Loader(
 const FeedbackDetailsBasescreen = Loader(
   lazy(() => import('src/components/FeedbackDetails/FeedbackDetailsBasescreen'))
 );
+const StudentDetailsExam = Loader(
+  lazy(() => import('src/components/StudentDetails/StudentDetailsExam'))
+);
+const StudentDetailsAttendance = Loader(
+  lazy(() => import('src/components/StudentDetails/StudentDetailsAttendance'))
+);
+
 const StudentDetailsBaseScreen = Loader(
   lazy(() =>
     import('src/components/StudentDetails/StudentDetailsBaseScreen').then(
@@ -936,6 +943,14 @@ const teacherRoutes = [
   {
     path: 'EnterStudentSiblingDetails',
     element: <EnterStudentSiblingDetails />
+  },
+  {
+    path: 'StudentDetailsAttendance',
+    element: <StudentDetailsAttendance />
+  },
+  {
+    path: 'StudentDetailsExam',
+    element: <StudentDetailsExam />
   }
 ];
 
