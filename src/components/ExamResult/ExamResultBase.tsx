@@ -1,17 +1,17 @@
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
-import FactCheck from '@mui/icons-material/FactCheck';
 import ManageAccounts from '@mui/icons-material/ManageAccounts';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Unpublished from '@mui/icons-material/Unpublished';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Button, Checkbox, FormControlLabel, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey, red } from '@mui/material/colors';
+import { blue, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
+import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
   getIsFinalResultPublishedBody,
@@ -26,8 +26,11 @@ import {
   IsMonthConfigurationForExamResultBody,
   IsPrePrimaryExamConfigurationBody
 } from 'src/interfaces/ExamResult/IExamResult';
+import { ISendMessage } from 'src/interfaces/MessageCenter/MessageCenter';
+import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
+import { IGetUserDetailsBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
 import DynamicList from 'src/libraries/list/DynamicList';
 import {
   CDAetIsTermExamPublished,
@@ -38,16 +41,16 @@ import {
   getClassTeachers, getClasswiseExam,
   getGenerateTopper,
   getProgressSheetStatus,
-  getPublishUnpublishExam, getSMSTemplate, resetGenerateTopper, resetIsTermExamPublished, resetPublishUnpublishExams
+  getPublishUnpublishExam, getSMSTemplate, resetGenerateTopper,
+  resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
+import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
+import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState, useSelector } from 'src/store';
+import { Constants } from 'src/utils/hooks/constants/Constants';
+import { getSchoolConfigurations, GetScreenAccessPermissionByPageID } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
-import { getSchoolConfigurations } from '../Common/Util';
-import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
-import { CDAGetSchoolSettings, CDAresetGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
-import { IGetUserDetailsBody } from 'src/interfaces/SchoolSetting/schoolSettings';
-import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 const ExamResultBase = () => {
   const { ParamsStandardDivisionId, ParamsTestId, selectTeacher } = useParams();
   const [toppersGenerated, setToppersGenerated] = useState(false);
@@ -73,9 +76,11 @@ const ExamResultBase = () => {
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
+  const [className, setClassName] = useState('');
+  const [classTeacherName, setClassTeacherName] = useState('');
+  const [examName, setExamName] = useState('');
+  const [MsgLoading, setMsgLoading] = useState(false);
 
-  
-  
   const asUserId = localStorage.getItem('UserId');
   const [StandardDivisionId, setStandardDivisionId] = useState(
     ParamsStandardDivisionId
@@ -85,25 +90,20 @@ const ExamResultBase = () => {
     // : (selectTeacher !== undefined ? selectTeacher : "StandardDivisionId")
   );
 
-
-  
   const ClassTeachers: any = useSelector(
     (state: RootState) => state.ExamResult.ISClassTeachers
   );
-  console.log(ClassTeachers,"ClassTeachers");
-  
 
-  
   const getTeacherId = () => {
     let TeacherId = '';
     ClassTeachers.map((item) => {
-      if (item.Value == StandardDivisionId) 
+      if (item.Value == StandardDivisionId)
         TeacherId = item.Value;
     });
     return TeacherId;
   };
 
-  
+
 
   const getStandardId = () => {
     let returnVal = 0
@@ -121,7 +121,7 @@ const ExamResultBase = () => {
   const Submitted: any = useSelector(
     (state: RootState) => state.ExamResult.IsSubmitted
   );
- 
+
 
   const HeaderList: any = useSelector(
     (state: RootState) => state.ExamResult.HeaderList
@@ -130,7 +130,7 @@ const ExamResultBase = () => {
     (state: RootState) => state.ExamResult.GetAllStudentsByGivenStdDivs
   );
 
-  const GetSMSTemplatess: any = useSelector(
+  const GetSMSTemplates: any = useSelector(
     (state: RootState) => state.ExamResult.GetSMSTemplate
   );
 
@@ -160,7 +160,7 @@ const ExamResultBase = () => {
   const ProgressSheet: any = useSelector(
     (state: RootState) => state.ExamResult.ProgressSheetStatus
   );
- 
+
   const PrePrimaryExam: any = useSelector(
     (state: RootState) => state.ExamResult.IsPrePrimaryExamConfiguration
   );
@@ -172,23 +172,29 @@ const ExamResultBase = () => {
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
 
   const UserDetail: any = useSelector((state: RootState) => state.getSchoolSettings.getUserDetails);
-  
-const BlockExamPublish = UsGetSchoolSettings?.GetSchoolSettingsResult?.BlockExamPublish || '';
-const ShowTopppers = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowTopppers || '';
+
+  const BlockExamPublish = UsGetSchoolSettings?.GetSchoolSettingsResult?.BlockExamPublish || '';
+  const ShowTopppers = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowTopppers || '';
 
 
 
-const USgetIsFinalResultPublished: any = useSelector(
-  (state: RootState) => state.ExamResult.ISgetIsFinalResultPublished
-);
-const USgetIsTermExamPublished: any = useSelector(
-  (state: RootState) => state.ExamResult.ISgetIsTermExamPublished
-);
+  const USgetIsFinalResultPublished: any = useSelector(
+    (state: RootState) => state.ExamResult.ISgetIsFinalResultPublished
+  );
+  const USgetIsTermExamPublished: any = useSelector(
+    (state: RootState) => state.ExamResult.ISgetIsTermExamPublished
+  );
 
- 
+  const [AllStdDiv, setAllStdDiv] = useState([]);
+  useEffect(() => {
+    if (GetAllStudentsStdDivs.length > 0) {
+      setAllStdDiv(GetAllStudentsStdDivs);
+    }
+  }, [GetAllStudentsStdDivs]);
 
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
-
+  // ⚠️ Note : Avoid getting ScreenAccessPermission via ScreenName as these names are dynamic across dif. school env's
+  // ✔️ Instead use ScreenId's which are same/consistent across dif. school env's  | GetScreenAccessPermissionByPageID('Pass Screen ID here')
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission && ScreensAccessPermission.map((item) => {
@@ -196,15 +202,17 @@ const USgetIsTermExamPublished: any = useSelector(
     });
     return perm;
   };
+  // Correct Function for getting ScreenAccessPermission via ScreeenID
+  let isScreenAccess = GetScreenAccessPermissionByPageID('78');
 
-  let CanEdit = getSchoolConfigurations(78) 
+  let CanEdit = getSchoolConfigurations(78)
 
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmicYearId: Number(asAcademicYearId),
     // asTeacherId: GetScreenPermission() === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId))
-    asTeacher_id: CanEdit == 'Y'? 0 : Number(TeacherId)
-    
+    asTeacher_id: CanEdit == 'Y' ? 0 : Number(TeacherId)
+
   };
 
   const GetClasswiseExamDropdown: IGetClasswiseExamDropdownBody = {
@@ -259,8 +267,9 @@ const USgetIsTermExamPublished: any = useSelector(
     IsLeftStudents: false
   }
   useEffect(() => {
-
-    dispatch(getAllStudentsByGivenStdDivsResult(GetAllStudentsByGivenStdDivs));
+    if (StandardDivisionId !== '0') {
+      dispatch(getAllStudentsByGivenStdDivsResult(GetAllStudentsByGivenStdDivs));
+    }
   }, [StandardDivisionId]);
 
   // useEffect(() => {
@@ -270,9 +279,8 @@ const USgetIsTermExamPublished: any = useSelector(
 
   const GetSMSTemplate: IGetSMSTemplateBody = {
     asSchoolId: Number(asSchoolId),
-    asSmsTemplateId: Number(sendmeassagestudent)
+    asSmsTemplateId: Constants.SMS_Template.ExamPublishSMS  // Constants Include all the SMS Templates ID`s
   }
-
 
   const GetSchoolSettings: GetSchoolSettingsBody = {
     asSchoolId: Number(asSchoolId),
@@ -289,7 +297,7 @@ const USgetIsTermExamPublished: any = useSelector(
   const IsTermExamPublishedBody: getIsTermExamPublishedBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-  asStandardDivisionId: Number(StandardDivisionId)
+    asStandardDivisionId: Number(StandardDivisionId)
 
   };
 
@@ -297,33 +305,33 @@ const USgetIsTermExamPublished: any = useSelector(
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
   }, [PublishUnpublish]);
-  
- 
+
+
   useEffect(() => {
-   if(BlockExamPublish)(
-    dispatch(CDAgetIsFinalResultPublished(IsFinalResultPublishedBody))
-   )
-  }, [StandardDivisionId,BlockExamPublish,PublishUnpublish]);
-  
- 
+    if (BlockExamPublish) (
+      dispatch(CDAgetIsFinalResultPublished(IsFinalResultPublishedBody))
+    )
+  }, [StandardDivisionId, BlockExamPublish, PublishUnpublish]);
+
+
   useEffect(() => {
-    if(USgetIsFinalResultPublished == false)(
+    if (USgetIsFinalResultPublished == false) (
       dispatch(CDAetIsTermExamPublished(IsTermExamPublishedBody))
     )
-   
-  }, [StandardDivisionId,USgetIsFinalResultPublished,PublishUnpublish]);
+
+  }, [StandardDivisionId, USgetIsFinalResultPublished, PublishUnpublish]);
 
 
-  
+
 
   useEffect(() => {
     const UserDetailBody: IGetUserDetailsBody = {
-        asSchoolId: String(asSchoolId),
-        asUserId: userId,
-        asRoleId: RoleId
+      asSchoolId: String(asSchoolId),
+      asUserId: userId,
+      asRoleId: RoleId
     };
     dispatch(getUserDetailss(UserDetailBody));
-}, []);
+  }, []);
 
   useEffect(() => {
     dispatch(getSMSTemplate(GetSMSTemplate));
@@ -465,11 +473,14 @@ const USgetIsTermExamPublished: any = useSelector(
 
 
   const clickTeacher = (value) => {
-    setStandardDivisionId(value);
-
+    setStandardDivisionId(value.Value);
+    // We're splitting Class Name from Dropdown value.Name |  `1-A : Ms. TeacherName`
+    setClassName(value?.Name?.split(':')?.[0]);
+    setClassTeacherName(value?.Name?.split(':')?.[1]);
   };
   const clickExam = (value) => {
-    setTestId(value);
+    setTestId(value.Value);
+    setExamName(value.Name);
 
   };
 
@@ -484,7 +495,7 @@ const USgetIsTermExamPublished: any = useSelector(
     return returnVal
   }
   const ClickItem = (value) => {
-    
+
     // const isPublish = publish === ClassPassFailDetailsForButton.IsPublish;
     navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
       '0' + '/' +
@@ -498,7 +509,7 @@ const USgetIsTermExamPublished: any = useSelector(
       'true' + '/' +
       'false' + '/' +
       'true' + '/' +
-      ((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false")+'/' +
+      ((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false") + '/' +
       getStandardId()
 
     );
@@ -596,6 +607,68 @@ const USgetIsTermExamPublished: any = useSelector(
   const ClickSubject = (Id) => {
     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);
   };
+  // send message to students f()
+  const sendMessageTostudent = () => {
+    let SMS_Template = GetSMSTemplates;
+    let teacher_Name = classTeacherName?.trim();
+    let class_Name = className?.trim();
+    let exam_Name = examName?.trim();
+    let SMS_MsgBody = SMS_Template?.SmsTemplateText;
+    SMS_MsgBody = SMS_MsgBody.replace("%CLASSTEACHER%", teacher_Name);
+    SMS_MsgBody = SMS_MsgBody.replace("%STUDENTCLASS%", class_Name);
+    SMS_MsgBody = SMS_MsgBody.replace("%EXAM%", exam_Name);
+    let SchoolName = localStorage.getItem('SchoolName');
+    let userId = sessionStorage.getItem('Id');
+    let AcYearId = sessionStorage.getItem('AcademicYearId');
+    let schoolId = localStorage.getItem('SchoolId');
+    let senderName = sessionStorage.getItem('StudentName');
+    let StudentIdLists = AllStdDiv?.map(item => item.ID); // Filtering only Student ID's from AllStdDiv Array
+
+
+    // Body for Send Message API
+    const sendMessageAPIBody: ISendMessage = {
+      asSchoolId: schoolId,
+      aoMessage: {
+        Body: SMS_MsgBody,
+        Subject: `${exam_Name} Result`,
+        SenderName: senderName,
+        DisplayText: '',
+        SenderUserId: userId,
+        SenderUserRoleId: RoleId,
+        AcademicYearId: AcYearId,
+        SchoolId: schoolId,
+        InsertedById: userId,
+        Attachment: '',
+        ScheduleDateTime: '',
+        RequestReadReceipt: '0'
+      },
+      asIsForward: `N`,
+      asIsSoftwareCordinator: 0,
+      asMessageId: 0,
+      asSchoolName: SchoolName,
+      asSelectedStDivId: StandardDivisionId.toString(),
+      asSelectedUserIds: StudentIdLists.toString(),
+      sIsReply: `N`,
+      attachmentFile: [],
+      asFileName: '',
+      asSelectedUserIdsCc: '',
+      asSelectedStDivIdCc: '',
+      asIsSoftwareCordinatorCc: '',
+      asDisplayTextCc: ''
+    };
+    // Calling Send Message API
+    setMsgLoading(true);
+    MessageCenterApi.SendMessage(sendMessageAPIBody)
+      .then((res: any) => {
+        if (res.status === 200) {
+          setMsgLoading(false);
+        }
+      })
+      .catch((err) => {
+        toast.error('Message did not sent successfully.', { toastId: 'error1' });
+        setMsgLoading(false);
+      });
+  }
   const clickPublishUnpublish = (publish, Reason = '') => {
     const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
       asSchoolId: Number(asSchoolId),
@@ -607,6 +680,10 @@ const USgetIsTermExamPublished: any = useSelector(
     };
 
     dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+    // If send message checkbox is checked then send message to students
+    if (sendmeassagestudent) {
+      sendMessageTostudent();
+    }
   };
   // const handlePublishClick = () => {
   //   const confirmation = window.confirm("Once you publish the result it will be visible to parents/students.       Are you sure you want to continue?");
@@ -638,7 +715,7 @@ const USgetIsTermExamPublished: any = useSelector(
       dispatch(resetPublishUnpublishExams())
       dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody))
     }
-  }, [PublishUnpublish,BlockExamPublish,USgetIsFinalResultPublished,USgetIsTermExamPublished,ShowTopppers])
+  }, [PublishUnpublish, BlockExamPublish, USgetIsFinalResultPublished, USgetIsTermExamPublished, ShowTopppers])
 
   const getDropdownName = (List, value) => {
     let returnVal = ""
@@ -686,12 +763,12 @@ const USgetIsTermExamPublished: any = useSelector(
         ]}
         rightActions={<>
 
-          <SearchableDropdown
+          <SearchableDropdown1
             sx={{
               minWidth: '20vw'
-              , bgcolor: CanEdit == 'N'  && ClassTeachers.length == 2? '#F0F0F0' : 'inherit'
+              , bgcolor: CanEdit == 'N' && ClassTeachers.length == 2 ? '#F0F0F0' : 'inherit'
             }}
-            ItemList={ asSchoolId == '18'
+            ItemList={asSchoolId == '18'
               ? ClassTeachers.filter((teacher: any) => teacher.Is_PrePrimary == "N")
               : ClassTeachers}
             onChange={clickTeacher}
@@ -700,13 +777,13 @@ const USgetIsTermExamPublished: any = useSelector(
             defaultValue={StandardDivisionId}
             mandatory
             size={"small"}
-            DisableClearable={CanEdit == 'N'&& ClassTeachers.length == 2}
-            disabled={CanEdit == 'N'&& ClassTeachers.length == 2}
+            DisableClearable={CanEdit == 'N' && ClassTeachers.length == 2}
+            disabled={CanEdit == 'N' && ClassTeachers.length == 2}
 
           />
 
 
-          <SearchableDropdown
+          <SearchableDropdown1
             sx={{ minWidth: '20vw' }}
             ItemList={ClasswiseExams}
             onChange={clickExam}
@@ -730,7 +807,7 @@ const USgetIsTermExamPublished: any = useSelector(
             </IconButton>
           </Tooltip>
 
-{/*
+          {/*
          <Tooltip title={"View Progress Report"}>
             <span>
               <IconButton sx={{
@@ -751,134 +828,135 @@ const USgetIsTermExamPublished: any = useSelector(
                 */}
 
 
-          
 
-{
-  ShowTopppers == true  ?
-  <Tooltip title={"Generate Toppers"}>
-            <span>
-              <IconButton
-                onClick={GenerateTopper}
-                sx={{
-                  color: 'white',
-                  backgroundColor: blue[500],
-                  '&:hover': {
-                    backgroundColor: blue[600]
-                  }
-                }}
-                // onClick={GenerateTopper}
-                disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
-                  (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
-                  ClassPassFailDetailsForButton?.ToppersGenerated}
-              >
-                {/* disabled={(!examResultProp || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated) */}
-                {/* GENERATE TOPPERS */}
-                <ManageAccounts />
-              </IconButton>
-            </span>
-          </Tooltip> : <span></span>
-}
-          
+
+          {
+            ShowTopppers == true ?
+              <Tooltip title={"Generate Toppers"}>
+                <span>
+                  <IconButton
+                    onClick={GenerateTopper}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: blue[500],
+                      '&:hover': {
+                        backgroundColor: blue[600]
+                      }
+                    }}
+                    // onClick={GenerateTopper}
+                    disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
+                      (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
+                      ClassPassFailDetailsForButton?.ToppersGenerated}
+                  >
+                    {/* disabled={(!examResultProp || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated) */}
+                    {/* GENERATE TOPPERS */}
+                    <ManageAccounts />
+                  </IconButton>
+                </span>
+              </Tooltip> : <span></span>
+          }
+
 
           {/* {!ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish && */}
-            
-          
+
+
 
 
           {/* } */}
           {
-             UserDetail.CanPublishUnpublishExam == true?
-             <div>
-               <Tooltip title={"Publish All"} >
-            <span>
-              <IconButton sx={{
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': {
-                  backgroundColor: blue[500]
-                }
-              }}
-                //  onClick={() => clickPublishUnpublish(true)} 
-                onClick={handlePublishClick}
-                disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+            UserDetail.CanPublishUnpublishExam == true ?
+              <div>
+                <Tooltip title={"Publish All"} >
+                  <span>
+                    <IconButton sx={{
+                      color: 'white',
+                      backgroundColor: blue[500],
+                      '&:hover': {
+                        backgroundColor: blue[500]
+                      }
+                    }}
+                      //  onClick={() => clickPublishUnpublish(true)} 
+                      onClick={handlePublishClick}
+                      disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
 
-                }>
-                {/* PUBLISH ALL */}
-                <CheckCircle />
-              </IconButton>
-            </span>
-          </Tooltip>
-
-
-
-  
-
-            <Tooltip title={"Unpublish All"}>
-  <span>
-    <IconButton
-      sx={{
-        color: 'white',
-        backgroundColor: red[500],
-        '&:hover': {
-          backgroundColor: red[500]
-        }
-      }}
-      onClick={ClickOpenDialogbox}
-      disabled={
-      
-        (  USgetIsTermExamPublished || 
-          USgetIsFinalResultPublished) ||
-          (ClassPassFailDetailsForButton && (
-            ClassPassFailDetailsForTest?.length === 0 ||  // No test details
-            !ClassPassFailDetailsForButton.IsPublish ||  // Not published
-            (!getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) // Not submitted and not published
-          ))
-        
-      }
-      
-      
-    >
-      <Unpublished />
-    </IconButton>
-  </span>
-            </Tooltip>
+                      }>
+                      {/* PUBLISH ALL */}
+                      <CheckCircle />
+                    </IconButton>
+                  </span>
+                </Tooltip>
 
 
 
-             </div> : <span></span>
+
+
+                <Tooltip title={"Unpublish All"}>
+                  <span>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: red[500],
+                        '&:hover': {
+                          backgroundColor: red[500]
+                        }
+                      }}
+                      onClick={ClickOpenDialogbox}
+                      disabled={
+
+                        (USgetIsTermExamPublished ||
+                          USgetIsFinalResultPublished) ||
+                        (ClassPassFailDetailsForButton && (
+                          ClassPassFailDetailsForTest?.length === 0 ||  // No test details
+                          !ClassPassFailDetailsForButton.IsPublish ||  // Not published
+                          (!getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) // Not submitted and not published
+                        ))
+
+                      }
+
+
+                    >
+                      <Unpublished />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+
+
+
+              </div> : <span></span>
 
           }
-         
 
-         {ShowTopppers == true  ?
-         <Tooltip title={"Toppers"} >
-         <span>
-           <IconButton
-             onClick={Toppers}
-             sx={{
-               color: 'white',
-               backgroundColor: blue[500],
-               '&:hover': {
-                 backgroundColor: blue[600]
-               }
-             }}
-             disabled={
-               (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
-               (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
-               !ClassPassFailDetailsForButton?.ToppersGenerated}
 
-           >
-             <WorkspacePremiumIcon />
-           </IconButton>
-         </span>
-       </Tooltip>
-             : <span ></span>
-            }
+          {ShowTopppers == true ?
+            <Tooltip title={"Toppers"} >
+              <span>
+                <IconButton
+                  onClick={Toppers}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}
+                  disabled={
+                    (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
+                    (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
+                    !ClassPassFailDetailsForButton?.ToppersGenerated}
 
-          
+                >
+                  <WorkspacePremiumIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
+            : <span ></span>
+          }
+
+
         </>}
       />
-
+      {MsgLoading &&
+        <SuspenseLoader />}
       {loading ? (
         <SuspenseLoader />
       ) : (

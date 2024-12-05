@@ -85,7 +85,7 @@ const SliceExamResult = createSlice({
     },
 
 
-    
+
 
 
     GetProgressSheetStatus(state, action) {
@@ -121,8 +121,8 @@ const SliceExamResult = createSlice({
       state.ISgetIsTermExamPublished = action.payload;
     },
 
-    
-    
+
+
     resetGenerateTopper(state) {
       state.GenerateTopper = "";
     },
@@ -167,16 +167,14 @@ export const getAllStudentsByGivenStdDivsResult =
       dispatch(SliceExamResult.actions.getLoading(true));
       const response = await ApiExamResult.GetAllStudentsByGivenStdDivsApi(data);
       dispatch(SliceExamResult.actions.GetAllStudentsByGivenStdDivsResult(response.data));
-      console.log(response.data, "abc")
     };
 
 export const getClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiExamResult.ClassTeachersApi(data);
-      console.log(response, 'TeachersResponse')
 
-      let abc = [{ Id: '0', Name: 'Select', Value: '0', StanderdId: '0' ,Is_PrePrimary: 'N'}];
+      let abc = [{ Id: '0', Name: 'Select', Value: '0', StanderdId: '0', Is_PrePrimary: 'N' }];
       dispatch(SliceExamResult.actions.getLoading(true));
 
       response.data.map((item, i) => {
@@ -185,13 +183,11 @@ export const getClassTeachers =
           Name: item.TeacherName,
           Value: item.SchoolWise_Standard_Division_Id,
           StanderdId: item.Original_Standard_Id,
-          Is_PrePrimary:item.Is_PrePrimary
+          Is_PrePrimary: item.Is_PrePrimary
 
         });
       });
-
       dispatch(SliceExamResult.actions.GetClassTeachers(abc));
-      console.log(abc, 'TeachersDropdown')
     };
 
 
@@ -329,7 +325,7 @@ export const getClassPassFailDetailsForTest =
     };
 
 
-    export const CDAgetIsFinalResultPublished =
+export const CDAgetIsFinalResultPublished =
   (data: getIsFinalResultPublishedBody): AppThunk =>
     async (dispatch) => {
       dispatch(SliceExamResult.actions.getLoading(true));
@@ -338,30 +334,30 @@ export const getClassPassFailDetailsForTest =
 
     };
 
-    export const CDAetIsTermExamPublished =
-    (data: getIsTermExamPublishedBody): AppThunk =>
-      async (dispatch) => {
-        dispatch(SliceExamResult.actions.getLoading(true));
-        const response = await ApiExamResult.getIsTermExamPublished(data);
-        dispatch(SliceExamResult.actions.RgetIsTermExamPublished(response.data));
-  
-      };
+export const CDAetIsTermExamPublished =
+  (data: getIsTermExamPublishedBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.getIsTermExamPublished(data);
+      dispatch(SliceExamResult.actions.RgetIsTermExamPublished(response.data));
+
+    };
 
 
-      export const resetIsTermExamPublished =
+export const resetIsTermExamPublished =
   (): AppThunk =>
     async (dispatch) => {
       dispatch(SliceExamResult.actions.RresetIsTermExamPublished());// Dispatching action to reset the message
     };
 
-    export const resetIsFinalResultPublished =
-    (): AppThunk =>
-      async (dispatch) => {
-        dispatch(SliceExamResult.actions.RresetIsFinalResultPublished());// Dispatching action to reset the message
-      };
+export const resetIsFinalResultPublished =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.RresetIsFinalResultPublished());// Dispatching action to reset the message
+    };
 
 
-    
+
 
 
 export default SliceExamResult.reducer;
