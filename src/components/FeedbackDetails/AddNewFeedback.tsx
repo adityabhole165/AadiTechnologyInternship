@@ -9,7 +9,11 @@ import {
   Typography,
 } from '@mui/material';
 
-const AddNewFeedback: React.FC = () => {
+interface AddNewFeedbackProps {
+  softwareNote: string;
+}
+
+const AddNewFeedback: React.FC<AddNewFeedbackProps> = ({ softwareNote }) => {
   const [formData, setFormData] = useState({
     feedbackFor: {
       school: false,
@@ -22,41 +26,46 @@ const AddNewFeedback: React.FC = () => {
     },
     textBox1: '',
     textBox2: '',
+    comments: '',
   });
 
-  const handleCheckboxChange = (group: string, field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [group]: {
-        ...prevState[group],
-        [field]: event.target.checked,
-      },
-    }));
-  };
+  const handleCheckboxChange =
+    (group: string, field: string) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prevState) => ({
+        ...prevState,
+        [group]: {
+          ...prevState[group],
+          [field]: event.target.checked,
+        },
+      }));
+    };
 
-  const handleTextChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [field]: event.target.value,
-    }));
-  };
+  const handleTextChange =
+    (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prevState) => ({
+        ...prevState,
+        [field]: event.target.value,
+      }));
+    };
 
   const handleSubmit = () => {
     console.log('Form Data:', formData);
     alert('Feedback submitted successfully!');
   };
 
-
-
   return (
-    <Box p={0}>
-      
+    <Box p={2}>
+      <Typography variant="h4" mb={2}>
+        Add Feedback
+      </Typography>
+      <Typography variant="body1" color="textSecondary" mb={2}>
+        {softwareNote}
+      </Typography>
       <Grid container spacing={3}>
         {/* Feedback For Section */}
         <Grid item xs={12}>
-          <Typography variant="h5" >
-            Feedback For 
-          </Typography>
+          <Typography variant="h5">Feedback For</Typography>
           <FormControlLabel
             control={
               <Checkbox
@@ -79,9 +88,7 @@ const AddNewFeedback: React.FC = () => {
 
         {/* Feedback Type Section */}
         <Grid item xs={12}>
-          <Typography variant="h5" >
-            Feedback Type 
-          </Typography>
+          <Typography variant="h5">Feedback Type</Typography>
           <FormControlLabel
             control={
               <Checkbox
@@ -111,15 +118,15 @@ const AddNewFeedback: React.FC = () => {
           />
         </Grid>
 
-        {/* Text Boxes */}
+        {/* Text Fields */}
         <Grid item xs={6}>
           <TextField
             fullWidth
             label={
-                <span>
-                  Name <span style={{ color: 'red' }}> *</span>
-                </span>
-              }
+              <span>
+                Name <span style={{ color: 'red' }}>*</span>
+              </span>
+            }
             value={formData.textBox1}
             onChange={handleTextChange('textBox1')}
           />
@@ -128,10 +135,10 @@ const AddNewFeedback: React.FC = () => {
           <TextField
             fullWidth
             label={
-                <span>
-                  E-mail <span style={{ color: 'red' }}> *</span>
-                </span>
-              }
+              <span>
+                E-mail <span style={{ color: 'red' }}>*</span>
+              </span>
+            }
             value={formData.textBox2}
             onChange={handleTextChange('textBox2')}
           />
@@ -141,20 +148,20 @@ const AddNewFeedback: React.FC = () => {
             fullWidth
             multiline
             label={
-                <span>
-                  Comments <span style={{ color: 'red' }}> *</span>
-                </span>
-              }
+              <span>
+                Comments <span style={{ color: 'red' }}>*</span>
+              </span>
+            }
             rows={3}
-            sx={{
-                '& .MuiInputBase-root': {
-                    resize: 'both', // Allows the TextField to be resizable
-                    overflow: 'auto',
-                },
-            }}
-            value={formData.textBox1}
-            onChange={handleTextChange('textBox1')}
+            value={formData.comments}
+            onChange={handleTextChange('comments')}
           />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Submit Feedback
+          </Button>
         </Grid>
       </Grid>
     </Box>

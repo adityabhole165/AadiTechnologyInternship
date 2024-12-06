@@ -141,7 +141,8 @@ const FeedbackDetailsBasescreen = () => {
 
         setLinkName(''); // Reset input field after adding/updating
     };
-
+const softwareNote =
+    'Please provide detailed feedback on software, including any issues or suggestions for improvement.';   
 
 
 
@@ -340,8 +341,9 @@ const FeedbackDetailsBasescreen = () => {
                 <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
                     Add New Feedback
                 </Typography>
+                
                 <DialogContent>
-                    <AddNewFeedback />
+                    <AddNewFeedback softwareNote={softwareNote}/>
                 </DialogContent>
                 <DialogActions>
                     <Grid item xs={12} display="flex" justifyContent="flex-end" gap={2} pr={2} pb={2}>
