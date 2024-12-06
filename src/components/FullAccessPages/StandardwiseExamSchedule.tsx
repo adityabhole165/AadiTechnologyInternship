@@ -44,6 +44,7 @@ const StandardwiseExamSchedule = () => {
     const [selectedInstructionId, setSelectedInstructionId] = useState(null);
     const [isUnsubmitted, setIsUnsubmitted] = useState(false);
     const [xml, setXML] = useState();
+    const [subError, setSubError] = useState(false)
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
@@ -155,11 +156,18 @@ const StandardwiseExamSchedule = () => {
         toast.success('Exam schedule has been Unsubmited successfully!!!');
     };
     const ClickSaveXML = (value) => {
-        console.log(value,'value')
         setXML(value)
     }
 
+    useEffect(() => {
+        console.log(xml, "XML");
+
+    }, [xml]);
     const onClickSave = () => {
+        setSubError(false)
+        if (xml === '') {
+            setSubError(true)
+        }
         const InsertExamScheduleBody: IInsertExamScheduleBody = {
             asSchoolId: Number(asSchoolId),
             asAcademicYearId: Number(asAcademicYearId),
@@ -171,7 +179,9 @@ const StandardwiseExamSchedule = () => {
             asSchoolwiseStandardExamScheduleId: IsConfigured == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
             asExamDetailsXML: xml
         }
-        dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
+        if (xml !== '') {
+            dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
+        }
     }
     const { showAlert, closeAlert } = useContext(AlertContext);
 
@@ -502,7 +512,7 @@ const StandardwiseExamSchedule = () => {
                 </Box>
             )}
             <Box>
-                <StandardwiseExamScheduleTable ClickSaveXML={ClickSaveXML} />
+                <StandardwiseExamScheduleTable ClickSaveXML={ClickSaveXML} subErrorMsg={subError} />
             </Box>
 
             <Dialog

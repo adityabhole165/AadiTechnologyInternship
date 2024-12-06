@@ -50,7 +50,7 @@ const generateTimeOptions = () => Array.from({ length: 12 }, (_, i) => (i + 1).t
 const minuteOptions = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"];
 const periodOptions = ['AM', 'PM'];
 
-const StandardwiseExamScheduleTable = ({ ClickSaveXML }) => {
+const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg }) => {
     const { AssignedDate, StandardId, SchoolwiseStandardExamScheduleId, IsConfigured } = useParams();
     console.log(IsConfigured, 'IsConfigured');
 
@@ -300,11 +300,12 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML }) => {
 
     const getXML = () => {
         let sXML = '<SubjectwiseStandardExamSchedule>';
+        let selectedFlag = tableRows.find(item => item.selected)
         tableRows.forEach((subject) => {
             if (subject.selected) {
                 const startDateTime = getExamStartDate(subject.examDate, subject.startTime);
                 const endDateTime = getExamStartDate(subject.examDate, subject.endTime);
-                  
+
                 sXML +=
                     '<SubjectwiseStandardExamSchedule ' +
                     `Subject_Id="${subject.id}" ` +
@@ -315,9 +316,8 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML }) => {
             }
         });
         sXML += '</SubjectwiseStandardExamSchedule>';
-        return sXML;
+        return selectedFlag === undefined ? '' : sXML;
     };
-    
 
     const xml = getXML();
     ClickSaveXML(xml);
@@ -325,6 +325,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML }) => {
 
     return (
         <Box>
+            {subErrorMsg && <span style={{ color: 'red', fontWeight: 'bolder' }}>Atleast one subject should be selected.</span>}
             <TableContainer component={Paper} variant="outlined">
                 <Table>
                     <TableHead>
