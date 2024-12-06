@@ -64,8 +64,7 @@ const ExamResultBase = () => {
   const userId = sessionStorage.getItem('Id');
   const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState(
-    ParamsTestId == undefined ? "0" : ParamsTestId
-
+    ParamsTestId == undefined ? "0" : ParamsTestId.toString()
   );
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const [DisplayNote, setDisplayNote] = useState('');

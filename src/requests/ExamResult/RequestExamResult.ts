@@ -204,6 +204,7 @@ export const getClasswiseExam =
           Value: item.schoolwise_test_id
         };
       });
+      ClasswiseExam.unshift({ Id: '0', Name: 'Select', Value: '0' });
 
       dispatch(SliceExamResult.actions.GetClasswiseExam(ClasswiseExam));
     };
