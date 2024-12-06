@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 // import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import { Styles } from 'src/assets/style/student-style';
+import { getDateFormattedDashNew } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import Sentsms from 'src/components/SentSms/Sentsms';
 import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Student/SMSCenter';
@@ -492,7 +493,7 @@ function SmsCenter() {
                           <TableCell>   <Link href={url + row.SMS_Id}>
                             {row.Subject}
                           </Link></TableCell>
-                          <TableCell>{format(new Date(row.Date), 'dd/MM/yyyy')}</TableCell>
+                          <TableCell>{getDateFormattedDashNew(new Date(row.Date))}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
