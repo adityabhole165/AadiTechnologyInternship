@@ -44,6 +44,8 @@ const StandardwiseExamSchedule = () => {
     const [selectedInstructionId, setSelectedInstructionId] = useState(null);
     const [isUnsubmitted, setIsUnsubmitted] = useState(false);
     const [xml, setXML] = useState();
+    const [tableArray, setTableArray] = useState([])
+    const [timeError, setTimeError] = useState('')
     const [subError, setSubError] = useState(false)
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
@@ -58,7 +60,6 @@ const StandardwiseExamSchedule = () => {
     const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
     const Instructionss = useSelector((state: RootState) => state.StandardAndExamList.Instructionss);
     const IsSchoolConfigured = useSelector((state: RootState) => state.StandardAndExamList.GetIsSchoolConfigured);
-    console.log(IsSchoolConfigured, 'getIsSchoolConfigured')
 
     // function getXML(value) {
     //     let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
@@ -78,8 +79,6 @@ const StandardwiseExamSchedule = () => {
     // }
 
     function getXML1() {
-        console.log(selectedStandards, 'selectedStandards');
-
         let Insertxml = '<ArrayOfInt xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\r\n';
         selectedStandards.forEach(value => {
             Insertxml += `  <int>${value}</int>\r\n`;
@@ -155,7 +154,58 @@ const StandardwiseExamSchedule = () => {
         setIsUnsubmitted(true);
         toast.success('Exam schedule has been Unsubmited successfully!!!');
     };
-    const ClickSaveXML = (value) => {
+
+
+    // #region Validation function
+
+    function validateExamSchedule(refArray) {
+        const invalidSubjects = [];
+        refArray.forEach(exam => {
+            // Only validate selected exams
+            if (!exam.selected) return;
+
+            // Convert start and end times to comparable format
+            const startHour = parseInt(exam.startTime.hour);
+            const startMinute = parseInt(exam.startTime.minute);
+            const endHour = parseInt(exam.endTime.hour);
+            const endMinute = parseInt(exam.endTime.minute);
+
+            // Adjust for AM/PM
+            const startPeriod = exam.startTime.period.toUpperCase();
+            const endPeriod = exam.endTime.period.toUpperCase();
+
+            // Normalize hours for comparison
+            let normalizedStartHour = startHour;
+            let normalizedEndHour = endHour;
+            if (startPeriod === 'PM' && startHour !== 12) {
+                normalizedStartHour += 12;
+            }
+            if (startPeriod === 'AM' && startHour === 12) {
+                normalizedStartHour = 0;
+            }
+            if (endPeriod === 'PM' && endHour !== 12) {
+                normalizedEndHour += 12;
+            }
+            if (endPeriod === 'AM' && endHour === 12) {
+                normalizedEndHour = 0;
+            }
+
+            // Check if end time is less than or equal to start time
+            const isInvalid = (normalizedEndHour < normalizedStartHour) ||
+                (normalizedEndHour === normalizedStartHour && endMinute <= startMinute);
+
+            if (isInvalid) {
+                invalidSubjects.push(exam.subject);
+            }
+        });
+
+        return invalidSubjects.length > 0
+            ? `End time must be greater than start time. Subject(s): ${invalidSubjects.join(", ")}`
+            : "";
+    }
+    // #endregion
+    const ClickSaveXML = (value, dataArray) => {
+        setTableArray(dataArray)
         setXML(value)
     }
 
@@ -164,9 +214,14 @@ const StandardwiseExamSchedule = () => {
 
     }, [xml]);
     const onClickSave = () => {
+        let errorResult = validateExamSchedule(tableArray)
+        setTimeError('');
         setSubError(false)
         if (xml === '') {
             setSubError(true)
+        }
+        if (errorResult.length > 0) {
+            setTimeError(errorResult)
         }
         const InsertExamScheduleBody: IInsertExamScheduleBody = {
             asSchoolId: Number(asSchoolId),
@@ -179,7 +234,7 @@ const StandardwiseExamSchedule = () => {
             asSchoolwiseStandardExamScheduleId: IsConfigured == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
             asExamDetailsXML: xml
         }
-        if (xml !== '') {
+        if (xml !== '' && errorResult == '') {
             dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
         }
     }
@@ -512,7 +567,7 @@ const StandardwiseExamSchedule = () => {
                 </Box>
             )}
             <Box>
-                <StandardwiseExamScheduleTable ClickSaveXML={ClickSaveXML} subErrorMsg={subError} />
+                <StandardwiseExamScheduleTable ClickSaveXML={ClickSaveXML} subErrorMsg={subError} TimeError={timeError} />
             </Box>
 
             <Dialog

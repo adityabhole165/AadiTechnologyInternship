@@ -50,9 +50,8 @@ const generateTimeOptions = () => Array.from({ length: 12 }, (_, i) => (i + 1).t
 const minuteOptions = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"];
 const periodOptions = ['AM', 'PM'];
 
-const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg }) => {
+const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError }) => {
     const { AssignedDate, StandardId, SchoolwiseStandardExamScheduleId, IsConfigured } = useParams();
-    console.log(IsConfigured, 'IsConfigured');
 
     const dispatch = useDispatch();
     const timeOptions = generateTimeOptions();
@@ -80,10 +79,8 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg }) => {
     });
 
     const [tableRows, setTableRows] = useState<ExamEntry[]>([]);
-    console.log(tableRows, 'tableRows');
 
     const IsSelected = tableRows.map((item) => item.selected)
-    console.log(IsSelected, 'IsSelected');
 
     const [selectAll, setSelectAll] = useState(false);
 
@@ -297,10 +294,10 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg }) => {
     //     return Insertxml;
     // }
 
-
     const getXML = () => {
         let sXML = '<SubjectwiseStandardExamSchedule>';
         let selectedFlag = tableRows.find(item => item.selected)
+
         tableRows.forEach((subject) => {
             if (subject.selected) {
                 const startDateTime = getExamStartDate(subject.examDate, subject.startTime);
@@ -320,12 +317,12 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg }) => {
     };
 
     const xml = getXML();
-    ClickSaveXML(xml);
-    console.log(getXML(), 'getXML', tableRows)
+    ClickSaveXML(xml, tableRows);
 
     return (
         <Box>
-            {subErrorMsg && <span style={{ color: 'red', fontWeight: 'bolder' }}>Atleast one subject should be selected.</span>}
+            {subErrorMsg && <span style={{ color: 'red', fontWeight: 'bolder' }}>Atleast one subject should be selected.<br /></span>}
+            {TimeError.length > 0 && <span style={{ color: 'red', fontWeight: 'bolder' }}>{TimeError}</span>}
             <TableContainer component={Paper} variant="outlined">
                 <Table>
                     <TableHead>
