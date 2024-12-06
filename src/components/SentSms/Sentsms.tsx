@@ -180,7 +180,10 @@ const Sentsms = () => {
                 cancelButtonText: 'Cancel',
                 onConfirm: () => {
                     closeAlert();
-                }
+                },
+                onCancel: () => {
+                    closeAlert();
+                },
                 
             });
             return;
