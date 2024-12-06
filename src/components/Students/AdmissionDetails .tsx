@@ -33,7 +33,7 @@ import {
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const AdmissionDetails = ({ admission, onChange }) => {
+const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
@@ -584,14 +584,12 @@ const AdmissionDetails = ({ admission, onChange }) => {
             variant="outlined"
             value={admission.studentRollNumber}
             onChange={handleInputChange}
-            error={errors.studentRollNumber}
-            helperText={
-              errors.studentRollNumber ? 'This field is required' : ''
-            }
+            error={!!validationMessages.studentRollNumber}
+            helperText={validationMessages.studentRollNumber}
             sx={{
-              backgroundColor: errors.registrationNumber
+              backgroundColor: errors.studentRollNumber
                 ? 'white'
-                : admission.registrationNumber
+                : admission.studentRollNumber
                   ? 'white'
                   : 'inherit'
             }}

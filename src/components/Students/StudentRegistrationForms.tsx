@@ -440,6 +440,20 @@ const StudentRegistrationForm = () => {
     }
   });
 
+  //  new state for tab validation status
+  const [tabValidationStatus, setTabValidationStatus] = useState({
+    admission: true,
+    //personal: true,
+    //family: true
+  });
+
+  // state for field-level validation messages
+  const [fieldValidationMessages, setFieldValidationMessages] = useState({
+    admission: {},
+    //personal: {},
+    //family: {}
+  });
+
   const requiredFieldsMap = {
     admission: [
       'registrationNumber',
@@ -465,16 +479,30 @@ const StudentRegistrationForm = () => {
   const calculateCompletion = (tabName: string, data: any) => {
     // Get required fields dynamically from the map
     const requiredFields = requiredFieldsMap[tabName] || [];
-
-    // Calculate completed and unfilled fields
-    const completedFields = requiredFields.filter(
-      (field) => !!data[field]
-    ).length;
     const unfilledFields = requiredFields.filter((field) => !data[field]);
 
+    // Update tab validation status
+    setTabValidationStatus(prev => ({
+      ...prev,
+      [tabName]: unfilledFields.length === 0
+    }));
+
+    // Create field-level validation messages
+    const messages = {};
+    unfilledFields.forEach(field => {
+      messages[field] = `${field} is required`;
+    });
+
+    // Update field validation messages
+    setFieldValidationMessages(prev => ({
+      ...prev,
+      [tabName]: messages
+    }));
+
+    // Calculate completed and unfilled fields
+    const completedFields = requiredFields.filter((field) => !!data[field]).length;
     // Calculate completion percentage
-    const completionPercentage =
-      (completedFields / requiredFields.length) * 100;
+    const completionPercentage = (completedFields / requiredFields.length) * 100;
 
     // Update the tabCompletion state
     setTabCompletion((prev) => ({
@@ -1257,7 +1285,8 @@ const StudentRegistrationForm = () => {
     e.preventDefault(); // Prevent default form submission behavior
 
     // Validate the form
-    const isFormValid = handleValidation();
+    //const isFormValid = handleValidation();
+    const isFormValid = Object.values(tabValidationStatus).every(status => status === true);
 
     if (!isFormValid) {
       console.log('😶 Form submission halted due to validation errors.');
@@ -1268,12 +1297,12 @@ const StudentRegistrationForm = () => {
     try {
       console.log('Validation passed! Proceeding with API calls...');
 
-      await executeApiCalls(
-        UpdateStudentBody,
-        AddStudentAdditionalDetailsBody,
-        UpdateStudentStreamwiseSubjectDetailsBody,
-        transportFeeBody
-      );
+      // await executeApiCalls(
+      //   UpdateStudentBody,
+      //   AddStudentAdditionalDetailsBody,
+      //   UpdateStudentStreamwiseSubjectDetailsBody,
+      //   transportFeeBody
+      // );
 
       // Success message or further actions
       console.log(
@@ -1776,6 +1805,11 @@ const StudentRegistrationForm = () => {
           variant="scrollable"
           scrollButtons={false} // Disable the scroll arrows
           aria-label="Student Registration Tabs"
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: tabValidationStatus[currentTab] ? 'primary' : 'error'
+            }
+          }}
           sx={{
             '& .MuiTab-root': {
               minHeight: '60px',
@@ -1806,7 +1840,10 @@ const StudentRegistrationForm = () => {
             sx={{ m: 2, maxWidth: 200 }}
             icon={<SchoolIcon />}
             label="Admission Details"
-          // onChange={(data) => handleDataChange('user', data)}
+            // onChange={(data) => handleDataChange('user', data)}
+            style={{
+              color: tabValidationStatus.admission ? 'inherit' : 'red'
+            }}
           />
           <Tab
             sx={{ m: 2, maxWidth: 200 }}
@@ -1847,6 +1884,8 @@ const StudentRegistrationForm = () => {
               <AdmissionDetails
                 admission={form.admission}
                 onChange={handleAdmissionChange}
+                validationMessages={fieldValidationMessages.admission}
+                isValid={tabValidationStatus.admission}
               />
             </Grid>
           </Grid>
