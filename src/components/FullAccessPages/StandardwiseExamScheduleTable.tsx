@@ -50,7 +50,7 @@ const generateTimeOptions = () => Array.from({ length: 12 }, (_, i) => (i + 1).t
 const minuteOptions = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"];
 const periodOptions = ['AM', 'PM'];
 
-const StandardwiseExamScheduleTable = () => {
+const StandardwiseExamScheduleTable = ({ ClickSaveXML }) => {
     const { AssignedDate, StandardId, SchoolwiseStandardExamScheduleId, IsConfigured } = useParams();
     console.log(IsConfigured, 'IsConfigured');
 
@@ -135,6 +135,7 @@ const StandardwiseExamScheduleTable = () => {
                 return row; // Keep other rows unchanged
             })
         );
+        getXML();
     };
 
     // Handlers for table rows
@@ -164,6 +165,8 @@ const StandardwiseExamScheduleTable = () => {
                 return row;
             })
         );
+
+        getXML();
     };
     useEffect(() => {
         examData.map(item => (item.SubjectWizeStandardExamScheduleId != "0" ?
@@ -248,7 +251,52 @@ const StandardwiseExamScheduleTable = () => {
             </Select>
         </Box>
     );
+    const getDateFormattedDash = (date) => {
+        date = date || new Date();
+        const Day = new Date(date).getDate();
+        const Month = new Date(date).toLocaleString('default', { month: 'short' });
+        const Year = new Date(date).getFullYear();
 
+        return `${Day}-${Month}-${Year}`;
+    };
+
+    // Helper function to format time
+    const getTimeFormatted = (time) => {
+        const hour = parseInt(time.hour, 10); // Convert to number
+        const minute = time.minute.padStart(2, '0'); // Ensure two digits
+        const period = time.period.toLowerCase(); // Convert to lowercase for am/pm format
+
+        const formattedHour = hour % 12 || 12; // Convert to 12-hour format
+        return `${formattedHour} : ${minute} ${period}`;
+    };
+
+    // Combine examDate and startTime into the desired format
+    const getExamStartDate = (examDate, startTime) => {
+        const formattedDate = getDateFormattedDash(examDate);
+        const formattedTime = getTimeFormatted(startTime);
+        return `${formattedDate} ${formattedTime}`;
+    };
+
+    function getXML() {
+        let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
+
+        tableRows.forEach(subject => {
+            if (subject.selected) {
+                Insertxml += "<SubjectwiseStandardExamSchedule>" +
+                    "<Subject_Id>" + subject.id + "</Subject_Id>" +
+                    "<ExamTypes>" + subject.examType + "</ExamTypes>" +
+                    "<Description>" + subject.description + "</Description>" +
+                    "<Exam_Start_Date>" + (getExamStartDate(subject.examDate, subject.startTime)) + "</Exam_Start_Date>" +
+                    "<Exam_End_Date>" + (getExamStartDate(subject.examDate, subject.endTime)) + "</Exam_End_Date>" +
+                    "</SubjectwiseStandardExamSchedule>\r\n";
+            }
+        });
+
+        Insertxml += "</SubjectwiseStandardExamSchedule>";
+        ClickSaveXML(Insertxml);
+        return Insertxml;
+    }
+    console.log(getXML(), 'getXML', tableRows)
 
     return (
         <Box>
