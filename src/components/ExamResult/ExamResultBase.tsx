@@ -647,7 +647,7 @@ const ExamResultBase = () => {
       asMessageId: 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: StandardDivisionId.toString(),
-      asSelectedUserIds: StudentIdLists.toString(),
+      asSelectedUserIds: '',
       sIsReply: `N`,
       attachmentFile: [],
       asFileName: '',
