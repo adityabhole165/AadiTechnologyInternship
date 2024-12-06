@@ -13,8 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetSubjectExamScheduleBody, IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
-import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetSubjectExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { IConfigurationData, IExamScheduleConfigBody, IGetSubjectExamScheduleBody, IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
+import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetIsSchoolConfigured, GetSubjectExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
@@ -43,8 +43,10 @@ const StandardwiseExamSchedule = () => {
     const [editMode, setEditMode] = useState(false);
     const [selectedInstructionId, setSelectedInstructionId] = useState(null);
     const [isUnsubmitted, setIsUnsubmitted] = useState(false);
+    const [xml, setXML] = useState();
 
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asUserId = Number(localStorage.getItem('UserId'));
     const SubHeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandard);
@@ -55,23 +57,25 @@ const StandardwiseExamSchedule = () => {
     const examData = useSelector((state: RootState) => state.StandardAndExamList.SubjectExamSchedule);
     const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
     const Instructionss = useSelector((state: RootState) => state.StandardAndExamList.Instructionss);
+    const IsSchoolConfigured = useSelector((state: RootState) => state.StandardAndExamList.GetIsSchoolConfigured);
+    console.log(IsSchoolConfigured, 'getIsSchoolConfigured')
 
-    function getXML() {
-        let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
+    // function getXML(value) {
+    //     let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
 
-        examData.forEach(subject => {
-            Insertxml += "<SubjectwiseStandardExamSchedule>" +
-                "<Subject_Id>" + subject.Subject_Id + "</Subject_Id>" +
-                "<ExamTypes>" + subject.ExamTypes + "</ExamTypes>" +
-                "<Description>" + subject.Description + "</Description>" +
-                "<Exam_Start_Date>" + subject.Exam_Start_Date + "</Exam_Start_Date>" +
-                "<Exam_End_Date>" + subject.Exam_End_Date + "</Exam_End_Date>" +
-                "</SubjectwiseStandardExamSchedule>\r\n";
-        });
+    //     value.forEach(subject => {
+    //         Insertxml += "<SubjectwiseStandardExamSchedule>" +
+    //             "<Subject_Id>" + subject.Subject_Id + "</Subject_Id>" +
+    //             "<ExamTypes>" + subject.ExamTypes + "</ExamTypes>" +
+    //             "<Description>" + subject.Description + "</Description>" +
+    //             "<Exam_Start_Date>" + subject.Exam_Start_Date + "</Exam_Start_Date>" +
+    //             "<Exam_End_Date>" + subject.Exam_End_Date + "</Exam_End_Date>" +
+    //             "</SubjectwiseStandardExamSchedule>\r\n";
+    //     });
 
-        Insertxml += "</SubjectwiseStandardExamSchedule>";
-        return Insertxml;
-    }
+    //     Insertxml += "</SubjectwiseStandardExamSchedule>";
+    //     return Insertxml;
+    // }
 
     function getXML1() {
         console.log(selectedStandards, 'selectedStandards');
@@ -115,6 +119,29 @@ const StandardwiseExamSchedule = () => {
         asSchoolwiseTestId: Number(TestId)
     }
 
+    useEffect(() => {
+        const getExamConfiguredBody: IExamScheduleConfigBody = {
+            asSchoolId: Number(asSchoolId),
+            asOriginalConfigId: 19,
+            asAcademicYearId: Number(asAcademicYearId)
+        }
+        dispatch(GetIsSchoolConfigured(getExamConfiguredBody))
+    }, [])
+
+    useEffect(() => {
+        const getExamConfiguredBody: IConfigurationData = {
+            asOriginalConfigId: 19,
+            asSchoolId: Number(asSchoolId),
+            asIsConfigure: 'Y',
+            asInsertedById: Number(asUserId),
+            asUpdateById: Number(asUserId),
+            asAcademicYearId: Number(asAcademicYearId),
+            aiFinancialYearId: Number(asFinancialYearId)
+        }
+        dispatch(GetIsSchoolConfigured(getExamConfiguredBody))
+    }, [])
+
+
     const handleUnsubmit = () => {
         const unSubmitBody = {
             asSchoolId: Number(asSchoolId),
@@ -128,18 +155,26 @@ const StandardwiseExamSchedule = () => {
         setIsUnsubmitted(true);
         toast.success('Exam schedule has been Unsubmited successfully!!!');
     };
+    const ClickSaveXML = (value) => {
+        console.log(value,'value')
+        setXML(value)
+    }
 
+    useEffect(() => {
+        console.log(xml, "XML");
+
+    }, [xml]);
     const onClickSave = () => {
         const InsertExamScheduleBody: IInsertExamScheduleBody = {
             asSchoolId: Number(asSchoolId),
             asAcademicYearId: Number(asAcademicYearId),
             asStandardId: Number(StandardId),
             asSchoolwiseTestId: Number(TestId),
-            asStandardTestId: Number(StandardTestId),
+            asStandardTestId: IsConfigured == 'true' ? Number(StandardTestId) : 0,
             asInsertedById: asUserId,
             asScreenId: 0,
-            asSchoolwiseStandardExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
-            asExamDetailsXML: getXML()
+            asSchoolwiseStandardExamScheduleId: IsConfigured == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
+            asExamDetailsXML: xml
         }
         dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
     }
@@ -472,7 +507,7 @@ const StandardwiseExamSchedule = () => {
                 </Box>
             )}
             <Box>
-                <StandardwiseExamScheduleTable />
+                <StandardwiseExamScheduleTable ClickSaveXML={ClickSaveXML} />
             </Box>
 
             <Dialog
