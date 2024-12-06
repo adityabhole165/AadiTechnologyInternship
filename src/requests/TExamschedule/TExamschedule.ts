@@ -444,7 +444,7 @@ export const resetCopyStandardTestMsg = (): AppThunk => async (dispatch) => {
 export const GetInsertExamSchedule = (data: IInsertExamScheduleBody): AppThunk => async (dispatch) => {
   dispatch(SelectStandardExamslice.actions.getLoading(true));
   const response = await GetTExamResultListApi.InsertExamSchedule(data);
-  const ExamSchedule = response?.data?.Table.map((item) => {
+  const ExamSchedule = response?.data?.Table?.map((item) => {
     return {
       Message: item.Message,
       ExamScheduleId: item.ExamScheduleId
