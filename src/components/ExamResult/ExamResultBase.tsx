@@ -661,11 +661,13 @@ const ExamResultBase = () => {
       .then((res: any) => {
         if (res.status === 200) {
           setMsgLoading(false);
+          setsendmeassagestudent(false);
         }
       })
       .catch((err) => {
         toast.error('Message did not sent successfully.', { toastId: 'error1' });
         setMsgLoading(false);
+        setsendmeassagestudent(false);
       });
   }
   const clickPublishUnpublish = (publish, Reason = '') => {
