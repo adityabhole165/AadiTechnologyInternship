@@ -277,25 +277,50 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML }) => {
         return `${formattedDate} ${formattedTime}`;
     };
 
-    function getXML() {
-        let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
+    // function getXML() {
+    //     let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
 
-        tableRows.forEach(subject => {
+    //     tableRows.forEach(subject => {
+    //         if (subject.selected) {
+    //             Insertxml += "<SubjectwiseStandardExamSchedule>" +
+    //                 "<Subject_Id>" + subject.id + "</Subject_Id>" +
+    //                 "<ExamTypes>" + subject.examType + "</ExamTypes>" +
+    //                 "<Description>" + subject.description + "</Description>" +
+    //                 "<Exam_Start_Date>" + (getExamStartDate(subject.examDate, subject.startTime)) + "</Exam_Start_Date>" +
+    //                 "<Exam_End_Date>" + (getExamStartDate(subject.examDate, subject.endTime)) + "</Exam_End_Date>" +
+    //                 "</SubjectwiseStandardExamSchedule>\r\n";
+    //         }
+    //     });
+
+    //     Insertxml += "</SubjectwiseStandardExamSchedule>";
+    //     ClickSaveXML(Insertxml);
+    //     return Insertxml;
+    // }
+
+
+    const getXML = () => {
+        let sXML = '<SubjectwiseStandardExamSchedule>';
+        tableRows.forEach((subject) => {
             if (subject.selected) {
-                Insertxml += "<SubjectwiseStandardExamSchedule>" +
-                    "<Subject_Id>" + subject.id + "</Subject_Id>" +
-                    "<ExamTypes>" + subject.examType + "</ExamTypes>" +
-                    "<Description>" + subject.description + "</Description>" +
-                    "<Exam_Start_Date>" + (getExamStartDate(subject.examDate, subject.startTime)) + "</Exam_Start_Date>" +
-                    "<Exam_End_Date>" + (getExamStartDate(subject.examDate, subject.endTime)) + "</Exam_End_Date>" +
-                    "</SubjectwiseStandardExamSchedule>\r\n";
+                const startDateTime = getExamStartDate(subject.examDate, subject.startTime);
+                const endDateTime = getExamStartDate(subject.examDate, subject.endTime);
+                  
+                sXML +=
+                    '<SubjectwiseStandardExamSchedule ' +
+                    `Subject_Id="${subject.id}" ` +
+                    `ExamTypes="${subject.examType || ''}" ` +
+                    `Description="${subject.description || ''}" ` +
+                    `Exam_Start_Date="${startDateTime}" ` +
+                    `Exam_End_Date="${endDateTime}" />`;
             }
         });
+        sXML += '</SubjectwiseStandardExamSchedule>';
+        return sXML;
+    };
+    
 
-        Insertxml += "</SubjectwiseStandardExamSchedule>";
-        ClickSaveXML(Insertxml);
-        return Insertxml;
-    }
+    const xml = getXML();
+    ClickSaveXML(xml);
     console.log(getXML(), 'getXML', tableRows)
 
     return (
@@ -437,7 +462,6 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML }) => {
                                             handleRowChange(row.id, 'endTime', { ...row.endTime, [field]: value })
                                     )}
                                 </TableCell>
-
                                 <TableCell>
                                     <TextField
                                         value={!row.selected ? '' : row.description}

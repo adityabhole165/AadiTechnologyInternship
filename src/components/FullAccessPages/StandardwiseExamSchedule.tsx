@@ -44,7 +44,6 @@ const StandardwiseExamSchedule = () => {
     const [selectedInstructionId, setSelectedInstructionId] = useState(null);
     const [isUnsubmitted, setIsUnsubmitted] = useState(false);
     const [xml, setXML] = useState();
-
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
@@ -160,10 +159,6 @@ const StandardwiseExamSchedule = () => {
         setXML(value)
     }
 
-    useEffect(() => {
-        console.log(xml, "XML");
-
-    }, [xml]);
     const onClickSave = () => {
         const InsertExamScheduleBody: IInsertExamScheduleBody = {
             asSchoolId: Number(asSchoolId),
