@@ -21,6 +21,19 @@ const LibraryBaseScreen = () => {
 
     const [cliambook, setcliambook] = useState('');
 
+    const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+    const [SortBy, setSortBy] = useState('Book_Title');
+    const [BookTitle, setBookTitle] = useState<string>('');
+    const [AccessionNumber, setAccessionNumber] = useState<string>('');
+    const [Author, setAuthor] = useState<string>('');
+    const [Publisher, setPublisher] = useState<string>('');
+    const [StandardId, setStandardId] = useState<string>('0');
+    const [LanguageId, setLanguageId] = useState<string>('0');
+    const [SearchBook, setSearchBook] = useState([]);
+    // console.log(SearchBook, "👌👌");
+    // console.log(BookTitle, "🤞🤞");
+
+
     // Initialize state with numbers, as it's required for pagination
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);  // Default items per page
     const [page, setPage] = useState<number>(1);
@@ -31,7 +44,7 @@ const LibraryBaseScreen = () => {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const ascliambook = Number(cliambook);
 
-    console.log(ascliambook, "&&&&&34343&&&&&&")
+    //console.log(ascliambook, "&&&&&34343&&&&&&")
 
     const USBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetails);
     const USGetLibraryBookIssueDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetLibraryBookIssueDetails);
@@ -41,7 +54,7 @@ const LibraryBaseScreen = () => {
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
     const USReserveBookCountPerPerson: any = useSelector((state: RootState) => state.SchoolLibrary.IreserveBooksCountperperson);
     //console.log(USReserveBookCountPerPerson[0].Text1, "@$$$&&")
-    console.log(cliambook, "&&&&&&&&&&&")
+    // console.log(cliambook, "&&&&&&&&&&&")
 
 
 
@@ -50,7 +63,7 @@ const LibraryBaseScreen = () => {
         asprm_Filter: '',
         asprm_BookNo: '',
         asprm_iStandardId: 0,
-        asSortExp: "ORDER BY Book_Title ASC",
+        asSortExp: 'ORDER BY Book_Title ASC',//SortDirection.toString(),
         asStartIndex: (page - 1) * rowsPerPage, // dynamic start index for pagination
         asEndIndex: page * rowsPerPage, // dynamic end index for pagination
         asprm_iParentStaffId: 0,
@@ -58,7 +71,7 @@ const LibraryBaseScreen = () => {
 
     useEffect(() => {
         dispatch(CDAGetAllBooksDetails(BookDetails));
-    }, [dispatch, page, rowsPerPage]);  // Dependency on page and rowsPerPage for dynamic pagination
+    }, [dispatch, page, rowsPerPage, SortDirection]);  // Dependency on page and rowsPerPage for dynamic pagination
 
     const BookIssueDetails: IGetLibraryBookIssueDetailsBody = {
         asSchool_Id: asSchoolId,
@@ -160,6 +173,70 @@ const LibraryBaseScreen = () => {
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
 
+
+
+    const handleSortChange = (column: string) => {
+        if (SortBy === column) {
+            setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(column);
+            setSortDirection('asc');
+        }
+    };
+    const clickClear = () => {
+        // Reset local state
+        setBookTitle('');
+        setAccessionNumber('');
+        setAuthor('');
+        setPublisher('');
+        setStandardId('0');
+        setLanguageId('0');
+    }
+    // const clickSearch = () => {
+    //     const GetLibrarySearchBody = {
+    //         BookTitle: BookTitle,
+    //         AccessionNumber: AccessionNumber,
+    //         Author: Author,
+    //         Publisher: Publisher,
+    //         MediaTypeId: 1,
+    //         StandardId: StandardId,
+    //         LanguageId: LanguageId
+    //     }
+    // }
+
+    const clickSearch = () => {
+        const GetLibrarySearchBody = {
+            BookTitle: BookTitle,
+            AccessionNumber: AccessionNumber,
+            Author: Author,
+            Publisher: Publisher,
+            MediaTypeId: 1,
+            StandardId: StandardId,
+            LanguageId: LanguageId
+        }
+
+        console.log(GetLibrarySearchBody, "✌😒✌😒");
+        console.log(USBookDetails, "👍👍")
+        ////////////////
+        if (BookTitle === '') {
+            setSearchBook(USBookDetails);
+        } else {
+            const filteredSMS = USBookDetails.filter((item) => {
+                const text1Match = item.UserName.toLowerCase().includes(
+                    BookTitle.toLowerCase()
+                );
+                const text2Match = item.UserName.toLowerCase().includes(
+                    BookTitle.toLowerCase()
+                )
+                return text1Match || text2Match;
+            });
+            setSearchBook(filteredSMS);
+        }
+    };
+    useEffect(() => {
+        setSearchBook(USBookDetails);
+    }, [USBookDetails]);
+
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -175,6 +252,7 @@ const LibraryBaseScreen = () => {
                                         backgroundColor: (theme) => theme.palette.primary.dark,
                                     },
                                 }}
+                                onClick={clickSearch}
                             >
                                 <SearchTwoTone />
                             </IconButton>
@@ -187,6 +265,7 @@ const LibraryBaseScreen = () => {
                                     height: '36px !important',
                                     ':hover': { backgroundColor: red[600] },
                                 }}
+                                onClick={clickClear}
                             >
                                 <Close />
                             </IconButton>
@@ -224,7 +303,20 @@ const LibraryBaseScreen = () => {
                     </>
                 }
             />
-            <LibrarySearch />
+            <LibrarySearch
+                BookTitle={BookTitle}
+                AccessionNumber={AccessionNumber}
+                Author={Author}
+                Publisher={Publisher}
+                StandardId={StandardId}
+                LanguageId={LanguageId}
+                setBookTitle={setBookTitle}
+                setAccessionNumber={setAccessionNumber}
+                setAuthor={setAuthor}
+                setPublisher={setPublisher}
+                setStandardId={setStandardId}
+                setLanguageId={setLanguageId}
+            />
             <Box mt={1} px={2} sx={{ backgroundColor: 'white' }} pb={2} >
                 <Box sx={{ display: 'flex' }}>
                     <Box>
@@ -268,8 +360,11 @@ const LibraryBaseScreen = () => {
                         </Typography>
                     </Box>
                 ) : (
-                    <TableBook data={USBookDetails} clickcliam={ClickCliam} />
+                    <TableBook data={USBookDetails} clickcliam={ClickCliam} handleSortChange={handleSortChange} SortDirection={SortDirection} SortBy={SortBy} />
                 )}
+
+
+
                 <ButtonGroupComponent
                     ChangeRowsPerPage={ChangeRowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions} // Set your options
