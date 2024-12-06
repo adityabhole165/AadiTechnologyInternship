@@ -120,9 +120,10 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit,clickchange
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
-                                    {/* Placeholder for other data */}
-                                </TableCell>
+                                
+                             
+
+
                             </TableRow>
                         ))}
                     </TableBody>

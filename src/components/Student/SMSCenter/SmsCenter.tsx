@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 // import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import { Styles } from 'src/assets/style/student-style';
-import { getDateFormattedDashNew } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import Sentsms from 'src/components/SentSms/Sentsms';
 import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Student/SMSCenter';
@@ -224,66 +223,74 @@ function SmsCenter() {
         rightActions={
           <>
 
-            <TextField
-              sx={{ width: '15vw' }}
-              fullWidth
-              label="To / From / SMS Text"
-              value={NameSubject}
-              variant={'outlined'}
-              size={"small"}
-              onChange={(e) => {
-                handleRegNoOrNameChange(e.target.value);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === 'Tab') {
-                  clickSearch();
-                }
-              }}
-            />
-            <IconButton
-              onClick={clickSearch}
-              sx={{
-                background: (theme) => theme.palette.primary.main,
-                color: 'white',
-                '&:hover': {
-                  backgroundColor: (theme) => theme.palette.primary.dark
-                }
-              }}
-            >
-              <SearchTwoTone />
-            </IconButton>
-            <Box>
-              <Tooltip
-                title={
-                  'School SMS will be sent to below listed number(s). To add/update the number, please send the information to admin staff via message center.'
-                }
-              >
+            {activeTab == 'Send Item' ? <></> :
+              <>
+
+                <TextField
+                  sx={{ width: '15vw' }}
+                  fullWidth
+                  label="To / From / SMS Text"
+                  value={NameSubject}
+                  variant={'outlined'}
+                  size={"small"}
+                  onChange={(e) => {
+                    handleRegNoOrNameChange(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === 'Tab') {
+                      clickSearch();
+                    }
+                  }}
+                />
                 <IconButton
+                  onClick={clickSearch}
                   sx={{
+                    background: (theme) => theme.palette.primary.main,
                     color: 'white',
-                    backgroundColor: yellow[700],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: yellow[800] },
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.palette.primary.dark
+                    }
                   }}
                 >
-                  <PriorityHighIcon />
+                  <SearchTwoTone />
                 </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={`Displays recived sms/ send sms/ scheduled sms/all send sms list.`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] },
-                  }}
-                >
-                  <QuestionMarkIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
+                <Box>
+                  <Tooltip
+                    title={
+                      'School SMS will be sent to below listed number(s). To add/update the number, please send the information to admin staff via message center.'
+                    }
+                  >
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: yellow[700],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: yellow[800] },
+                      }}
+                    >
+                      <PriorityHighIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Box>
+                  <Tooltip title={`Displays recived sms/ send sms/ scheduled sms/all send sms list.`}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: grey[600] },
+                      }}
+                    >
+                      <QuestionMarkIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </>}
+
+
+
+
           </>
         }
       />
@@ -404,8 +411,7 @@ function SmsCenter() {
             </Hidden>
           </Grid>
           <Grid item sx={{ minWidth: '90%', p: 2, background: 'white', borderRadius: '10px' }}>
-
-            <Grid container spacing={2} pb={2}>
+            {activeTab == 'Send Item' ? <span></span> : <Grid container spacing={2} pb={2}>
               {/* Free SMS Count */}
               <Grid item xs={12} sm={3}>
                 <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
@@ -455,9 +461,14 @@ function SmsCenter() {
                 </Card>
               </Grid>
 
-            </Grid>
+            </Grid>}
 
-            <Typography variant={'h4'} fontWeight={800} textAlign={'center'} pt={1}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
+
+            {activeTab !== 'Send Item' && (
+
+              <Typography variant={'h4'} fontWeight={800} textAlign={'center'} pt={1}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
+
+            )}
 
             {activeTab == 'Received SMS' && (
               <Box sx={{ mt: 2 }}>
@@ -493,7 +504,7 @@ function SmsCenter() {
                           <TableCell>   <Link href={url + row.SMS_Id}>
                             {row.Subject}
                           </Link></TableCell>
-                          <TableCell>{getDateFormattedDashNew(new Date(row.Date))}</TableCell>
+                          <TableCell>{format(new Date(row.Date), 'dd/MM/yyyy')}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

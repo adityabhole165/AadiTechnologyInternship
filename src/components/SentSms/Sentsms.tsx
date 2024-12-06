@@ -47,7 +47,7 @@ const Sentsms = () => {
         { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
         { Id: 3, Header: 'Send Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
         { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
-        { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
+        // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
 
     ]);
     const handleHeaderClick = (updatedHeaderArray) => {
@@ -449,7 +449,7 @@ const Sentsms = () => {
 
 
                     <Box>
-                        <Tooltip title={' Displays Sent SMS List.Click on "New SMS" to create and send .'}>
+                        <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
