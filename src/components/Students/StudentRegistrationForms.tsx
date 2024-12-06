@@ -443,16 +443,17 @@ const StudentRegistrationForm = () => {
   //  new state for tab validation status
   const [tabValidationStatus, setTabValidationStatus] = useState({
     admission: true,
-    //personal: true,
+    personal: true,
     //family: true
   });
 
   // state for field-level validation messages
   const [fieldValidationMessages, setFieldValidationMessages] = useState({
     admission: {},
-    //personal: {},
+    personal: {},
     //family: {}
   });
+  const [showValidation, setShowValidation] = useState(false);
 
   const requiredFieldsMap = {
     admission: [
@@ -1283,7 +1284,7 @@ const StudentRegistrationForm = () => {
 
   const handleFormSubmission = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
-
+    setShowValidation(true); // Enable validation display
     // Validate the form
     //const isFormValid = handleValidation();
     const isFormValid = Object.values(tabValidationStatus).every(status => status === true);
@@ -1842,13 +1843,16 @@ const StudentRegistrationForm = () => {
             label="Admission Details"
             // onChange={(data) => handleDataChange('user', data)}
             style={{
-              color: tabValidationStatus.admission ? 'inherit' : 'red'
+              color: !showValidation || tabValidationStatus.admission ? 'inherit' : 'red'
             }}
           />
           <Tab
             sx={{ m: 2, maxWidth: 200 }}
             icon={<AccountCircleIcon />}
             label="Personal Details"
+            style={{
+              color: !showValidation || tabValidationStatus.personal ? 'inherit' : 'red'
+            }}
           />
           <Tab
             sx={{ m: 2, maxWidth: 200 }}
@@ -1884,8 +1888,8 @@ const StudentRegistrationForm = () => {
               <AdmissionDetails
                 admission={form.admission}
                 onChange={handleAdmissionChange}
-                validationMessages={fieldValidationMessages.admission}
-                isValid={tabValidationStatus.admission}
+                validationMessages={showValidation ? fieldValidationMessages.admission : {}}
+                isValid={!showValidation || tabValidationStatus.admission}
               />
             </Grid>
           </Grid>
@@ -1896,6 +1900,8 @@ const StudentRegistrationForm = () => {
               <PersonalDetails
                 personal={form.personal}
                 onChange={handlePersonalChange}
+                validationMessages={showValidation ? fieldValidationMessages.personal : {}}
+                isValid={!showValidation || tabValidationStatus.personal}
               />
             </Grid>
           </Grid>
@@ -1903,13 +1909,6 @@ const StudentRegistrationForm = () => {
         {/* Add additional tab contents here */}
         {currentTab === 2 && (
           <Grid container spacing={1}>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              {/* {status.personalDetails !== null && (
-                                <Alert severity={status.personalDetails ? 'success' : 'error'}>
-                                    {status.personalDetails ? 'Draft saved successfully!' : 'Some fields are missing or incorrect.'}
-                                </Alert>
-                            )} */}
-            </Grid>
             <Grid item xs={12}>
               <AddmissionDocumentInformation />
             </Grid>
@@ -1917,13 +1916,6 @@ const StudentRegistrationForm = () => {
         )}
         {currentTab === 3 && (
           <Grid container spacing={1}>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              {/* {status.personalDetails !== null && (
-                                <Alert severity={status.personalDetails ? 'success' : 'error'}>
-                                    {status.personalDetails ? 'Draft saved successfully!' : 'Some fields are missing or incorrect.'}
-                                </Alert>
-                            )} */}
-            </Grid>
             <Grid item xs={12}>
               <FamilyDetails
                 family={form.family}

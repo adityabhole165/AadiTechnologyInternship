@@ -21,7 +21,7 @@ import {
   IIsOnLeaveBody,
   IStaffNameBody
 } from 'src/interfaces/Students/IStudentUI';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAnyExamPublished,
@@ -502,10 +502,8 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
               value={admission.registrationNumber}
               defaultValue={admission.registrationNumber}
               onChange={handleInputChange}
-              error={errors.registrationNumber}
-              helperText={
-                errors.registrationNumber ? 'This field is required' : ''
-              }
+              error={!!validationMessages.registrationNumber}
+              helperText={validationMessages.registrationNumber}
               sx={{ cursor: 'pointer' }}
               fullWidth
             />
@@ -513,13 +511,19 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <Datepicker
+          <Datepicker1
             DateValue={admission.admissionDate}
             onDateChange={handleDateChange('admissionDate')}
             size={'medium'}
             label={'Admission Date'}
-
+            error={!!validationMessages.admissionDate}
+            helperText={validationMessages.admissionDate}
           />
+          {/* {validationMessages.admissionDate && (
+              <Typography color="error" variant="caption" sx={{ mt: 1 }}>
+                {validationMessages.admissionDate}
+              </Typography>
+            )} */}
           {/* <TextField
             name="admissionDate"
             label={
@@ -538,14 +542,17 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
               shrink: true
             }}
           />*/}
+
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <Datepicker
+          <Datepicker1
             DateValue={admission.joiningDate}
             onDateChange={handleDateChange('joiningDate')}
             // label={'Start Date'}
             size={'medium'}
             label={'Joining Date'}
+            error={!!validationMessages.joiningDate}
+            helperText={validationMessages.joiningDate}
           />
           {/* <TextField
             name="joiningDate"

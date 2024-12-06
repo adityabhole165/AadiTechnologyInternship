@@ -29,7 +29,7 @@ import { toast } from 'react-toastify';
 import Webcam from 'react-webcam';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IRemoveStudentPhotoBody } from 'src/interfaces/Students/IStudentUI';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDADeleteStudentPhoto, CDAresetDeletePhotoMsg } from 'src/requests/Students/RequestStudentUI';
@@ -64,7 +64,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 //   </div>
 // )
 
-const PersonalDetails = ({ personal, onChange }) => {
+const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) => {
   const [usingWebcam, setUsingWebcam] = useState(false);
   const webcamRef = useRef(null);
 
@@ -629,8 +629,8 @@ const PersonalDetails = ({ personal, onChange }) => {
                 variant="outlined"
                 value={personal.firstName}
                 onChange={handleInputChange}
-                error={errors.firstName}
-                helperText={errors.firstName ? 'This field is required' : ''}
+                error={!!validationMessages.firstName}
+                helperText={validationMessages.firstName}
                 fullWidth
               />
             </Grid>
@@ -720,8 +720,8 @@ const PersonalDetails = ({ personal, onChange }) => {
                   variant="outlined"
                   value={personal.parentName}
                   onChange={handleInputChange}
-                  error={errors.parentName}
-                  helperText={errors.parentName ? 'This field is required' : ''}
+                  error={!!validationMessages.parentName}
+                  helperText={validationMessages.parentName}
                   fullWidth
                 />
               </Grid>
@@ -842,8 +842,8 @@ const PersonalDetails = ({ personal, onChange }) => {
                   variant="outlined"
                   value={personal.address}
                   onChange={handleInputChange}
-                  error={errors.address}
-                  helperText={errors.address ? 'This field is required' : ''}
+                  error={!!validationMessages.address}
+                  helperText={validationMessages.address}
                   fullWidth
                   multiline
                 />
@@ -862,8 +862,8 @@ const PersonalDetails = ({ personal, onChange }) => {
                   variant="outlined"
                   value={personal.city}
                   onChange={handleInputChange}
-                  error={errors.city}
-                  helperText={errors.city ? 'This field is required' : ''}
+                  error={!!validationMessages.city}
+                  helperText={validationMessages.city}
                   fullWidth
                 />
               </Grid>
@@ -881,8 +881,8 @@ const PersonalDetails = ({ personal, onChange }) => {
                   variant="outlined"
                   value={personal.state}
                   onChange={handleInputChange}
-                  error={errors.state}
-                  helperText={errors.state ? 'This field is required' : ''}
+                  error={!!validationMessages.state}
+                  helperText={validationMessages.state}
                   fullWidth
                 />
               </Grid>
@@ -900,8 +900,8 @@ const PersonalDetails = ({ personal, onChange }) => {
                   variant="outlined"
                   value={personal.pin}
                   onChange={handleInputChange}
-                  error={errors.pin}
-                  helperText={errors.pin ? 'This field is required' : ''}
+                  error={!!validationMessages.pin}
+                  helperText={validationMessages.pin}
                   fullWidth
                 />
               </Grid>
@@ -909,11 +909,14 @@ const PersonalDetails = ({ personal, onChange }) => {
             {/* Date of Birth */}
             {personal.dateOfBirth !== undefined && (
               <Grid item xs={12} sm={6} md={4} lg={3}>
-                <Datepicker
+                <Datepicker1
                   DateValue={personal.dateOfBirth}
                   onDateChange={handleDateChange('dateOfBirth')}
                   size={'medium'}
-                  label={'Date of Birth'} />
+                  label={'Date of Birth'}
+                  error={!!validationMessages.dateOfBirth}
+                  helperText={validationMessages.dateOfBirth}
+                />
                 {/* <TextField
                   name="dateOfBirth"
                   label={
@@ -956,8 +959,8 @@ const PersonalDetails = ({ personal, onChange }) => {
                   variant="outlined"
                   value={personal.placeOfBirth}
                   onChange={handleInputChange}
-                  error={errors.placeOfBirth}
-                  helperText={errors.placeOfBirth ? 'This field is required' : ''}
+                  error={!!validationMessages.placeOfBirth}
+                  helperText={validationMessages.placeOfBirth}
                   fullWidth
                 />
               </Grid>
@@ -1047,8 +1050,8 @@ const PersonalDetails = ({ personal, onChange }) => {
                 variant="outlined"
                 value={personal.casteAndSubCaste}
                 onChange={handleInputChange}
-                error={errors.casteAndSubCaste}
-                helperText={errors.casteAndSubCaste ? 'This field is required' : ''}
+                error={!!validationMessages.casteAndSubCaste}
+                helperText={validationMessages.casteAndSubCaste}
                 fullWidth
               />
             </Grid>
