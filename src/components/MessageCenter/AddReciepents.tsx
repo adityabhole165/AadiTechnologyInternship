@@ -51,6 +51,8 @@ const AddReciepents = ({
   getGroupRadio1
 }) => {
   let PageName = 'MessageCenter';
+  console.log("PageName", location.pathname);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
@@ -137,7 +139,7 @@ const AddReciepents = ({
     asStdDivId: stdDivId,
     asUserId: asUserId,
     asSelectedUserGroup: techerStudent1,
-    abIsSMSCenter: PageName == 'SMSCenter' ? true : false
+    abIsSMSCenter: location.pathname.includes('ComposeSMS') ? true : false
   };
   const showPTA = {
     asSchoolId: schoolId,
@@ -194,7 +196,7 @@ const AddReciepents = ({
         { Id: '6', Name: 'Admin Staff', isActive: false },
         { Id: '9', Name: 'Contact group', isActive: false }
       ]);
-      if (getPTAOption.ShowPTAOption) {
+      if (!getPTAOption.ShowPTAOption) {
         setTecherStudent((myArr) => [
           ...myArr,
           { Id: '11', Name: 'PTA', isActive: false }
