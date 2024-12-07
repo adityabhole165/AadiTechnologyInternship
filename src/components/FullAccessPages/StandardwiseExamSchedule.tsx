@@ -222,16 +222,11 @@ const StandardwiseExamSchedule = () => {
         console.log(xml, "XML");
 
     }, [xml]);
+
+    const allFalse = tableArray.every(item => item.selected === false); 
+    
     const onClickSave = () => {
-        let errorResult = validateExamSchedule(tableArray)
-        setTimeError('');
-        setSubError(false)
-        if (xml === '') {
-            setSubError(true)
-        }
-        if (errorResult.length > 0) {
-            setTimeError(errorResult)
-        }
+
         const InsertExamScheduleBody: IInsertExamScheduleBody = {
             asSchoolId: Number(asSchoolId),
             asAcademicYearId: Number(asAcademicYearId),
@@ -242,8 +237,45 @@ const StandardwiseExamSchedule = () => {
             asScreenId: 0,
             asSchoolwiseStandardExamScheduleId: IsConfigured == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
             asExamDetailsXML: xml
+        } 
+        let errorResult = validateExamSchedule(tableArray)
+        setTimeError('');
+    
+        if (xml === '') {
+            setSubError(true)
         }
-        if (xml !== '' && errorResult == '') {
+        if (errorResult.length > 0) {
+            setTimeError(errorResult)
+        }
+
+        
+
+        if (IsConfigured == 'true' && allFalse) {
+            setSubError(false)
+            showAlert({
+                title: 'Error',
+                message:
+                    'Are you sure you want to delete exams schedule ?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+                    toast.success("Exam schedule has been deleted successfully!!!")
+                    dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
+                    closeAlert();
+                }
+            });
+
+
+
+            return;
+        }
+
+        
+        if ((xml !== '' && errorResult == '') && IsSchoolConfigured  == "Configured") {
             dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
         }
     }
