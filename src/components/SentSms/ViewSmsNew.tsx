@@ -75,7 +75,7 @@ function ViewSmsNew() {
         <CommonPageHeader
         navLinks={[
           { title: 'SMS Center ', path: '/extended-sidebar/Teacher/SmsCenter' },
-
+          { title: 'SMS Center ', path: '/extended-sidebar/Teacher/Sentsms' },
           { title: 'View SMS', path: '/extended-sidebar/Teacher/ViewSmsNew' }
       ]}
 
@@ -83,7 +83,7 @@ function ViewSmsNew() {
           rightActions={
             <>
               <Box>
-                <Tooltip title={`View sent/received messages.`}>
+                <Tooltip title={`View Send/Received Messages`}>
                   <IconButton
                     sx={{
                       color: 'white',
