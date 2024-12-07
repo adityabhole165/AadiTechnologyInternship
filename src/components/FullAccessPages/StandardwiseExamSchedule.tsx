@@ -274,7 +274,8 @@ const StandardwiseExamSchedule = () => {
 
         if ((xml !== '' && errorResult == '') && IsSchoolConfigured == "Configured") {
             dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
-            toast.success("Exam schedule has been saved successfully!!!")
+            toast.success("Exam schedule has been saved successfully and you can copy exam schedule!!!")
+            setIsSaveClicked(true);
         }
     }
     const { showAlert, closeAlert } = useContext(AlertContext);
@@ -404,8 +405,6 @@ const StandardwiseExamSchedule = () => {
     const handleAccordionToggle = () => {
         setIsExpanded(!isExpanded);
     };
-
-
 
     return (
         <Box px={2}>
