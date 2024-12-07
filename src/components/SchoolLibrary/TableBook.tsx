@@ -24,6 +24,7 @@ interface Book {
   Book_No: string;
   Standards: string;
   Total_Books: string;
+  IsForIssue: string
 }
 
 interface BookTableProps {
@@ -38,10 +39,10 @@ const BookTable: React.FC<BookTableProps> = ({ data, clickcliam, handleSortChang
 
 
   const USBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetails);
-
+  const USGetAllBooksDetailss: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetailss);
 
   // console.log(SortDirection, "👌👌");
-  // console.log(SortBy, "🤞🤞");
+  console.log(USGetAllBooksDetailss, "Arun🤞🤞");
 
 
   // const [order, setOrder] = useState<'asc' | 'desc'>('asc');
@@ -109,6 +110,7 @@ const BookTable: React.FC<BookTableProps> = ({ data, clickcliam, handleSortChang
   //     setSortDirection('asc');
   //   }
   // };
+
 
   return (
     <>
@@ -224,18 +226,19 @@ const BookTable: React.FC<BookTableProps> = ({ data, clickcliam, handleSortChang
             </TableRow>
           </TableHead>
           <TableBody>
-            {USBookDetails.map((row) => (
-              <TableRow key={row.Book_Id}>
-                <TableCell>{row.Book_No}</TableCell>
-                <TableCell>{row.Book_Title}</TableCell>
-                <TableCell>{row.Author_Name}</TableCell>
-                <TableCell>{row.Published_By}</TableCell>
-                <TableCell>{row.Category_Name}</TableCell>
-                <TableCell>{row.Language}</TableCell>
-                <TableCell>{row.Available_Books}</TableCell>
-                <TableCell>{row.Total_Books}</TableCell>
+            {USGetAllBooksDetailss.map((row) => (
 
-                <TableCell sx={{ py: 0 }}>
+              <TableRow key={row.Book_Id} >
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red" }}>{row.Book_No}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red" }} >{row.Book_Title}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red" }}>{row.Author_Name}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red" }}>{row.Published_By}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red" }}>{row.Category_Name}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red" }}>{row.Language}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red" }}>{row.Available_Books}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red" }}>{row.Total_Books}</TableCell>
+
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", py: 0 }}>
                   {row.Available_Books === '0' ? (
                     <Link href="#" onClick={() => clickcliam(row.Book_Id)}>Claim</Link>
                   ) : (" ")}

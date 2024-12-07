@@ -288,6 +288,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     setPage(pageNumber);
   };
 
+
   const handleSelectAll = (event) => {
     const checked = event.target.checked;
     setSelectAll(checked);

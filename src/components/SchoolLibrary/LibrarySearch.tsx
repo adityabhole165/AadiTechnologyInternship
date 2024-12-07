@@ -18,6 +18,7 @@ interface LibrarySearchProps {
     setPublisher: (value: string) => void;
     setStandardId: (value: string) => void;
     setLanguageId: (value: string) => void;
+    clickSearch,
 }
 const LibrarySearch: React.FC<LibrarySearchProps> = ({
     BookTitle,
@@ -31,7 +32,8 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
     setAuthor,
     setPublisher,
     setStandardId,
-    setLanguageId
+    setLanguageId,
+    clickSearch
 }) => {
     // const LibrarySearch = () => {
     const dispatch = useDispatch()
@@ -82,7 +84,14 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         value={BookTitle}
                         onChange={(e) => clickBookTitle(e.target.value.slice(0, 50))}
                         inputProps={{ maxLength: 50 }}
+
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === 'Tab') {
+                                clickSearch();
+                            }
+                        }}
                     />
+
                 </Grid>
                 <Grid item xs={4} md={3}>
                     <TextField

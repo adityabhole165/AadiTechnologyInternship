@@ -1,7 +1,7 @@
 import { Close, QuestionMark, SearchTwoTone } from '@mui/icons-material';
-import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetReserveBookDetailsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
 import { CDAGetReserveBookDetails } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
@@ -50,25 +50,55 @@ const ClaimedBookDetailsPage = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const [showAllUsers, setShowAllUsers] = useState(false);
+    const [BookTitle, setBookTitle] = useState('');
+    const [UserName, setUserName] = useState('');
 
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
-
+    console.log(USReserveBookDetails, "🤞🤞🤞🤞")
     const bookReserveDetails: IGetReserveBookDetailsBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asUserID: asUserId,
         asStartIndex: 0,
         asEndIndex: 20,
-        asBookTitle: "",
-        asUserName: "",
+        asBookTitle: BookTitle,
+        asUserName: UserName,
         asSortExpression: "ORDER BY Book_Title ASC",
-        asAllUserFlag: 0
+        asAllUserFlag: showAllUsers ? 1 : 0
 
     };
     useEffect(() => {
         dispatch(CDAGetReserveBookDetails(bookReserveDetails))
-    }, [])
+    }, [showAllUsers])
 
+    const handleCheckboxChange = () => {
+        setShowAllUsers(!showAllUsers);
+    };
+    const handleCancel = () => {
+        setBookTitle('')
+        setUserName('')
+        const bookReserveDetails: IGetReserveBookDetailsBody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asUserID: asUserId,
+            asStartIndex: 0,
+            asEndIndex: 20,
+            asBookTitle: '',
+            asUserName: '',
+            asSortExpression: "ORDER BY Book_Title ASC",
+            asAllUserFlag: showAllUsers ? 1 : 0
+
+        };
+        dispatch(CDAGetReserveBookDetails(bookReserveDetails))
+    };
+
+    const clickSearch = () => {
+        dispatch(CDAGetReserveBookDetails(bookReserveDetails))
+    };
+    // const clickAccessionNumber = (Value) => {
+    //     setAccessionNumber(Value);
+    // }
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -83,12 +113,22 @@ const ClaimedBookDetailsPage = () => {
                             label="User Name"
                             variant={'outlined'}
                             size={"small"}
+                            onChange={(e) => setUserName(e.target.value.slice(0, 50))}
+                            value={UserName}
                         />
                         <TextField
                             fullWidth
                             label="Book Title"
                             variant={'outlined'}
                             size={'small'}
+                            onChange={(e) => setBookTitle(e.target.value.slice(0, 50))}
+                            value={BookTitle}
+
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === 'Tab') {
+                                    clickSearch();
+                                }
+                            }}
                         />
                         <Box>
                             <Tooltip title={"Search"}>
@@ -114,7 +154,7 @@ const ClaimedBookDetailsPage = () => {
                                         height: '36px !important',
                                         ':hover': { backgroundColor: red[600] }
                                     }}
-                                // onClick={handleCancel}
+                                    onClick={handleCancel}
                                 >
                                     <Close />
                                 </IconButton>
@@ -150,7 +190,14 @@ const ClaimedBookDetailsPage = () => {
                         </Typography>
                     </Box>
                 ) : (
-                    <BookTable data={USReserveBookDetails} />
+                    <>
+                        <FormControlLabel
+                            control={<Checkbox checked={showAllUsers} onChange={handleCheckboxChange} />}
+                            label="Show all claimed books by all users"
+                            sx={{ mb: 2 }}
+                        />
+                        <BookTable data={USReserveBookDetails} showAllUsers={showAllUsers} />
+                    </>
                 )}
             </Box>
         </Box>

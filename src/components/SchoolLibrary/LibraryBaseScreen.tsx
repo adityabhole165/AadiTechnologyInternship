@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetReserveBooksCountperpersonBody, ITotalBooksCountsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
+import { IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetReserveBooksCountperpersonBody, ITotalBooksCountsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { CDABookClimedMsg, CDAClearBookClimedMsg, CDAGetAllBooksDetails, CDAGetLibraryBookIssue, CDAGetReserveBookDetails, CDAGetTotalBooksCount, CDAReserveBooksperpersonCount } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
 import { RootState } from 'src/store';
@@ -28,7 +28,7 @@ const LibraryBaseScreen = () => {
     const [Author, setAuthor] = useState<string>('');
     const [Publisher, setPublisher] = useState<string>('');
     const [StandardId, setStandardId] = useState<string>('0');
-    const [LanguageId, setLanguageId] = useState<string>('0');
+    const [LanguageId, setLanguageId] = useState<string>('');
     const [SearchBook, setSearchBook] = useState([]);
     // console.log(SearchBook, "👌👌");
     // console.log(BookTitle, "🤞🤞");
@@ -46,29 +46,34 @@ const LibraryBaseScreen = () => {
 
     //console.log(ascliambook, "&&&&&34343&&&&&&")
 
-    const USBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetails);
+    // const USBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetails);
     const USGetLibraryBookIssueDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetLibraryBookIssueDetails);
     const USBookCliamMsg: any = useSelector((state: RootState) => state.SchoolLibrary.IBookClimedMsg);
-    const USTotalBookCount: any = useSelector((state: RootState) => state.SchoolLibrary.IlistGetTotalBooksCounts);
+    // const USTotalBookCount: any = useSelector((state: RootState) => state.SchoolLibrary.IlistGetTotalBooksCounts);
     // const USReserveTotalBookCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetailsCount);
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
     const USReserveBookCountPerPerson: any = useSelector((state: RootState) => state.SchoolLibrary.IreserveBooksCountperperson);
-    //console.log(USReserveBookCountPerPerson[0].Text1, "@$$$&&")
-    // console.log(cliambook, "&&&&&&&&&&&")
+    const USGetAllBooksDetailss: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetailss);
+    const USGetBookTotalCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetBookTotalCount);
+    const USGetTotalBookID: any = useSelector((state: RootState) => state.SchoolLibrary.IGetTotalBookID);
 
-
-
+    console.log(SortDirection, "🤞🤞🤞")
     const BookDetails: IGetAllBooksDetailsBody = {
         asprm_iSchoolId: asSchoolId,
-        asprm_Filter: '',
-        asprm_BookNo: '',
-        asprm_iStandardId: 0,
-        asSortExp: 'ORDER BY Book_Title ASC',//SortDirection.toString(),
+        Book_Title: BookTitle,
+        Author_Name: Author,
+        Published_By: Publisher,
+        AccessionNumber: AccessionNumber,
+        Language: LanguageId,
+        asprm_iStandardId: StandardId,
+        asSortExp: "ORDER BY Book_Title ASC", //SortDirection,
         asStartIndex: (page - 1) * rowsPerPage, // dynamic start index for pagination
         asEndIndex: page * rowsPerPage, // dynamic end index for pagination
         asprm_iParentStaffId: 0,
     };
-
+    const clickSearch = () => {
+        dispatch(CDAGetAllBooksDetails(BookDetails));
+    }
     useEffect(() => {
         dispatch(CDAGetAllBooksDetails(BookDetails));
     }, [dispatch, page, rowsPerPage, SortDirection]);  // Dependency on page and rowsPerPage for dynamic pagination
@@ -119,17 +124,84 @@ const LibraryBaseScreen = () => {
     }, [])
 
     //console.log(number(cliambook),'cliambook')
-    const ClickCliam = (Book_Id: number) => {
-        setcliambook(Book_Id.toString())
+    // const ClickCliam = (Book_Id: number) => {
+    //     //console.log(Book_Id, "🤞🤞🤞");
 
-        if (USReserveBookCountPerPerson === "4") {
-            toast.error("Can not claim more than 4 book");
-        } else if (USReserveBookCountPerPerson === "999") {
-            toast.error("Could not claim the same book.");
+    //     //setcliambook(Book_Id.toString())
+    //     if (USReserveBookCountPerPerson === "4") {
+    //         toast.error("Can not claim more than 4 book");
+    //     } else if (USReserveBookCountPerPerson === "999") {
+    //         toast.error("Could not claim the same book.");
+    //     }
+    //     else {
+    //         const cliambookBody: IBookclaimedBody = {
+    //             asBookId: ascliambook,
+    //             asUserId: asUserId,
+    //             asReservedByParent: 0,
+    //             asSchoolId: asSchoolId,
+    //             asAcademicYearId: asAcademicYearId,
+    //             asInsertedById: asUserId,
+    //         };
+    //         dispatch(CDABookClimedMsg(cliambookBody));
+    //     }
+
+    // };
+    // useEffect(() => {
+    //     if (USBookCliamMsg !== "") {
+    //         toast.success(USBookCliamMsg);
+    //         dispatch(CDAClearBookClimedMsg())
+    //     }
+    // }, [USBookCliamMsg, ascliambook])
+    const [BookId, setBookId] = useState(0);
+
+    const ClickCliam = (Book_Id: number) => {
+        setBookId(Book_Id)
+        const countperpersonbody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asBookId: Book_Id,
+            asUserId: asUserId,
+            asFlag: 0
         }
-        else {
-            const cliambookBody: IBookclaimedBody = {
-                asBookId: ascliambook,
+
+        dispatch(CDAReserveBooksperpersonCount(countperpersonbody));
+
+        // let isValid = true;
+        // if (USReserveBookCountPerPerson === "999") {
+        //     toast.error("Could not claim the same book.");
+        //     isValid = false;
+        // }
+        // if (USReserveBookCountPerPerson === "4") {
+        //     toast.error("Cannot claim more than 4 books.");
+        //     isValid = false;
+        // }
+        // if (!isValid) return;
+        // const cliambookBody = {
+        //     asBookId: Book_Id,
+        //     asUserId: asUserId,
+        //     asReservedByParent: 0,
+        //     asSchoolId: asSchoolId,
+        //     asAcademicYearId: asAcademicYearId,
+        //     asInsertedById: asUserId,
+        // };
+        // dispatch(CDABookClimedMsg(cliambookBody));
+
+    };
+
+    useEffect(() => {
+        let isValid = true;
+        if (USReserveBookCountPerPerson.length > 0) {
+            if (USReserveBookCountPerPerson[0].Count === "999") {
+                toast.error("Could not claim the same book.");
+                isValid = false;
+            }
+            if (USReserveBookCountPerPerson[0].Count === "4") {
+                toast.error("Cannot claim more than 4 books.");
+                isValid = false;
+            }
+            if (!isValid) return;
+            const cliambookBody = {
+                asBookId: BookId,
                 asUserId: asUserId,
                 asReservedByParent: 0,
                 asSchoolId: asSchoolId,
@@ -137,29 +209,30 @@ const LibraryBaseScreen = () => {
                 asInsertedById: asUserId,
             };
             dispatch(CDABookClimedMsg(cliambookBody));
+            setBookId(0);
         }
-
-    };
+    }, [USReserveBookCountPerPerson])
+    console.log(USReserveBookCountPerPerson, "USReserveBookCountPerPerson111")
     useEffect(() => {
+        // If `USBookCliamMsg` is not empty, show a success toast
         if (USBookCliamMsg !== "") {
-            toast.success(USBookCliamMsg);
-            dispatch(CDAClearBookClimedMsg())
+            toast.success(USBookCliamMsg); // Display the success message from `USBookCliamMsg`
+            dispatch(CDAClearBookClimedMsg()); // Clear the message
         }
-    }, [USBookCliamMsg])
-
+    }, [USBookCliamMsg, USReserveBookCountPerPerson]);
 
     const singleTotalCount: number = useMemo(() => {
-        if (!Array.isArray(USTotalBookCount)) {
+        if (!Array.isArray(USGetBookTotalCount)) {
             return 0;
         }
-        return USTotalBookCount.reduce((acc: number, item: any) => {
+        return USGetBookTotalCount.reduce((acc: number, item: any) => {
             const count = Number(item.TotalCount);
             if (isNaN(count)) {
                 return acc;
             }
             return acc + count;
         }, 0);
-    }, [USTotalBookCount]);
+    }, [USGetBookTotalCount]);
 
     const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
@@ -191,6 +264,21 @@ const LibraryBaseScreen = () => {
         setPublisher('');
         setStandardId('0');
         setLanguageId('0');
+        const BookDetails: IGetAllBooksDetailsBody = {
+            asprm_iSchoolId: asSchoolId,
+            Book_Title: BookTitle,
+            Author_Name: Author,
+            Published_By: Publisher,
+            AccessionNumber: AccessionNumber,
+            Language: LanguageId,
+            asprm_iStandardId: StandardId,
+            asSortExp: "ORDER BY Book_Title ASC", //SortDirection,
+            asStartIndex: (page - 1) * rowsPerPage, // dynamic start index for pagination
+            asEndIndex: page * rowsPerPage, // dynamic end index for pagination
+            asprm_iParentStaffId: 0,
+        };
+        dispatch(CDAGetAllBooksDetails(BookDetails));
+
     }
     // const clickSearch = () => {
     //     const GetLibrarySearchBody = {
@@ -204,38 +292,41 @@ const LibraryBaseScreen = () => {
     //     }
     // }
 
-    const clickSearch = () => {
-        const GetLibrarySearchBody = {
-            BookTitle: BookTitle,
-            AccessionNumber: AccessionNumber,
-            Author: Author,
-            Publisher: Publisher,
-            MediaTypeId: 1,
-            StandardId: StandardId,
-            LanguageId: LanguageId
-        }
 
-        console.log(GetLibrarySearchBody, "✌😒✌😒");
-        console.log(USBookDetails, "👍👍")
-        ////////////////
-        if (BookTitle === '') {
-            setSearchBook(USBookDetails);
-        } else {
-            const filteredSMS = USBookDetails.filter((item) => {
-                const text1Match = item.UserName.toLowerCase().includes(
-                    BookTitle.toLowerCase()
-                );
-                const text2Match = item.UserName.toLowerCase().includes(
-                    BookTitle.toLowerCase()
-                )
-                return text1Match || text2Match;
-            });
-            setSearchBook(filteredSMS);
-        }
-    };
-    useEffect(() => {
-        setSearchBook(USBookDetails);
-    }, [USBookDetails]);
+    // const clickSearch = () => {
+
+    // }
+    //     const GetLibrarySearchBody = {
+    //         BookTitle: BookTitle,
+    //         AccessionNumber: AccessionNumber,
+    //         Author: Author,
+    //         Publisher: Publisher,
+    //         MediaTypeId: 1,
+    //         StandardId: StandardId,
+    //         LanguageId: LanguageId
+    //     }
+
+    //     console.log(GetLibrarySearchBody, "✌😒✌😒");
+    //     // console.log(USBookDetails, "👍👍")
+    //     ////////////////
+    //     if (BookTitle === '') {
+    //         setSearchBook(USGetAllBooksDetailss);
+    //     } else {
+    //         const filteredSMS = USGetAllBooksDetailss.filter((item) => {
+    //             const text1Match = item.UserName.toLowerCase().includes(
+    //                 BookTitle.toLowerCase()
+    //             );
+    //             const text2Match = item.UserName.toLowerCase().includes(
+    //                 BookTitle.toLowerCase()
+    //             )
+    //             return text1Match || text2Match;
+    //         });
+    //         setSearchBook(filteredSMS);
+    //     }
+    // };
+    // useEffect(() => {
+    //     setSearchBook(USGetAllBooksDetailss);
+    // }, [USGetAllBooksDetailss]);
 
     return (
         <Box px={2}>
@@ -316,7 +407,7 @@ const LibraryBaseScreen = () => {
                 setPublisher={setPublisher}
                 setStandardId={setStandardId}
                 setLanguageId={setLanguageId}
-            />
+                clickSearch={clickSearch} />
             <Box mt={1} px={2} sx={{ backgroundColor: 'white' }} pb={2} >
                 <Box sx={{ display: 'flex' }}>
                     <Box>
@@ -342,7 +433,7 @@ const LibraryBaseScreen = () => {
                     </Box>
                 </Box>
 
-                {USBookDetails.length === 0 ? (
+                {USGetAllBooksDetailss.length === 0 ? (
                     <Box sx={{ backgroundColor: '#D2FDFC' }}>
                         <Typography
                             variant="h6"
@@ -360,11 +451,8 @@ const LibraryBaseScreen = () => {
                         </Typography>
                     </Box>
                 ) : (
-                    <TableBook data={USBookDetails} clickcliam={ClickCliam} handleSortChange={handleSortChange} SortDirection={SortDirection} SortBy={SortBy} />
+                    <TableBook data={USGetAllBooksDetailss} clickcliam={ClickCliam} handleSortChange={handleSortChange} SortDirection={SortDirection} SortBy={SortBy} />
                 )}
-
-
-
                 <ButtonGroupComponent
                     ChangeRowsPerPage={ChangeRowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions} // Set your options

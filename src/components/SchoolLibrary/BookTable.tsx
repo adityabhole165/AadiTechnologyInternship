@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
+  Box,
   IconButton,
   Paper,
   Table,
@@ -9,35 +12,34 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  Checkbox,
-  Tooltip,
-  Box,
-  FormControlLabel
+  Tooltip
 } from '@mui/material';
 import { red } from '@mui/material/colors';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import React, { useState } from 'react';
 
 type BookDataType = {
   bookTitle?: string;
   date?: string;
-  username?:string;
+  username?: string;
   action?: string;
   userName?: string;
   class?: string;
   designation?: string;
+  UserId?: string
 };
 
 interface BookTableProps {
   data: BookDataType[];
+  showAllUsers: boolean;
+
 }
 
-const BookTable: React.FC<BookTableProps> = ({ data }) => {
+const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers }) => {
   const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<string>('bookTitle');
   const [sortedData, setSortedData] = useState(data);
-  const [showAllUsers, setShowAllUsers] = useState(false); // Checkbox state
+  //const [showAllUsers, setShowAllUsers] = useState(false); // Checkbox state
+
 
   const handleSortRequest = (property: string) => {
     const isAsc = orderBy === property && orderDirection === 'asc';
@@ -52,18 +54,18 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
     setSortedData(sortedArray);
   };
 
-  const handleCheckboxChange = () => {
-    setShowAllUsers(!showAllUsers);
-  };
+  // const handleCheckboxChange = () => {
+  //   setShowAllUsers(!showAllUsers);
+  // };
 
   return (
     <Box>
       {/* Checkbox for toggling additional columns */}
-      <FormControlLabel
+      {/* <FormControlLabel
         control={<Checkbox checked={showAllUsers} onChange={handleCheckboxChange} />}
         label="Show all claimed books by all users"
         sx={{ mb: 2 }}
-      />
+      /> */}
 
       <TableContainer component={Paper}>
         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
@@ -86,7 +88,7 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
               </TableCell>
 
               {/* Date Column */}
-            
+
 
               {/* Extra Columns When Checkbox is Checked */}
               {showAllUsers && (
@@ -137,7 +139,7 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
                   </TableCell>
                 </>
               )}
-                <TableCell sx={{ color: 'white', py: 1.5, pl: 4 }}>
+              <TableCell sx={{ color: 'white', py: 1.5, pl: 4 }}>
                 <TableSortLabel
                   active={orderBy === 'date'}
                   direction={orderDirection}
@@ -163,7 +165,7 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                   {book.bookTitle}
                 </TableCell>
-               
+
 
                 {showAllUsers && (
                   <>
@@ -178,33 +180,37 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
                     </TableCell>
                   </>
                 )}
-                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
+                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                   {book.date}
                 </TableCell>
+                {
+                  book.UserId == localStorage.getItem('UserId') &&
 
-                <TableCell
-                  sx={{
-                    textTransform: 'capitalize',
-                    textAlign: 'center',
-                    opacity: 1,
-                    py: 0.5,
-                  }}
-                  align="center"
-                >
-                  <IconButton
+                  <TableCell
                     sx={{
-                      color: '#223354',
-                      '&:hover': {
-                        color: 'red',
-                        backgroundColor: red[100],
-                      },
+                      textTransform: 'capitalize',
+                      textAlign: 'center',
+                      opacity: 1,
+                      py: 0.5,
                     }}
+                    align="center"
                   >
-                    <Tooltip title="Delete">
-                      <DeleteForeverIcon />
-                    </Tooltip>
-                  </IconButton>
-                </TableCell>
+                    <IconButton
+                      sx={{
+                        color: '#223354',
+                        '&:hover': {
+                          color: 'red',
+                          backgroundColor: red[100],
+                        },
+                      }}
+                    >
+
+                      <Tooltip title="Delete">
+                        <DeleteForeverIcon />
+                      </Tooltip>
+                    </IconButton>
+                  </TableCell>
+                }
               </TableRow>
             ))}
           </TableBody>

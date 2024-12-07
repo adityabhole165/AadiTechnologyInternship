@@ -1,30 +1,35 @@
-export interface IGetAllBooksDetailsBody {
-    asprm_iSchoolId: number,
-    asprm_Filter: string,
-    asprm_BookNo: string,
-    asprm_iStandardId: number,
-    asSortExp: string,
-    asStartIndex: number,
-    asEndIndex: number,
-    asprm_iParentStaffId: number
-}
-export interface IGetAllBooksDetailsResult {
-    Book_Id: string,
-    Book_Title: string,
-    Is_Printable: string,
-    Category_id: string,
-    Author_Name: string,
-    Published_By: string,
-    Category_Name: string,
-    Available_Books: string,
-    Total_Book_Quantity: string,
-    IsForIssue: string,
-    Decription: string,
-    Standards: string,
-    Language: string,
-    Book_No: string,
-    AllowBookClaimForParent: string
-}
+// export interface IGetAllBooksDetailsBody {
+//     asprm_iSchoolId: number,
+//     //asprm_Filter: string,
+//     //asprm_BookNo: string,
+//     Book_Title: string,
+//     Author_Name: string,
+//     Published_By: string,
+//     AccessionNumber: string,
+//     Language: string,
+//     asprm_iStandardId: string,
+//     asSortExp: string,
+//     asStartIndex: number,
+//     asEndIndex: number,
+//     asprm_iParentStaffId: number
+// }
+// export interface IGetAllBooksDetailsResult {
+//     Book_Id: string,
+//     Book_Title: string,
+//     Is_Printable: string,
+//     Category_id: string,
+//     Author_Name: string,
+//     Published_By: string,
+//     Category_Name: string,
+//     Available_Books: string,
+//     Total_Book_Quantity: string,
+//     IsForIssue: string,
+//     Decription: string,
+//     Standards: string,
+//     Language: string,
+//     Book_No: string,
+//     AllowBookClaimForParent: string
+// }
 export interface IGetLibraryBookIssueDetailsBody {
     asSchool_Id: number,
     asBook_Issued_To: number,
@@ -137,4 +142,49 @@ export interface IGetReserveBooksCountperpersonBody {
 }
 export interface IGetReserveBooksCountperpersonResult {
     Count: string
+}
+export interface IGetAllBooksDetailsBody {
+    asprm_iSchoolId: number,
+    Book_Title: string,
+    Author_Name: string,
+    Published_By: string,
+    AccessionNumber: string,
+    Language: string,
+    asprm_iStandardId: string,
+    asSortExp: string,
+    asStartIndex: number,
+    asEndIndex: number,
+    asprm_iParentStaffId: number
+}
+export interface IGetAllBooksDetailsResult {
+    listAllBooksDetails: [
+        {
+            Book_Id: string,
+            Book_Title: string,
+            Is_Printable: string,
+            Category_id: string,
+            Author_Name: string,
+            Published_By: string,
+            Category_Name: string,
+            Available_Books: string,
+            Total_Book_Quantity: string,
+            IsForIssue: string,
+            Decription: string,
+            Standards: string,
+            Language: string,
+            Book_No: string,
+            AllowBookClaimForParent: string
+        }
+    ];
+    listBookTotalCount: [
+        {
+            TotalCount: string
+        }
+    ];
+    listTotalBookId: [
+        {
+            Book_Id: string
+        }
+    ]
+
 }
