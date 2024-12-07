@@ -273,6 +273,11 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
         const formattedTime = getTimeFormatted(startTime);
         return `${formattedDate} ${formattedTime}`;
     };
+    const getExamEndDate = (examDate, endTime) => {
+        const formattedDate = getDateFormattedDash(examDate);
+        const formattedTime = getTimeFormatted(endTime);
+        return `${formattedDate} ${formattedTime}`;
+    };
 
     // function getXML() {
     //     let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
@@ -301,7 +306,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
         tableRows.forEach((subject) => {
             if (subject.selected) {
                 const startDateTime = getExamStartDate(subject.examDate, subject.startTime);
-                const endDateTime = getExamStartDate(subject.examDate, subject.endTime);
+                const endDateTime = getExamEndDate(subject.examDate, subject.endTime);
 
                 sXML +=
                     '<SubjectwiseStandardExamSchedule ' +

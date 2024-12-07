@@ -153,6 +153,15 @@ const StandardwiseExamSchedule = () => {
         dispatch(GetSumbitExamSchedule(unSubmitBody));
         setIsUnsubmitted(true);
         toast.success('Exam schedule has been Unsubmited successfully!!!');
+
+        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
+            asStandardId: Number(StandardId),
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
+
+        }
+        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
     };
 
 
@@ -283,7 +292,7 @@ const StandardwiseExamSchedule = () => {
             if (CopyExamSchedule === "Exam Schedule has been copied successfully!!!") {
                 toast.success(CopyExamSchedule);
             } else {
-                toast.error(CopyExamSchedule);
+                toast.error("Exam Schedule has been not copied successfully!!!");
             }
             dispatch(resetCopyStandardTestMsg()); // Resetting the message state
         }
@@ -311,6 +320,14 @@ const StandardwiseExamSchedule = () => {
     const onClickSubmit = () => {
         dispatch(GetSumbitExamSchedule(SumbitExamScheduleBody))
         toast.success('Exam schedule has been submited successfully!!!');
+        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
+            asStandardId: Number(StandardId),
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
+
+        }
+        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
         setIsUnsubmitted(false);
     };
 
