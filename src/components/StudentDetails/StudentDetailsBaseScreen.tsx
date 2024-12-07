@@ -194,9 +194,11 @@ export const StudentDetailsBaseScreen = () => {
                     backgroundColor: blue[600]
                   }
                 }}
-                onClick={() =>
-                  navigate(`/extended-sidebar/Teacher/StudentRegistrationForms`)
-                }
+                onClick={() => {
+                  navigate(
+                    `/extended-sidebar/Teacher/StudentRegistrationForms/SD`
+                  );
+                }}
               >
                 <ThreePRoundedIcon />
               </IconButton>
@@ -358,7 +360,7 @@ export const StudentDetailsBaseScreen = () => {
           </div>
         )}
         {isSearchPerformed && filteredData.length === 0 ? (
-          <Box textAlign="center" sx={{backgroundColor: 'white', p:2 }}>
+          <Box textAlign="center" sx={{ backgroundColor: 'white', p: 2 }}>
             <Typography
               variant="h6"
               align="center"
@@ -376,11 +378,11 @@ export const StudentDetailsBaseScreen = () => {
             </Typography>
           </Box>
         ) : (
-          <Box p={2} >
-          <StudentTable
-            data={filteredData}
-            onSelectStudent={handleSelectStudent}
-          />
+          <Box p={2}>
+            <StudentTable
+              data={filteredData}
+              onSelectStudent={handleSelectStudent}
+            />
           </Box>
         )}
       </Box>

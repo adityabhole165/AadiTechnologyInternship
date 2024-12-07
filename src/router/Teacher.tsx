@@ -8,11 +8,11 @@ import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubject
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
-(
-  <Suspense fallback={<SuspenseLoader />}>
-    <Component {...props} />
-  </Suspense>
-);
+  (
+    <Suspense fallback={<SuspenseLoader />}>
+      <Component {...props} />
+    </Suspense>
+  );
 
 // const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
 const PerformanceGradeAssignmentBaseScreen = Loader(
@@ -299,7 +299,9 @@ const ClaimedBookDetailsPage = Loader(
 );
 const Sentsms = Loader(lazy(() => import('src/components/SentSms/Sentsms')));
 
-const ViewSmsNew = Loader(lazy(() => import('src/components/SentSms/ViewSmsNew')));
+const ViewSmsNew = Loader(
+  lazy(() => import('src/components/SentSms/ViewSmsNew'))
+);
 const DashBoard = Loader(
   lazy(() => import('src/componentsWeb/DashBoard/DashBoard'))
 );
@@ -379,6 +381,10 @@ const teacherRoutes = [
   },
   {
     path: 'StudentRegistrationForms',
+    element: <StudentRegistrationForms />
+  },
+  {
+    path: 'StudentRegistrationForms/:PageID',
     element: <StudentRegistrationForms />
   },
   {

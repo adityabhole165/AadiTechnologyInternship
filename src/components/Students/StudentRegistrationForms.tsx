@@ -269,7 +269,7 @@ const StudentRegistrationForm = () => {
   const [IsConfirm1, setIsConfirm1] = useState('');
   const handleOpenPopup = () => setIsPopupOpen(true);
   const handleClosePopup = () => setIsPopupOpen(false);
-  const { AssignedDate } = useParams();
+  const { AssignedDate, PageID } = useParams();
   const navigate = useNavigate();
 
   const [tabCompletion, setTabCompletion] = useState({
@@ -1686,7 +1686,7 @@ const StudentRegistrationForm = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Students', path: '/extended-sidebar/Teacher/Students' },
+          { title: `Students${PageID==='SD'?' Details':''}`, path: PageID==='SD'?'/extended-sidebar/Teacher/StudentDetailsBaseScreen':'/extended-sidebar/Teacher/Students' },
           {
             title: 'Enter Students Details',
             path: '/extended-sidebar/Teacher/Students/StudentRegistrationForm'
