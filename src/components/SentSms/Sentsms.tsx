@@ -337,7 +337,7 @@ const Sentsms = () => {
 
 
     return (
-        <Box sx={{ px: 2 }}>
+        <Box>
             {(Loading) && <SuspenseLoader />}
 
             <Stack direction="row"
@@ -477,7 +477,7 @@ const Sentsms = () => {
 
 
 
-            {SmsList.length > 0 && <Box mb={1} sx={{ p: 2, background: 'white' }}>
+            {SmsList.length > 0 && <Box mb={1} sx={{ background: 'white' }}>
                 {
                     SmsList.length > 0 ? (
                         <div style={{ flex: 1, textAlign: 'center' }}>

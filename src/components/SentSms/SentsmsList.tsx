@@ -63,7 +63,7 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit, clickchang
                         <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                             <TableCell padding="checkbox">
                                 <Checkbox
-                                    sx={{ p: 1 }}
+                                    sx={{ p: 1.5 }}
                                     checked={IsCheckAll()}
                                     onChange={clickAll}
                                 />
@@ -71,7 +71,7 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit, clickchang
                             {HeaderArray.map((item, i) => (
                                 <TableCell
                                     key={i}
-                                    sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}
+                                    sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1.5 }}
                                     onClick={i < 3 ? () => clickHeader(item.Id) : null} // Make only the first 3 headers clickable
                                 >
                                     <div style={{
@@ -98,16 +98,16 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit, clickchang
                                         onChange={() => onClick(item.Id)}
                                     />
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py:0.5 }}>
                                     {item.UserName}
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py:0.5  }}>
                                     {item.Subject}
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py:0.5  }}>
                                     {item.Insert_Date}
                                 </TableCell>
-                                <TableCell sx={{ textAlign: 'center', paddingTop: '2.5px', paddingBottom: '2.5px' }} align="center">
+                                <TableCell sx={{ textAlign: 'center', py:0.5 }} align="center">
                                     <Tooltip title={"Edit"}>
                                         <IconButton
                                             onClick={() => clickEdit(item.Id)}

@@ -480,17 +480,17 @@ function SmsCenter() {
                   <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                     <TableHead>
                       <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                        <TableCell sx={{ color: 'white' }}>
+                        <TableCell sx={{ color: 'white',py:1.5 }}>
                           <b onClick={() => handleSortChange('UserName')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
                             From {SortBy === 'UserName' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                           </b>
                         </TableCell>
-                        <TableCell sx={{ color: 'white' }}>
+                        <TableCell sx={{ color: 'white',py:1.5 }}>
                           <b onClick={() => handleSortChange('Subject')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
                             SMS Text {SortBy === 'Subject' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                           </b>
                         </TableCell>
-                        <TableCell sx={{ color: 'white' }}>
+                        <TableCell sx={{ color: 'white' ,py:1.5}}>
                           <b onClick={() => handleSortChange('Date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
                             Received Date {SortBy === 'Date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                           </b>
@@ -500,11 +500,11 @@ function SmsCenter() {
                     <TableBody>
                       {PagedSMS.map((row, index) => (
                         <TableRow key={index}>
-                          <TableCell>{row.UserName}</TableCell>
-                          <TableCell>   <Link href={url + row.SMS_Id}>
+                          <TableCell sx={{py:1}}>{row.UserName}</TableCell>
+                          <TableCell sx={{py:1}}>   <Link href={url + row.SMS_Id}>
                             {row.Subject}
                           </Link></TableCell>
-                          <TableCell>{format(new Date(row.Date), 'dd/MM/yyyy')}</TableCell>
+                          <TableCell sx={{py:1}}>{format(new Date(row.Date), 'dd/MM/yyyy')}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -543,15 +543,9 @@ function SmsCenter() {
             )}
 
 
-            <br></br>
             {activeTab == 'Send Item' && (
               <Sentsms />
             )}
-
-
-
-
-
 
           </Grid>
         </Grid>
