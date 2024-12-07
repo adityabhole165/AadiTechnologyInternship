@@ -8,11 +8,11 @@ import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubject
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 // const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
 const PerformanceGradeAssignmentBaseScreen = Loader(
@@ -906,7 +906,7 @@ const teacherRoutes = [
     element: <StandardwiseExamSchedule />
   },
   {
-    path: 'StandardwiseExamSchedule/:StandardId/:TestId/:IsConfigured',
+    path: 'StandardwiseExamSchedule/:StandardId/:TestId/:SchoolwiseStandardTestId/:IsConfigured',
     element: <StandardwiseExamSchedule />
   },
   {

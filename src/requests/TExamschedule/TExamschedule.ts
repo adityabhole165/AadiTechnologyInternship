@@ -61,24 +61,31 @@ const SelectStandardExamslice = createSlice({
       state.getStandard = action.payload;
     },
     RStandardRes(state, action) {
+      state.Loading = false;
       state.RStandard = action.payload;
     },
     RStandardwTestRes(state, action) {
+      state.Loading = false;
       state.RStandardwTest = action.payload;
     },
     ExamSchedule(state, action) {
+      state.Loading = false;
       state.ExamSchedule = action.payload;
     },
     SubjectExamSchedule(state, action) {
+      state.Loading = false;
       state.SubjectExamSchedule = action.payload;
     },
     StandardsForExamCopy(state, action) {
+      state.Loading = false;
       state.StandardsForExamCopy = action.payload;
     },
     Instructionss(state, action) {
+      state.Loading = false;
       state.Instructionss = action.payload;
     },
     IsSubmitedd(state, action) {
+      state.Loading = false;
       state.IsSubmitedd = action.payload;
     },
     getUpdateExamScheduleInstructionsMsg(state, action) {
@@ -275,6 +282,8 @@ export const RExamSchedule =
           Id += 1;
 
           const StandardTest = GetStandardTest(Standards.standard_id, Tests.SchoolWise_TestId);
+          const SchoolwiseStandardTestId = StandardTest.length > 0 ? StandardTest[0]?.Schoolwise_Standard_Test_Id : null;
+
           if (StandardTest.length === 0) {
             Array.push({
               Id,
@@ -303,7 +312,8 @@ export const RExamSchedule =
                 Header: Standards.standard_name,
                 SubHeader: Tests.SchoolWise_TestName,
                 TestId: Tests.SchoolWise_TestId,
-                StandardId: Standards.standard_id
+                StandardId: Standards.standard_id,
+                SchoolwiseStandardTestId
               });
             } else {
               Array.push({
@@ -319,7 +329,8 @@ export const RExamSchedule =
                 TestId: Tests.SchoolWise_TestId,
                 StandardId: Standards.standard_id,
                 SchoolwiseStandardExamScheduleId: ConfigExam[0].Schoolwise_Standard_Exam_Schedule_Id,
-                StandardTestId: ConfigExam[0].Standard_Test_Id
+                StandardTestId: ConfigExam[0].Standard_Test_Id,
+                SchoolwiseStandardTestId
               });
             }
           }

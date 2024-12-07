@@ -22,7 +22,7 @@ import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
 
 
 const StandardwiseExamSchedule = () => {
-    const { StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId, IsConfigured } = useParams();
+    const { StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId, IsConfigured, SchoolwiseStandardTestId } = useParams();
     const dispatch = useDispatch();
     const [openDialog, setOpenDialog] = useState(false);
     const [IsConfirm, setIsConfirm] = useState('');
@@ -46,6 +46,7 @@ const StandardwiseExamSchedule = () => {
     const [xml, setXML] = useState();
     const [tableArray, setTableArray] = useState([])
     const [timeError, setTimeError] = useState('')
+    const [isSaveClicked, setIsSaveClicked] = useState(false);
     const [subError, setSubError] = useState(false)
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
@@ -223,24 +224,12 @@ const StandardwiseExamSchedule = () => {
 
     }, [xml]);
 
-    const allFalse = tableArray.every(item => item.selected === false); 
-    
-    const onClickSave = () => {
+    const allFalse = tableArray.every(item => item.selected === false);
 
-        const InsertExamScheduleBody: IInsertExamScheduleBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asStandardId: Number(StandardId),
-            asSchoolwiseTestId: Number(TestId),
-            asStandardTestId: IsConfigured == 'true' ? Number(StandardTestId) : 0,
-            asInsertedById: asUserId,
-            asScreenId: 0,
-            asSchoolwiseStandardExamScheduleId: IsConfigured == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
-            asExamDetailsXML: xml
-        } 
+    const onClickSave = () => {
         let errorResult = validateExamSchedule(tableArray)
         setTimeError('');
-    
+
         if (xml === '') {
             setSubError(true)
         }
@@ -248,14 +237,24 @@ const StandardwiseExamSchedule = () => {
             setTimeError(errorResult)
         }
 
-        
+        const InsertExamScheduleBody: IInsertExamScheduleBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asStandardId: Number(StandardId),
+            asSchoolwiseTestId: Number(TestId),
+            asStandardTestId: IsConfigured == 'true' ? Number(StandardTestId) : Number(SchoolwiseStandardTestId),
+            asInsertedById: asUserId,
+            asScreenId: 19,
+            asSchoolwiseStandardExamScheduleId: IsConfigured == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
+            asExamDetailsXML: xml
+        }
 
         if (IsConfigured == 'true' && allFalse) {
             setSubError(false)
             showAlert({
-                title: 'Error',
+                title: 'Please Confirm',
                 message:
-                    'Are you sure you want to delete exams schedule ?',
+                    "Are you sure you want to delete exam's schedule ?",
                 variant: 'warning',
                 confirmButtonText: 'Confirm',
                 cancelButtonText: 'Cancel',
@@ -265,18 +264,17 @@ const StandardwiseExamSchedule = () => {
                 onConfirm: () => {
                     toast.success("Exam schedule has been deleted successfully!!!")
                     dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
+                    setIsSaveClicked(true);
                     closeAlert();
                 }
             });
 
-
-
             return;
         }
 
-        
-        if ((xml !== '' && errorResult == '') && IsSchoolConfigured  == "Configured") {
+        if ((xml !== '' && errorResult == '') && IsSchoolConfigured == "Configured") {
             dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
+            toast.success("Exam schedule has been saved successfully!!!")
         }
     }
     const { showAlert, closeAlert } = useContext(AlertContext);
@@ -323,13 +321,10 @@ const StandardwiseExamSchedule = () => {
         if (CopyExamSchedule !== '') {
             if (CopyExamSchedule === "Exam Schedule has been copied successfully!!!") {
                 toast.success(CopyExamSchedule);
-            } else {
-                toast.error("Exam Schedule has been not copied successfully!!!");
+                dispatch(resetCopyStandardTestMsg()); // Resetting the message state
             }
-            dispatch(resetCopyStandardTestMsg()); // Resetting the message state
         }
     }, [CopyExamSchedule]);
-
     const getClassName = () => {
         let returnVal = ""
 
@@ -724,7 +719,13 @@ const StandardwiseExamSchedule = () => {
                         rows={3}
                         variant="outlined"
                         value={currentInstruction || ''}
-                        onChange={(e) => setCurrentInstruction(e.target.value)}
+                        // onChange={(e) => setCurrentInstruction(e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.value.length <= 500) {
+                                setCurrentInstruction(e.target.value);
+                            }
+                        }}
+                        inputProps={{ maxLength: 500 }}
                         sx={{ mt: 2 }}
                     />
 
