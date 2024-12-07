@@ -76,7 +76,7 @@ function ViewSmsNew() {
         navLinks={[
           { title: 'SMS Center ', path: '/extended-sidebar/Teacher/SmsCenter' },
 
-          { title: 'View sent', path: '/extended-sidebar/Teacher/ViewSmsNew' }
+          { title: 'View SMS', path: '/extended-sidebar/Teacher/ViewSmsNew' }
       ]}
 
 
