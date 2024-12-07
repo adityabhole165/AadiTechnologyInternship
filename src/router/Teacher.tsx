@@ -299,6 +299,7 @@ const ClaimedBookDetailsPage = Loader(
 );
 const Sentsms = Loader(lazy(() => import('src/components/SentSms/Sentsms')));
 
+const ViewSmsNew = Loader(lazy(() => import('src/components/SentSms/ViewSmsNew')));
 const DashBoard = Loader(
   lazy(() => import('src/componentsWeb/DashBoard/DashBoard'))
 );
@@ -885,6 +886,10 @@ const teacherRoutes = [
   {
     path: 'Sentsms',
     element: <Sentsms />
+  },
+  {
+    path: 'ViewSmsNew/:SmsId',
+    element: <ViewSmsNew />
   },
   {
     path: 'ExamScheduleBasescreen',

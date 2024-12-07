@@ -1,7 +1,7 @@
 import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Box, Checkbox, IconButton, Tooltip } from '@mui/material';
+import { Box, Checkbox, IconButton, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit, clickchange }) {
+function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit, clickchange,clickTitle}) {
 
 
     // Function to handle sorting on headers
@@ -98,16 +98,20 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit, clickchang
                                         onChange={() => onClick(item.Id)}
                                     />
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py:0.5 }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
+                                   
                                     {item.UserName}
+                                    
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py:0.5  }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
+                                    <Link href={''} onClick={() => clickTitle(item.Id)}>
                                     {item.Subject}
+                                    </Link>
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py:0.5  }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                                     {item.Insert_Date}
                                 </TableCell>
-                                <TableCell sx={{ textAlign: 'center', py:0.5 }} align="center">
+                                <TableCell sx={{ textAlign: 'center', py: 0.5 }} align="center">
                                     <Tooltip title={"Edit"}>
                                         <IconButton
                                             onClick={() => clickEdit(item.Id)}

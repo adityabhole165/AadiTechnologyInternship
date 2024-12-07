@@ -242,6 +242,10 @@ const Sentsms = () => {
         setSmsListID(activeItems);  
     };
 
+    const clickTitle1 = (Id) => {
+        navigate('/extended-sidebar/Teacher/ViewSmsNew/' + Id 
+      );
+      };
 
     const convertToCSV = () => {
         // Prepare headers
@@ -505,6 +509,7 @@ const Sentsms = () => {
                     ClickHeader={handleHeaderClick}
                     clickEdit={handleClickEdit}
                     clickchange={Changevalue}
+                    clickTitle={clickTitle1}
                 />
 
                 {
