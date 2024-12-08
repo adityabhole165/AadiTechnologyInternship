@@ -30,9 +30,6 @@ const LibraryBaseScreen = () => {
     const [StandardId, setStandardId] = useState<string>('0');
     const [LanguageId, setLanguageId] = useState<string>('');
     const [SearchBook, setSearchBook] = useState([]);
-    // console.log(SearchBook, "👌👌");
-    // console.log(BookTitle, "🤞🤞");
-
 
     // Initialize state with numbers, as it's required for pagination
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);  // Default items per page
@@ -43,9 +40,6 @@ const LibraryBaseScreen = () => {
     const asUserId = Number(localStorage.getItem('UserId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const ascliambook = Number(cliambook);
-
-    //console.log(ascliambook, "&&&&&34343&&&&&&")
-
     // const USBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetails);
     const USGetLibraryBookIssueDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetLibraryBookIssueDetails);
     const USBookCliamMsg: any = useSelector((state: RootState) => state.SchoolLibrary.IBookClimedMsg);
@@ -280,53 +274,6 @@ const LibraryBaseScreen = () => {
         dispatch(CDAGetAllBooksDetails(BookDetails));
 
     }
-    // const clickSearch = () => {
-    //     const GetLibrarySearchBody = {
-    //         BookTitle: BookTitle,
-    //         AccessionNumber: AccessionNumber,
-    //         Author: Author,
-    //         Publisher: Publisher,
-    //         MediaTypeId: 1,
-    //         StandardId: StandardId,
-    //         LanguageId: LanguageId
-    //     }
-    // }
-
-
-    // const clickSearch = () => {
-
-    // }
-    //     const GetLibrarySearchBody = {
-    //         BookTitle: BookTitle,
-    //         AccessionNumber: AccessionNumber,
-    //         Author: Author,
-    //         Publisher: Publisher,
-    //         MediaTypeId: 1,
-    //         StandardId: StandardId,
-    //         LanguageId: LanguageId
-    //     }
-
-    //     console.log(GetLibrarySearchBody, "✌😒✌😒");
-    //     // console.log(USBookDetails, "👍👍")
-    //     ////////////////
-    //     if (BookTitle === '') {
-    //         setSearchBook(USGetAllBooksDetailss);
-    //     } else {
-    //         const filteredSMS = USGetAllBooksDetailss.filter((item) => {
-    //             const text1Match = item.UserName.toLowerCase().includes(
-    //                 BookTitle.toLowerCase()
-    //             );
-    //             const text2Match = item.UserName.toLowerCase().includes(
-    //                 BookTitle.toLowerCase()
-    //             )
-    //             return text1Match || text2Match;
-    //         });
-    //         setSearchBook(filteredSMS);
-    //     }
-    // };
-    // useEffect(() => {
-    //     setSearchBook(USGetAllBooksDetailss);
-    // }, [USGetAllBooksDetailss]);
 
     return (
         <Box px={2}>

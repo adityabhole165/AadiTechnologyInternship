@@ -100,6 +100,11 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         value={AccessionNumber}
                         onChange={(e) => clickAccessionNumber(e.target.value.slice(0, 50))}
                         inputProps={{ maxLength: 50 }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === 'Tab') {
+                                clickSearch();
+                            }
+                        }}
                     />
                 </Grid>
                 <Grid item xs={6} md={3}>
@@ -109,6 +114,11 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         value={Author}
                         onChange={(e) => clickAuthor(e.target.value.slice(0, 50))}
                         inputProps={{ maxLength: 50 }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === 'Tab') {
+                                clickSearch();
+                            }
+                        }}
                     />
                 </Grid>
                 <Grid item xs={6} md={3}>
@@ -118,6 +128,11 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         value={Publisher}
                         onChange={(e) => clickPublisher(e.target.value.slice(0, 50))}
                         inputProps={{ maxLength: 50 }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === 'Tab') {
+                                clickSearch();
+                            }
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} md={3}>
