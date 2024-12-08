@@ -679,6 +679,9 @@ const StudentRegistrationForm = () => {
   }, [NavigationValues]);
 
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
+  const SiblingName = USGetSingleStudentDetails[0]
+  const StudentSiblingName = SiblingName?.SiblingStudentName || '';
+
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
 
@@ -1058,9 +1061,7 @@ const StudentRegistrationForm = () => {
     (state: RootState) => state.ProgressReportNew.IsGetSchoolSettings
   );
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
-  const IsAdditionalFieldsApplicable =
-    UsGetSchoolSettings?.GetSchoolSettingsResult
-      ?.IsAdditionalFieldsApplicable || false;
+  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
 
   const UpdateStudentBody: IUpdateStudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -1286,7 +1287,7 @@ const StudentRegistrationForm = () => {
       console.log('😶 Form submission halted due to validation errors.');
       return;
     }
-
+    OpenSiblingPop()
     // Validation passed, proceed with API calls
     try {
       console.log('Validation passed! Proceeding with API calls...');
@@ -1302,6 +1303,7 @@ const StudentRegistrationForm = () => {
       console.log(
         '✅ Form submitted successfully with all API calls completed!'
       );
+      setShowValidation(false); // Hide validation display
     } catch (error) {
       console.error('🚨 Error during form submission or API calls:', error);
     }
@@ -1636,18 +1638,20 @@ const StudentRegistrationForm = () => {
   //#endregion
   //#endregion
   //#region SiblingPopup
-  const GetStudentsSiblingDetail = useSelector(
-    (state: RootState) =>
-      state.GetStandardwiseMinMaxDOB.IGetStudentsSiblingDetail
-  );
+  const GetStudentsSiblingDetail = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetStudentsSiblingDetail);
   console.log('1️⃣SiblingPopup', GetStudentsSiblingDetail);
 
-  const handleOpenDialog1 = () => {
+  const OpenSiblingPop = () => {
     setOpenDialog1(true);
     const GetStudentsSiblingDetailBody: IGetStudentsSiblingDetailBody = {
       asSchoolId: Number(localStorage.getItem('localSchoolId'))
     };
     dispatch(CDAGetStudentsSiblingDetail(GetStudentsSiblingDetailBody));
+  };
+
+  const handleCheckboxListChange = (updatedItems) => {
+    console.log("⏮️CommonFields Selected feilds from CheckboxList:", updatedItems);
+    // Process or update global state based on `updatedItems`
   };
   // const validateAllTabs = () => {
   //     const updatedStatus = {
@@ -2142,66 +2146,68 @@ const StudentRegistrationForm = () => {
           </DialogActions>
         </Dialog>
       </Box>
-      <Box>
-        <Dialog
-          open={openDialog1}
-          onClose={handleCloseDialog1}
-          fullWidth
-          maxWidth="sm"
-          PaperProps={{
-            sx: {
-              borderRadius: '15px'
-            }
-          }}
-        >
-          <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
-            <ClearIcon
-              onClick={handleCloseDialog1}
-              sx={{
-                color: 'white',
-                borderRadius: '7px',
-                position: 'absolute',
-                top: '5px',
-                right: '8px',
-                cursor: 'pointer',
-                '&:hover': {
-                  color: 'red'
-                }
-              }}
-            />
-          </DialogTitle>
-          <Typography variant="h3" sx={{ pt: 1, pl: 3 }}>
-            Sibling Details
-          </Typography>
-          <DialogContent>
-            <Card sx={{ p: 1, mb: 1 }}>
-              <b>Note : </b>If you click on save button selected Sibling Details
-              will be replaced to the following sibling(s) :
-              <b> Master Aadvik Prashant Dalavi</b>
-            </Card>
-            <Box>
-              <CheckboxList itemList={GetStudentsSiblingDetail} />
-            </Box>
-          </DialogContent>
-          <DialogActions sx={{ m: 2 }}>
-            <Button onClick={handleCloseDialog1} color={'error'}>
-              Close
-            </Button>
-            <Button
-              onClick={undefined}
-              sx={{
-                color: 'green',
-                '&:hover': {
+      {StudentSiblingName !== '' && (
+        <Box>
+          <Dialog
+            open={openDialog1}
+            onClose={handleCloseDialog1}
+            fullWidth
+            maxWidth="sm"
+            PaperProps={{
+              sx: {
+                borderRadius: '15px'
+              }
+            }}
+          >
+            <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+              <ClearIcon
+                onClick={handleCloseDialog1}
+                sx={{
+                  color: 'white',
+                  borderRadius: '7px',
+                  position: 'absolute',
+                  top: '5px',
+                  right: '8px',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: 'red'
+                  }
+                }}
+              />
+            </DialogTitle>
+            <Typography variant="h3" sx={{ pt: 1, pl: 3 }}>
+              Sibling Details
+            </Typography>
+            <DialogContent>
+              <Card sx={{ p: 1, mb: 1 }}>
+                <b>Note : </b>If you click on save button selected Sibling Details
+                will be replaced to the following sibling(s) :
+                <b>{StudentSiblingName}</b>
+              </Card>
+              <Box>
+                <CheckboxList itemList={GetStudentsSiblingDetail} onItemsChange={handleCheckboxListChange} />
+              </Box>
+            </DialogContent>
+            <DialogActions sx={{ m: 2 }}>
+              <Button onClick={handleCloseDialog1} color={'error'}>
+                Close
+              </Button>
+              <Button
+                onClick={undefined}
+                sx={{
                   color: 'green',
-                  backgroundColor: green[100]
-                }
-              }}
-            >
-              save
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
+                  '&:hover': {
+                    color: 'green',
+                    backgroundColor: green[100]
+                  }
+                }}
+              >
+                save
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Box>
+      )}
     </Box>
   );
 };

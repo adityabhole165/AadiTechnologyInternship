@@ -3,40 +3,44 @@ import { useEffect, useState } from 'react';
 
 
 
-const CheckboxList = ({ itemList }) => {
+const CheckboxList = ({ itemList, onItemsChange }) => {
     const [items, setItems] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
 
     useEffect(() => {
-        setItems(itemList.map(item => ({ ...item, checked: item.checked || false })));
+        const initializedItems = itemList.map(item => ({ ...item, checked: item.checked || false }));
+        setItems(initializedItems);
+        updateParent(initializedItems); // Notify parent Intial state
     }, [itemList]);
+
+    const updateParent = (updatedItems) => {
+        if (onItemsChange) {
+            onItemsChange(updatedItems);
+        }
+    };
 
     // Handle individual checkbox change
     const handleCheckboxChange = (commonFieldId) => {
-        setItems(prevItems =>
-            prevItems.map(item =>
-                item.CommonFieldId === commonFieldId
-                    ? { ...item, checked: !item.checked }
-                    : item
-            )
+        const updatedItems = items.map(item =>
+            item.CommonFieldId === commonFieldId
+                ? { ...item, checked: !item.checked }
+                : item
         );
+        setItems(updatedItems);
+        updateParent(updatedItems);
 
-        // If any item becomes unchecked, also uncheck "Select All"
-        // if (selectAll) {
-        //     const updatedItems = items.map(item =>
-        //         item.id === commonFieldId ? { ...item, checked: !item.checked } : item
-        //     );
-        //     const allChecked = updatedItems.every(item => item.checked);
-        //     setSelectAll(allChecked);
-        // }
+        // Uncheck "Select All" if any item becomes unchecked
+        const allChecked = updatedItems.every(item => item.checked);
+        setSelectAll(allChecked);
     };
 
     // Handle "Select All" checkbox change
     const handleSelectAllChange = () => {
-        setSelectAll(!selectAll);
-        setItems(prevItems =>
-            prevItems.map(item => ({ ...item, checked: !selectAll }))
-        );
+        const newSelectAll = !selectAll;
+        setSelectAll(newSelectAll);
+        const updatedItems = items.map(item => ({ ...item, checked: newSelectAll }));
+        setItems(updatedItems);
+        updateParent(updatedItems);
     };
     return (
         <Box sx={{ width: '100%' }}>
