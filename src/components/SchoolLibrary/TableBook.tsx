@@ -170,7 +170,7 @@ const BookTable: React.FC<BookTableProps> = ({ data, clickcliam, handleSortChang
                     fontWeight: SortBy === 'Book_Title' ? 'bold' : 'normal'
                   }}
                 >
-                  Book_Title
+                  Book Title
                   {SortBy === 'Book_Title' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                 </b>
               </TableCell>
@@ -185,7 +185,7 @@ const BookTable: React.FC<BookTableProps> = ({ data, clickcliam, handleSortChang
                     fontWeight: SortBy === 'Author_Name' ? 'bold' : 'normal'
                   }}
                 >
-                  Author_Name
+                  Author
                   {SortBy === 'Author_Name' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                 </b>
               </TableCell>
@@ -200,7 +200,7 @@ const BookTable: React.FC<BookTableProps> = ({ data, clickcliam, handleSortChang
                     fontWeight: SortBy === 'Published_By' ? 'bold' : 'normal'
                   }}
                 >
-                  Published_By
+                  Publisher
                   {SortBy === 'Published_By' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                 </b>
               </TableCell>
