@@ -259,6 +259,7 @@ const StudentRegistrationForm = () => {
   const schoolId = localStorage.getItem('SchoolId');
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const teacherId = sessionStorage.getItem('Id');
+  const SNS = Number(localStorage.getItem('SchoolId') == '122');
 
   const [currentTab, setCurrentTab] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -436,7 +437,8 @@ const StudentRegistrationForm = () => {
       optionalSubject: '',
       optionalSubject1: '',
       optionalSubject2: '',
-      competitiveExams: ''
+      competitiveExams: '',
+      showStreamSection: false,
     }
   });
 
@@ -606,10 +608,10 @@ const StudentRegistrationForm = () => {
     //console.log('4️⃣Additional', additionalInfoData);
   };
 
-  const onStudentStreamwiseSubjectTab = (updateddata) => {
-    //setStreamwiseSubjectData(updateddata);
-    //console.log('5️⃣StreamwiseSubject', streamwiseSubjectData);
-  };
+  // const onStudentStreamwiseSubjectTab = (updateddata) => {
+  //   //setStreamwiseSubjectData(updateddata);
+  //   //console.log('5️⃣StreamwiseSubject', streamwiseSubjectData);
+  // };
   //#endregion
   const handleNextTab = () => {
     setCurrentTab((prevTab) => Math.min(prevTab + 1, 5)); // Move to the next tab
@@ -686,36 +688,20 @@ const StudentRegistrationForm = () => {
   const GetFromNumber = useSelector(
     (state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber
   );
-  const GetStudentStreamwiseSubjectDetails = useSelector(
-    (state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails
-  );
+  const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
+  console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
+  const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
+  console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
 
   useEffect(() => {
     if (
       (USGetSingleStudentDetails && USGetSingleStudentDetails.length > 0) ||
-      (GetStudentAdditionalDetails &&
-        Object.keys(GetStudentAdditionalDetails).length > 0) ||
+      (GetStudentAdditionalDetails && Object.keys(GetStudentAdditionalDetails).length > 0) ||
       (GetFromNumber && GetFromNumber.length > 0)
     ) {
       const studentData = USGetSingleStudentDetails[0];
       const AdditionalData: any = GetStudentAdditionalDetails; // Get first item from array
       const FormNumber = GetFromNumber[0];
-      const StreamwiseSubject = GetStudentStreamwiseSubjectDetails[0];
-
-      // // Split optional subjects if StreamId is 3
-      // let optionalSubject1 = "";
-      // let optionalSubject2 = "";
-
-      // if (StreamwiseSubject.StreamId === "3" && StreamwiseSubject.OptionalSubjects) {
-      //   const optionalSubjects = StreamwiseSubject.OptionalSubjects.split(',');
-      //   optionalSubject1 = optionalSubjects[0] || "";
-      //   optionalSubject2 = optionalSubjects[1] || "";
-      // } else {
-      //   optionalSubject1 = StreamwiseSubject.OptionalSubjects || "";
-      // }
-
-      // // Initialize competitive exams
-      // const competitiveExams = StreamwiseSubject.CompitativeExam?.split(',').map(Number) || [];
 
       setForm((prevForm) => ({
         ...prevForm,
@@ -867,23 +853,36 @@ const StudentRegistrationForm = () => {
           currentAcademicYear: AdditionalData.CurrentAcademicYear || '',
           currentStandard: AdditionalData.CurrentStandard || ''
         },
-        streamwiseSubject: {
-          ...prevForm.streamwiseSubject
-          // streamId: StreamwiseSubject.StreamId || "",
-          // groupId: StreamwiseSubject.GroupId || "",
-          // compulsorySubjects: StreamwiseSubject.CompulsorySubjects || "",
-          // optionalSubject1,
-          // optionalSubject2,
-          // competitiveExams,
-        }
       }));
     }
   }, [
     USGetSingleStudentDetails,
     GetStudentAdditionalDetails,
     GetFromNumber,
-    GetStudentStreamwiseSubjectDetails
   ]);
+  //Streamwise Subject Section
+  useEffect(() => {
+    if (GetStudentStreamwiseSubjectDetails && GetStudentStreamwiseSubjectDetails.length > 0) {
+      const StreamwiseSubject = GetStudentStreamwiseSubjectDetails[0];
+      const isShowStreamSection = IsShowStreamSection[0].IsSecondary && !IsShowStreamSection[0].IsMidYear;
+      console.log('4️⃣StreamwiseSubject', StreamwiseSubject);
+      console.log('isShowStreamSection', isShowStreamSection);
+
+      setForm((prevForm) => ({
+        ...prevForm,
+        streamwiseSubject: {
+          streamId: StreamwiseSubject.StreamId || '',
+          groupId: StreamwiseSubject.GroupId || '',
+          compulsorySubjects: StreamwiseSubject.CompulsorySubjects || '',
+          optionalSubject: '',
+          optionalSubject1: StreamwiseSubject.OptionalSubjects?.split(',')[0] || '',
+          optionalSubject2: StreamwiseSubject.OptionalSubjects?.split(',')[1] || '',
+          competitiveExams: StreamwiseSubject.CompitativeExam ? StreamwiseSubject.CompitativeExam.split(',') : [],
+          showStreamSection: isShowStreamSection
+        }
+      }));
+    }
+  }, [GetStudentStreamwiseSubjectDetails])
 
   useEffect(() => {
     console.log('Nested Form🆕', form);
@@ -926,12 +925,6 @@ const StudentRegistrationForm = () => {
           asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id
         };
 
-        const RetriveStudentStreamwiseSubjectBody = {
-          asSchoolId: 122,
-          asAcademicYearId: 10,
-          asStudentId: 4584
-        };
-
         await Promise.all([
           dispatch(CDAGetSchoolSettings(GetSchoolSettings)),
           dispatch(CDAGetMasterData(GetMasterData)),
@@ -939,7 +932,6 @@ const StudentRegistrationForm = () => {
           dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody)),
           dispatch(CDAFeeAreaNames(FeeAreaNamesBody)),
           dispatch(GetFormNumber(FormNumberBody)),
-          dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody))
         ]);
       } catch (error) {
         console.error('Failed to fetch data:', error);
@@ -949,6 +941,16 @@ const StudentRegistrationForm = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    //    if (schoolId && parseInt(schoolId) === 122) {
+    const RetriveStudentStreamwiseSubjectBody = {
+      asSchoolId: 122, // Number(schoolId),
+      asAcademicYearId: 10, // Number(academicYearId),
+      asStudentId: 4623// SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
+    };
+    dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));
+    //    }
+  }, [schoolId]);
   //#endregion
 
   //#region Date Formation
@@ -1686,7 +1688,7 @@ const StudentRegistrationForm = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: `Students${PageID==='SD'?' Details':''}`, path: PageID==='SD'?'/extended-sidebar/Teacher/StudentDetailsBaseScreen':'/extended-sidebar/Teacher/Students' },
+          { title: `Students${PageID === 'SD' ? ' Details' : ''}`, path: PageID === 'SD' ? '/extended-sidebar/Teacher/StudentDetailsBaseScreen' : '/extended-sidebar/Teacher/Students' },
           {
             title: 'Enter Students Details',
             path: '/extended-sidebar/Teacher/Students/StudentRegistrationForm'
@@ -1950,7 +1952,7 @@ const StudentRegistrationForm = () => {
               <StudentSubjectDetails
                 streamwiseSubject={form.streamwiseSubject}
                 onChange={handleStreamwiseSubjectChange}
-                onTabChange={onStudentStreamwiseSubjectTab}
+              // onTabChange={onStudentStreamwiseSubjectTab}
               />
             </Grid>
           </Grid>

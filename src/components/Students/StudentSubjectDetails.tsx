@@ -15,7 +15,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetAllGroupsOfStream, CDAGetAllStreams, CDAStreamwiseSubjectDetails } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 
-const StudentSubjectDetails = ({ streamwiseSubject, onChange, onTabChange }) => {
+const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
@@ -108,12 +108,13 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange, onTabChange }) => 
   // }, [GetStudentStreamwiseSubjectDetails, GetAllStreamsDrop]);
   // console.log('🤬', form);
   const GetAllStremsBody: IGetAllStreamsBody = {
-    asSchoolId: 122,
+    asSchoolId: Number(schoolId),
   }
 
   useEffect(() => {
-    dispatch(CDAGetAllStreams(GetAllStremsBody));                 //Stream dropdown
-    // dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
+    if (schoolId && parseInt(schoolId) === 122) {
+      dispatch(CDAGetAllStreams(GetAllStremsBody));                 //Stream dropdown
+    }
   }, []);
 
   // Fetch groups when stream changes
@@ -128,82 +129,54 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange, onTabChange }) => 
 
       // Reset optionalSubject2 when switching away from StreamId 3
       if (streamwiseSubject.streamId !== "3") {
-        setForm(prev => ({
-          ...prev,
-          optionalSubject2: ''
-        }));
+        onChange('optionalSubject2', '');
       }
     }
   }, [streamwiseSubject.streamId]);
 
   const StreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
-    asSchoolId: 122,
+    asSchoolId: Number(schoolId),
     asStreamGroupId: Number(streamwiseSubject.groupId),
-    asAcademicYearId: 10
+    asAcademicYearId: Number(academicYearId)
   }
 
   useEffect(() => {
-    //console.log('🙌StreamwiseSubjectDetailsBody:', StreamwiseSubjectDetailsBody);
-    dispatch(CDAStreamwiseSubjectDetails(StreamwiseSubjectDetailsBody));//Compulsary,OPtional,CompitativeExams dropdown
-    // dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));     //Get StreamDetails
+    if (schoolId && parseInt(schoolId) === 122) {
+      dispatch(CDAStreamwiseSubjectDetails(StreamwiseSubjectDetailsBody));//Compulsary,OPtional,CompitativeExams dropdown
+    }
   }, [streamwiseSubject.groupId]);
 
   //#endregion
 
   // Update visibility of second optional subject based on both conditions
   useEffect(() => {
-    setShowSecondOptional(streamwiseSubject.streamId === "3" || Boolean(streamwiseSubject.optionalSubject2));
+    setShowSecondOptional(streamwiseSubject.streamId === "3");
   }, [streamwiseSubject.streamId, streamwiseSubject.optionalSubject2]);
 
   // Auto-select the single group if available
   useEffect(() => {
     if (GetAllGroupsOfStreamDrop && GetAllGroupsOfStreamDrop.length === 1) {
       const singleGroup = GetAllGroupsOfStreamDrop[0];
-      setForm(prevForm => ({
-        ...prevForm,
-        groupId: singleGroup.Id
-      }));
+      onChange('groupId', singleGroup.Id);
     }
   }, [GetAllGroupsOfStreamDrop]);
 
-
-  //const compulsorySubjects = ['Mathematics', 'English', 'Biology']; // Example compulsory subjects
-  // const handleDropdownChange = (name: string, value: any) => {
-  //   setForm((prevForm) => ({
-  //     ...prevForm,
-  //     [name]: value
-  //   }));
-  //   setErrors((prev) => ({ ...prev, [name]: false }));
-  // };
-
   // const handleCheckboxChange = (examId: number) => {
-  //   setForm((prevForm) => ({
-  //     ...prevForm,
-  //     CompetitiveExams: prevForm.competitiveExams.includes(examId)
-  //       ? prevForm.competitiveExams.filter(id => id !== examId)
-  //       : [...prevForm.competitiveExams, examId],
+  //     const updatedExams = competitiveExams.includes(examId)
+  //       ?competitiveExams.filter(id => id !== examId)
+  //       : [competitiveExams, examId];
 
-  //       onChange('competitiveExams', CompetitiveExams);
-  //   }));
+  //     // Convert array to comma-separated string 
+  //     const updatedExamsString = updatedExams.join(',');
+
+  //     // Notify parent of updated data 
+  //     onChange('competitiveExams', updatedExamsString);
+
+  //     return {
+  //       ...prevForm,
+  //       competitiveExams: updatedExams
+  //     };
   // };
-  const handleCheckboxChange = (examId: number) => {
-    setForm((prevForm) => {
-      const updatedExams = prevForm.competitiveExams.includes(examId)
-        ? prevForm.competitiveExams.filter(id => id !== examId)
-        : [...prevForm.competitiveExams, examId];
-
-      // Convert array to comma-separated string 
-      const updatedExamsString = updatedExams.join(',');
-
-      // Notify parent of updated data 
-      onChange('competitiveExams', updatedExamsString);
-
-      return {
-        ...prevForm,
-        competitiveExams: updatedExams
-      };
-    });
-  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -222,11 +195,6 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange, onTabChange }) => 
     setMessage(isValid ? 'Draft saved successfully!' : 'Please fill in all required fields.');
     setTimeout(() => setMessage(''), 2000);
   };
-  //#region DataTrannsfer
-  useEffect(() => {
-    onTabChange(form); // Sends the initial form state to the parent when component mounts
-  }, [form]);
-  //#endregion
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
@@ -313,8 +281,8 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange, onTabChange }) => 
                 key={exam.Id}
                 control={
                   <Checkbox
-                    checked={streamwiseSubject.competitiveExams.includes(Number(exam.Id))}
-                    onChange={() => handleCheckboxChange(Number(exam.Id))}
+                    checked={streamwiseSubject.competitiveExams}
+                  // onChange={() => handleCheckboxChange(Number(exam.Id))}
                   />
                 }
                 label={exam.Name}
