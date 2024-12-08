@@ -438,7 +438,6 @@ const StudentRegistrationForm = () => {
       optionalSubject1: '',
       optionalSubject2: '',
       competitiveExams: '',
-      showStreamSection: false,
     }
   });
 
@@ -679,15 +678,10 @@ const StudentRegistrationForm = () => {
     console.log('0️⃣Redux NavigationValues StudentRegistrationForms:', NavigationValues, RYearWise_Student_Id);
   }, [NavigationValues]);
 
-  const USGetSingleStudentDetails = useSelector(
-    (state: RootState) => state.StudentUI.ISGetSingleStudentDetails
-  );
-  const GetStudentAdditionalDetails = useSelector(
-    (state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails
-  );
-  const GetFromNumber = useSelector(
-    (state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber
-  );
+  const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
+  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
+  const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
+
   const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
   console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
   const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
@@ -864,9 +858,7 @@ const StudentRegistrationForm = () => {
   useEffect(() => {
     if (GetStudentStreamwiseSubjectDetails && GetStudentStreamwiseSubjectDetails.length > 0) {
       const StreamwiseSubject = GetStudentStreamwiseSubjectDetails[0];
-      const isShowStreamSection = IsShowStreamSection[0].IsSecondary && !IsShowStreamSection[0].IsMidYear;
       console.log('4️⃣StreamwiseSubject', StreamwiseSubject);
-      console.log('isShowStreamSection', isShowStreamSection);
 
       setForm((prevForm) => ({
         ...prevForm,
@@ -878,11 +870,10 @@ const StudentRegistrationForm = () => {
           optionalSubject1: StreamwiseSubject.OptionalSubjects?.split(',')[0] || '',
           optionalSubject2: StreamwiseSubject.OptionalSubjects?.split(',')[1] || '',
           competitiveExams: StreamwiseSubject.CompitativeExam ? StreamwiseSubject.CompitativeExam.split(',') : [],
-          showStreamSection: isShowStreamSection
         }
       }));
     }
-  }, [GetStudentStreamwiseSubjectDetails])
+  }, [GetStudentStreamwiseSubjectDetails]);
 
   useEffect(() => {
     console.log('Nested Form🆕', form);
@@ -942,15 +933,15 @@ const StudentRegistrationForm = () => {
   }, []);
 
   useEffect(() => {
-    //    if (schoolId && parseInt(schoolId) === 122) {
-    const RetriveStudentStreamwiseSubjectBody = {
-      asSchoolId: 122, // Number(schoolId),
-      asAcademicYearId: 10, // Number(academicYearId),
-      asStudentId: 4623// SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
-    };
-    dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));
-    //    }
-  }, [schoolId]);
+    if (schoolId && parseInt(schoolId) === 122) {
+      const RetriveStudentStreamwiseSubjectBody = {
+        asSchoolId: 122, // Number(schoolId),
+        asAcademicYearId: 10, // Number(academicYearId),
+        asStudentId: 4623// SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
+      };
+      dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));
+    }
+  }, []);
   //#endregion
 
   //#region Date Formation
@@ -1875,11 +1866,13 @@ const StudentRegistrationForm = () => {
               label="Additional Details"
             />
           )}
-          <Tab
-            sx={{ m: 2, maxWidth: 200, borderRadius: '100%' }}
-            icon={<LocalLibraryIcon />}
-            label="Stream Details"
-          />
+          {schoolId && parseInt(schoolId) === 122 && (
+            <Tab
+              sx={{ m: 2, maxWidth: 200, borderRadius: '100%' }}
+              icon={<LocalLibraryIcon />}
+              label="Stream Details"
+            />
+          )}
         </Tabs>
       </Box>
 
@@ -1941,13 +1934,6 @@ const StudentRegistrationForm = () => {
         )}
         {currentTab === 5 && (
           <Grid container spacing={1}>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              {/* {status.personalDetails !== null && (
-                                <Alert severity={status.personalDetails ? 'success' : 'error'}>
-                                    {status.personalDetails ? 'Draft saved successfully!' : 'Some fields are missing or incorrect.'}
-                                </Alert>
-                            )} */}
-            </Grid>
             <Grid item xs={12}>
               <StudentSubjectDetails
                 streamwiseSubject={form.streamwiseSubject}

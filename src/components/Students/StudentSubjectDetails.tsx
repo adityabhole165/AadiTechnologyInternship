@@ -24,17 +24,6 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const teacherId = sessionStorage.getItem('TeacherId');
 
-  // State to manage the selected stream, group, and optional subjects
-  const [form, setForm] = useState({
-    streamId: '',
-    groupId: '',
-    compulsorySubjects: '',
-    optionalSubject: '',
-    optionalSubject1: '',
-    optionalSubject2: '',
-    competitiveExams: [],
-  })
-
   const [showSecondOptional, setShowSecondOptional] = useState(false);
   // const [selectedStream, setSelectedStream] = useState('');
   // const [selectedGroup, setSelectedGroup] = useState('');
@@ -59,7 +48,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   //console.log('1️⃣FillFirstOptionalSubjects:', FillFirstOptionalSubjects);
   // console.log('2️⃣FillSecondOptionalSubjectArts:', FillSecondOptionalSubjectArts);
   const FillCompitativeExams = useSelector((state: RootState) => state.StudentUI.ISFillCompitativeExams);
-  //console.log('3️⃣FillCompitativeExams:', FillCompitativeExams);
+  console.log('3️⃣FillCompitativeExams:', FillCompitativeExams);
 
 
   // const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
@@ -108,18 +97,15 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   // }, [GetStudentStreamwiseSubjectDetails, GetAllStreamsDrop]);
   // console.log('🤬', form);
   const GetAllStremsBody: IGetAllStreamsBody = {
-    asSchoolId: Number(schoolId),
+    asSchoolId: 122,// Number(schoolId),
   }
 
   useEffect(() => {
-    if (schoolId && parseInt(schoolId) === 122) {
-      dispatch(CDAGetAllStreams(GetAllStremsBody));                 //Stream dropdown
-    }
+    dispatch(CDAGetAllStreams(GetAllStremsBody));                 //Stream dropdown
   }, []);
 
   // Fetch groups when stream changes
   useEffect(() => {
-    //setShowSecondOptional(form.streamId === "3");
     if (streamwiseSubject.streamId) {
       const GetAllGroupsOfStreamBody: IGetAllGroupsOfStreamBody = {
         asSchoolId: 122,
@@ -135,16 +121,16 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   }, [streamwiseSubject.streamId]);
 
   const StreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
-    asSchoolId: Number(schoolId),
+    asSchoolId: 122,// Number(schoolId),
     asStreamGroupId: Number(streamwiseSubject.groupId),
-    asAcademicYearId: Number(academicYearId)
+    asAcademicYearId: 10,//Number(academicYearId)
   }
 
   useEffect(() => {
-    if (schoolId && parseInt(schoolId) === 122) {
-      dispatch(CDAStreamwiseSubjectDetails(StreamwiseSubjectDetailsBody));//Compulsary,OPtional,CompitativeExams dropdown
-    }
-  }, [streamwiseSubject.groupId]);
+
+    dispatch(CDAStreamwiseSubjectDetails(StreamwiseSubjectDetailsBody));//Compulsary,OPtional,CompitativeExams dropdown
+
+  }, [streamwiseSubject.streamId, streamwiseSubject.groupId]);
 
   //#endregion
 
@@ -161,22 +147,18 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
     }
   }, [GetAllGroupsOfStreamDrop]);
 
-  // const handleCheckboxChange = (examId: number) => {
-  //     const updatedExams = competitiveExams.includes(examId)
-  //       ?competitiveExams.filter(id => id !== examId)
-  //       : [competitiveExams, examId];
+  const handleCheckboxChange = (examId: number) => {
+    const updatedExams = streamwiseSubject.competitiveExams.includes(examId)
+      ? streamwiseSubject.competitiveExams.filter((id) => id !== examId)
+      : [...streamwiseSubject.competitiveExams, examId];
 
-  //     // Convert array to comma-separated string 
-  //     const updatedExamsString = updatedExams.join(',');
+    // Convert array to comma-separated string 
+    const updatedExamsString = updatedExams.join(',');
 
-  //     // Notify parent of updated data 
-  //     onChange('competitiveExams', updatedExamsString);
+    // Notify parent of updated data 
+    onChange('competitiveExams', updatedExams);
 
-  //     return {
-  //       ...prevForm,
-  //       competitiveExams: updatedExams
-  //     };
-  // };
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -281,8 +263,8 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
                 key={exam.Id}
                 control={
                   <Checkbox
-                    checked={streamwiseSubject.competitiveExams}
-                  // onChange={() => handleCheckboxChange(Number(exam.Id))}
+                    checked={streamwiseSubject.competitiveExams.includes(exam.Id)}
+                    onChange={() => handleCheckboxChange(exam.Id)}
                   />
                 }
                 label={exam.Name}
