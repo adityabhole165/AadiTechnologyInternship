@@ -141,12 +141,6 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
         setTableRows(rows => rows.map(row => ({ ...row, selected: checked })));
     };
 
-    // const handleRowChange = (id: number, field: keyof ExamEntry, value: any) => {
-    //     setTableRows(rows =>
-    //         rows.map(row => (row.id === id ? { ...row, [field]: value } : row))
-    //     );
-    // };
-
     const handleRowChange = (id: number, field: keyof ExamEntry, value: any) => {
 
         setTableRows(rows =>
@@ -176,25 +170,20 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
         ))
     }, [examData])
 
-    const handleAddRow = () => {
-        const newRow: ExamEntry = {
-            ...headerRow,
-            id: tableRows.length > 0 ? Math.max(...tableRows.map(r => r.id)) + 1 : 1,
-            isNew: true,
-        };
-        setTableRows(rows => [...rows, newRow]);
-    };
+    const onClickAddNewRow = (id: number, subject: string) => {
 
-    const onClickAddNewRow = (subject: string) => {
+        const maxSubjectWizeStandardExamScheduleId = tableRows.reduce((max, row) => {
+            return row.SubjectWizeStandardExamScheduleId > max ? row.SubjectWizeStandardExamScheduleId : max;
+        }, 0);
         const newRow: ExamEntry = {
-            id: tableRows.length > 0 ? Math.max(...tableRows.map(r => r.id)) + 1 : 1,
-            SubjectWizeStandardExamScheduleId: 0,
+            id: id,
+            SubjectWizeStandardExamScheduleId: maxSubjectWizeStandardExamScheduleId + 1,
             subject: subject, // Assign the clicked subject
             examType: '',
             examDate: AssignedDate ? getCalendarDateFormatDateNew(AssignedDate) : new Date().toISOString().split('T')[0],
             timed: false,
             startTime: { hour: '08', minute: '00', period: 'AM' },
-            endTime: { hour: '09', minute: '00', period: 'AM' },
+            endTime: { hour: '08', minute: '00', period: 'AM' },
             description: '',
             isNew: true,
             selected: false,
@@ -379,7 +368,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
                     </TableHead>
                     <TableBody>
                         {tableRows.map((row) => (
-                            <TableRow key={row.id}>
+                            <TableRow key={row.SubjectWizeStandardExamScheduleId}>
                                 <TableCell padding="checkbox">
                                     <Checkbox
                                         checked={row.selected}
@@ -457,7 +446,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
                                     <Tooltip title="Add">
                                         <IconButton
                                             disabled={isSubmitted || !row.selected}
-                                            onClick={() => onClickAddNewRow(row.subject)}
+                                            onClick={() => onClickAddNewRow(row.id, row.subject)}
                                         >
                                             <AddIcon />
                                         </IconButton>
