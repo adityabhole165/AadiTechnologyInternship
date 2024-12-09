@@ -433,20 +433,20 @@ const LibraryBaseScreen = () => {
 
                     // <TableBook data={USGetAllBooksDetailss} clickcliam={ClickCliam} handleSortChange={handleSortChange} HeaderArray={headerArray} />
                 )}
-                {
-                    endRecord > 19 ? (
-                        <ButtonGroupComponent
-                            ChangeRowsPerPage={ChangeRowsPerPage}
-                            rowsPerPageOptions={rowsPerPageOptions} // Set your options
-                            rowsPerPage={rowsPerPage}
-                            PageChange={PageChange}
-                            pagecount={pageCount}  // Use the calculated pageCount
-                        />
-                    ) : (
+                {/* {
+                    endRecord > 19 ? ( */}
+                <ButtonGroupComponent
+                    ChangeRowsPerPage={ChangeRowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions} // Set your options
+                    rowsPerPage={rowsPerPage}
+                    PageChange={PageChange}
+                    pagecount={pageCount}  // Use the calculated pageCount
+                />
+                {/* ) : (
                         <span></span>
 
                     )
-                }
+                } */}
             </Box>
             <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
                 <Typography variant="h4" pb={1} color="#38548A">
