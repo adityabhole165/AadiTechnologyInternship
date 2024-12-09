@@ -320,7 +320,13 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
                             <TableCell>
                                 <TextField
                                     value={headerRow.examType}
-                                    onChange={e => handleHeaderChange('examType', e.target.value)}
+                                    //onChange={e => handleHeaderChange('examType', e.target.value)}
+                                    onChange={(e) => {
+                                        if (e.target.value.length <= 50) {
+                                            handleHeaderChange('examType', e.target.value);
+                                        }
+                                    }}
+                                    inputProps={{ maxLength: 50 }}
                                     size="small"
                                     disabled={isSubmitted}
                                 />
@@ -357,7 +363,13 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
                             <TableCell>
                                 <TextField
                                     value={headerRow.description}
-                                    onChange={e => handleHeaderChange('description', e.target.value)}
+                                    //onChange={e => handleHeaderChange('description', e.target.value)}
+                                    onChange={(e) => {
+                                        if (e.target.value.length <= 50) {
+                                            handleHeaderChange('description', e.target.value);
+                                        }
+                                    }}
+                                    inputProps={{ maxLength: 50 }}
                                     size="small" disabled={isSubmitted}
                                 />
                             </TableCell>
@@ -393,7 +405,12 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
                                     <TextField
                                         value={!row.selected ? '' : row.examType}
                                         disabled={isSubmitted || !row.selected}
-                                        onChange={(e) => handleRowChange(row.id, 'examType', e.target.value)}
+                                        //onChange={(e) => handleRowChange(row.id, 'examType', e.target.value)}
+                                        onChange={(e) => {
+                                            if (e.target.value.length <= 50) {
+                                                handleRowChange(row.id, 'examType', e.target.value);
+                                            }
+                                        }}
                                         size="small"
                                     />
                                 </TableCell>
@@ -437,7 +454,12 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
                                     <TextField
                                         value={!row.selected ? '' : row.description}
                                         disabled={isSubmitted || !row.selected}
-                                        onChange={(e) => handleRowChange(row.id, 'description', e.target.value)}
+                                        //onChange={(e) => handleRowChange(row.id, 'description', e.target.value)}
+                                        onChange={(e) => {
+                                            if (e.target.value.length <= 50) {
+                                                handleRowChange(row.id, 'description', e.target.value);
+                                            }
+                                        }}
                                         size="small"
                                     />
                                 </TableCell>
