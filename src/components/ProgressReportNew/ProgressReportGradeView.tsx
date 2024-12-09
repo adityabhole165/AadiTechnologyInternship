@@ -200,7 +200,7 @@ const ProgressReportGradeView = ({ isFailCriteria, totalCount, EntireDataList, H
               </TableCell>
               {testItem.MarksArr.map((MarkItem) => (
                 <TableCell sx={{ py: 1, textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
-                  <span style={{ fontWeight: MarkItem?.IsGrades === 'Y' ? 'bold' : 'normal' }}>
+                  <span style={{ fontWeight: MarkItem?.IsGrades === 'Y'? 'bold' : 'normal' , color:`${MarkItem?.MarksScored == "Pass" ? 'green' :  MarkItem?.MarksScored == "Fail" ? "red" : 'inherit'}`  }}>
                     {
                       MarkItem
                         ? (MarkItem.IsAbsent !== 'N'

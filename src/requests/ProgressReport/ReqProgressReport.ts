@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import colors from "react-multi-date-picker/plugins/colors";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
 import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetLatestExamIdBody,IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IProgressReportBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
@@ -920,12 +921,13 @@ export const CDAStudentProgressReport =
                 );
                 if (isFailCriteria === 'N' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
                   columns.push({
-                    MarksScored: Item.Result.trim(),
+                    MarksScored: Item.Result.trim() ,
                     TotalMarks: "-",
                     IsAbsent: "N",
                     IsGrades: "Y",
                     Result: Item.Result.trim(),
-                    Rank: Item.rank
+                    Rank: Item.rank,
+                    
                   })
                 }
                 if (totalCount !== '0' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {

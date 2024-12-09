@@ -227,7 +227,7 @@ const ProgressReportMarkView = ({isFailCriteria, totalCount, EntireDataList, Thi
 
                                     </>}
                                     <>
-                                    {isFailCriteria === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                    {isFailCriteria === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true'  &&
                                     <TableCell rowSpan={3} sx={{ py:1, minWidth:'140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`}} >
                                             <Typography color="black" textAlign={'center'} px={0}>
                                                 <b>Result</b>
@@ -363,7 +363,7 @@ const ProgressReportMarkView = ({isFailCriteria, totalCount, EntireDataList, Thi
             </TableCell>
             {testItem.MarksArr.map((MarkItem, index) => (
                 <TableCell key={index} sx={{py:1, textAlign:'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`}} >
-                      <span style={{ fontWeight: MarkItem?.IsGrades === 'Y'? 'bold' : 'normal' }}>
+                      <span style={{ fontWeight: MarkItem?.IsGrades === 'Y'? 'bold' : 'normal' , color:`${MarkItem?.MarksScored == "Pass" ? 'green' :  MarkItem?.MarksScored == "Fail" ? "red" : 'inherit'}`  }}>
                     {MarkItem == null || MarkItem?.MarksScored == ''
                         ? '-'   
                         : (MarkItem?.IsAbsent !== 'N'

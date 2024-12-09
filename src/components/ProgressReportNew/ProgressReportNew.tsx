@@ -1,7 +1,7 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useRef, useState } from 'react';
@@ -218,6 +218,11 @@ const ProgressReportNew = () => {
   const hasTopRanks = TotalPerGradeView?.some((item) =>
     [1, 2, 3].includes(item.rank)
   );
+
+
+console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
+
+
 
   const [IsTotalConsiderForProgressReport1, setIsTotalConsiderForProgressReport1] = useState('');
   useEffect(() => {
@@ -805,6 +810,14 @@ const ProgressReportNew = () => {
 
   console.log(GetOldStudentDetails, "value");
 
+  const shouldShowToppersButton = !IsPrePrimary && AcademicYear !== asAcademicYearId && !USIsGradingStandard && ShowTopppers;
+  const ShowDownlodebutton = !IsPrePrimary &&  PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || getIsTermExamPublished === true
+  const ShowDownlodebutton1 = !IsPrePrimary &&  PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true || getIsTermExamPublished === true
+
+
+
+
+  console.log(shouldShowToppersButton, "shouldShowToppersButton");
 
   return (
     <Box sx={{ px: 2 }}>
@@ -883,30 +896,26 @@ const ProgressReportNew = () => {
             </IconButton>
           </Tooltip>
 
-          {SchoolScreensAccessPermission() &&
-            open &&
-            (AcademicYear !== asAcademicYearId) &&
-            ((EntireDataList?.listStudentsDetails || []).length !== 0) &&
-            (!USIsGradingStandard && ShowTopppers) && (
-              <Tooltip title="Toppers">
-                <span>
-                  <IconButton
-                    onClick={Toppers}
-                    sx={{
-                      color: 'white',
-                      backgroundColor: blue[500],
-                      '&:hover': {
-                        backgroundColor: blue[600],
-                      },
-                    }}
-                  >
-                    <WorkspacePremiumIcon />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            )
-          }
 
+
+
+
+          {(shouldShowToppersButton && open) && <Tooltip title="Toppers">
+            <span>
+              <IconButton
+                onClick={Toppers}
+                sx={{
+                  color: 'white',
+                  backgroundColor: blue[500],
+                  '&:hover': {
+                    backgroundColor: blue[600],
+                  },
+                }}
+              >
+                <WorkspacePremiumIcon />
+              </IconButton>
+            </span>
+          </Tooltip>}
 
 
 
@@ -961,41 +970,32 @@ const ProgressReportNew = () => {
           </div>)}
 
         </Grid>
-        {!SchoolScreensAccessPermission() &&
+
+
+
+
+
+        {(!SchoolScreensAccessPermission()  && AcademicYear !== asAcademicYearId )&& 
           <Grid xs={6} >
             {open && (
+
               <span>
+                {ShowDownlodebutton &&
+                  <Card5
+                    text1={ asSchoolId == "11" ? 'DOWNLOAD PDF' :  academictermsResult[0]?.TermName}
+                    text2=""
+                    clickIcon={() => { downloadProgress(1); }}
+
+                  />
+                }
 
 
-
-                {AcademicYear == asAcademicYearId ? <span></span> : <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-end">
-
-
-
-                  {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || !IsPrePrimary && getIsTermExamPublished === true ?
-
-                    <Card5
-                      text1={academictermsResult[0]?.TermName}
-                      text2=""
-                      clickIcon={() => { downloadProgress(1); }}
-                    />
-
-                    : <span></span>
-
-                  }
-
-                  {!IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true || !IsPrePrimary && getIsFinalResultPublished === true ?
-
-                    <Card5
-                      text1={academictermsResult[1]?.TermName}
-                      text2=""
-                      clickIcon={() => { downloadProgress(2); }}
-                    />
-
-                    : <span></span>
-
-                  }
-                </Stack>
+                {ShowDownlodebutton1 &&
+                  <Card5
+                    text1={academictermsResult[1]?.TermName}
+                    text2=""
+                    clickIcon={() => { downloadProgress(2); }}
+                  />
 
                 }
 
@@ -1004,8 +1004,12 @@ const ProgressReportNew = () => {
 
 
 
-
               </span>
+
+
+
+
+
             )}
 
           </Grid>}
