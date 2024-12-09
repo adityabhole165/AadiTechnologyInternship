@@ -29,7 +29,7 @@ import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import JoditEditor from 'jodit-react';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -873,6 +873,25 @@ function Form13() {
       RecipientId: prev.RecipientId.filter((recipient, i) => i !== index),
     }));
   };
+  const editorConfig = useMemo(() => ({
+    disablePlugins: [
+      'ai-assistant',
+      'class-span',
+      'about',
+      'powered-by-jodit',
+      'paste-storage',
+      'placeholder',
+      'source'
+    ],
+    uploader: {
+    insertImageAsBase64URI: true
+  },
+  "spellcheck": true,
+    // You can add more configuration options here
+    // height: 500,
+    // to olbarAdaptive: false,
+    // etc.
+  }), []);
   return (
     <>
       <Box sx={{ px: 2, height: '95vh', mb: 2 }}>
@@ -1408,9 +1427,7 @@ function Form13() {
                   <JoditEditor
                     ref={editor}
                     value={formik.values.Content}
-                    // config={{
-                    //   disablePlugins: ['ai-assistant', 'class-span', 'about', 'powered-by-jodit','paste-storage','placeholder']
-                    // }}
+                    config={editorConfig}
                     onChange={(newContent) => {
                       formik.setFieldValue('Content', newContent);
                     }}
