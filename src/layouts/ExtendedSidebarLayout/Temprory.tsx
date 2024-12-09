@@ -49,6 +49,9 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 
+import { PersonOff } from '@mui/icons-material';
+import BlockIcon from '@mui/icons-material/Block';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { red } from '@mui/material/colors';
 import { Inbox, MailCheck } from 'lucide-react';
@@ -60,15 +63,12 @@ import { GetIsPrePrimaryTeacher, GetScreenAccessPermissionByPageID, logoURL } fr
 import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDetails/AbsentStudentDetailsPopup';
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
-import BlockIcon from '@mui/icons-material/Block';
+import { IsPrePrimaryExamConfigurationBody } from 'src/interfaces/ExamResult/IExamResult';
 import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
-import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
-import FeedbackIcon from '@mui/icons-material/Feedback';
-import { PersonOff } from '@mui/icons-material';
-import { IsPrePrimaryExamConfigurationBody } from 'src/interfaces/ExamResult/IExamResult';
 import { IGetAllowedPagesForUserBody, IGetScreensAccessPermissions } from 'src/interfaces/SchoolSetting/schoolSettings';
+import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import { getSchoolSettingsValue } from 'src/requests/Authentication/SchoolList';
 import { getPrePrimaryExamConfiguration } from 'src/requests/ExamResult/RequestExamResult';
 import {
@@ -201,16 +201,18 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }, [AllowedPagesListForUser])
   // #region School Settings
   // Following useEffect() is to call the School Settings API and get necessary metadata 
+  const [externalSite, setExternalSite] = useState('');
   const schoolSettingList: any = useSelector((state: RootState) => state.SchoolSettings.SchoolSettings);
   useEffect(() => {
-    dispatch(getSchoolSettingsValue({ asSchoolId: localStorage.getItem('SchoolId') }));
-  }, [dispatch]);
+    dispatch(getSchoolSettingsValue({ asSchoolId: String(asSchoolId) }));
+  }, []);
   const [showWeeklyTimetable, setShowWeeklyTimetable] = useState(false);
   const [showTimetableForPrePrimary, setShowTimetableForPrePrimary] = useState(false);
   useEffect(() => {
     if (Object.keys(schoolSettingList).length > 0) {
       let isWeeklytTimetable = schoolSettingList['DisplayWeeklyTimtableLink'];
       let isTimetableForPrePrimaryTeacher = schoolSettingList['IsTimeTableForPrePrimaryClassTeacher'];
+      setExternalSite(schoolSettingList['ExternalLibrarySite']);
       if (isWeeklytTimetable?.toLowerCase() === 'true') {
         setShowWeeklyTimetable(true);
       } else {
@@ -280,6 +282,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       visible: true
     },
     {
+      id: 'Other Utilities',
+      title: 'Library',
+      icon: <LockResetTwoToneIcon />,
+      link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
+      screenId: 150,
+      visible: true
+    },
+    {
       id: 'Calendar',
       title: 'Holidays',  // getPageName(14),
       icon: <DateRangeOutlinedIcon />,
@@ -299,8 +309,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Other Utilities',
       title: 'Library',
       icon: <AutoStoriesIcon />,
-      link: '/extended-sidebar/Teacher/LibraryBaseScreen',
-      screenId: 0,
+      link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
+      screenId: 150,
       visible: true
     },
     {
@@ -526,6 +536,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       screenId: 0
     },
     {
+      id: 'Other Utilities',
+      title: 'Library',
+      icon: <AddShoppingCartTwoToneIcon />,
+      link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
+      screenId: 0
+    },
+    {
       id: 'Extra Screens',
       title: getPageName(267),
       icon: <AddCardTwoToneIcon />,
@@ -613,14 +630,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     {
       id: 'Extra Screens',
       title: 'Feedback Details',
-      icon: <FeedbackIcon  />,
+      icon: <FeedbackIcon />,
       link: '/extended-sidebar/Teacher/FeedbackDetailsBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Student Details',
-      icon: <FeedbackIcon  />,
+      icon: <FeedbackIcon />,
       link: '/extended-sidebar/Teacher/StudentDetailsBaseScreen',
       screenId: 0
     }
@@ -1104,7 +1121,16 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       }
     } else if (link) {
       // window.location.href = link; // Redirect to the specified link
-      navigate(link);
+      console.log(link);
+      if (schoolSettingList?.ExternalLibrarySite?.split(':')[0].includes('http')) {
+        console.log(link);
+
+        window.open(link, '_blank');
+      } else {
+        navigate(link);
+      }
+
+      // navigate(link);
       toggleDrawer(anchor, false);
     }
   };
