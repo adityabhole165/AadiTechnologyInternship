@@ -31,9 +31,9 @@ const LibraryBaseScreen = () => {
     const [SearchBook, setSearchBook] = useState([]);
 
     // Initialize state with numbers, as it's required for pagination
-    const [rowsPerPage, setRowsPerPage] = useState<number>(10);  // Default items per page
+    const [rowsPerPage, setRowsPerPage] = useState<number>(20);  // Default items per page
     const [page, setPage] = useState<number>(1);
-    const rowsPerPageOptions = [10, 20, 30, 40];  // Pagination options
+    const rowsPerPageOptions = [20, 50, 100, 200];  // Pagination options
 
     const [headerArray, setHeaderArray] = useState([
         { Id: 1, Header: 'Accession No', SortOrder: null, sortKey: 'Accession_No' },
@@ -124,8 +124,8 @@ const LibraryBaseScreen = () => {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asUserID: asUserId,
-        asStartIndex: 0,
-        asEndIndex: 20,
+        asStartIndex: (page - 1) * rowsPerPage,
+        asEndIndex: page * rowsPerPage,
         asBookTitle: "",
         asUserName: "",
         asSortExpression: "Order By " + getSortKey() + " " + sortExpression,
@@ -247,8 +247,9 @@ const LibraryBaseScreen = () => {
         }, 0);
     }, [USGetBookTotalCount]);
 
+
     const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value, 20));
         setPage(1);
     };
     const PageChange = (pageNumber: number) => {
@@ -432,13 +433,20 @@ const LibraryBaseScreen = () => {
 
                     // <TableBook data={USGetAllBooksDetailss} clickcliam={ClickCliam} handleSortChange={handleSortChange} HeaderArray={headerArray} />
                 )}
-                <ButtonGroupComponent
-                    ChangeRowsPerPage={ChangeRowsPerPage}
-                    rowsPerPageOptions={rowsPerPageOptions} // Set your options
-                    rowsPerPage={rowsPerPage}
-                    PageChange={PageChange}
-                    pagecount={pageCount}  // Use the calculated pageCount
-                />
+                {
+                    endRecord > 19 ? (
+                        <ButtonGroupComponent
+                            ChangeRowsPerPage={ChangeRowsPerPage}
+                            rowsPerPageOptions={rowsPerPageOptions} // Set your options
+                            rowsPerPage={rowsPerPage}
+                            PageChange={PageChange}
+                            pagecount={pageCount}  // Use the calculated pageCount
+                        />
+                    ) : (
+                        <span></span>
+
+                    )
+                }
             </Box>
             <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
                 <Typography variant="h4" pb={1} color="#38548A">
