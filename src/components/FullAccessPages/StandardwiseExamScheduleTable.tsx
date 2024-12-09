@@ -201,7 +201,6 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
             TotalTime: '00:00'
         };
 
-        // Insert the new row below rows of the same subject
         const updatedRows = [];
         let subjectInserted = false;
 
@@ -278,26 +277,6 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
         const formattedTime = getTimeFormatted(endTime);
         return `${formattedDate} ${formattedTime}`;
     };
-
-    // function getXML() {
-    //     let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
-
-    //     tableRows.forEach(subject => {
-    //         if (subject.selected) {
-    //             Insertxml += "<SubjectwiseStandardExamSchedule>" +
-    //                 "<Subject_Id>" + subject.id + "</Subject_Id>" +
-    //                 "<ExamTypes>" + subject.examType + "</ExamTypes>" +
-    //                 "<Description>" + subject.description + "</Description>" +
-    //                 "<Exam_Start_Date>" + (getExamStartDate(subject.examDate, subject.startTime)) + "</Exam_Start_Date>" +
-    //                 "<Exam_End_Date>" + (getExamStartDate(subject.examDate, subject.endTime)) + "</Exam_End_Date>" +
-    //                 "</SubjectwiseStandardExamSchedule>\r\n";
-    //         }
-    //     });
-
-    //     Insertxml += "</SubjectwiseStandardExamSchedule>";
-    //     ClickSaveXML(Insertxml);
-    //     return Insertxml;
-    // }
 
     const getXML = () => {
         let sXML = '<SubjectwiseStandardExamSchedule>';
