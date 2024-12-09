@@ -20,9 +20,8 @@ const LibraryBaseScreen = () => {
     const navigate = useNavigate();
 
     const [cliambook, setcliambook] = useState('');
-
-    const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-    const [SortBy, setSortBy] = useState('Book_Title');
+    const [sortHeader, setsortHeader] = useState(2);
+    const [sortExpression, setSortExpression] = useState('Asc');
     const [BookTitle, setBookTitle] = useState<string>('');
     const [AccessionNumber, setAccessionNumber] = useState<string>('');
     const [Author, setAuthor] = useState<string>('');
@@ -35,6 +34,18 @@ const LibraryBaseScreen = () => {
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);  // Default items per page
     const [page, setPage] = useState<number>(1);
     const rowsPerPageOptions = [10, 20, 30, 40];  // Pagination options
+
+    const [headerArray, setHeaderArray] = useState([
+        { Id: 1, Header: 'Accession No', SortOrder: null, sortKey: 'Accession_No' },
+        { Id: 2, Header: 'Book Title', SortOrder: null, sortKey: 'Book_Title' },
+        { Id: 3, Header: 'Author', SortOrder: 'ASC', sortKey: 'Author_Name' },
+        { Id: 4, Header: 'Publisher', SortOrder: null, sortKey: 'Publisher_By' },
+        { Id: 5, Header: 'Standards', SortOrder: null, sortKey: 'Standards' },
+        { Id: 6, Header: 'Language' },
+        { Id: 7, Header: 'Available' },
+        { Id: 8, Header: 'Total' },
+        { Id: 9, Header: 'Claim' },
+    ]);
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -51,7 +62,15 @@ const LibraryBaseScreen = () => {
     const USGetBookTotalCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetBookTotalCount);
     const USGetTotalBookID: any = useSelector((state: RootState) => state.SchoolLibrary.IGetTotalBookID);
 
-    console.log(SortDirection, "🤞🤞🤞")
+
+    const getSortKey = () => {
+        let SortHeader = ""
+        headerArray.map(item => {
+            if (item.Id == sortHeader)
+                SortHeader = item.sortKey
+        })
+        return SortHeader;
+    }
     const BookDetails: IGetAllBooksDetailsBody = {
         asprm_iSchoolId: asSchoolId,
         Book_Title: BookTitle,
@@ -60,7 +79,7 @@ const LibraryBaseScreen = () => {
         AccessionNumber: AccessionNumber,
         Language: LanguageId,
         asprm_iStandardId: StandardId,
-        asSortExp: "ORDER BY Book_Title ASC", //SortDirection,
+        asSortExp: "Order By " + getSortKey() + " " + sortExpression, //SortDirection,
         asStartIndex: (page - 1) * rowsPerPage, // dynamic start index for pagination
         asEndIndex: page * rowsPerPage, // dynamic end index for pagination
         asprm_iParentStaffId: 0,
@@ -70,7 +89,7 @@ const LibraryBaseScreen = () => {
     }
     useEffect(() => {
         dispatch(CDAGetAllBooksDetails(BookDetails));
-    }, [dispatch, page, rowsPerPage, SortDirection]);  // Dependency on page and rowsPerPage for dynamic pagination
+    }, [dispatch, page, rowsPerPage, sortExpression, sortHeader]);  // Dependency on page and rowsPerPage for dynamic pagination
 
     const BookIssueDetails: IGetLibraryBookIssueDetailsBody = {
         asSchool_Id: asSchoolId,
@@ -109,7 +128,7 @@ const LibraryBaseScreen = () => {
         asEndIndex: 20,
         asBookTitle: "",
         asUserName: "",
-        asSortExpression: "ORDER BY Book_Title ASC",
+        asSortExpression: "Order By " + getSortKey() + " " + sortExpression,
         asAllUserFlag: 0
 
     };
@@ -240,16 +259,25 @@ const LibraryBaseScreen = () => {
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
 
+    // const handleSortChange = (updatedHeaderArray) => {
+    //     setHeaderArray(updatedHeaderArray);
+    //     const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+    //     const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Book_Title desc';
+    //     setSortExpression(newSortExpression);
+    // };
+    const handleSortChange = (value) => {
 
-
-    const handleSortChange = (column: string) => {
-        if (SortBy === column) {
-            setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortBy(column);
-            setSortDirection('asc');
-        }
-    };
+        setsortHeader(value.Id)
+        setSortExpression(value.SortOrder)
+    }
+    // const handleSortChange = (column: string) => {
+    //     if (SortBy === column) {
+    //         setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
+    //     } else {
+    //         setSortBy(column);
+    //         setSortDirection('asc');
+    //     }
+    // };
     const clickClear = () => {
         // Reset local state
         setBookTitle('');
@@ -266,7 +294,7 @@ const LibraryBaseScreen = () => {
             AccessionNumber: AccessionNumber,
             Language: LanguageId,
             asprm_iStandardId: StandardId,
-            asSortExp: "ORDER BY Book_Title ASC", //SortDirection,
+            asSortExp: "Order By " + getSortKey() + " " + sortExpression,
             asStartIndex: (page - 1) * rowsPerPage, // dynamic start index for pagination
             asEndIndex: page * rowsPerPage, // dynamic end index for pagination
             asprm_iParentStaffId: 0,
@@ -398,7 +426,11 @@ const LibraryBaseScreen = () => {
                         </Typography>
                     </Box>
                 ) : (
-                    <TableBook data={USGetAllBooksDetailss} clickcliam={ClickCliam} handleSortChange={handleSortChange} SortDirection={SortDirection} SortBy={SortBy} />
+                    <TableBook data={USGetAllBooksDetailss} clickcliam={ClickCliam} DefaultValue={sortExpression}
+                        handleSortChange={handleSortChange} HeaderArray={headerArray}
+                        sortHeader={sortHeader} SortExpression={sortExpression} />
+
+                    // <TableBook data={USGetAllBooksDetailss} clickcliam={ClickCliam} handleSortChange={handleSortChange} HeaderArray={headerArray} />
                 )}
                 <ButtonGroupComponent
                     ChangeRowsPerPage={ChangeRowsPerPage}
