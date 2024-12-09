@@ -153,8 +153,6 @@ const StandardwiseExamSchedule = () => {
         };
         dispatch(GetSumbitExamSchedule(unSubmitBody));
         setIsUnsubmitted(true);
-        toast.success('Exam schedule has been Unsubmited successfully!!!');
-
         const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
             asStandardId: Number(StandardId),
             asSchoolId: Number(asSchoolId),
@@ -163,6 +161,7 @@ const StandardwiseExamSchedule = () => {
 
         }
         dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
+        toast.success('Exam schedule has been Unsubmited successfully!!!');
     };
 
 
@@ -347,7 +346,6 @@ const StandardwiseExamSchedule = () => {
     }
     const onClickSubmit = () => {
         dispatch(GetSumbitExamSchedule(SumbitExamScheduleBody))
-        toast.success('Exam schedule has been submited successfully!!!');
         const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
             asStandardId: Number(StandardId),
             asSchoolId: Number(asSchoolId),
@@ -357,6 +355,7 @@ const StandardwiseExamSchedule = () => {
         }
         dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
         setIsUnsubmitted(false);
+        toast.success('Exam schedule has been submited successfully!!!');
     };
 
     const handleOpenDialog = (instructionText) => {
