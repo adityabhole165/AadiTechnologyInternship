@@ -11,7 +11,7 @@ import {
   IGetStudentPrrogressReportBody,
   IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
-import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetLatestExamIdBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetLatestExamIdBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IGetTeachersForPrePrimaryProgressReportBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Card5 from 'src/libraries/mainCard/Card5';
@@ -19,7 +19,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { StudentDetailsGA, ViewResultGA } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
 import AllStudents from 'src/requests/ProgressReport/AllStudent';
 import { DataParserAndFormatter } from 'src/requests/ProgressReport/PotoType';
-import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAGetLatestExamId, CDAGetLatestExamId1, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAGetLatestExamId, CDAGetLatestExamId1, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAGetTeachersForPrePrimaryProgressReport, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations, SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -36,6 +36,8 @@ const ProgressReportNew = () => {
   const TeacherIdsession = sessionStorage.getItem('TeacherId');
 
   const asUserId = Number(sessionStorage.getItem('Id'));
+  console.log(asUserId,'kkk');
+  
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
 
   const userLoginId = sessionStorage.getItem("Userlogin")
@@ -173,7 +175,6 @@ const ProgressReportNew = () => {
   const SubHeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray1);
 
   const ShowOnlyGrades = EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true';
-
   const UsAcademicYearsOfStudent: any = useSelector((state: RootState) => state.ProgressReportNew.IsAcademicYearsOfStudent);
   const GetOldStudentDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetOldStudentDetails);
 
@@ -185,14 +186,14 @@ const ProgressReportNew = () => {
   const getIsTermExamPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsTermExamPublished);
 
   const getIsFinalResultPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsFinalResultPublished);
-
+  
+  const USGetTeachersForPrePrimaryProgressReportBody = useSelector((state: RootState) => state.ProgressReportNew.ISGetTeachersForPrePrimaryProgressReport);
 
   const progressReportFilePath: any = useSelector((state: RootState) => state.ProgressReportNew.ProgressReportDownload);
 
   const LatestExamId: any = useSelector((state: RootState) => state.ProgressReportNew.ISLatestExamId);
   const LatestExamId1: any = useSelector((state: RootState) => state.ProgressReportNew.ISLatestExamId1);
 
-  console.log(LatestExamId, "oo", LatestExamId1);
 
   // useEffect(() => {
   //   if (UsGetSchoolSettings != null)
@@ -220,16 +221,12 @@ const ProgressReportNew = () => {
   );
 
 
-console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
-
-
-
+   console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
   const [IsTotalConsiderForProgressReport1, setIsTotalConsiderForProgressReport1] = useState('');
   useEffect(() => {
     if (UsGetSchoolSettings != null)
       setIsTotalConsiderForProgressReport1(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
     console.log(IsTotalConsiderForProgressReport, "IsTotalConsiderForProgressReport ✅✅✅✅");
-    // setIsTotalConsiderForProgressReport('False');
   }, [UsGetSchoolSettings])
 
 
@@ -238,23 +235,16 @@ console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
   // Fianl result data end here 
 
 
-
-
-
-
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
     { Id: 3, Header: 'Remarks' }
 
   ]
-
   const [totalCount, setTotalCount] = useState('0');
   useEffect(() => {
     if (UsGetSchoolSettings != null)
       setTotalCount(UsGetSchoolSettings?.GetSchoolSettingsResult?.ToppersCount.toString());
-    console.log(totalCount, 'this is count setting');
-
   }, [UsGetSchoolSettings])
   const [isFailCriteria, setIsFailCriteria] = useState('N');
   useEffect(() => {
@@ -273,10 +263,7 @@ console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
 
   }, [UsGetSchoolSettings])
 
-  console.log(USIsGradingStandard, 'USIsGradingStandard', ShowTopppers, "ShowTopppers");
-
-
-
+  
   const [progressReportMessage, setProgressReportMessage] = useState(null);
 
   useEffect(() => {
@@ -604,8 +591,16 @@ console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
 
   }, [GetOldStudentDetails.StandardDivisionId, AcademicYear]);
 
+  const GetTeachersForPrePrimaryProgressReportBody: IGetTeachersForPrePrimaryProgressReportBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(AcademicYear),
+    asSchoolWise_Standard_Division_Id: GetOldStudentDetails.StandardDivisionId,
+    
+  };
+  useEffect(() => {
+    dispatch(CDAGetTeachersForPrePrimaryProgressReport(GetTeachersForPrePrimaryProgressReportBody));
 
-
+  }, [GetOldStudentDetails.StandardDivisionId, AcademicYear]);
 
 
   useEffect(() => {
@@ -641,7 +636,7 @@ console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
     if (StudentId !== '0') {
       dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard, totalCount, isFailCriteria));
     }
-  }, [IsTotalConsiderForProgressReport, AcademicYear, GetOldStudentDetails.StudentId])
+  }, [IsTotalConsiderForProgressReport, AcademicYear, GetOldStudentDetails.StudentId,totalCount,isFailCriteria])
   // }, [AcademicYear, GetOldStudentDetails.StudentId, IsTotalConsiderForProgressReport]);
 
   useEffect(() => {
@@ -916,36 +911,9 @@ console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
               </IconButton>
             </span>
           </Tooltip>}
-
-
-
-
-
-          {/* {(open && StudentId !== "0") && AcademicYear !== asAcademicYearId &&   (
-            <Box>
-              <Tooltip title={'Print'}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: blue[500],
-                    '&:hover': {
-                      backgroundColor: blue[600]
-                    }
-                  }}
-                  onClick={clickPrint}>
-                  <PrintIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          )} */}
-
-
         </>}
 
       />
-
-
-
 
       <Grid container sx={{ mt: 2 }} >
         <Grid xs={6}>
@@ -1018,11 +986,6 @@ console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
       </Grid>
 
       <ErrorMessage1 Error={Error}></ErrorMessage1>
-
-
-
-
-
 
       {open && (
         <span>
@@ -1129,8 +1092,6 @@ console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
         </span>
       )}
 
-
-
       {open && (
         <div>
           {StudentId == "0" && parsedDataList?.length > 0 &&
@@ -1140,8 +1101,7 @@ console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
                 USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
                 USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
               />
-              //             data1, IStudentList, handleClose, handleClick, open1, formattedText,
-              // USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
+              
             ))
 
           }
@@ -1150,14 +1110,7 @@ console.log(ViewProgress,MarkDetailsView,SubjectDetailsView,);
         </div>
       )}
 
-      {/* {USIsGradingStandard === true && hasGrade == true ?
-        <h1>  massage   {StudentName()} </h1> : USIsGradingStandard === false && hasEmptyMarks == true ?
-          <h1>  massage   {StudentName()}  </h1> : null
-
-      } */}
-
-
-      {SchoolScreensAccessPermission() &&
+      {(SchoolScreensAccessPermission() && getIsFinalResultPublished)&&
         <Grid xs={6} >
           {open && (
             <>

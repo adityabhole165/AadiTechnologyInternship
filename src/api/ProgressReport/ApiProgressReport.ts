@@ -1,4 +1,4 @@
-import { GetSchoolSettingsBody, GetSchoolSettingsResult, IGetLatestExamIdBody,IGetAcademicYearsOfStudentBody,IProgressReportBody, IGetAcademicYearsOfStudentResult, IGetAllMarksGradeConfigurationBody, IGetAllMarksGradeConfigurationResult, IGetAllStudentsProgressSheetBody, IGetAllStudentsProgressSheetResult, IGetClassTeachersBody, IGetClassTeachersResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetPassedAcademicYearsBody, IGetPassedAcademicYearsResult, IGetProgressReportFileNameResult, IGetSchoolSettingValuesBody, IGetSchoolSettingValuesResult, IGetStudentNameDropdownBody, IGetStudentNameDropdownResult, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody, IStudentProgressReportResult, GetIsPrePrimaryBody, DownloadButtonStateDetailsResult, IGetPrePrimaryExamPublishStatusBody, IgetIsTermExamPublishedBody, IgetIsFinalResultPublishedBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, GetSchoolSettingsResult, IGetLatestExamIdBody,IGetTeachersForPrePrimaryProgressReportBody,IGetAcademicYearsOfStudentBody,IProgressReportBody, IGetAcademicYearsOfStudentResult, IGetAllMarksGradeConfigurationBody, IGetAllMarksGradeConfigurationResult, IGetAllStudentsProgressSheetBody, IGetAllStudentsProgressSheetResult, IGetClassTeachersBody, IGetClassTeachersResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetPassedAcademicYearsBody, IGetPassedAcademicYearsResult, IGetProgressReportFileNameResult, IGetSchoolSettingValuesBody, IGetSchoolSettingValuesResult, IGetStudentNameDropdownBody, IGetStudentNameDropdownResult, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody, IStudentProgressReportResult, GetIsPrePrimaryBody, DownloadButtonStateDetailsResult, IGetPrePrimaryExamPublishStatusBody, IgetIsTermExamPublishedBody, IgetIsFinalResultPublishedBody, IGetTeachersForPrePrimaryProgressReportresult } from "src/interfaces/ProgressReport/IprogressReport";
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetClassTeachers = (data: IGetClassTeachersBody) => {
@@ -142,7 +142,12 @@ const GetLatestExamId = (data: IGetLatestExamIdBody) => {
 };
 
 
-
+const ApiGetTeachersForPrePrimaryProgressReport = (data: IGetTeachersForPrePrimaryProgressReportBody) => {
+  return http.post<IGetTeachersForPrePrimaryProgressReportresult>(
+    'Teacher/GetTeachersForPrePrimaryProgressReport',
+    data
+  );
+};
 
 const ApiProgressReport = {
   GetClassTeachers,
@@ -163,6 +168,7 @@ const ApiProgressReport = {
   GetPrePrimaryExamPublishStatus,
   getIsTermExamPublished,
   getIsFinalResultPublished,
-  GetLatestExamId
+  GetLatestExamId,
+  ApiGetTeachersForPrePrimaryProgressReport
 };
 export default ApiProgressReport;
