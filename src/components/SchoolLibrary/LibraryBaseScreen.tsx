@@ -31,9 +31,9 @@ const LibraryBaseScreen = () => {
     const [SearchBook, setSearchBook] = useState([]);
 
     // Initialize state with numbers, as it's required for pagination
-    const [rowsPerPage, setRowsPerPage] = useState<number>(20);  // Default items per page
+    const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState<number>(1);
-    const rowsPerPageOptions = [20, 50, 100, 200];  // Pagination options
+    const rowsPerPageOptions = [20, 50, 100, 200];
 
     const [headerArray, setHeaderArray] = useState([
         { Id: 1, Header: 'Accession No', SortOrder: null, sortKey: 'Accession_No' },
@@ -62,6 +62,11 @@ const LibraryBaseScreen = () => {
     const USGetBookTotalCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetBookTotalCount);
     const USGetTotalBookID: any = useSelector((state: RootState) => state.SchoolLibrary.IGetTotalBookID);
 
+    const filteredList = Array.isArray(USGetAllBooksDetailss)
+        ? USGetAllBooksDetailss.filter((item) => item.USGetBookTotalCount !== undefined)
+        : [];
+    const TotalCount = filteredList.map((item) => item.USGetBookTotalCount);
+    const uniqueTotalCount = [...new Set(TotalCount)];
 
     const getSortKey = () => {
         let SortHeader = ""
@@ -247,13 +252,12 @@ const LibraryBaseScreen = () => {
         }, 0);
     }, [USGetBookTotalCount]);
 
-
-    const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 20));
-        setPage(1);
-    };
-    const PageChange = (pageNumber: number) => {
+    const PageChange = (pageNumber) => {
         setPage(pageNumber);
+    };
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1);
     };
     // Calculate total page count
     const startRecord = (page - 1) * rowsPerPage + 1;
@@ -436,9 +440,9 @@ const LibraryBaseScreen = () => {
                 {/* {
                     endRecord > 19 ? ( */}
                 <ButtonGroupComponent
+                    rowsPerPage={rowsPerPage}
                     ChangeRowsPerPage={ChangeRowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions} // Set your options
-                    rowsPerPage={rowsPerPage}
                     PageChange={PageChange}
                     pagecount={pageCount}  // Use the calculated pageCount
                 />
