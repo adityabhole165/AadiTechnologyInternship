@@ -36,12 +36,12 @@ const LibraryBaseScreen = () => {
     const rowsPerPageOptions = [20, 50, 100, 200];
 
     const [headerArray, setHeaderArray] = useState([
-        { Id: 1, Header: 'Accession No', SortOrder: null, sortKey: 'Accession_No' },
+        { Id: 1, Header: 'Accession No', SortOrder: null, sortKey: 'Book_No' },
         { Id: 2, Header: 'Book Title', SortOrder: null, sortKey: 'Book_Title' },
         { Id: 3, Header: 'Author', SortOrder: 'ASC', sortKey: 'Author_Name' },
-        { Id: 4, Header: 'Publisher', SortOrder: null, sortKey: 'Publisher_By' },
-        { Id: 5, Header: 'Standards', SortOrder: null, sortKey: 'Standards' },
-        { Id: 6, Header: 'Language' },
+        { Id: 4, Header: 'Publisher', SortOrder: null, sortKey: 'Published_By' },
+        { Id: 5, Header: 'Standards' },
+        { Id: 6, Header: 'Language', SortOrder: null, sortKey: 'Language' },
         { Id: 7, Header: 'Available' },
         { Id: 8, Header: 'Total' },
         { Id: 9, Header: 'Claim' },
