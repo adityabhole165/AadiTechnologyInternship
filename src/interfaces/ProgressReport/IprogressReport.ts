@@ -465,3 +465,16 @@ export interface IGetLatestExamIdBody {
 }
 
 
+
+export interface IGetTeachersForPrePrimaryProgressReportBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asSchoolWise_Standard_Division_Id: number
+    
+}
+export interface IGetTeachersForPrePrimaryProgressReportresult {
+    Teacher_Id: number
+    
+    
+}
+

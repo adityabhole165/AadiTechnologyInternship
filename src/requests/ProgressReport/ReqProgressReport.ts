@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import colors from "react-multi-date-picker/plugins/colors";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { GetIsPrePrimaryBody, GetSchoolSettingsBody, IGetLatestExamIdBody,IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IProgressReportBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetIsPrePrimaryBody, GetSchoolSettingsBody,IGetTeachersForPrePrimaryProgressReportBody, IGetLatestExamIdBody,IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IProgressReportBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -51,6 +51,7 @@ const ProgressReportSlice = createSlice({
     ISgetIsFinalResultPublished: null,
     ISLatestExamId:null,
     ISLatestExamId1:null,
+    ISGetTeachersForPrePrimaryProgressReport:[],
 
 
   },
@@ -218,6 +219,12 @@ const ProgressReportSlice = createSlice({
       state.ISLatestExamId1 = action.payload;
     },
 
+    RGetTeachersForPrePrimaryProgressReport(state, action) {
+      state.Loading = false;
+      state.ISGetTeachersForPrePrimaryProgressReport = action.payload;
+    },
+
+    
     RgetIsFinalResultPublished(state, action) {
       state.Loading = false;
       state.ISgetIsFinalResultPublished = action.payload;
@@ -1323,6 +1330,15 @@ export const CDAgetIsFinalResultPublished =
         const response = await ApiProgressReport.GetLatestExamId(data);
         dispatch(ProgressReportSlice.actions.RLatestExamId1(response.data));
       };
+
+
+      export const CDAGetTeachersForPrePrimaryProgressReport =
+      (data: IGetTeachersForPrePrimaryProgressReportBody): AppThunk =>
+        async (dispatch) => {
+          dispatch(ProgressReportSlice.actions.setLoading());
+          const response = await ApiProgressReport.ApiGetTeachersForPrePrimaryProgressReport(data);
+          dispatch(ProgressReportSlice.actions.RGetTeachersForPrePrimaryProgressReport(response.data));
+        };
 
 
 export default ProgressReportSlice.reducer;
