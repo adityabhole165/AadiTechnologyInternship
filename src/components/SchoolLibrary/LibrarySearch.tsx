@@ -1,4 +1,5 @@
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import SearchTwoTone from "@mui/icons-material/SearchTwoTone";
+import { Box, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
@@ -174,9 +175,24 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         label='Media Options'
                     />
                 </Grid>
-                {/* <Grid item xs={12} md={3}>
-                    <Button variant='contained' fullWidth onClick={clickSearch}>Search</Button>
-                </Grid> */}
+                <Grid item xs={12} md={3}>
+                    <Tooltip title={"Search"}>
+                        <IconButton
+                            sx={{
+                                background: (theme) => theme.palette.primary.main,
+                                color: 'white',
+                                mt: 1,
+                                ml: 34,
+                                '&:hover': {
+                                    backgroundColor: (theme) => theme.palette.primary.dark
+                                }
+                            }}
+                            onClick={clickSearch}
+                        >
+                            <SearchTwoTone />
+                        </IconButton>
+                    </Tooltip>
+                </Grid>
             </Grid>
         </Box>
 

@@ -1,4 +1,4 @@
-import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
+import { QuestionMark } from '@mui/icons-material';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
@@ -317,7 +317,7 @@ const LibraryBaseScreen = () => {
                 navLinks={[{ title: 'Library', path: '/extended-sidebar/Teacher/LibraryBaseScreen' }]}
                 rightActions={
                     <>
-                        <Tooltip title={"Search"}>
+                        {/* <Tooltip title={"Search"}>
                             <IconButton
                                 sx={{
                                     background: (theme) => theme.palette.primary.main,
@@ -330,7 +330,7 @@ const LibraryBaseScreen = () => {
                             >
                                 <SearchTwoTone />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
 
                         <Tooltip title={'Reset'}>
                             <IconButton
