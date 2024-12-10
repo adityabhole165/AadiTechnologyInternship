@@ -538,20 +538,24 @@ const StandardwiseExamSchedule = () => {
                         )}
 
                         <Tooltip title="Copy Schedule">
-                            <span>
-                                <IconButton sx={{
-                                    color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600]
-                                    }
-                                }}
-                                    onClick={() => handleOpenDialog(true)}
-                                >
-                                    <ContentCopyIcon />
-                                </IconButton>
-                            </span>
+                            {IsConfigured && (
+                                <span>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={() => handleOpenDialog(true)}
+                                    >
+                                        <ContentCopyIcon />
+                                    </IconButton>
+                                </span>
+                            )}
                         </Tooltip>
+
                         {IsConfigured !== 'false' && (
                             <Tooltip title="Add Instructions">
                                 <span>
