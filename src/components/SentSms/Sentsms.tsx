@@ -11,10 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IDeleteSMSBody, IExportSentItemsBody, IGetSentItemsBody } from 'src/interfaces/SentSms/Sentsms';
+import { IDeleteSMSBody, IExportSentItemsBody, IGetSentItemsBody, ResendSMSBody } from 'src/interfaces/SentSms/Sentsms';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems, CDAResetDelete } from 'src/requests/SentSms/ReqSentsms';
+import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems, CDAResendSMS, CDAResetDelete } from 'src/requests/SentSms/ReqSentsms';
 import { RootState } from 'src/store';
 import SentsmsList from './SentsmsList';
 const Sentsms = () => {
@@ -33,6 +33,7 @@ const Sentsms = () => {
 
     const [SmsList, setSmsList] = useState([]);
     const [SmsListID, setSmsListID] = useState('');
+    const [NewsmsId, SetNewsmsId] = useState('');
     const { showAlert, closeAlert } = useContext(AlertContext);
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const rowsPerPageOptions = [20, 50, 100, 200];
@@ -73,6 +74,10 @@ const Sentsms = () => {
     const UsExportSentItems = useSelector(
         (state: RootState) => state.SentSms.ISExportSentItems
     );
+    const ResendSMS = useSelector(
+        (state: RootState) => state.SentSms.ISResendSMS
+    );
+console.log(ResendSMS,"ResendSMS");
 
     const handleRegNoOrNameChange = (value) => {
         setRegNoOrName(value);
@@ -222,13 +227,20 @@ const Sentsms = () => {
     }, [DeleteSMS]);
 
 
-
-
-
-    const handleClickEdit = () => {
-        navigate('/extended-sidebar/Teacher/ComposeSMS');
+    const ResendSMSBodyi: ResendSMSBody = {
+        asSmsId: Number(NewsmsId),
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId
+    };
+    const handleClickEdit = (ID) => {
+        SetNewsmsId(ID)
+       
     };
 
+    useEffect(() => {
+       
+        dispatch(CDAResendSMS(ResendSMSBodyi));
+    }, [NewsmsId]); 
 
     const NewSms = (ViewId) => {
         navigate('/extended-sidebar/Teacher/ComposeSMS');

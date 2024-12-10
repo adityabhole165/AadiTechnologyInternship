@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiSentsms from 'src/api/SentSms/Sentsms';
 import { getDateFormattedDashNew } from 'src/components/Common/Util';
-import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IDeleteSMSBody, IExportSentItemsBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetDetailsOfGroupsBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody } from 'src/interfaces/SentSms/Sentsms';
+import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IDeleteSMSBody, IExportSentItemsBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetDetailsOfGroupsBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody, ResendSMSBody } from 'src/interfaces/SentSms/Sentsms';
 import { AppThunk } from 'src/store';
 
 const SliceSentsms = createSlice({
@@ -22,6 +22,7 @@ const SliceSentsms = createSlice({
     ISGetDetailsOfGroups: [],
     Loading: false,
     ISExportSentItems: [],
+    ISResendSMS:[],
   },
 
 
@@ -98,6 +99,12 @@ const SliceSentsms = createSlice({
       state.Loading = false;
       state.ISDeleteSMS = action.payload;
     },
+    ResendSMS(state, action) {
+      state.Loading = false;
+      state.ISResendSMS = action.payload;
+    },
+
+    
     ResetDelete(state,) {
       state.ISDeleteSMS = '';
     },
@@ -361,5 +368,14 @@ export const CDAExportSentItems =
       });
       dispatch(SliceSentsms.actions.RExportSentItems(SentItems));
     };
+
+    export const CDAResendSMS =
+    (data: ResendSMSBody): AppThunk =>
+      async (dispatch) => {
+        dispatch(SliceSentsms.actions.getLoading(true));
+        const response = await ApiSentsms.ResendSMS(data);
+        dispatch(SliceSentsms.actions.ResendSMS(response.data));
+      };
+
 
 export default SliceSentsms.reducer;

@@ -197,3 +197,17 @@ export interface IExportSentItemsResult {
   SMSText: string
   SendDate: string
 }
+
+
+export interface ResendSMSBody {
+  asSmsId: number
+  asSchoolId: number
+  asAcademicYearId: number
+}
+
+export interface ResendSMSResult {
+  SMS_Text: string
+  Display_Text: string
+  RoleId: string
+  UserId: string
+}
