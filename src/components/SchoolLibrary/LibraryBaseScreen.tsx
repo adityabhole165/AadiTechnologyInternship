@@ -1,5 +1,4 @@
 import { QuestionMark } from '@mui/icons-material';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { BookLockIcon } from 'lucide-react';
@@ -285,7 +284,7 @@ const LibraryBaseScreen = () => {
     //         setSortDirection('asc');
     //     }
     // };
-    const clickClear = () => {
+    const clickReset = () => {
         // Reset local state
         setBookTitle('');
         setAccessionNumber('');
@@ -308,7 +307,9 @@ const LibraryBaseScreen = () => {
             asprm_iParentStaffId: 0,
         };
         dispatch(CDAGetAllBooksDetails(BookDetails));
-
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     }
 
     return (
@@ -332,7 +333,7 @@ const LibraryBaseScreen = () => {
                             </IconButton>
                         </Tooltip> */}
 
-                        <Tooltip title={'Reset'}>
+                        {/* <Tooltip title={'Reset'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
@@ -344,7 +345,7 @@ const LibraryBaseScreen = () => {
                                 onClick={clickClear} >
                                 <RestartAltIcon />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
 
                         <Tooltip title={"Here you can search the books and also you can see the issued book details."}>
                             <IconButton
@@ -393,7 +394,8 @@ const LibraryBaseScreen = () => {
                 setStandardId={setStandardId}
                 setLanguageId={setLanguageId}
                 setIsPrintable={setIsPrintable}
-                clickSearch={clickSearch} />
+                clickSearch={clickSearch}
+                clickReset={clickReset} />
             <Box mt={1} px={2} sx={{ backgroundColor: 'white' }} pb={2} >
                 <Box sx={{ display: 'flex' }}>
                     <Box>

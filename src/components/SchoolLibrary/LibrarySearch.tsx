@@ -1,5 +1,7 @@
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchTwoTone from "@mui/icons-material/SearchTwoTone";
 import { Box, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
+import { blue } from "@mui/material/colors";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
@@ -22,6 +24,7 @@ interface LibrarySearchProps {
     setLanguageId: (value: string) => void;
     setIsPrintable: (value: string) => void;
     clickSearch,
+    clickReset
 }
 const LibrarySearch: React.FC<LibrarySearchProps> = ({
     BookTitle,
@@ -38,7 +41,8 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
     setStandardId,
     setLanguageId,
     setIsPrintable,
-    clickSearch
+    clickSearch,
+    clickReset
 }) => {
     // const LibrarySearch = () => {
     const dispatch = useDispatch()
@@ -97,7 +101,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         value={BookTitle}
                         onChange={(e) => clickBookTitle(e.target.value.slice(0, 50))}
                         inputProps={{ maxLength: 50 }}
-
+                        size={"medium"}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
                                 clickSearch();
@@ -109,6 +113,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                 <Grid item xs={4} md={3}>
                     <TextField
                         fullWidth
+                        size={"medium"}
                         label="Accession Number"
                         value={AccessionNumber}
                         onChange={(e) => clickAccessionNumber(e.target.value.slice(0, 50))}
@@ -124,6 +129,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                     <TextField
                         fullWidth
                         label="Author"
+                        size={"medium"}
                         value={Author}
                         onChange={(e) => clickAuthor(e.target.value.slice(0, 50))}
                         inputProps={{ maxLength: 50 }}
@@ -138,6 +144,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                     <TextField
                         fullWidth
                         label="Publisher"
+                        size={"medium"}
                         value={Publisher}
                         onChange={(e) => clickPublisher(e.target.value.slice(0, 50))}
                         inputProps={{ maxLength: 50 }}
@@ -150,7 +157,8 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <SearchableDropdown
-                        sx={{ minWidth: '20vw' }}
+                        size={"medium"}
+                        sx={{ width: '100%' }}
                         ItemList={GetLanguageList}
                         defaultValue={LanguageId}
                         onChange={clickLanguageId}
@@ -159,7 +167,8 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <SearchableDropdown
-                        sx={{ minWidth: '20vw' }}
+                        size={"medium"}
+                        sx={{ width: '100%' }}
                         ItemList={StandardList}
                         defaultValue={StandardId}
                         onChange={clickStandardId}
@@ -168,7 +177,8 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <SearchableDropdown
-                        sx={{ minWidth: '20vw' }}
+                        size={"medium"}
+                        sx={{ width: '100%' }}
                         ItemList={mediaTypeOptions} // Using the mediaTypeOptions array
                         defaultValue={IsPrintable}
                         onChange={clickIsPrintable}
@@ -182,7 +192,6 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                                 background: (theme) => theme.palette.primary.main,
                                 color: 'white',
                                 mt: 1,
-                                ml: 34,
                                 '&:hover': {
                                     backgroundColor: (theme) => theme.palette.primary.dark
                                 }
@@ -190,6 +199,21 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                             onClick={clickSearch}
                         >
                             <SearchTwoTone />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={'Reset'}>
+                        <IconButton
+                            sx={{
+                                color: 'white',
+                                mt: 1,
+                                ml: 1.5,
+                                backgroundColor: blue[500],
+                                '&:hover': {
+                                    backgroundColor: blue[600]
+                                }
+                            }}
+                            onClick={clickReset} >
+                            <RestartAltIcon />
                         </IconButton>
                     </Tooltip>
                 </Grid>
