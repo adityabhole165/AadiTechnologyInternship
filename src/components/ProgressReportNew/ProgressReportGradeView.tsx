@@ -4,7 +4,7 @@ import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } fro
 import { blue } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 
-const ProgressReportGradeView = ({ isFailCriteria, totalCount, EntireDataList, HeaderArray1, SubHeaderArray1, MarkDetailsList1, IsTotalConsiderForProgressReport }) => {
+const ProgressReportGradeView = ({USlistStudentsDetails,isFailCriteria, totalCount, EntireDataList, HeaderArray1, SubHeaderArray1, MarkDetailsList1, IsTotalConsiderForProgressReport }) => {
   // const getListDisplayName = (ShortName) => {
   //     let returnVal = ""
   //     ListDisplayNameDetails1.map((Item) => {
@@ -74,7 +74,8 @@ const ProgressReportGradeView = ({ isFailCriteria, totalCount, EntireDataList, H
   }
 
   return (
-    <Box>
+    <Box> 
+        {USlistStudentsDetails.length > 0 ?
       <Table>
         <TableHead>
           {HeaderParent.length > 1 &&
@@ -223,6 +224,10 @@ const ProgressReportGradeView = ({ isFailCriteria, totalCount, EntireDataList, H
         ))}
 
       </Table>
+
+      : <span></span>
+}
+
     </Box>
   )
 }

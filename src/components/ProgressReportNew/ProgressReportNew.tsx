@@ -1015,6 +1015,7 @@ const ProgressReportNew = () => {
                     )}
                     <Box sx={{ overflowX: 'auto' }}>
                       <ProgressReportGradeView
+                      USlistStudentsDetails={USlistStudentsDetails}
                         totalCount={totalCount}
                         isFailCriteria={isFailCriteria}
                         EntireDataList={EntireDataList}
@@ -1047,6 +1048,8 @@ const ProgressReportNew = () => {
                     )}
                     <Box sx={{ overflowX: 'auto' }}>
                       <ProgressReportMarkView
+                      
+                      USlistStudentsDetails={USlistStudentsDetails}
                         isFailCriteria={isFailCriteria}
                         totalCount={totalCount}
                         HeaderArray={HeaderArray}

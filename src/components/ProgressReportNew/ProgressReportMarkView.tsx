@@ -2,7 +2,7 @@ import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } fro
 import { blue } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 
-const ProgressReportMarkView = ({isFailCriteria, totalCount, EntireDataList, ThirdHeaderRow, HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
+const ProgressReportMarkView = ({isFailCriteria,USlistStudentsDetails, totalCount, EntireDataList, ThirdHeaderRow, HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
  const [data, setData] = useState<any>([]);
     const getListDisplayName = (ShortName) => {
         let returnVal = "";
@@ -177,6 +177,7 @@ const ProgressReportMarkView = ({isFailCriteria, totalCount, EntireDataList, Thi
 
     return (
         <Box >
+            {USlistStudentsDetails.length > 0  ?
             <Table  aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                 <TableHead>
                     {HeaderParent.length > 1 && (
@@ -381,7 +382,15 @@ const ProgressReportMarkView = ({isFailCriteria, totalCount, EntireDataList, Thi
     </TableBody>
 ))}
 
-            </Table>
+            </Table> : <span></span>
+            
+
+            
+            
+            }
+
+
+
         </Box>
     );
 };
