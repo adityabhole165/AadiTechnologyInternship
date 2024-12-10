@@ -450,8 +450,8 @@ function Form13() {
       Content:
         PageName == 'Edit'
           ? originalMessageBody
-          : '<br/><br/>Thanks and Regards,<br/>' +
-          sessionStorage.getItem('StudentName'),
+          : '<br/><br/>Thanks and Regards,<p>' +
+          sessionStorage.getItem('StudentName') + '</p>',
       Attachment: PageName == 'Edit' && null
     },
 
@@ -884,9 +884,9 @@ function Form13() {
       'source'
     ],
     uploader: {
-    insertImageAsBase64URI: true
-  },
-  "spellcheck": true,
+      insertImageAsBase64URI: true
+    },
+    "spellcheck": true,
     // You can add more configuration options here
     // height: 500,
     // to olbarAdaptive: false,
@@ -1505,7 +1505,7 @@ function Form13() {
         </Typography>
 
         <DialogContent>
-          <Box sx={{ overflow: 'auto', maxBlockSize: '400px', mt: 2 }}>
+          <Box sx={{ overflow: 'auto', maxBlockSize: '400px' }}>
             {showRecipients ? (
               <AddReciepents
                 getGroupRadio={getGroupRadio}
