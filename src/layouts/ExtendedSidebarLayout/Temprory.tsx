@@ -1122,9 +1122,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     } else if (link) {
       // window.location.href = link; // Redirect to the specified link
       console.log(link);
-      if (schoolSettingList?.ExternalLibrarySite?.split(':')[0].includes('http')) {
+      if (link?.split(':')[0].includes('http')) {
         console.log(link);
-
         window.open(link, '_blank');
       } else {
         navigate(link);
