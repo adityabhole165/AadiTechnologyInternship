@@ -12,12 +12,14 @@ interface LibrarySearchProps {
     Publisher: string;
     StandardId: string;
     LanguageId: string;
+    IsPrintable: string;
     setBookTitle: (value: string) => void;
     setAccessionNumber: (value: string) => void;
     setAuthor: (value: string) => void;
     setPublisher: (value: string) => void;
     setStandardId: (value: string) => void;
     setLanguageId: (value: string) => void;
+    setIsPrintable: (value: string) => void;
     clickSearch,
 }
 const LibrarySearch: React.FC<LibrarySearchProps> = ({
@@ -27,12 +29,14 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
     Publisher,
     StandardId,
     LanguageId,
+    IsPrintable,
     setBookTitle,
     setAccessionNumber,
     setAuthor,
     setPublisher,
     setStandardId,
     setLanguageId,
+    setIsPrintable,
     clickSearch
 }) => {
     // const LibrarySearch = () => {
@@ -43,6 +47,11 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
     // const [Publisher, setPublisher] = useState("");
     // const [StandardId, setStandardId] = useState("0");
     // const [LanguageId, setLanguageId] = useState("0");
+    const mediaTypeOptions = [
+        { Id: 'All', Name: 'All', Value: 'All' },
+        { Id: '1', Name: 'Printable', Value: '1' },
+        { Id: '0', Name: 'Non-Printable', Value: '0' }
+    ];
 
     const asSchoolId = localStorage.getItem("localSchoolId");
     const asAcademicYearId = sessionStorage.getItem("AcademicYearId");
@@ -71,6 +80,9 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
     const clickLanguageId = (Value) => {
         setLanguageId(Value);
     }
+    const clickIsPrintable = (Value) => {
+        setIsPrintable(Value);
+    };
 
     return (
 
@@ -151,6 +163,15 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         defaultValue={StandardId}
                         onChange={clickStandardId}
                         label='Standard '
+                    />
+                </Grid>
+                <Grid item xs={12} md={3}>
+                    <SearchableDropdown
+                        sx={{ minWidth: '20vw' }}
+                        ItemList={mediaTypeOptions} // Using the mediaTypeOptions array
+                        defaultValue={IsPrintable}
+                        onChange={clickIsPrintable}
+                        label='Media Options'
                     />
                 </Grid>
                 {/* <Grid item xs={12} md={3}>

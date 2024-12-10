@@ -29,6 +29,7 @@ const LibraryBaseScreen = () => {
     const [Publisher, setPublisher] = useState<string>('');
     const [StandardId, setStandardId] = useState<string>('0');
     const [LanguageId, setLanguageId] = useState<string>('');
+    const [IsPrintable, setIsPrintable] = useState<string>('All');
     const [SearchBook, setSearchBook] = useState([]);
 
     // Initialize state with numbers, as it's required for pagination
@@ -292,6 +293,7 @@ const LibraryBaseScreen = () => {
         setPublisher('');
         setStandardId('0');
         setLanguageId('0');
+        setIsPrintable('All');
         const BookDetails: IGetAllBooksDetailsBody = {
             asprm_iSchoolId: asSchoolId,
             Book_Title: BookTitle,
@@ -383,12 +385,14 @@ const LibraryBaseScreen = () => {
                 Publisher={Publisher}
                 StandardId={StandardId}
                 LanguageId={LanguageId}
+                IsPrintable={IsPrintable}
                 setBookTitle={setBookTitle}
                 setAccessionNumber={setAccessionNumber}
                 setAuthor={setAuthor}
                 setPublisher={setPublisher}
                 setStandardId={setStandardId}
                 setLanguageId={setLanguageId}
+                setIsPrintable={setIsPrintable}
                 clickSearch={clickSearch} />
             <Box mt={1} px={2} sx={{ backgroundColor: 'white' }} pb={2} >
                 <Box sx={{ display: 'flex' }}>
