@@ -1,6 +1,7 @@
-import { Close, QuestionMark, SearchTwoTone } from '@mui/icons-material';
+import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
-import { blue, grey, red } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import { BookLockIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -328,17 +329,18 @@ const LibraryBaseScreen = () => {
                                 <SearchTwoTone />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title={`Clear`}>
+
+                        <Tooltip title={'Reset'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
-                                    backgroundColor: red[500],
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: red[600] },
+                                    backgroundColor: blue[500],
+                                    '&:hover': {
+                                        backgroundColor: blue[600]
+                                    }
                                 }}
-                                onClick={clickClear}
-                            >
-                                <Close />
+                                onClick={clickClear} >
+                                <RestartAltIcon />
                             </IconButton>
                         </Tooltip>
 
