@@ -162,6 +162,9 @@ const StandardwiseExamSchedule = () => {
         }
         dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
         toast.success('Exam schedule has been Unsubmited successfully!!!');
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     };
 
 
@@ -356,6 +359,9 @@ const StandardwiseExamSchedule = () => {
         dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
         setIsUnsubmitted(false);
         toast.success('Exam schedule has been submited successfully!!!');
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     };
 
     const handleOpenDialog = (instructionText) => {
@@ -582,7 +588,7 @@ const StandardwiseExamSchedule = () => {
                     <Accordion sx={{ mt: 1, mb: 1 }} expanded={isExpanded}
                         onChange={handleAccordionToggle}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography variant="h5"><strong>More Instructions</strong></Typography>
+                            <Typography variant="h5"><strong>Instructions : </strong></Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Box display="flex" flexDirection="column" gap={2}>
