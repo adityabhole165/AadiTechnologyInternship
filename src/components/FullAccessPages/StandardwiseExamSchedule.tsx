@@ -273,7 +273,7 @@ const StandardwiseExamSchedule = () => {
 
         if ((xml !== '' && errorResult == '') && IsSchoolConfigured == "Configured") {
             dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
-            toast.success("Exam schedule has been saved successfully and you can copy exam schedule!!!")
+            toast.success("Exam schedule has been saved successfully and you can copy exam schedule.")
             setIsSaveClicked(true);
         }
     }
