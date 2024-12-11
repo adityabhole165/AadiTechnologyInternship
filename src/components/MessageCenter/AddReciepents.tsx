@@ -468,29 +468,9 @@ const AddReciepents = ({
   return (
     <>
       <Box>
-        <Grid xs={12} sm={12} mt={0.7} item>
-
-          <TextField
-            sx={{ width: '15vw', mt: 0 }}
-            fullWidth
-            label="Search By Name"
-            value={SearchByName}
-            variant={'outlined'}
-            size={'small'}
-            onChange={(e) => {
-              handleSearchByName(e.target.value);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === 'Tab') {
-                clickSearch();
-              }
-            }}
-          />
-        </Grid>
-
         {/* field and back Compose code  */}
         <Grid container>
-          <Grid item xs={12} sm={10}>
+          <Grid item xs={12} sm={11.5}>
 
             <TextField
               fullWidth
@@ -518,13 +498,32 @@ const AddReciepents = ({
           </Grid>
 
         </Grid>
+        <Grid xs={12} sm={12} item>
+
+          <TextField
+            sx={{ width: '28.5vw', my: 1, ml: 51 }}
+            fullWidth
+            label="Search By Name"
+            value={SearchByName}
+            variant={'outlined'}
+            size={'small'}
+            onChange={(e) => {
+              handleSearchByName(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === 'Tab') {
+                clickSearch();
+              }
+            }}
+          />
+        </Grid>
         <>
 
 
           {show === true ? (
             <>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+              <Grid container spacing={2} >
+                <Grid item xs={12} sm={6} mt={-5}>
                   <Grid container spacing={1}>
                     <Grid item xs={6} sm={12}>
                       {/* <Card> */}
