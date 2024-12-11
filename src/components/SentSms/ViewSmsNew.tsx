@@ -75,7 +75,6 @@ function ViewSmsNew() {
         <CommonPageHeader
         navLinks={[
           { title: 'SMS Center ', path: '/extended-sidebar/Teacher/SmsCenter' },
-          { title: 'Sent SMS ', path: '/extended-sidebar/Teacher/Sentsms' },
           { title: 'View SMS', path: '/extended-sidebar/Teacher/ViewSmsNew' }
       ]}
 

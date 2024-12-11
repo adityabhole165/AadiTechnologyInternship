@@ -297,8 +297,6 @@ const LibraryBaseScreen = Loader(
 const ClaimedBookDetailsPage = Loader(
   lazy(() => import('src/components/SchoolLibrary/ClaimedBookDetailsPage'))
 );
-const Sentsms = Loader(lazy(() => import('src/components/SentSms/Sentsms')));
-
 const ViewSmsNew = Loader(
   lazy(() => import('src/components/SentSms/ViewSmsNew'))
 );
@@ -888,10 +886,6 @@ const teacherRoutes = [
   {
     path: 'PreprimaryProgressReportView/:Assessment/:YearwiseStudentId/:StandardId',
     element: <PreprimaryProgressReportView />
-  },
-  {
-    path: 'Sentsms',
-    element: <Sentsms />
   },
   {
     path: 'ViewSmsNew/:SmsId',
