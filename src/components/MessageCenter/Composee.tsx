@@ -1265,7 +1265,7 @@ function Form13() {
                   </Button>
                 </Tooltip>
 
-                <Box sx={{ mt: '15px', width: '220px' }}>
+                <Box sx={{  width: '220px' }}>
                   <Errormessages Error={fileerror} />
                 </Box>
               </Grid>
@@ -1416,8 +1416,10 @@ function Form13() {
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Grid>
-
-              <Grid item xs={12} sx={messageCenter}>
+              <Grid container spacing={1} sx={{ ml: 1 }}>
+              <Grid item xs={11.9} 
+              sx={messageCenter}
+              >
                 <Box sx={{}}>
                   {/* <ReactQuill value={formik.values.Content}
                     onChange={(content) => formik.setFieldValue('Content', content)}
@@ -1432,6 +1434,7 @@ function Form13() {
                       formik.setFieldValue('Content', newContent);
                     }}
                   />
+                  
                 </Box>
                 <Errormessages Error={contenterror} />
                 <Box mb={0.5}>
@@ -1439,6 +1442,10 @@ function Form13() {
                     <ErrorMessage1 Error={formik.errors.Content} />
                   ) : null}
                 </Box>
+              </Grid>
+              <Grid item xs={0.1} sm={0.1} >
+              <span style={{ color: 'red' }}>*</span>
+              </Grid>
               </Grid>
               <Grid item xs={12} sm={12} sx={{ mb: 5, }}>
                 {PageName === 'Reply' || PageName === 'Forwa' ? (
