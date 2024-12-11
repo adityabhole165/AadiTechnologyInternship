@@ -24,6 +24,7 @@ import {
     IGetStudentsSiblingDetailBody,
     IGetStudentsSiblingDetailResult,
     IGetStudentUIPreConditionMsgBody, IGetStudentUIPreConditionMsgResult,
+    IOverwriteAllSiblingDetailsBody,
     ISaveStudentAchievementDetailsBody,
     ISaveStudentSiblingDetailsBody,
     IsClassTeacherBody,
@@ -109,6 +110,11 @@ const SaveStudentSiblingDetailsApi = (data: ISaveStudentSiblingDetailsBody) => {
 const DeleteStudentSiblingDetailsApi = (data: IDeleteStudentSiblingDetailsBody) => {
     return http.post<string>('Teacher/DeleteStudentSiblingDetails', data);
 };
+//6
+const OverwriteAllSiblingDetailsApi = (data: IOverwriteAllSiblingDetailsBody) => {
+    return http.post<string>('Teacher/OverwriteAllSiblingDetails', data);
+};
+
 
 const APIStudentDetails = {
     GetStandardwiseMinMaxDOB,
@@ -122,7 +128,7 @@ const APIStudentDetails = {
     UpdateStudentTrackingDetails,
     GetStudentNameForAchievementControlApi, GetStudentsAllAchievementDetailsApi, GetStudentAchievementDetailsApi,
     SaveStudentAchievementDetailsApi, DeleteStudentAchievementDetailsApi,
-    GetStudentDetailsForSiblingApi, GetStudentSiblingListApi, GetStudentsListApi, SaveStudentSiblingDetailsApi, DeleteStudentSiblingDetailsApi
+    GetStudentDetailsForSiblingApi, GetStudentSiblingListApi, GetStudentsListApi, SaveStudentSiblingDetailsApi, DeleteStudentSiblingDetailsApi, OverwriteAllSiblingDetailsApi
 
 };
 

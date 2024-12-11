@@ -16,6 +16,7 @@ import {
     IGetStudentsListBody,
     IGetStudentsSiblingDetailBody,
     IGetStudentUIPreConditionMsgBody,
+    IOverwriteAllSiblingDetailsBody,
     ISaveStudentAchievementDetailsBody,
     ISaveStudentSiblingDetailsBody,
     IsClassTeacherBody,
@@ -47,6 +48,7 @@ const GetStandardwiseMinMaxDOBslice = createSlice({
         ISGetStudentsList: [],
         ISSaveStudentSiblingDetailsMsg: '',
         ISDeleteStudentSiblingDetailsMsg: '',
+        ISOverwriteSiblingDetailsMsg: '',
         Loading: true
 
     },
@@ -137,6 +139,10 @@ const GetStandardwiseMinMaxDOBslice = createSlice({
         },
         ResetDeleteStudentSiblingDetailsMsg(state) {
             state.ISSaveStudentSiblingDetailsMsg = '';
+            state.Loading = false;
+        },
+        ROverwriteSiblingDetailsMsg(state, action) {
+            state.ISOverwriteSiblingDetailsMsg = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -371,4 +377,12 @@ export const ResetDeleteStudentSiblingDetailsMsg =
             dispatch(GetStandardwiseMinMaxDOBslice.actions.getLoading(true));
             dispatch(GetStandardwiseMinMaxDOBslice.actions.ResetDeleteStudentSiblingDetailsMsg());
         }
+export const CDAOverwriteSiblingDetailsMsg =
+    (data: IOverwriteAllSiblingDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.getLoading(true));
+            const response = await APIStudentDetails.OverwriteAllSiblingDetailsApi(data);
+            dispatch(GetStandardwiseMinMaxDOBslice.actions.ROverwriteSiblingDetailsMsg(response.data));
+
+        };
 export default GetStandardwiseMinMaxDOBslice.reducer;

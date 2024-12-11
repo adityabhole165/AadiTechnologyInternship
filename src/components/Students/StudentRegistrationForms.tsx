@@ -42,6 +42,7 @@ import {
   IGetStudentNameForAchievementControlBody,
   IGetStudentsAllAchievementDetailsBody,
   IGetStudentsSiblingDetailBody,
+  IOverwriteAllSiblingDetailsBody,
   ISaveStudentAchievementDetailsBody,
   IUpdateStudentTrackingDetailsBody
 } from 'src/interfaces/StudentDetails/IStudentDetails';
@@ -59,6 +60,7 @@ import {
   CDAGetStudentNameForAchievementControl,
   CDAGetStudentsAllAchievementList,
   CDAGetStudentsSiblingDetail,
+  CDAOverwriteSiblingDetailsMsg,
   CDAResetDeleteStudentAchievementDetailsMsg,
   CDAResetSaveStudentAchievementDetailsMsg,
   CDASaveStudentAchievementDetailsMsg,
@@ -455,6 +457,10 @@ const StudentRegistrationForm = () => {
     //family: {}
   });
   const [showValidation, setShowValidation] = useState(false);
+  //Siblings States
+  const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
+  const [selectedSiblings, setSelectedSiblings] = useState('');
+  console.log('✅ selectedSiblings', selectedSiblings)
 
   const requiredFieldsMap = {
     admission: [
@@ -1236,11 +1242,20 @@ const StudentRegistrationForm = () => {
     asUpdatedById: Number(teacherId)
   };
 
+  const OverwriteSiblingDetailsBody: IOverwriteAllSiblingDetailsBody = {
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asStudentId: Number(SchoolWise_Student_Id ?? RSchoolWise_Student_Id),
+    asMode: 1,
+    asSiblingId: selectedSiblings
+  }
+
   const executeApiCalls = async (
     updateStudentBody,
     additionalDetailsBody,
     streamwiseSubjectDetailsBody,
-    transportFeeBody
+    transportFeeBody,
+    overwriteSiblingDetailsBody
   ) => {
     try {
       // Update Student Details
@@ -1253,15 +1268,16 @@ const StudentRegistrationForm = () => {
         await dispatch(CDAAddStudentAdditionalDetails(additionalDetailsBody));
       }
 
+      if (overwriteSiblingDetails === 0) {
+        console.log('overwriteSiblingDetails:', overwriteSiblingDetails);
+        console.log('Sending overwriteSiblingDetails details:', overwriteSiblingDetailsBody);
+        await dispatch(CDAOverwriteSiblingDetailsMsg(overwriteSiblingDetailsBody));
+      }
+
       // Update Streamwise Subject Details
       if (streamwiseSubjectDetailsBody) {
-        console.log(
-          'Updating streamwise subject details:',
-          streamwiseSubjectDetailsBody
-        );
-        await dispatch(
-          CDAUpdateStudentStreamwiseSubjectDetails(streamwiseSubjectDetailsBody)
-        );
+        console.log('Updating streamwise subject details:', streamwiseSubjectDetailsBody);
+        await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(streamwiseSubjectDetailsBody));
       }
 
       // Generate Transport Fee Entries
@@ -1287,7 +1303,14 @@ const StudentRegistrationForm = () => {
       console.log('😶 Form submission halted due to validation errors.');
       return;
     }
-    OpenSiblingPop()
+    // Check if popup needs to open
+    const shouldOpenPopup = !!StudentSiblingName; // Popup opens if sibling name exists
+
+    if (shouldOpenPopup) {
+      OpenSiblingPop(); // Open the popup
+      return; // Do not proceed with API calls in this flow
+    }
+
     // Validation passed, proceed with API calls
     try {
       console.log('Validation passed! Proceeding with API calls...');
@@ -1296,7 +1319,8 @@ const StudentRegistrationForm = () => {
       //   UpdateStudentBody,
       //   AddStudentAdditionalDetailsBody,
       //   UpdateStudentStreamwiseSubjectDetailsBody,
-      //   transportFeeBody
+      //   transportFeeBody,
+      //   OverwriteSiblingDetailsBody
       // );
 
       // Success message or further actions
@@ -1308,6 +1332,33 @@ const StudentRegistrationForm = () => {
       console.error('🚨 Error during form submission or API calls:', error);
     }
   };
+
+  //#region SiblingPopSave
+  const handlePopSave = async () => {
+    // Check if at least one checkbox is selected
+    if (!selectedSiblings || selectedSiblings.length === 0) {
+      toast.warning('At least one detail should be selected to update in the sibling profile');
+      console.warn('🚨 Sibling update halted due to missing selections.');
+      return;
+    }
+
+    // Proceed with API calls when the popup Save button is clicked
+    try {
+      console.log('Popup validation passed! Proceeding with sibling and other API calls...');
+      await executeApiCalls(
+        UpdateStudentBody,
+        AddStudentAdditionalDetailsBody,
+        UpdateStudentStreamwiseSubjectDetailsBody,
+        transportFeeBody,
+        OverwriteSiblingDetailsBody // Include sibling details in this flow
+      );
+
+      console.log('✅ Form submitted successfully with all API calls completed!');
+    } catch (error) {
+      console.error('🚨 Error during form submission or API calls:', error);
+    }
+  };
+  //#endregion
 
   useEffect(() => {
     const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody =
@@ -1639,18 +1690,28 @@ const StudentRegistrationForm = () => {
   //#endregion
   //#region SiblingPopup
   const GetStudentsSiblingDetail = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetStudentsSiblingDetail);
-  console.log('1️⃣SiblingPopup', GetStudentsSiblingDetail);
+  //console.log('1️⃣SiblingPopup', GetStudentsSiblingDetail);
 
   const OpenSiblingPop = () => {
     setOpenDialog1(true);
+    setoverwriteSiblingDetails(0);       // setting overwriteSiblingDetails to 0
+
     const GetStudentsSiblingDetailBody: IGetStudentsSiblingDetailBody = {
       asSchoolId: Number(localStorage.getItem('localSchoolId'))
     };
     dispatch(CDAGetStudentsSiblingDetail(GetStudentsSiblingDetailBody));
+    console.log('overwriteSiblingDetails', overwriteSiblingDetails);
   };
 
   const handleCheckboxListChange = (updatedItems) => {
-    console.log("⏮️CommonFields Selected feilds from CheckboxList:", updatedItems);
+    console.log("⏮️CommonFields Selected feilds from CheckboxList child:", updatedItems);
+    const selectedIds = updatedItems
+      .filter(item => item.checked)
+      .map(item => item.CommonFieldId)
+      .join(', ');
+    console.log("⏮️selectedIds:", selectedIds);
+
+    setSelectedSiblings(selectedIds);
     // Process or update global state based on `updatedItems`
   };
   // const validateAllTabs = () => {
@@ -2193,7 +2254,7 @@ const StudentRegistrationForm = () => {
                 Close
               </Button>
               <Button
-                onClick={undefined}
+                onClick={handlePopSave}
                 sx={{
                   color: 'green',
                   '&:hover': {

@@ -224,6 +224,15 @@ export interface IDeleteStudentSiblingDetailsBody {
     asYearwiseSiblingStudentId: number
     asSiblingStudentId: number
 }
+export interface IOverwriteAllSiblingDetailsBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asStudentId: number
+    asMode: number
+    asSiblingId: string
+}
+
+
 
 
 

@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 
 const CheckboxList = ({ itemList, onItemsChange }) => {
     const [items, setItems] = useState([]);
-    const [selectAll, setSelectAll] = useState(false);
+    const [selectAll, setSelectAll] = useState(true);
 
     useEffect(() => {
-        const initializedItems = itemList.map(item => ({ ...item, checked: item.checked || false }));
+        const initializedItems = itemList.map(item => ({ ...item, checked: item.checked || true }));
         setItems(initializedItems);
         updateParent(initializedItems); // Notify parent Intial state
     }, [itemList]);
