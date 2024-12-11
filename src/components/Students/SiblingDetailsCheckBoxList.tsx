@@ -3,15 +3,24 @@ import { useEffect, useState } from 'react';
 
 
 
-const CheckboxList = ({ itemList, onItemsChange }) => {
+const CheckboxList = ({ itemList, onItemsChange, resetTrigger }) => {
     const [items, setItems] = useState([]);
     const [selectAll, setSelectAll] = useState(true);
 
     useEffect(() => {
         const initializedItems = itemList.map(item => ({ ...item, checked: item.checked || true }));
         setItems(initializedItems);
+        setSelectAll(initializedItems);
         updateParent(initializedItems); // Notify parent Intial state
     }, [itemList]);
+
+    // Reset items when resetTrigger changes
+    useEffect(() => {
+        const resetItems = itemList.map((item) => ({ ...item, checked: false })); // Uncheck all items
+        setItems(resetItems);
+        setSelectAll(false); // Ensure "Select All" is also unchecked
+        updateParent(resetItems); // Notify parent of the reset state
+    }, [resetTrigger]);
 
     const updateParent = (updatedItems) => {
         if (onItemsChange) {

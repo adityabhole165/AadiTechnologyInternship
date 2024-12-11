@@ -266,7 +266,7 @@ const StudentRegistrationForm = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [openDialog1, setOpenDialog1] = useState(false);
+  const [openSilingPopup, setopenSilingPopup] = useState(false);
   const [showRecipients, setShowRecipients] = useState(false);
   const [IsConfirm, setIsConfirm] = useState('');
   const [IsConfirm1, setIsConfirm1] = useState('');
@@ -461,6 +461,7 @@ const StudentRegistrationForm = () => {
   const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
   const [selectedSiblings, setSelectedSiblings] = useState('');
   console.log('✅ selectedSiblings', selectedSiblings)
+  const [resetTrigger, setResetTrigger] = useState(false);
 
   const requiredFieldsMap = {
     admission: [
@@ -635,10 +636,6 @@ const StudentRegistrationForm = () => {
     streamDetails: null
   });
 
-  const handleCloseDialog1 = () => {
-    setOpenDialog1(false);
-    setIsConfirm('true');
-  };
 
   const ValidFileTypes = [
     'BMP',
@@ -1334,7 +1331,7 @@ const StudentRegistrationForm = () => {
   };
 
   //#region SiblingPopSave
-  const handlePopSave = async () => {
+  const handleSiblingPopSave = async () => {
     // Check if at least one checkbox is selected
     if (!selectedSiblings || selectedSiblings.length === 0) {
       toast.warning('At least one detail should be selected to update in the sibling profile');
@@ -1693,7 +1690,7 @@ const StudentRegistrationForm = () => {
   //console.log('1️⃣SiblingPopup', GetStudentsSiblingDetail);
 
   const OpenSiblingPop = () => {
-    setOpenDialog1(true);
+    setopenSilingPopup(true);
     setoverwriteSiblingDetails(0);       // setting overwriteSiblingDetails to 0
 
     const GetStudentsSiblingDetailBody: IGetStudentsSiblingDetailBody = {
@@ -1713,6 +1710,12 @@ const StudentRegistrationForm = () => {
 
     setSelectedSiblings(selectedIds);
     // Process or update global state based on `updatedItems`
+  };
+
+  const handleCloseDialog1 = () => {
+    setResetTrigger((prev) => !prev);
+    setopenSilingPopup(false);
+
   };
   // const validateAllTabs = () => {
   //     const updatedStatus = {
@@ -2210,7 +2213,7 @@ const StudentRegistrationForm = () => {
       {StudentSiblingName !== '' && (
         <Box>
           <Dialog
-            open={openDialog1}
+            open={openSilingPopup}
             onClose={handleCloseDialog1}
             fullWidth
             maxWidth="sm"
@@ -2246,7 +2249,7 @@ const StudentRegistrationForm = () => {
                 <b>{StudentSiblingName}</b>
               </Card>
               <Box>
-                <CheckboxList itemList={GetStudentsSiblingDetail} onItemsChange={handleCheckboxListChange} />
+                <CheckboxList itemList={GetStudentsSiblingDetail} onItemsChange={handleCheckboxListChange} resetTrigger={resetTrigger} />
               </Box>
             </DialogContent>
             <DialogActions sx={{ m: 2 }}>
@@ -2254,7 +2257,7 @@ const StudentRegistrationForm = () => {
                 Close
               </Button>
               <Button
-                onClick={handlePopSave}
+                onClick={handleSiblingPopSave}
                 sx={{
                   color: 'green',
                   '&:hover': {
