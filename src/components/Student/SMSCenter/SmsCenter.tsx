@@ -242,7 +242,7 @@ function SmsCenter() {
   const [headerArray, setHeaderArray] = useState([
       { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
       { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
-      { Id: 3, Header: 'Send Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
+      { Id: 3, Header: 'Sent Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
       { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
       // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
 
@@ -848,7 +848,7 @@ const handleClickEdit = (Id) => {
                   className={classes.IconSize}
                 />
                 <br />
-                <b style={{ color: '#38548A' }}>Send Item</b>
+                <b style={{ color: '#38548A' }}>Sent Item</b>
 
               </Card>
 
