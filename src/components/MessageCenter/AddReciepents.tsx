@@ -522,8 +522,8 @@ const AddReciepents = ({
 
           {show === true ? (
             <>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+              <Grid container spacing={2} >
+                <Grid item xs={12} sm={6} mt={-5}>
                   <Grid container spacing={1}>
                     <Grid item xs={6} sm={12}>
                       {/* <Card> */}
