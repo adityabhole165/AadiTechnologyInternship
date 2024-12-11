@@ -29,7 +29,6 @@ import { Link as RouterLink } from 'react-router-dom';
 // import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import { Styles } from 'src/assets/style/student-style';
 import CommonPageHeader from 'src/components/CommonPageHeader';
-import Sentsms from 'src/components/SentSms/Sentsms';
 import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Student/SMSCenter';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
