@@ -17,9 +17,11 @@ import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupCo
 import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems, CDAResendSMS, CDAResetDelete } from 'src/requests/SentSms/ReqSentsms';
 import { RootState } from 'src/store';
 import SentsmsList from './SentsmsList';
+import { useLocation } from 'react-router'
 const Sentsms = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    let location = useLocation()
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const StandardDivisionId = Number(
@@ -74,7 +76,7 @@ const Sentsms = () => {
     const UsExportSentItems = useSelector(
         (state: RootState) => state.SentSms.ISExportSentItems
     );
-    const ResendSMS = useSelector(
+    const ResendSMS  : any = useSelector(
         (state: RootState) => state.SentSms.ISResendSMS
     );
 console.log(ResendSMS,"ResendSMS");
@@ -227,20 +229,45 @@ console.log(ResendSMS,"ResendSMS");
     }, [DeleteSMS]);
 
 
-    const ResendSMSBodyi: ResendSMSBody = {
-        asSmsId: Number(NewsmsId),
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId
-    };
-    const handleClickEdit = (ID) => {
-        SetNewsmsId(ID)
-       
-    };
+   
 
-    useEffect(() => {
-       
-        dispatch(CDAResendSMS(ResendSMSBodyi));
-    }, [NewsmsId]); 
+
+
+
+  
+  const [SMS_Text, SetSMS_Text] = useState('');
+  const [Display_Text, SetDisplay_Text] = useState('');
+  const [RoleId, SetRoleId] = useState('');
+  const [UserId, SetUserId] = useState('');
+  
+  useEffect(() => {
+    // Check if ResendSMS has data and set state variables
+    if (ResendSMS && ResendSMS.length > 0) {
+      const smsData = ResendSMS[0]; // Access the first object in the array
+      SetSMS_Text(smsData.SMS_Text);
+      SetDisplay_Text(smsData.Display_Text);
+      SetRoleId(smsData.RoleId);
+      SetUserId(smsData.UserId);
+    }
+  }, [ResendSMS]);
+  
+  const handleClickEdit = (Id) => {
+
+    const ResendSMSBody = {
+      asSmsId: Number(Id),
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId
+    };
+  
+    dispatch(CDAResendSMS(ResendSMSBody));
+
+    if (SMS_Text && Display_Text && RoleId && UserId) {
+        let state1 = {SMS_Text , Display_Text ,RoleId, UserId};
+        navigate('/extended-sidebar/Teacher/ComposeSMS', { state: state1 });
+      }
+
+  };
+  
 
     const NewSms = (ViewId) => {
         navigate('/extended-sidebar/Teacher/ComposeSMS');

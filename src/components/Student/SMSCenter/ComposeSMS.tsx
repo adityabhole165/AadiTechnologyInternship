@@ -51,6 +51,10 @@ const ComposeSMSform = () => {
             RecipientId: []
         }
     );
+
+    console.log(RecipientsArray,"RecipientsArray");
+    
+
     const [RecipientsObject, setRecipientsObject] = useState<any>({
         RecipientName: [],
         RecipientId: [],
@@ -108,17 +112,26 @@ const ComposeSMSform = () => {
     const { state } = location;
     // state: { activeNoList }
     useEffect(() => {
-        if (state) {
-            let updatedList = state?.activeNoList.split(',');
+        if (state?.activeNoList) {
+            let updatedList = state?.activeNoList?.split(',');
             // Ensure that all numbers are trimmed of any leading/trailing spaces
-            const trimmedActiveNoList = updatedList.map(num => num.trim());
+            const trimmedActiveNoList = updatedList?.map(num => num.trim());
 
             // Concatenate the trimmed list to existing mobileNumbers
             setMobileNumbers(mobileNumbers?.concat(trimmedActiveNoList));
         }
     }, [state]);
+    useEffect(() => {
+        if(state?.Display_Text !== undefined ){
+            setContentTemplateDependent(state?.SMS_Text)
+            setRecipientsArray({
+                RecipientName: state?.Display_Text.split(','),
+                RecipientId: state?.UserId.split(',')
+            })
+        }
+    }, [state]);
 
-
+    
     const handleChangeForTemplate = (e) => {
         if (e.target.value != '') {
             const indexValue = e.target.value.indexOf(',')
