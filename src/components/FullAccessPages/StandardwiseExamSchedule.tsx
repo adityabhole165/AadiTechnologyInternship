@@ -279,9 +279,6 @@ const StandardwiseExamSchedule = () => {
             toast.success("Exam schedule has been saved successfully and you can copy exam schedule.")
             setIsSaveClicked(true);
         }
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
     }
     const { showAlert, closeAlert } = useContext(AlertContext);
 
@@ -730,7 +727,7 @@ const StandardwiseExamSchedule = () => {
                         multiline
                         rows={3}
                         variant="outlined"
-                        value={currentInstruction || ''}
+                        value={IsConfigured ? currentInstruction || '' : ' '}
                         // onChange={(e) => setCurrentInstruction(e.target.value)}
                         onChange={(e) => {
                             if (e.target.value.length <= 500) {
