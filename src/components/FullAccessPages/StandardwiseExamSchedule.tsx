@@ -595,11 +595,16 @@ const StandardwiseExamSchedule = () => {
                                 {Instructionss[0]?.Instructionss.length > 0 ? (
                                     Instructionss.map((instruction, index) => (
                                         <Box key={index} display="flex" alignItems="center" justifyContent="space-between">
-                                            <Typography sx={{ width: '85%' }} variant="body1">{instruction.Instructionss}</Typography>
+                                            <Typography sx={{
+                                                width: 'calc(97% - 150px)',
+                                                wordBreak: 'break-word'
+                                            }} variant="body1">{instruction.Instructionss}</Typography>
                                             <Button
                                                 sx={{
                                                     color: 'blue',
-                                                    width: '15%', backgroundColor: grey[200], borderRadius: '7px',
+                                                    width: '170px',
+                                                    ml:1,
+                                                 backgroundColor: grey[200], borderRadius: '7px',
                                                     '&:hover': {
                                                         color: 'blue',
                                                         backgroundColor: blue[100]
@@ -727,7 +732,11 @@ const StandardwiseExamSchedule = () => {
                         multiline
                         rows={3}
                         variant="outlined"
-                        value={IsConfigured ? currentInstruction || '' : ' '}
+                        value={
+                            IsConfigured
+                                ? currentInstruction === 'true' ? ' ' : currentInstruction || ''
+                                : ' '
+                        }
                         // onChange={(e) => setCurrentInstruction(e.target.value)}
                         onChange={(e) => {
                             if (e.target.value.length <= 500) {
