@@ -28,7 +28,7 @@ const LibraryBaseScreen = () => {
     const [Publisher, setPublisher] = useState<string>('');
     const [StandardId, setStandardId] = useState<string>('0');
     const [LanguageId, setLanguageId] = useState<string>('');
-    const [IsPrintable, setIsPrintable] = useState<string>('All');
+    const [IsPrintable, setIsPrintable] = useState<string>('');
     const [SearchBook, setSearchBook] = useState([]);
 
     // Initialize state with numbers, as it's required for pagination
@@ -84,6 +84,7 @@ const LibraryBaseScreen = () => {
         Published_By: Publisher,
         AccessionNumber: AccessionNumber,
         Language: LanguageId,
+        Is_Printable: IsPrintable,
         asprm_iStandardId: StandardId,
         asSortExp: "Order By " + getSortKey() + " " + sortExpression, //SortDirection,
         asStartIndex: (page - 1) * rowsPerPage, // dynamic start index for pagination
@@ -142,35 +143,6 @@ const LibraryBaseScreen = () => {
         dispatch(CDAGetReserveBookDetails(bookReserveDetails))
     }, [])
 
-    //console.log(number(cliambook),'cliambook')
-    // const ClickCliam = (Book_Id: number) => {
-    //     //console.log(Book_Id, "🤞🤞🤞");
-
-    //     //setcliambook(Book_Id.toString())
-    //     if (USReserveBookCountPerPerson === "4") {
-    //         toast.error("Can not claim more than 4 book");
-    //     } else if (USReserveBookCountPerPerson === "999") {
-    //         toast.error("Could not claim the same book.");
-    //     }
-    //     else {
-    //         const cliambookBody: IBookclaimedBody = {
-    //             asBookId: ascliambook,
-    //             asUserId: asUserId,
-    //             asReservedByParent: 0,
-    //             asSchoolId: asSchoolId,
-    //             asAcademicYearId: asAcademicYearId,
-    //             asInsertedById: asUserId,
-    //         };
-    //         dispatch(CDABookClimedMsg(cliambookBody));
-    //     }
-
-    // };
-    // useEffect(() => {
-    //     if (USBookCliamMsg !== "") {
-    //         toast.success(USBookCliamMsg);
-    //         dispatch(CDAClearBookClimedMsg())
-    //     }
-    // }, [USBookCliamMsg, ascliambook])
     const [BookId, setBookId] = useState(0);
 
     const ClickCliam = (Book_Id: number) => {
@@ -184,27 +156,6 @@ const LibraryBaseScreen = () => {
         }
 
         dispatch(CDAReserveBooksperpersonCount(countperpersonbody));
-
-        // let isValid = true;
-        // if (USReserveBookCountPerPerson === "999") {
-        //     toast.error("Could not claim the same book.");
-        //     isValid = false;
-        // }
-        // if (USReserveBookCountPerPerson === "4") {
-        //     toast.error("Cannot claim more than 4 books.");
-        //     isValid = false;
-        // }
-        // if (!isValid) return;
-        // const cliambookBody = {
-        //     asBookId: Book_Id,
-        //     asUserId: asUserId,
-        //     asReservedByParent: 0,
-        //     asSchoolId: asSchoolId,
-        //     asAcademicYearId: asAcademicYearId,
-        //     asInsertedById: asUserId,
-        // };
-        // dispatch(CDABookClimedMsg(cliambookBody));
-
     };
 
     useEffect(() => {
@@ -265,25 +216,12 @@ const LibraryBaseScreen = () => {
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
 
-    // const handleSortChange = (updatedHeaderArray) => {
-    //     setHeaderArray(updatedHeaderArray);
-    //     const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
-    //     const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Book_Title desc';
-    //     setSortExpression(newSortExpression);
-    // };
     const handleSortChange = (value) => {
 
         setsortHeader(value.Id)
         setSortExpression(value.SortOrder)
     }
-    // const handleSortChange = (column: string) => {
-    //     if (SortBy === column) {
-    //         setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
-    //     } else {
-    //         setSortBy(column);
-    //         setSortDirection('asc');
-    //     }
-    // };
+
     const clickReset = () => {
         // Reset local state
         setBookTitle('');
@@ -292,7 +230,7 @@ const LibraryBaseScreen = () => {
         setPublisher('');
         setStandardId('0');
         setLanguageId('0');
-        setIsPrintable('All');
+        setIsPrintable('');
         const BookDetails: IGetAllBooksDetailsBody = {
             asprm_iSchoolId: asSchoolId,
             Book_Title: BookTitle,
@@ -300,6 +238,7 @@ const LibraryBaseScreen = () => {
             Published_By: Publisher,
             AccessionNumber: AccessionNumber,
             Language: LanguageId,
+            Is_Printable: IsPrintable,
             asprm_iStandardId: StandardId,
             asSortExp: "Order By " + getSortKey() + " " + sortExpression,
             asStartIndex: (page - 1) * rowsPerPage, // dynamic start index for pagination
@@ -403,22 +342,25 @@ const LibraryBaseScreen = () => {
                             Books Details
                         </Typography>
                     </Box>
-
-                    <Box style={{ flex: 1, textAlign: 'center' }}>
-                        <Typography
-                            variant='subtitle1'
-                            sx={{ margin: '16px 0', textAlign: 'center' }}
-                        >
-                            <Box component='span' fontWeight='fontWeightBold'>
-                                {startRecord} to {endRecord}
-                            </Box>{' '}
-                            out of{' '}
-                            <Box component='span' fontWeight='fontWeightBold'>
-                                {singleTotalCount}
-                            </Box>{' '}
-                            {singleTotalCount === 1 ? 'record' : 'records'}
-                        </Typography>
-                    </Box>
+                    {singleTotalCount > 0 ? (
+                        <Box style={{ flex: 1, textAlign: 'center' }}>
+                            <Typography
+                                variant='subtitle1'
+                                sx={{ margin: '16px 0', textAlign: 'center' }}
+                            >
+                                <Box component='span' fontWeight='fontWeightBold'>
+                                    {startRecord} to {endRecord}
+                                </Box>{' '}
+                                out of{' '}
+                                <Box component='span' fontWeight='fontWeightBold'>
+                                    {singleTotalCount}
+                                </Box>{' '}
+                                {singleTotalCount === 1 ? 'record' : 'records'}
+                            </Typography>
+                        </Box>
+                    ) : (
+                        <span> </span>
+                    )}
                 </Box>
 
                 {USGetAllBooksDetailss.length === 0 ? (
@@ -445,20 +387,17 @@ const LibraryBaseScreen = () => {
 
                     // <TableBook data={USGetAllBooksDetailss} clickcliam={ClickCliam} handleSortChange={handleSortChange} HeaderArray={headerArray} />
                 )}
-                {/* {
-                    endRecord > 19 ? ( */}
-                <ButtonGroupComponent
-                    rowsPerPage={rowsPerPage}
-                    ChangeRowsPerPage={ChangeRowsPerPage}
-                    rowsPerPageOptions={rowsPerPageOptions} // Set your options
-                    PageChange={PageChange}
-                    pagecount={pageCount}  // Use the calculated pageCount
-                />
-                {/* ) : (
-                        <span></span>
-
-                    )
-                } */}
+                {endRecord > 19 ? (
+                    <ButtonGroupComponent
+                        rowsPerPage={rowsPerPage}
+                        ChangeRowsPerPage={ChangeRowsPerPage}
+                        rowsPerPageOptions={rowsPerPageOptions} // Set your options
+                        PageChange={PageChange}
+                        pagecount={pageCount}  // Use the calculated pageCount
+                    />
+                ) : (
+                    <span></span>
+                )}
             </Box>
             <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
                 <Typography variant="h4" pb={1} color="#38548A">

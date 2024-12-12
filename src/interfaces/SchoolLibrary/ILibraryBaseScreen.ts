@@ -150,6 +150,7 @@ export interface IGetAllBooksDetailsBody {
     Published_By: string,
     AccessionNumber: string,
     Language: string,
+    Is_Printable: string,
     asprm_iStandardId: string,
     asSortExp: string,
     asStartIndex: number,

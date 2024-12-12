@@ -53,9 +53,9 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
     // const [StandardId, setStandardId] = useState("0");
     // const [LanguageId, setLanguageId] = useState("0");
     const mediaTypeOptions = [
-        { Id: 'All', Name: 'All', Value: 'All' },
-        { Id: '1', Name: 'Printable', Value: '1' },
-        { Id: '0', Name: 'Non-Printable', Value: '0' }
+        { id: '', Name: 'All', Value: '' },
+        { id: '1', Name: 'Printable', Value: '1' },
+        { id: '2', Name: 'Non-Printable', Value: '2' }
     ];
 
     const asSchoolId = localStorage.getItem("localSchoolId");
@@ -67,6 +67,11 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
         dispatch(GetSelectStandardRes(GetAllStandardsBody));
         dispatch(getLanguagesDetails({ aiSchoolId: asSchoolId }));
     }, [])
+    useEffect(() => {
+        if (IsPrintable === '0') {
+            setIsPrintable('');
+        }
+    }, [IsPrintable, setIsPrintable]);
     const clickBookTitle = (Value) => {
         setBookTitle(Value);
     }
