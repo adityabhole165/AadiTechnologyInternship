@@ -587,7 +587,7 @@ const StandardwiseExamSchedule = () => {
                 }
             />
             {IsConfigured !== 'false' && (
-                <Box>
+                <Box sx={{ mb: 1 }}>
                     <Accordion sx={{ mt: 1, mb: 1 }} expanded={isExpanded}
                         onChange={handleAccordionToggle}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -598,10 +598,11 @@ const StandardwiseExamSchedule = () => {
                                 {Instructionss[0]?.Instructionss.length > 0 ? (
                                     Instructionss.map((instruction, index) => (
                                         <Box key={index} display="flex" alignItems="center" justifyContent="space-between">
-                                            <Typography variant="body1">{instruction.Instructionss}</Typography>
+                                            <Typography sx={{ width: '85%' }} variant="body1">{instruction.Instructionss}</Typography>
                                             <Button
                                                 sx={{
                                                     color: 'blue',
+                                                    width: '15%', backgroundColor: grey[200],borderRadius: '7px',
                                                     '&:hover': {
                                                         color: 'blue',
                                                         backgroundColor: blue[100]
