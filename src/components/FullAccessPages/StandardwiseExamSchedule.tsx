@@ -545,26 +545,26 @@ const StandardwiseExamSchedule = () => {
                                 </span>
                             </Tooltip>
                         )}
-
-                        <Tooltip title="Copy Schedule">
-                            {IsConfigured && (
-                                <span>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: blue[500],
-                                            '&:hover': {
-                                                backgroundColor: blue[600]
-                                            }
-                                        }}
-                                        onClick={() => handleOpenDialog(true)}
-                                    >
-                                        <ContentCopyIcon />
-                                    </IconButton>
-                                </span>
-                            )}
-                        </Tooltip>
-
+                        {IsConfigured !== 'false' && (
+                            <Tooltip title="Copy Schedule">
+                                {IsConfigured && (
+                                    <span>
+                                        <IconButton
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: blue[500],
+                                                '&:hover': {
+                                                    backgroundColor: blue[600]
+                                                }
+                                            }}
+                                            onClick={() => handleOpenDialog(true)}
+                                        >
+                                            <ContentCopyIcon />
+                                        </IconButton>
+                                    </span>
+                                )}
+                            </Tooltip>
+                        )}
                         {IsConfigured !== 'false' && (
                             <Tooltip title="Add Instructions">
                                 <span>
@@ -602,7 +602,7 @@ const StandardwiseExamSchedule = () => {
                                             <Button
                                                 sx={{
                                                     color: 'blue',
-                                                    width: '15%', backgroundColor: grey[200],borderRadius: '7px',
+                                                    width: '15%', backgroundColor: grey[200], borderRadius: '7px',
                                                     '&:hover': {
                                                         color: 'blue',
                                                         backgroundColor: blue[100]
