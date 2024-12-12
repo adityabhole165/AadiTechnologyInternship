@@ -164,7 +164,7 @@ const StandardwiseExamSchedule = () => {
         toast.success('Exam schedule has been Unsubmited successfully.');
         setTimeout(() => {
             window.location.reload();
-        }, 1000);
+        }, 500);
     };
 
 
@@ -303,9 +303,11 @@ const StandardwiseExamSchedule = () => {
                         asSourceStandardTestId: Number(TestId),
                         asDestinationStandardsxml: getXML1() // Assuming getXML1 returns the XML string
                     };
-
                     dispatch(GetCopyStandardTestMsg(InsertExamScheduleBody));
-
+                    if (CopyExamSchedule !== '') {
+                        toast.success(CopyExamSchedule);
+                        dispatch(resetCopyStandardTestMsg()); // Resetting the message state
+                    }
                     closeAlert();
                 }
             });
@@ -361,7 +363,7 @@ const StandardwiseExamSchedule = () => {
         toast.success('Exam schedule has been submited successfully.');
         setTimeout(() => {
             window.location.reload();
-        }, 1000);
+        }, 500);
     };
 
     const handleOpenDialog = (instructionText) => {
@@ -603,8 +605,8 @@ const StandardwiseExamSchedule = () => {
                                                 sx={{
                                                     color: 'blue',
                                                     width: '170px',
-                                                    ml:1,
-                                                 backgroundColor: grey[200], borderRadius: '7px',
+                                                    ml: 1,
+                                                    backgroundColor: grey[200], borderRadius: '7px',
                                                     '&:hover': {
                                                         color: 'blue',
                                                         backgroundColor: blue[100]
