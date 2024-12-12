@@ -279,6 +279,9 @@ const StandardwiseExamSchedule = () => {
             toast.success("Exam schedule has been saved successfully and you can copy exam schedule.")
             setIsSaveClicked(true);
         }
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     }
     const { showAlert, closeAlert } = useContext(AlertContext);
 
