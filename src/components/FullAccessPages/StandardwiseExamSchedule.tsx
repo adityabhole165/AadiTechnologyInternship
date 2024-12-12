@@ -161,7 +161,7 @@ const StandardwiseExamSchedule = () => {
 
         }
         dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
-        toast.success('Exam schedule has been Unsubmited successfully!!!');
+        toast.success('Exam schedule has been Unsubmited successfully.');
         setTimeout(() => {
             window.location.reload();
         }, 1000);
@@ -264,7 +264,7 @@ const StandardwiseExamSchedule = () => {
                     closeAlert();
                 },
                 onConfirm: () => {
-                    toast.success("Exam schedule has been deleted successfully!!!")
+                    toast.success("Exam schedule has been deleted successfully.")
                     dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
                     setIsSaveClicked(true);
                     closeAlert();
@@ -322,7 +322,7 @@ const StandardwiseExamSchedule = () => {
 
     useEffect(() => {
         if (CopyExamSchedule !== '') {
-            if (CopyExamSchedule === "Exam Schedule has been copied successfully!!!") {
+            if (CopyExamSchedule === "Exam Schedule has been copied successfully.") {
                 toast.success(CopyExamSchedule);
                 dispatch(resetCopyStandardTestMsg()); // Resetting the message state
             }
@@ -358,7 +358,7 @@ const StandardwiseExamSchedule = () => {
         }
         dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
         setIsUnsubmitted(false);
-        toast.success('Exam schedule has been submited successfully!!!');
+        toast.success('Exam schedule has been submited successfully.');
         setTimeout(() => {
             window.location.reload();
         }, 1000);
