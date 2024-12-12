@@ -360,6 +360,7 @@ const StudentRegistrationForm = () => {
     },
     family: {
       // Father's Information
+      fatherOccupation: '',
       fatherQualification: '',
       fatherEmail: '',
       fatherOfficeName: '',
@@ -539,6 +540,12 @@ const StudentRegistrationForm = () => {
     });
   }, [form]); // Trigger recalculation whenever the form changes
 
+  const UsGetSchoolSettings: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.IsGetSchoolSettings
+  );
+  //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
+  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
+
   //#region Validation
   const handleValidation = () => {
     const allMessages = [];
@@ -589,6 +596,13 @@ const StudentRegistrationForm = () => {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
   };
+
+  useEffect(() => {
+    // Adjust currentTab if it exceeds the number of tabs after dynamic changes
+    if (!IsAdditionalFieldsApplicable && currentTab >= 3) {
+      setCurrentTab(3); // Reset to the next available tab
+    }
+  }, [IsAdditionalFieldsApplicable, currentTab]);
 
   //#region CallBack
   // const onAdmissionTab = (updatedData) => {
@@ -778,6 +792,7 @@ const StudentRegistrationForm = () => {
         },
         family: {
           ...prevForm.family,
+          fatherOccupation: AdditionalData?.FatherOccupation || '',
           fatherQualification: AdditionalData?.FatherQualification || '',
           fatherEmail: AdditionalData?.FatherEmail || '',
           fatherOfficeName: AdditionalData?.FatherOfficeName || '',
@@ -1060,11 +1075,6 @@ const StudentRegistrationForm = () => {
     (state: RootState) => state.StudentUI.ISUpdateStudent
   );
   // console.log('🩸UpdateStudentResult:', UpdateStudentResult);
-  const UsGetSchoolSettings: any = useSelector(
-    (state: RootState) => state.ProgressReportNew.IsGetSchoolSettings
-  );
-  //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
-  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
 
   const UpdateStudentBody: IUpdateStudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -1103,9 +1113,7 @@ const StudentRegistrationForm = () => {
     asCasteAndSubCaste: form.personal?.casteAndSubCaste || '',
     asAdmission_Date: formatDOB(form.admission?.admissionDate) || '',
     asJoining_Date: formatDOB(form.admission?.joiningDate) || '',
-    asDateOfBirthInText:
-      dateToText(form.personal?.dateOfBirth) ||
-      'Twenty Lol One March Two Thousand Eleven',
+    asDateOfBirthInText: dateToText(form.personal?.dateOfBirth) || 'Twenty Lol One March Two Thousand Eleven',
     asOptional_Subject_Id: '0', // Missing
     asMother_Tongue: form.personal?.motherTongue || '',
     asLastSchoolName: form.additional?.lastSchoolName || '',
@@ -1113,16 +1121,14 @@ const StudentRegistrationForm = () => {
     asLastCompletedStd: form.additional?.standard || '',
     asLastSchoolUDISENo: form.additional?.schoolUDISENo || '',
     asLastCompletedBoard: form.additional?.schoolBoardName || '',
-    asIsRecognisedBoard:
-      form.additional?.isRecognised === 'Yes' ? 'True' : 'False',
+    asIsRecognisedBoard: form.additional?.isRecognised === 'Yes' ? 'True' : 'False',
     asAadharCardNo: form.personal?.aadharCardNumber || '',
     asNameOnAadharCard: form.personal?.nameOnAadharCard || '',
     asAadharCard_Photo_Copy_Path: form.personal?.aadharCardScanCopy || '',
     asFamily_Photo_Copy_Path: form.family?.familyPhoto || '',
     asUDISENumber: form.admission?.UDISENumber || '',
     asBoardRegistrationNo: form.admission?.boardRegistrationNumber || '',
-    asIsRiseAndShine:
-      form.admission?.isRiseAndShine === false ? 'False' : 'True',
+    asIsRiseAndShine: form.admission?.isRiseAndShine === false ? 'False' : 'True',
     asAdmissionSectionId: '0', //Only for SVP or SVNP
     asGRNumber: '', //Not Found on Screen or only for JOS school
     asStudentUniqueNo: '', //Not Found on Screen
@@ -1173,7 +1179,7 @@ const StudentRegistrationForm = () => {
     asTaluka: form.additional?.taluka || '',
     asDistrict: form.additional?.district || '',
     asFeeAreaName: Number(form.admission?.feeAreaNames) || 0,
-    asFatherOccupation: familyDetailsData?.fatherOccupation || '',
+    asFatherOccupation: form.family?.fatherOccupation || '',
     asFatherQualification: form.family?.fatherQualification || '',
     asFatherEmail: form.family?.fatherEmail || '',
     asFatherOfficeName: form.family?.fatherOfficeName || '',
@@ -1927,13 +1933,11 @@ const StudentRegistrationForm = () => {
               label="Family Details"
             />
           )}
-          {IsAdditionalFieldsApplicable && (
-            <Tab
-              sx={{ m: 2, maxWidth: 200 }}
-              icon={<GroupAddIcon />}
-              label="Additional Details"
-            />
-          )}
+          <Tab
+            sx={{ m: 2, maxWidth: 200 }}
+            icon={<GroupAddIcon />}
+            label="Additional Details"
+          />
           {schoolId && parseInt(schoolId) === 122 && (
             <Tab
               sx={{ m: 2, maxWidth: 200, borderRadius: '100%' }}
@@ -1977,18 +1981,18 @@ const StudentRegistrationForm = () => {
             </Grid>
           </Grid>
         )}
-        {currentTab === 3 && (
+        {IsAdditionalFieldsApplicable && currentTab === 3 && (
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <FamilyDetails
                 family={form.family}
                 onChange={handleFamilyChange}
-                onTabChange={onFamilyTab}
+              // onTabChange={onFamilyTab}
               />
             </Grid>
           </Grid>
         )}
-        {currentTab === 4 && (
+        {currentTab === (IsAdditionalFieldsApplicable ? 4 : 3) && (
           <Grid container spacing={1}>
             <Grid item xs={12} sm={6} md={4} lg={3}></Grid>
             <Grid item xs={12}>

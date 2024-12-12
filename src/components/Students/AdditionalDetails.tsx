@@ -10,9 +10,10 @@
 
 import { Box, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { RootState } from 'src/store';
 
 const AdditionalDetails = ({ additional, onChange, onTabChange }) => {
   const location = useLocation();
@@ -50,6 +51,10 @@ const AdditionalDetails = ({ additional, onChange, onTabChange }) => {
     console.log('4️⃣additional data from Parent', additional);
   }, [additional]);
   //#region API CALL
+  const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+  //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
+  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
+
   //const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   //console.log('GetStudentAdditionalDetails', GetStudentAdditionalDetails);
   //const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
@@ -222,173 +227,163 @@ const AdditionalDetails = ({ additional, onChange, onTabChange }) => {
           />
         </Grid>
       </Grid>
-      <Typography variant="h4" color="initial" pt={2} pb={1}>
-        Transport Address
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={3}>
-          <TextField
-            name="houseNumber"
-            label="House No. / Plot No"
-            variant="outlined"
-            fullWidth
-            value={additional.houseNumber}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        {/* New Fields */}
-        <Grid item xs={3}>
-          <TextField
-            name="mainArea"
-            label="Main Area"
-            variant="outlined"
-            fullWidth
-            value={additional.mainArea}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="subareaName"
-            label="Subarea Name"
-            variant="outlined"
-            fullWidth
-            value={additional.subareaName}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="landmark"
-            label="Landmark"
-            variant="outlined"
-            fullWidth
-            value={additional.landmark}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="taluka"
-            label="Taluka"
-            variant="outlined"
-            fullWidth
-            value={additional.taluka}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="district"
-            label="District"
-            variant="outlined"
-            fullWidth
-            value={additional.district}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        {/* New Fields for Academic Details */}
-      </Grid>
-      {/* <Grid item xs={12} pt={2}>
-        <Button
-          sx={{
-            color: '#38548A',
-            backgroundColor: grey[100],
-            '&:hover': {
-              color: '#38548A',
-              backgroundColor: blue[100],
-            },
-          }}
-          onClick={handleSave}
-        >
-          Save And Next
-        </Button>
-      </Grid> */}
-      <Typography variant="h4" color="initial" pt={2} pb={1}>
-        Educational Details
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={3}>
-          <TextField
-            name="admissionStandard"
-            label="Admission Standard"
-            variant="outlined"
-            fullWidth
-            value={additional.admissionStandard}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="admissionAcademicYear"
-            label="Admission Academic Year"
-            variant="outlined"
-            fullWidth
-            value={additional.admissionAcademicYear}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="previousMarksObtained"
-            label="Previous Marks Obtained"
-            variant="outlined"
-            fullWidth
-            value={additional.previousMarksObtained}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="previousMarksOutOf"
-            label="Previous Marks Out Of"
-            variant="outlined"
-            fullWidth
-            value={additional.previousMarksOutOf}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="subjectNames"
-            label="Subject Names"
-            variant="outlined"
-            fullWidth
-            value={additional.subjectNames}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="previousYearOfPassing"
-            label="Previous Year of Passing"
-            variant="outlined"
-            fullWidth
-            value={additional.previousYearOfPassing}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="currentAcademicYear"
-            label="Current Academic Year"
-            variant="outlined"
-            fullWidth
-            value={additional.currentAcademicYear}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <TextField
-            name="currentStandard"
-            label="Current Standard"
-            variant="outlined"
-            fullWidth
-            value={additional.currentStandard}
-            onChange={handleInputChange}
-          />
-        </Grid>
-      </Grid>
+      {IsAdditionalFieldsApplicable && (
+        <>
+          <Typography variant="h4" color="initial" pt={2} pb={1}>
+            Other Details
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <TextField
+                name="houseNumber"
+                label="House No. / Plot No"
+                variant="outlined"
+                fullWidth
+                value={additional.houseNumber}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            {/* New Fields */}
+            <Grid item xs={3}>
+              <TextField
+                name="mainArea"
+                label="Main Area"
+                variant="outlined"
+                fullWidth
+                value={additional.mainArea}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="subareaName"
+                label="Subarea Name"
+                variant="outlined"
+                fullWidth
+                value={additional.subareaName}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="landmark"
+                label="Landmark"
+                variant="outlined"
+                fullWidth
+                value={additional.landmark}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="taluka"
+                label="Taluka"
+                variant="outlined"
+                fullWidth
+                value={additional.taluka}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="district"
+                label="District"
+                variant="outlined"
+                fullWidth
+                value={additional.district}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            {/* New Fields for Academic Details */}
+          </Grid>
+
+          <Typography variant="h4" color="initial" pt={2} pb={1}>
+            Educational Details
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <TextField
+                name="admissionStandard"
+                label="Admission Standard"
+                variant="outlined"
+                fullWidth
+                value={additional.admissionStandard}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="admissionAcademicYear"
+                label="Admission Academic Year"
+                variant="outlined"
+                fullWidth
+                value={additional.admissionAcademicYear}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="previousMarksObtained"
+                label="Previous Marks Obtained"
+                variant="outlined"
+                fullWidth
+                value={additional.previousMarksObtained}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="previousMarksOutOf"
+                label="Previous Marks Out Of"
+                variant="outlined"
+                fullWidth
+                value={additional.previousMarksOutOf}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="subjectNames"
+                label="Subject Names"
+                variant="outlined"
+                fullWidth
+                value={additional.subjectNames}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="previousYearOfPassing"
+                label="Previous Year of Passing"
+                variant="outlined"
+                fullWidth
+                value={additional.previousYearOfPassing}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="currentAcademicYear"
+                label="Current Academic Year"
+                variant="outlined"
+                fullWidth
+                value={additional.currentAcademicYear}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="currentStandard"
+                label="Current Standard"
+                variant="outlined"
+                fullWidth
+                value={additional.currentStandard}
+                onChange={handleInputChange}
+              />
+            </Grid>
+          </Grid>
+        </>
+      )}
     </Box>
   );
 };

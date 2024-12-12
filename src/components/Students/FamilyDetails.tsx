@@ -2,14 +2,13 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
 import {
   Box,
-  Button,
   Grid,
   IconButton,
   TextField,
   Tooltip,
   Typography
 } from '@mui/material';
-import { blue, grey, red } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +22,7 @@ import { CDADeleteFamilyPhoto, CDADeleteFatherPhoto, CDADeleteGuardianPhoto, CDA
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const FamilyDetails = ({ family, onChange, onTabChange }) => {
+const FamilyDetails = ({ family, onChange }) => {
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
@@ -213,13 +212,13 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
     } else {
       fieldValue = value;
     }
-
-    setForm((prevForm) => {
-      const updatedForm = { ...prevForm, [name]: fieldValue };
-      onTabChange(updatedForm); // Notify parent of updated data
-      return updatedForm;
-    });
     onChange(name, fieldValue);
+    // setForm((prevForm) => {
+    //   const updatedForm = { ...prevForm, [name]: fieldValue };
+    //   onTabChange(updatedForm); // Notify parent of updated data
+    //   return updatedForm;
+    // });
+
     //onTabChange({ firstName: fieldValue, })
     // Remove error when the user starts filling the field
     setErrors({ ...errors, [name]: false });
@@ -242,6 +241,7 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
         ...prevForm,
         [e.target.name]: numericValue
       }));
+      onChange(e.target.name, numericValue);
     }
   }
   //#region Photos Opr
@@ -256,10 +256,10 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
   const handlePhotoChange = (key, value) => {
     console.log(`0️⃣Selected file for ${key}:`, value);
 
-    setForm((prevForm) => ({
-      ...prevForm,
-      [key]: value.Name, // Dynamically update the key in the form
-    }));
+    // setForm((prevForm) => ({
+    //   ...prevForm,
+    //   [key]: value.Name, // Dynamically update the key in the form
+    // }));
     onChange(key, value.Name);
     setbase64URL2(value.Value);
     setImageFileExtention(value.FileExtension);
@@ -410,31 +410,31 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
 
 
   //#region Sibling section
-  const [siblings, setSiblings] = useState([
-    { name: '', age: 0, institution: '', standard: '' }
-  ]);
+  // const [siblings, setSiblings] = useState([
+  //   { name: '', age: 0, institution: '', standard: '' }
+  // ]);
 
-  const handleAddSibling = () => {
-    setSiblings([
-      ...siblings,
-      { name: '', age: 0, institution: '', standard: '' }
-    ]);
-  };
+  // const handleAddSibling = () => {
+  //   setSiblings([
+  //     ...siblings,
+  //     { name: '', age: 0, institution: '', standard: '' }
+  //   ]);
+  // };
 
-  const handleRemoveSibling = (index) => {
-    const newSiblings = siblings.filter((_, i) => i !== index);
-    setSiblings(newSiblings);
-  };
+  // const handleRemoveSibling = (index) => {
+  //   const newSiblings = siblings.filter((_, i) => i !== index);
+  //   setSiblings(newSiblings);
+  // };
 
-  const handleChange = (index, field, value) => {
-    const newSiblings = siblings.map((sibling, i) => {
-      if (i === index) {
-        return { ...sibling, [field]: value };
-      }
-      return sibling;
-    });
-    setSiblings(newSiblings);
-  };
+  // const handleChange = (index, field, value) => {
+  //   const newSiblings = siblings.map((sibling, i) => {
+  //     if (i === index) {
+  //       return { ...sibling, [field]: value };
+  //     }
+  //     return sibling;
+  //   });
+  //   setSiblings(newSiblings);
+  // };
   //#endregion
 
   const handleSave = () => {
@@ -444,11 +444,7 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
   const onSelectDate = (value) => {
     SetSelectDate(value);
   };
-  //#region DataTransfer 
-  useEffect(() => {
-    onTabChange(form); // Sends the initial form state to the parent when component mounts
-  }, [form]);
-  //#endregion
+
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
@@ -456,6 +452,17 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
         Father's Details
       </Typography>
       <Grid container spacing={2}>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="fatherOccupation"
+            label="Father Occupation "
+            variant="outlined"
+            value={family.fatherOccupation}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
         <Grid item xs={12} md={3}>
           <TextField
             name="fatherQualification"
@@ -629,6 +636,7 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
             variant="outlined"
             value={family.fatherAnnualIncome}
             onChange={handleInputChange}
+            type="number"
             fullWidth
           />
         </Grid>
@@ -825,6 +833,7 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
             variant="outlined"
             value={family.motherAnnualIncome}
             onChange={handleInputChange}
+            type="number"
             fullWidth
           />
         </Grid>
@@ -895,6 +904,7 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
             variant="outlined"
             value={family.familyMonthlyIncome}
             onChange={handleInputChange}
+            type="number"
             fullWidth
           />
         </Grid>
@@ -925,10 +935,10 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
             variant="outlined"
             value={family.residencePhoneNumber}
             onChange={handleContactNoChange}
-            error={family.residencePhoneNumber.toString() !== '' && family.residencePhoneNumber.toString().length < 10 ? true : false}
-            helperText={
-              family.residencePhoneNumber.toString() !== '' && family.residencePhoneNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
-            }
+            // error={family.residencePhoneNumber.toString() !== '' && family.residencePhoneNumber.toString().length < 10 ? true : false}
+            // helperText={
+            //   family.residencePhoneNumber.toString() !== '' && family.residencePhoneNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
+            // }
             fullWidth
           />
         </Grid>
@@ -938,17 +948,17 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
             label="Neighbour's Phone Number"
             variant="outlined"
             value={family.neighbourPhoneNumber}
-            onChange={handleInputChange}
+            onChange={handleContactNoChange}
             fullWidth
           />
         </Grid>
         <Grid item xs={12} md={3}>
           <TextField
-            name="OfficePhoneNumber"
+            name="officePhoneNumber"
             label="Office Phone Number"
             variant="outlined"
             value={family.officePhoneNumber}
-            onChange={handleInputChange}
+            onChange={handleContactNoChange}
             fullWidth
           />
         </Grid>
@@ -1008,57 +1018,100 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
         Details of Brothers and Sisters of the Student
       </Typography>
 
-      {siblings.map((sibling, index) => (
-        <Grid container spacing={2} sx={{ pb: 2 }}>
-          <Grid item xs={12} md={3}>
-            <TextField
-              name="name"
-              label="Name"
-              variant="outlined"
-              value={sibling.name}
-              onChange={(e) => handleChange(index, 'name', e.target.value)}
-              fullWidth
-            />
-          </Grid>
+      {/* {siblings.map((sibling, index) => ( */}
+      <Grid container spacing={2} sx={{ pb: 2 }}>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="name1"
+            label="Name"
+            variant="outlined"
+            value={family.name1}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
 
-          <Grid item xs={12} md={2.5}>
-            <TextField
-              name="name"
-              label="Age"
-              variant="outlined"
-              value={sibling.age}
-              onChange={(e) =>
-                handleChange(index, 'age', parseInt(e.target.value) || 0)
-              }
-              fullWidth
-            />
-          </Grid>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="age1"
+            label="Age"
+            variant="outlined"
+            type="number"
+            value={family.age1}
+            onChange={handleInputChange}
+            fullWidth
+            inputProps={{ min: 0 }}
+          />
+        </Grid>
 
-          <Grid item xs={12} md={3}>
-            <TextField
-              name="institution"
-              label="Institution"
-              variant="outlined"
-              value={sibling.institution}
-              onChange={(e) =>
-                handleChange(index, 'institution', e.target.value)
-              }
-              fullWidth
-            />
-          </Grid>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="institution1"
+            label="Institution"
+            variant="outlined"
+            value={family.institution1}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
 
-          <Grid item xs={12} md={3}>
-            <TextField
-              name="standard"
-              label="Standard"
-              variant="outlined"
-              value={sibling.standard}
-              onChange={(e) => handleChange(index, 'standard', e.target.value)}
-              fullWidth
-            />
-          </Grid>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="standard1"
+            label="Standard"
+            variant="outlined"
+            value={family.standard1}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
 
-          <Grid item xs={12} md={0.5}>
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="name2"
+            label="Name"
+            variant="outlined"
+            value={family.name2}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="age2"
+            label="Age"
+            variant="outlined"
+            type="number"
+            value={family.age2}
+            onChange={handleInputChange}
+            inputProps={{ min: 0 }}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="institution2"
+            label="Institution"
+            variant="outlined"
+            value={family.institution2}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <TextField
+            name="standard2"
+            label="Standard"
+            variant="outlined"
+            value={family.standard2}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Grid>
+        {/* <Grid item xs={12} md={0.5}>
             {siblings.length > 1 && (
               <Tooltip title={'Delete'}>
                 <IconButton
@@ -1076,11 +1129,11 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
                 </IconButton>
               </Tooltip>
             )}
-          </Grid>
-        </Grid>
-      ))}
+          </Grid>*/}
+      </Grid>
+      {/* ))} */}
 
-      <Grid item xs={12} pt={2}>
+      {/* <Grid item xs={12} pt={2}>
         <Button
           sx={{
             color: '#38548A',
@@ -1094,7 +1147,7 @@ const FamilyDetails = ({ family, onChange, onTabChange }) => {
         >
           Add Sibling
         </Button>
-      </Grid>
+      </Grid> */}
 
       {/* Save & Next Button */}
       {/* <Grid
