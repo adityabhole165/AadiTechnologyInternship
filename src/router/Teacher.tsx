@@ -358,6 +358,9 @@ const StudentDetailsAttendance = Loader(
 const AttendanceTopperspage = Loader(
   lazy(() => import('src/components/StudentDetails/AttendanceTopperspage'))
 );
+const ExportStudentMarksBaseScreen = Loader(
+  lazy(() => import('src/components/ExportStudentMarks/ExportStudentMarksBaseScreen'))
+);
 
 const StudentDetailsBaseScreen = Loader(
   lazy(() =>
@@ -963,6 +966,10 @@ const teacherRoutes = [
   {
     path: 'AttendanceTopperspage',
     element: <AttendanceTopperspage />
+  },
+  {
+    path: 'ExportStudentMarksBaseScreen',
+    element: <ExportStudentMarksBaseScreen />
   }
 ];
 

@@ -57,6 +57,7 @@ import { red } from '@mui/material/colors';
 import { Inbox, MailCheck } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import GetAppIcon from '@mui/icons-material/GetApp';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { GetIsPrePrimaryTeacher, GetScreenAccessPermissionByPageID, logoURL } from 'src/components/Common/Util';
@@ -471,6 +472,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
       screenId: 0
     },
+    {
+      id: 'Extra Screens',
+      title: 'Export Student Marks',
+      icon: <GetAppIcon />,
+      link: '/extended-sidebar/Teacher/ExportStudentMarksBaseScreen',
+      screenId: 0
+    },
   ];
 
   // #endregion
@@ -640,7 +648,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <FeedbackIcon />,
       link: '/extended-sidebar/Teacher/StudentDetailsBaseScreen',
       screenId: 0
-    }
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Export Student Marks',
+      icon: <GetAppIcon />,
+      link: '/extended-sidebar/Teacher/ExportStudentMarksBaseScreen',
+      screenId: 0
+    },
   ];
   // #endregion
 
