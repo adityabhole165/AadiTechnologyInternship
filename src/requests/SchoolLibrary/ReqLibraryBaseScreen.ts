@@ -61,6 +61,10 @@ const SchoolLibraryslice = createSlice({
             state.Loading = false;
             state.IreserveBooksCountperperson = action.payload;
         },
+        RClearRreserveBooksCountperperson(state) {
+            state.Loading = false;
+            state.IreserveBooksCountperperson = [];
+        },
         RGetAllBooksDetailss(state, action) {
             state.Loading = false;
             state.IGetAllBooksDetailss = action.payload;
@@ -212,7 +216,11 @@ export const CDAReserveBooksperpersonCount = (data: IGetReserveBooksCountperpers
     // });
     dispatch(SchoolLibraryslice.actions.RreserveBooksCountperperson(response.data));
 };
+export const CDAClearCDAReserveBooksperpersonCount = (): AppThunk =>
+    async (dispatch) => {
+        dispatch(SchoolLibraryslice.actions.RClearRreserveBooksCountperperson());
 
+    };
 export const CDAGetAllBooksDetails =
     (data: IGetAllBooksDetailsBody): AppThunk =>
         async (dispatch) => {

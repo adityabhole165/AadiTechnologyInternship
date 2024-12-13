@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetReserveBooksCountperpersonBody, ITotalBooksCountsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { CDABookClimedMsg, CDAClearBookClimedMsg, CDAGetAllBooksDetails, CDAGetLibraryBookIssue, CDAGetReserveBookDetails, CDAGetTotalBooksCount, CDAReserveBooksperpersonCount } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
+import { CDABookClimedMsg, CDAClearBookClimedMsg, CDAClearCDAReserveBooksperpersonCount, CDAGetAllBooksDetails, CDAGetLibraryBookIssue, CDAGetReserveBookDetails, CDAGetTotalBooksCount, CDAReserveBooksperpersonCount } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import LibrarySearch from './LibrarySearch';
@@ -103,9 +103,6 @@ const LibraryBaseScreen = () => {
         asBook_Issued_To: asUserId,
         asAcademic_Year_Id: asAcademicYearId,
     };
-    useEffect(() => {
-        dispatch(CDAGetLibraryBookIssue(BookIssueDetails));
-    }, []);
     const Totalbookcount: ITotalBooksCountsBody = {
         asprm_iSchoolId: asSchoolId,
         asprm_Filter: "",
@@ -113,9 +110,6 @@ const LibraryBaseScreen = () => {
         asprm_iStandardId: 0,
         asprm_iParentStaffId: 0
     };
-    useEffect(() => {
-        dispatch(CDAGetTotalBooksCount(Totalbookcount))
-    }, []);
     const ReserveBooksCountperperson: IGetReserveBooksCountperpersonBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -123,9 +117,6 @@ const LibraryBaseScreen = () => {
         asUserId: asUserId,
         asFlag: 0
     }
-    useEffect(() => {
-        dispatch(CDAReserveBooksperpersonCount(ReserveBooksCountperperson))
-    }, []);
 
     const bookReserveDetails: IGetReserveBookDetailsBody = {
         asSchoolId: asSchoolId,
@@ -141,6 +132,8 @@ const LibraryBaseScreen = () => {
     };
     useEffect(() => {
         dispatch(CDAGetReserveBookDetails(bookReserveDetails))
+        dispatch(CDAGetLibraryBookIssue(BookIssueDetails));
+        dispatch(CDAGetTotalBooksCount(Totalbookcount))
     }, [])
 
     const [BookId, setBookId] = useState(0);
@@ -154,12 +147,14 @@ const LibraryBaseScreen = () => {
             asUserId: asUserId,
             asFlag: 0
         }
-
         dispatch(CDAReserveBooksperpersonCount(countperpersonbody));
+        //dispatch(CDAReserveBooksperpersonCount(ReserveBooksCountperperson))
     };
 
     useEffect(() => {
         let isValid = true;
+        console.log("USReserveBookCountPerPerson", USReserveBookCountPerPerson);
+
         if (USReserveBookCountPerPerson.length > 0) {
             if (USReserveBookCountPerPerson[0].Count === "999") {
                 toast.error("Could not claim the same book.");
@@ -180,7 +175,9 @@ const LibraryBaseScreen = () => {
             };
             dispatch(CDABookClimedMsg(cliambookBody));
             setBookId(0);
+            dispatch(CDAClearCDAReserveBooksperpersonCount());
         }
+        //dispatch(CDAClearCDAReserveBooksperpersonCount());
     }, [USReserveBookCountPerPerson])
     console.log(USReserveBookCountPerPerson, "USReserveBookCountPerPerson111")
     useEffect(() => {
