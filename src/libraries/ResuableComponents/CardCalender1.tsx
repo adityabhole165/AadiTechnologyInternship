@@ -5,7 +5,8 @@ import {
   IconButton,
   Tooltip,
   Typography,
-  alpha
+  alpha,
+  useMediaQuery
 } from '@mui/material';
 
 import CalendarMonth from '@mui/icons-material/CalendarMonth';
@@ -13,7 +14,11 @@ import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { red, teal } from '@mui/material/colors';
 import React, { useRef } from 'react';
-import { getCalendarDateFormatDateNew, getDateFormatted, stripHtml } from 'src/components/Common/Util';
+import {
+  getCalendarDateFormatDateNew,
+  getDateFormatted,
+  stripHtml
+} from 'src/components/Common/Util';
 import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
 import CardCal1 from './CardCal1';
 function CardCalender1({
@@ -26,9 +31,8 @@ function CardCalender1({
   getAssignedDateStatus,
   ClickDeleteAttendance,
   clickNav,
-  Standardid,
+  Standardid
   // AttendanceStatus,
-
 }) {
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -37,17 +41,16 @@ function CardCalender1({
     let returnVal = ItemList.map((obj) =>
       obj.Value === Value
         ? {
-          ...obj,
-          Status: checkStatus(obj) ? 'N' : 'Y',
-          BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
-          Text1: checkStatus(obj) ? 'Absent' : 'Present'
-        }
+            ...obj,
+            Status: checkStatus(obj) ? 'N' : 'Y',
+            BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
+            Text1: checkStatus(obj) ? 'Absent' : 'Present'
+          }
         : obj
     );
 
     ClickItem(returnVal);
   };
-
 
   const updatedItemList = ItemList.map((item) => {
     const itemDate = new Date(item.Value);
@@ -56,15 +59,15 @@ function CardCalender1({
     const formattedMonth = formattedDateObj.getMonth();
     const formattedYear = formattedDateObj.getFullYear();
 
-    const isCurrentMonth = itemDate.getMonth() === formattedMonth && itemDate.getFullYear() === formattedYear;
-
+    const isCurrentMonth =
+      itemDate.getMonth() === formattedMonth &&
+      itemDate.getFullYear() === formattedYear;
 
     return {
       ...item,
-      isCurrentMonth,
+      isCurrentMonth
     };
   });
-
 
   const clickPrevNextMonth = (value) => {
     let newDate;
@@ -82,15 +85,24 @@ function CardCalender1({
       newDate.setMonth(newMonth);
     }
     const today = new Date();
-    if (newDate.getMonth() === today.getMonth() && newDate.getFullYear() === today.getFullYear()) {
+    if (
+      newDate.getMonth() === today.getMonth() &&
+      newDate.getFullYear() === today.getFullYear()
+    ) {
       newDate = today;
     }
     ClickItem(getDateFormatted(newDate));
   };
 
-
-  let dayCount = new Date(new Date(formattedDate).getFullYear(), new Date(formattedDate).getMonth(), 1).getDay();
+  let dayCount = new Date(
+    new Date(formattedDate).getFullYear(),
+    new Date(formattedDate).getMonth(),
+    1
+  ).getDay();
   const datePicker = useRef(null);
+
+  const isMobile = useMediaQuery('sm'); // Detect mobile view
+ 
 
   return (
     <Box p={2}>
@@ -138,37 +150,48 @@ function CardCalender1({
         }}
       >
         <Box>
-          <Typography sx={{ fontWeight: 'normal !important', display: 'flex', alignItems: 'center', gap: 1 }} variant={'h3'}>
+          <Typography
+            sx={{
+              fontWeight: 'normal !important',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1
+            }}
+            variant={'h3'}
+          >
             <div style={{ whiteSpace: 'nowrap' }}>
               <IconButton
                 onClick={() => clickPrevNextMonth(-1)}
                 sx={{
                   color: (theme) => theme.palette.primary.main,
-                  backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2),
+                  backgroundColor: (theme) =>
+                    alpha(theme.palette.primary.main, 0.2),
                   marginRight: '8px'
                 }}
               >
                 <ChevronLeftTwoToneIcon />
               </IconButton>
-              {formattedDate} {' '}
+              {formattedDate}{' '}
               <IconButton
                 onClick={() => clickPrevNextMonth(1)}
                 sx={{
                   color: (theme) => theme.palette.primary.main,
-                  backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2),
+                  backgroundColor: (theme) =>
+                    alpha(theme.palette.primary.main, 0.2),
                   marginLeft: '8px'
                 }}
               >
                 <ChevronRightTwoToneIcon />
               </IconButton>
             </div>
-            <div style={{
-              fontWeight: 'bold',
-              fontSize: '16px',
-              color: teal[500]
-            }}>
+            <div
+              style={{
+                fontWeight: 'bold',
+                fontSize: '16px',
+                color: teal[500]
+              }}
+            >
               {/* {AttendanceStatus} */}
-
             </div>
           </Typography>
         </Box>
@@ -189,13 +212,13 @@ function CardCalender1({
                 //     alpha(theme.palette.error.main, 0.2)
                 // }}
                 sx={{
-                  color:'#223354',
-                   //  backgroundColor: grey[500],
-                    '&:hover': {
-                  color:'red',
-                   backgroundColor: red[100]
-                    }}}
-           
+                  color: '#223354',
+                  //  backgroundColor: grey[500],
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
                 // color="error"
                 onClick={() => ClickDeleteAttendance()}
               >
@@ -212,20 +235,25 @@ function CardCalender1({
           >
             <ChevronLeftTwoToneIcon />
           </IconButton> */}
-          <IconButton color={"primary"} onClick={(() => {
-            datePicker.current.showPicker();
-          })}>
-            <CalendarMonth />
-            <input ref={datePicker} style={{
-              position: 'absolute',
-              visibility: 'hidden',
+          <IconButton
+            color={'primary'}
+            onClick={() => {
+              datePicker.current.showPicker();
             }}
-              type='date'
+          >
+            <CalendarMonth />
+            <input
+              ref={datePicker}
+              style={{
+                position: 'absolute',
+                visibility: 'hidden'
+              }}
+              type="date"
               value={getCalendarDateFormatDateNew(formattedDate)}
               onChange={(e) => {
-                ClickItem(getDateFormatted(e.target.value))
-
-              }} />
+                ClickItem(getDateFormatted(e.target.value));
+              }}
+            />
           </IconButton>
           {/* <IconButton
             onClick={() => clickPrevNextMonth(1)}
@@ -240,7 +268,6 @@ function CardCalender1({
       </Box>
       <Grid container sx={{ mt: 2 }}>
         {ArrayList.map((item, i) => (
-
           <React.Fragment key={i}>
             <Grid
               item
@@ -266,11 +293,10 @@ function CardCalender1({
         <Grid
           item
           // border="solid #ebebeb"
-          md={12 / 7 * dayCount}
-          xs={12 / 7 * dayCount}
+          md={(12 / 7) * dayCount}
+          xs={(12 / 7) * dayCount}
           sx={{ textAlign: 'center', pt: 0 }}
-        >
-        </Grid>
+        ></Grid>
         {/* {ItemList.map((item, i) => {
           return (
             <Grid item xs={12 / 7} md={12 / 7} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.divider}` }} key={i}>
@@ -307,7 +333,16 @@ function CardCalender1({
             }
 
             return (
-              <Grid item xs={12 / 7} md={12 / 7} key={i} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.divider}` }}>
+              <Grid
+                item
+                xs={12 / 7}
+                md={12 / 7}
+                key={i}
+                sx={{
+                  textAlign: 'center',
+                  border: (theme) => `1px solid ${theme.palette.divider}`
+                }}
+              >
                 <CardCal1
                   item={item}
                   clickItem={() => ClickItem(item.Value)}
@@ -328,7 +363,7 @@ function CardCalender1({
                   color={undefined}
                 />
               </Grid>
-            )
+            );
           }
         })}
       </Grid>

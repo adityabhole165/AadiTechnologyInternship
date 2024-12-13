@@ -738,7 +738,8 @@ const TAttendance = () => {
                 </Typography>
               </Stack>
             </Stack>
-            <Box sx={{ background: 'white' }}>
+
+            <Grid xs={12} sm={6} md={6} lg={6} xl={6}>  
               <SearchableDropdown
                 label={""}
                 sx={{ pl: 0, minWidth: '20vw' }}
@@ -783,8 +784,8 @@ const TAttendance = () => {
                 </Tooltip>
               </IconButton>
             </Paper> */}
-            </Box>
-            <Box>
+            </Grid>
+            <Grid xs={12} sm={6} md={6} lg={6} xl={6}>
               <Tooltip
                 title={`Mark attendance of each student from your class for the select date. Click on "Delete" button to delete attendance of selected date. Delete facility will be available only if user have "Edit" facility.`}
               ><span>
@@ -800,7 +801,7 @@ const TAttendance = () => {
                   </IconButton>
                 </span>
               </Tooltip>
-            </Box>
+            </Grid>
             <Box>
               <Tooltip title={'Individual Attendance'}>
                 <span>
@@ -910,7 +911,7 @@ const TAttendance = () => {
         <AttendanceSummary assignedDate={assignedDate}
           SummaryCountforAttendance={SummaryCountforAttendance.GetSummaryCountList} />
       }
-      <Grid container spacing={2} mt={1}>
+      <Grid container spacing={1} mt={0}>
         <Grid item xs={12} md={6}>
           <Box sx={{ backgroundColor: 'white', pt: 2 }}>
             <Grid justifyContent="center">
