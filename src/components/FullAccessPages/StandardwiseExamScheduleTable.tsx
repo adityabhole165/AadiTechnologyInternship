@@ -95,7 +95,6 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
         }
     }, [examData]);
     useEffect(() => {
-        //console.log("🙌🙌🙌", tableRows)
     }, [tableRows])
     useEffect(() => {
         if (examData.length > 0) {
@@ -195,11 +194,9 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
 
         const updatedRows = [];
         let subjectInserted = false;
-
         for (const row of tableRows) {
             updatedRows.push(row);
             if (row.subject === subject && !subjectInserted) {
-                //console.log(newRow, '😒😒😒')
                 updatedRows.push(newRow); // Insert new row after the clicked subject
                 subjectInserted = true;
             }
@@ -208,7 +205,6 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
         if (!subjectInserted) {
             updatedRows.push(newRow);
         }
-        //console.log(updatedRows, 'updatedRows')
         setTableRows(updatedRows);
     };
     const renderTimeSelects = (
@@ -383,8 +379,8 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {tableRows.map((row) => (
-                            <TableRow key={row.SubjectWizeStandardExamScheduleId}>
+                        {tableRows.map((row, index) => (
+                            <TableRow key={index}>
                                 <TableCell padding="checkbox">
                                     <Checkbox
                                         checked={row.selected}
