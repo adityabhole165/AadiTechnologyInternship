@@ -110,16 +110,32 @@ const DataTable: React.FC<Props> = ({
     <Paper>
       <TableContainer>
         {!isMobile ? (
-          <Table>
+          <Table
+            aria-label="simple table"
+            sx={{
+              border: (theme) => `1px solid ${theme.palette.grey[300]}`
+            }}
+          >
             <TableHead>
-              <TableRow>
-                <TableCell align="center">No.</TableCell>
+              <TableRow
+                sx={{
+                  background: (theme) => theme.palette.secondary.main,
+                  color: (theme) => theme.palette.common.white
+                }}
+              >
+                <TableCell align="center" sx={{ color: 'white' }}>
+                  No.
+                </TableCell>
                 {columns.map((column) => (
-                  <TableCell {...column.headerCellProps} key={column.id}>
+                  <TableCell
+                    {...column.headerCellProps}
+                    key={column.id}
+                    sx={{ color: 'white' }}
+                  >
                     {column.renderHeader ? column.renderHeader() : column.label}
                   </TableCell>
                 ))}
-                <TableCell>Amount</TableCell>
+                <TableCell sx={{ color: 'white' }}>Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -214,16 +230,19 @@ const DataTable: React.FC<Props> = ({
                   padding: 2
                 }}
               >
-                <Typography variant="h4">
+                {/* <Typography variant="h4">
                   {page * rowsPerPage + rowIndex + 1}. {row[columns[0].id]}
-                </Typography>
+                </Typography> */}
                 {columns.map((column) => (
                   <Typography
                     variant="body1"
                     key={column.id}
                     sx={{ fontSize: '0.875rem' }}
                   >
-                    {column.label}: {row[column.id]}
+                    {column.label}:{' '}
+                    {column.renderCell
+                      ? column.renderCell(row, rowIndex)
+                      : row[column.id]}
                   </Typography>
                 ))}
                 <TextField
