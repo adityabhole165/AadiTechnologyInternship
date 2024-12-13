@@ -367,15 +367,17 @@ const StandardwiseExamSchedule = () => {
     };
 
     const handleOpenDialog = (instructionText) => {
+        //console.log(typeof instructionText, '😊😊😊');
         setEditMode(false);
         setIsConfirm('');
-        setCurrentInstruction(instructionText);
+        setCurrentInstruction(instructionText.toString());
         setOpenDialog(true);
     };
     const handleOpenDialog1 = (instructionText) => {
+        //console.log(typeof instructionText, '👌👌👌');
         setIsConfirm1('');
         setEditMode(true);
-        setCurrentInstruction(instructionText);
+        setCurrentInstruction(instructionText.toString());
         setOpenDialog1(true);
     };
 

@@ -25,7 +25,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 
 interface ExamEntry {
     id: number;
-    SubjectWizeStandardExamScheduleId: number;
+    SubjectWizeStandardExamScheduleId: string;
     subject: string;
     examType: string;
     examDate: string;
@@ -65,7 +65,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
     // Separate states for header row and table rows
     const [headerRow, setHeaderRow] = useState<ExamEntry>({
         id: 0,
-        SubjectWizeStandardExamScheduleId: 0,
+        SubjectWizeStandardExamScheduleId: '0',
         subject: '',
         examType: '',
         examDate: '',
@@ -94,6 +94,9 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
             );
         }
     }, [examData]);
+    useEffect(() => {
+        //console.log("🙌🙌🙌", tableRows)
+    }, [tableRows])
     useEffect(() => {
         if (examData.length > 0) {
             const updatedRows = examData.map((row: any, index: number) => {
@@ -173,11 +176,11 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
     const onClickAddNewRow = (id: number, subject: string) => {
 
         const maxSubjectWizeStandardExamScheduleId = tableRows.reduce((max, row) => {
-            return row.SubjectWizeStandardExamScheduleId > max ? row.SubjectWizeStandardExamScheduleId : max;
+            return Number(row.SubjectWizeStandardExamScheduleId) > max ? row.SubjectWizeStandardExamScheduleId : max;
         }, 0);
         const newRow: ExamEntry = {
             id: id,
-            SubjectWizeStandardExamScheduleId: maxSubjectWizeStandardExamScheduleId + 1,
+            SubjectWizeStandardExamScheduleId: (Number(maxSubjectWizeStandardExamScheduleId) + 1).toString(),
             subject: subject, // Assign the clicked subject
             examType: '',
             examDate: AssignedDate ? getCalendarDateFormatDateNew(AssignedDate) : new Date().toISOString().split('T')[0],
@@ -196,6 +199,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
         for (const row of tableRows) {
             updatedRows.push(row);
             if (row.subject === subject && !subjectInserted) {
+                //console.log(newRow, '😒😒😒')
                 updatedRows.push(newRow); // Insert new row after the clicked subject
                 subjectInserted = true;
             }
@@ -204,7 +208,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
         if (!subjectInserted) {
             updatedRows.push(newRow);
         }
-
+        //console.log(updatedRows, 'updatedRows')
         setTableRows(updatedRows);
     };
     const renderTimeSelects = (
@@ -300,17 +304,17 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
                 <Table>
                     <TableHead>
                         <TableRow sx={{ background: theme => theme.palette.secondary.main, color: theme => theme.palette.common.white }}>
-                            <TableCell sx={{color: 'white'}} padding="checkbox"></TableCell>
-                            <TableCell sx={{color: 'white'}}><strong>Subject</strong></TableCell>
-                            <TableCell sx={{color: 'white'}}><strong>Exam Type</strong></TableCell>
-                            <TableCell sx={{color: 'white'}}><strong>Exam Date</strong></TableCell>
-                            <TableCell sx={{color: 'white'}}><strong>Timed?</strong></TableCell>
-                            <TableCell sx={{color: 'white'}}><strong>Start Time</strong></TableCell>
-                            <TableCell sx={{color: 'white'}}><strong>End Time</strong></TableCell>
-                            <TableCell sx={{color: 'white'}}><strong>Description</strong></TableCell>
-                            <TableCell sx={{color: 'white'}}><strong>New</strong></TableCell>
+                            <TableCell sx={{ color: 'white' }} padding="checkbox"></TableCell>
+                            <TableCell sx={{ color: 'white' }}><strong>Subject</strong></TableCell>
+                            <TableCell sx={{ color: 'white' }}><strong>Exam Type</strong></TableCell>
+                            <TableCell sx={{ color: 'white' }}><strong>Exam Date</strong></TableCell>
+                            <TableCell sx={{ color: 'white' }}><strong>Timed?</strong></TableCell>
+                            <TableCell sx={{ color: 'white' }}><strong>Start Time</strong></TableCell>
+                            <TableCell sx={{ color: 'white' }}><strong>End Time</strong></TableCell>
+                            <TableCell sx={{ color: 'white' }}><strong>Description</strong></TableCell>
+                            <TableCell sx={{ color: 'white' }}><strong>New</strong></TableCell>
                         </TableRow>
-                        <TableRow sx={{ color: theme => theme.palette.common.white, backgroundColor:'#F0F0F0' }}>
+                        <TableRow sx={{ color: theme => theme.palette.common.white, backgroundColor: '#F0F0F0' }}>
                             <TableCell padding="checkbox">
                                 <Checkbox checked={selectAll} disabled={isSubmitted} onChange={e => handleSelectAll(e.target.checked)} />
                             </TableCell>
