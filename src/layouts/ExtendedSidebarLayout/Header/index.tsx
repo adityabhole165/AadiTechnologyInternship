@@ -494,8 +494,8 @@ function Header() {
           >
             <img src={img_src} className={classes.smalllogo} />
           </Stack>
-          <Stack direction="row" sx={{ pb: 2 }}>
-            <h1>{SchoolName} <span style={{ fontSize: 'medium' }}>({UsschoolSettings})</span></h1>
+          <Stack direction="row" sx={{ pb: 2, display: { xs: 'none', sm: 'flex', lg: 'flex' }, textAlign: 'center' }}    >
+            <Typography variant='h1' sx={{ fontSize: { xs: 'small', sm: 'medium', lg: 'large' } }}>{SchoolName} <Typography variant='body1' sx={{ fontSize: { xs: 'small', sm: 'medium' } }}>({UsschoolSettings})</Typography></Typography>
           </Stack>
           <Stack
             direction="row"
