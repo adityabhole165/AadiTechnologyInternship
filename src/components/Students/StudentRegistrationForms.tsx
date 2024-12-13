@@ -92,154 +92,6 @@ import CheckboxList from './SiblingDetailsCheckBoxList';
 import StudentProfileHeader from './StudentProfileHeader';
 import StudentSubjectDetails from './StudentSubjectDetails';
 
-//#region TabBodies
-//need to transfer from here
-interface IPersonalDetails {
-  aadharCardNumber?: string;
-  aadharCardScanCopy?: string;
-  address?: string;
-  birthDistrict?: string;
-  birthState?: string;
-  birthTaluka?: string;
-  bloodGroup?: string;
-  casteAndSubCaste?: string;
-  category?: string;
-  city?: string;
-  dateOfBirth?: string;
-  email?: string;
-  fatherNumber?: string;
-  firstName?: string;
-  gender?: string;
-  lastName?: string;
-  middleName?: string;
-  motherName?: string;
-  motherNumber?: string;
-  motherTongue?: string;
-  nameOnAadharCard?: string;
-  nationality?: string;
-  parentName?: string;
-  parentOccupation?: string;
-  photoFilePath?: string;
-  pin?: string;
-  placeOfBirth?: string;
-  religion?: string;
-  state?: string;
-}
-
-interface RAdmissionDetails {
-  PENNumber?: string;
-  RFID?: string;
-  UDISENumber?: string;
-  admissionDate?: string;
-  applicableRules?: string;
-  boardRegistrationNumber?: string;
-  feeCategoryDetailsId?: string;
-  feeAreaNames?: string;
-  formNumber?: string;
-  isDayBoardingFeePaid?: boolean;
-  isForDayBoarding?: boolean;
-  isHandicapped?: boolean;
-  isMinority?: boolean;
-  isOnlyChild?: boolean;
-  isRTEApplicable?: boolean;
-  isRiseAndShine?: boolean;
-  isStaffKid?: boolean;
-  joiningDate?: string;
-  newAdmission?: boolean;
-  registrationNumber?: string;
-  residenceTypes?: string;
-  rteApplicationForm?: string;
-  rteCategory?: string;
-  saralNo?: string;
-  secondlanguage?: string;
-  sendSMS?: boolean;
-  staffName?: string;
-  staffUserRole?: string;
-  studentRollNumber?: string;
-  thirdlanguage?: string;
-  userName?: string;
-}
-
-interface RFamilyDetails {
-  fatherOccupation?: string;
-  fatherQualification?: string;
-  fatherEmail?: string;
-  fatherOfficeName?: string;
-  fatherOfficeAddress?: string;
-  fatherDesignation?: string;
-  fatherDOB?: string;
-  fatherPhoto?: string;
-  fatherWeight?: number;
-  fatherHeight?: number;
-  fatherBloodGroup?: string;
-  fatherAadharCard?: string;
-  fatherAnnualIncome?: number;
-
-  motherOccupation?: string;
-  motherQualification?: string;
-  motherEmail?: string;
-  motherOfficeName?: string;
-  motherOfficeAddress?: string;
-  motherDesignation?: string;
-  motherDOB?: string;
-  motherPhoto?: string;
-  motherWeight?: number;
-  motherHeight?: number;
-  motherAadharCard?: string;
-  motherBloodGroup?: string;
-  motherAnnualIncome?: number;
-
-  marriageAnniversaryDate?: string;
-  localGuardianPhoto?: string;
-  familyMonthlyIncome?: number;
-  cwsn?: string;
-  relativeFullName?: string;
-  residencePhoneNumber?: string;
-  neighbourPhoneNumber?: string;
-  officePhoneNumber?: string;
-  familyPhoto?: string;
-  name1?: string;
-  name2?: string;
-  age1?: number;
-  age2?: number;
-  institution1?: string;
-  institution2?: string;
-  standard1?: string;
-  standard2?: string;
-}
-interface RAdditionalInfoDetails {
-  admissionAcademicYear?: string;
-  admissionStandard?: string;
-  currentAcademicYear?: string;
-  currentStandard?: string;
-  district?: string;
-  houseNumber?: string;
-  isRecognised?: string;
-  lastSchoolAddress?: string;
-  lastSchoolName?: string;
-  landmark?: string;
-  mainArea?: string;
-  previousMarksObtained?: string;
-  previousMarksOutOf?: string;
-  previousYearOfPassing?: string;
-  schoolBoardName?: string;
-  schoolUDISENo?: string;
-  standard?: string;
-  subjectNames?: string;
-  subareaName?: string;
-  taluka?: string;
-}
-interface RStreamwiseSubjectDetails {
-  streamId?: string;
-  groupId?: string;
-  compulsorySubjects?: string;
-  optionalSubject?: string;
-  optionalSubject1?: string;
-  optionalSubject2?: string;
-  competitiveExams?: number[]; // Assuming this is an array of numbers
-}
-//#endRegion
-
 const StudentRegistrationForm = () => {
   //const { BackN_Student_Ids } = useParams();
 
@@ -283,14 +135,6 @@ const StudentRegistrationForm = () => {
 
   const [profileCompletion, setProfileCompletion] = useState(0);
   const [validationMessages, setValidationMessages] = useState<string[]>([]);
-
-  // const [admissionDetailsData, setAdmissionDetailsData] = useState<RAdmissionDetails>({});
-  // const [personalDetailsData, setPersonalDetailsData] = useState<IPersonalDetails>({});
-  const [familyDetailsData, setFamilyDetailsData] = useState<RFamilyDetails>(
-    {}
-  );
-  // const [additionalInfoData, setAdditionalInfoData] = useState<RAdditionalInfoDetails>({});
-  // const [streamwiseSubjectData, setStreamwiseSubjectData] = useState<RStreamwiseSubjectDetails>({});
 
   const [form, setForm] = useState({
     admission: {
@@ -1999,7 +1843,7 @@ const StudentRegistrationForm = () => {
               <AdditionalDetails
                 additional={form.additional}
                 onChange={handleAdditionalChange}
-                onTabChange={onAdditionalInfoTab}
+              //onTabChange={onAdditionalInfoTab}
               />
             </Grid>
           </Grid>

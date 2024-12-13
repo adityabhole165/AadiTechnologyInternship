@@ -237,10 +237,10 @@ const FamilyDetails = ({ family, onChange }) => {
     const numericValue = e.target.value.replace(/\D/g, '');
     if (!isNaN(Number(numericValue)) && numericValue.length <= 10) {
       //setIContactNumber(numericValue);
-      setForm((prevForm) => ({
-        ...prevForm,
-        [e.target.name]: numericValue
-      }));
+      // setForm((prevForm) => ({
+      //   ...prevForm,
+      //   [e.target.name]: numericValue
+      // }));
       onChange(e.target.name, numericValue);
     }
   }

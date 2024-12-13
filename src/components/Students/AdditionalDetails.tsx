@@ -15,7 +15,7 @@ import { useLocation } from 'react-router-dom';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { RootState } from 'src/store';
 
-const AdditionalDetails = ({ additional, onChange, onTabChange }) => {
+const AdditionalDetails = ({ additional, onChange }) => {
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
@@ -127,10 +127,10 @@ const AdditionalDetails = ({ additional, onChange, onTabChange }) => {
       fieldValue = value;
     }
 
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: fieldValue
-    }));
+    // setForm((prevForm) => ({
+    //   ...prevForm,
+    //   [name]: fieldValue
+    // }));
     onChange(name, fieldValue);
     //onTabChange({ firstName: fieldValue, })
     // Remove error when the user starts filling the field
@@ -147,9 +147,9 @@ const AdditionalDetails = ({ additional, onChange, onTabChange }) => {
   // };
 
   //#region DataTransfer 
-  useEffect(() => {
-    onTabChange(form); // Sends the initial form state to the parent when component mounts
-  }, [form]);
+  // useEffect(() => {
+  //   onTabChange(form); // Sends the initial form state to the parent when component mounts
+  // }, [form]);
   //#endregion
 
   // Handle form submission

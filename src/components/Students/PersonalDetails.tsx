@@ -74,7 +74,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
   const [errorMsg, setErrorMsg] = useState(false)
 
   const { AssignedDate } = useParams();
-  console.log(AssignedDate, 'sfsdfds')
+  //console.log(AssignedDate, 'sfsdfds')
   const [form, setForm] = useState({
     firstName: '',
     middleName: '',

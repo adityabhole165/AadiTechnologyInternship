@@ -33,7 +33,7 @@ const StudentProfileHeader = () => {
 
     const showConfirmedByName = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowConfirmedByName === true;
 
-    console.log('💀studentDetails on profile header:', studentDetails);
+    //console.log('💀studentDetails on profile header:', studentDetails);
 
     useEffect(() => {
         console.log("Photo_File_Path:", Photo_File_Path);
