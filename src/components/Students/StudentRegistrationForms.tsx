@@ -127,15 +127,6 @@ const StudentRegistrationForm = () => {
   const { AssignedDate, PageID } = useParams();
   const navigate = useNavigate();
 
-  const [tabCompletion, setTabCompletion] = useState({
-    admission: 0,
-    personal: 0,
-    family: 0
-  });
-
-  const [profileCompletion, setProfileCompletion] = useState(0);
-  const [validationMessages, setValidationMessages] = useState<string[]>([]);
-
   const [form, setForm] = useState({
     admission: {
       userName: '',
@@ -287,6 +278,24 @@ const StudentRegistrationForm = () => {
       competitiveExams: '',
     }
   });
+  //Siblings States
+  const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
+  const [selectedSiblings, setSelectedSiblings] = useState('');
+  console.log('✅ selectedSiblings', selectedSiblings)
+  const [resetTrigger, setResetTrigger] = useState(false);
+
+  const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+  //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
+  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
+
+  const [tabCompletion, setTabCompletion] = useState({
+    admission: 0,
+    personal: 0,
+    family: 0
+  });
+
+  const [profileCompletion, setProfileCompletion] = useState(0);
+  const [validationMessages, setValidationMessages] = useState<string[]>([]);
 
   //  new state for tab validation status
   const [tabValidationStatus, setTabValidationStatus] = useState({
@@ -302,11 +311,6 @@ const StudentRegistrationForm = () => {
     //family: {}
   });
   const [showValidation, setShowValidation] = useState(false);
-  //Siblings States
-  const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
-  const [selectedSiblings, setSelectedSiblings] = useState('');
-  console.log('✅ selectedSiblings', selectedSiblings)
-  const [resetTrigger, setResetTrigger] = useState(false);
 
   const requiredFieldsMap = {
     admission: [
@@ -330,10 +334,21 @@ const StudentRegistrationForm = () => {
     family: ['fatherDOB', 'motherDOB', 'marriageAnniversaryDate']
   };
 
-  const calculateCompletion = (tabName: string, data: any) => {
+  const calculateCompletion = (tabName: string, data: any, IsAdditionalFieldsApplicable: boolean) => {
     // Get required fields dynamically from the map
     const requiredFields = requiredFieldsMap[tabName] || [];
-    const unfilledFields = requiredFields.filter((field) => !data[field]);
+    // Skip conditional fields if IsAdditionalFieldsApplicable is false
+    const filteredFields = requiredFields.filter((field) => {
+      if (
+        ['fatherDOB', 'motherDOB', 'marriageAnniversaryDate'].includes(field) &&
+        !IsAdditionalFieldsApplicable
+      ) {
+        return false; // Skip these fields
+      }
+      return true;
+    });
+
+    const unfilledFields = filteredFields.filter((field) => !data[field]);
 
     // Update tab validation status
     setTabValidationStatus(prev => ({
@@ -343,9 +358,7 @@ const StudentRegistrationForm = () => {
 
     // Create field-level validation messages
     const messages = {};
-    unfilledFields.forEach(field => {
-      messages[field] = `${field} is required`;
-    });
+    unfilledFields.forEach(field => { messages[field] = `${field} is required`; });
 
     // Update field validation messages
     setFieldValidationMessages(prev => ({
@@ -354,9 +367,9 @@ const StudentRegistrationForm = () => {
     }));
 
     // Calculate completed and unfilled fields
-    const completedFields = requiredFields.filter((field) => !!data[field]).length;
+    const completedFields = filteredFields.filter((field) => !!data[field]).length;
     // Calculate completion percentage
-    const completionPercentage = (completedFields / requiredFields.length) * 100;
+    const completionPercentage = (completedFields / filteredFields.length) * 100;
 
     // Update the tabCompletion state
     setTabCompletion((prev) => ({
@@ -380,23 +393,18 @@ const StudentRegistrationForm = () => {
   useEffect(() => {
     // Dynamically loop through all tabs in the map
     Object.keys(requiredFieldsMap).forEach((tabName) => {
-      calculateCompletion(tabName, form[tabName]);
+      calculateCompletion(tabName, form[tabName], IsAdditionalFieldsApplicable);
     });
   }, [form]); // Trigger recalculation whenever the form changes
 
-  const UsGetSchoolSettings: any = useSelector(
-    (state: RootState) => state.ProgressReportNew.IsGetSchoolSettings
-  );
-  //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
-  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
 
   //#region Validation
   const handleValidation = () => {
     const allMessages = [];
 
-    const admissionValidation = calculateCompletion('admission', form.admission);
-    const personalValidation = calculateCompletion('personal', form.personal);
-    const familyValidation = calculateCompletion('family', form.family);
+    const admissionValidation = calculateCompletion('admission', form.admission, IsAdditionalFieldsApplicable);
+    const personalValidation = calculateCompletion('personal', form.personal, IsAdditionalFieldsApplicable);
+    const familyValidation = calculateCompletion('family', form.family, IsAdditionalFieldsApplicable);
 
     //Collect unfilled fields for each tab
     [admissionValidation, personalValidation, familyValidation].forEach(
