@@ -272,6 +272,12 @@ const PreprimaryProgressReport = Loader(
       import('src/components/PreprimaryProgressReport/PreprimaryProgressReport')
   )
 );
+const PreprimaryProgressReport1 = Loader(
+  lazy(
+    () =>
+      import('src/components/PreprimaryProgressReport/PreprimaryProgressReport1')
+  )
+);
 const StudentwiseprogressreportEdit = Loader(
   lazy(
     () =>
@@ -860,6 +866,10 @@ const teacherRoutes = [
   {
     path: 'PreprimaryProgressReport',
     element: <PreprimaryProgressReport />
+  },
+  {
+    path: 'PreprimaryProgressReport1',
+    element: <PreprimaryProgressReport1 />
   },
   {
     path: 'StudentwiseprogressreportEdit/:Assessment/:YearwiseStudentId/:StandardId',

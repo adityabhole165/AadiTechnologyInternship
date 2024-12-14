@@ -838,7 +838,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
    if(USIsXseedApplicable){
     let state1 = { GetOldStudentDetails, AcademicYear ,USIsXseedApplicable,Acadamicyearname,StudentId};
-    navigate('/extended-sidebar/Teacher/PreprimaryProgressReport' , { state: state1 });
+    navigate('/extended-sidebar/Teacher/PreprimaryProgressReport1' , { state: state1 });
 
    }
   }, [USIsXseedApplicable]);

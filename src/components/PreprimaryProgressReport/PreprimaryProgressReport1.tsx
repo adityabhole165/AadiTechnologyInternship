@@ -6,10 +6,14 @@ import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { GetProgressReportDetailsBody, GetStudentDetailsDropdownBody, IGetAllPrimaryClassTeacherssBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { IGetAcademicYearsOfStudentBody, IIsXseedApplicableBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAAllPrimaryClassTeachers, CDAProgressReportDetails, CDAStudentDetailsDropdown } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
+import { CDAGetAcademicYearsOfStudent, CDAIsXseedApplicable } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -18,13 +22,19 @@ import NonXseedSubjectGrades from './NonXseedSubjectGrades';
 import SchoolDetails from './SchoolDetails';
 import StudentDetails from './StudentDetails';
 import XseedRemarks from './XseedRemarks';
-const PreprimaryProgressReport = () => {
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+const PreprimaryProgressReport1 = () => {
     const dispatch = useDispatch();
     const [ClassTeacher, setClassTeacher]: any = useState('-1');
     const [StudentId, setStudentId]: any = useState();
-    const [AssessmentId, setAssessmentId]: any = useState();
+    const [AssessmentId, setAssessmentId]: any = useState()
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { state } = location;
 
-    const [open, setOpen] = useState(false);
+
+
+
     const [Error, SetError] = useState('');
     const [Error1, SetError1] = useState('');
     let PreprimaryFullAccess = getSchoolConfigurations(164)
@@ -38,7 +48,7 @@ const PreprimaryProgressReport = () => {
     const PrePrimaryClassTeacher = USAllPrimaryClassTeacherssBody.filter((teacher: any) => teacher.Is_PrePrimary === 'Y');
     const USlistStudentNameDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistStudentNameDetails);
     const USlistAssessmentDetailss: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistAssessmentDetailss);
-
+    const Loading: any = useSelector((state: RootState) => state.PreprimaryProgressReport.Loading);
     const USAssessmentPublishStatus: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISAssessmentPublishStatus);
     const AssessmentPublishStatus = USAssessmentPublishStatus.map(item => item.AssessmentPublishStatus);
     const StudentWiseAssessmentPublishStatus = USAssessmentPublishStatus.map(item => item.StudentWiseAssessmentPublishStatus);
@@ -53,32 +63,77 @@ const PreprimaryProgressReport = () => {
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
     const USFillStudentsLearningOutcomeObservations: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomeObservations);
-
-
+    const UsAcademicYearsOfStudent: any = useSelector((state: RootState) => state.ProgressReportNew.IsAcademicYearsOfStudent);
 
     const AllPrimaryClassTeachersBody: IGetAllPrimaryClassTeacherssBody =
     {
         asSchoolId: asSchoolId,
-        asAcadmicYearId: asAcademicYearId,
+        asAcadmicYearId: state.AcademicYear ? state.AcademicYear : asAcademicYearId,
         asTeacher_id: 0,
 
     };
     const StudentDetailsDropdownBody: GetStudentDetailsDropdownBody =
     {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivId: PreprimaryFullAccess == 'Y' ? ClassTeacher : asStandardDivisionId,
-        asStudentId:  0
+        asAcademicYearId: state.AcademicYear ? state.AcademicYear : asAcademicYearId,
+        asStandardDivId: PreprimaryFullAccess == 'Y' ? ClassTeacher : state.GetOldStudentDetails.StandardDivisionId ? state.GetOldStudentDetails.StandardDivisionId : asStandardDivisionId,
+        asStudentId: Number(state.GetOldStudentDetails.StudentId) ? Number(state.GetOldStudentDetails.StudentId) : 0
+
     };
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
     {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivisionId: PreprimaryFullAccess == 'Y' ? ClassTeacher : asStandardDivisionId,
-        asYearwiseStudentId: StudentId,
+        asAcademicYearId: state.AcademicYear ? state.AcademicYear : asAcademicYearId,
+        asStandardDivisionId: PreprimaryFullAccess == 'Y' ? ClassTeacher : state.GetOldStudentDetails.StandardDivisionId ? state.GetOldStudentDetails.StandardDivisionId : asStandardDivisionId,
+        asYearwiseStudentId: Number(state.GetOldStudentDetails.StudentId) ? Number(state.GetOldStudentDetails.StudentId) : StudentId,
         asAssessmentId: AssessmentId
 
     };
+
+    const AcademicYearsOfStudentBody: IGetAcademicYearsOfStudentBody = {
+        aiSchoolId: asSchoolId.toString(),
+        asAcademicYearId: asAcademicYearId.toString(),
+        aiStudentId: state.StudentId
+    };
+
+
+    const [AcademicYear, SetAcademicYear] = useState(state.AcademicYear);
+    const ClickAcademicYear = (value) => {
+
+        SetAcademicYear(value);
+    };
+    useEffect(() => {
+        dispatch(CDAGetAcademicYearsOfStudent(AcademicYearsOfStudentBody));
+    }, [state.StudentId]);
+
+    const USIsXseedApplicable: any = useSelector((state: RootState) => state.ProgressReportNew.IsXseedApplicable);
+    const IsXseedApplicableBody: IIsXseedApplicableBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcadmicYearId: Number(AcademicYear),
+        asStandardDivisionId: state.GetOldStudentDetails.StandardDivisionId,
+        asStandardId: state.GetOldStudentDetails.StandardId,
+
+    }
+    const newstudntid = state.StudentId;
+    useEffect(() => {
+        dispatch(CDAIsXseedApplicable(IsXseedApplicableBody));
+
+    }, [AcademicYear, state.GetOldStudentDetails.StandardDivisionId, state.GetOldStudentDetails.StandardId]);
+
+ 
+   const  Newvalue = true;
+    useEffect(() => {
+        if (!USIsXseedApplicable) {
+            let state1 = { AcademicYear, newstudntid ,Newvalue};
+            navigate('/extended-sidebar/Teacher/ProgressReportNew', { state: state1 });
+
+        }
+    }, [USIsXseedApplicable]);
+
+
+    const [open, setOpen] = useState(state.USIsXseedApplicable ? true : false);
+
+
 
 
 
@@ -126,7 +181,6 @@ const PreprimaryProgressReport = () => {
 
 
 
-    console.log(ClassTeacher, "ClassTeacher", StudentId, "StudentId", AssessmentId, "AssessmentId");
 
     const countDuplicates = (arr) => {
         const counts = {};
@@ -193,117 +247,260 @@ const PreprimaryProgressReport = () => {
                   }
                 </style>
             `;
-           
-        
+
+
             printWindow.document.write('<html><head><title>Print</title>' + styles + '</head><body>');
-           
+
             printWindow.document.write(printContent); // Include the rest of the content
             printWindow.document.write('</body></html>');
             printWindow.document.close();
             printWindow.print();
         }
-        
+
 
     };
 
 
     useEffect(() => {
         dispatch(CDAAllPrimaryClassTeachers(AllPrimaryClassTeachersBody));
-    }, []);
+    }, [state.AcademicYear]);
     useEffect(() => {
         dispatch(CDAStudentDetailsDropdown(StudentDetailsDropdownBody));
-    }, [ClassTeacher]);
+    }, [ClassTeacher, state.AcademicYear, state.GetOldStudentDetails.StudentId, state.GetOldStudentDetails.StandardDivisionId]);
     useEffect(() => {
         dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
-    }, [AssessmentId, StudentId, ClassTeacher, asStandardDivisionId]);
+    }, [AssessmentId, StudentId, ClassTeacher, asStandardDivisionId, state.GetOldStudentDetails.StandardDivisionId, state.GetOldStudentDetails.StudentId, state.AcademicYear]);
     useEffect(() => {
         if (USlistStudentNameDetails.length > 0) {
             setStudentId(USlistStudentNameDetails[0].Value);
         }
     }, [USlistStudentNameDetails]);
     useEffect(() => {
-        if (USlistAssessmentDetailss.length > 0) {
-            setAssessmentId(USlistAssessmentDetailss[0].Value);
+        if (USlistStudentNameDetails.length > 0 && state.USIsXseedApplicable) {
+            setStudentId(USlistStudentNameDetails[1].Value);
         }
-    }, [USlistAssessmentDetailss]);
+    }, [USlistStudentNameDetails]);
+
+
+    useEffect(() => {
+        if (USlistAssessmentDetailss.length > 0) {
+            if (state.USIsXseedApplicable) {
+                setAssessmentId(USlistAssessmentDetailss[USlistAssessmentDetailss.length - 1].Value); // Set the last value
+            } else {
+                setAssessmentId(USlistAssessmentDetailss[0].Value); // Set the first value
+            }
+        }
+    }, [USlistAssessmentDetailss, state.USIsXseedApplicable]);
+    0.
 
 
 
 
     return (
         <Box sx={{ px: 2 }}>
+             {(Loading) && <SuspenseLoader />}
 
-            <CommonPageHeader
-                navLinks={[
-                    { title: 'Pre Primary Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
+            {!state.USIsXseedApplicable &&
+                <CommonPageHeader
+                    navLinks={[
+                        { title: 'Pre Primary Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
 
-                ]}
+                    ]}
 
-                rightActions={
-                    <>
-                        {
-                            PreprimaryFullAccess == 'Y' ?
-                                <SearchableDropdown
-                                    ItemList={PrePrimaryClassTeacher}
-                                    sx={{ minWidth: '250px' }}
-                                    onChange={clickClassTeacher}
-                                    defaultValue={ClassTeacher}
-                                    label={'Class Teacher '}
-                                    size={"small"}
-                                    mandatory
-                                />
-                                : <span></span>
+                    rightActions={
+                        <>
+                            {
+                                PreprimaryFullAccess == 'Y' ?
+                                    <SearchableDropdown
+                                        ItemList={PrePrimaryClassTeacher}
+                                        sx={{ minWidth: '250px' }}
+                                        onChange={clickClassTeacher}
+                                        defaultValue={ClassTeacher}
+                                        label={'Class Teacher '}
+                                        size={"small"}
+                                        mandatory
+                                    />
+                                    : <span></span>
 
-                        }
+                            }
 
-                        <SearchableDropdown
-                            ItemList={USlistStudentNameDetails}
-                            sx={{ minWidth: '250px' }}
-                            onChange={clickStudentId}
-                            defaultValue={StudentId}
-                            label={'Student '}
-                            size={"small"}
-                        />
-
-
-
-
-
-                        {
-                            PreprimaryFullAccess == 'Y' ?
-                                <SearchableDropdown
-                                    ItemList={USlistAssessmentDetailss}
-                                    sx={{ minWidth: '250px' }}
-                                    onChange={clickAssessmentId}
-                                    defaultValue={AssessmentId}
-                                    label={'Assessment '}
-                                    size={"small"}
-                                    mandatory
-                                />
-                                : <span></span>
-
-                        }
-
-                        {
-                            PreprimaryFullAccess == 'N' && USlistAssessmentDetailss.length > 1 ?
-                                <SearchableDropdown
-                                    ItemList={USlistAssessmentDetailss}
-                                    sx={{ minWidth: '250px' }}
-                                    onChange={clickAssessmentId}
-                                    defaultValue={AssessmentId}
-                                    label={'Assessment '}
-                                    size={"small"}
-                                    mandatory
-                                />
-                                : <span></span>
-
-                        }
+                            <SearchableDropdown
+                                ItemList={USlistStudentNameDetails}
+                                sx={{ minWidth: '250px' }}
+                                onChange={clickStudentId}
+                                defaultValue={StudentId}
+                                label={'Student '}
+                                size={"small"}
+                            />
 
 
 
 
-                        <Box>
-                            <Tooltip title={'Show'}>
+
+                            {
+                                PreprimaryFullAccess == 'Y' ?
+                                    <SearchableDropdown
+                                        ItemList={USlistAssessmentDetailss}
+                                        sx={{ minWidth: '250px' }}
+                                        onChange={clickAssessmentId}
+                                        defaultValue={AssessmentId}
+                                        label={'Assessment '}
+                                        size={"small"}
+                                        mandatory
+                                    />
+                                    : <span></span>
+
+                            }
+
+                            {
+                                PreprimaryFullAccess == 'N' && USlistAssessmentDetailss.length > 1 ?
+                                    <SearchableDropdown
+                                        ItemList={USlistAssessmentDetailss}
+                                        sx={{ minWidth: '250px' }}
+                                        onChange={clickAssessmentId}
+                                        defaultValue={AssessmentId}
+                                        label={'Assessment '}
+                                        size={"small"}
+                                        mandatory
+                                    />
+                                    : <span></span>
+
+                            }
+
+
+
+
+                            <Box>
+                                <Tooltip title={'Show'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={ClickShow}>
+                                        <Visibility />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                            <Tooltip title={'Displays xseed progress report of selected assessment.'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: grey[600] }
+                                    }}
+                                >
+                                    <QuestionMarkIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Box>
+                                <Tooltip title={'Print Preview'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={clickPrint}>
+                                        <PrintIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+
+
+                        </>}
+                />}
+
+
+
+
+
+
+            {state.USIsXseedApplicable &&
+                <CommonPageHeader
+                    navLinks={[
+                        { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew' },
+
+                    ]}
+
+                    rightActions={
+                        <>
+                            {/* {
+                                PreprimaryFullAccess == 'Y' ?
+                                    <SearchableDropdown
+                                        ItemList={PrePrimaryClassTeacher}
+                                        sx={{ minWidth: '250px' }}
+                                        onChange={clickClassTeacher}
+                                        defaultValue={ClassTeacher}
+                                        label={'Class Teacher '}
+                                        size={"small"}
+                                        mandatory
+                                    />
+                                    : <span></span>
+
+                            } */}
+
+                            {/* <SearchableDropdown
+                                ItemList={USlistStudentNameDetails}
+                                sx={{ minWidth: '250px' }}
+                                onChange={clickStudentId}
+                                defaultValue={StudentId}
+                                label={'Student '}
+                                size={"small"}
+                            /> */}
+
+                            <SearchableDropdown
+                                ItemList={UsAcademicYearsOfStudent}
+                                sx={{ minWidth: '300px' }}
+                                onChange={ClickAcademicYear}
+                                defaultValue={AcademicYear}
+                                label={'Academic Years '}
+                                size={"small"} />
+
+
+
+                            {/* {
+                                PreprimaryFullAccess == 'Y' ?
+                                    <SearchableDropdown
+                                        ItemList={USlistAssessmentDetailss}
+                                        sx={{ minWidth: '250px' }}
+                                        onChange={clickAssessmentId}
+                                        defaultValue={AssessmentId}
+                                        label={'Assessment '}
+                                        size={"small"}
+                                        mandatory
+                                    />
+                                    : <span></span>
+
+                            } */}
+
+                            {
+                                PreprimaryFullAccess == 'N' && USlistAssessmentDetailss.length > 1 ?
+                                    <SearchableDropdown
+                                        ItemList={USlistAssessmentDetailss}
+                                        sx={{ minWidth: '250px' }}
+                                        onChange={clickAssessmentId}
+                                        defaultValue={AssessmentId}
+                                        label={'Assessment '}
+                                        size={"small"}
+                                        mandatory
+                                    />
+                                    : <span></span>
+
+                            }
+
+
+
+
+
+                            {/* <Tooltip title={'Show'}>
                                 <IconButton
                                     sx={{
                                         color: 'white',
@@ -315,22 +512,22 @@ const PreprimaryProgressReport = () => {
                                     onClick={ClickShow}>
                                     <Visibility />
                                 </IconButton>
-                            </Tooltip>
-                        </Box>
-                        <Tooltip title={'Displays xseed progress report of selected assessment.'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
+                            </Tooltip> */}
 
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: grey[600] }
-                                }}
-                            >
-                                <QuestionMarkIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Box>
+                            <Tooltip title={'Displays xseed progress report of selected assessment.'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: grey[600] }
+                                    }}
+                                >
+                                    <QuestionMarkIcon />
+                                </IconButton>
+                            </Tooltip>
+
                             <Tooltip title={'Print Preview'}>
                                 <IconButton
                                     sx={{
@@ -344,15 +541,24 @@ const PreprimaryProgressReport = () => {
                                     <PrintIcon />
                                 </IconButton>
                             </Tooltip>
-                        </Box>
 
 
-                    </>}
-            />
+
+                        </>
+
+                    }
+                />}
 
             <ErrorMessage1 Error={Error}></ErrorMessage1>
             <ErrorMessage1 Error={Error1}></ErrorMessage1>
+            {state.USIsXseedApplicable &&
+                <ErrorMessage1 Error={`You are viewing data of old academic year ${state.Acadamicyearname}.`}></ErrorMessage1>
 
+
+            }
+
+
+             <br></br>
             {open && (
                 PreprimaryFullAccess == 'Y' && ClassTeacher == '0' || AssessmentId == '0' ? (
                     <div></div>
@@ -380,8 +586,7 @@ const PreprimaryProgressReport = () => {
                                                 (item) => item.YearwiseStudentId == detail.YearWiseStudentId
                                             ).length}
                                         />
-                                          {/* <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} /> */}
-
+                                        {/* <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} /> */}
 
 
                                         <div>
@@ -390,7 +595,7 @@ const PreprimaryProgressReport = () => {
                                                 Key to Curricular and Co-Curricular
 
                                             </Typography>
-                                           
+
 
                                             <TableContainer component={Box} >
                                                 <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
@@ -466,4 +671,4 @@ const PreprimaryProgressReport = () => {
         </Box>
     );
 };
-export default PreprimaryProgressReport;
+export default PreprimaryProgressReport1;
