@@ -458,12 +458,12 @@ const StudentRegistrationForm = () => {
     setCurrentTab(newValue);
   };
 
-  useEffect(() => {
-    // Adjust currentTab if it exceeds the number of tabs after dynamic changes
-    if (!IsAdditionalFieldsApplicable && currentTab >= 3) {
-      setCurrentTab(3); // Reset to the next available tab
-    }
-  }, [IsAdditionalFieldsApplicable, currentTab]);
+  // useEffect(() => {
+  //   // Adjust currentTab if it exceeds the number of tabs after dynamic changes
+  //   if (!IsAdditionalFieldsApplicable && currentTab >= 3) {
+  //     setCurrentTab(3); // Reset to the next available tab
+  //   }
+  // }, [IsAdditionalFieldsApplicable, currentTab]);
 
   //#region CallBack
   // const onAdmissionTab = (updatedData) => {
@@ -1785,13 +1785,11 @@ const StudentRegistrationForm = () => {
             icon={<DocumentIcon />}
             label="Admission Documents"
           />
-          {IsAdditionalFieldsApplicable && (
-            <Tab
-              sx={{ m: 2, maxWidth: 200 }}
-              icon={<FamilyRestroomIcon />}
-              label="Family Details"
-            />
-          )}
+          <Tab
+            sx={{ m: 2, maxWidth: 200 }}
+            icon={<FamilyRestroomIcon />}
+            label="Family Details"
+          />
           <Tab
             sx={{ m: 2, maxWidth: 200 }}
             icon={<GroupAddIcon />}
@@ -1840,7 +1838,7 @@ const StudentRegistrationForm = () => {
             </Grid>
           </Grid>
         )}
-        {IsAdditionalFieldsApplicable && currentTab === 3 && (
+        {currentTab === 3 && (
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <FamilyDetails
@@ -1851,7 +1849,7 @@ const StudentRegistrationForm = () => {
             </Grid>
           </Grid>
         )}
-        {currentTab === (IsAdditionalFieldsApplicable ? 4 : 3) && (
+        {currentTab === 4 && (
           <Grid container spacing={1}>
             <Grid item xs={12} sm={6} md={4} lg={3}></Grid>
             <Grid item xs={12}>

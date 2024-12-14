@@ -94,6 +94,10 @@ const FamilyDetails = ({ family, onChange }) => {
   );
 
   //#region API CALLS
+  const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+  //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
+  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
+
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   //console.log('GetStudentAdditionalDetails FAMILY', GetStudentAdditionalDetails);
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
@@ -448,486 +452,497 @@ const FamilyDetails = ({ family, onChange }) => {
 
   return (
     <Box sx={{ backgroundColor: 'white', p: 2 }}>
-      <Typography variant="h4" color="initial" py={1} pb={1}>
-        Father's Details
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherOccupation"
-            label="Father Occupation "
-            variant="outlined"
-            value={family.fatherOccupation}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+      {IsAdditionalFieldsApplicable && (
+        <>
+          <Typography variant="h4" color="initial" py={1} pb={1}>
+            Father's Details
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherOccupation"
+                label="Father Occupation "
+                variant="outlined"
+                value={family.fatherOccupation}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherQualification"
-            label="Father Qualification "
-            variant="outlined"
-            value={family.fatherQualification}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherQualification"
+                label="Father Qualification "
+                variant="outlined"
+                value={family.fatherQualification}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherEmail"
-            label="Father E-mail"
-            variant="outlined"
-            value={family.fatherEmail}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherEmail"
+                label="Father E-mail"
+                variant="outlined"
+                value={family.fatherEmail}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherOfficeName"
-            label="Father Office Name"
-            variant="outlined"
-            value={family.fatherOfficeName}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherOfficeName"
+                label="Father Office Name"
+                variant="outlined"
+                value={family.fatherOfficeName}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherOfficeAddress"
-            label="Father Office Address"
-            variant="outlined"
-            value={family.fatherOfficeAddress}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherOfficeAddress"
+                label="Father Office Address"
+                variant="outlined"
+                value={family.fatherOfficeAddress}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherDesignation"
-            label="Father Designation"
-            variant="outlined"
-            value={family.fatherDesignation}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherDesignation"
+                label="Father Designation"
+                variant="outlined"
+                value={family.fatherDesignation}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <Datepicker
-            DateValue={family.fatherDOB}
-            onDateChange={handleDateChange('fatherDOB')}
-            size={'medium'}
-            label="Fathr's DOB" />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <Datepicker
+                DateValue={family.fatherDOB}
+                onDateChange={handleDateChange('fatherDOB')}
+                size={'medium'}
+                label="Fathr's DOB" />
+            </Grid>
 
-        {/* fatherPhoto */}
-        <Grid item xs={12} md={2}>
-          <SingleFile
-            ValidFileTypes={ValidFileTypes}
-            MaxfileSize={MaxfileSize}
-            FileName={family.fatherPhoto}
-            ChangeFile={(value) => handlePhotoChange('fatherPhoto', value)}
-            FileLabel={'Father Photo'}
-            width={'100%'}
-            height={'52px'}
-            isMandatory={false}
-          />
-        </Grid>
-        <Grid item xs={1} md={1}>
+            {/* fatherPhoto */}
+            <Grid item xs={12} md={2}>
+              <SingleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                FileName={family.fatherPhoto}
+                ChangeFile={(value) => handlePhotoChange('fatherPhoto', value)}
+                FileLabel={'Father Photo'}
+                width={'100%'}
+                height={'52px'}
+                isMandatory={false}
+              />
+            </Grid>
+            <Grid item xs={1} md={1}>
+              <>
+                <Tooltip title={'View'}>
+                  <IconButton
+                    onClick={() => viewPhoto('fatherPhoto')}
+                    sx={{
+                      color: '#223354',
+                      mt: 0.7,
+                      '&:hover': {
+                        color: '#223354',
+                        cursor: 'pointer'
+                      }
+                    }}
+                  >
+                    <Visibility />
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title={'Delete'}>
+                  <IconButton
+                    onClick={() => deleteImageReusable('fatherPhoto', CDADeleteFatherPhoto, 'Are you sure you want to delete father photo?')}
+                    sx={{
+                      color: '#223354',
+                      mt: 0.7,
+                      '&:hover': {
+                        color: 'red',
+                        backgroundColor: red[100]
+                      }
+                    }}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherWeight"
+                label="Father Weight (Kg)"
+                variant="outlined"
+                type="number"
+                value={family.fatherWeight}
+                onChange={handleInputChange}
+                fullWidth
+                inputProps={{
+                  min: 0,
+                  step: '0.1'
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherHeight"
+                label="Father Height (Cm)"
+                variant="outlined"
+                type="number"
+                value={family.fatherHeight}
+                onChange={handleInputChange}
+                fullWidth
+                inputProps={{
+                  min: 0,
+                  step: '0.1'
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherBloodGroup"
+                label="Father Blood Group"
+                variant="outlined"
+                value={family.fatherBloodGroup}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherAadharCard"
+                label="Father Aadhar Card Number"
+                variant="outlined"
+                value={family.fatherAadharCard}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="fatherAnnualIncome"
+                label="Father Annual Income"
+                variant="outlined"
+                value={family.fatherAnnualIncome}
+                onChange={handleInputChange}
+                type="number"
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+        </>
+      )}
+      {IsAdditionalFieldsApplicable && (
+        <>
+          <Typography variant="h4" color="initial" pt={2} pb={1}>
+            Mother's Details
+          </Typography>
+          {/* Mother's Information */}
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherOccupation"
+                label="Mother Occupation"
+                variant="outlined"
+                value={family.motherOccupation}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherQualification"
+                label="Mother Qualification"
+                variant="outlined"
+                value={family.motherQualification}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherEmail"
+                label="Mother E-mail"
+                variant="outlined"
+                value={family.motherEmail}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherOfficeName"
+                label="Mother Office Name"
+                variant="outlined"
+                value={family.motherOfficeName}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherOfficeAddress"
+                label="Mother Office Address"
+                variant="outlined"
+                value={family.motherOfficeAddress}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherDesignation"
+                label="Mother Designation"
+                variant="outlined"
+                value={family.motherDesignation}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+
+              <Datepicker
+                DateValue={family.motherDOB}
+                onDateChange={handleDateChange('motherDOB')}
+                size={'medium'}
+                label="Mother's DOB"
+              />
+            </Grid>
+
+            {/* motherPhoto */}
+            <Grid item xs={12} md={2}>
+              <SingleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                FileName={family.motherPhoto}
+                ChangeFile={(value) => handlePhotoChange('motherPhoto', value)}
+                FileLabel={'Mother Photo'}
+                width={'100%'}
+                height={'52px'}
+                isMandatory={false}
+              />
+            </Grid>
+
+            <Grid item xs={1} md={1}>
+              <>
+                <Tooltip title={'View'}>
+                  <IconButton
+                    onClick={() => viewPhoto('motherPhoto')}
+                    sx={{
+                      color: '#223354',
+                      mt: 0.7,
+                      '&:hover': {
+                        color: '#223354',
+                        cursor: 'pointer'
+                      }
+                    }}
+                  >
+                    <Visibility />
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title={'Delete'}>
+                  <IconButton
+                    onClick={() => deleteImageReusable('motherPhoto', CDADeleteMotherPhoto, 'Are you sure you want to delete mother photo?')}
+                    sx={{
+                      color: '#223354',
+                      mt: 0.7,
+                      '&:hover': {
+                        color: 'red',
+                        backgroundColor: red[100]
+                      }
+                    }}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherWeight"
+                label="Mother Weight (Kg)"
+                variant="outlined"
+                type="number"
+                value={family.motherWeight}
+                onChange={handleInputChange}
+                fullWidth
+                inputProps={{
+                  min: 0,
+                  step: '0.1'
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherHeight"
+                label="Mother Height (Cm)"
+                variant="outlined"
+                type="number"
+                value={family.motherHeight}
+                onChange={handleInputChange}
+                fullWidth
+                inputProps={{
+                  min: 0,
+                  step: '0.1'
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherBloodGroup"
+                label="Mother Blood Group"
+                variant="outlined"
+                value={family.motherBloodGroup}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherAadharCard"
+                label="Mother Aadhar Card Number"
+                variant="outlined"
+                value={family.motherAadharCard}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="motherAnnualIncome"
+                label="Mother Annual Income"
+                variant="outlined"
+                value={family.motherAnnualIncome}
+                onChange={handleInputChange}
+                type="number"
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+        </>)}
+      <Grid container spacing={2} pt={2} pb={1}>
+        {IsAdditionalFieldsApplicable && (
           <>
-            <Tooltip title={'View'}>
-              <IconButton
-                onClick={() => viewPhoto('fatherPhoto')}
-                sx={{
-                  color: '#223354',
-                  mt: 0.7,
-                  '&:hover': {
-                    color: '#223354',
-                    cursor: 'pointer'
-                  }
-                }}
-              >
-                <Visibility />
-              </IconButton>
-            </Tooltip>
+            <Grid item xs={12} md={3}>
+              <Datepicker
+                DateValue={family.marriageAnniversaryDate}
+                onDateChange={handleDateChange('marriageAnniversaryDate')}
+                size={'medium'}
+                label="Marriage Anniversary Date"
+              />
+            </Grid>
 
-            <Tooltip title={'Delete'}>
-              <IconButton
-                onClick={() => deleteImageReusable('fatherPhoto', CDADeleteFatherPhoto, 'Are you sure you want to delete father photo?')}
-                sx={{
-                  color: '#223354',
-                  mt: 0.7,
-                  '&:hover': {
-                    color: 'red',
-                    backgroundColor: red[100]
-                  }
-                }}
-              >
-                <DeleteForeverIcon />
-              </IconButton>
-            </Tooltip>
+            {/* localGuardianPhoto */}
+            <Grid item xs={12} md={2}>
+              <SingleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                FileName={family.localGuardianPhoto}
+                ChangeFile={(value) => handlePhotoChange('localGuardianPhoto', value)}
+                FileLabel={'Local Guadian Photo'}
+                width={'100%'}
+                height={'52px'}
+                isMandatory={false}
+              />
+            </Grid>
+            <Grid item xs={1} md={1}>
+              <>
+                <Tooltip title={'View'}>
+                  <IconButton
+                    onClick={() => viewPhoto('localGuardianPhoto')}
+                    sx={{
+                      color: '#223354',
+                      mt: 0.7,
+                      '&:hover': {
+                        color: '#223354',
+                        cursor: 'pointer'
+                      }
+                    }}
+                  >
+                    <Visibility />
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title={'Delete'}>
+                  <IconButton
+                    onClick={() => deleteImageReusable('localGuardianPhoto', CDADeleteGuardianPhoto, 'Are you sure you want to delete guardian Photo?')}
+                    sx={{
+                      color: '#223354',
+                      mt: 0.7,
+                      '&:hover': {
+                        color: 'red',
+                        backgroundColor: red[100]
+                      }
+                    }}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="familyMonthlyIncome"
+                label="Family Monthly Income"
+                variant="outlined"
+                value={family.familyMonthlyIncome}
+                onChange={handleInputChange}
+                type="number"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="cwsn"
+                label="CWSN"
+                variant="outlined"
+                value={family.cwsn}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="relativeFullName"
+                label="Relative Full Name"
+                variant="outlined"
+                value={family.relativeFullName}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
           </>
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherWeight"
-            label="Father Weight (Kg)"
-            variant="outlined"
-            type="number"
-            value={family.fatherWeight}
-            onChange={handleInputChange}
-            fullWidth
-            inputProps={{
-              min: 0,
-              step: '0.1'
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherHeight"
-            label="Father Height (Cm)"
-            variant="outlined"
-            type="number"
-            value={family.fatherHeight}
-            onChange={handleInputChange}
-            fullWidth
-            inputProps={{
-              min: 0,
-              step: '0.1'
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherBloodGroup"
-            label="Father Blood Group"
-            variant="outlined"
-            value={family.fatherBloodGroup}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherAadharCard"
-            label="Father Aadhar Card Number"
-            variant="outlined"
-            value={family.fatherAadharCard}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="fatherAnnualIncome"
-            label="Father Annual Income"
-            variant="outlined"
-            value={family.fatherAnnualIncome}
-            onChange={handleInputChange}
-            type="number"
-            fullWidth
-          />
-        </Grid>
-      </Grid>
-      <Typography variant="h4" color="initial" pt={2} pb={1}>
-        Mother's Details
-      </Typography>
-      {/* Mother's Information */}
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherOccupation"
-            label="Mother Occupation"
-            variant="outlined"
-            value={family.motherOccupation}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherQualification"
-            label="Mother Qualification"
-            variant="outlined"
-            value={family.motherQualification}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherEmail"
-            label="Mother E-mail"
-            variant="outlined"
-            value={family.motherEmail}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherOfficeName"
-            label="Mother Office Name"
-            variant="outlined"
-            value={family.motherOfficeName}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherOfficeAddress"
-            label="Mother Office Address"
-            variant="outlined"
-            value={family.motherOfficeAddress}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherDesignation"
-            label="Mother Designation"
-            variant="outlined"
-            value={family.motherDesignation}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-
-          <Datepicker
-            DateValue={family.motherDOB}
-            onDateChange={handleDateChange('motherDOB')}
-            size={'medium'}
-            label="Mother's DOB"
-          />
-        </Grid>
-
-        {/* motherPhoto */}
-        <Grid item xs={12} md={2}>
-          <SingleFile
-            ValidFileTypes={ValidFileTypes}
-            MaxfileSize={MaxfileSize}
-            FileName={family.motherPhoto}
-            ChangeFile={(value) => handlePhotoChange('motherPhoto', value)}
-            FileLabel={'Mother Photo'}
-            width={'100%'}
-            height={'52px'}
-            isMandatory={false}
-          />
-        </Grid>
-
-        <Grid item xs={1} md={1}>
-          <>
-            <Tooltip title={'View'}>
-              <IconButton
-                onClick={() => viewPhoto('motherPhoto')}
-                sx={{
-                  color: '#223354',
-                  mt: 0.7,
-                  '&:hover': {
-                    color: '#223354',
-                    cursor: 'pointer'
-                  }
-                }}
-              >
-                <Visibility />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title={'Delete'}>
-              <IconButton
-                onClick={() => deleteImageReusable('motherPhoto', CDADeleteMotherPhoto, 'Are you sure you want to delete mother photo?')}
-                sx={{
-                  color: '#223354',
-                  mt: 0.7,
-                  '&:hover': {
-                    color: 'red',
-                    backgroundColor: red[100]
-                  }
-                }}
-              >
-                <DeleteForeverIcon />
-              </IconButton>
-            </Tooltip>
-          </>
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherWeight"
-            label="Mother Weight (Kg)"
-            variant="outlined"
-            type="number"
-            value={family.motherWeight}
-            onChange={handleInputChange}
-            fullWidth
-            inputProps={{
-              min: 0,
-              step: '0.1'
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherHeight"
-            label="Mother Height (Cm)"
-            variant="outlined"
-            type="number"
-            value={family.motherHeight}
-            onChange={handleInputChange}
-            fullWidth
-            inputProps={{
-              min: 0,
-              step: '0.1'
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherBloodGroup"
-            label="Mother Blood Group"
-            variant="outlined"
-            value={family.motherBloodGroup}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherAadharCard"
-            label="Mother Aadhar Card Number"
-            variant="outlined"
-            value={family.motherAadharCard}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="motherAnnualIncome"
-            label="Mother Annual Income"
-            variant="outlined"
-            value={family.motherAnnualIncome}
-            onChange={handleInputChange}
-            type="number"
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-
-          <Datepicker
-            DateValue={family.marriageAnniversaryDate}
-            onDateChange={handleDateChange('marriageAnniversaryDate')}
-            size={'medium'}
-            label="Marriage Anniversary Date"
-          />
-        </Grid>
-
-        {/* localGuardianPhoto */}
-        <Grid item xs={12} md={2}>
-          <SingleFile
-            ValidFileTypes={ValidFileTypes}
-            MaxfileSize={MaxfileSize}
-            FileName={family.localGuardianPhoto}
-            ChangeFile={(value) => handlePhotoChange('localGuardianPhoto', value)}
-            FileLabel={'Local Guadian Photo'}
-            width={'100%'}
-            height={'52px'}
-            isMandatory={false}
-          />
-        </Grid>
-        <Grid item xs={1} md={1}>
-          <>
-            <Tooltip title={'View'}>
-              <IconButton
-                onClick={() => viewPhoto('localGuardianPhoto')}
-                sx={{
-                  color: '#223354',
-                  mt: 0.7,
-                  '&:hover': {
-                    color: '#223354',
-                    cursor: 'pointer'
-                  }
-                }}
-              >
-                <Visibility />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title={'Delete'}>
-              <IconButton
-                onClick={() => deleteImageReusable('localGuardianPhoto', CDADeleteGuardianPhoto, 'Are you sure you want to delete guardian Photo?')}
-                sx={{
-                  color: '#223354',
-                  mt: 0.7,
-                  '&:hover': {
-                    color: 'red',
-                    backgroundColor: red[100]
-                  }
-                }}
-              >
-                <DeleteForeverIcon />
-              </IconButton>
-            </Tooltip>
-          </>
-        </Grid>
-
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="familyMonthlyIncome"
-            label="Family Monthly Income"
-            variant="outlined"
-            value={family.familyMonthlyIncome}
-            onChange={handleInputChange}
-            type="number"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="cwsn"
-            label="CWSN"
-            variant="outlined"
-            value={family.cwsn}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="relativeFullName"
-            label="Relative Full Name"
-            variant="outlined"
-            value={family.relativeFullName}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+        )}
         <Grid item xs={12} md={3}>
           <TextField
             name="residencePhoneNumber"
@@ -1013,105 +1028,109 @@ const FamilyDetails = ({ family, onChange }) => {
         </Grid>
       </Grid>
 
-      {/* Sibling Details */}
-      <Typography variant="h4" color="initial" pt={2} pb={1}>
-        Details of Brothers and Sisters of the Student
-      </Typography>
+      {IsAdditionalFieldsApplicable && (
 
-      {/* {siblings.map((sibling, index) => ( */}
-      <Grid container spacing={2} sx={{ pb: 2 }}>
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="name1"
-            label="Name"
-            variant="outlined"
-            value={family.name1}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+        <>
+          {/* Sibling Details */}
+          <Typography variant="h4" color="initial" pt={2} pb={1}>
+            Details of Brothers and Sisters of the Student
+          </Typography>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="age1"
-            label="Age"
-            variant="outlined"
-            type="number"
-            value={family.age1}
-            onChange={handleInputChange}
-            fullWidth
-            inputProps={{ min: 0 }}
-          />
-        </Grid>
+          {/* {siblings.map((sibling, index) => ( */}
+          <Grid container spacing={2} sx={{ pb: 2 }}>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="name1"
+                label="Name"
+                variant="outlined"
+                value={family.name1}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="institution1"
-            label="Institution"
-            variant="outlined"
-            value={family.institution1}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="age1"
+                label="Age"
+                variant="outlined"
+                type="number"
+                value={family.age1}
+                onChange={handleInputChange}
+                fullWidth
+                inputProps={{ min: 0 }}
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="standard1"
-            label="Standard"
-            variant="outlined"
-            value={family.standard1}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="institution1"
+                label="Institution"
+                variant="outlined"
+                value={family.institution1}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="name2"
-            label="Name"
-            variant="outlined"
-            value={family.name2}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="standard1"
+                label="Standard"
+                variant="outlined"
+                value={family.standard1}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="age2"
-            label="Age"
-            variant="outlined"
-            type="number"
-            value={family.age2}
-            onChange={handleInputChange}
-            inputProps={{ min: 0 }}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="name2"
+                label="Name"
+                variant="outlined"
+                value={family.name2}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="institution2"
-            label="Institution"
-            variant="outlined"
-            value={family.institution2}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="age2"
+                label="Age"
+                variant="outlined"
+                type="number"
+                value={family.age2}
+                onChange={handleInputChange}
+                inputProps={{ min: 0 }}
+                fullWidth
+              />
+            </Grid>
 
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="standard2"
-            label="Standard"
-            variant="outlined"
-            value={family.standard2}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
-        {/* <Grid item xs={12} md={0.5}>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="institution2"
+                label="Institution"
+                variant="outlined"
+                value={family.institution2}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="standard2"
+                label="Standard"
+                variant="outlined"
+                value={family.standard2}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+
+            {/* <Grid item xs={12} md={0.5}>
             {siblings.length > 1 && (
               <Tooltip title={'Delete'}>
                 <IconButton
@@ -1130,7 +1149,9 @@ const FamilyDetails = ({ family, onChange }) => {
               </Tooltip>
             )}
           </Grid>*/}
-      </Grid>
+          </Grid>
+        </>
+      )}
       {/* ))} */}
 
       {/* <Grid item xs={12} pt={2}>
