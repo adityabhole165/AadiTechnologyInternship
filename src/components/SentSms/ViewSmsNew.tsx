@@ -114,7 +114,7 @@ function ViewSmsNew() {
             <Grid item xs={10}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"} color={'grey.500'}>
                 <History color={'primary'} fontSize={'small'} />
-                <Typography variant={"h4"} color={'primary'} > Received Date :
+                <Typography variant={"h4"} color={'primary'} > Sent Date :
                 </Typography>
 
               </FlexedTypography>
