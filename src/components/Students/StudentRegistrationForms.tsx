@@ -281,7 +281,7 @@ const StudentRegistrationForm = () => {
   //Siblings States
   const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
   const [selectedSiblings, setSelectedSiblings] = useState('');
-  console.log('✅ selectedSiblings', selectedSiblings)
+  //console.log('✅ selectedSiblings', selectedSiblings)
   const [resetTrigger, setResetTrigger] = useState(false);
 
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
@@ -339,14 +339,23 @@ const StudentRegistrationForm = () => {
     const requiredFields = requiredFieldsMap[tabName] || [];
     // Skip conditional fields if IsAdditionalFieldsApplicable is false
     const filteredFields = requiredFields.filter((field) => {
-      if (
-        ['fatherDOB', 'motherDOB', 'marriageAnniversaryDate'].includes(field) &&
-        !IsAdditionalFieldsApplicable
-      ) {
+      if (['fatherDOB', 'motherDOB', 'marriageAnniversaryDate'].includes(field) && !IsAdditionalFieldsApplicable) {
         return false; // Skip these fields
       }
       return true;
-    });
+    }
+    );
+    // console.log('filteredFields', IsAdditionalFieldsApplicable);
+    // console.log('filteredFields', filteredFields);
+    // console.log('filteredFields length', filteredFields.length);
+
+    if (filteredFields.length === 0) {
+      setTabCompletion((prev) => ({
+        ...prev,
+        [tabName]: 100, // Default to 100% if no fields are required
+      }));
+      return { unfilledFields: [], tabName }; // No unfilled fields
+    }
 
     const unfilledFields = filteredFields.filter((field) => !data[field]);
 
@@ -555,9 +564,9 @@ const StudentRegistrationForm = () => {
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
 
   const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
-  console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
+  //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
   const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
-  console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
+  //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
 
   useEffect(() => {
     if (
