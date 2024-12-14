@@ -377,8 +377,10 @@ const StudentRegistrationForm = () => {
 
     // Calculate completed and unfilled fields
     const completedFields = filteredFields.filter((field) => !!data[field]).length;
+    console.log('completedFields', completedFields);
     // Calculate completion percentage
     const completionPercentage = (completedFields / filteredFields.length) * 100;
+    console.log('completionPercentage', completionPercentage);
 
     // Update the tabCompletion state
     setTabCompletion((prev) => ({
@@ -396,6 +398,10 @@ const StudentRegistrationForm = () => {
       (acc, curr) => acc + curr,
       0
     );
+    console.log('tabCompletion', tabCompletion);
+    console.log('totalProgress', totalProgress);
+    console.log('Progress', totalProgress / totalTabs);
+
     setProfileCompletion(Math.round(totalProgress / totalTabs));
   }, [tabCompletion]);
 
@@ -559,10 +565,10 @@ const StudentRegistrationForm = () => {
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   const SiblingName = USGetSingleStudentDetails[0]
   const StudentSiblingName = SiblingName?.SiblingStudentName || '';
-  console.log('1️⃣USGetSingleStudentDetails', USGetSingleStudentDetails);
+  //console.log('1️⃣USGetSingleStudentDetails', USGetSingleStudentDetails);
 
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
-  console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
+  //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
 
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
 
@@ -780,13 +786,13 @@ const StudentRegistrationForm = () => {
           asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
           asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id // Number(sessionStorage.getItem('Id'))
         };
-
+        //console.log('1️⃣GetSingleStudentDetails', GetSingleStudentDetails);
         const GetStudentAdditionalDetailsBody = {
           asSchoolId: Number(localStorage.getItem('localSchoolId')),
           //asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
           asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id// Number(sessionStorage.getItem('Id'))
         };
-
+        //console.log('2️⃣GetStudentAdditionalDetailsBody', GetStudentAdditionalDetailsBody);
         const FeeAreaNamesBody = {
           asSchoolId: Number(localStorage.getItem('localSchoolId'))
         };
@@ -1125,9 +1131,17 @@ const StudentRegistrationForm = () => {
       await dispatch(CDAUpdateStudent(updateStudentBody));
 
       // Add Additional Student Details
-      if (additionalDetailsBody) {
+      if (IsAdditionalFieldsApplicable && additionalDetailsBody) {
         console.log('Sending additional details:', additionalDetailsBody);
         await dispatch(CDAAddStudentAdditionalDetails(additionalDetailsBody));
+        // Transport Fee Logic
+        // if (parseInt(schoolId) === 122) {
+        //   if (currentFeeAreaId !== oldFeeAreaId) {
+        //     await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
+        //   }
+        // } else {
+        //   await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
+        // }
       }
 
       if (overwriteSiblingDetails === 0) {

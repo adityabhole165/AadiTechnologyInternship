@@ -95,13 +95,15 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
   //const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
   const IsAnyExamPublished = useSelector((state: RootState) => state.StudentUI.ISAnyExamPublished);
   const examListResult = IsAnyExamPublished?.[0];
-  const isExamPublished = examListResult?.IsExamPublishedStatus === "True"; // Check the condition
+  const isExamPublished = examListResult?.IsExamPublishedStatus; // Check the condition
   //console.log('📃IsAnyExamPublished', isExamPublished);
 
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const IsRTEApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsRTEApplicable || false;
   const ShowDayBoardingOptionOnStudentsScreen = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowDayBoardingOptionOnStudentsScreen || false;
   const IsConcessionApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsConcessionApplicable || false;
+  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
+
   //console.log(GetFromNumber, 'GetFromNumber');
 
   // const GetStudentRecordDataResult: IMasterDatastudentBody = {
@@ -697,16 +699,18 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={ResidenceTypesDropdown}
-            onChange={(value) => onChange('residenceTypes', value)}
-            defaultValue={admission.residenceTypes}
-            label={' Residence Type'}
-            size={'medium'}
-          />
-        </Grid>
+        {IsAdditionalFieldsApplicable && (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <SearchableDropdown
+              sx={{ minWidth: '300px' }}
+              ItemList={ResidenceTypesDropdown}
+              onChange={(value) => onChange('residenceTypes', value)}
+              defaultValue={admission.residenceTypes}
+              label={' Residence Type'}
+              size={'medium'}
+            />
+          </Grid>
+        )}
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <SearchableDropdown
             sx={{ minWidth: '15vw' }}
@@ -717,16 +721,18 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             size={'medium'}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <TextField
-            name="RFID"
-            label="RFID"
-            variant="outlined"
-            value={admission.RFID}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </Grid>
+        {IsAdditionalFieldsApplicable && (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <TextField
+              name="RFID"
+              label="RFID"
+              variant="outlined"
+              value={admission.RFID}
+              onChange={handleInputChange}
+              fullWidth
+            />
+          </Grid>
+        )}
         {IsConcessionApplicable &&
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <FormControlLabel
@@ -803,18 +809,20 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             label="Is Day Boarding Fee Paid?"
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="isHandicapped"
-                checked={admission.isHandicapped}
-                onChange={handleInputChange}
-              />
-            }
-            label="Is Handicapped?"
-          />
-        </Grid>
+        {IsAdditionalFieldsApplicable && (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="isHandicapped"
+                  checked={admission.isHandicapped}
+                  onChange={handleInputChange}
+                />
+              }
+              label="Is Handicapped?"
+            />
+          </Grid>
+        )}
       </Grid>
 
       {/* <Grid
