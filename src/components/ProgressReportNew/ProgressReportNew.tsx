@@ -972,7 +972,7 @@ const ProgressReportNew = () => {
 
 {USlistStudentsDetails.length>0 &&
       <Grid container sx={{ mt: 2 }} >
-        <Grid xs={9}>
+        <Grid xs={8}>
           {open && (<div >
 
             {
@@ -989,55 +989,34 @@ const ProgressReportNew = () => {
 
             {AcademicYear !== asAcademicYearId && StudentId !== "0" ? <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1> :
               <span></span>
-
             }
           </div>)}
-
         </Grid>
-
-
-
-
-
         {(!SchoolScreensAccessPermission()  && AcademicYear !== asAcademicYearId )&& 
-          <Grid xs={3} >
+          <Grid xs={4}>
             {(open && !IsPrePrimary)&& (
-
-              <span>
-                {(PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true && getIsTermExamPublished === true) &&
+              <Box display={'flex'} sx={{ justifyContent: 'flex-end' }}>
+                <Box sx={{mr:1}}>
+                {(PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || getIsTermExamPublished === true) &&
                   <Card5
                     text1={ asSchoolId == "11" ? 'DOWNLOAD PDF' :  academictermsResult[0]?.TermName}
                     text2=""
                     clickIcon={() => { downloadProgress(1); }}
-
                   />
-                }
-
-
-                {(PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true &&  getIsTermExamPublished === true) &&
+                 }</Box>
+                <Box>
+                {(PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true ||  getIsTermExamPublished === true) &&
                   <Card5
                     text1={academictermsResult[1]?.TermName}
                     text2=""
                     clickIcon={() => { downloadProgress(2); }}
                   />
-
-                }
-
-
-
-
-
-
-              </span>
-
-
-
-
-
+                }</Box>
+              </Box>
             )}
-
-          </Grid>}
-
+          </Grid>
+          }
+          
 
       </Grid> }
 
