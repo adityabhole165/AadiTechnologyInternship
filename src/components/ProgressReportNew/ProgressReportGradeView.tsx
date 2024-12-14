@@ -67,7 +67,7 @@ const ProgressReportGradeView = ({progressReportMessage,USlistStudentsDetails,is
 
   return (
     <Box> 
-        {USlistStudentsDetails.length > 0  ?
+        {USlistStudentsDetails?.length > 0  ?
       <Table>
         <TableHead>
           {HeaderParent.length > 1 &&

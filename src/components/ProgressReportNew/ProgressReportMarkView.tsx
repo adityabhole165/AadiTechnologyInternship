@@ -177,7 +177,7 @@ const ProgressReportMarkView = ({progressReportMessage,isFailCriteria,USlistStud
 
     return (
         <Box >
-            {USlistStudentsDetails.length > 0  ?
+            {USlistStudentsDetails?.length > 0  ?
             <Table  aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                 <TableHead>
                     {HeaderParent.length > 1 && (

@@ -1001,10 +1001,10 @@ const ProgressReportNew = () => {
 
         {(!SchoolScreensAccessPermission()  && AcademicYear !== asAcademicYearId )&& 
           <Grid xs={3} >
-            {open && (
+            {(open && !IsPrePrimary)&& (
 
               <span>
-                {ShowDownlodebutton &&
+                {(PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true && getIsTermExamPublished === true) &&
                   <Card5
                     text1={ asSchoolId == "11" ? 'DOWNLOAD PDF' :  academictermsResult[0]?.TermName}
                     text2=""
@@ -1014,7 +1014,7 @@ const ProgressReportNew = () => {
                 }
 
 
-                {ShowDownlodebutton1 &&
+                {(PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true &&  getIsTermExamPublished === true) &&
                   <Card5
                     text1={academictermsResult[1]?.TermName}
                     text2=""
@@ -1164,6 +1164,8 @@ const ProgressReportNew = () => {
                 handleClose={handleClose} handleClick={handleClick} open1={open1} formattedText={formattedText}
                 USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
                 USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                USlistStudentsDetails={USlistStudentsDetails}
+                USErrorMessage={USErrorMessage}
               />
               
             ))

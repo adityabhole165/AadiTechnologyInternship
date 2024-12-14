@@ -5,7 +5,7 @@ import ProgressReportMarkView from "src/components/ProgressReportNew/ProgressRep
 
 // Note : data1 is used for representing the isTotalConsiderForProgressReport Setting key flag.
 
-const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleClose, handleClick, open1, formattedText,
+const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleClose, handleClick, open1,USErrorMessage, USlistStudentsDetails,formattedText,
     USGetAllMarksGradeConfiguration, USGetAllMarksGradeConfiguration1,
 }) => {
     // #region  All useState hooks
@@ -158,8 +158,7 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
         }
 
         response.data.listTestDetails
-            .filter((item) => item.Test_Id !== `-1`)
-            .map((Test, TestIndex) => {
+            .filter((item) => item.Test_Id !== `-1`)?.map((Test, TestIndex) => {
                 let columns = [];
                 let SubjectArray = response.data.listSubjectsDetails;
 
@@ -361,7 +360,7 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                                     TotalMarks: "-",
                                     IsAbsent: "N",
                                     IsGrades: "Y",
-                                    Result: Item.Result.trim(),
+                                    Result: Item.Result?.trim(),
                                     Rank: Item.rank
                                 })
                             }
@@ -371,7 +370,7 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                                     TotalMarks: "-",
                                     IsAbsent: "N",
                                     IsGrades: "Y",
-                                    Result: Item.Result.trim(),
+                                    Result: Item.Result?.trim(),
                                     Rank: Item.rank
                                 })
                             }
@@ -789,6 +788,8 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                     )}
                     <Box sx={{ overflowX: 'auto' }}>
                         <ProgressReportGradeView
+                          progressReportMessage={USErrorMessage}
+                            USlistStudentsDetails={USlistStudentsDetails}
                             isFailCriteria={isFailCriteria}
                             totalCount={totalCount}
                             EntireDataList={IStudentList}
@@ -901,6 +902,8 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                     )}
                     <Box sx={{ overflowX: 'auto' }}>
                         <ProgressReportMarkView
+                         USlistStudentsDetails={USlistStudentsDetails}
+                         progressReportMessage={USErrorMessage}
                             isFailCriteria={isFailCriteria}
                             totalCount={totalCount}
                             HeaderArray={ShowHeader}
