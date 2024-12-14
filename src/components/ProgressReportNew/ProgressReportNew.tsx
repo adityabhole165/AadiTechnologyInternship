@@ -576,6 +576,13 @@ const ProgressReportNew = () => {
   };
 
   const ClickShow = (value) => {
+
+    if(USIsXseedApplicable){
+      let state1 = { GetOldStudentDetails, AcademicYear ,USIsXseedApplicable,Acadamicyearname,StudentId,selectTeacher};
+      navigate('/extended-sidebar/Teacher/PreprimaryProgressReport1' , { state: state1 });
+      return
+     }
+
     if (selectTeacher === '0') {
       SetError('Class Teacher should be selected.');
       return;
@@ -851,13 +858,13 @@ const ProgressReportNew = () => {
 
 
  
-  useEffect(() => {
-   if(USIsXseedApplicable){
-    let state1 = { GetOldStudentDetails, AcademicYear ,USIsXseedApplicable,Acadamicyearname,StudentId,selectTeacher};
-    navigate('/extended-sidebar/Teacher/PreprimaryProgressReport1' , { state: state1 });
+  // useEffect(() => {
+  //  if(USIsXseedApplicable){
+  //   let state1 = { GetOldStudentDetails, AcademicYear ,USIsXseedApplicable,Acadamicyearname,StudentId,selectTeacher};
+  //   navigate('/extended-sidebar/Teacher/PreprimaryProgressReport1' , { state: state1 });
 
-   }
-  }, [USIsXseedApplicable]);
+  //  }
+  // }, [USIsXseedApplicable]);
   
   console.log( USIsTestPublishedForStdDiv === true || USIsTestPublishedForStudentIS === true || AcademicYear !== asAcademicYearId, "check",open);
   

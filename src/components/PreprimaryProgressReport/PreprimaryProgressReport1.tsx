@@ -501,7 +501,7 @@ const PreprimaryProgressReport1 = () => {
 
 
 
-                            <Tooltip title={'Show'}>
+                            {/* <Tooltip title={'Show'}>
                                 <IconButton
                                     sx={{
                                         color: 'white',
@@ -513,7 +513,7 @@ const PreprimaryProgressReport1 = () => {
                                     onClick={ClickShow}>
                                     <Visibility />
                                 </IconButton>
-                            </Tooltip>
+                            </Tooltip> */}
 
                             <Tooltip title={'Displays xseed progress report of selected assessment.'}>
                                 <IconButton
@@ -560,7 +560,7 @@ const PreprimaryProgressReport1 = () => {
 
 
              <br></br>
-            {open && (
+            {true && (
                 PreprimaryFullAccess == 'Y' && ClassTeacher == '0' || AssessmentId == '0' ? (
                     <div></div>
                 ) : (
