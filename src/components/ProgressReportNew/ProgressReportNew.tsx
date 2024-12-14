@@ -589,19 +589,12 @@ const ProgressReportNew = () => {
     }
     setOpen(true);
     if (StudentId === '0') {
-
       dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
     }
     SetError('')
   }
 
 
-
-  // useEffect(() => {
-  //   if (USGetStudentNameDropdown.length > 0) {
-  //     SetStudentId(USGetStudentNameDropdown[0].Value);
-  //   }
-  // }, [USGetStudentNameDropdown]);
 
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
@@ -901,7 +894,7 @@ const ProgressReportNew = () => {
             label={'Student Name'}
             size={"small"} />
 
-          {StudentId !== "0" &&
+          {StudentId == "0"  ? <span></span> :
             <SearchableDropdown
               ItemList={UsAcademicYearsOfStudent}
               sx={{ minWidth: '300px' }}
