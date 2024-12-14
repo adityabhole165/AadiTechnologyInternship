@@ -329,7 +329,7 @@ const StandardwiseExamSchedule = () => {
                 dispatch(resetCopyStandardTestMsg()); // Resetting the message state
             }
         }
-    }, [CopyExamSchedule]);
+    }, [CopyExamSchedule, onClickCopyExamSchedule]);
     const getClassName = () => {
         let returnVal = ""
 
