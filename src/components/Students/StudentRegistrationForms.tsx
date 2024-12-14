@@ -107,7 +107,7 @@ const StudentRegistrationForm = () => {
     Enrolment_Number,
     Joining_Date
   } = location.state || {};
-  console.log('⛑️LOcation StudentRegistrationForm', location.state);
+  //console.log('⛑️LOcation StudentRegistrationForm', location.state);
 
   // Session & Local Variables
   const schoolId = localStorage.getItem('SchoolId');
@@ -553,14 +553,17 @@ const StudentRegistrationForm = () => {
   const RDivisionId = NavigationValues?.DivisionId;
   const RStandardId = NavigationValues?.standardId;
   useEffect(() => {
-    console.log('0️⃣Redux NavigationValues StudentRegistrationForms:', NavigationValues, RYearWise_Student_Id);
+    //console.log('0️⃣Redux NavigationValues StudentRegistrationForms:', NavigationValues, RYearWise_Student_Id);
   }, [NavigationValues]);
 
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   const SiblingName = USGetSingleStudentDetails[0]
   const StudentSiblingName = SiblingName?.SiblingStudentName || '';
+  console.log('1️⃣USGetSingleStudentDetails', USGetSingleStudentDetails);
 
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
+  console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
+
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
 
   const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
@@ -585,8 +588,7 @@ const StudentRegistrationForm = () => {
           userName: studentData?.User_Login || '',
           sendSMS: studentData?.Send_SMS === 'False' ? false : true,
           newAdmission: studentData?.Is_New_Student === 'False' ? false : true,
-          isRTEApplicable:
-            studentData?.Is_RTE_Student === 'False' ? false : true,
+          isRTEApplicable: studentData?.Is_RTE_Student === 'False' ? false : true,
           rteCategory: studentData?.RTECategoryId || '',
           rteApplicationForm: studentData?.RTEApplicationFormNo || '',
           formNumber: FormNumber?.FormNumber || '',
@@ -608,13 +610,10 @@ const StudentRegistrationForm = () => {
           RFID: AdditionalData?.RFID || '',
           isStaffKid: studentData?.IsStaffKid === 'False' ? false : true,
           isOnlyChild: studentData?.IsOnlyChild === 'False' ? false : true,
-          isRiseAndShine:
-            studentData?.IsRiseAndShine === 'False' ? false : true,
+          isRiseAndShine: studentData?.IsRiseAndShine === 'False' ? false : true,
           isMinority: studentData?.Minority === 'False' ? false : true,
-          isForDayBoarding:
-            studentData?.IsForDayBoarding === 'False' ? false : true,
-          isDayBoardingFeePaid:
-            studentData?.IsDayBoardingFeePaid === 'False' ? false : true,
+          isForDayBoarding: studentData?.IsForDayBoarding === 'False' ? false : true,
+          isDayBoardingFeePaid: studentData?.IsDayBoardingFeePaid === 'False' ? false : true,
           isHandicapped: AdditionalData?.IsHandicapped || false
         },
         personal: {
@@ -709,8 +708,7 @@ const StudentRegistrationForm = () => {
           standard: studentData?.LastCompletedStd || '',
           schoolUDISENo: studentData?.LastSchoolUDISENo || '',
           schoolBoardName: studentData?.LastCompletedBoard || '',
-          isRecognised:
-            studentData?.IsRecognisedBoard === 'True' ? 'Yes' : 'No',
+          isRecognised: studentData?.IsRecognisedBoard === 'True' ? 'Yes' : 'No',
           // lastSchoolRollNumber: '',
           //  lastSchoolYear: '',
           houseNumber: AdditionalData.HouseNoPlotNo || '',

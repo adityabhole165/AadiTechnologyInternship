@@ -36,8 +36,8 @@ const StudentProfileHeader = () => {
     //console.log('💀studentDetails on profile header:', studentDetails);
 
     useEffect(() => {
-        console.log("Photo_File_Path:", Photo_File_Path);
-        console.log("Photo_file_Path_Image:", Photo_file_Path_Image);
+        //console.log("Photo_File_Path:", Photo_File_Path);
+        //console.log("Photo_file_Path_Image:", Photo_file_Path_Image);
 
         if (Photo_File_Path && Photo_file_Path_Image) {
             // const base64Image = Photo_file_Path_Image;
@@ -54,7 +54,7 @@ const StudentProfileHeader = () => {
     }, [Photo_File_Path, Photo_file_Path_Image]);
 
     useEffect(() => {
-        console.log("Profile Photo State:", profilePhoto);
+        //console.log("Profile Photo State:", profilePhoto);
     }, [profilePhoto]);
 
     // Function to format text with first two words in bold

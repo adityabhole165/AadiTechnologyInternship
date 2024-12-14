@@ -73,8 +73,8 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
   // });
 
   useEffect(() => {
-    console.log('1️⃣admission data from parent', admission);
-    console.log('📅admission Date from Parent', admission.admissionDate);
+    //console.log('1️⃣admission data from parent', admission);
+    //console.log('📅admission Date from Parent', admission.admissionDate);
   }, [admission]);
 
   const FeeAreaNamesDrop = useSelector((state: RootState) => state.StudentUI.ISFeeAreaNames);
