@@ -22,6 +22,7 @@ export interface GetStudentDetailsDropdownBody {
   asSchoolId: number
   asAcademicYearId: number
   asStandardDivId: number
+  asStudentId:number
 }
 
 export interface GetStudentDetailsDropdownResult {

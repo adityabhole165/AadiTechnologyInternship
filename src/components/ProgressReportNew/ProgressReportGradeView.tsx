@@ -4,7 +4,7 @@ import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } fro
 import { blue } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 
-const ProgressReportGradeView = ({USlistStudentsDetails,isFailCriteria, totalCount, EntireDataList, HeaderArray1, SubHeaderArray1, MarkDetailsList1, IsTotalConsiderForProgressReport }) => {
+const ProgressReportGradeView = ({progressReportMessage,USlistStudentsDetails,isFailCriteria, totalCount, EntireDataList, HeaderArray1, SubHeaderArray1, MarkDetailsList1, IsTotalConsiderForProgressReport }) => {
   // const getListDisplayName = (ShortName) => {
   //     let returnVal = ""
   //     ListDisplayNameDetails1.map((Item) => {
@@ -14,11 +14,6 @@ const ProgressReportGradeView = ({USlistStudentsDetails,isFailCriteria, totalCou
   //     return returnVal
 
   // }
-
-  console.log(HeaderArray1, "HeaderArray1");
-
-
-
 
   const [data, setData] = useState<any>([]);
   useEffect(() => {
@@ -49,9 +44,6 @@ const ProgressReportGradeView = ({USlistStudentsDetails,isFailCriteria, totalCou
     colSpan: HeaderCount
   })
   useEffect(() => {
-    console.log('🦥🦥🦥🦥 >>>', MarkDetailsList1);
-    console.log('✅😶⭐🔗❌', SubHeaderArray1);
-
 
   }, [MarkDetailsList1])
   function getRemarkForGradeCell(cellRemark) {
@@ -75,7 +67,7 @@ const ProgressReportGradeView = ({USlistStudentsDetails,isFailCriteria, totalCou
 
   return (
     <Box> 
-        {USlistStudentsDetails.length > 0 ?
+        {USlistStudentsDetails.length > 0  ?
       <Table>
         <TableHead>
           {HeaderParent.length > 1 &&
@@ -225,7 +217,19 @@ const ProgressReportGradeView = ({USlistStudentsDetails,isFailCriteria, totalCou
 
       </Table>
 
-      : <span></span>
+      : <Typography
+      variant="body1"
+      sx={{
+        textAlign: 'center',
+        marginTop: 4,
+        backgroundColor: '#324b84',
+        padding: 1,
+        borderRadius: 2,
+        color: 'white',
+      }}
+    >
+      <b> {progressReportMessage }</b>
+    </Typography>
 }
 
     </Box>

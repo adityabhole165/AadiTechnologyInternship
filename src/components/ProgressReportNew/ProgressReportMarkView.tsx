@@ -2,7 +2,7 @@ import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } fro
 import { blue } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 
-const ProgressReportMarkView = ({isFailCriteria,USlistStudentsDetails, totalCount, EntireDataList, ThirdHeaderRow, HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
+const ProgressReportMarkView = ({progressReportMessage,isFailCriteria,USlistStudentsDetails, totalCount, EntireDataList, ThirdHeaderRow, HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, ListTestTypeIdDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
  const [data, setData] = useState<any>([]);
     const getListDisplayName = (ShortName) => {
         let returnVal = "";
@@ -382,7 +382,19 @@ const ProgressReportMarkView = ({isFailCriteria,USlistStudentsDetails, totalCoun
     </TableBody>
 ))}
 
-            </Table> : <span></span>
+            </Table> : <Typography
+              variant="body1"
+              sx={{
+                textAlign: 'center',
+                marginTop: 4,
+                backgroundColor: '#324b84',
+                padding: 1,
+                borderRadius: 2,
+                color: 'white',
+              }}
+            >
+              <b> {progressReportMessage }</b>
+            </Typography>
             
 
             

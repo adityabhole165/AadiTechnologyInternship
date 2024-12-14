@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import colors from "react-multi-date-picker/plugins/colors";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { GetIsPrePrimaryBody, GetSchoolSettingsBody,IGetTeachersForPrePrimaryProgressReportBody, IGetLatestExamIdBody,IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IProgressReportBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetIsPrePrimaryBody, GetSchoolSettingsBody,IGetTeachersForPrePrimaryProgressReportBody, IGetLatestExamIdBody,IGetAcademicYearsOfStudentBody, IGetAllMarksGradeConfigurationBody, IGetAllStudentsProgressSheetBody, IGetClassTeachersBody, IgetIsFinalResultPublishedBody, IgetIsTermExamPublishedBody, IGetOldStudentDetailsBody, IGetPassedAcademicYearsBody, IGetPrePrimaryExamPublishStatusBody, IGetSchoolSettingValuesBody, IGetStudentNameDropdownBody, IProgressReportBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody, IIsXseedApplicableBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -52,6 +52,8 @@ const ProgressReportSlice = createSlice({
     ISLatestExamId:null,
     ISLatestExamId1:null,
     ISGetTeachersForPrePrimaryProgressReport:[],
+    IsXseedApplicable:null,
+    ISErrorMessage:"",
 
 
   },
@@ -129,6 +131,11 @@ const ProgressReportSlice = createSlice({
     RlistTestidDetails(state, action) {
       state.ISlistTestidDetails = action.payload;
     },
+    RErrorMessage(state, action) {
+      state.ISErrorMessage = action.payload;
+    },
+
+    
 
     RListMarkssDetails(state, action) {
       state.ISListMarkssDetails = action.payload;
@@ -233,6 +240,12 @@ const ProgressReportSlice = createSlice({
       state.ProgressReportDownload = null;
 
     },
+    RIsXseedApplicable(state, action) {
+      state.Loading = false;
+      state.IsXseedApplicable = action.payload;
+    },
+
+    
 
 
 
@@ -1108,6 +1121,10 @@ export const CDAStudentProgressReport =
 
         };
       });
+
+      let ErrorMessage = response.data.ErrorMessage
+      
+
       let listTestDetails = []
 
       dispatch(ProgressReportSlice.actions.ShowHeader(HeaderArray));
@@ -1135,6 +1152,7 @@ export const CDAStudentProgressReport =
       dispatch(ProgressReportSlice.actions.RListDisplayNameDetails(ListDisplayNameDetails));
       // RThirdHeaderColumn
       dispatch(ProgressReportSlice.actions.RThirdHeaderColumn(ThirdHeaderColumn));
+      dispatch(ProgressReportSlice.actions.RErrorMessage(response.data.ErrorMessage));
     };
 
 
@@ -1339,6 +1357,14 @@ export const CDAgetIsFinalResultPublished =
           const response = await ApiProgressReport.ApiGetTeachersForPrePrimaryProgressReport(data);
           dispatch(ProgressReportSlice.actions.RGetTeachersForPrePrimaryProgressReport(response.data));
         };
+
+        export const CDAIsXseedApplicable =
+        (data: IIsXseedApplicableBody): AppThunk =>
+          async (dispatch) => {
+            dispatch(ProgressReportSlice.actions.setLoading());
+            const response = await ApiProgressReport.IsXseedApplicable(data);
+            dispatch(ProgressReportSlice.actions.RIsXseedApplicable(response.data));
+          };
 
 
 export default ProgressReportSlice.reducer;

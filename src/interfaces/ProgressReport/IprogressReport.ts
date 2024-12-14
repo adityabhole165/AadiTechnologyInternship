@@ -200,6 +200,8 @@ export interface IStudentProgressReportResult {
 
     ]
 
+    ErrorMessage : string
+
 
 }
 
@@ -478,3 +480,11 @@ export interface IGetTeachersForPrePrimaryProgressReportresult {
     
 }
 
+
+
+export interface IIsXseedApplicableBody {
+    asSchoolId: number
+    asAcadmicYearId: number
+    asStandardId: number
+    asStandardDivisionId: number
+  }

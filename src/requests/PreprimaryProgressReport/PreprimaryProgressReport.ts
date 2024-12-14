@@ -8,6 +8,7 @@ const SlicePreprimaryProgressReport = createSlice({
   name: 'PrePrimaryResult',
   initialState: {
     ISAllPrimaryClassTeacherss: [],
+    Loading: false,
     ISlistStudentNameDetails:[],
     ISlistAssessmentDetailss:[],
     ISAssessmentPublishStatus:[],
@@ -22,62 +23,83 @@ const SlicePreprimaryProgressReport = createSlice({
     ISFillStudentsLearningOutcomes:[],
     ISFillNonXseedSubjectGrades:[],
     ISGetStandardwiseAssessmentDetails:[],
-    ISManageStudentWiseAssessmentGrades:""
+    ISManageStudentWiseAssessmentGrades:"",
+   
     
   },
   reducers: {
     RAllPrimaryClassTeacherss(state, action) {
+      state.Loading = false;
       state.ISAllPrimaryClassTeacherss = action.payload;
     },
     RStudentDetailsDropdown(state, action) {
+      state.Loading = false;
         state.ISlistStudentNameDetails = action.payload;
       },
       RAssessmentDropdown(state, action) {
+        state.Loading = false;
         state.ISlistAssessmentDetailss = action.payload;
       },
       RAssessmentPublishStatus(state, action) {
+        state.Loading = false;
         state.ISAssessmentPublishStatus = action.payload;
       },
       RFillStandardwiseSubjects(state, action) {
+        state.Loading = false;
         state.ISFillStandardwiseSubjects = action.payload;
       },
       RFillSubjectSections(state, action) {
+        state.Loading = false;
         state.ISFillSubjectSections = action.payload;
       },
       RFillSchoolDetails(state, action) {
+        state.Loading = false;
         state.ISFillSchoolDetails = action.payload;
       },
       RFillGradeDetails(state, action) {
+        state.Loading = false;
         state. ISFillGradeDetails = action.payload;
       },
       RFillXseedRemarks(state, action) {
+        state.Loading = false;
         state. ISFillXseedRemarks = action.payload;
       },
       RFillStudentsLearningOutcomeObservations(state, action) {
+        state.Loading = false;
         state. ISFillStudentsLearningOutcomeObservations = action.payload;
       },
       
       RFillStudentDetails(state, action) {
+        state.Loading = false;
         state. ISFillStudentDetails = action.payload;
       },
       RFillStudentAttendance(state, action) {
+        state.Loading = false;
         state. ISFillStudentAttendance = action.payload;
       },
       RFillStudentsLearningOutcomes(state, action) {
+        state.Loading = false;
         state. ISFillStudentsLearningOutcomes = action.payload;
       },
       RFillNonXseedSubjectGrades(state, action) {
+        state.Loading = false;
         state. ISFillNonXseedSubjectGrades = action.payload;
       },
       RGetStandardwiseAssessmentDetails(state, action) {
+        state.Loading = false;
         state. ISGetStandardwiseAssessmentDetails = action.payload;
       },
       RManageStudentWiseAssessmentGrades(state, action) {
+        state.Loading = false;
         state. ISManageStudentWiseAssessmentGrades = action.payload;
       },
 
       RresetMessageAll(state) {
         state.ISManageStudentWiseAssessmentGrades = "";
+      },
+
+      setLoading(state) {
+        state.Loading = true;
       },
       
       
@@ -87,6 +109,7 @@ const SlicePreprimaryProgressReport = createSlice({
 export const CDAAllPrimaryClassTeachers =
   (data: IGetAllPrimaryClassTeacherssBody): AppThunk =>
   async (dispatch) => {
+    dispatch(SlicePreprimaryProgressReport.actions.setLoading());
     const response = await ApiPreprimaryProgressReport.AllPrimaryClassTeachers(data)
 
     let ClassTeachers = [{ Id: '-1', Name: 'Select', Value: '-1',Is_PrePrimary:'Y'}];
@@ -106,6 +129,7 @@ export const CDAAllPrimaryClassTeachers =
   export const CDAStudentDetailsDropdown =
   (data: GetStudentDetailsDropdownBody): AppThunk =>
   async (dispatch) => {
+    dispatch(SlicePreprimaryProgressReport.actions.setLoading());
     const response = await ApiPreprimaryProgressReport.StudentDetailsDropdown(data)
 
     let StudentName = [{ Id: '0', Name: 'All', Value: '0'}];
@@ -146,6 +170,7 @@ export const CDAAllPrimaryClassTeachers =
   export const CDAProgressReportDetails =
   (data: GetProgressReportDetailsBody): AppThunk =>
   async (dispatch) => {
+    dispatch(SlicePreprimaryProgressReport.actions.setLoading());
     const response = await ApiPreprimaryProgressReport.ProgressReportDetails(data)
     const AssessmentPublishStatus = response.data.GetAssessmentPublishStatus.map((item, i) => ({
       AssessmentPublishStatus: item.AssessmentPublishStatus,
@@ -258,6 +283,7 @@ export const CDAAllPrimaryClassTeachers =
   export const CDAGetStandardwiseAssessmentDetails =
   (data: IGetStandardwiseAssessmentDetailsBody): AppThunk =>
   async (dispatch) => {
+    dispatch(SlicePreprimaryProgressReport.actions.setLoading());
     const response = await ApiPreprimaryProgressReport.GetStandardwiseAssessmentDetails(data)
     const SetAssessmentDetails = response.data.SetAssessmentDetails.map((item, i) => ({
       Id: item.AssessmentId,
@@ -271,6 +297,7 @@ export const CDAAllPrimaryClassTeachers =
   export const CDAManageStudentWiseAssessmentGrades =
   (data: ManageStudentWiseAssessmentGradesBody): AppThunk =>
   async (dispatch) => {
+    dispatch(SlicePreprimaryProgressReport.actions.setLoading());
     const response = await ApiPreprimaryProgressReport.ManageStudentWiseAssessmentGrades(data)
    
 
