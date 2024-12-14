@@ -49,6 +49,7 @@ const ProgressReportNew = () => {
   const initialcademicYearId = state && state.AcademicYear !== undefined  ? state.AcademicYear : asAcademicYearId;
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
 
+
   const userLoginId = sessionStorage.getItem("Userlogin")
   const [Error, SetError] = useState('');
   const [StudentId, SetStudentId] = useState(initialStudentId);
@@ -83,9 +84,11 @@ const ProgressReportNew = () => {
 
 
 
+  const initialTeacherId = state && state.TeacherID !== undefined  ? state.TeacherID : CanEdit == 'N' ? TeacherIdsession : '';
 
 
   const [selectTeacher, SetselectTeacher] = useState(CanEdit == 'N' ? TeacherIdsession : '');
+
 
 
   const USlistTestDetailsArr: any = useSelector(
@@ -627,14 +630,27 @@ const ProgressReportNew = () => {
   }, [GetOldStudentDetails.StandardDivisionId, AcademicYear]);
 
 
-  useEffect(() => {
-    if (CanEdit == 'Y') {
-      if (USGetClassTeachers.length > 0) {
-        SetselectTeacher(USGetClassTeachers[0].Value);
-      }
-    }
+  // useEffect(() => {
+  //   if (CanEdit == 'Y') {
+  //     if (USGetClassTeachers.length > 0) {
+  //       SetselectTeacher(USGetClassTeachers[0].Value);
+  //     }
+  //   }
 
-  }, [USGetClassTeachers]);
+  // }, [USGetClassTeachers]);
+
+  useEffect(() => {
+    if (USGetClassTeachers.length > 0) {
+        if (state?.Newvalue) {
+            SetselectTeacher(state.TeacherID); // Set the value from state
+        } else if (CanEdit === 'Y') {
+            SetselectTeacher(USGetClassTeachers[0].Value); // Set the first teacher if CanEdit is 'Y'
+        }
+    }
+}, [USGetClassTeachers, state?.Newvalue, state?.TeacherID, CanEdit]);
+
+
+
 
   useEffect(() => {
     GetClassTeacher()
@@ -837,7 +853,7 @@ const ProgressReportNew = () => {
  
   useEffect(() => {
    if(USIsXseedApplicable){
-    let state1 = { GetOldStudentDetails, AcademicYear ,USIsXseedApplicable,Acadamicyearname,StudentId};
+    let state1 = { GetOldStudentDetails, AcademicYear ,USIsXseedApplicable,Acadamicyearname,StudentId,selectTeacher};
     navigate('/extended-sidebar/Teacher/PreprimaryProgressReport1' , { state: state1 });
 
    }

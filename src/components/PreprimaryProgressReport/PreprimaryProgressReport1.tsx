@@ -115,6 +115,7 @@ const PreprimaryProgressReport1 = () => {
 
     }
     const newstudntid = state.StudentId;
+    const TeacherID = state.selectTeacher;
     useEffect(() => {
         dispatch(CDAIsXseedApplicable(IsXseedApplicableBody));
 
@@ -124,7 +125,7 @@ const PreprimaryProgressReport1 = () => {
    const  Newvalue = true;
     useEffect(() => {
         if (!USIsXseedApplicable) {
-            let state1 = { AcademicYear, newstudntid ,Newvalue};
+            let state1 = { AcademicYear, newstudntid ,Newvalue,TeacherID};
             navigate('/extended-sidebar/Teacher/ProgressReportNew', { state: state1 });
 
         }
@@ -291,7 +292,7 @@ const PreprimaryProgressReport1 = () => {
             }
         }
     }, [USlistAssessmentDetailss, state.USIsXseedApplicable]);
-    0.
+    
 
 
 
@@ -500,7 +501,7 @@ const PreprimaryProgressReport1 = () => {
 
 
 
-                            {/* <Tooltip title={'Show'}>
+                            <Tooltip title={'Show'}>
                                 <IconButton
                                     sx={{
                                         color: 'white',
@@ -512,7 +513,7 @@ const PreprimaryProgressReport1 = () => {
                                     onClick={ClickShow}>
                                     <Visibility />
                                 </IconButton>
-                            </Tooltip> */}
+                            </Tooltip>
 
                             <Tooltip title={'Displays xseed progress report of selected assessment.'}>
                                 <IconButton
