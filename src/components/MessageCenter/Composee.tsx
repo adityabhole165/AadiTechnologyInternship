@@ -881,7 +881,8 @@ function Form13() {
       'powered-by-jodit',
       'paste-storage',
       'placeholder',
-      'source'
+      'source',
+      'file'
     ],
     uploader: {
       insertImageAsBase64URI: true
