@@ -51,10 +51,9 @@ const ExportStudentMarksBaseScreen = () => {
         ]}
         rightActions={
           <>
-            <Tooltip
+            {/* <Tooltip
               title={
-                'Create new photo galleries or add photos to existing gallery. You can also view all gallery photos by clicking on SlideShow.You can also add or view videos into gallery.'
-              }
+                ''}
             >
               <IconButton
                 sx={{
@@ -67,7 +66,7 @@ const ExportStudentMarksBaseScreen = () => {
               >
                 <QuestionMark />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip title={'Export'}>
               <IconButton
                 sx={{
