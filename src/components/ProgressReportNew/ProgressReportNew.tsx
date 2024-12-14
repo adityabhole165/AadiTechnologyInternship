@@ -943,7 +943,7 @@ const ProgressReportNew = () => {
 
 
 
-          {(shouldShowToppersButton && open) && <Tooltip title="Toppers">
+          {((shouldShowToppersButton && open) && SchoolScreensAccessPermission() ) && <Tooltip title="Toppers">
             <span>
               <IconButton
                 onClick={Toppers}
