@@ -949,7 +949,7 @@ const ProgressReportNew = () => {
 
 {USlistStudentsDetails.length>0 &&
       <Grid container sx={{ mt: 2 }} >
-        <Grid xs={6}>
+        <Grid xs={9}>
           {open && (<div >
 
             {
@@ -977,7 +977,7 @@ const ProgressReportNew = () => {
 
 
         {(!SchoolScreensAccessPermission()  && AcademicYear !== asAcademicYearId )&& 
-          <Grid xs={6} >
+          <Grid xs={3} >
             {open && (
 
               <span>
