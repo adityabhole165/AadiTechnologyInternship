@@ -103,7 +103,7 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit, clickchang
                                     {item.UserName}
                                     
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
+                                <TableCell sx={{ textAlign: 'left', py: 0.5 }}>
                                     <Link href={''} onClick={() => clickTitle(item.Id)}>
                                     {item.Subject}
                                     </Link>
