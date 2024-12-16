@@ -632,6 +632,9 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 error={!!validationMessages.firstName}
                 helperText={validationMessages.firstName ? 'First Name should not be blank' : ''}
                 fullWidth
+                inputProps={{
+                  maxLength: 50, // Restricts the input length to 50 characters
+                }}
               />
             </Grid>
 
@@ -688,10 +691,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.mobileNumber1}
                   onChange={handleContactNoChange}
-                  error={personal.mobileNumber1.toString() !== '' && personal.mobileNumber1.toString().length < 10 ? true : false}
-                  helperText={
-                    personal.mobileNumber1.toString() !== '' && personal.mobileNumber1.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
-                  }
+                  error={!!validationMessages.mobileNumber1}
+                  helperText={validationMessages.mobileNumber1 ? 'Mobile Number should not be blank' : ''}
                   fullWidth
                 />
               </Grid>
@@ -829,6 +830,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.parentOccupation == '5' ? personal.otherOccupation : ''}
                   onChange={handleInputChange}
+                  error={!!validationMessages.parentOccupation}
+                  helperText={validationMessages.parentOccupation ? 'Parent Occupation should not be blank' : ''}
                   fullWidth
                 />
               </Grid>

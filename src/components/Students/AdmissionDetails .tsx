@@ -404,7 +404,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
                 name="isRTEApplicable"
                 checked={admission.isRTEApplicable}
                 onChange={handleInputChange}
-                disabled={admission.isRTEApplicable === true ? false : true} // Checkbox is always disabled
+                disabled={IsRTEApplicable && admission.isRTEApplicable === true ? false : true} // Checkbox is always disabled
               />
             }
             label="Is RTE Applicable?"
@@ -442,30 +442,44 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 name="rteApplicationForm"
-                label="RTE Application Form"
+                label="RTE Application Form No."
                 value={admission.rteApplicationForm}
                 onChange={handleInputChange}
                 fullWidth
-                error={errors.rteApplicationForm}
-                helperText={
-                  errors.rteApplicationForm ? 'This field is required' : ''
-                }
-                sx={{
-                  backgroundColor: errors.rteApplicationForm
-                    ? 'red'
-                    : admission.rteApplicationForm
-                      ? 'lightblue'
-                      : 'inherit'
-                }}
                 disabled={!IsRTEApplicable}
               />
             </Grid>
+
+            {/* Annual Income Field */}
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <TextField
+                name="annualIncome"
+                label="Annual Income"
+                value={admission.annualIncome}
+                onChange={handleInputChange}
+                fullWidth
+                disabled={!admission.isRTEApplicable || parseInt(schoolId) === 11}
+              />
+            </Grid>
+
             <Grid item xs={6} mt={1.5}>
               <Typography variant="h5" color="textSecondary">
                 <b>Note:</b> Student marked as RTE (Right To Education) will get
                 100% concession on the school fees.
               </Typography>
             </Grid>
+          </Grid>
+        )}
+        {/* Amout Section */}
+        {admission.isRTEStudent && admission.rteCategoryId === 2 && (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <TextField
+              name="amount"
+              label="Amount"
+              value={admission.amount}
+              onChange={handleInputChange}
+              fullWidth
+            />
           </Grid>
         )}
 
@@ -486,6 +500,9 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
                   : 'inherit'
             }}
             fullWidth
+            inputProps={{
+              maxLength: 15, // Restricts the input length to 50 characters
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -510,6 +527,9 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
               helperText={validationMessages.registrationNumber ? 'Registration Number should not be blank' : ''}
               sx={{ cursor: 'pointer' }}
               fullWidth
+              inputProps={{
+                maxLength: 15, // Restricts the input length to 50 characters
+              }}
             />
           </Tooltip>
         </Grid>
@@ -738,6 +758,9 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
               value={admission.RFID}
               onChange={handleInputChange}
               fullWidth
+              inputProps={{
+                maxLength: 50,
+              }}
             />
           </Grid>
         )}

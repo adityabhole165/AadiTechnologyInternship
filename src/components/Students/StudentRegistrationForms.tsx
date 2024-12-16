@@ -135,6 +135,7 @@ const StudentRegistrationForm = () => {
       isRTEApplicable: false,
       rteCategory: '',
       rteApplicationForm: '',
+      annualIncome: '',
       formNumber: '',
       registrationNumber: '',
       admissionDate: '',
@@ -330,14 +331,14 @@ const StudentRegistrationForm = () => {
   const [tabValidationStatus, setTabValidationStatus] = useState({
     admission: true,
     personal: true,
-    //family: true
+    family: true
   });
 
   // state for field-level validation messages
   const [fieldValidationMessages, setFieldValidationMessages] = useState({
     admission: {},
     personal: {},
-    //family: {}
+    family: {}
   });
   const [showValidation, setShowValidation] = useState(false);
 
@@ -598,6 +599,7 @@ const StudentRegistrationForm = () => {
           isRTEApplicable: studentData?.Is_RTE_Student === 'False' ? false : true,
           rteCategory: studentData?.RTECategoryId || '',
           rteApplicationForm: studentData?.RTEApplicationFormNo || '',
+          annualIncome: studentData?.AnnualIncome || '',
           formNumber: FormNumber?.FormNumber || '',
           registrationNumber: studentData?.Enrolment_Number || '0',
           admissionDate: formatDOB(studentData?.Admission_date) || '',
@@ -1869,6 +1871,8 @@ const StudentRegistrationForm = () => {
               <FamilyDetails
                 family={form.family}
                 onChange={handleFamilyChange}
+                validationMessages={showValidation ? fieldValidationMessages.family : {}}
+                isValid={!showValidation || tabValidationStatus.family}
               // onTabChange={onFamilyTab}
               />
             </Grid>

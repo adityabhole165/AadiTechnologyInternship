@@ -16,13 +16,13 @@ import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import { CDADeleteFamilyPhoto, CDADeleteFatherPhoto, CDADeleteGuardianPhoto, CDADeleteMotherPhoto, CDAresetDeletePhotoMsg, } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const FamilyDetails = ({ family, onChange }) => {
+const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
@@ -525,11 +525,14 @@ const FamilyDetails = ({ family, onChange }) => {
             </Grid>
 
             <Grid item xs={12} md={3}>
-              <Datepicker
+              <Datepicker1
                 DateValue={family.fatherDOB}
                 onDateChange={handleDateChange('fatherDOB')}
                 size={'medium'}
-                label="Fathr's DOB" />
+                label={"Fathr's DOB"}
+                error={!!validationMessages.fatherDOB}
+                helperText={validationMessages.fatherDOB ? "Father's Date of Birth should not be blank" : ''}
+              />
             </Grid>
 
             {/* fatherPhoto */}
@@ -723,12 +726,13 @@ const FamilyDetails = ({ family, onChange }) => {
             </Grid>
 
             <Grid item xs={12} md={3}>
-
-              <Datepicker
+              <Datepicker1
                 DateValue={family.motherDOB}
                 onDateChange={handleDateChange('motherDOB')}
                 size={'medium'}
-                label="Mother's DOB"
+                label={"Mother's DOB"}
+                error={!!validationMessages.motherDOB}
+                helperText={validationMessages.motherDOB ? "Mother's Date of Birth should not be blank" : ''}
               />
             </Grid>
 
@@ -853,11 +857,13 @@ const FamilyDetails = ({ family, onChange }) => {
         {IsAdditionalFieldsApplicable && (
           <>
             <Grid item xs={12} md={3}>
-              <Datepicker
+              <Datepicker1
                 DateValue={family.marriageAnniversaryDate}
                 onDateChange={handleDateChange('marriageAnniversaryDate')}
                 size={'medium'}
-                label="Marriage Anniversary Date"
+                label={"Marriage Anniversary Date"}
+                error={!!validationMessages.marriageAnniversaryDate}
+                helperText={validationMessages.marriageAnniversaryDate ? "Marriage Anniversary Date should not be blank" : ''}
               />
             </Grid>
 
