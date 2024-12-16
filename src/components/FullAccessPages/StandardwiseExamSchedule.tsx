@@ -668,7 +668,6 @@ const StandardwiseExamSchedule = () => {
             )}
             <Box>
                 <StandardwiseExamScheduleTable ClickSaveXML={ClickSaveXML} subErrorMsg={subError} TimeError={timeError}
-                    isConfigured1={IsConfigured1}
                 />
             </Box>
 
