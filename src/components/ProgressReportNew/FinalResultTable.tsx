@@ -1,11 +1,10 @@
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import { Box, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 
-const FinalResultTable = ({  ViewProgress, totalconsidration, SubjectDetailsView, IsTotalConsiderForProgressReport, showOnlyGrades, ToppersCount, hasTopRanks, PercentageDetails, TotalPerGradeView, GradesDetailsView, MarkDetailsView }) => {
+const FinalResultTable = ({ ViewProgress, totalconsidration, SubjectDetailsView, IsTotalConsiderForProgressReport, showOnlyGrades, ToppersCount, hasTopRanks, PercentageDetails, TotalPerGradeView, GradesDetailsView, MarkDetailsView }) => {
     return (
         <div >
 
-            
+
 
             <Box sx={{ mt: 2, background: 'white', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                 <Box>
@@ -157,9 +156,9 @@ const FinalResultTable = ({  ViewProgress, totalconsidration, SubjectDetailsView
                                                 return (
                                                     <TableCell
                                                         key={index}
-                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
                                                     >
-                                                        {resultData.Result || '-'}
+                                                        {resultData.Result.trim() ? resultData.Result.trim()  : '-'}
                                                     </TableCell>
                                                 );
                                             }
@@ -185,6 +184,16 @@ const FinalResultTable = ({  ViewProgress, totalconsidration, SubjectDetailsView
                                             <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
                                             <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
                                             <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+
+                                            {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                if (index === 0) {
+                                                    return (
+                                                        <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                    );
+                                                }
+                                                return null;
+                                            })}
+
                                         </>
                                     )}
                                     {showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
@@ -211,9 +220,9 @@ const FinalResultTable = ({  ViewProgress, totalconsidration, SubjectDetailsView
                                                     return (
                                                         <TableCell
                                                             key={index}
-                                                            sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                            sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
                                                         >
-                                                            {resultData.Result || '-'}
+                                                            {resultData.Result.trim() ? resultData.Result.trim() : '-'}
                                                         </TableCell>
                                                     );
                                                 }

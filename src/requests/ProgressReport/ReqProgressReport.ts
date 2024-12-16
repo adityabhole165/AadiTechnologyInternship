@@ -941,7 +941,7 @@ export const CDAStudentProgressReport =
                 );
                 if (isFailCriteria === 'N' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
                   columns.push({
-                    MarksScored: Item.Result.trim() ,
+                    MarksScored: Item.Result.trim() ?  Item.Result.trim() : "-" ,
                     TotalMarks: "-",
                     IsAbsent: "N",
                     IsGrades: "Y",

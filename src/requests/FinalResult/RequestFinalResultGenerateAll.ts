@@ -670,10 +670,14 @@ export const ViewResultGA =
                     GradeName: item.Grade_Name,
                     Percentage: item.Percentage,
                     Grade_id: item.Grade_id,
-                    Result: item.Result,
-                    rank: item.rank
+                    Result:item.Result.trim() ?  item.Result.trim() : "-",
+                    rank: item.rank.trim() ?  item.rank.trim() : "-",
+                    
                 };
             });
+
+            console.log(Total,"Total");
+            
             let PerCentDetails = response.data.listParcentageDetails.map((item, i) => {
                 return {
                     TotalMarks: item.Range,
