@@ -27,6 +27,10 @@ const StandardwiseExamSchedule = () => {
     const [IsConfigured1, setIsConfigured1] = useState(IsConfigured);
     const [openDialog, setOpenDialog] = useState(false);
     const [IsConfirm, setIsConfirm] = useState('');
+    useEffect(() => {
+        console.log('✅', SchoolwiseStandardExamScheduleId);
+
+    }, [SchoolwiseStandardExamScheduleId])
     const [showRecipients, setShowRecipients] = useState(false);
     const [selectedStandards, setSelectedStandards] = useState<number[]>([]);
     const handleCloseDialog = () => {
@@ -48,7 +52,7 @@ const StandardwiseExamSchedule = () => {
     const [tableArray, setTableArray] = useState([])
     const [timeError, setTimeError] = useState('')
     const [isSaveClicked, setIsSaveClicked] = useState(false);
-    const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
+    const [submitButtonEnabled, setSubmitButtonEnabled] = useState(true);
     const [subError, setSubError] = useState(false)
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
@@ -213,6 +217,16 @@ const StandardwiseExamSchedule = () => {
 
     }, [xml]);
 
+    useEffect(() => {
+        if (getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === 'False') {
+            if (IsConfigured1 === 'false') {
+                setSubmitButtonEnabled(false);
+            } else {
+                setSubmitButtonEnabled(true);
+            }
+        }
+    }, [IsConfigured1, getIsSubmitedd])
+
     const allFalse = tableArray.every(item => item.selected === false);
     // #region Save Exam Schedule
     const InsertExamScheduleBody: IInsertExamScheduleBody = {
@@ -220,7 +234,7 @@ const StandardwiseExamSchedule = () => {
         asAcademicYearId: Number(asAcademicYearId),
         asStandardId: Number(StandardId),
         asSchoolwiseTestId: Number(TestId),
-        asStandardTestId: IsConfigured1 == 'true' ? Number(StandardTestId) : Number(SchoolwiseStandardTestId),
+        asStandardTestId: Number(StandardTestId) ?? Number(SchoolwiseStandardTestId),
         asInsertedById: asUserId,
         asScreenId: 19,
         asSchoolwiseStandardExamScheduleId: IsConfigured1 == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
@@ -228,24 +242,34 @@ const StandardwiseExamSchedule = () => {
     }
 
     const GetPageReloadApiCall = async () => {
-        dispatch(InsertConfigurationSchoolMaster(getExamConfigurationBody));
-        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
-        dispatch(RExamSchedule(RExamScheduleBody));
+        await dispatch(InsertConfigurationSchoolMaster(getExamConfigurationBody));
+        await dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
+        await dispatch(RExamSchedule(RExamScheduleBody));
+        setIsConfigured1('true');
+    }
+    const GetPageReloadApiCall_1 = async () => {
+        await dispatch(InsertConfigurationSchoolMaster(getExamConfigurationBody));
+        await dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
+        await dispatch(RExamSchedule(RExamScheduleBody));
+        setIsConfigured1('false');
     }
 
     const deleteExamSchedule = async () => {
         await dispatch(GetInsertExamSchedule(InsertExamScheduleBody));
         toast.success("Exam schedule has been deleted successfully.");
-        GetPageReloadApiCall();
-        setIsConfigured1('false');
-
+        GetPageReloadApiCall_1();
     }
     const insertExamSchedule = async () => {
+        console.log('🚩', InsertExamScheduleBody);
+        // asStandardTestId
+        console.log('🔗', InsertExamScheduleBody?.asStandardTestId);
+
+
         await dispatch(GetInsertExamSchedule(InsertExamScheduleBody));
         toast.success("Exam schedule has been saved successfully and you can copy exam schedule.");
-        GetPageReloadApiCall();
-        setIsConfigured1('true');
-
+        setTimeout(() => {
+            GetPageReloadApiCall();
+        }, 2000);
     }
 
     const onClickSave = async () => {
@@ -276,8 +300,8 @@ const StandardwiseExamSchedule = () => {
                     // dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
                     deleteExamSchedule();
                     setIsSaveClicked(true);
-                    setSubmitButtonEnabled(true);
-                    setShowButtons(true);
+                    setSubmitButtonEnabled(!true);
+                    setShowButtons(!true);
                     closeAlert();
                 }
             });
@@ -462,7 +486,7 @@ const StandardwiseExamSchedule = () => {
                         path: '/extended-sidebar/Teacher/ExamScheduleBasescreen',
                     },
                     {
-                        title: 'Standardwise Exam Schedule',
+                        title: 'Standardwise Exam Schedule' + ` > configure state ${IsConfigured1}`,
                         path: '',
                     },
                 ]}
@@ -534,7 +558,7 @@ const StandardwiseExamSchedule = () => {
                                 </IconButton>
                             </span>
                         </Tooltip>
-                        <Tooltip title={getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? "Unsubmit" : "Submit"}>
+                        <Tooltip title={getIsSubmitedd.length > 0 && getIsSubmitedd[0]?.IsSubmitedd === "True" ? "Unsubmit" : "Submit"}>
                             <span>
                                 <IconButton
                                     sx={{
@@ -548,8 +572,8 @@ const StandardwiseExamSchedule = () => {
                                                 : green[600],
                                         },
                                     }}
-                                    onClick={getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? handleUnsubmit : onClickSubmit} // Submit or Unsubmit based on status
-                                    disabled={!setSubmitButtonEnabled} // Disable if no data
+                                    onClick={getIsSubmitedd.length > 0 && getIsSubmitedd[0]?.IsSubmitedd === "True" ? handleUnsubmit : onClickSubmit} // Submit or Unsubmit based on status
+                                    disabled={!submitButtonEnabled} // Disable if no data
                                 >
                                     {getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? (
                                         <Close /> // Unsubmit Icon
@@ -559,7 +583,7 @@ const StandardwiseExamSchedule = () => {
                                 </IconButton>
                             </span>
                         </Tooltip>
-                        {(IsConfigured1 === 'true' || showButtons) && (
+                        {(IsConfigured1 === 'true') && (
                             <>
                                 <Tooltip title="Copy Schedule">
                                     <span>
@@ -643,7 +667,9 @@ const StandardwiseExamSchedule = () => {
                 </Box>
             )}
             <Box>
-                <StandardwiseExamScheduleTable ClickSaveXML={ClickSaveXML} subErrorMsg={subError} TimeError={timeError} />
+                <StandardwiseExamScheduleTable ClickSaveXML={ClickSaveXML} subErrorMsg={subError} TimeError={timeError}
+                    isConfigured1={IsConfigured1}
+                />
             </Box>
 
             <Dialog
