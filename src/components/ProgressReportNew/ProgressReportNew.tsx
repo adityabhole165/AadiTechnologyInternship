@@ -845,8 +845,8 @@ const ProgressReportNew = () => {
   };
 
   const shouldShowToppersButton = !IsPrePrimary && AcademicYear !== asAcademicYearId && !USIsGradingStandard && ShowTopppers;
-  const ShowDownlodebutton = !IsPrePrimary &&  PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || getIsTermExamPublished === true
-  const ShowDownlodebutton1 = !IsPrePrimary &&  PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true || getIsTermExamPublished === true
+  const ShowDownlodebutton = IsPrePrimary &&  PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true ;
+  const ShowDownlodebutton1 = IsPrePrimary &&  PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true ;
 
 
 
@@ -859,7 +859,6 @@ const ProgressReportNew = () => {
   //  }
   // }, [USIsXseedApplicable]);
   
-  console.log( USIsTestPublishedForStdDiv === true || USIsTestPublishedForStudentIS === true || AcademicYear !== asAcademicYearId, "check",open);
   
 
   return (
@@ -972,7 +971,7 @@ const ProgressReportNew = () => {
               AcademicYear === asAcademicYearId ? (
                 <span></span>
               ) : (
-                (EntireDataList?.listStudentsDetails || []).length !== 0 && StudentId !== "0" ? (
+                ((EntireDataList?.listStudentsDetails || []).length !== 0 && StudentId !== "0") && (getIsTermExamPublished && AcademicYear >= "50") ? (
                   <ErrorMessage1 Error={"On publish, you will see download buttons to download Term 1/2 progress report."}></ErrorMessage1>
                 ) : (
                   <span></span>
@@ -990,7 +989,7 @@ const ProgressReportNew = () => {
             {(open && !IsPrePrimary)&& (
               <Box display={'flex'} sx={{ justifyContent: 'flex-end' }}>
                 <Box sx={{mr:1}}>
-                {(PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true || getIsTermExamPublished === true) &&
+                {( getIsTermExamPublished && AcademicYear >= "50") &&
                   <Card5
                     text1={ asSchoolId == "11" ? 'DOWNLOAD PDF' :  academictermsResult[0]?.TermName}
                     text2=""
@@ -998,7 +997,7 @@ const ProgressReportNew = () => {
                   />
                  }</Box>
                 <Box>
-                {(PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true ||  getIsTermExamPublished === true) &&
+                {(getIsFinalResultPublished && AcademicYear >= "50") &&
                   <Card5
                     text1={academictermsResult[1]?.TermName}
                     text2=""
