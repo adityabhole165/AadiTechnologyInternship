@@ -47,6 +47,7 @@ const StandardwiseExamSchedule = () => {
     const [tableArray, setTableArray] = useState([])
     const [timeError, setTimeError] = useState('')
     const [isSaveClicked, setIsSaveClicked] = useState(false);
+    const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
     const [subError, setSubError] = useState(false)
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
@@ -61,6 +62,7 @@ const StandardwiseExamSchedule = () => {
     const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
     const Instructionss = useSelector((state: RootState) => state.StandardAndExamList.Instructionss);
     const IsSchoolConfigured = useSelector((state: RootState) => state.StandardAndExamList.GetIsSchoolConfigured);
+    const [showButtons, setShowButtons] = useState(false);
 
     // function getXML(value) {
     //     let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
@@ -140,33 +142,6 @@ const StandardwiseExamSchedule = () => {
         }
         dispatch(GetIsSchoolConfigured(getExamConfiguredBody))
     }, [])
-
-
-    const handleUnsubmit = () => {
-        const unSubmitBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asUpdatedById: Number(asUserId),
-            asStandardId: Number(StandardId),
-            asIsUnSubmit: 1,
-            asSchoolwiseTestId: Number(TestId)
-        };
-        dispatch(GetSumbitExamSchedule(unSubmitBody));
-        setIsUnsubmitted(true);
-        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
-            asStandardId: Number(StandardId),
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
-
-        }
-        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
-        toast.success('Exam schedule has been Unsubmited successfully.');
-        setTimeout(() => {
-            window.location.reload();
-        }, 500);
-    };
-
 
     // #region Validation function
 
@@ -261,12 +236,15 @@ const StandardwiseExamSchedule = () => {
                 confirmButtonText: 'Confirm',
                 cancelButtonText: 'Cancel',
                 onCancel: () => {
+                    setSubmitButtonEnabled(true);
                     closeAlert();
                 },
                 onConfirm: () => {
                     toast.success("Exam schedule has been deleted successfully.")
                     dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
                     setIsSaveClicked(true);
+                    setSubmitButtonEnabled(true);
+                    setShowButtons(true);
                     closeAlert();
                 }
             });
@@ -278,6 +256,8 @@ const StandardwiseExamSchedule = () => {
             dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
             toast.success("Exam schedule has been saved successfully and you can copy exam schedule.")
             setIsSaveClicked(true);
+            setSubmitButtonEnabled(true);
+            setShowButtons(true);
         }
     }
     const { showAlert, closeAlert } = useContext(AlertContext);
@@ -349,23 +329,6 @@ const StandardwiseExamSchedule = () => {
         })
         return returnVal;
     }
-    const onClickSubmit = () => {
-        dispatch(GetSumbitExamSchedule(SumbitExamScheduleBody))
-        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
-            asStandardId: Number(StandardId),
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
-
-        }
-        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
-        setIsUnsubmitted(false);
-        toast.success('Exam schedule has been submited successfully.');
-        setTimeout(() => {
-            window.location.reload();
-        }, 500);
-    };
-
     const handleOpenDialog = (instructionText) => {
         //console.log(typeof instructionText, '😊😊😊');
         setEditMode(false);
@@ -404,15 +367,56 @@ const StandardwiseExamSchedule = () => {
         }
         dispatch(GetUpdateExamScheduleInstructions(UpdateExamScheduleInstructionsBody));
         handleCloseDialog1();
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
     };
 
     const [isExpanded, setIsExpanded] = useState(Instructionss.length > 0);
 
     const handleAccordionToggle = () => {
         setIsExpanded(!isExpanded);
+    };
+
+    const handleExamSubmission = async (isUnsubmit: boolean) => {
+        // Prepare body for submission or unsubmission
+        const submissionBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asUpdatedById: Number(asUserId), // Used for unsubmit
+            asStandardId: Number(StandardId),
+            asIsUnSubmit: isUnsubmit ? 1 : 0, // Determine action based on isUnsubmit flag
+            asSchoolwiseTestId: Number(TestId),
+        };
+
+        // Dispatch the submission or unsubmission
+        await dispatch(GetSumbitExamSchedule(submissionBody));
+
+        // Refresh the schedule data after the operation
+        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
+            asStandardId: Number(StandardId),
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId),
+            asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
+        };
+        await dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
+
+        // Update the state based on action
+        setIsUnsubmitted(isUnsubmit);
+
+        // Display success message
+        const successMessage = isUnsubmit
+            ? 'Exam schedule has been Unsubmitted successfully.'
+            : 'Exam schedule has been Submitted successfully.';
+        toast.success(successMessage);
+        setSubmitButtonEnabled(true);
+    };
+
+    // Handler for Submit button
+    const onClickSubmit = () => {
+        handleExamSubmission(false); // Submit action
+    };
+
+    // Handler for Unsubmit button
+    const handleUnsubmit = () => {
+        handleExamSubmission(true); // Unsubmit action
     };
 
     return (
@@ -496,59 +500,34 @@ const StandardwiseExamSchedule = () => {
                                 </IconButton>
                             </span>
                         </Tooltip>
-
-                        {!getIsSubmitedd || getIsSubmitedd.length === 0 ? (
-
-                            <Tooltip title="Submit">
-                                <span>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: 'gray',
-                                        }}
-                                        disabled={true}
-                                    >
-                                        <CheckRoundedIcon />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        ) : getIsSubmitedd[0]?.IsSubmitedd === "False" ? (
-                            <Tooltip title="Submit">
-                                <span>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: green[500],
-                                            '&:hover': {
-                                                backgroundColor: green[600],
-                                            },
-                                        }}
-                                        onClick={onClickSubmit} // Submit function
-                                    >
-                                        <CheckRoundedIcon />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        ) : (
-                            <Tooltip title="Unsubmit">
-                                <span>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: red[500],
-                                            height: '36px !important',
-                                            ':hover': { backgroundColor: red[600] },
-                                        }}
-                                        onClick={handleUnsubmit} // Unsubmit function
-                                    >
-                                        <Close />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        )}
-                        {IsConfigured !== 'false' && (
-                            <Tooltip title="Copy Schedule">
-                                {IsConfigured && (
+                        <Tooltip title={getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? "Unsubmit" : "Submit"}>
+                            <span>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
+                                            ? red[500] // For Unsubmit action
+                                            : green[500], // For Submit action
+                                        '&:hover': {
+                                            backgroundColor: getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
+                                                ? red[600]
+                                                : green[600],
+                                        },
+                                    }}
+                                    onClick={getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? handleUnsubmit : onClickSubmit} // Submit or Unsubmit based on status
+                                    disabled={!setSubmitButtonEnabled} // Disable if no data
+                                >
+                                    {getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? (
+                                        <Close /> // Unsubmit Icon
+                                    ) : (
+                                        <CheckRoundedIcon /> // Submit Icon
+                                    )}
+                                </IconButton>
+                            </span>
+                        </Tooltip>
+                        {(IsConfigured === 'true' || showButtons) && (
+                            <>
+                                <Tooltip title="Copy Schedule">
                                     <span>
                                         <IconButton
                                             sx={{
@@ -563,31 +542,32 @@ const StandardwiseExamSchedule = () => {
                                             <ContentCopyIcon />
                                         </IconButton>
                                     </span>
-                                )}
-                            </Tooltip>
+                                </Tooltip>
+
+                                <Tooltip title="Add Instructions">
+                                    <span>
+                                        <IconButton
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: blue[500],
+                                                '&:hover': {
+                                                    backgroundColor: blue[600]
+                                                }
+                                            }}
+                                            onClick={() => handleOpenDialog1(true)}
+                                            disabled={Instructionss.length > 0 && Instructionss[0]?.Instructionss !== ""}
+                                        >
+                                            <AddBoxRoundedIcon />
+                                        </IconButton>
+                                    </span>
+                                </Tooltip>
+                            </>
                         )}
-                        {IsConfigured !== 'false' && (
-                            <Tooltip title="Add Instructions">
-                                <span>
-                                    <IconButton sx={{
-                                        color: 'white',
-                                        backgroundColor: blue[500],
-                                        '&:hover': {
-                                            backgroundColor: blue[600]
-                                        }
-                                    }}
-                                        onClick={() => handleOpenDialog1(true)}
-                                        disabled={Instructionss.length > 0 && Instructionss[0]?.Instructionss !== ""}
-                                    >
-                                        <AddBoxRoundedIcon />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        )}
+
                     </>
                 }
             />
-            {IsConfigured !== 'false' && (
+            {(IsConfigured === 'true' || showButtons) && (
                 <Box sx={{ mb: 1 }}>
                     <Accordion sx={{ mt: 1, mb: 1 }} expanded={isExpanded}
                         onChange={handleAccordionToggle}>
