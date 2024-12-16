@@ -949,9 +949,9 @@ const StudentRegistrationForm = () => {
   //#endregion
 
   //#region API CAlls
-  const UpdateStudentResult = useSelector(
-    (state: RootState) => state.StudentUI.ISUpdateStudent
-  );
+  //  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
+  const UpdateStudentResult: any = useSelector((state: RootState) => state.StudentUI.ISUpdateStudent);
+  //const oUpdateStudentResult: any = UpdateStudentResult;
   // console.log('🩸UpdateStudentResult:', UpdateStudentResult);
 
   const UpdateStudentBody: IUpdateStudentBody = {
@@ -1181,6 +1181,18 @@ const StudentRegistrationForm = () => {
     }
   };
 
+  useEffect(() => {
+    const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody =
+    {
+      asSchoolId: Number(schoolId),
+      asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
+      asInsertedById: Number(teacherId),
+      asID: (UpdateStudentResult as any).iReturnValue, // Accessing iReturnValue here
+      asAcademicYearId: Number(academicYearId)
+    };
+    //dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
+  }, [UpdateStudentResult]);
+
   const handleFormSubmission = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
     setShowValidation(true); // Enable validation display
@@ -1204,13 +1216,13 @@ const StudentRegistrationForm = () => {
     try {
       console.log('Validation passed! Proceeding with API calls...');
 
-      // await executeApiCalls(
-      //   UpdateStudentBody,
-      //   AddStudentAdditionalDetailsBody,
-      //   UpdateStudentStreamwiseSubjectDetailsBody,
-      //   transportFeeBody,
-      //   OverwriteSiblingDetailsBody
-      // );
+      await executeApiCalls(
+        UpdateStudentBody,
+        AddStudentAdditionalDetailsBody,
+        UpdateStudentStreamwiseSubjectDetailsBody,
+        transportFeeBody,
+        OverwriteSiblingDetailsBody
+      );
 
       // Success message or further actions
       console.log(
@@ -1230,7 +1242,7 @@ const StudentRegistrationForm = () => {
       console.warn('🚨 Sibling update halted due to missing selections.');
       return;
     }
-
+    setShowValidation(true); // Enable validation display
     // Proceed with API calls when the popup Save button is clicked
     try {
       console.log('Popup validation passed! Proceeding with sibling and other API calls...');
@@ -1250,15 +1262,35 @@ const StudentRegistrationForm = () => {
   //#endregion
 
   useEffect(() => {
-    const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody =
-    {
-      asSchoolId: Number(schoolId),
-      asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
-      asInsertedById: Number(teacherId),
-      asID: (UpdateStudentResult as any).iReturnValue, // Accessing iReturnValue here
-      asAcademicYearId: Number(academicYearId)
-    };
-    //dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
+    console.log('✅UpdateStudentResult:', UpdateStudentResult);
+    if (UpdateStudentResult !== null && Object.keys(UpdateStudentResult).length > 0) {
+      if (UpdateStudentResult.iReturnValue === 3 && !UpdateStudentResult.IsRollNumberDuplicate && !UpdateStudentResult.IsRegisterNoAlreadyPresent
+        && !UpdateStudentResult.IsGeneralRegisterNoAlreadyPresent && !UpdateStudentResult.IsStudentUniqueNoAlreadyPresent
+        && !UpdateStudentResult.CheckIsRFormNumberDuplicate
+      ) {
+        toast.success("Student information updated successfully!");
+      } else {
+        if (UpdateStudentResult.IsRollNumberDuplicate) {
+          toast.error("Roll number is already present.");
+        }
+        if (UpdateStudentResult.IsRegisterNoAlreadyPresent) {
+          toast.error("Register number is already present.");
+        }
+        if (UpdateStudentResult.IsGeneralRegisterNoAlreadyPresent) {
+          toast.error("General register number is already present.");
+        }
+        if (UpdateStudentResult.IsStudentUniqueNoAlreadyPresent) {
+          toast.error("Student unique number is already present.");
+        }
+        if (UpdateStudentResult.CheckIsRFormNumberDuplicate) {
+          toast.error("R-form number is already present.");
+        }
+        if (UpdateStudentResult.iReturnValue != 3) {
+          toast.error("Update failed. Please check values.");
+        }
+      }
+      setShowValidation(false); // Hide validation display
+    }
   }, [UpdateStudentResult]);
 
   //#region EventHandlers

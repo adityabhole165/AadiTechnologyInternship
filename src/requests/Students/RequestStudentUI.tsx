@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
 import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
@@ -477,7 +476,7 @@ export const CDAUpdateStudent =
                 console.log('Response data:', response.data);
 
                 // Add success toast/notification
-                toast.success('Student information updated successfully');
+                //toast.success('Student information updated successfully');
             }
             else {
                 // Handle non-200 status codes

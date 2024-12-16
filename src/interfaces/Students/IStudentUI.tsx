@@ -501,6 +501,7 @@ export interface IUpdateStudentResult {
     IsGeneralRegisterNoAlreadyPresent: boolean
     IsStudentUniqueNoAlreadyPresent: boolean
     CheckIsRFormNumberDuplicate: boolean
+    aiTrackinggId: number
 }
 // 3rd Updation
 export interface IUpdateStudentStreamwiseSubjectDetailsBody {
