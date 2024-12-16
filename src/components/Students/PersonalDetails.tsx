@@ -630,7 +630,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 value={personal.firstName}
                 onChange={handleInputChange}
                 error={!!validationMessages.firstName}
-                helperText={validationMessages.firstName}
+                helperText={validationMessages.firstName ? 'First Name should not be blank' : ''}
                 fullWidth
               />
             </Grid>
@@ -676,17 +676,21 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
               </Grid>
             )}
 
-            {personal.motherNumber !== undefined && (
+            {personal.mobileNumber1 !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
-                  name="motherNumber"
-                  label="Mobile No. 1"
+                  name="mobileNumber1"
+                  label={
+                    <span>
+                      Mobile No. 1 <span style={{ color: 'red' }}> *</span>
+                    </span>
+                  }
                   variant="outlined"
-                  value={personal.motherNumber}
+                  value={personal.mobileNumber1}
                   onChange={handleContactNoChange}
-                  error={personal.motherNumber.toString() !== '' && personal.motherNumber.toString().length < 10 ? true : false}
+                  error={personal.mobileNumber1.toString() !== '' && personal.mobileNumber1.toString().length < 10 ? true : false}
                   helperText={
-                    personal.motherNumber.toString() !== '' && personal.motherNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
+                    personal.mobileNumber1.toString() !== '' && personal.mobileNumber1.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
                   }
                   fullWidth
                 />
@@ -721,24 +725,24 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.parentName}
                   onChange={handleInputChange}
                   error={!!validationMessages.parentName}
-                  helperText={validationMessages.parentName}
+                  helperText={validationMessages.parentName ? 'Parent Name should not be blank' : ''}
                   fullWidth
                 />
               </Grid>
             )}
 
-            {personal.fatherNumber !== undefined && (
+            {personal.mobileNumber2 !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
-                  name="fatherNumber"
+                  name="mobileNumber2"
                   label="Mobile No. 2"
                   variant="outlined"
-                  value={personal.fatherNumber}
+                  value={personal.mobileNumber2}
                   onChange={handleContactNoChange}
                   fullWidth
-                  error={personal.fatherNumber.toString() !== '' && personal.fatherNumber.toString().length < 10 ? true : false}
+                  error={personal.mobileNumber2.toString() !== '' && personal.mobileNumber2.toString().length < 10 ? true : false}
                   helperText={
-                    personal.fatherNumber.toString() !== '' && personal.fatherNumber.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
+                    personal.mobileNumber2.toString() !== '' && personal.mobileNumber2.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
                   }
                 />
               </Grid>
@@ -843,7 +847,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.address}
                   onChange={handleInputChange}
                   error={!!validationMessages.address}
-                  helperText={validationMessages.address}
+                  helperText={validationMessages.address ? 'Address should not be blank' : ''}
                   fullWidth
                   multiline
                 />
@@ -863,7 +867,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.city}
                   onChange={handleInputChange}
                   error={!!validationMessages.city}
-                  helperText={validationMessages.city}
+                  helperText={validationMessages.city ? 'City Name should not be blank' : ''}
                   fullWidth
                 />
               </Grid>
@@ -882,7 +886,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.state}
                   onChange={handleInputChange}
                   error={!!validationMessages.state}
-                  helperText={validationMessages.state}
+                  helperText={validationMessages.state ? 'State Name should not be blank' : ''}
                   fullWidth
                 />
               </Grid>
@@ -901,7 +905,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.pin}
                   onChange={handleInputChange}
                   error={!!validationMessages.pin}
-                  helperText={validationMessages.pin}
+                  helperText={validationMessages.pin ? 'PIN Code should not be blank' : ''}
                   fullWidth
                 />
               </Grid>
@@ -915,7 +919,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   size={'medium'}
                   label={'Date of Birth'}
                   error={!!validationMessages.dateOfBirth}
-                  helperText={validationMessages.dateOfBirth}
+                  helperText={validationMessages.dateOfBirth ? 'Date of Birth should not be blank' : ''}
                 />
                 {/* <TextField
                   name="dateOfBirth"
@@ -960,7 +964,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.placeOfBirth}
                   onChange={handleInputChange}
                   error={!!validationMessages.placeOfBirth}
-                  helperText={validationMessages.placeOfBirth}
+                  helperText={validationMessages.placeOfBirth ? 'Place of Birth should not be blank' : ''}
                   fullWidth
                 />
               </Grid>
@@ -1051,7 +1055,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 value={personal.casteAndSubCaste}
                 onChange={handleInputChange}
                 error={!!validationMessages.casteAndSubCaste}
-                helperText={validationMessages.casteAndSubCaste}
+                helperText={validationMessages.casteAndSubCaste ? 'Caste and Sub-Caste should not be blank' : ''}
                 fullWidth
               />
             </Grid>

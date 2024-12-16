@@ -165,9 +165,9 @@ const StudentRegistrationForm = () => {
       middleName: '',
       lastName: '',
       motherName: '',
-      motherNumber: '',
+      mobileNumber1: '',
       parentName: '',
-      fatherNumber: '',
+      mobileNumber2: '',
       email: '',
       parentOccupation: '',
       otherOccupation: '',
@@ -350,6 +350,7 @@ const StudentRegistrationForm = () => {
     ],
     personal: [
       'firstName',
+      'mobileNumber1',
       'parentName',
       'parentOccupation',
       'address',
@@ -628,9 +629,9 @@ const StudentRegistrationForm = () => {
           middleName: studentData?.Middle_Name || '',
           lastName: studentData?.Last_Name || '',
           motherName: studentData?.Mother_Name || '',
-          motherNumber: studentData?.Mobile_Number || '',
+          mobileNumber1: studentData?.Mobile_Number || '',
           parentName: studentData?.Parent_Name || '',
-          fatherNumber: studentData?.Mobile_Number2 || '',
+          mobileNumber2: studentData?.Mobile_Number2 || '',
           email: studentData?.Email_Address || '',
           parentOccupation: studentData?.Parent_Occupation || '',
           otherOccupation: studentData?.Other_Occupation || '',
@@ -793,9 +794,9 @@ const StudentRegistrationForm = () => {
           asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id// Number(sessionStorage.getItem('Id'))
         };
         //console.log('2️⃣GetStudentAdditionalDetailsBody', GetStudentAdditionalDetailsBody);
-        const FeeAreaNamesBody = {
-          asSchoolId: Number(localStorage.getItem('localSchoolId'))
-        };
+        // const FeeAreaNamesBody = {
+        //   asSchoolId: Number(localStorage.getItem('localSchoolId'))
+        // };
 
         const FormNumberBody = {
           asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -807,7 +808,7 @@ const StudentRegistrationForm = () => {
           dispatch(CDAGetMasterData(GetMasterData)),
           dispatch(CDAGetSingleStudentDetails(GetSingleStudentDetails)),
           dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody)),
-          dispatch(CDAFeeAreaNames(FeeAreaNamesBody)),
+          //dispatch(CDAFeeAreaNames(FeeAreaNamesBody)),
           dispatch(GetFormNumber(FormNumberBody)),
         ]);
       } catch (error) {
@@ -820,6 +821,15 @@ const StudentRegistrationForm = () => {
 
   useEffect(() => {
     if (schoolId && parseInt(schoolId) === 122) {
+      const FeeAreaNamesBody = {
+        asSchoolId: Number(localStorage.getItem('localSchoolId'))
+      };
+      dispatch(CDAFeeAreaNames(FeeAreaNamesBody));
+    }
+  }, [schoolId]);
+
+  useEffect(() => {
+    if (schoolId && parseInt(schoolId) === 122) {
       const RetriveStudentStreamwiseSubjectBody = {
         asSchoolId: 122, // Number(schoolId),
         asAcademicYearId: 10, // Number(academicYearId),
@@ -827,7 +837,8 @@ const StudentRegistrationForm = () => {
       };
       dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));
     }
-  }, []);
+  }, [schoolId]);
+
   //#endregion
 
   //#region Date Formation
@@ -963,8 +974,8 @@ const StudentRegistrationForm = () => {
     asState: form.personal?.state || '',
     asPincode: form.personal?.pin || '',
     asResidence_Phone_Number: form.family?.residencePhoneNumber || '9224286937',
-    asMobile_Number: form.personal?.motherNumber || '',
-    asMobile_Number2: form.personal?.fatherNumber || '',
+    asMobile_Number: form.personal?.mobileNumber1 || '',
+    asMobile_Number2: form.personal?.mobileNumber2 || '',
     asOffice_Number: form.family?.officePhoneNumber || '9270362059',
     asNeighbour_Number: form.family?.neighbourPhoneNumber || '',
     asUpdated_By_Id: teacherId,
@@ -1628,7 +1639,7 @@ const StudentRegistrationForm = () => {
         navLinks={[
           { title: `Students${PageID === 'SD' ? ' Details' : ''}`, path: PageID === 'SD' ? '/extended-sidebar/Teacher/StudentDetailsBaseScreen' : '/extended-sidebar/Teacher/Students' },
           {
-            title: 'Enter Students Details',
+            title: "Enter Student's Details",
             path: '/extended-sidebar/Teacher/Students/StudentRegistrationForm'
           }
         ]}

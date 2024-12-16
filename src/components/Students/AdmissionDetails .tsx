@@ -38,6 +38,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
   const { AssignedDate } = useParams();
+  const schoolId = localStorage.getItem('SchoolId');
 
   // const [form, setForm] = useState({
   //   userName: '',
@@ -365,8 +366,9 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             variant="outlined"
             value={admission.userName}
             onChange={handleInputChange}
-            error={errors.userName}
-            helperText={errors.userName ? 'This field is required' : ''}
+            //error={errors.userName}
+            //helperText={errors.userName ? 'This field is required' : ''}
+            disabled={true}
             fullWidth
           />
         </Grid>
@@ -505,7 +507,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
               defaultValue={admission.registrationNumber}
               onChange={handleInputChange}
               error={!!validationMessages.registrationNumber}
-              helperText={validationMessages.registrationNumber}
+              helperText={validationMessages.registrationNumber ? 'Registration Number should not be blank' : ''}
               sx={{ cursor: 'pointer' }}
               fullWidth
             />
@@ -519,7 +521,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             size={'medium'}
             label={'Admission Date'}
             error={!!validationMessages.admissionDate}
-            helperText={validationMessages.admissionDate}
+            helperText={validationMessages.admissionDate ? 'Admission Date should not be blank' : ''}
           />
           {/* {validationMessages.admissionDate && (
               <Typography color="error" variant="caption" sx={{ mt: 1 }}>
@@ -554,7 +556,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             size={'medium'}
             label={'Joining Date'}
             error={!!validationMessages.joiningDate}
-            helperText={validationMessages.joiningDate}
+            helperText={validationMessages.joiningDate ? 'Joining Date should not be blank' : ''}
           />
           {/* <TextField
             name="joiningDate"
@@ -594,7 +596,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             value={admission.studentRollNumber}
             onChange={handleInputChange}
             error={!!validationMessages.studentRollNumber}
-            helperText={validationMessages.studentRollNumber}
+            helperText={validationMessages.studentRollNumber ? 'Student Roll Number should not be blank' : ''}
             sx={{
               backgroundColor: errors.studentRollNumber
                 ? 'white'
@@ -715,9 +717,15 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
           <SearchableDropdown
             sx={{ minWidth: '15vw' }}
             ItemList={FeeAreaNamesDrop}
-            onChange={(value) => onChange('feeAreaNames', value)}
+            onChange={(value) => {
+              if (schoolId && parseInt(schoolId) === 122) {
+                onChange('feeAreaNames', value);
+              } else {
+                onChange('feeAreaNames', '0');
+              }
+            }}
             label={'Fee Area Name'}
-            defaultValue={admission.feeAreaNames}
+            defaultValue={schoolId && parseInt(schoolId) === 122 ? admission.feeAreaNames : '0'}
             size={'medium'}
           />
         </Grid>
