@@ -356,7 +356,7 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                             );
                             if (isFailCriteria === 'N' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
                                 columns.push({
-                                    MarksScored: Item.Result.trim(),
+                                  MarksScored: Item?.Result?.trim() || '',
                                     TotalMarks: "-",
                                     IsAbsent: "N",
                                     IsGrades: "Y",
@@ -366,7 +366,7 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                             }
                             if (totalCount !== '0' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
                                 columns.push({
-                                    MarksScored: Item.rank.trim().includes('999') ? '-' : Item.rank.trim(),
+                                    MarksScored: Item?.rank?.trim().includes('999') ? '-' : Item.rank.trim(),
                                     TotalMarks: "-",
                                     IsAbsent: "N",
                                     IsGrades: "Y",
@@ -502,7 +502,7 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                             );
                             if (isFailCriteria === 'N' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
                                 columns.push({
-                                    MarksScored: Item.Result.trim(),
+                                    MarksScored: Item?.Result?.trim() || '',
                                     TotalMarks: "-",
                                     IsAbsent: "N",
                                     IsGrades: "Y",
@@ -512,7 +512,7 @@ const AllStudents = ({ isFailCriteria, totalCount, data1, IStudentList, handleCl
                             }
                             if (totalCount !== '0' && data.IsTotalConsiderForProgressReport.toLowerCase() === 'true') {
                                 columns.push({
-                                    MarksScored: Item.rank.trim().includes('999') ? '-' : Item.rank.trim(),
+                                    MarksScored: Item?.rank?.trim().includes('999') ? '-' : Item.rank.trim(),
                                     TotalMarks: "-",
                                     IsAbsent: "N",
                                     IsGrades: "Y",
