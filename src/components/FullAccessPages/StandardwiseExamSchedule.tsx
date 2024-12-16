@@ -14,7 +14,7 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IConfigurationData, IExamScheduleConfigBody, IGetSubjectExamScheduleBody, IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
-import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetIsSchoolConfigured, GetSubjectExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetIsSchoolConfigured, GetSubjectExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, InsertConfigurationSchoolMaster, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
@@ -24,6 +24,7 @@ import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
 const StandardwiseExamSchedule = () => {
     const { StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId, IsConfigured, SchoolwiseStandardTestId } = useParams();
     const dispatch = useDispatch();
+    const [IsConfigured1, setIsConfigured1] = useState(IsConfigured);
     const [openDialog, setOpenDialog] = useState(false);
     const [IsConfirm, setIsConfirm] = useState('');
     const [showRecipients, setShowRecipients] = useState(false);
@@ -90,25 +91,22 @@ const StandardwiseExamSchedule = () => {
         Insertxml += "</ArrayOfInt>";
         return Insertxml;
     }
-
+    const RExamScheduleBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId)
+    }
     useEffect(() => {
-        const RExamScheduleBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId)
-        }
-
-        dispatch(RExamSchedule(RExamScheduleBody))
+        dispatch(RExamSchedule(RExamScheduleBody));
     }, [])
 
+    const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
+        asStandardId: Number(StandardId),
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
 
+    }
     useEffect(() => {
-        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
-            asStandardId: Number(StandardId),
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
-
-        }
         dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
     }, [])
 
@@ -129,18 +127,32 @@ const StandardwiseExamSchedule = () => {
         }
         dispatch(GetIsSchoolConfigured(getExamConfiguredBody))
     }, [])
+    // #region To Review : ToDo
+    const getExamConfiguredBody: IConfigurationData = {
+        asOriginalConfigId: 19,
+        asSchoolId: Number(asSchoolId),
+        asIsConfigure: 'Y',
+        asInsertedById: Number(asUserId),
+        asUpdateById: Number(asUserId),
+        asAcademicYearId: Number(asAcademicYearId),
+        aiFinancialYearId: Number(asFinancialYearId)
+    }
 
     useEffect(() => {
-        const getExamConfiguredBody: IConfigurationData = {
-            asOriginalConfigId: 19,
-            asSchoolId: Number(asSchoolId),
-            asIsConfigure: 'Y',
-            asInsertedById: Number(asUserId),
-            asUpdateById: Number(asUserId),
-            asAcademicYearId: Number(asAcademicYearId),
-            aiFinancialYearId: Number(asFinancialYearId)
-        }
         dispatch(GetIsSchoolConfigured(getExamConfiguredBody))
+    }, [])
+
+    const getExamConfigurationBody: IConfigurationData = {
+        asOriginalConfigId: 19,
+        asSchoolId: Number(asSchoolId),
+        asIsConfigure: 'Y',
+        asInsertedById: Number(asUserId),
+        asUpdateById: Number(asUserId),
+        asAcademicYearId: Number(asAcademicYearId),
+        aiFinancialYearId: Number(asFinancialYearId)
+    }
+    useEffect(() => {
+        dispatch(InsertConfigurationSchoolMaster(getExamConfigurationBody))
     }, [])
 
     // #region Validation function
@@ -202,8 +214,41 @@ const StandardwiseExamSchedule = () => {
     }, [xml]);
 
     const allFalse = tableArray.every(item => item.selected === false);
+    // #region Save Exam Schedule
+    const InsertExamScheduleBody: IInsertExamScheduleBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asStandardId: Number(StandardId),
+        asSchoolwiseTestId: Number(TestId),
+        asStandardTestId: IsConfigured1 == 'true' ? Number(StandardTestId) : Number(SchoolwiseStandardTestId),
+        asInsertedById: asUserId,
+        asScreenId: 19,
+        asSchoolwiseStandardExamScheduleId: IsConfigured1 == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
+        asExamDetailsXML: xml
+    }
 
-    const onClickSave = () => {
+    const GetPageReloadApiCall = async () => {
+        dispatch(InsertConfigurationSchoolMaster(getExamConfigurationBody));
+        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
+        dispatch(RExamSchedule(RExamScheduleBody));
+    }
+
+    const deleteExamSchedule = async () => {
+        await dispatch(GetInsertExamSchedule(InsertExamScheduleBody));
+        toast.success("Exam schedule has been deleted successfully.");
+        GetPageReloadApiCall();
+        setIsConfigured1('false');
+
+    }
+    const insertExamSchedule = async () => {
+        await dispatch(GetInsertExamSchedule(InsertExamScheduleBody));
+        toast.success("Exam schedule has been saved successfully and you can copy exam schedule.");
+        GetPageReloadApiCall();
+        setIsConfigured1('true');
+
+    }
+
+    const onClickSave = async () => {
         let errorResult = validateExamSchedule(tableArray)
         setTimeError('');
 
@@ -213,20 +258,7 @@ const StandardwiseExamSchedule = () => {
         if (errorResult.length > 0) {
             setTimeError(errorResult)
         }
-
-        const InsertExamScheduleBody: IInsertExamScheduleBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asStandardId: Number(StandardId),
-            asSchoolwiseTestId: Number(TestId),
-            asStandardTestId: IsConfigured == 'true' ? Number(StandardTestId) : Number(SchoolwiseStandardTestId),
-            asInsertedById: asUserId,
-            asScreenId: 19,
-            asSchoolwiseStandardExamScheduleId: IsConfigured == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
-            asExamDetailsXML: xml
-        }
-
-        if (IsConfigured == 'true' && allFalse) {
+        if (IsConfigured1 == 'true' && allFalse) {
             setSubError(false)
             showAlert({
                 title: 'Please Confirm',
@@ -240,8 +272,9 @@ const StandardwiseExamSchedule = () => {
                     closeAlert();
                 },
                 onConfirm: () => {
-                    toast.success("Exam schedule has been deleted successfully.")
-                    dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
+                    // toast.success("Exam schedule has been deleted successfully.")
+                    // dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
+                    deleteExamSchedule();
                     setIsSaveClicked(true);
                     setSubmitButtonEnabled(true);
                     setShowButtons(true);
@@ -253,8 +286,9 @@ const StandardwiseExamSchedule = () => {
         }
 
         if ((xml !== '' && errorResult == '') && IsSchoolConfigured == "Configured") {
-            dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
-            toast.success("Exam schedule has been saved successfully and you can copy exam schedule.")
+            // dispatch(GetInsertExamSchedule(InsertExamScheduleBody))
+            // toast.success("Exam schedule has been saved successfully and you can copy exam schedule.");
+            insertExamSchedule();
             setIsSaveClicked(true);
             setSubmitButtonEnabled(true);
             setShowButtons(true);
@@ -525,7 +559,7 @@ const StandardwiseExamSchedule = () => {
                                 </IconButton>
                             </span>
                         </Tooltip>
-                        {(IsConfigured === 'true' || showButtons) && (
+                        {(IsConfigured1 === 'true' || showButtons) && (
                             <>
                                 <Tooltip title="Copy Schedule">
                                     <span>
@@ -567,7 +601,7 @@ const StandardwiseExamSchedule = () => {
                     </>
                 }
             />
-            {(IsConfigured === 'true' || showButtons) && (
+            {(IsConfigured1 === 'true' || showButtons) && (
                 <Box sx={{ mb: 1 }}>
                     <Accordion sx={{ mt: 1, mb: 1 }} expanded={isExpanded}
                         onChange={handleAccordionToggle}>
@@ -717,7 +751,7 @@ const StandardwiseExamSchedule = () => {
                         rows={3}
                         variant="outlined"
                         value={
-                            IsConfigured
+                            IsConfigured1 === 'true'
                                 ? currentInstruction === 'true' ? ' ' : currentInstruction || ''
                                 : ' '
                         }
