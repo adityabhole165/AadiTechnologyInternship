@@ -278,16 +278,45 @@ const StudentRegistrationForm = () => {
       competitiveExams: '',
     }
   });
+
   //Siblings States
   const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
   const [selectedSiblings, setSelectedSiblings] = useState('');
   //console.log('✅ selectedSiblings', selectedSiblings)
   const [resetTrigger, setResetTrigger] = useState(false);
 
+  //#region Local States
+  const [localstudentData, setLocalStudentData] = useState({});
+  useEffect(() => {
+    // Store in localStorage
+    const dataToStore = {
+      Name,
+      standardId,
+      DivisionId,
+      YearWise_Student_Id,
+      SchoolWise_Student_Id,
+      StandardDivision_Id,
+      Enrolment_Number,
+      Joining_Date
+    };
+    localStorage.setItem('studentData', JSON.stringify(dataToStore));
+
+    // Retrieve and set state for immediate access
+    const storedData = JSON.parse(localStorage.getItem('studentData'));
+    setLocalStudentData(storedData);
+
+  }, []);
+
+  useEffect(() => {
+    //console.log('0️⃣️location Data:', location.state);
+    //console.log('1️⃣localstudentData:', localstudentData);
+  }, [localstudentData]);
+
+  //#endregion
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
-
+  //#region validProgress
   const [tabCompletion, setTabCompletion] = useState({
     admission: 0,
     personal: 0,
@@ -377,10 +406,10 @@ const StudentRegistrationForm = () => {
 
     // Calculate completed and unfilled fields
     const completedFields = filteredFields.filter((field) => !!data[field]).length;
-    console.log('completedFields', completedFields);
+    //console.log('completedFields', completedFields);
     // Calculate completion percentage
     const completionPercentage = (completedFields / filteredFields.length) * 100;
-    console.log('completionPercentage', completionPercentage);
+    //console.log('completionPercentage', completionPercentage);
 
     // Update the tabCompletion state
     setTabCompletion((prev) => ({
@@ -398,9 +427,9 @@ const StudentRegistrationForm = () => {
       (acc, curr) => acc + curr,
       0
     );
-    console.log('tabCompletion', tabCompletion);
-    console.log('totalProgress', totalProgress);
-    console.log('Progress', totalProgress / totalTabs);
+    // console.log('tabCompletion', tabCompletion);
+    // console.log('totalProgress', totalProgress);
+    // console.log('Progress', totalProgress / totalTabs);
 
     setProfileCompletion(Math.round(totalProgress / totalTabs));
   }, [tabCompletion]);
@@ -413,7 +442,6 @@ const StudentRegistrationForm = () => {
   }, [form]); // Trigger recalculation whenever the form changes
 
 
-  //#region Validation
   const handleValidation = () => {
     const allMessages = [];
 
@@ -471,35 +499,7 @@ const StudentRegistrationForm = () => {
   //   }
   // }, [IsAdditionalFieldsApplicable, currentTab]);
 
-  //#region CallBack
-  // const onAdmissionTab = (updatedData) => {
-  //   //setAdmissionDetailsData(updatedData);
-  //   // calculateCompletion('admission', updatedData);
-  //   //console.log('1️⃣Admission', admissionDetailsData);
-  // };
 
-  const onPersonalTab = (updatedData) => {
-    //setPersonalDetailsData(updatedData);
-    // calculateCompletion('personal', updatedData);
-    //console.log('2️⃣Personal', personalDetailsData);
-  };
-
-  const onFamilyTab = (updatedData) => {
-    //setFamilyDetailsData(updatedData);
-    // calculateCompletion('family', updatedData);
-    //console.log('3️⃣Family', familyDetailsData);
-  };
-
-  const onAdditionalInfoTab = (updateddata) => {
-    //setAdditionalInfoData(updateddata);
-    //console.log('4️⃣Additional', additionalInfoData);
-  };
-
-  // const onStudentStreamwiseSubjectTab = (updateddata) => {
-  //   //setStreamwiseSubjectData(updateddata);
-  //   //console.log('5️⃣StreamwiseSubject', streamwiseSubjectData);
-  // };
-  //#endregion
   const handleNextTab = () => {
     setCurrentTab((prevTab) => Math.min(prevTab + 1, 5)); // Move to the next tab
   };
@@ -558,9 +558,9 @@ const StudentRegistrationForm = () => {
   const RSchoolWise_Student_Id = NavigationValues?.SchoolWise_Student_Id;
   const RDivisionId = NavigationValues?.DivisionId;
   const RStandardId = NavigationValues?.standardId;
-  useEffect(() => {
-    //console.log('0️⃣Redux NavigationValues StudentRegistrationForms:', NavigationValues, RYearWise_Student_Id);
-  }, [NavigationValues]);
+  // useEffect(() => {
+  //   console.log('2️⃣Redux Data:', NavigationValues);
+  // }, [NavigationValues]);
 
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   const SiblingName = USGetSingleStudentDetails[0]
