@@ -10,7 +10,9 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import {
   Avatar,
   Box,
-  Button, Dialog, Divider,
+  Button,
+  Dialog,
+  Divider,
   Grid,
   List,
   ListItem,
@@ -244,8 +246,14 @@ function Header() {
       sessionStorage.setItem('Nationality', studentDetails.Nationality);
       sessionStorage.setItem('MotherTongue', studentDetails.MotherTongue);
       sessionStorage.setItem('Blood_Group', studentDetails.Blood_Group);
-      sessionStorage.setItem('EndDate', getYearFirstDateFormatted(studentDetails.EndDate));
-      sessionStorage.setItem('StartDate', getYearFirstDateFormatted(studentDetails.StartDate));
+      sessionStorage.setItem(
+        'EndDate',
+        getYearFirstDateFormatted(studentDetails.EndDate)
+      );
+      sessionStorage.setItem(
+        'StartDate',
+        getYearFirstDateFormatted(studentDetails.StartDate)
+      );
       sessionStorage.setItem('Language', studentDetails.asLanguage);
       sessionStorage.setItem('ParentStaffID', studentDetails.aiParentStaffId);
       sessionStorage.setItem('StartRowIndex', studentDetails.aiStartRowIndex);
@@ -293,8 +301,14 @@ function Header() {
       );
       sessionStorage.setItem('ClassName', teacherDetails.ClassName);
       sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
-      sessionStorage.setItem('EndDate', getYearFirstDateFormatted(teacherDetails.EndDate));
-      sessionStorage.setItem('StartDate', getYearFirstDateFormatted(teacherDetails.StartDate));
+      sessionStorage.setItem(
+        'EndDate',
+        getYearFirstDateFormatted(teacherDetails.EndDate)
+      );
+      sessionStorage.setItem(
+        'StartDate',
+        getYearFirstDateFormatted(teacherDetails.StartDate)
+      );
       sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
       sessionStorage.setItem('DOB', teacherDetails.DOB);
       sessionStorage.setItem('MobileNumber', teacherDetails.MobileNumber);
@@ -304,8 +318,14 @@ function Header() {
       sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
       sessionStorage.setItem('Address', adminDetails.Address);
       sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
-      sessionStorage.setItem('EndDate', getYearFirstDateFormatted(adminDetails.EndDate));
-      sessionStorage.setItem('StartDate', getYearFirstDateFormatted(adminDetails.StartDate));
+      sessionStorage.setItem(
+        'EndDate',
+        getYearFirstDateFormatted(adminDetails.EndDate)
+      );
+      sessionStorage.setItem(
+        'StartDate',
+        getYearFirstDateFormatted(adminDetails.StartDate)
+      );
       sessionStorage.setItem('DOB', adminDetails.DOB);
       sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
       sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
@@ -401,7 +421,7 @@ function Header() {
     aiUserId: UserId
   };
   const AbsentStudentsBody: ISchoolIdBody = {
-    asSchoolId: Number(SchoolId),
+    asSchoolId: Number(SchoolId)
   };
   const ActiveNoticesBody: IGetAllActiveNoticesBody = {
     asSchoolId: SchoolId,
@@ -459,15 +479,15 @@ function Header() {
   const openPlayStore = () => {
     let url = `https://play.google.com/store/apps/details?id=www.riteschool.net`;
     if (window.localStorage.getItem('deviceType') === 'android') {
-      url = `https://play.google.com/store/apps/details?id=www.riteschool.net&reviewId=0`
+      url = `https://play.google.com/store/apps/details?id=www.riteschool.net&reviewId=0`;
     } else if (window.localStorage.getItem('deviceType') === 'ios') {
-      url = `https://apps.apple.com/us/app/riteshool/id1543493091`
+      url = `https://apps.apple.com/us/app/riteshool/id1543493091`;
     }
     window.open(url, '_blank');
   };
   return (
     <>
-      <Box >
+      <Box>
         <HeaderWrapper
           display="flex"
           alignItems="center"
@@ -475,15 +495,14 @@ function Header() {
             boxShadow:
               theme.palette.mode === 'dark'
                 ? '0 1px 0 ' +
-                alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
-                ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
+                  alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
+                  ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
                 : '0px 2px 8px -3px ' +
-                alpha(theme.colors.alpha.black[100], 0.2) +
-                ', 0px 5px 22px -4px ' +
-                alpha(theme.colors.alpha.black[100], 0.1)
+                  alpha(theme.colors.alpha.black[100], 0.2) +
+                  ', 0px 5px 22px -4px ' +
+                  alpha(theme.colors.alpha.black[100], 0.1)
           }}
         >
-
           {Toaster()}
           <Stack
             direction="row"
@@ -494,8 +513,26 @@ function Header() {
           >
             <img src={img_src} className={classes.smalllogo} />
           </Stack>
-          <Stack direction="row" sx={{ pb: 2, display: { xs: 'none', sm: 'flex', lg: 'flex' }, textAlign: 'center' }}    >
-            <Typography variant='h1' sx={{ fontSize: { xs: 'small', sm: 'medium', lg: 'large' } }}>{SchoolName} <Typography variant='body1' sx={{ fontSize: { xs: 'small', sm: 'medium' } }}>({UsschoolSettings})</Typography></Typography>
+          <Stack
+            direction="row"
+            sx={{
+              pb: 2,
+              display: { xs: 'none', sm: 'flex', lg: 'flex' },
+              textAlign: 'center'
+            }}
+          >
+            <Typography
+              variant="h1"
+              sx={{ fontSize: { xs: 'small', sm: 'medium', lg: 'large' } }}
+            >
+              {SchoolName}{' '}
+              <Typography
+                variant="body1"
+                sx={{ fontSize: { xs: 'small', sm: 'medium' } }}
+              >
+                ({UsschoolSettings})
+              </Typography>
+            </Typography>
           </Stack>
           <Stack
             direction="row"
@@ -509,7 +546,10 @@ function Header() {
                 sx={{
                   '&:hover': {
                     color: `${theme.colors.alpha.trueWhite[100]}`,
-                    background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`
+                    background: `${alpha(
+                      theme.colors.alpha.trueWhite[100],
+                      0.2
+                    )}`
                   },
                   display: 'flex',
                   alignItems: 'center',
@@ -518,10 +558,22 @@ function Header() {
                 ref={ref}
                 onClick={handleOpen}
               >
-                <Avatar
+                {/* <Avatar
                   alt="user.name"
                   src={userprofile}
                   sx={{ backgroundColor: grey[500], height: 40, width: 40 }}
+                  variant="circular"
+                  aria-label="add"
+                /> */}
+                <Avatar
+                  alt="user.name"
+                  src={userprofile}
+                  sx={{
+                    backgroundColor: grey[500],
+                    height: 40,
+                    width: 40,
+                    '& img': { objectFit: 'contain' } // Ensures the full image fits within the circle
+                  }}
                   variant="circular"
                   aria-label="add"
                 />
@@ -547,11 +599,17 @@ function Header() {
                 }}
                 display="flex"
               >
-                <Avatar
-                  variant="circular"
+              <Avatar
                   alt="user.name"
                   src={userprofile}
-                  sx={{ height: 60, width: 60 }}
+                  sx={{
+                    backgroundColor: grey[500],
+                    height: 60,
+                    width: 60,
+                    '& img': { objectFit: 'contain' } // Ensures the full image fits within the circle
+                  }}
+                  variant="circular"
+                  aria-label="add"
                 />
                 <UserBoxText>
                   <UserBoxLabel className="popoverTypo">{Name}</UserBoxLabel>
@@ -679,7 +737,11 @@ function Header() {
                   >
                     <GroupIcon sx={{ marginBottom: '42px' }} />
                     <ul
-                      style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
+                      style={{
+                        listStyle: 'none',
+                        padding: '0px',
+                        margin: '0px'
+                      }}
                     >
                       <Typography sx={{ fontWeight: 'bold' }}>
                         Sibling Login{' '}
@@ -745,7 +807,11 @@ function Header() {
                   >
                     <GroupIcon sx={{ marginBottom: '42px' }} />
                     <ul
-                      style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
+                      style={{
+                        listStyle: 'none',
+                        padding: '0px',
+                        margin: '0px'
+                      }}
                     >
                       {/* <Typography sx={{ color: "blue", fontWeight: "bold" }}>Sibling Login </Typography> */}
                       {LoginStaffKid?.map((StaffKid: any, i) => {
@@ -776,7 +842,7 @@ function Header() {
               </List>
               {/* Set '!==' to '===' | Currently set !== just for testing on Web App */}
               {window.localStorage.getItem('deviceType') !== 'android' ||
-                localStorage.getItem('deviceType') !== 'ios' ? (
+              localStorage.getItem('deviceType') !== 'ios' ? (
                 <Box m={1}>
                   <Button color="primary" fullWidth onClick={handleCloseApp}>
                     <PowerSettingsNewIcon
@@ -785,7 +851,9 @@ function Header() {
                         fontWeight: 'bold'
                       }}
                     />
-                    <UserBoxLabel sx={{ fontWeight: 'bold' }}>Exit</UserBoxLabel>
+                    <UserBoxLabel sx={{ fontWeight: 'bold' }}>
+                      Exit
+                    </UserBoxLabel>
                   </Button>
                 </Box>
               ) : (
@@ -804,21 +872,32 @@ function Header() {
         {/* <Button variant="contained" onClick={handleClickOpen}>
           Exit App
         </Button> */}
-        <Dialog onClose={handleClose} open={open} >
-          <Grid container spacing={2} sx={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            padding: '10px'
-          }}>
-            <Grid item xs={12} sx={{
-              textAlign: 'center',
-              backgroundColor: 'background.paper',
-              boxShadow: 3,
-              padding: ' 10px',
-
-            }}>
-              <Typography variant="h6" component="legend" sx={{ marginBottom: '1rem', fontWeight: 'bold' }}>
+        <Dialog onClose={handleClose} open={open}>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              padding: '10px'
+            }}
+          >
+            <Grid
+              item
+              xs={12}
+              sx={{
+                textAlign: 'center',
+                backgroundColor: 'background.paper',
+                boxShadow: 3,
+                padding: ' 10px'
+              }}
+            >
+              <Typography
+                variant="h6"
+                component="legend"
+                sx={{ marginBottom: '1rem', fontWeight: 'bold' }}
+              >
                 Rate the App!
               </Typography>
               <Rating
@@ -826,7 +905,8 @@ function Header() {
                 value={value}
                 onChange={(event, newValue) => {
                   setValue(newValue);
-                }} size="large"
+                }}
+                size="large"
               />
             </Grid>
             <Stack spacing={4} direction="row">
@@ -843,12 +923,10 @@ function Header() {
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                  handleClose1(selectedValue)
+                  handleClose1(selectedValue);
                   App.exitApp();
                 }}
                 sx={{ borderRadius: '5px' }}
-
-
               >
                 Not now.
               </Button>
@@ -856,7 +934,6 @@ function Header() {
           </Grid>
         </Dialog>
       </>
-
     </>
   );
 }
