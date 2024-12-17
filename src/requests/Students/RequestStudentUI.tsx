@@ -144,8 +144,16 @@ const StudentUISlice = createSlice({
             state.ISUpdateStudent = action.payload;
             state.Loading = false;
         },
+        ResetUpdateStudentMsg(state) {
+            state.ISUpdateStudent = {};
+            state.Loading = false;
+        },
         RAddStudentAdditionalDetails(state, action) {
             state.ISAddStudentAdditionalDetails = action.payload;
+            state.Loading = false;
+        },
+        ResetAddStudentAdditionalDetailsMsg(state) {
+            state.ISAddStudentAdditionalDetails = '';
             state.Loading = false;
         },
         RUpdateStudentStreamwiseSubjectDetails(state, action) {
@@ -485,6 +493,13 @@ export const CDAUpdateStudent =
             }
         };
 
+export const ResetUpdateStudentMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            dispatch(StudentUISlice.actions.ResetUpdateStudentMsg());
+        }
+
 export const CDAAddStudentAdditionalDetails =
     (data: IAddStudentAdditionalDetailsBody): AppThunk =>
         async (dispatch) => {
@@ -497,6 +512,13 @@ export const CDAAddStudentAdditionalDetails =
                 console.log('Response data:', response.data);
             }
         };
+
+export const ResetAddStudentAdditionalDetailsMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            dispatch(StudentUISlice.actions.ResetAddStudentAdditionalDetailsMsg());
+        }
 
 export const CDAUpdateStudentStreamwiseSubjectDetails =
     (data: IUpdateStudentStreamwiseSubjectDetailsBody): AppThunk =>

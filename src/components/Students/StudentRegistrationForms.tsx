@@ -64,6 +64,7 @@ import {
   CDAResetDeleteStudentAchievementDetailsMsg,
   CDAResetSaveStudentAchievementDetailsMsg,
   CDASaveStudentAchievementDetailsMsg,
+  CDAUpdateStudentTrackingDetails,
   GetFormNumber
 } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
@@ -75,7 +76,8 @@ import {
   CDAGetStudentAdditionalDetails,
   CDARetriveStudentStreamwiseSubject,
   CDAUpdateStudent,
-  CDAUpdateStudentStreamwiseSubjectDetails
+  CDAUpdateStudentStreamwiseSubjectDetails,
+  ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
@@ -951,8 +953,9 @@ const StudentRegistrationForm = () => {
   //#region API CAlls
   //  const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
   const UpdateStudentResult: any = useSelector((state: RootState) => state.StudentUI.ISUpdateStudent);
+  const TrackingId = UpdateStudentResult?.aiTrackingId || 0;
   //const oUpdateStudentResult: any = UpdateStudentResult;
-  // console.log('🩸UpdateStudentResult:', UpdateStudentResult);
+  //console.log('🩸UpdateStudentResult:', );
 
   const UpdateStudentBody: IUpdateStudentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -960,7 +963,7 @@ const StudentRegistrationForm = () => {
     asInsertedById: Number(teacherId), // Missing
     asID: 0, // Missing
     asAcademicYearId: academicYearId,
-    asFormNumber: Number(form.admission?.formNumber) || 0, // Missing
+    asFormNumber: Number(form.admission?.formNumber), // Missing
     asPhoto_file_Path: form.personal?.photoFilePath || '', // Missing
     asFirst_Name: form.personal?.firstName || '',
     asMiddle_Name: form.personal?.middleName || '',
@@ -1181,18 +1184,6 @@ const StudentRegistrationForm = () => {
     }
   };
 
-  useEffect(() => {
-    const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody =
-    {
-      asSchoolId: Number(schoolId),
-      asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
-      asInsertedById: Number(teacherId),
-      asID: (UpdateStudentResult as any).iReturnValue, // Accessing iReturnValue here
-      asAcademicYearId: Number(academicYearId)
-    };
-    //dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
-  }, [UpdateStudentResult]);
-
   const handleFormSubmission = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
     setShowValidation(true); // Enable validation display
@@ -1290,8 +1281,26 @@ const StudentRegistrationForm = () => {
         }
       }
       setShowValidation(false); // Hide validation display
+      //dispatch(ResetUpdateStudentMsg());
     }
   }, [UpdateStudentResult]);
+
+
+  useEffect(() => {
+    if (TrackingId != 0) {
+      const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody =
+      {
+        asSchoolId: Number(schoolId),
+        asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
+        asInsertedById: Number(teacherId),
+        asID: TrackingId, // Accessing here
+        asAcademicYearId: Number(academicYearId)
+      };
+      console.log('UpdateStudentTrackingDetailsBody:', UpdateStudentTrackingDetailsBody);
+      dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
+    }
+    dispatch(ResetUpdateStudentMsg());
+  }, [TrackingId]);
 
   //#region EventHandlers
   const handleAdmissionChange = (name: string, value: any) => {
