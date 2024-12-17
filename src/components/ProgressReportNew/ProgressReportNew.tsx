@@ -1164,6 +1164,8 @@ const ProgressReportNew = () => {
                   TotalPerGradeView={TotalPerGradeView}
                   GradesDetailsView={GradesDetailsView}
                   MarkDetailsView={MarkDetailsView}
+                  IsView={EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true'}
+
 
 
                 />
