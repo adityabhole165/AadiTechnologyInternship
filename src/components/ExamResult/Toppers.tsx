@@ -434,6 +434,54 @@ const ExamResultToppers = () => {
 
     };
 
+
+    const getNavLinks = () => {
+        if (LatestExamId1) {
+            return [
+                { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew' },
+                 { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`},
+               
+            ];
+        }
+    
+        if (IsReadOnly) {
+            return examtopperProp === "true"
+                ? [
+                    FinalResultLink,
+                    {
+                        title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`,
+                        path: '/extended-sidebar/Teacher/FinalResultToppers/'
+                    }
+                ]
+                : [
+                    ExamResultLink,
+                    {
+                        title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`,
+                        path: '/extended-sidebar/Teacher/ExamResultToppers/'
+                    }
+                ];
+        }
+    
+        return examtopperProp === "true"
+            ? [
+                FinalResultLink,
+                {
+                    title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`,
+                    path: '/extended-sidebar/Teacher/FinalResultToppers/'
+                }
+            ]
+            : [
+                ExamResultLink,
+                {
+                    title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`,
+                    path: '/extended-sidebar/Teacher/ExamResultToppers/'
+                }
+            ];
+    };
+    
+
+
+
     const ClickItem = () => { };
     return (
         <Box sx={{ px: 2 }}>
@@ -442,16 +490,21 @@ const ExamResultToppers = () => {
                 //     { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
                 //     { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }
                 // ]}
-                navLinks={
-                    IsReadOnly
-                        ? (examtopperProp === "true"
-                            ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
-                            : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
-
-                        : (examtopperProp === "true"
-                            ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
-                            : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
+                navLinks={ getNavLinks()
+                    
                 }
+
+
+                // navLinks={
+                //     IsReadOnly
+                //         ? (examtopperProp === "true"
+                //             ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
+                //             : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
+
+                //         : (examtopperProp === "true"
+                //             ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
+                //             : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
+                // }
 
                 rightActions={<>
                     {radioBtn === '1' ? (
