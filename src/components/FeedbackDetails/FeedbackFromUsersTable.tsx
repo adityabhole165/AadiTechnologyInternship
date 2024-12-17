@@ -214,7 +214,7 @@ const FeedbackFromUsersTable: React.FC<FeedbackFromUsersTableProps> = ({ data: i
                   <TableCell sx={{ py: 0.5 }}>{row.email}</TableCell>
                   <TableCell sx={{ py: 0.5 }}>{row.comments}</TableCell>
                   <TableCell sx={{ textAlign: "center", py: 0.5 }}>
-                  <Tooltip title={'Delete'} >
+                  <Tooltip title={'Edit'} >
                     <IconButton color="primary">
                       <Edit />
                     </IconButton>

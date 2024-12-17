@@ -142,7 +142,7 @@ const FeedbackDetailsBasescreen = () => {
         setLinkName(''); // Reset input field after adding/updating
     };
 const softwareNote =
-    'Please provide detailed feedback on software, including any issues or suggestions for improvement.';   
+    'On click of ‘Submit Your Feedback’ button, you will be redirected to another link, where you can give detailed feedback about software.';   
 
 
 
