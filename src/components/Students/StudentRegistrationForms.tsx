@@ -36,48 +36,23 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
-  IDeleteStudentAchievementDetailsBody,
-  IGenerateTransportFeeEntriesBody,
-  IGetStudentAchievementDetailsBody,
-  IGetStudentNameForAchievementControlBody,
-  IGetStudentsAllAchievementDetailsBody,
-  IGetStudentsSiblingDetailBody,
-  IOverwriteAllSiblingDetailsBody,
-  ISaveStudentAchievementDetailsBody,
-  IUpdateStudentTrackingDetailsBody
+  IDeleteStudentAchievementDetailsBody, IGenerateTransportFeeEntriesBody, IGetStudentAchievementDetailsBody, IGetStudentNameForAchievementControlBody, IGetStudentsAllAchievementDetailsBody,
+  IGetStudentsSiblingDetailBody, IOverwriteAllSiblingDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody
 } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
-  IAddStudentAdditionalDetailsBody,
-  IUpdateStudentBody,
-  IUpdateStudentStreamwiseSubjectDetailsBody
+  IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import {
-  CDADeleteStudentAchievementDetailsMsg,
-  CDAEditGetStudentAchievementDetails,
-  CDAGenerateTransportFeeEntries,
-  CDAGetStudentNameForAchievementControl,
-  CDAGetStudentsAllAchievementList,
-  CDAGetStudentsSiblingDetail,
-  CDAOverwriteSiblingDetailsMsg,
-  CDAResetDeleteStudentAchievementDetailsMsg,
-  CDAResetSaveStudentAchievementDetailsMsg,
-  CDASaveStudentAchievementDetailsMsg,
-  CDAUpdateStudentTrackingDetails,
-  GetFormNumber
+  CDADeleteStudentAchievementDetailsMsg, CDAEditGetStudentAchievementDetails, CDAGenerateTransportFeeEntries, CDAGetStudentNameForAchievementControl,
+  CDAGetStudentsAllAchievementList, CDAGetStudentsSiblingDetail, CDAOverwriteSiblingDetailsMsg, CDAResetDeleteStudentAchievementDetailsMsg,
+  CDAResetSaveStudentAchievementDetailsMsg, CDASaveStudentAchievementDetailsMsg, CDAUpdateStudentTrackingDetails, GetFormNumber
 } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
-  CDAAddStudentAdditionalDetails,
-  CDAFeeAreaNames,
-  CDAGetMasterData,
-  CDAGetSingleStudentDetails,
-  CDAGetStudentAdditionalDetails,
-  CDARetriveStudentStreamwiseSubject,
-  CDAUpdateStudent,
-  CDAUpdateStudentStreamwiseSubjectDetails,
-  ResetUpdateStudentMsg
+  CDAAddStudentAdditionalDetails, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
+  CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails, ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
@@ -93,6 +68,7 @@ import PersonalDetails from './PersonalDetails'; // Assuming PersonalDetails is 
 import CheckboxList from './SiblingDetailsCheckBoxList';
 import StudentProfileHeader from './StudentProfileHeader';
 import StudentSubjectDetails from './StudentSubjectDetails';
+
 
 const StudentRegistrationForm = () => {
   //const { BackN_Student_Ids } = useParams();
@@ -116,6 +92,7 @@ const StudentRegistrationForm = () => {
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const teacherId = sessionStorage.getItem('Id');
   const SNS = Number(localStorage.getItem('SchoolId') == '122');
+  const RoleName = localStorage.getItem('RoleName');
 
   const [currentTab, setCurrentTab] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -567,9 +544,21 @@ const StudentRegistrationForm = () => {
   // }, [NavigationValues]);
 
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
-  const SiblingName = USGetSingleStudentDetails[0]
-  const StudentSiblingName = SiblingName?.SiblingStudentName || '';
-  //console.log('1️⃣USGetSingleStudentDetails', USGetSingleStudentDetails);
+  console.log('1️⃣USGetSingleStudentDetails', USGetSingleStudentDetails);
+  //#region hiddenfields
+  const oStudentDetails = USGetSingleStudentDetails[0]
+  const StudentSiblingName = oStudentDetails?.SiblingStudentName || '';
+  const hidRuleId = oStudentDetails?.Rule_Id; // Old RuleId
+  //const oJoiningDate = oStudentDetails?.Joining_Date.toLocaleString('en', { year: 'numeric', month: 'short', day: '2-digit', });;
+  const hidOldJoiningDate = oStudentDetails?.Joining_Date ? moment(oStudentDetails?.Joining_Date, 'DD-MM-YYYY HH:mm:ss').format('DD-MMM-yyyy') : '';
+  const currentDate = moment(form.admission?.joiningDate).format('DD-MMM-yyyy');
+
+  //console.log(oJoiningDate, '🎈', hidOldJoiningDate, '🎈', currentDate);
+  //const monthFromOJoiningDate = oJoiningDate?.split('-')[1]; // e.g., "Sep"
+  const monthFromHidOldJoiningDate = moment(hidOldJoiningDate, 'DD-MMM-YYYY').format('MMM'); // e.g., "Jun"
+  const monthFromCurrentDate = moment(currentDate, 'DD-MMM-YYYY').format('MMM');
+  //console.log(monthFromHidOldJoiningDate, '🎈🎈', monthFromCurrentDate);
+
 
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
@@ -579,6 +568,20 @@ const StudentRegistrationForm = () => {
   //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
   const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
   //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
+
+  useEffect(() => {
+    let sMsg = '';
+    let bFlag = false;
+
+    if ((hidRuleId != form.admission?.applicableRules) || ((hidOldJoiningDate) != currentDate)) {  // ⭐FeeCategory condions remained
+      bFlag = true;
+      if ((RoleName === 'SuperAdmin' && monthFromHidOldJoiningDate != monthFromCurrentDate)) {
+        sMsg = ''
+      }
+      else
+        bFlag = false
+    }
+  }, []);
 
   useEffect(() => {
     if (
