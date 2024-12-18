@@ -311,14 +311,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Other Utilities',
-      title: 'Library',
-      icon: <LibraryBooksIcon />,
-      link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
-      screenId: 150,
-      visible: true
-    },
-    {
-      id: 'Other Utilities',
       title: 'Reports',
       icon: <FileCopyIcon />,
       link: null,
