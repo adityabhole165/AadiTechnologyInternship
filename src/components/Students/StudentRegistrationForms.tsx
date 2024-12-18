@@ -40,7 +40,7 @@ import {
   IGetStudentsSiblingDetailBody, IOverwriteAllSiblingDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody
 } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
-  IAddStudentAdditionalDetailsBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody
+  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile3';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
@@ -51,7 +51,7 @@ import {
 } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
-  CDAAddStudentAdditionalDetails, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
+  CDAAddStudentAdditionalDetails, CDACheckDependenciesForFees, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
   CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails, ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
@@ -553,13 +553,15 @@ const StudentRegistrationForm = () => {
   const hidOldJoiningDate = oStudentDetails?.Joining_Date ? moment(oStudentDetails?.Joining_Date, 'DD-MM-YYYY HH:mm:ss').format('DD-MMM-yyyy') : '';
   const currentDate = moment(form.admission?.joiningDate).format('DD-MMM-yyyy');
 
-  //console.log(oJoiningDate, '🎈', hidOldJoiningDate, '🎈', currentDate);
+  console.log(hidOldJoiningDate, '🎈', currentDate);
   //const monthFromOJoiningDate = oJoiningDate?.split('-')[1]; // e.g., "Sep"
   const monthFromHidOldJoiningDate = moment(hidOldJoiningDate, 'DD-MMM-YYYY').format('MMM'); // e.g., "Jun"
   const monthFromCurrentDate = moment(currentDate, 'DD-MMM-YYYY').format('MMM');
-  //console.log(monthFromHidOldJoiningDate, '🎈🎈', monthFromCurrentDate);
+  console.log(monthFromHidOldJoiningDate, '🎈🎈', monthFromCurrentDate);
 
-
+  const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
+  const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
+  console.log('⏮️ReferenceMessages', sMsg);
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
@@ -569,19 +571,28 @@ const StudentRegistrationForm = () => {
   const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
   //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
 
-  useEffect(() => {
-    let sMsg = '';
-    let bFlag = false;
+  // useEffect(() => {
+  //   let sMsg = '';
+  //   let bFlag = false;
+  //   const CheckDependenciesForFeesBody: ICheckDependenciesForFeesBody = {
+  //     asSchoolId: 18,
+  //     asReference_Id: 87,
+  //     asRecord_Id: 3556,
+  //     asRecord_Name: "",
+  //     asAcadmicYearId: 55
+  //   }
 
-    if ((hidRuleId != form.admission?.applicableRules) || ((hidOldJoiningDate) != currentDate)) {  // ⭐FeeCategory condions remained
-      bFlag = true;
-      if ((RoleName === 'SuperAdmin' && monthFromHidOldJoiningDate != monthFromCurrentDate)) {
-        sMsg = ''
-      }
-      else
-        bFlag = false
-    }
-  }, []);
+
+  //   if ((hidRuleId != form.admission?.applicableRules) || ((hidOldJoiningDate) != currentDate)) {  // ⭐FeeCategory condions remained
+  //     bFlag = true;
+  //     if ((RoleName === 'SuperAdmin' && monthFromHidOldJoiningDate != monthFromCurrentDate)) {
+  //       dispatch(CDACheckDependenciesForFees(CheckDependenciesForFeesBody));
+  //       sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
+  //     }
+  //     else
+  //       bFlag = false
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (
@@ -1091,6 +1102,32 @@ const StudentRegistrationForm = () => {
     asSiblingId: selectedSiblings
   }
 
+  const CheckDependenciesForFeesBody: ICheckDependenciesForFeesBody = {
+    asSchoolId: Number(schoolId),
+    asReference_Id: 87,
+    asRecord_Id: Number(SchoolWise_Student_Id ?? RSchoolWise_Student_Id),
+    asRecord_Name: "",
+    asAcadmicYearId: Number(academicYearId),
+  }
+
+  const CheckDependenciesForFees = () => {
+    let sMsg = '';
+    let bFlag = false;
+
+    if ((hidRuleId != form.admission?.applicableRules) || ((hidOldJoiningDate) != currentDate)) {  // ⭐FeeCategory condions remained
+      bFlag = true;
+      if ((RoleName != 'SuperAdmin' && monthFromHidOldJoiningDate != monthFromCurrentDate)) {
+        dispatch(CDACheckDependenciesForFees(CheckDependenciesForFeesBody));
+        console.log("⚠️⚠️⚠️Executing CheckDependenciesForFees API", CheckDependenciesForFeesBody);
+      }
+      else
+        bFlag = false
+    }
+    //console.log('⭐', sMsg, '⭐', bFlag);
+    return { sMsg, bFlag };
+
+  }
+
   const executeApiCalls = async (
     updateStudentBody,
     additionalDetailsBody,
@@ -1160,6 +1197,15 @@ const StudentRegistrationForm = () => {
       return; // Do not proceed with API calls in this flow
     }
 
+    // CheckDependenciesForFees();
+
+    // console.log('⚠️sMsg', sMsg);
+    // if (sMsg != "") {
+    //   console.log('⚠️sMsg', sMsg);
+    //   toast.warning(sMsg);
+    //   return;
+    // }
+    // console.log('⚠️sMsg Passed', ReferenceMessages[0]?.ReferenceMsg);
     // Validation passed, proceed with API calls
     try {
       console.log('Validation passed! Proceeding with API calls...');
@@ -1191,6 +1237,13 @@ const StudentRegistrationForm = () => {
       return;
     }
     setShowValidation(true); // Enable validation display
+
+    // const { sMsg, bFlag } = CheckDependenciesForFees();
+
+    // if (sMsg == "") {
+    //   toast.warning(sMsg);
+    //   return;
+    // }
     // Proceed with API calls when the popup Save button is clicked
     try {
       console.log('Popup validation passed! Proceeding with sibling and other API calls...');
