@@ -37,9 +37,13 @@ interface BookTableProps {
 
 const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete }) => {
 
+  
+
   const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<string>('bookTitle');
   const [sortedData, setSortedData] = useState(data);
+
+  
 
   const handleSortRequest = (property: string) => {
     const isAsc = orderBy === property && orderDirection === 'asc';
@@ -51,6 +55,9 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete 
       if (a[property] > b[property]) return isAsc ? 1 : -1;
       return 0;
     });
+
+    console.log(sortedArray,"sortedArray");
+    
     setSortedData(sortedArray);
   };
 
@@ -143,7 +150,7 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete 
           </TableHead>
 
           <TableBody>
-            {sortedData.map((book, index) => (
+            {data.map((book, index) => (
               <TableRow key={index}>
                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                   {book.bookTitle}

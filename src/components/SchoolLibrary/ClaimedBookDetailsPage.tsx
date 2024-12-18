@@ -61,14 +61,19 @@ const ClaimedBookDetailsPage = () => {
         asAcademicYearId: asAcademicYearId,
         asUserID: asUserId,
         asStartIndex: (page - 1) * rowsPerPage,
-        asEndIndex: page * rowsPerPage,
+        asEndIndex: 200,
         asBookTitle: BookTitle,
         asUserName: UserName,
         asSortExpression: "ORDER BY Book_Title ASC",
-        asAllUserFlag: showAllUsers ? 1 : 0
+        asAllUserFlag: showAllUsers == true  ? 1 : 0
 
     };
 
+
+    useEffect(() => {
+        dispatch(CDAGetReserveBookDetails(bookReserveDetails))
+        
+    }, [showAllUsers,UserName,BookTitle,page]);
     const handleCheckboxChange = () => {
         setShowAllUsers(!showAllUsers);
     };
