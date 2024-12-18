@@ -71,10 +71,10 @@ const BookTable2 = ({ data1 }) => {
           <TableBody>
             {paginatedData.map((book, index) => (
               <TableRow key={index}>
-                <TableCell sx={{ py: 1 }}>{book.Book_Title}</TableCell>
-                <TableCell sx={{ py: 1 }}>{book.Accession_No}</TableCell>
-                <TableCell sx={{ py: 1 }}>{book.Issue_Date}</TableCell>
-                <TableCell sx={{ py: 1 }}>{book.Return_Date}</TableCell>
+                <TableCell sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{book.Book_Title}</TableCell>
+                <TableCell sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{book.Accession_No}</TableCell>
+                <TableCell sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{book.Issue_Date}</TableCell>
+                <TableCell sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{book.Return_Date}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -119,16 +119,16 @@ const BookTable: React.FC<BookTableProps> = ({ data, clickcliam, DefaultValue, h
             {USGetAllBooksDetailss.map((row) => (
 
               <TableRow key={row.Book_Id} >
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", py: 1 }}>{row.Book_No}</TableCell>
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", py: 1 }} >{row.Book_Title}</TableCell>
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", py: 1 }}>{row.Author_Name}</TableCell>
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", py: 1 }}>{row.Published_By}</TableCell>
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", py: 1 }}>{row.Category_Name}</TableCell>
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", py: 1 }}>{row.Language}</TableCell>
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", textAlign: 'center', py: 1 }}>{row.Available_Books}</TableCell>
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", textAlign: 'center', py: 1 }}>{row.Total_Books}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", paddingTop: '2.5px', paddingBottom: '2.5px' }}>{row.Book_No}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", paddingTop: '2.5px', paddingBottom: '2.5px' }} >{row.Book_Title}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", paddingTop: '2.5px', paddingBottom: '2.5px' }}>{row.Author_Name}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", paddingTop: '2.5px', paddingBottom: '2.5px' }}>{row.Published_By}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", paddingTop: '2.5px', paddingBottom: '2.5px' }}>{row.Category_Name}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", paddingTop: '2.5px', paddingBottom: '2.5px' }}>{row.Language}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", textAlign: 'center', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{row.Available_Books}</TableCell>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", textAlign: 'center', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{row.Total_Books}</TableCell>
 
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", py: 1, textAlign: 'center' }}>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red",paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
                   {row.Available_Books === '0' ? (
                     <Link href="#" onClick={() => clickcliam(row.Book_Id)}>Claim</Link>
                   ) : (" ")}
