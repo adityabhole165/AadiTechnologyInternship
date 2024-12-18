@@ -30,7 +30,7 @@ const LibraryBaseScreen = () => {
     const [LanguageId, setLanguageId] = useState<string>('');
     const [IsPrintable, setIsPrintable] = useState<string>('');
     const [SearchBook, setSearchBook] = useState([]);
-
+    const [errorMsg, setErrorMsg] = useState(""); // New state for error message
     // Initialize state with numbers, as it's required for pagination
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState<number>(1);
@@ -157,11 +157,11 @@ const LibraryBaseScreen = () => {
 
         if (USReserveBookCountPerPerson.length > 0) {
             if (USReserveBookCountPerPerson[0].Count === "999") {
-                toast.error("Could not claim the same book.");
+                setErrorMsg("Could not claim the same book.");
                 isValid = false;
             }
             if (USReserveBookCountPerPerson[0].Count === "4") {
-                toast.error("Cannot claim more than 4 books.");
+                setErrorMsg("Cannot claim more than 4 books.");
                 isValid = false;
             }
             if (!isValid) return;
@@ -315,6 +315,12 @@ const LibraryBaseScreen = () => {
                     </>
                 }
             />
+            {errorMsg && (
+                <span style={{ color: 'red', fontWeight: 'bolder' }}>
+                    {errorMsg}
+                    <br />
+                </span>
+            )}
             <LibrarySearch
                 BookTitle={BookTitle}
                 AccessionNumber={AccessionNumber}
