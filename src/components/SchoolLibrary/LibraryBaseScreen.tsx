@@ -349,7 +349,7 @@ const LibraryBaseScreen = () => {
                     </Box>
                 </Box>
             </Box>
-            <Box mt={1} px={2} sx={{ backgroundColor: 'white' }} pb={2} >
+            <Box mt={0.5} px={2} sx={{ backgroundColor: 'white' }}pb={0.1} >
                 <Box sx={{ display: 'flex' }}>
                     <Box>
                         <Typography variant="h4" pt={2} color="#38548A">
