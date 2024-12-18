@@ -571,6 +571,36 @@ export interface IDeletePhotosBody {
     asStudentId: number,
     asUpdatedById: number
 }
+//
+export interface ICheckDependenciesForFeesBody {
+    asSchoolId: number
+    asReference_Id: number
+    asRecord_Id: number
+    asRecord_Name: string
+    asAcadmicYearId: number
+}
+
+export interface ICheckDependenciesForFeesResult {
+    ReferenceList: {
+        DebitorCredit: string
+        Standard_Div_Id: string
+        Std_FeeType_Id: string
+        Fee_Type: string
+        Student_Id: string
+        Remarks: string
+        Standard_Id: string
+        Schoolwise_Standard_Fee_Configuration_Id: string
+        SchoolWise_Standard_FeeType_Id: string
+        Is_Deleted: string
+        Academic_Year_Id: string
+        SchoolWise_Student_Id: string
+    }[]
+    ReferenceMessages: {
+        Reference: string
+    }[]
+}
+
+
 
 
 

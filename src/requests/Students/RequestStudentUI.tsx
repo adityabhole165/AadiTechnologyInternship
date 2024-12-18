@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IAddStudentAdditionalDetailsBody, ICheckIfAttendanceMarkedBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckIfAttendanceMarkedBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -48,6 +48,9 @@ const StudentUISlice = createSlice({
         ISDeleteFatherPhotoMsg: '',
         ISDeleteMotherPhotoMsg: '',
         ISDeleteGuardianPhotoMsg: '',
+        //
+        ISReferenceListDetails: [],
+        ISReferenceMessages: [],
         Loading: true
     },
     reducers: {
@@ -202,6 +205,14 @@ const StudentUISlice = createSlice({
         },
         RDeleteGuardianPhoto(state, action) {
             state.ISDeleteGuardianPhotoMsg = action.payload;
+            state.Loading = false;
+        },
+        RReferenceListDetails(state, action) {
+            state.ISReferenceListDetails = action.payload;
+            state.Loading = false;
+        },
+        RReferenceMessages(state, action) {
+            state.ISReferenceMessages = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -635,4 +646,44 @@ export const CDADeleteGuardianPhoto =
             dispatch(StudentUISlice.actions.RDeleteGuardianPhoto(response.data));
             //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
         };
+
+export const CDACheckDependenciesForFees =
+    (data: ICheckDependenciesForFeesBody): AppThunk =>
+        async (dispatch) => {
+            //dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.CheckDependenciesForFeesApi(data);
+
+            let ReferenceList = []
+            response.data.ReferenceList.map((item, i) => {
+                ReferenceList.push({
+                    DebitorCredit: item.DebitorCredit,
+                    Standard_Div_Id: item.Standard_Div_Id,
+                    Std_FeeType_Id: item.Std_FeeType_Id,
+                    Fee_Type: item.Fee_Type,
+                    Student_Id: item.Student_Id,
+                    Remarks: item.Remarks,
+                    Standard_Id: item.Standard_Id,
+                    Schoolwise_Standard_Fee_Configuration_Id: item.Schoolwise_Standard_Fee_Configuration_Id,
+                    SchoolWise_Standard_FeeType_Id: item.SchoolWise_Standard_FeeType_Id,
+                    Is_Deleted: item.Is_Deleted,
+                    Academic_Year_Id: item.Academic_Year_Id,
+                    SchoolWise_Student_Id: item.SchoolWise_Student_Id,
+
+                });
+            });
+
+            dispatch(StudentUISlice.actions.RReferenceListDetails(ReferenceList));
+            //console.log('GetStudentStreamwiseSubjectDetails:', GetStudentStreamwiseSubjectDetails);
+
+            let ReferenceMessages = []
+            response.data.ReferenceMessages.map((item, i) => {
+                ReferenceMessages.push({
+                    ReferenceMsg: item.Reference,
+                });
+            });
+
+            dispatch(StudentUISlice.actions.RReferenceMessages(ReferenceMessages));
+            //console.log('StudentStreamDetails:', StudentStreamDetails);
+        };
+
 export default StudentUISlice.reducer;
