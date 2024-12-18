@@ -367,6 +367,12 @@ const AttendanceTopperspage = Loader(
 const ExportStudentMarksBaseScreen = Loader(
   lazy(() => import('src/components/ExportStudentMarks/ExportStudentMarksBaseScreen'))
 );
+const UserDocumentDetailsBaseScreen = Loader(
+  lazy(() => import('src/components/UserDocumentDetails/UserDocumentDetailsBaseScreen'))
+);
+const NoticeBoardBaseScreen = Loader(
+  lazy(() => import('src/components/NoticeBoard/NoticeBoardBaseScreen'))
+);
 
 const StudentDetailsBaseScreen = Loader(
   lazy(() =>
@@ -980,6 +986,14 @@ const teacherRoutes = [
   {
     path: 'ExportStudentMarksBaseScreen',
     element: <ExportStudentMarksBaseScreen />
+  },
+  {
+    path: 'UserDocumentDetailsBaseScreen',
+    element: <UserDocumentDetailsBaseScreen />
+  },
+  {
+    path: 'NoticeBoardBaseScreen',
+    element: <NoticeBoardBaseScreen />
   }
 ];
 

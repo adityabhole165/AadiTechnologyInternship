@@ -65,6 +65,7 @@ import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDet
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import { IsPrePrimaryExamConfigurationBody } from 'src/interfaces/ExamResult/IExamResult';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
 import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
@@ -72,6 +73,7 @@ import { IGetAllowedPagesForUserBody, IGetScreensAccessPermissions } from 'src/i
 import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import { getSchoolSettingsValue } from 'src/requests/Authentication/SchoolList';
 import { getPrePrimaryExamConfiguration } from 'src/requests/ExamResult/RequestExamResult';
+import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
@@ -656,6 +658,20 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/ExportStudentMarksBaseScreen',
       screenId: 0
     },
+    {
+      id: 'Extra Screens',
+      title: 'User Document Details',
+      icon: <ContactPageIcon />,
+      link: '/extended-sidebar/Teacher/UserDocumentDetailsBaseScreen',
+      screenId: 0
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Notice Board',
+      icon: <MarkUnreadChatAltIcon />,
+      link: '/extended-sidebar/Teacher/NoticeBoardBaseScreen',
+      screenId: 0
+    },  
   ];
   // #endregion
 
