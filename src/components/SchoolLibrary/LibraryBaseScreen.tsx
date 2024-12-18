@@ -35,6 +35,7 @@ const LibraryBaseScreen = () => {
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState<number>(1);
     const rowsPerPageOptions = [20, 50, 100, 200];
+    const [BookId, setBookId] = useState(0);
 
     const [headerArray, setHeaderArray] = useState([
         { Id: 1, Header: 'Accession No', SortOrder: null, sortKey: 'Book_No' },
@@ -131,12 +132,17 @@ const LibraryBaseScreen = () => {
 
     };
     useEffect(() => {
+        if (errorMsg) {
+            setErrorMsg(""); // Reset error message whenever page state changes
+        }
+    }, [page, rowsPerPage, sortExpression, sortHeader]);
+
+    useEffect(() => {
+        setErrorMsg("");
         dispatch(CDAGetReserveBookDetails(bookReserveDetails))
         dispatch(CDAGetLibraryBookIssue(BookIssueDetails));
         dispatch(CDAGetTotalBooksCount(Totalbookcount))
     }, [])
-
-    const [BookId, setBookId] = useState(0);
 
     const ClickCliam = (Book_Id: number) => {
         setBookId(Book_Id)
@@ -185,6 +191,7 @@ const LibraryBaseScreen = () => {
         if (USBookCliamMsg !== "") {
             toast.success(USBookCliamMsg); // Display the success message from `USBookCliamMsg`
             dispatch(CDAClearBookClimedMsg()); // Clear the message
+            setErrorMsg("");
         }
     }, [USBookCliamMsg, USReserveBookCountPerPerson]);
 
@@ -218,7 +225,9 @@ const LibraryBaseScreen = () => {
         setsortHeader(value.Id)
         setSortExpression(value.SortOrder)
     }
-
+    useEffect(() => {
+        setErrorMsg(""); // Clear error message
+    }, []); 
     const clickReset = () => {
         // Reset local state
         setBookTitle('');
@@ -228,6 +237,7 @@ const LibraryBaseScreen = () => {
         setStandardId('0');
         setLanguageId('0');
         setIsPrintable('');
+        setErrorMsg('');
         const BookDetails: IGetAllBooksDetailsBody = {
             asprm_iSchoolId: asSchoolId,
             Book_Title: BookTitle,
@@ -286,13 +296,13 @@ const LibraryBaseScreen = () => {
                     </>
                 }
             />
-             <Box pb={0.5}>
-            {errorMsg && (
-                <span style={{ color: 'red', fontWeight: 'bolder' }}>
-                    {errorMsg}
-                    <br />
-                </span>
-            )}
+            <Box pb={0.5}>
+                {errorMsg && (
+                    <span style={{ color: 'red', fontWeight: 'bolder' }}>
+                        {errorMsg}
+                        <br />
+                    </span>
+                )}
             </Box>
             <LibrarySearch
                 BookTitle={BookTitle}
