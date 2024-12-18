@@ -543,7 +543,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Library',
       icon: <LibraryBooksIcon />,
       link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
-      screenId: 150
+      screenId: 0
     },
     {
       id: 'Extra Screens',
