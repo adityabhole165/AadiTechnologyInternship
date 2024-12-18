@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiLibraryBaseScreen from "src/api/SchoolLibrary/APILibraryBaseScreen";
+import { getDateFormatFeedback, getDateFormatted } from "src/components/Common/Util";
 import { IBookclaimedBody, ICancelBookReservationBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetReserveBooksCountperpersonBody, ITotalBooksCountsBody } from "src/interfaces/SchoolLibrary/ILibraryBaseScreen";
 import { AppThunk } from "src/store";
 
@@ -121,8 +122,8 @@ export const CDAGetLibraryBookIssue = (data: IGetLibraryBookIssueDetailsBody): A
             Id: item.Book_Id,
             Book_Title: item.Book_Title,
             Accession_No: item.Book_No,
-            Issue_Date: item.Issue_Date,
-            Return_Date: item.Return_Date,
+            Issue_Date: getDateFormatted(item.Issue_Date),
+            Return_Date: getDateFormatted(item.Return_Date),
 
         };
     });
