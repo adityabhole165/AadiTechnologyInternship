@@ -27,6 +27,7 @@ import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
 import ImportContactsOutlinedIcon from '@mui/icons-material/ImportContactsOutlined';
 import InsertCommentTwoToneIcon from '@mui/icons-material/InsertCommentTwoTone'; // Progress Remark 
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone'; //Leave Details
 import LockResetTwoToneIcon from '@mui/icons-material/LockResetTwoTone'; // password
 import User from '@mui/icons-material/ManageAccounts';
@@ -51,13 +52,15 @@ import ListItemButton from '@mui/material/ListItemButton';
 
 import { PersonOff } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
 import FeedbackIcon from '@mui/icons-material/Feedback';
+import GetAppIcon from '@mui/icons-material/GetApp';
+import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { red } from '@mui/material/colors';
 import { Inbox, MailCheck } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import GetAppIcon from '@mui/icons-material/GetApp';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { GetIsPrePrimaryTeacher, GetScreenAccessPermissionByPageID, logoURL } from 'src/components/Common/Util';
@@ -65,7 +68,6 @@ import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDet
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import { IsPrePrimaryExamConfigurationBody } from 'src/interfaces/ExamResult/IExamResult';
-import ContactPageIcon from '@mui/icons-material/ContactPage';
 import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
@@ -73,7 +75,6 @@ import { IGetAllowedPagesForUserBody, IGetScreensAccessPermissions } from 'src/i
 import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import { getSchoolSettingsValue } from 'src/requests/Authentication/SchoolList';
 import { getPrePrimaryExamConfiguration } from 'src/requests/ExamResult/RequestExamResult';
-import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
@@ -287,7 +288,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     {
       id: 'Other Utilities',
       title: 'Library',
-      icon: <LockResetTwoToneIcon />,
+      icon: <LibraryBooksIcon />,
       link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
       screenId: 150,
       visible: true
@@ -311,7 +312,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     {
       id: 'Other Utilities',
       title: 'Library',
-      icon: <AutoStoriesIcon />,
+      icon: <LibraryBooksIcon />,
       link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
       screenId: 150,
       visible: true
@@ -548,7 +549,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     {
       id: 'Other Utilities',
       title: 'Library',
-      icon: <AddShoppingCartTwoToneIcon />,
+      icon: <LibraryBooksIcon />,
       link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
       screenId: 0
     },
@@ -671,7 +672,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <MarkUnreadChatAltIcon />,
       link: '/extended-sidebar/Teacher/NoticeBoardBaseScreen',
       screenId: 0
-    },  
+    },
   ];
   // #endregion
 
