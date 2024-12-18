@@ -258,7 +258,7 @@ const StudentRegistrationForm = () => {
       competitiveExams: '',
     }
   });
-
+  const [feeDependencyError, setFeeDependencyError] = useState('');
   //Siblings States
   const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
   const [selectedSiblings, setSelectedSiblings] = useState('');
@@ -304,7 +304,7 @@ const StudentRegistrationForm = () => {
   });
 
   const [profileCompletion, setProfileCompletion] = useState(0);
-  const [validationMessages, setValidationMessages] = useState<string[]>([]);
+  //const [validationMessages, setValidationMessages] = useState<string[]>([]);
 
   //  new state for tab validation status
   const [tabValidationStatus, setTabValidationStatus] = useState({
@@ -440,7 +440,7 @@ const StudentRegistrationForm = () => {
     );
 
     // Update validation messages state
-    setValidationMessages(allMessages);
+    //setValidationMessages(allMessages);
 
     // Return true if there are no unfilled fields
     return allMessages.length === 0;
@@ -560,8 +560,8 @@ const StudentRegistrationForm = () => {
   console.log(monthFromHidOldJoiningDate, '🎈🎈', monthFromCurrentDate);
 
   const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
-  const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
-  console.log('⏮️ReferenceMessages', sMsg);
+  //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
+  //console.log('⏮️ReferenceMessages', ReferenceMessages);
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
@@ -1110,21 +1110,22 @@ const StudentRegistrationForm = () => {
     asAcadmicYearId: Number(academicYearId),
   }
 
-  const CheckDependenciesForFees = () => {
-    let sMsg = '';
+  const CheckDependenciesForFees = async () => {
+    //let sMsg = '';
     let bFlag = false;
 
-    if ((hidRuleId != form.admission?.applicableRules) || ((hidOldJoiningDate) != currentDate)) {  // ⭐FeeCategory condions remained
+    if ((hidRuleId !== form.admission?.applicableRules) || ((hidOldJoiningDate) !== currentDate)) {  // ⭐FeeCategory condions remained
       bFlag = true;
-      if ((RoleName != 'SuperAdmin' && monthFromHidOldJoiningDate != monthFromCurrentDate)) {
-        dispatch(CDACheckDependenciesForFees(CheckDependenciesForFeesBody));
-        console.log("⚠️⚠️⚠️Executing CheckDependenciesForFees API", CheckDependenciesForFeesBody);
+
+      if ((RoleName !== 'SuperAdmin' && monthFromHidOldJoiningDate !== monthFromCurrentDate)) {
+        await dispatch(CDACheckDependenciesForFees(CheckDependenciesForFeesBody));
+
+        console.log(RoleName, "⚠️Executing CheckDependenciesForFees API", CheckDependenciesForFeesBody);
       }
-      else
-        bFlag = false
+      else { bFlag = false }
     }
     //console.log('⭐', sMsg, '⭐', bFlag);
-    return { sMsg, bFlag };
+    return { bFlag };
 
   }
 
@@ -1184,28 +1185,31 @@ const StudentRegistrationForm = () => {
     // Validate the form
     //const isFormValid = handleValidation();
     const isFormValid = Object.values(tabValidationStatus).every(status => status === true);
-
     if (!isFormValid) {
       console.log('😶 Form submission halted due to validation errors.');
       return;
     }
+
     // Check if popup needs to open
     const shouldOpenPopup = !!StudentSiblingName; // Popup opens if sibling name exists
-
     if (shouldOpenPopup) {
       OpenSiblingPop(); // Open the popup
       return; // Do not proceed with API calls in this flow
     }
 
-    // CheckDependenciesForFees();
+    // const bFlag = await CheckDependenciesForFees();  // Only working on 2nd Execution
 
-    // console.log('⚠️sMsg', sMsg);
-    // if (sMsg != "") {
-    //   console.log('⚠️sMsg', sMsg);
-    //   toast.warning(sMsg);
-    //   return;
+    // if (bFlag.bFlag) {
+    //   console.log('⚠️ bFlag triggered:', bFlag);
+    //   if (ReferenceMessages[0] !== '') {
+    //     console.log('⚠️ ReferenceMsg:', ReferenceMessages[0]?.ReferenceMsg);
+    //     toast.warning(ReferenceMessages[0]?.ReferenceMsg);
+    //     setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
+    //     return; // Exit the entire function
+    //   }
     // }
-    // console.log('⚠️sMsg Passed', ReferenceMessages[0]?.ReferenceMsg);
+
+
     // Validation passed, proceed with API calls
     try {
       console.log('Validation passed! Proceeding with API calls...');
@@ -1230,13 +1234,14 @@ const StudentRegistrationForm = () => {
 
   //#region SiblingPopSave
   const handleSiblingPopSave = async () => {
+    setShowValidation(true);
     // Check if at least one checkbox is selected
     if (!selectedSiblings || selectedSiblings.length === 0) {
       toast.warning('At least one detail should be selected to update in the sibling profile');
       console.warn('🚨 Sibling update halted due to missing selections.');
       return;
     }
-    setShowValidation(true); // Enable validation display
+    // Enable validation display
 
     // const { sMsg, bFlag } = CheckDependenciesForFees();
 
@@ -1269,7 +1274,7 @@ const StudentRegistrationForm = () => {
         && !UpdateStudentResult.IsGeneralRegisterNoAlreadyPresent && !UpdateStudentResult.IsStudentUniqueNoAlreadyPresent
         && !UpdateStudentResult.CheckIsRFormNumberDuplicate
       ) {
-        toast.success("Student information updated successfully!");
+        toast.success("Student information updated successfully! LOLOLOLOLOLOLOLOLOLO");
       } else {
         if (UpdateStudentResult.IsRollNumberDuplicate) {
           toast.error("Roll number is already present.");
@@ -1763,15 +1768,15 @@ const StudentRegistrationForm = () => {
         <StudentProfileHeader />
       </Box>
       <Box sx={{ backgroundColor: 'white', p: 2, mb: 1 }}>
-        {validationMessages.length > 0 && (
-          <Box pt={1}>
-            {validationMessages.map((message, index) => (
-              <Typography key={index} variant="h5" style={{ color: 'red' }}>
-                {message}
-              </Typography>
-            ))}
-          </Box>
-        )}
+        {/* {validationMessages.length > 0 && ( */}
+        <Box pt={1}>
+          {/* {validationMessages.map((message, index) => ( */}
+          <Typography variant="h5" style={{ color: 'red' }}>
+            {feeDependencyError ? feeDependencyError : ''}
+          </Typography>
+          {/* ))} */}
+        </Box>
+        {/* )} */}
         {/* Profile Completion Bar */}
         <Box
           sx={{
