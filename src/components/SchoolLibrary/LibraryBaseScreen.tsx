@@ -254,35 +254,6 @@ const LibraryBaseScreen = () => {
                 navLinks={[{ title: 'Library', path: '/extended-sidebar/Teacher/LibraryBaseScreen' }]}
                 rightActions={
                     <>
-                        {/* <Tooltip title={"Search"}>
-                            <IconButton
-                                sx={{
-                                    background: (theme) => theme.palette.primary.main,
-                                    color: 'white',
-                                    '&:hover': {
-                                        backgroundColor: (theme) => theme.palette.primary.dark,
-                                    },
-                                }}
-                                onClick={clickSearch}
-                            >
-                                <SearchTwoTone />
-                            </IconButton>
-                        </Tooltip> */}
-
-                        {/* <Tooltip title={'Reset'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600]
-                                    }
-                                }}
-                                onClick={clickClear} >
-                                <RestartAltIcon />
-                            </IconButton>
-                        </Tooltip> */}
-
                         <Tooltip title={"Here you can search the books and also you can see the issued book details."}>
                             <IconButton
                                 sx={{
@@ -315,12 +286,14 @@ const LibraryBaseScreen = () => {
                     </>
                 }
             />
+             <Box pb={0.5}>
             {errorMsg && (
                 <span style={{ color: 'red', fontWeight: 'bolder' }}>
                     {errorMsg}
                     <br />
                 </span>
             )}
+            </Box>
             <LibrarySearch
                 BookTitle={BookTitle}
                 AccessionNumber={AccessionNumber}
@@ -339,7 +312,7 @@ const LibraryBaseScreen = () => {
                 clickSearch={clickSearch}
                 clickReset={clickReset} />
 
-            <Box mt={1} px={2} sx={{ background: 'white', p: 1 }}>
+            <Box mt={1} px={2} sx={{ background: 'white', p: 2 }}>
                 <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
                     <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
                     <Box sx={{ display: 'flex', gap: '20px' }}>
@@ -349,7 +322,7 @@ const LibraryBaseScreen = () => {
                     </Box>
                 </Box>
             </Box>
-            <Box mt={0.5} px={2} sx={{ backgroundColor: 'white' }}pb={0.1} >
+            <Box mt={1} px={2} sx={{ backgroundColor: 'white' }} pb={2} >
                 <Box sx={{ display: 'flex' }}>
                     <Box>
                         <Typography variant="h4" pt={2} color="#38548A">
