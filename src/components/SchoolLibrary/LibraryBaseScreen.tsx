@@ -332,6 +332,17 @@ const LibraryBaseScreen = () => {
                 setIsPrintable={setIsPrintable}
                 clickSearch={clickSearch}
                 clickReset={clickReset} />
+
+            <Box mt={1} px={2} sx={{ background: 'white', p: 1 }}>
+                <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                    <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
+                    <Box sx={{ display: 'flex', gap: '20px' }}>
+                        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                            <Typography sx={{ color: 'red' }}>Can not be issued</Typography>
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
             <Box mt={1} px={2} sx={{ backgroundColor: 'white' }} pb={2} >
                 <Box sx={{ display: 'flex' }}>
                     <Box>
