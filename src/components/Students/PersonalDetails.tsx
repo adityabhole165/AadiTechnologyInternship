@@ -630,7 +630,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 value={personal.firstName}
                 onChange={handleInputChange}
                 error={!!validationMessages.firstName}
-                helperText={validationMessages.firstName ? 'First Name should not be blank' : ''}
+                helperText={validationMessages.firstName ? 'First Name should not be blank.' : ''}
                 fullWidth
                 inputProps={{
                   maxLength: 50, // Restricts the input length to 50 characters
@@ -692,7 +692,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.mobileNumber1}
                   onChange={handleContactNoChange}
                   error={!!validationMessages.mobileNumber1}
-                  helperText={validationMessages.mobileNumber1 ? 'Mobile Number should not be blank' : ''}
+                  helperText={validationMessages.mobileNumber1 ? 'Mobile Number should not be blank.' : ''}
                   fullWidth
                 />
               </Grid>
@@ -726,8 +726,11 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.parentName}
                   onChange={handleInputChange}
                   error={!!validationMessages.parentName}
-                  helperText={validationMessages.parentName ? 'Parent Name should not be blank' : ''}
+                  helperText={validationMessages.parentName ? 'Parent Name should not be blank.' : ''}
                   fullWidth
+                  inputProps={{
+                    maxLength: 50, // Restricts the input length to 50 characters
+                  }}
                 />
               </Grid>
             )}
@@ -766,22 +769,25 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
 
         {/* Photo Grid */}
         <Grid item xs={12} sm={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Box sx={{
-            width: { xs: '80%', sm: '60%', md: '40%' }, height: '160px', border: '2px dashed #ccc', display: 'flex',
-            alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexDirection: 'row'
-          }}
-          >
-            {uploadedImage ? (
-              <img
-                src={uploadedImage.src}
-                alt={uploadedImage.name || "Uploaded Image"}
-                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-              />
-            ) : (
-              <User
-                style={{ objectFit: 'cover', fontSize: '4rem', color: '#ccc' }} />
-            )}
-          </Box>
+          <Tooltip title={<>Upload or Capture an image file for student's photo <br />(Max Height: 151px and Max Width: 112px) <br />(Image size should not exceed 1 MB. Supported file formats are JPG, JPEG)</>} placement="top">
+            <Box sx={{
+              backgroundColor: 'red',
+              width: { xs: '80%', sm: '60%', md: '40%' }, height: '160px', border: '2px dashed #ccc', display: 'flex',
+              alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexDirection: 'row'
+            }}
+            >
+              {uploadedImage ? (
+                <img
+                  src={uploadedImage.src}
+                  alt={uploadedImage.name || "Uploaded Image"}
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                />
+              ) : (
+                <User
+                  style={{ objectFit: 'cover', fontSize: '4rem', color: '#ccc' }} />
+              )}
+            </Box>
+          </Tooltip>
 
           <Grid container spacing={2} sx={{ justifyContent: 'space-between', pl: { xs: 2, sm: 4, md: 10 } }}>
             <Grid item xs={6} sm={8} sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -831,7 +837,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.parentOccupation == '5' ? personal.otherOccupation : ''}
                   onChange={handleInputChange}
                   error={!!validationMessages.parentOccupation}
-                  helperText={validationMessages.parentOccupation ? 'Parent Occupation should not be blank' : ''}
+                  helperText={validationMessages.parentOccupation ? 'Parent Occupation should not be blank.' : ''}
                   fullWidth
                 />
               </Grid>
@@ -850,7 +856,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.address}
                   onChange={handleInputChange}
                   error={!!validationMessages.address}
-                  helperText={validationMessages.address ? 'Address should not be blank' : ''}
+                  helperText={validationMessages.address ? 'Address should not be blank.' : ''}
                   fullWidth
                   multiline
                 />
@@ -870,8 +876,11 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.city}
                   onChange={handleInputChange}
                   error={!!validationMessages.city}
-                  helperText={validationMessages.city ? 'City Name should not be blank' : ''}
+                  helperText={validationMessages.city ? 'City Name should not be blank.' : ''}
                   fullWidth
+                  inputProps={{
+                    maxLength: 50, // Restricts the input length to 50 characters
+                  }}
                 />
               </Grid>
             )}
@@ -889,8 +898,11 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.state}
                   onChange={handleInputChange}
                   error={!!validationMessages.state}
-                  helperText={validationMessages.state ? 'State Name should not be blank' : ''}
+                  helperText={validationMessages.state ? 'State Name should not be blank.' : ''}
                   fullWidth
+                  inputProps={{
+                    maxLength: 50, // Restricts the input length to 50 characters
+                  }}
                 />
               </Grid>
             )}
@@ -908,8 +920,12 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.pin}
                   onChange={handleInputChange}
                   error={!!validationMessages.pin}
-                  helperText={validationMessages.pin ? 'PIN Code should not be blank' : ''}
+                  helperText={validationMessages.pin ? 'PIN Code should not be blank.' : ''}
                   fullWidth
+                  inputProps={{
+                    maxLength: 6,
+                    typeof: 'number', // Restricts the input length to 50 characters
+                  }}
                 />
               </Grid>
             )}
@@ -922,7 +938,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   size={'medium'}
                   label={'Date of Birth'}
                   error={!!validationMessages.dateOfBirth}
-                  helperText={validationMessages.dateOfBirth ? 'Date of Birth should not be blank' : ''}
+                  helperText={validationMessages.dateOfBirth ? 'Date of Birth should not be blank.' : ''}
                 />
                 {/* <TextField
                   name="dateOfBirth"
@@ -967,8 +983,11 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   value={personal.placeOfBirth}
                   onChange={handleInputChange}
                   error={!!validationMessages.placeOfBirth}
-                  helperText={validationMessages.placeOfBirth ? 'Place of Birth should not be blank' : ''}
+                  helperText={validationMessages.placeOfBirth ? 'Place of Birth should not be blank.' : ''}
                   fullWidth
+                  inputProps={{
+                    maxLength: 50, // Restricts the input length to 50 characters
+                  }}
                 />
               </Grid>
             )}
@@ -1058,8 +1077,11 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 value={personal.casteAndSubCaste}
                 onChange={handleInputChange}
                 error={!!validationMessages.casteAndSubCaste}
-                helperText={validationMessages.casteAndSubCaste ? 'Caste and Sub-Caste should not be blank' : ''}
+                helperText={validationMessages.casteAndSubCaste ? 'Caste and Sub-Caste should not be blank.' : ''}
                 fullWidth
+                inputProps={{
+                  maxLength: 50, // Restricts the input length to 50 characters
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -1070,6 +1092,9 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 value={personal.motherTongue}
                 onChange={handleInputChange}
                 fullWidth
+                inputProps={{
+                  maxLength: 50, // Restricts the input length to 50 characters
+                }}
               />
             </Grid>
 
@@ -1110,6 +1135,10 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 value={personal.aadharCardNumber}
                 onChange={handleInputChange}
                 fullWidth
+                inputProps={{
+                  maxLength: 12, // Restricts the input length to 12 characters
+                  typeof: 'number',
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>

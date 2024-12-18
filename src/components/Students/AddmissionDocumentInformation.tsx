@@ -7,8 +7,7 @@
 // }
 
 // export default AddmissionDocumentInformation
-
-import { Clear as ClearIcon } from '@mui/icons-material'; // Ensure ClearIcon is imported correctly
+import { Clear as ClearIcon, QuestionMark } from '@mui/icons-material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import {
   Box,
@@ -30,7 +29,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import green from '@mui/material/colors/green';
+import { green } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -336,9 +335,28 @@ const AdmissionDocumentInformation = () => {
 
   //endregion
   const ChangeFile = (value) => {
+    console.log('value', value);
+    if (!ValidFileTypes.includes(value.FileExtension.toUpperCase())) {
+      setFileNameError('Invalid file format. Supported formats are BMP, DOC, DOCX, JPG, JPEG, PDF, XLS, XLSX.');
+      setFileName(''); // Clear file name
+      setbase64URL(''); // Clear Base64 URL
+      return;
+    }
+
+    // Calculate file size from Base64 string
+    const base64Length = value.Value.length - (value.Value.indexOf(',') + 1); // Exclude metadata
+    const padding = (value.Value.endsWith('==') ? 2 : value.Value.endsWith('=') ? 1 : 0);
+    const fileSizeInBytes = (base64Length * 3) / 4 - padding;
+
+    if (fileSizeInBytes > MaxfileSize) {
+      setFileNameError('File size exceeds 5 MB. Please upload a smaller file.');
+      setFileName(''); // Clear file name
+      setbase64URL(''); // Clear Base64 URL
+      return;
+    }
+    //ValidateFile passed
     setFileName(value.Name);
     setbase64URL(value.Value);
-
     setFileNameError(value.ErrorMsg);
   };
 
@@ -484,6 +502,22 @@ const AdmissionDocumentInformation = () => {
         }}
       >
         <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <Tooltip title={'Upload / Delete document(s).'} placement="bottom-end">
+            <IconButton
+              sx={{
+                color: 'white',
+                // backgroundColor: grey[500],
+                // '&:hover': {
+                //   backgroundColor: grey[600]
+                // },
+                position: 'absolute',
+                top: '-1px',
+                right: '40px',
+              }}
+            >
+              <QuestionMark />
+            </IconButton>
+          </Tooltip>
           <ClearIcon onClick={handleCloseDialog}
             sx={{
               color: 'white',

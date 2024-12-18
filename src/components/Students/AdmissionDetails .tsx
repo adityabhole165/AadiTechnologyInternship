@@ -524,7 +524,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
               defaultValue={admission.registrationNumber}
               onChange={handleInputChange}
               error={!!validationMessages.registrationNumber}
-              helperText={validationMessages.registrationNumber ? 'Registration Number should not be blank' : ''}
+              helperText={validationMessages.registrationNumber ? 'Registration Number should not be blank.' : ''}
               sx={{ cursor: 'pointer' }}
               fullWidth
               inputProps={{
@@ -541,7 +541,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             size={'medium'}
             label={'Admission Date'}
             error={!!validationMessages.admissionDate}
-            helperText={validationMessages.admissionDate ? 'Admission Date should not be blank' : ''}
+            helperText={validationMessages.admissionDate ? 'Admission Date should not be blank.' : ''}
           />
           {/* {validationMessages.admissionDate && (
               <Typography color="error" variant="caption" sx={{ mt: 1 }}>
@@ -576,7 +576,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             size={'medium'}
             label={'Joining Date'}
             error={!!validationMessages.joiningDate}
-            helperText={validationMessages.joiningDate ? 'Joining Date should not be blank' : ''}
+            helperText={validationMessages.joiningDate ? 'Joining Date should not be blank.' : ''}
           />
           {/* <TextField
             name="joiningDate"
@@ -616,7 +616,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             value={admission.studentRollNumber}
             onChange={handleInputChange}
             error={!!validationMessages.studentRollNumber}
-            helperText={validationMessages.studentRollNumber ? 'Student Roll Number should not be blank' : ''}
+            helperText={validationMessages.studentRollNumber ? 'Student Roll Number should not be blank.' : ''}
             sx={{
               backgroundColor: errors.studentRollNumber
                 ? 'white'

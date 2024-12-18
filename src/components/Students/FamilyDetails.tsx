@@ -529,9 +529,9 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 DateValue={family.fatherDOB}
                 onDateChange={handleDateChange('fatherDOB')}
                 size={'medium'}
-                label={"Fathr's DOB"}
+                label={"Father's DOB"}
                 error={!!validationMessages.fatherDOB}
-                helperText={validationMessages.fatherDOB ? "Father's Date of Birth should not be blank" : ''}
+                helperText={validationMessages.fatherDOB ? "Father's Date of Birth should not be blank." : ''}
               />
             </Grid>
 
@@ -732,7 +732,7 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 size={'medium'}
                 label={"Mother's DOB"}
                 error={!!validationMessages.motherDOB}
-                helperText={validationMessages.motherDOB ? "Mother's Date of Birth should not be blank" : ''}
+                helperText={validationMessages.motherDOB ? "Mother's Date of Birth should not be blank." : ''}
               />
             </Grid>
 
@@ -863,7 +863,7 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 size={'medium'}
                 label={"Marriage Anniversary Date"}
                 error={!!validationMessages.marriageAnniversaryDate}
-                helperText={validationMessages.marriageAnniversaryDate ? "Marriage Anniversary Date should not be blank" : ''}
+                helperText={validationMessages.marriageAnniversaryDate ? "Marriage Anniversary Date should not be blank." : ''}
               />
             </Grid>
 
