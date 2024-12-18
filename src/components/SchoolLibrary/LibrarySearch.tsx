@@ -105,7 +105,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         label="Book Title"
                         value={BookTitle}
                         onChange={(e) => clickBookTitle(e.target.value.slice(0, 50))}
-                        inputProps={{ maxLength: 50 }}
+                        inputProps={{ maxLength: 100 }}
                         size={"medium"}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
@@ -122,7 +122,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         label="Accession Number"
                         value={AccessionNumber}
                         onChange={(e) => clickAccessionNumber(e.target.value.slice(0, 50))}
-                        inputProps={{ maxLength: 50 }}
+                        inputProps={{ maxLength: 100 }}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
                                 clickSearch();
@@ -137,7 +137,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         size={"medium"}
                         value={Author}
                         onChange={(e) => clickAuthor(e.target.value.slice(0, 50))}
-                        inputProps={{ maxLength: 50 }}
+                        inputProps={{ maxLength: 100 }}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
                                 clickSearch();
@@ -152,7 +152,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         size={"medium"}
                         value={Publisher}
                         onChange={(e) => clickPublisher(e.target.value.slice(0, 50))}
-                        inputProps={{ maxLength: 50 }}
+                        inputProps={{ maxLength: 100 }}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
                                 clickSearch();
