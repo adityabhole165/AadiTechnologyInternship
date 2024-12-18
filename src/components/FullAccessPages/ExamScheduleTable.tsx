@@ -68,6 +68,9 @@ const ExamScheduleTable = ({ headerArray, subHeaderArray, markDetailsList, Click
                                         item.StandardId === subHeader.Text2 && item.TestId === header.text1
                                 ) || { Name: 'N/A', Background: 'grey', IsLink: false };
 
+                                   
+
+
                             return (
                                 <TableCell
                                     key={`${rowIndex}-${colIndex}`}

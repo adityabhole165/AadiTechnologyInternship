@@ -60,7 +60,7 @@ const CopyExamschedule = (data: ICopyStandardTestBody) => {
 };
 
 const InsertExamSchedule = (data: IInsertExamScheduleBody) => {
-  return http.post<IInsertExamScheduleResult>('Teacher/InsertExamSchedule', data);
+  return http.post<IInsertExamScheduleResult>('School/InsertExamSchedule', data);
 };
 const SumbitExamSchedule = (data: ISumbitExamScheduleBody) => {
   return http.post<ISumbitExamScheduleResult>('School/SumbitExamSchedule', data);

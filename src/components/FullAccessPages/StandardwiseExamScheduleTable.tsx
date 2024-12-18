@@ -19,9 +19,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import Datepicker4 from 'src/libraries/DateSelector/Datepicker4';
-import { GetSubjectExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 interface ExamEntry {
     id: number;
@@ -60,6 +60,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
     const asSchoolId = localStorage.getItem('localSchoolId');
     const examData = useSelector((state: RootState) => state.StandardAndExamList.SubjectExamSchedule);
     const getIsSubmitedd = useSelector((state: RootState) => state.StandardAndExamList.IsSubmitedd);
+    const Loading: any = useSelector((state: RootState) => state.StandardAndExamList.Loading);
     const isSubmitted = getIsSubmitedd[0]?.IsSubmitedd === 'True';
     const isConfigured = IsConfigured === 'true';
     // Separate states for header row and table rows
@@ -107,18 +108,20 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
             setTableRows(updatedRows);
         }
     }, [examData]);
-    useEffect(() => {
-        const fetchExamSchedule = async () => {
-            const requestBody = {
-                asStandardId: Number(StandardId),
-                asSchoolId: Number(asSchoolId),
-                asAcademicYearId: Number(asAcademicYearId),
-                asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
-            };
-            dispatch(GetSubjectExamSchedule(requestBody));
-        };
-        fetchExamSchedule();
-    }, [StandardId, asSchoolId, asAcademicYearId, SchoolwiseStandardExamScheduleId, dispatch]);
+
+
+    // useEffect(() => {
+    //     const fetchExamSchedule = async () => {
+    //         const requestBody = {
+    //             asStandardId: Number(StandardId),
+    //             asSchoolId: Number(asSchoolId),
+    //             asAcademicYearId: Number(asAcademicYearId),
+    //             asStandardwiseExamScheduleId: SchoolwiseStandardExamScheduleId,
+    //         };
+    //         dispatch(GetSubjectExamSchedule(requestBody));
+    //     };
+    //     fetchExamSchedule();
+    // }, [StandardId, asSchoolId, asAcademicYearId, SchoolwiseStandardExamScheduleId, dispatch]);
 
     // Handlers for header row changes
     const handleHeaderChange = (field: keyof ExamEntry, value: any) => {
@@ -294,6 +297,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
 
     return (
         <Box>
+ 
             {subErrorMsg && <span style={{ color: 'red', fontWeight: 'bolder' }}>Atleast one subject should be selected.<br /></span>}
             {TimeError.length > 0 && <span style={{ color: 'red', fontWeight: 'bolder' }}>{TimeError}</span>}
             <TableContainer component={Paper} variant="outlined">

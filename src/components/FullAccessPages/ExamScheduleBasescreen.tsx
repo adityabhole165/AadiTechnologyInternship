@@ -9,7 +9,7 @@ import { RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import ExamScheduleTable from './ExamScheduleTable';
-
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const ExamScheduleBasescreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const ExamScheduleBasescreen = () => {
     const asSchoolId = localStorage.getItem('localSchoolId');
     const SubHeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandard);
     const HeaderArray1 = useSelector((state: RootState) => state.StandardAndExamList.RStandardwTest);
-
+    const Loading: any = useSelector((state: RootState) => state.StandardAndExamList.Loading);
     const ExamSchedule: any = useSelector(
         (state: RootState) =>
             state.StandardAndExamList.ExamSchedule
@@ -45,6 +45,7 @@ const ExamScheduleBasescreen = () => {
 
     return (
         <Box sx={{ px: 2 }}>
+             
             <CommonPageHeader
                 navLinks={[
                     {

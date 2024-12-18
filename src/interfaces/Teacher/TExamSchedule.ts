@@ -118,7 +118,7 @@ export interface IGetSubjectExamScheduleBody {
   asStandardId: number;
   asSchoolId: number;
   asAcademicYearId: number;
-  asStandardwiseExamScheduleId: number;
+  asStandardwiseExamScheduleId: string;
 }
 export interface IGetSubjectExamScheduleResult {
   listStandardwiseSubject: [
@@ -163,7 +163,7 @@ export interface IGetStandardsForExamCopyResult {
 
 export interface IUpdateExamScheduleInstructionsBody {
   asSchoolId: number;
-  asSchoolwiseStandardExamScheduleId: number;
+  asSchoolwiseStandardExamScheduleId: string;
   asInstructions: string;
   asUpdatedById: number;
 }
@@ -198,10 +198,10 @@ export interface IInsertExamScheduleBody {
   asAcademicYearId: number;
   asStandardId: number;
   asSchoolwiseTestId: number;
-  asStandardTestId: number;
+  asStandardTestId: string;
   asInsertedById: number;
   asScreenId: number;
-  asSchoolwiseStandardExamScheduleId: number;
+  asSchoolwiseStandardExamScheduleId: string;
   asExamDetailsXML: string;
 }
 export interface IInsertExamScheduleResult {

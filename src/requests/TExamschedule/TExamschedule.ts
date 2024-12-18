@@ -262,7 +262,6 @@ export const RExamSchedule =
       dispatch(SelectStandardExamslice.actions.getLoading(true));
 
       const response = await GetTExamResultListApi.GetExamScheduleFullAcc(data);
-      console.log(response, "response");
 
       const GetStandardTest = (StandardId, TestId) => {
         return response.data.listSchoolwiseStandardTest
@@ -337,7 +336,6 @@ export const RExamSchedule =
         });
       });
 
-      console.log(Array, "Mapped Array");
 
       const DataList = response?.data?.listSchoolWiseStandards.map((item) => ({
         Text1: item.original_standard_id,
@@ -378,7 +376,7 @@ export const RExamSchedule =
 //       dispatch(SelectStandardExamslice.actions.SubjectExamSchedule(DataList));
 //     };
 
-export const GetSubjectExamSchedule =
+export const CDAGetSubjectExamSchedule =
   (data: IGetSubjectExamScheduleBody): AppThunk =>
     async (dispatch) => {
       dispatch(SelectStandardExamslice.actions.getLoading(true));

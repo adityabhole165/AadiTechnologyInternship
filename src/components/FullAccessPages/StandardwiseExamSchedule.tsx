@@ -14,23 +14,29 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IConfigurationData, IExamScheduleConfigBody, IGetSubjectExamScheduleBody, IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
-import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetIsSchoolConfigured, GetSubjectExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, InsertConfigurationSchoolMaster, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetIsSchoolConfigured, CDAGetSubjectExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, InsertConfigurationSchoolMaster, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
 import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
-
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const StandardwiseExamSchedule = () => {
     const { StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId, IsConfigured, SchoolwiseStandardTestId } = useParams();
+
+    
+  const inistailSchoolwiseStandardExamScheduleId = SchoolwiseStandardExamScheduleId !== undefined ?    SchoolwiseStandardExamScheduleId:0
+  const inistailStandardTestId = StandardTestId !== undefined ? StandardTestId : SchoolwiseStandardTestId;
+
+
+  
     const dispatch = useDispatch();
     const [IsConfigured1, setIsConfigured1] = useState(IsConfigured);
     const [openDialog, setOpenDialog] = useState(false);
     const [IsConfirm, setIsConfirm] = useState('');
-    useEffect(() => {
-        console.log('✅', SchoolwiseStandardExamScheduleId);
 
-    }, [SchoolwiseStandardExamScheduleId])
+   
+
     const [showRecipients, setShowRecipients] = useState(false);
     const [selectedStandards, setSelectedStandards] = useState<number[]>([]);
     const handleCloseDialog = () => {
@@ -69,6 +75,11 @@ const StandardwiseExamSchedule = () => {
     const IsSchoolConfigured = useSelector((state: RootState) => state.StandardAndExamList.GetIsSchoolConfigured);
     const [showButtons, setShowButtons] = useState(false);
 
+    const Loading: any = useSelector((state: RootState) => state.StandardAndExamList.Loading);
+
+     const ExamScheduleId = USInsertExamSchedule.map( item => item.ExamScheduleId)
+    
+        
     // function getXML(value) {
     //     let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
 
@@ -103,16 +114,19 @@ const StandardwiseExamSchedule = () => {
         dispatch(RExamSchedule(RExamScheduleBody));
     }, [])
 
+const asStandardwiseExamScheduleId = IsConfigured1 == "false"  ? SchoolwiseStandardExamScheduleId :  ExamScheduleId.toString() 
+
     const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
         asStandardId: Number(StandardId),
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
-        asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
+        asStandardwiseExamScheduleId:asStandardwiseExamScheduleId 
 
     }
+
     useEffect(() => {
-        dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
-    }, [])
+        dispatch(CDAGetSubjectExamSchedule(GetSubjectExamScheduleBody));
+    }, [asStandardwiseExamScheduleId])
 
     const SumbitExamScheduleBody: ISumbitExamScheduleBody = {
         asSchoolId: Number(asSchoolId),
@@ -212,10 +226,7 @@ const StandardwiseExamSchedule = () => {
         setXML(value)
     }
 
-    useEffect(() => {
-        console.log(xml, "XML");
-
-    }, [xml]);
+    
 
     useEffect(() => {
         if (getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === 'False') {
@@ -234,22 +245,25 @@ const StandardwiseExamSchedule = () => {
         asAcademicYearId: Number(asAcademicYearId),
         asStandardId: Number(StandardId),
         asSchoolwiseTestId: Number(TestId),
-        asStandardTestId: Number(StandardTestId) ?? Number(SchoolwiseStandardTestId),
+        asStandardTestId: inistailStandardTestId,
         asInsertedById: asUserId,
         asScreenId: 19,
-        asSchoolwiseStandardExamScheduleId: IsConfigured1 == 'true' ? Number(SchoolwiseStandardExamScheduleId) : 0,
+        asSchoolwiseStandardExamScheduleId: inistailSchoolwiseStandardExamScheduleId.toString(),
         asExamDetailsXML: xml
     }
 
     const GetPageReloadApiCall = async () => {
         await dispatch(InsertConfigurationSchoolMaster(getExamConfigurationBody));
-        await dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
+        await dispatch(CDAGetSubjectExamSchedule(GetSubjectExamScheduleBody));
         await dispatch(RExamSchedule(RExamScheduleBody));
         setIsConfigured1('true');
     }
+
+  
+
     const GetPageReloadApiCall_1 = async () => {
         await dispatch(InsertConfigurationSchoolMaster(getExamConfigurationBody));
-        await dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
+        await dispatch(CDAGetSubjectExamSchedule(GetSubjectExamScheduleBody));
         await dispatch(RExamSchedule(RExamScheduleBody));
         setIsConfigured1('false');
     }
@@ -260,16 +274,9 @@ const StandardwiseExamSchedule = () => {
         GetPageReloadApiCall_1();
     }
     const insertExamSchedule = async () => {
-        console.log('🚩', InsertExamScheduleBody);
-        // asStandardTestId
-        console.log('🔗', InsertExamScheduleBody?.asStandardTestId);
-
-
         await dispatch(GetInsertExamSchedule(InsertExamScheduleBody));
         toast.success("Exam schedule has been saved successfully and you can copy exam schedule.");
-        setTimeout(() => {
-            GetPageReloadApiCall();
-        }, 2000);
+        GetPageReloadApiCall()
     }
 
     const onClickSave = async () => {
@@ -395,7 +402,7 @@ const StandardwiseExamSchedule = () => {
         setOpenDialog(true);
     };
     const handleOpenDialog1 = (instructionText) => {
-        //console.log(typeof instructionText, '👌👌👌');
+        dispatch(CDAGetSubjectExamSchedule(GetSubjectExamScheduleBody));
         setIsConfirm1('');
         setEditMode(true);
         setCurrentInstruction(instructionText.toString());
@@ -419,7 +426,7 @@ const StandardwiseExamSchedule = () => {
         }
         const UpdateExamScheduleInstructionsBody: IUpdateExamScheduleInstructionsBody = {
             asSchoolId: Number(asSchoolId),
-            asSchoolwiseStandardExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
+            asSchoolwiseStandardExamScheduleId: inistailSchoolwiseStandardExamScheduleId.toString(),
             asInstructions: currentInstruction,
             asUpdatedById: asUserId
         }
@@ -448,13 +455,14 @@ const StandardwiseExamSchedule = () => {
         await dispatch(GetSumbitExamSchedule(submissionBody));
 
         // Refresh the schedule data after the operation
-        const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
-            asStandardId: Number(StandardId),
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asStandardwiseExamScheduleId: Number(SchoolwiseStandardExamScheduleId),
-        };
-        await dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody));
+        // const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
+        //     asStandardId: Number(StandardId),
+        //     asSchoolId: Number(asSchoolId),
+        //     asAcademicYearId: Number(asAcademicYearId),
+        //     asStandardwiseExamScheduleId: ExamScheduleId.toString() ? ExamScheduleId.toString() :SchoolwiseStandardExamScheduleId
+
+        // };
+        // await dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody))
 
         // Update the state based on action
         setIsUnsubmitted(isUnsubmit);
@@ -470,15 +478,18 @@ const StandardwiseExamSchedule = () => {
     // Handler for Submit button
     const onClickSubmit = () => {
         handleExamSubmission(false); // Submit action
+        dispatch(CDAGetSubjectExamSchedule(GetSubjectExamScheduleBody));
     };
 
     // Handler for Unsubmit button
     const handleUnsubmit = () => {
         handleExamSubmission(true); // Unsubmit action
+        dispatch(CDAGetSubjectExamSchedule(GetSubjectExamScheduleBody));
     };
 
     return (
         <Box px={2}>
+ {(Loading) && <SuspenseLoader />}
             <CommonPageHeader
                 navLinks={[
                     {
