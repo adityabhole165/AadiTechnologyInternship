@@ -127,7 +127,7 @@ export const getLanguagesDetails =
 
       // Map the response and prepend "All" option
       const Language = [
-        { Id: 'All', Name: 'All', Value: 'All' }, // Add "All" as the default option
+        { Id: '', Name: 'All', Value: '' }, // Add "All" as the default option
         ...response.data.LanguagesDetails.map((item) => ({
           Id: item.Language,
           Name: item.Language,

@@ -69,7 +69,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
     }, [])
     useEffect(() => {
         if (!LanguageId && GetLanguageList.length > 0) {
-            const defaultLanguage = GetLanguageList.find((item) => item.Value === "All");
+            const defaultLanguage = GetLanguageList.find((item) => item.Value === "");
             if (defaultLanguage) {
                 setLanguageId(defaultLanguage.Value);
             }
