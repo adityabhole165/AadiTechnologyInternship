@@ -370,9 +370,9 @@ const ExportStudentMarksBaseScreen = Loader(
 const UserDocumentDetailsBaseScreen = Loader(
   lazy(() => import('src/components/UserDocumentDetails/UserDocumentDetailsBaseScreen'))
 );
-// const NoticeBoardBaseScreen = Loader(
-//   lazy(() => import('src/components/NoticeBoard/NoticeBoardBaseScreen'))
-// );
+const NoticeBoardBaseScreen = Loader(
+  lazy(() => import('src/components/NoticeBoard/NoticeBoardBaseScreen'))
+);
 
 const StudentDetailsBaseScreen = Loader(
   lazy(() =>
@@ -995,10 +995,10 @@ const teacherRoutes = [
     path: 'UserDocumentDetailsBaseScreen',
     element: <UserDocumentDetailsBaseScreen />
   },
-  // {
-  //   path: 'NoticeBoardBaseScreen',
-  //   element: <NoticeBoardBaseScreen />
-  // }
+  {
+    path: 'NoticeBoardBaseScreen',
+    element: <NoticeBoardBaseScreen />
+  }
 ];
 
 export default teacherRoutes;
