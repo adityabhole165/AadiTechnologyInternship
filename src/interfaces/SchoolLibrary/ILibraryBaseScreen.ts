@@ -100,7 +100,8 @@ export interface IGetReserveBookDetailsResult {
             ReservationDate: string,
             DesignationId: string,
             StandardId: string,
-            DivisionId: string
+            DivisionId: string,
+            RowNo: string
         }
     ];
     listGetReserveBookDetailsCount: [
@@ -132,6 +133,12 @@ export interface ITotalBooksCountsResult {
 
         }
     ]
+}
+export interface ICancelBookReservationBody {
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asUserId: number,
+    asBookid: number
 }
 export interface IGetReserveBooksCountperpersonBody {
     asSchoolId: number,

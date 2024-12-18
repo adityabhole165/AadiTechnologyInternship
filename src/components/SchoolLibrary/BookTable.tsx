@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import React, { useState } from 'react';
-
 type BookDataType = {
   bookTitle?: string;
   date?: string;
@@ -25,21 +24,22 @@ type BookDataType = {
   userName?: string;
   class?: string;
   designation?: string;
-  UserId?: string
+  UserId?: string;
+  BookId?: string
 };
 
 interface BookTableProps {
   data: BookDataType[];
   showAllUsers: boolean;
+  handleDelete
 
 }
 
-const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers }) => {
+const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete }) => {
+
   const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<string>('bookTitle');
   const [sortedData, setSortedData] = useState(data);
-  //const [showAllUsers, setShowAllUsers] = useState(false); // Checkbox state
-
 
   const handleSortRequest = (property: string) => {
     const isAsc = orderBy === property && orderDirection === 'asc';
@@ -54,24 +54,12 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers }) => {
     setSortedData(sortedArray);
   };
 
-  // const handleCheckboxChange = () => {
-  //   setShowAllUsers(!showAllUsers);
-  // };
-
   return (
     <Box>
-      {/* Checkbox for toggling additional columns */}
-      {/* <FormControlLabel
-        control={<Checkbox checked={showAllUsers} onChange={handleCheckboxChange} />}
-        label="Show all claimed books by all users"
-        sx={{ mb: 2 }}
-      /> */}
-
       <TableContainer component={Paper}>
         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
           <TableHead>
             <TableRow sx={{ background: (theme) => theme.palette.secondary.main }}>
-              {/* Book Title Column */}
               <TableCell sx={{ color: 'white', py: 1.5 }}>
                 <TableSortLabel
                   active={orderBy === 'bookTitle'}
@@ -86,11 +74,6 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers }) => {
                   Book Title
                 </TableSortLabel>
               </TableCell>
-
-              {/* Date Column */}
-
-
-              {/* Extra Columns When Checkbox is Checked */}
               {showAllUsers && (
                 <>
                   <TableCell sx={{ color: 'white', py: 1.5 }}>
@@ -165,8 +148,6 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers }) => {
                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                   {book.bookTitle}
                 </TableCell>
-
-
                 {showAllUsers && (
                   <>
                     <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
@@ -183,34 +164,35 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers }) => {
                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                   {book.date}
                 </TableCell>
-                {
-                  book.UserId == localStorage.getItem('UserId') &&
+                {/* {
+                  book.UserId == localStorage.getItem('UserId') && */}
 
-                  <TableCell
+                <TableCell
+                  sx={{
+                    textTransform: 'capitalize',
+                    textAlign: 'center',
+                    opacity: 1,
+                    py: 0.5,
+                  }}
+                  align="center"
+                >
+                  <IconButton
+                    onClick={() => handleDelete(book.BookId)}
                     sx={{
-                      textTransform: 'capitalize',
-                      textAlign: 'center',
-                      opacity: 1,
-                      py: 0.5,
+                      color: '#223354',
+                      '&:hover': {
+                        color: 'red',
+                        backgroundColor: red[100],
+                      },
                     }}
-                    align="center"
                   >
-                    <IconButton
-                      sx={{
-                        color: '#223354',
-                        '&:hover': {
-                          color: 'red',
-                          backgroundColor: red[100],
-                        },
-                      }}
-                    >
 
-                      <Tooltip title="Delete">
-                        <DeleteForeverIcon />
-                      </Tooltip>
-                    </IconButton>
-                  </TableCell>
-                }
+                    <Tooltip title="Delete">
+                      <DeleteForeverIcon />
+                    </Tooltip>
+                  </IconButton>
+                </TableCell>
+                {/* } */}
               </TableRow>
             ))}
           </TableBody>
@@ -221,3 +203,4 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers }) => {
 };
 
 export default BookTable;
+

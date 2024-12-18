@@ -1,6 +1,7 @@
 import {
     IBookclaimedBody,
     IBookclaimedResult,
+    ICancelBookReservationBody,
     IGetAllBooksDetailsBody,
     IGetAllBooksDetailsResult,
     IGetLibraryBookIssueDetailsBody,
@@ -41,6 +42,10 @@ const GetReserveBooksCountperperson = (data: IGetReserveBooksCountperpersonBody)
 const GetAllBooksDetails = (data: IGetAllBooksDetailsBody) => {
     return http.post<IGetAllBooksDetailsResult>('Teacher/GetAllBooksDetails', data);
 }
+const CancelBookReservationApi = (data: ICancelBookReservationBody) => {
+    return http.post<string>('Teacher/CancelBookReservation', data);
+};
+
 
 const ApiLibraryBaseScreen = {
     //GetAllBooksDetails,
@@ -50,7 +55,8 @@ const ApiLibraryBaseScreen = {
     GetReserveBookDetails,
     GetTotalLibraryBooksCounts,
     GetReserveBooksCountperperson,
-    GetAllBooksDetails
+    GetAllBooksDetails,
+    CancelBookReservationApi
 };
 
 export default ApiLibraryBaseScreen;

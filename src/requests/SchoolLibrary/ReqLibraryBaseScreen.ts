@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiLibraryBaseScreen from "src/api/SchoolLibrary/APILibraryBaseScreen";
-import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetReserveBooksCountperpersonBody, ITotalBooksCountsBody } from "src/interfaces/SchoolLibrary/ILibraryBaseScreen";
+import { IBookclaimedBody, ICancelBookReservationBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetReserveBooksCountperpersonBody, ITotalBooksCountsBody } from "src/interfaces/SchoolLibrary/ILibraryBaseScreen";
 import { AppThunk } from "src/store";
 
 const SchoolLibraryslice = createSlice({
@@ -12,13 +12,14 @@ const SchoolLibraryslice = createSlice({
         IGetTotalBooksCounts: [],
         IGetTotalBookId: [],
         IGetReserveBookDetails: [],
-        //IGetReserveBookDetailsCount: [],
+        IGetReserveBookDetailsCount: [],
         IlistGetTotalBooksCounts: [],
         IlistGetTotalBookId: [],
         IreserveBooksCountperperson: [],
         IGetAllBooksDetailss: [],
         IGetBookTotalCount: [],
         IGetTotalBookID: [],
+        ICancelBookReservationMsg: '',
         Loading: true
     },
 
@@ -48,9 +49,9 @@ const SchoolLibraryslice = createSlice({
         RGetReserveBookDetails(state, action) {
             state.IGetReserveBookDetails = action.payload;
         },
-        // RGetReserveBookDetailsCount(state, action) {
-        //     state.IGetReserveBookDetailsCount = action.payload;
-        // },
+        RGetReserveBookDetailsCount(state, action) {
+            state.IGetReserveBookDetailsCount = action.payload;
+        },
         RlistGetTotalBooksCounts(state, action) {
             state.IlistGetTotalBooksCounts = action.payload;
         },
@@ -76,6 +77,14 @@ const SchoolLibraryslice = createSlice({
         RGetTotalBookID(state, action) {
             state.Loading = false;
             state.IGetTotalBookID = action.payload;
+        },
+        RCancelBookReservationMsg(state, action) {
+            state.Loading = false;
+            state.ICancelBookReservationMsg = action.payload;
+        },
+        RClearCancelBookReservationMsg(state) {
+            state.Loading = false;
+            state.ICancelBookReservationMsg = '';
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -183,7 +192,7 @@ export const CDAGetReserveBookDetails =
             });
 
             dispatch(SchoolLibraryslice.actions.RGetReserveBookDetails(GetReserveBookDetails));
-            //dispatch(SchoolLibraryslice.actions.RGetReserveBookDetailsCount(ReserveBookDetailsCount));
+            dispatch(SchoolLibraryslice.actions.RGetReserveBookDetailsCount(ReserveBookDetailsCount));
         };
 export const CDAGetTotalBooksCount =
     (data: ITotalBooksCountsBody): AppThunk =>
@@ -209,11 +218,6 @@ export const CDAGetTotalBooksCount =
 export const CDAReserveBooksperpersonCount = (data: IGetReserveBooksCountperpersonBody): AppThunk => async (dispatch) => {
     dispatch(SchoolLibraryslice.actions.getLoading(true));
     const response = await ApiLibraryBaseScreen.GetReserveBooksCountperperson(data);
-    // let Rbookcnt = response.data.map((item, i) => {
-    //     return {
-    //         Text1: item.Count,
-    //     };
-    // });
     dispatch(SchoolLibraryslice.actions.RreserveBooksCountperperson(response.data));
 };
 export const CDAClearCDAReserveBooksperpersonCount = (): AppThunk =>
@@ -260,7 +264,16 @@ export const CDAGetAllBooksDetails =
             dispatch(SchoolLibraryslice.actions.RGetBookTotalCount(TotalBookCount));
             dispatch(SchoolLibraryslice.actions.RGetTotalBookID(TotalBookId));
         };
-
+export const CDACancelBookReservationMsg = (data: ICancelBookReservationBody): AppThunk =>
+    async (dispatch) => {
+        dispatch(SchoolLibraryslice.actions.getLoading(true));
+        const response = await ApiLibraryBaseScreen.CancelBookReservationApi(data);
+        dispatch(SchoolLibraryslice.actions.RCancelBookReservationMsg(response.data))
+    };
+export const CDAClearCancelBookReservationMsg = (): AppThunk =>
+    async (dispatch) => {
+        dispatch(SchoolLibraryslice.actions.RClearCancelBookReservationMsg());
+    };
 
 
 export default SchoolLibraryslice.reducer;
