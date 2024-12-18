@@ -124,15 +124,18 @@ export const getLanguagesDetails =
   (data: ILanguagesDetails): AppThunk =>
     async (dispatch) => {
       const response = await LibraryApi.GetLanguage(data);
-      let Language = response.data.LanguagesDetails.map((item, index) => {
-        return {
+
+      // Map the response and prepend "All" option
+      const Language = [
+        { Id: '0', Name: 'All', Value: '0' }, // Add "All" as the default option
+        ...response.data.LanguagesDetails.map((item) => ({
           Id: item.Language,
           Name: item.Language,
           Value: item.Language
-        };
-      });
+        }))
+      ];
 
-      // Language = [{ Name: 'All Language', }, ...Language];
+      // Dispatch the updated language list to the store
       dispatch(LibrarySlicee.actions.getLanguagesDetails(Language));
     };
 

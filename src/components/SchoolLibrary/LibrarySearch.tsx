@@ -68,6 +68,14 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
         dispatch(getLanguagesDetails({ aiSchoolId: asSchoolId }));
     }, [])
     useEffect(() => {
+        if (!LanguageId && GetLanguageList.length > 0) {
+            const defaultLanguage = GetLanguageList.find((item) => item.Id === "0");
+            if (defaultLanguage) {
+                setLanguageId(defaultLanguage.Id);
+            }
+        }
+    }, [LanguageId, GetLanguageList, setLanguageId]);
+    useEffect(() => {
         if (IsPrintable === '0') {
             setIsPrintable('');
         }
@@ -104,7 +112,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         fullWidth
                         label="Book Title"
                         value={BookTitle}
-                        onChange={(e) => clickBookTitle(e.target.value.slice(0, 50))}
+                        onChange={(e) => clickBookTitle(e.target.value.slice(0, 100))}
                         inputProps={{ maxLength: 100 }}
                         size={"medium"}
                         onKeyDown={(e) => {
@@ -121,7 +129,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         size={"medium"}
                         label="Accession Number"
                         value={AccessionNumber}
-                        onChange={(e) => clickAccessionNumber(e.target.value.slice(0, 50))}
+                        onChange={(e) => clickAccessionNumber(e.target.value.slice(0, 100))}
                         inputProps={{ maxLength: 100 }}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
@@ -136,7 +144,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         label="Author"
                         size={"medium"}
                         value={Author}
-                        onChange={(e) => clickAuthor(e.target.value.slice(0, 50))}
+                        onChange={(e) => clickAuthor(e.target.value.slice(0, 100))}
                         inputProps={{ maxLength: 100 }}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
@@ -151,7 +159,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         label="Publisher"
                         size={"medium"}
                         value={Publisher}
-                        onChange={(e) => clickPublisher(e.target.value.slice(0, 50))}
+                        onChange={(e) => clickPublisher(e.target.value.slice(0, 100))}
                         inputProps={{ maxLength: 100 }}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
