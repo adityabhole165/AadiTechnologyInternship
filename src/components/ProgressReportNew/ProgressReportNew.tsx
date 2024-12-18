@@ -62,7 +62,7 @@ const ProgressReportNew = () => {
   const [Error, SetError] = useState('');
   const [StudentId, SetStudentId] = useState(initialStudentId);
   const [AcademicYear, SetAcademicYear] = useState(initialcademicYearId);
-  const Newvalue = state && state.Newvalue !== undefined  ? state.Newvalue :false ; 
+  const Newvalue = state && state.Newvalue !== undefined  ? state.Newvalue : false ; 
   const [open, setOpen] = useState( Newvalue);
   const [open1, setOpen1] = useState(false);
   console.log("--",StudentId,AcademicYear);
@@ -281,6 +281,17 @@ const ProgressReportNew = () => {
 
 
   }, [UsGetSchoolSettings])
+
+
+  useEffect(() => {
+    if (StudentidTopper != undefined)
+      setOpen(true);
+
+
+  }, [StudentidTopper])
+
+
+  
 
   
   const [progressReportMessage, setProgressReportMessage] = useState(null);
@@ -868,7 +879,7 @@ const ProgressReportNew = () => {
 
   const Toppers = (value) => {
     const progressreporttppper = true
-    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + LatestExamId + '/' + progressreporttppper + '/' +  GetOldStudentDetails.StudentId + '/'+ true);
+    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + LatestExamId + '/' + progressreporttppper + '/' +  StudentId + '/'+ true);
   };
 
   const shouldShowToppersButton = !IsPrePrimary && AcademicYear !== asAcademicYearId && !USIsGradingStandard && ShowTopppers;
