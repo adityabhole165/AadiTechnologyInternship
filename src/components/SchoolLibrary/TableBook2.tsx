@@ -13,7 +13,8 @@ import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupCo
 const BookTable2 = ({ data1 }) => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(5); // Default rows per page
   const [currentPage, setCurrentPage] = useState<number>(1); // Current page
-
+  const rowsPerPageOptions = [20, 50, 100, 200];
+  const [page, setPage] = useState<number>(1);
   // Handle rows per page change
   const ChangeRowsPerPage = (event: React.ChangeEvent<{ value: unknown }>) => {
     setRowsPerPage(parseInt(event.target.value as string, 10));
@@ -32,6 +33,9 @@ const BookTable2 = ({ data1 }) => {
 
   // Calculate total pages
   const pageCount = Math.ceil(data1.length / rowsPerPage);
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage);
+
 
   return (
     <Box>
@@ -76,13 +80,17 @@ const BookTable2 = ({ data1 }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <ButtonGroupComponent
-        ChangeRowsPerPage={ChangeRowsPerPage}
-        rowsPerPageOptions={[5, 10, 20]}
-        rowsPerPage={rowsPerPage}
-        PageChange={PageChange}
-        pagecount={pageCount}
-      />
+      {endRecord > 19 ? (
+        <ButtonGroupComponent
+          ChangeRowsPerPage={ChangeRowsPerPage}
+          rowsPerPageOptions={[rowsPerPageOptions]}
+          rowsPerPage={rowsPerPage}
+          PageChange={PageChange}
+          pagecount={pageCount}
+        />
+      ) : (
+        <span></span>
+      )}
     </Box>
   );
 };
