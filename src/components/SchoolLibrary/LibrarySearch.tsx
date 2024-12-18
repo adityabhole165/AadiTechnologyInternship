@@ -187,7 +187,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         ItemList={mediaTypeOptions} // Using the mediaTypeOptions array
                         defaultValue={IsPrintable}
                         onChange={clickIsPrintable}
-                        label='Media Options'
+                        label='Media Type'
                     />
                 </Grid>
                 <Grid item xs={12} md={3}>
