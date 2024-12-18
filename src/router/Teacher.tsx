@@ -370,9 +370,9 @@ const ExportStudentMarksBaseScreen = Loader(
 const UserDocumentDetailsBaseScreen = Loader(
   lazy(() => import('src/components/UserDocumentDetails/UserDocumentDetailsBaseScreen'))
 );
-const NoticeBoardBaseScreen = Loader(
-  lazy(() => import('src/components/NoticeBoard/NoticeBoardBaseScreen'))
-);
+// const NoticeBoardBaseScreen = Loader(
+//   lazy(() => import('src/components/NoticeBoard/NoticeBoardBaseScreen'))
+// );
 
 const StudentDetailsBaseScreen = Loader(
   lazy(() =>
@@ -679,7 +679,7 @@ const teacherRoutes = [
   //   element: <ExamResultToppers />
   // },
   {
-    path: 'Toppers/:TeacherId/:StandardDivisionId/:standardId/:AcademicYear/:LatestExamId/:LatestExamId1/:examtopperProp',
+    path: 'Toppers/:TeacherId/:StandardDivisionId/:standardId/:AcademicYear/:LatestExamId/:LatestExamId1/:Studentid/:examtopperProp',
     element: <Toppers />
   },
   {
@@ -830,7 +830,7 @@ const teacherRoutes = [
     element: <ViewFinalResult />
   },
   {
-    path: 'ProgressReportNew',
+    path: 'ProgressReportNew/:AcademicYearTopper/:StudentidTopper/:TeacherIdTopper',
     element: <ProgressReportNew />
   },
   {
@@ -900,6 +900,10 @@ const teacherRoutes = [
   {
     path: 'ClaimedBookDetailsPage',
     element: <ClaimedBookDetailsPage />
+  },
+  {
+    path: 'ProgressReportNew',
+    element: <ProgressReportNew />
   },
 
   {
@@ -991,10 +995,10 @@ const teacherRoutes = [
     path: 'UserDocumentDetailsBaseScreen',
     element: <UserDocumentDetailsBaseScreen />
   },
-  {
-    path: 'NoticeBoardBaseScreen',
-    element: <NoticeBoardBaseScreen />
-  }
+  // {
+  //   path: 'NoticeBoardBaseScreen',
+  //   element: <NoticeBoardBaseScreen />
+  // }
 ];
 
 export default teacherRoutes;

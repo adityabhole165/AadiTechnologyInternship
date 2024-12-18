@@ -29,9 +29,12 @@ import ProgressReportGradeView from './ProgressReportGradeView';
 import ProgressReportMarkView from './ProgressReportMarkView';
 import Studentdetails from './Studentdetails';
 import { useLocation } from 'react-router-dom';
+import {useParams } from 'react-router';
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+    let { AcademicYearTopper,StudentidTopper,TeacherIdTopper} = useParams();
+
 
   const location = useLocation();
     const { state } = location;
@@ -45,8 +48,13 @@ const ProgressReportNew = () => {
   const asUserId = Number(sessionStorage.getItem('Id'));
  
   
-  const initialStudentId = state && state.newstudntid !== undefined  ? state.newstudntid : 0;
-  const initialcademicYearId = state && state.AcademicYear !== undefined  ? state.AcademicYear : asAcademicYearId;
+  const initialStudentId1 = state && state.newstudntid !== undefined  ? state.newstudntid :StudentidTopper ? StudentidTopper :0 ;
+
+  const initialStudentId = state?.newstudntid ?? StudentidTopper ?? 0;
+  const initialcademicYearId = state?.AcademicYear ?? AcademicYearTopper ?? asAcademicYearId;
+  console.log(initialStudentId,initialcademicYearId,"oo");
+  
+  const initialcademicYearId1 = state && state.AcademicYear !== undefined  ? state.AcademicYear : AcademicYearTopper ? AcademicYearTopper :asAcademicYearId;
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
 
 
@@ -57,7 +65,8 @@ const ProgressReportNew = () => {
   const Newvalue = state && state.Newvalue !== undefined  ? state.Newvalue :false ; 
   const [open, setOpen] = useState( Newvalue);
   const [open1, setOpen1] = useState(false);
-
+  console.log("--",StudentId,AcademicYear);
+ 
   const [AllowProgressReportDownloadAtStudentLogin, setAllowProgressReportDownloadAtStudentLogin] = useState("")
   const [ShowProgressReportGraphOnMobileApp, setShowProgressReportGraphOnMobileApp] = useState("")
   const [ShowTotalAsPerOutOfMarks, setShowTotalAsPerOutOfMarks] = useState("");
@@ -639,12 +648,29 @@ const ProgressReportNew = () => {
 
   // }, [USGetClassTeachers]);
 
+
+  // useEffect(() => {
+  //   if(AcademicYearTopper !== undefined){
+  //     SetAcademicYear(AcademicYearTopper)
+  //   }
+  
+  //   }, [AcademicYearTopper]);
+  //   useEffect(() => {
+  //     if(StudentidTopper !== undefined){
+  //       SetStudentId(StudentidTopper)
+  //     }}, [StudentidTopper]);
+
+  //     console.log(StudentidTopper,"StudentidTopper");
+      
+    
   useEffect(() => {
     if (USGetClassTeachers.length > 0) {
         if (state?.Newvalue) {
             SetselectTeacher(state.TeacherID); // Set the value from state
         } else if (CanEdit === 'Y') {
             SetselectTeacher(USGetClassTeachers[0].Value); // Set the first teacher if CanEdit is 'Y'
+        } else if(TeacherIdTopper !== undefined){
+          SetselectTeacher(TeacherIdTopper)
         }
     }
 }, [USGetClassTeachers, state?.Newvalue, state?.TeacherID, CanEdit]);
@@ -842,7 +868,7 @@ const ProgressReportNew = () => {
 
   const Toppers = (value) => {
     const progressreporttppper = true
-    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + LatestExamId + '/' + progressreporttppper + '/' + true);
+    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + LatestExamId + '/' + progressreporttppper + '/' +  GetOldStudentDetails.StudentId + '/'+ true);
   };
 
   const shouldShowToppersButton = !IsPrePrimary && AcademicYear !== asAcademicYearId && !USIsGradingStandard && ShowTopppers;

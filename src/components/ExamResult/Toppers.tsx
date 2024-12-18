@@ -34,7 +34,7 @@ import { StyledTableCell, StyledTableRow } from '../DataTable';
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly ,AcademicYear,LatestExamId,LatestExamId1} = useParams();
+    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly ,AcademicYear,LatestExamId,LatestExamId1,Studentid} = useParams();
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId == undefined ? "0" : StandardDivisionId);
     const [SelectExamCT, setExamCT] = useState(TestId == undefined ? "" : TestId);
@@ -438,7 +438,7 @@ const ExamResultToppers = () => {
     const getNavLinks = () => {
         if (LatestExamId1) {
             return [
-                { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew' },
+                { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew/' + AcademicYear + '/'+Studentid+'/' + TeacherId},
                  { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`},
                
             ];
