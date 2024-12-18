@@ -97,8 +97,8 @@ const ExamScheduleBasescreen = () => {
                             <Box sx={{ position: 'relative' }}>
                                 <Box
                                     sx={{
-                                        width: 35,
-                                        height: 35,
+                                        width: 23,
+                                        height: 23,
                                         backgroundColor: '#F0F0F0',
                                         border: "1px solid black",
 
@@ -110,7 +110,9 @@ const ExamScheduleBasescreen = () => {
                                         top: '50%',
                                         left: '50%',
                                         transform: 'translate(-50%, -50%)',
-                                        color: '#000' // Adjust the color to suit your design
+                                        color: '#000',
+                                        fontWeight: 300,
+                                        fontSize: '8px',// Adjust the color to suit your design
                                     }}
                                 >
                                     N/A
@@ -122,8 +124,8 @@ const ExamScheduleBasescreen = () => {
                             {/* <SquareIcon style={{ color: green[500], fontSize: 25, position: 'relative', top: '-2px' }} /> */}
                             <Box
                                 sx={{
-                                    width: 35,
-                                    height: 35,
+                                    width: 23,
+                                    height: 23,
                                     backgroundColor: green[500],
                                     border: "1px solid black",
 
@@ -134,8 +136,8 @@ const ExamScheduleBasescreen = () => {
                         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                             <Box
                                 sx={{
-                                    width: 35,
-                                    height: 35,
+                                    width: 23,
+                                    height: 23,
                                     backgroundColor: green[200],
                                     border: "1px solid black",
 
