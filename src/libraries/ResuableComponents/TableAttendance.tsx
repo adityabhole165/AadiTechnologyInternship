@@ -1,4 +1,4 @@
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Modal, TableContainer, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -47,6 +47,7 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
       ) : (
         <>
           <Box sx={{ backgroundColor: 'white' , p:2}}>
+            <TableContainer component={Box}>
             <Table
               // className="font-roboto"
               // sx={{ fontFamily: 'inherit', padding: '300px' }}
@@ -301,6 +302,7 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                 <Model data={user} />
               </Modal>
             </Table>
+            </TableContainer>
           </Box>
         </>
       )}
