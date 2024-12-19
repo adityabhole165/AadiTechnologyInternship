@@ -630,7 +630,7 @@ const InvestmentDeclaration = () => {
             <Box
               sx={{
                 mt: 0,
-                pl: isMobile ? 0 : 122,
+                pl: isMobile ? 0 : 68,
                 display: 'flex',
                 flexDirection: isMobile ? 'row' : 'row',
                 alignItems: 'center',
