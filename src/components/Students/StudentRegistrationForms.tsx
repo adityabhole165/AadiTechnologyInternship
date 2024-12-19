@@ -469,25 +469,34 @@ const StudentRegistrationForm = () => {
     }
   };
 
+  const totalTabs = parseInt(schoolId) === 122 ? 6 : 5;
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setCurrentTab(newValue);
+    setCurrentTab(Math.min(newValue, totalTabs - 1));
   };
 
   // useEffect(() => {
   //   // Adjust currentTab if it exceeds the number of tabs after dynamic changes
-  //   if (!IsAdditionalFieldsApplicable && currentTab >= 3) {
-  //     setCurrentTab(3); // Reset to the next available tab
+  //   if (parseInt(schoolId) === 122 && currentTab >= 5) {
+  //     setCurrentTab(5); // Reset to the next available tab
   //   }
-  // }, [IsAdditionalFieldsApplicable, currentTab]);
+  // }, [schoolId, currentTab]);
 
 
   const handleNextTab = () => {
-    setCurrentTab((prevTab) => Math.min(prevTab + 1, 5)); // Move to the next tab
+    setCurrentTab((prevTab) => Math.min(prevTab + 1, totalTabs - 1)); // Move to the next tab
   };
 
   const handlePreviousTab = () => {
     setCurrentTab((prevTab) => Math.max(prevTab - 1, 0)); // Move to the previous tab
   };
+
+  // Reset currentTab when schoolId changes
+  useEffect(() => {
+    if (currentTab >= totalTabs) {
+      setCurrentTab(totalTabs - 1);
+    }
+  }, [schoolId]);
+
   // Track the validation status for each tab
   const [status, setStatus] = useState({
     admissionDetails: null,
@@ -1971,7 +1980,7 @@ const StudentRegistrationForm = () => {
             </Grid>
           </Grid>
         )}
-        {currentTab === 5 && (
+        {parseInt(schoolId) === 122 && currentTab === 5 && (
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <StudentSubjectDetails
@@ -2009,7 +2018,7 @@ const StudentRegistrationForm = () => {
         <Button
           variant="contained"
           onClick={handleNextTab}
-          disabled={currentTab === 5} // Disable if on the last tab
+          disabled={currentTab === totalTabs - 1} // Disable if on the last tab
           sx={{
             backgroundColor: grey[100],
             color: 'green',
