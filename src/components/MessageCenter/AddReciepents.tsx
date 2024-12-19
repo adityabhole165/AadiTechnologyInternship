@@ -177,66 +177,73 @@ const AddReciepents = ({
     setSelectedRecipentsId(updatedRecipientIds);
   };
   useEffect(() => {
+    const asSchoolId = sessionStorage.getItem('SchoolId');
+    const roleId = sessionStorage.getItem('RoleId');
+    const isComposeSMS = location.pathname.includes('ComposeSMS');
+    const isMessageCenter = !isComposeSMS;
+
+    let initialTecherStudent = [];
+
     if (sessionStorage.getItem('RoleId') === '3') {
-      setTecherStudent([
+      initialTecherStudent = [
         { Id: '2', Name: 'Teacher', isActive: false },
         { Id: '6', Name: 'Admin Staff', isActive: false },
-        { Id: '9', Name: 'Contact group', isActive: false }
-      ]);
-      if (getPTAOption.ShowPTAOption) {
-        setTecherStudent((myArr) => [
-          ...myArr,
-          { Id: '11', Name: 'PTA', isActive: false }
-        ]);
+        { Id: '9', Name: 'Contact group', isActive: false },
+      ];
 
-        if (!getPTAOption.HideStudentOption) {
-          setTecherStudent((myArr) => [
-            ...myArr,
-            { Id: '3', Name: 'Student', isActive: false }
-          ]);
-        }
-      } else {
-        if (getPTAOption.HideStudentOption == true) {
-        }
+      if (
+        (getPTAOption.ShowPTAOption || isComposeSMS || (isMessageCenter && asSchoolId === '122')) &&
+        !(sessionStorage.getItem('RoleId') === '2')
+      ) {
+        initialTecherStudent.push({ Id: '11', Name: 'PTA', isActive: false });
+      }
+
+      if (!getPTAOption.HideStudentOption) {
+        initialTecherStudent.push({ Id: '3', Name: 'Student', isActive: false });
       }
     } else if (sessionStorage.getItem('RoleId') === '2') {
-      setTecherStudent([
+      initialTecherStudent = [
         { Id: '2', Name: 'Teacher', isActive: false },
         { Id: '6', Name: 'Admin Staff', isActive: false },
-        { Id: '9', Name: 'Contact group', isActive: false }
-      ]);
-      if (!getPTAOption.ShowPTAOption) {
-        setTecherStudent((myArr) => [
-          ...myArr,
-          { Id: '11', Name: 'PTA', isActive: false }
-        ]);
+        { Id: '9', Name: 'Contact group', isActive: false },
+      ];
+
+      if (
+        (getPTAOption.ShowPTAOption || isComposeSMS || (isMessageCenter && asSchoolId === '122')) &&
+        !(isMessageCenter && asSchoolId !== '122')
+      ) {
+        initialTecherStudent.push({ Id: '11', Name: 'PTA', isActive: false });
       }
+
       if (!getPTAOption.HideStudentOption) {
-        setTecherStudent((myArr) => [
-          ...myArr,
-          { Id: '3', Name: 'Student', isActive: false }
-        ]);
+        initialTecherStudent.push({ Id: '3', Name: 'Student', isActive: false });
       }
     } else {
-      setTecherStudent([
+      initialTecherStudent = [
         { Id: '2', Name: 'Teacher', isActive: false },
         { Id: '3', Name: 'Student', isActive: false },
         { Id: '7', Name: 'Other Staff', isActive: false },
         { Id: '6', Name: 'Admin Staff', isActive: false },
-        { Id: '11', Name: 'PTA', isActive: false },
-        { Id: '9', Name: 'Contact group', isActive: false }
-      ]);
+        { Id: '9', Name: 'Contact group', isActive: false },
+      ];
+
+      if (
+        (getPTAOption.ShowPTAOption || (isMessageCenter && asSchoolId === '122') || isComposeSMS)
+      ) {
+        initialTecherStudent.push({ Id: '11', Name: 'PTA', isActive: false });
+      }
     }
-    if (location.pathname.includes('ComposeSMS')) {
-      setTecherStudent((prevState) => [
-        ...prevState,
-        { Id: '12', Name: 'Left Students', isActive: false }
-      ]);
+
+    if (isComposeSMS) {
+      initialTecherStudent.push({ Id: '12', Name: 'Left Students', isActive: false });
     }
+
+    setTecherStudent(initialTecherStudent);
+
     setSelectedRecipents(RecipientName);
     setSelectedRecipentsId(RecipientId);
-    //from reply, any recipients need to be selected
     SelectUsersInRecipients(RecipientId);
+
   }, [getPTAOption]);
 
   useEffect(() => {
