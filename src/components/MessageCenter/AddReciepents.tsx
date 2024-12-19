@@ -71,8 +71,13 @@ const AddReciepents = ({
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
   const [studentlist, setStudentlist] = useState('');
+
+  const [leftStudentlist, setLeftStudentlist] = useState('');
+  console.log("leftStudentlist", leftStudentlist);
+  const [selectedLeftStudentClass, setSelectedLeftStudentClass] = useState("0");
   const [teacherStudent, setTecherStudent] = useState([]);
   const [techerStudent1, setTeacherStudent1] = useState('');
+  const [isLeftStudentsChecked, setIsLeftStudentsChecked] = useState(false);
   const [show, setShow] = useState(true);
   const [SearchByName, setSearchByName] = useState('');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -105,6 +110,7 @@ const AddReciepents = ({
   const getClass: any = useSelector(
     (state: RootState) => state.getuser1.getClass
   );
+  console.log(getClass, "studentlist", studentlist);
   const getstudentlist: any = useSelector(
     (state: RootState) => state.getuser1.getStudent
   );
@@ -131,15 +137,17 @@ const AddReciepents = ({
     asAcadmeicYearId: academicYearId,
     asSchoolId: schoolId
   };
-
+  const leftStudent1 = leftStudentlist ? leftStudentlist : '0';
   // Teacher / Students / Other Staff / Admin Staff Body
   const getUsersInGroupAPIBody: IUsergroup = {
     asAcademicYearId: academicYearId,
     asSchoolId: schoolId,
-    asStdDivId: stdDivId,
+    asStdDivId: isLeftStudentsChecked ? leftStudent1 : stdDivId,
     asUserId: asUserId,
     asSelectedUserGroup: techerStudent1,
-    abIsSMSCenter: location.pathname.includes('ComposeSMS') ? true : false
+    asName: SearchByName,
+    abIsSMSCenter: location.pathname.includes('ComposeSMS') ? true : false,
+    IsForLeftStudents: isLeftStudentsChecked
   };
   const showPTA = {
     asSchoolId: schoolId,
@@ -153,6 +161,7 @@ const AddReciepents = ({
     asUserRoleId: MessageCenterFullAccess === 'Y' ? 0 : Number(RoleId),
     asUserId: Number(asUserId)
   };
+
   useEffect(() => {
     dispatch(getShowPTA(showPTA));
   }, []);
@@ -218,6 +227,12 @@ const AddReciepents = ({
         { Id: '9', Name: 'Contact group', isActive: false }
       ]);
     }
+    if (location.pathname.includes('ComposeSMS')) {
+      setTecherStudent((prevState) => [
+        ...prevState,
+        { Id: '12', Name: 'Left Students', isActive: false }
+      ]);
+    }
     setSelectedRecipents(RecipientName);
     setSelectedRecipentsId(RecipientId);
     //from reply, any recipients need to be selected
@@ -247,7 +262,7 @@ const AddReciepents = ({
     if (techerStudent1 == '9') {
       dispatch(ContactGroup(ContactgroupBody));
     } else dispatch(GetUser(getUsersInGroupAPIBody));
-  }, [techerStudent1]); //SendSMS
+  }, [techerStudent1, leftStudentlist, leftStudent1]); //SendSMS
 
   useEffect(() => {
     SelectUsersInRecipients(selectedRecipentsId);
@@ -281,6 +296,9 @@ const AddReciepents = ({
 
   const classChange = (value) => {
     setStudentlist(value);
+  };
+  const leftstudentclassChange = (value) => {
+    setLeftStudentlist(value);
   };
   const onChange = (value) => {
     setEntireSchool(value);
@@ -461,6 +479,12 @@ const AddReciepents = ({
 
   const ClickGroupRadio = (value) => {
     getGroupRadio(value.Id);
+    if (value.Id == 12) {
+      setIsLeftStudentsChecked(true)
+    }
+    else {
+      setIsLeftStudentsChecked(false)
+    }
   }
   const ClickGroupRadio1 = (value) => {
     getGroupRadio1(value.isActive);
@@ -563,7 +587,7 @@ const AddReciepents = ({
 
 
                 <Grid item xs={12} sm={6}>
-                  {techerStudent1 === '3' && (
+                  {(techerStudent1 === '3') && (
                     // <DropdownofAddrecipent
                     //   Array={getClass}
                     //   defaultValue={studentlist}
@@ -576,6 +600,16 @@ const AddReciepents = ({
                       onChange={classChange}
                       label={'Select Class'}
                       defaultValue={studentlist}
+                      size={'small'}
+                    ></DropdownofAddrecipent>
+                  )}
+                  {(techerStudent1 === '12') && (
+                    <DropdownofAddrecipent
+                      sx={{ minWidth: '300px' }}
+                      ItemList={getClass}
+                      onChange={leftstudentclassChange}
+                      label={'Select Class'}
+                      defaultValue={leftStudentlist}
                       size={'small'}
                     ></DropdownofAddrecipent>
                   )}

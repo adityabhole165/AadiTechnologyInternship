@@ -3,8 +3,10 @@ export interface IUsergroup {
   asSchoolId: string;
   asStdDivId: string;
   asUserId: string;
+  asName: string;
   asSelectedUserGroup: string;
   abIsSMSCenter: boolean;
+  IsForLeftStudents: boolean;
 }
 
 export interface GetUsersInGroupResult {
