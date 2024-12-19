@@ -24,17 +24,11 @@ const ClaimedBookDetailsPage = () => {
     const [UserName, setUserName] = useState('');
 
     const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-    const [SortBy, setSortBy] = useState('');
-
-    console.log(SortDirection, "SortDirection!!!");
-    console.log(SortBy, "SortBy@@@");
-
-
+    const [SortBy, setSortBy] = useState('Book_Title');
 
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState<number>(1);
     const rowsPerPageOptions = [10, 20, 50, 100, 200];
-
 
     const UsCancelBookReservationMsg: any = useSelector((state: RootState) => state.SchoolLibrary.ICancelBookReservationMsg);
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
@@ -59,18 +53,11 @@ const ClaimedBookDetailsPage = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1);
     };
-    // Calculate total page count
+
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
-    // const getSortKey = () => {
-    //     let SortHeader = ""
-    //     .map(item => {
-    //         if (item.Id == sortHeader)
-    //             SortHeader =headerArray item.sortKey
-    //     })
-    //     return SortHeader;
-    // }
+
     const handleSortChange = (column: string) => {
         if (SortBy === column) {
             setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
@@ -88,7 +75,7 @@ const ClaimedBookDetailsPage = () => {
         asEndIndex: 1000,
         asBookTitle: BookTitle,
         asUserName: UserName,
-        asSortExpression: "Order By " + SortBy + " " + SortDirection, //"ORDER BY Book_Title ASC",
+        asSortExpression: "Order By " + SortBy + " " + SortDirection, // "ORDER BY Book_Title ASC",
         asAllUserFlag: showAllUsers == true ? 1 : 0
     };
     useEffect(() => {
@@ -119,7 +106,7 @@ const ClaimedBookDetailsPage = () => {
             title: 'Please Confirm',
             message: 'Are you sure you want to cancel the book claim?',
             variant: 'warning',
-            confirmButtonText: 'Confirm',
+            confirmButtonText: 'Ok',
             cancelButtonText: 'Cancel',
             onCancel: () => {
                 closeAlert();
@@ -138,8 +125,6 @@ const ClaimedBookDetailsPage = () => {
             dispatch(CDAGetReserveBookDetails(bookReserveDetails));
         }
     }, [UsCancelBookReservationMsg]);
-
-
 
     return (
         <Box px={2}>
@@ -165,7 +150,6 @@ const ClaimedBookDetailsPage = () => {
                             size={'small'}
                             onChange={(e) => setBookTitle(e.target.value.slice(0, 50))}
                             value={BookTitle}
-
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === 'Tab') {
                                     clickSearch();

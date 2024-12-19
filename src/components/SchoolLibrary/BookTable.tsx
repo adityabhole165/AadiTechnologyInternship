@@ -49,34 +49,34 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete,
             <TableRow sx={{ background: (theme) => theme.palette.secondary.main }}>
               <TableCell sx={{ color: 'white', py: 1.5 }}>
                 <b
-                  onClick={() => handleSortChange('bookTitle')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                  Book Title {SortBy === 'bookTitle' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                  onClick={() => handleSortChange('Book_Title')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                  Book Title {SortBy === 'Book_Title' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                 </b>
               </TableCell>
               {showAllUsers && (
                 <>
                   <TableCell sx={{ color: 'white', py: 1.5 }}>
-                    <b onClick={() => handleSortChange('userName')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                      User Name {SortBy === 'userName' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                    <b onClick={() => handleSortChange('Name')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                      User Name {SortBy === 'Name' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                     </b>
                   </TableCell>
 
                   <TableCell sx={{ color: 'white', py: 1.5 }}>
-                    <b onClick={() => handleSortChange('class')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                      Class {SortBy === 'class' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                    <b onClick={() => handleSortChange('Class')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                      Class {SortBy === 'Class' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
 
                     </b>
                   </TableCell>
                   <TableCell sx={{ color: 'white !important', py: 1.5 }}>
-                    <b onClick={() => handleSortChange('designation')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                      Designation {SortBy === 'designation' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                    <b onClick={() => handleSortChange('Designation')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                      Designation {SortBy === 'Designation' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                     </b>
                   </TableCell>
                 </>
               )}
               <TableCell sx={{ color: 'white', py: 1.5, pl: 4 }}>
-                <b onClick={() => handleSortChange('date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                  Date{SortBy === 'date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                <b onClick={() => handleSortChange('ReservationDate')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                  Date{SortBy === 'ReservationDate' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                 </b>
               </TableCell>
               <TableCell sx={{ color: 'white', py: 1.5, textAlign: 'center' }}>Cancel</TableCell>
