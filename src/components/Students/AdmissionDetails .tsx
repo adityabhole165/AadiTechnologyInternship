@@ -10,7 +10,6 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
@@ -75,7 +74,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
 
   useEffect(() => {
     //console.log('1️⃣admission data from parent', admission);
-    //console.log('📅admission Date from Parent', admission.admissionDate);
+    //console.log('🎈🎈From Parent', admission.joiningDate);
   }, [admission]);
 
   const FeeAreaNamesDrop = useSelector((state: RootState) => state.StudentUI.ISFeeAreaNames);
@@ -295,11 +294,9 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
   };
 
   const handleDateChange = (name: string) => (date: Date | null) => {
-    const formattedDate = date
-      ? moment(date).format('DD-MM-YYYY HH:mm:ss') // Format the date
-      : ''; // Use an empty string if the date is null
+    //const formattedDate = date ? moment(date).format('YYYY-MM-DD') : ''; // Use an empty string if the date is null
 
-    onChange(name, formattedDate); // Pass the formatted date to parent
+    onChange(name, date); // Pass the formatted date to parent
 
   };
   // useEffect(() => {

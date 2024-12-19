@@ -20,7 +20,6 @@ import {
 import { red } from '@mui/material/colors';
 import green from '@mui/material/colors/green';
 import { User } from 'lucide-react';
-import moment from 'moment';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { FaCamera, FaRedo, FaStop } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
@@ -111,7 +110,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
   const { showAlert, closeAlert } = useContext(AlertContext);
 
   useEffect(() => {
-    console.log('2️⃣personal data from Parent', personal);
+    //console.log('2️⃣personal data from Parent', personal);
+    //console.log('🎈🎈From Parent', personal.dateOfBirth);
   }, [personal]);
 
   const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
@@ -290,11 +290,9 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
   };
 
   const handleDateChange = (name: string) => (date: Date | null) => {
-    const formattedDate = date
-      ? moment(date).format('DD-MM-YYYY HH:mm:ss') // Format the date
-      : ''; // Use an empty string if the date is null
+    //const formattedDate = date ? moment(date).format('DD-MM-YYYY HH:mm:ss') : ''; // Use an empty string if the date is null
 
-    onChange(name, formattedDate); // Pass the formatted date to parent
+    onChange(name, date); // Pass the formatted date to parent
 
   };
 

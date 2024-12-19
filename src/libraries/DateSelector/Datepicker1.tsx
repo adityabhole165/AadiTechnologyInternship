@@ -1,13 +1,14 @@
 
 import { DatePicker } from '@mui/x-date-pickers';
+import moment from 'moment';
 
 const Datepicker1 = ({ DateValue, onDateChange, label, size, error, helperText }) => {
     return (
         <>
             <DatePicker
                 //value={new Date(DateValue)}
-                value={DateValue ? new Date(DateValue) : null}
-                onChange={onDateChange}
+                value={DateValue ? moment(DateValue, "DD-MM-YYYY").toDate() : null}
+                onChange={(date) => onDateChange(moment(date).format("DD-MM-YYYY"))}
                 format="dd MMM yyyy"
                 label={
                     label ? (

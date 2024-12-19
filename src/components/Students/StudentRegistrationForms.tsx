@@ -264,7 +264,9 @@ const StudentRegistrationForm = () => {
   const [selectedSiblings, setSelectedSiblings] = useState('');
   //console.log('✅ selectedSiblings', selectedSiblings)
   const [resetTrigger, setResetTrigger] = useState(false);
-
+  console.log('🎈Father', form.family.fatherDOB);
+  console.log('🎈Mother', form.family.motherDOB);
+  console.log('🎈Anniversery', form.family.marriageAnniversaryDate);
   //#region Local States
   const [localstudentData, setLocalStudentData] = useState({});
   useEffect(() => {
@@ -553,11 +555,11 @@ const StudentRegistrationForm = () => {
   const hidOldJoiningDate = oStudentDetails?.Joining_Date ? moment(oStudentDetails?.Joining_Date, 'DD-MM-YYYY HH:mm:ss').format('DD-MMM-yyyy') : '';
   const currentDate = moment(form.admission?.joiningDate).format('DD-MMM-yyyy');
 
-  console.log(hidOldJoiningDate, '🎈', currentDate);
+  //console.log(hidOldJoiningDate, '🎈', currentDate);
   //const monthFromOJoiningDate = oJoiningDate?.split('-')[1]; // e.g., "Sep"
   const monthFromHidOldJoiningDate = moment(hidOldJoiningDate, 'DD-MMM-YYYY').format('MMM'); // e.g., "Jun"
   const monthFromCurrentDate = moment(currentDate, 'DD-MMM-YYYY').format('MMM');
-  console.log(monthFromHidOldJoiningDate, '🎈🎈', monthFromCurrentDate);
+  //console.log(monthFromHidOldJoiningDate, '🎈🎈', monthFromCurrentDate);
 
   const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
   //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
@@ -617,8 +619,8 @@ const StudentRegistrationForm = () => {
           annualIncome: studentData?.AnnualIncome || '',
           formNumber: FormNumber?.FormNumber || '',
           registrationNumber: studentData?.Enrolment_Number || '0',
-          admissionDate: formatDOB(studentData?.Admission_date) || '',
-          joiningDate: formatDOB(studentData?.Joining_Date) || '',
+          admissionDate: studentData?.Admission_date || '',
+          joiningDate: studentData?.Joining_Date || '',
           studentRollNumber: studentData?.Roll_No || '',
           UDISENumber: studentData?.UDISENumber || '',
           BoardRegistrationNumber: studentData?.BoardRegistrationNo || '',
@@ -663,7 +665,7 @@ const StudentRegistrationForm = () => {
           religion: studentData?.Religion || '',
           casteAndSubCaste: studentData?.CasteAndSubCaste || '',
           category: studentData?.Category_Id || '',
-          dateOfBirth: formatDOB(studentData?.DOB) || '',
+          dateOfBirth: studentData?.DOB || '',
           nationality: studentData?.Nationality || '',
           motherTongue: studentData?.Mother_Tongue || '',
           gender: studentData?.Sex || '',
@@ -682,7 +684,7 @@ const StudentRegistrationForm = () => {
           fatherOfficeName: AdditionalData?.FatherOfficeName || '',
           fatherOfficeAddress: AdditionalData?.FatherOfficeAddress || '',
           fatherDesignation: AdditionalData?.FatherDesignation || '',
-          fatherDOB: formatDOB(AdditionalData?.FatherDOB) || '',
+          fatherDOB: AdditionalData?.FatherDOB || '',
           fatherPhoto: AdditionalData?.FatherPhoto || '',
           fatherWeight: AdditionalData?.FatherWeight || '',
           fatherHeight: AdditionalData?.FatherHeight || '',
@@ -697,7 +699,7 @@ const StudentRegistrationForm = () => {
           motherOfficeName: AdditionalData?.MotherOfficeName || '',
           motherOfficeAddress: AdditionalData?.MotherOfficeAddress || '',
           motherDesignation: AdditionalData?.MotherDesignation || '',
-          motherDOB: formatDOB(AdditionalData?.MotherDOB) || '',
+          motherDOB: AdditionalData?.MotherDOB || '',
           motherPhoto: AdditionalData?.MotherPhoto || '',
           motherWeight: AdditionalData?.MotherWeight || '',
           motherHeight: AdditionalData?.MotherHeight || '',
@@ -706,8 +708,7 @@ const StudentRegistrationForm = () => {
           motherAnnualIncome: AdditionalData?.MotherAnnualIncome || '',
 
           // Family Information
-          marriageAnniversaryDate:
-            formatDOB(AdditionalData?.AnniversaryDate) || '',
+          marriageAnniversaryDate: AdditionalData?.AnniversaryDate || '',
           localGuardianPhoto: AdditionalData?.GuardianPhoto || '',
           familyMonthlyIncome: AdditionalData?.FamilyMonthlyIncome || '',
           cwsn: AdditionalData?.CWSN || '',
@@ -1044,7 +1045,7 @@ const StudentRegistrationForm = () => {
     asMotherDesignation: form.family?.motherDesignation || '',
     asFatherPhoto: form.family?.fatherPhoto || '',
     asMotherPhoto: form.family?.motherPhoto || '',
-    asAnniversaryDate: form.family?.marriageAnniversaryDate || '',
+    asAnniversaryDate: formatDOB(form.family?.marriageAnniversaryDate) || '',
     asLocalGuardianPhoto: form.family?.localGuardianPhoto || '',
     asRelativeName: form.family?.relativeFullName || '',
     asFatherBinaryPhoto: null, //Need to work on this

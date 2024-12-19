@@ -9,7 +9,6 @@ import {
   Typography
 } from '@mui/material';
 import { red } from '@mui/material/colors';
-import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -80,7 +79,10 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
 
   useEffect(() => {
     if (family) {
-      console.log('3️⃣family data from Parent', family);
+      //console.log('3️⃣family data from Parent', family);
+      console.log('🎈🎈FatherDOB From Parent', family.fatherDOB);
+      console.log('🎈🎈MotherDOB From Parent', family.motherDOB);
+      console.log('🎈🎈Anniversery From Parent', family.marriageAnniversaryDate);
     }
   }, [family]);
 
@@ -229,11 +231,9 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
   };
 
   const handleDateChange = (name: string) => (date: Date | null) => {
-    const formattedDate = date
-      ? moment(date).format('DD-MM-YYYY HH:mm:ss') // Format the date
-      : ''; // Use an empty string if the date is null
+    //const formattedDate = date? moment(date).format('DD-MM-YYYY HH:mm:ss') : ''; // Use an empty string if the date is null
 
-    onChange(name, formattedDate); // Pass the formatted date to parent
+    onChange(name, date); // Pass the formatted date to parent
 
   };
 
