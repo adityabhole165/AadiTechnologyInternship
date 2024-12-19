@@ -133,7 +133,7 @@ const NoticeBoardBaseScreen = () => {
         }
       />
 
-      <Fade in={showBanner} style={{marginBottom:'10px', marginTop:'10px'}}>
+      <Fade in={showBanner} style={{marginBottom:'10px', }}>
         <Alert 
         //    severity="info"
           sx={{
