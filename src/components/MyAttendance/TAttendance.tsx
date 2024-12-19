@@ -22,7 +22,7 @@ import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetAbsentStudentDetailsBody } from 'src/interfaces/AbsentStudentDetails/IAbsentStudentPopup';
 import { ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import ITAttendance, {
-  IStudentsDetails,
+  IStudentsDetails
 } from 'src/interfaces/Teacher/TAttendance';
 import {
   IDeleteAttendanceBody,
@@ -84,9 +84,7 @@ const TAttendance = () => {
   // console.log("AssignedDate", AssignedDate)
   // console.log("StandardId", StandardId)
   const { SelectClasstecahernew, AssignedDate } = useParams();
-  const StandardDivisionIdse = (
-    sessionStorage.getItem('StandardDivisionId')
-  );
+  const StandardDivisionIdse = sessionStorage.getItem('StandardDivisionId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   let [asTeacherId, setasTeacherId] = useState('0');
@@ -96,9 +94,10 @@ const TAttendance = () => {
   const [search, setSearch] = useState(true);
   const [showSaveAttendanceAlert, setShowSaveAttendanceAlert] = useState(false);
   const [sendmeassagestudent, setsendmeassagestudent] = useState(false);
-  const [StandardDivisionId, setStandardDivisionId] = useState(StandardDivisionIdse)
+  const [StandardDivisionId, setStandardDivisionId] =
+    useState(StandardDivisionIdse);
   const [Standardid, setStandardid] = useState<string>();
-  const [MarksError, setMarksError] = useState('')
+  const [MarksError, setMarksError] = useState('');
   const [assignedDate, setAssignedDate] = useState<string>(AssignedDate);
   const [Open, setOpen] = useState(false);
   const [onlySelectedClass, setOnlySelectedClass] = useState('none');
@@ -109,7 +108,9 @@ const TAttendance = () => {
   );
   const [asUserId, SetUserId] = useState();
 
-  const [selectClasstecahernew, setselectClasstecahernew] = useState(SelectClasstecahernew);
+  const [selectClasstecahernew, setselectClasstecahernew] = useState(
+    SelectClasstecahernew
+  );
   // const [selectClasstecahernew, setselectClasstecahernew] = useState(
   //   paramsselectClasstecaher !== undefined
   //     ? paramsselectClasstecaher.toString()
@@ -176,12 +177,12 @@ const TAttendance = () => {
 
   const GetScreenPermission = () => {
     let perm = 'N';
-    ScreensAccessPermission && ScreensAccessPermission.map((item) => {
-      if (item.ScreenName === 'Attendance') perm = item.IsFullAccess;
-    });
+    ScreensAccessPermission &&
+      ScreensAccessPermission.map((item) => {
+        if (item.ScreenName === 'Attendance') perm = item.IsFullAccess;
+      });
     return perm;
   };
-
 
   const [SaveIsActive, setSaveIsActive] = useState(true);
   const GetStudentDetails: IStudentsDetails = {
@@ -201,7 +202,6 @@ const TAttendance = () => {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
     asStandardDivId: Number(selectClasstecahernew)
-
   };
 
   const SummaryCountforAttendanceBody: IGetSummaryCountforAttendanceBody = {
@@ -225,9 +225,8 @@ const TAttendance = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asStandardDivId: Number(selectClasstecahernew),
     asSelectedDate: assignedDate,
-    asMaxDaysLimit: Number(UsschoolSettings),
+    asMaxDaysLimit: Number(UsschoolSettings)
   };
-
 
   const getTeacherId = () => {
     let TeacherId = '';
@@ -240,7 +239,8 @@ const TAttendance = () => {
   const setStandardDivName = () => {
     let StandardDivision = '';
     ClassTeacherDropdownnew.map((item) => {
-      if (item.Value == selectClasstecahernew) StandardDivision = item.StandardDivision;
+      if (item.Value == selectClasstecahernew)
+        StandardDivision = item.StandardDivision;
     });
     return StandardDivision;
   };
@@ -256,20 +256,26 @@ const TAttendance = () => {
   //   dispatch(CDAGetTeacherNameList(ClassTeachernewBody));
   // }, []);
 
-
-  const debouncedFetch = useCallback(debounce((body) => {
-    dispatch(CDAGetTeacherNameList(body));
-  }, 500), [dispatch]);
+  const debouncedFetch = useCallback(
+    debounce((body) => {
+      dispatch(CDAGetTeacherNameList(body));
+    }, 500),
+    [dispatch]
+  );
 
   useEffect(() => {
     const ClassTeachernewBody: IGetClassTeachersBodynew = {
       asSchoolId: Number(asSchoolId),
       asAcadmicYearId: Number(asAcademicYearId),
-      asTeacher_id: GetScreenPermission() === 'Y'
-        ? 0
-        : (getTeacherId() ? Number(getTeacherId()) : (SelectClasstecahernew != null ? Number(SelectClasstecahernew) : Number(selectClasstecahernew)))
-
-    }
+      asTeacher_id:
+        GetScreenPermission() === 'Y'
+          ? 0
+          : getTeacherId()
+          ? Number(getTeacherId())
+          : SelectClasstecahernew != null
+          ? Number(SelectClasstecahernew)
+          : Number(selectClasstecahernew)
+    };
     // dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
     debouncedFetch(ClassTeachernewBody);
   }, []);
@@ -280,31 +286,36 @@ const TAttendance = () => {
     }
   }, [ClassTeacherDropdownnew]);
 
-
   useEffect(() => {
     if (ClassTeacherDropdownnew && ClassTeacherDropdownnew.length > 0) {
       if (SelectClasstecahernew == undefined && AssignedDate == undefined) {
         if (GetScreenPermission() === 'Y') {
           setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
-          console.log(GetScreenPermission(), "ClassTeachers 2", ClassTeacherDropdownnew[0].Value)
+          console.log(
+            GetScreenPermission(),
+            'ClassTeachers 2',
+            ClassTeacherDropdownnew[0].Value
+          );
         } else {
-          const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
+          const teacherIdFromSession =
+            sessionStorage.getItem('StandardDivisionId');
           if (teacherIdFromSession !== null) {
             setselectClasstecahernew(teacherIdFromSession);
-
           }
         }
       }
     }
   }, [ClassTeacherDropdownnew]);
-  const debouncedFetch1 = useCallback(debounce((body) => {
-    dispatch(GetAcademicDatesForStandardDivision(body));
-  }, 500), [dispatch]);
+  const debouncedFetch1 = useCallback(
+    debounce((body) => {
+      dispatch(GetAcademicDatesForStandardDivision(body));
+    }, 500),
+    [dispatch]
+  );
   useEffect(() => {
     debouncedFetch1(getAcademicDates);
     //dispatch(GetAcademicDatesForStandardDivision(getAcademicDates));
   }, [selectClasstecahernew, assignedDate]);
-
 
   useEffect(() => {
     const ScreensAccessPermission = JSON.parse(
@@ -341,7 +352,7 @@ const TAttendance = () => {
   }, []);
 
   useEffect(() => {
-    if (assignedDate != undefined && assignedDate != "") {
+    if (assignedDate != undefined && assignedDate != '') {
       dispatch(GetStudentList(GetStudentDetails));
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
     }
@@ -370,7 +381,7 @@ const TAttendance = () => {
   };
 
   useEffect(() => {
-    if (assignedDate != undefined && assignedDate != "") {
+    if (assignedDate != undefined && assignedDate != '') {
       dispatch(GetStudentList(GetStudentDetails));
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
     }
@@ -397,10 +408,10 @@ const TAttendance = () => {
     }).some((obj) => obj.isActive === false)
       ? 1
       : !Itemlist.filter((obj) => {
-        return !obj.IsExamSubmitted;
-      }).some((obj) => obj.isActive === true)
-        ? 0
-        : 2;
+          return !obj.IsExamSubmitted;
+        }).some((obj) => obj.isActive === true)
+      ? 0
+      : 2;
     if (isCheckAll === 1) {
       setAllPresentOrAllAbsent('P');
     } else if (isCheckAll === 0) {
@@ -410,12 +421,7 @@ const TAttendance = () => {
     }
     setAbsentRollNos(value);
     setItemList(Itemlist);
-
-
   };
-
-
-
 
   const SaveAttendance_old = () => {
     const GetSaveStudentAttendance: ISaveAttendance = {
@@ -464,7 +470,7 @@ const TAttendance = () => {
   };
 
   const AbsentStudentsBody: ISchoolIdBody = {
-    asSchoolId: Number(asSchoolId),
+    asSchoolId: Number(asSchoolId)
   };
   useEffect(() => {
     dispatch(GetSchoolSettings(AbsentStudentsBody));
@@ -493,8 +499,6 @@ const TAttendance = () => {
   //     setMarksError(''); // Clear any existing error message
   //   }
   // }, [AcademicDates]);
-
-
 
   const SaveMsg = () => {
     // if (!SaveIsActive) return;
@@ -564,7 +568,6 @@ const TAttendance = () => {
           } else {
             SaveAttendance(); // Execute the API call after the second alert
             setIsDirty(false);
-
           }
         }
       });
@@ -609,11 +612,11 @@ const TAttendance = () => {
   }, [saveResponseMessage]);
 
   useEffect(() => {
-    console.log(ListAbsentStudents, 'ListAbsentStudents')
+    console.log(ListAbsentStudents, 'ListAbsentStudents');
     if (ListAbsentStudents.length > 0) {
       setOpen(true);
     }
-  }, [ListAbsentStudents])
+  }, [ListAbsentStudents]);
   const ClickOpenDialogbox = () => {
     setOpen(true);
   };
@@ -627,8 +630,11 @@ const TAttendance = () => {
     );
   };
   const clickNavigateSchoolAttendanceOverview = () => {
-    navigate('/extended-sidebar/Teacher/SchoolAttendanceOverview/' + getDateFormattedDash(assignedDate));
-  }
+    navigate(
+      '/extended-sidebar/Teacher/SchoolAttendanceOverview/' +
+        getDateFormattedDash(assignedDate)
+    );
+  };
   const ClickItemList = (value) => {
     const GetStudentDetails: IStudentsDetails = {
       asStdDivId: asStandardDivisionId,
@@ -654,7 +660,6 @@ const TAttendance = () => {
     setsendmeassagestudent(value);
   };
   useEffect(() => {
-
     if (listAttendanceCalender.length > 0 && assignedDate != '') {
       listAttendanceCalender.map((item, i) => {
         if (item.Value === assignedDate) {
@@ -679,116 +684,119 @@ const TAttendance = () => {
           }
         ]}
         rightActions={
-          <>
-            <Stack direction={'row'} gap={1} alignItems={'center'}>
-              <Stack direction={'row'} alignItems={'center'} gap={1}>
-                <Tooltip title={"School Attendance Overview"}>
-                  <Typography color={MarksError ? grey[500] : blue[500]} fontWeight={"bold"}
-                    sx={{ cursor: 'pointer' }} onClick={() => {
-                      if (!MarksError) {
-                        clickNavigateSchoolAttendanceOverview()
-                      }
-                    }
-                    }>
-                    Overview
-                  </Typography>
-                </Tooltip>
-                <Typography color={MarksError ? grey[500] : blue[500]} fontWeight={"bold"}>
-                  -
-                </Typography>
-                <Typography
-                  color={MarksError ? grey[500] : blue[500]}
-                  sx={{
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                  }}
-                  fontWeight={'bold'}
-                  onClick={() => {
-                    if (!MarksError) {
-                      clickNavigateSchoolAttendanceOverview()
-                    }
-                  }}
-                >
-
-                  <Tooltip title={'Present Students / Total Student'}>
-                    <Box>{SummaryCountforAttendance?.TotalStudents}</Box>
-                  </Tooltip>
-                </Typography>
-              </Stack>
-              <Box sx={{ height: '25px', border: '1px solid grey' }}></Box>
-              <Stack direction={'row'} alignItems={'center'} gap={1}>
-                <Typography
-                  color={MarksError ? grey[500] : blue[500]}
-                  sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 1 }}
-                  fontWeight={'bold'}
-                  onClick={() => {
-                    if (!MarksError) {
-                      clickNavigateSchoolAttendanceOverview()
-                    }
-                  }}
-                >
-
-                  <Tooltip title={'Attendance marked Divisions / TotalDivisions'}>
-                    <Box>
-                      {SummaryCountforAttendance?.TotalDivisions}
-                    </Box>
-                  </Tooltip>
-                </Typography>
-              </Stack>
-            </Stack>
-
-            <Grid xs={12} sm={6} md={6} lg={6} xl={6}>  
-              <SearchableDropdown
-                label={""}
-                sx={{ pl: 0, minWidth: '20vw' }}
-                ItemList={ClassTeacherDropdownnew}
-                onChange={clickClassTechernew}
-                defaultValue={selectClasstecahernew}
-                size={"small"}
-                DisableClearable={GetScreenPermission() == 'N'}
-                disabled={GetScreenPermission() === 'N'}
-              />
-              {/* <Paper
-              component="form"
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+            sx={{
+              mt: { xs: 0, sm: 0 },
+              flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+            }}
+          >
+            {/* Overview Section */}
+            <Stack
+              direction="row"
+              gap={1}
+              alignItems="center"
               sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                my: 0,
-                py: 0,
-                flexWrap: 'nowrap'
+                flexWrap: { xs: 'wrap', sm: 'nowrap' }
               }}
             >
-              {search ? (
-                <>
-                </>
-              ) : (
-                ''
-              )}
-
-              <IconButton
-                onClick={() => setSearch(!search)}
-                color="primary"
+              <Tooltip title="School Attendance Overview">
+                <Typography
+                  color={MarksError ? grey[500] : blue[500]}
+                  fontWeight="bold"
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    if (!MarksError) {
+                      clickNavigateSchoolAttendanceOverview();
+                    }
+                  }}
+                >
+                  Overview
+                </Typography>
+              </Tooltip>
+              <Typography
+                color={MarksError ? grey[500] : blue[500]}
+                fontWeight="bold"
+              >
+                -
+              </Typography>
+              <Typography
+                color={MarksError ? grey[500] : blue[500]}
                 sx={{
-                  color: (theme) => theme.palette.primary.main,
-                  backgroundColor: 'white',
-                  '&:hover': {
-                    backgroundColor: 'white'
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}
+                fontWeight="bold"
+                onClick={() => {
+                  if (!MarksError) {
+                    clickNavigateSchoolAttendanceOverview();
                   }
                 }}
               >
-                <Tooltip title="search">
-                  <SearchIcon />
+                <Tooltip title="Present Students / Total Students">
+                  <Box>{SummaryCountforAttendance?.TotalStudents}</Box>
                 </Tooltip>
-              </IconButton>
-            </Paper> */}
-            </Grid>
-            <Grid xs={12} sm={6} md={6} lg={6} xl={6}>
-              <Tooltip
-                title={`Mark attendance of each student from your class for the select date. Click on "Delete" button to delete attendance of selected date. Delete facility will be available only if user have "Edit" facility.`}
-              ><span>
+              </Typography>
+              <Box sx={{ height: '25px', border: '1px solid grey' }} />
+              <Typography
+                color={MarksError ? grey[500] : blue[500]}
+                sx={{
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}
+                fontWeight="bold"
+                onClick={() => {
+                  if (!MarksError) {
+                    clickNavigateSchoolAttendanceOverview();
+                  }
+                }}
+              >
+                <Tooltip title="Attendance marked Divisions / Total Divisions">
+                  <Box>{SummaryCountforAttendance?.TotalDivisions}</Box>
+                </Tooltip>
+              </Typography>
+            </Stack>
+
+            {/* Right Actions Section */}
+            <Stack
+              direction={{ xs: 'row', sm: 'row' }}
+              spacing={1}
+              alignItems="center"
+              justifyContent="flex-end"
+              sx={{
+                width: '100%',
+                flexWrap: { xs: 'wrap', sm: 'nowrap' }
+              }}
+            >
+              <Box
+                sx={{
+                  width: { xs: '100%', sm: 'auto' },
+                  mb: { xs: 1, sm: 'auto' }
+                }}
+              >
+                <SearchableDropdown
+                  label={''}
+                  sx={{
+                    mb: { xs: '10px', sm: '0px' },
+                    minWidth: { xs: '100%', sm: '20vw' }
+                  }}
+                  ItemList={ClassTeacherDropdownnew}
+                  onChange={clickClassTechernew}
+                  defaultValue={selectClasstecahernew}
+                  size="small"
+                  DisableClearable={GetScreenPermission() === 'N'}
+                  disabled={GetScreenPermission() === 'N'}
+                />
+              </Box>
+              <Tooltip title="Mark attendance of each student from your class for the selected date.">
+                <span>
                   <IconButton
                     sx={{
                       color: 'white',
@@ -801,20 +809,21 @@ const TAttendance = () => {
                   </IconButton>
                 </span>
               </Tooltip>
-            </Grid>
-            <Box>
-              <Tooltip title={'Individual Attendance'}>
+              <Tooltip title="Individual Attendance">
                 <span>
                   <IconButton
-                    onClick={() => {
-                      navigate('/extended-sidebar/Teacher/IndidualAttendance/' + selectClasstecahernew + '/' + getDateFormattedDash(assignedDate));
-                    }}
+                    onClick={() =>
+                      navigate(
+                        '/extended-sidebar/Teacher/IndidualAttendance/' +
+                          selectClasstecahernew +
+                          '/' +
+                          getDateFormattedDash(assignedDate)
+                      )
+                    }
                     sx={{
                       color: 'white',
                       backgroundColor: blue[500],
-                      '&:hover': {
-                        backgroundColor: blue[600]
-                      }
+                      '&:hover': { backgroundColor: blue[600] }
                     }}
                     disabled={MarksError ? true : false}
                   >
@@ -822,20 +831,21 @@ const TAttendance = () => {
                   </IconButton>
                 </span>
               </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={'Month Wise Attendance'}>
+              <Tooltip title="Month Wise Attendance">
                 <span>
                   <IconButton
-                    onClick={() => {
-                      navigate('/extended-sidebar/Teacher/MonthwiseAttendance/' + selectClasstecahernew + '/' + getDateFormattedDash(assignedDate));
-                    }}
+                    onClick={() =>
+                      navigate(
+                        '/extended-sidebar/Teacher/MonthwiseAttendance/' +
+                          selectClasstecahernew +
+                          '/' +
+                          getDateFormattedDash(assignedDate)
+                      )
+                    }
                     sx={{
                       color: 'white',
                       backgroundColor: blue[500],
-                      '&:hover': {
-                        backgroundColor: blue[600]
-                      }
+                      '&:hover': { backgroundColor: blue[600] }
                     }}
                     disabled={MarksError ? true : false}
                   >
@@ -843,95 +853,71 @@ const TAttendance = () => {
                   </IconButton>
                 </span>
               </Tooltip>
-            </Box>
-
-            {UsschoolSettings !== '0' && (
-              <Box>
-                <Tooltip title={'Absent Student Details'}>
+              {UsschoolSettings !== '0' && (
+                <Tooltip title="Absent Student Details">
                   <span>
                     <IconButton
                       onClick={ClickOpenDialogbox}
                       sx={{
                         backgroundColor: red[500],
                         color: 'white',
-                        '&:hover': {
-                          backgroundColor: red[600]
-                        }
+                        '&:hover': { backgroundColor: red[600] }
                       }}
                     >
                       <PersonOff />
                     </IconButton>
                   </span>
                 </Tooltip>
-              </Box>
-            )}
-
-            <Box>
-              {SaveIsActive ? (
-                <Tooltip title={'Save Attendance'}>
-                  <span>
-                    <IconButton
-                      onClick={SaveMsg}
-                      sx={{
-                        color: 'white',
-                        backgroundColor: green[500],
-                        '&:hover': {
-                          backgroundColor: green[600]
-                        }
-                      }}
-                      disabled={MarksError ? true : false}
-                    >
-                      <SaveIcon />
-                    </IconButton>
-                  </span>
-                </Tooltip>
-              ) : (
-                <Tooltip title={'Save Attendance'}>
-                  <span>
-                    <IconButton
-                      onClick={SaveMsg}
-                      sx={{
-                        color: 'white',
-                        backgroundColor: green[500],
-                        '&:hover': {
-                          backgroundColor: green[600]
-                        }
-                      }}
-                    >
-                      <SaveIcon />
-                    </IconButton>
-                  </span>
-                </Tooltip>
               )}
-            </Box>
-          </>
+              <Tooltip title="Save Attendance">
+                <span>
+                  <IconButton
+                    onClick={SaveMsg}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      '&:hover': { backgroundColor: green[600] }
+                    }}
+                    disabled={MarksError ? true : false}
+                  >
+                    <SaveIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            </Stack>
+          </Stack>
         }
       />
-      {SummaryCountforAttendance?.GetSummaryCountList.length > 0 &&
-        <AttendanceSummary assignedDate={assignedDate}
-          SummaryCountforAttendance={SummaryCountforAttendance.GetSummaryCountList} />
-      }
+      {SummaryCountforAttendance?.GetSummaryCountList.length > 0 && (
+        <AttendanceSummary
+          assignedDate={assignedDate}
+          SummaryCountforAttendance={
+            SummaryCountforAttendance.GetSummaryCountList
+          }
+        />
+      )}
       <Grid container spacing={1} mt={0}>
         <Grid item xs={12} md={6}>
           <Box sx={{ backgroundColor: 'white', pt: 2 }}>
             <Grid justifyContent="center">
-              <Box sx={{ backgroundColor: 'white' }} >
+              <Box sx={{ backgroundColor: 'white' }}>
                 {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
                 {/* <div style={{ marginTop: '70px' }}> */}
                 {MarksError ? (
-                  <div style={{
-                    fontWeight: 'bold',
-                    fontSize: '16px',
-                    color: red[500],
-                    background: '#FFCCCC',
-                    marginTop: '12px',
-                    marginLeft: '10px',
-                    marginBottom: '0px',
-                    padding: '5px',
-                    border: MarksError ? '1px solid black' : 'none'
-                  }}>
+                  <div
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      color: red[500],
+                      background: '#FFCCCC',
+                      marginTop: '12px',
+                      marginLeft: '10px',
+                      marginBottom: '0px',
+                      padding: '5px',
+                      border: MarksError ? '1px solid black' : 'none'
+                    }}
+                  >
                     {MarksError}
-
                   </div>
                 ) : null}
                 {!MarksError && AttendanceStatus && (
@@ -943,33 +929,58 @@ const TAttendance = () => {
                       marginLeft: '10px',
                       marginRight: '10px',
                       color:
-                        AttendanceStatus.includes('Attendance not yet marked.') ||
-                          AttendanceStatus.includes('Attendance date should be within current academic year') ||
-                          AttendanceStatus.includes('Term Start & End dates have not been configured')
+                        AttendanceStatus.includes(
+                          'Attendance not yet marked.'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Attendance date should be within current academic year'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Term Start & End dates have not been configured'
+                        )
                           ? 'red'
-                          : AttendanceStatus.includes('Attendance is already marked')
-                            ? 'green'
-                            : 'red', // Set the text color based on the content of AttendanceStatus
+                          : AttendanceStatus.includes(
+                              'Attendance is already marked'
+                            )
+                          ? 'green'
+                          : 'red', // Set the text color based on the content of AttendanceStatus
                       backgroundColor:
-                        AttendanceStatus.includes('Attendance not yet marked.') ||
-                          AttendanceStatus.includes('Attendance date should be within current academic year') ||
-                          AttendanceStatus.includes('Term Start & End dates have not been configured')
+                        AttendanceStatus.includes(
+                          'Attendance not yet marked.'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Attendance date should be within current academic year'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Term Start & End dates have not been configured'
+                        )
                           ? '#FFCCCC' // Light red background color
-                          : AttendanceStatus.includes('Attendance is already marked')
-                            ? '#CCFFCC' // Light green background color
-                            : '#FFCCCC', // No background color for other messages
+                          : AttendanceStatus.includes(
+                              'Attendance is already marked'
+                            )
+                          ? '#CCFFCC' // Light green background color
+                          : '#FFCCCC', // No background color for other messages
                       border:
-                        AttendanceStatus.includes('Attendance not yet marked.') ||
-                          AttendanceStatus.includes('Attendance date should be within current academic year') ||
-                          AttendanceStatus.includes('Term Start & End dates have not been configured') ||
-                          AttendanceStatus.includes('Attendance is already marked')
+                        AttendanceStatus.includes(
+                          'Attendance not yet marked.'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Attendance date should be within current academic year'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Term Start & End dates have not been configured'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Attendance is already marked'
+                        )
                           ? '1px solid black' // Add border for highlighted messages
                           : '1px solid black', // No border for other messages
-                      padding: '5px', // Add padding for better spacing
+                      padding: '5px' // Add padding for better spacing
                     }}
                   >
                     {AttendanceStatus}
-                  </div>)}
+                  </div>
+                )}
                 {/* </div> */}
 
                 {/* <div style={{ marginTop: '5px' }}> */}
@@ -987,7 +998,6 @@ const TAttendance = () => {
                   clickNav={clickNav}
                   getAssignedDateStatus={getAssignedDateStatus}
                 />
-
               </Box>
             </Grid>
           </Box>
@@ -1033,29 +1043,27 @@ const TAttendance = () => {
                   ></TextField>
                 </Hidden> */}
 
-                  {AcademicDates && AcademicDates.StartDate && AcademicDates.EndDate && (
-                    <Box>
-
-                      <List26
-                        sendmeassagestudent={sendmeassagestudent}
-                        handleCheckboxChange={handleCheckboxChange}
-                        Dataa={RollNoList}
-                        getAbsetNumber={getAbsetNumber}
-                        assignedDate={assignedDate}
-                        setIsDirty={setIsDirty}
-                      ></List26>
-                    </Box>
-                  )}
+                  {AcademicDates &&
+                    AcademicDates.StartDate &&
+                    AcademicDates.EndDate && (
+                      <Box sx={{ mb: { xs: 5, md: 0 } }}>
+                        <List26
+                          sendmeassagestudent={sendmeassagestudent}
+                          handleCheckboxChange={handleCheckboxChange}
+                          Dataa={RollNoList}
+                          getAbsetNumber={getAbsetNumber}
+                          assignedDate={assignedDate}
+                          setIsDirty={setIsDirty}
+                        ></List26>
+                      </Box>
+                    )}
                 </Box>
-
               ) : null}
             </Box>
           </Grid>
-
         ) : (
           <Grid item xs={12} md={6}></Grid>
         )}
-
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
         {Open && (
@@ -1065,10 +1073,11 @@ const TAttendance = () => {
             ClickCloseDialogbox={ClickCloseDialogbox}
             Classname={setStandardDivName()}
             Date={assignedDate}
-            ClassId={selectClasstecahernew} />
+            ClassId={selectClasstecahernew}
+          />
         )}
       </Box>
-    </Box >
+    </Box>
   );
 };
 //

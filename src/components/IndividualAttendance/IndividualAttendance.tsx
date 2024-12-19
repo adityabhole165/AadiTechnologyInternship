@@ -63,7 +63,9 @@ const IndividualAttendance = () => {
   const [ItemList, setItemList] = useState([]);
   const [DefaultValue, setDefaultValue] = useState(null);
   //const [StudentId, setStudentId] = useState('0');
-  const [StudentId, setStudentId] = useState(selectClasstecahernew || undefined);
+  const [StudentId, setStudentId] = useState(
+    selectClasstecahernew || undefined
+  );
   const itemlist2 = [
     { id: 'Y', Text: 'Present All' },
     { id: 'N', Text: 'Absent All' }
@@ -77,8 +79,10 @@ const IndividualAttendance = () => {
       month: 'short'
     })} ${date.getFullYear()}`;
   };
-  const [FormattedDate, setFormattedDate] = useState<string | undefined>(getDateFormatted(date));
-  console.log(FormattedDate, "FormattedDate") // State for formatted date
+  const [FormattedDate, setFormattedDate] = useState<string | undefined>(
+    getDateFormatted(date)
+  );
+  console.log(FormattedDate, 'FormattedDate'); // State for formatted date
   const formattedDate = ` ${date.toLocaleString('default', {
     month: 'short'
   })} ${date.getFullYear()}`;
@@ -138,9 +142,12 @@ const IndividualAttendance = () => {
   const IGetStudentNameBody: IGetStudentNameBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: selectClasstecahernew !== undefined
-      ? Number(selectClasstecahernew)
-      : (StudentList && StudentList.length > 0 ? Number(StudentList[0].Value) : null),
+    asStandardDivisionId:
+      selectClasstecahernew !== undefined
+        ? Number(selectClasstecahernew)
+        : StudentList && StudentList.length > 0
+        ? Number(StudentList[0].Value)
+        : null
   };
   const IGetCalendarForStudent: IGetCalendarForStudentBody = {
     asSchoolId: asSchoolId,
@@ -190,8 +197,6 @@ const IndividualAttendance = () => {
     if (StudentId != '0') dispatch(getcalendar(IGetCalendarForStudent));
   }, [month, StudentId]);
 
-
-
   useEffect(() => {
     setItemList(CalendarForStudent);
   }, [CalendarForStudent]);
@@ -211,11 +216,11 @@ const IndividualAttendance = () => {
       ItemList.map((obj) =>
         obj.IsClickable
           ? {
-            ...obj,
-            Status: value,
-            BackgroundColor: getAttendanceLegend(value),
-            Text1: value == 'Y' ? 'Present' : 'Absent'
-          }
+              ...obj,
+              Status: value,
+              BackgroundColor: getAttendanceLegend(value),
+              Text1: value == 'Y' ? 'Present' : 'Absent'
+            }
           : obj
       )
     );
@@ -369,83 +374,165 @@ const IndividualAttendance = () => {
         navLinks={[
           {
             title: 'Attendance',
-            path: '/extended-sidebar/Teacher/TAttendance/' + selectClasstecahernew + '/' + AssignedDate
-
+            path:
+              '/extended-sidebar/Teacher/TAttendance/' +
+              selectClasstecahernew +
+              '/' +
+              AssignedDate
           },
           {
             title: 'Individual Attendance',
             path: '/extended-sidebar/Teacher/TAttendance/IndividualAttendance'
           }
-
         ]}
-
         rightActions={
           <>
-            <Box sx={{ background: 'white' }}>
-              <SearchableDropdown
-                sx={{ minWidth: '350px' }}
-                ItemList={StudentList}
-                onChange={clickStudent}
-                defaultValue={StudentId}
-                size={"small"}
-              />
-            </Box>
-            <Tooltip title="Mark monthly attendance of an individual student.">
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <Help />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Present All">
-              <IconButton
-                onClick={handlePresent}
-                sx={{
-                  color: 'white',
-                  backgroundColor: green[700],
-                  width: '36px',
-                  height: '36px !important',
-                  ':hover': { backgroundColor: green[800] }
-                }}
-              >
-                <h5>P</h5>
-              </IconButton>
-            </Tooltip>
-
-            <Popover
-              disableScrollLock
-              anchorEl={ref.current}
-              onClose={() => setOpenAbsent(!isOpenAbsent)}
-              open={isOpenAbsent}
-              anchorOrigin={{
-                vertical: 'center',
-                horizontal: 'center'
-              }}
-              transformOrigin={{
-                vertical: 'center',
-                horizontal: 'center'
+            <Stack
+              direction={{ xs: 'row', sm: 'row' }}
+              spacing={1}
+              alignItems="center"
+              justifyContent="flex-end"
+              sx={{
+                width: '100%',
+                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
               }}
             >
-              <Card sx={{ py: 5 }}>
-                <Box width={400} gap={5} alignContent="center" mx={2}>
-                  <Typography color="" mb={3} textAlign={'center'}>
-                    Are you sure you want the chosen student to be marked as
-                    absent on each day?
-                  </Typography>
-                  <Stack
-                    direction="row"
-                    gap={7}
-                    mx={5}
-                    justifyContent="space-between"
+              <Stack
+                direction={{ xs: 'row', sm: 'row' }}
+                spacing={1}
+                alignItems="center"
+                justifyContent="flex-end"
+                sx={{
+                  width: '100%',
+                  flexWrap: { xs: 'wrap', sm: 'nowrap' }
+                }}
+              >
+                <Box
+                  sx={{
+                   
+                    width: { xs: '100%', sm: 'auto' },
+                    mb: { xs: 1, sm: 'auto' }
+                  }}
+                >
+                  <SearchableDropdown
+                    sx={{ minWidth: '350px', mb: { xs: '10px', sm: '0px' }, }}
+                    ItemList={StudentList}
+                    onChange={clickStudent}
+                    defaultValue={StudentId}
+                    size={'small'}
+                  />
+                </Box>
+
+                <Tooltip title="Mark monthly attendance of an individual student.">
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
                   >
+                    <Help />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Present All">
+                  <IconButton
+                    onClick={handlePresent}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[700],
+                      width: '36px',
+                      height: '36px !important',
+                      ':hover': { backgroundColor: green[800] }
+                    }}
+                  >
+                    <h5>P</h5>
+                  </IconButton>
+                </Tooltip>
+
+                <Popover
+                  disableScrollLock
+                  anchorEl={ref.current}
+                  onClose={() => setOpenAbsent(!isOpenAbsent)}
+                  open={isOpenAbsent}
+                  anchorOrigin={{
+                    vertical: 'center',
+                    horizontal: 'center'
+                  }}
+                  transformOrigin={{
+                    vertical: 'center',
+                    horizontal: 'center'
+                  }}
+                >
+                  <Card sx={{ py: 5 }}>
+                    <Box width={400} gap={5} alignContent="center" mx={2}>
+                      <Typography color="" mb={3} textAlign={'center'}>
+                        Are you sure you want the chosen student to be marked as
+                        absent on each day?
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        gap={7}
+                        mx={5}
+                        justifyContent="space-between"
+                      >
+                        <Button
+                          variant="outlined"
+                          sx={{ px: 6 }}
+                          color="error"
+                          onClick={handleAbsent}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            px: 6,
+                            backgroundColor: green[600],
+                            color: 'white'
+                          }}
+                          color="primary"
+                        >
+                          Confirm
+                        </Button>
+                      </Stack>
+                    </Box>
+                  </Card>
+                </Popover>
+                <Dialog
+                  onClose={() => setOpenAbsent(!isOpenAbsent)}
+                  open={isOpenAbsent}
+                  fullWidth
+                  maxWidth={'xs'}
+                >
+                  <DialogTitle
+                    variant={'h3'}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    Mark all as Absent
+                    <IconButton
+                      onClick={() => {
+                        setOpenAbsent(!isOpenAbsent);
+                      }}
+                    >
+                      <CloseTwoToneIcon />
+                    </IconButton>
+                  </DialogTitle>
+                  <DialogContent dividers>
+                    <Box py={2}>
+                      <Typography variant={'h4'} textAlign={'center'}>
+                        Are you sure you want the chosen student to be marked as
+                        absent on each day?
+                      </Typography>
+                    </Box>
+                  </DialogContent>
+                  <DialogActions sx={{ px: 3, py: 2 }}>
                     <Button
                       variant="outlined"
-                      sx={{ px: 6 }}
                       color="error"
                       onClick={handleAbsent}
                     >
@@ -454,140 +541,95 @@ const IndividualAttendance = () => {
                     <Button
                       variant="contained"
                       sx={{
-                        px: 6,
                         backgroundColor: green[600],
                         color: 'white'
                       }}
-                      color="primary"
+                      // color="primary"
                     >
                       Confirm
                     </Button>
-                  </Stack>
-                </Box>
-              </Card>
-            </Popover>
-            <Dialog
-              onClose={() => setOpenAbsent(!isOpenAbsent)}
-              open={isOpenAbsent}
-              fullWidth
-              maxWidth={'xs'}
-            >
-              <DialogTitle
-                variant={'h3'}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                Mark all as Absent
-                <IconButton
-                  onClick={() => {
-                    setOpenAbsent(!isOpenAbsent);
-                  }}
-                >
-                  <CloseTwoToneIcon />
-                </IconButton>
-              </DialogTitle>
-              <DialogContent dividers>
-                <Box py={2}>
-                  <Typography variant={'h4'} textAlign={'center'}>
-                    Are you sure you want the chosen student to be marked as
-                    absent on each day?
-                  </Typography>
-                </Box>
-              </DialogContent>
-              <DialogActions sx={{ px: 3, py: 2 }}>
-                <Button variant="outlined" color="error" onClick={handleAbsent}>
-                  Cancel
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: green[600],
-                    color: 'white'
-                  }}
-                // color="primary"
-                >
-                  Confirm
-                </Button>
-              </DialogActions>
-            </Dialog>
+                  </DialogActions>
+                </Dialog>
 
-            <Tooltip title="Absent All">
-              <IconButton
-                onClick={handleAbsent}
-                sx={{
-                  color: 'white',
-                  height: '36px !important',
-                  width: '36px',
-                  backgroundColor: red[500],
-                  ':hover': { backgroundColor: red[600] }
-                }}
-              >
-                <h5>A</h5>
-              </IconButton>
-            </Tooltip>
-            <Dialog
-              onClose={() => setOpenSave(!isOpenSave)}
-              open={isOpenSave}
-              fullWidth
-              maxWidth={'xs'}
-            >
-              <DialogTitle
-                variant={'h3'}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                Save Changes
-                <IconButton
-                  onClick={() => {
-                    setOpenSave(!isOpenSave);
-                  }}
+                <Tooltip title="Absent All">
+                  <IconButton
+                    onClick={handleAbsent}
+                    sx={{
+                      color: 'white',
+                      height: '36px !important',
+                      width: '36px',
+                      backgroundColor: red[500],
+                      ':hover': { backgroundColor: red[600] }
+                    }}
+                  >
+                    <h5>A</h5>
+                  </IconButton>
+                </Tooltip>
+                <Dialog
+                  onClose={() => setOpenSave(!isOpenSave)}
+                  open={isOpenSave}
+                  fullWidth
+                  maxWidth={'xs'}
                 >
-                  <CloseTwoToneIcon />
-                </IconButton>
-              </DialogTitle>
-              <DialogContent dividers>
-                <Box py={2}>
-                  <Typography variant={'h4'} textAlign={'center'}>
-                    Are you sure, Do you want to update changes?
-                  </Typography>
-                </Box>
-              </DialogContent>
-              <DialogActions sx={{ py: 2, px: 3 }}>
-                <Button variant="outlined" color="error" onClick={handleSave}>
-                  Cancel
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: green[600],
-                    color: 'white'
-                  }}
-                // color="primary"
-                >
-                  Update
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <Tooltip title="Save">
-              <IconButton
-                onClick={handleSave}
-                sx={{
-                  color: 'white',
-                  backgroundColor: green[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: green[600] }
-                }}
-              >
-                <SaveAlt />
-              </IconButton>
-            </Tooltip>
-
+                  <DialogTitle
+                    variant={'h3'}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    Save Changes
+                    <IconButton
+                      onClick={() => {
+                        setOpenSave(!isOpenSave);
+                      }}
+                    >
+                      <CloseTwoToneIcon />
+                    </IconButton>
+                  </DialogTitle>
+                  <DialogContent dividers>
+                    <Box py={2}>
+                      <Typography variant={'h4'} textAlign={'center'}>
+                        Are you sure, Do you want to update changes?
+                      </Typography>
+                    </Box>
+                  </DialogContent>
+                  <DialogActions sx={{ py: 2, px: 3 }}>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={handleSave}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: green[600],
+                        color: 'white'
+                      }}
+                      // color="primary"
+                    >
+                      Update
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+                <Tooltip title="Save">
+                  <IconButton
+                    onClick={handleSave}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: green[600] }
+                    }}
+                  >
+                    <SaveAlt />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+            </Stack>
           </>
         }
       />
@@ -645,7 +687,7 @@ const IndividualAttendance = () => {
               backgroundColor: green[600],
               color: 'white'
             }}
-          // color="primary"
+            // color="primary"
           >
             Confirm
           </Button>

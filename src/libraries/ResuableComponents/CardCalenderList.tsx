@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Box, Grid, IconButton, Stack, Typography, alpha } from '@mui/material';
+import { Box, Grid, IconButton, Stack, Typography, alpha, useMediaQuery, useTheme } from '@mui/material';
 import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
 import CardCal from './CardCal';
 function CardCalenderList({
@@ -13,14 +13,16 @@ function CardCalenderList({
   ArrayList
 }) {
   const legendColors = {
-    p: '#008000',
-    a: '#9e9e9e',
-    h: '#751b1b',
-    w: '#ff0000',
-    o: '#f06292',
-    l: '#303f9f',
-    n: '#FCCF31'
+    p: '#4caf50', // Green for Present
+    a: '#f44336', // Red for Absent
+    h: '#ff9800', // Orange for Holiday
+    w: '#2196f3', // Blue for Weekend
+    o: '#9e9e9e', // Gray for Outside
+    l: '#ff5722', // Deep Orange for Late
+    n: '#607d8b' // Slate for Not Available
   };
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
       return (obj.Status == undefined ? obj.Text3 : obj.Status) == 'Y';
@@ -28,11 +30,11 @@ function CardCalenderList({
     let returnVal = ItemList.map((obj) =>
       obj.Value === Value
         ? {
-          ...obj,
-          Status: checkStatus(obj) ? 'N' : 'Y',
-          BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
-          Text1: checkStatus(obj) ? 'Absent' : 'Present'
-        }
+            ...obj,
+            Status: checkStatus(obj) ? 'N' : 'Y',
+            BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
+            Text1: checkStatus(obj) ? 'Absent' : 'Present'
+          }
         : obj
     );
 
@@ -51,37 +53,54 @@ function CardCalenderList({
           }
         }}
       >
-        <Box display="flex" alignItems="center">
+        <Box
+          display="flex"
+          alignItems="center"
+          
+        >
           <IconButton
-            color={'primary'}
+            color="primary"
             sx={{
               backgroundColor: (theme) =>
                 alpha(theme.palette.primary.main, 0.2),
               marginRight: '8px'
             }}
-            onClick={() => handlePrevMonth()}
+            onClick={handlePrevMonth}
           >
-            <ArrowBackIosNewIcon />
+            <ArrowBackIosNewIcon fontSize={isMobile ? 'small' : 'medium'} />
           </IconButton>
-          <Typography m={0} variant={'h3'}>
-            <b>{formattedDate}</b>
+
+          <Typography
+            m={0}
+            variant="h3"
+            sx={{
+              fontSize: isMobile ? '1.2rem' : '2rem', // Smaller font size for mobile
+              fontWeight: 'bold',
+              textAlign: 'center'
+            }}
+          >
+            {formattedDate}
           </Typography>
+
           <IconButton
-            color={'primary'}
+            color="primary"
             sx={{
               backgroundColor: (theme) =>
                 alpha(theme.palette.primary.main, 0.2),
               marginLeft: '8px'
-
             }}
-            onClick={() => handleNextMonth()}
+            onClick={handleNextMonth}
           >
-            <ArrowForwardIosIcon />
+            <ArrowForwardIosIcon fontSize={isMobile ? 'small' : 'medium'} />
           </IconButton>
-          <Stack direction={'row'} gap={1}>
 
-
-          </Stack>
+          <Stack
+            direction="row"
+            gap={1}
+            sx={{
+              display: isMobile ? 'none' : 'flex' // Hide Stack on mobile
+            }}
+          ></Stack>
         </Box>
 
         <Grid container spacing={0} sx={{ mt: 2 }}>
@@ -134,8 +153,13 @@ function CardCalenderList({
             })}
         </Grid>
         <Grid container sx={{ mt: 2 }}>
-          <Grid item sx={{}} gap={6} display="flex" xs={12} lg={12}>
-            <DotLegendAttandaceCalender color="primary" text="Present " />
+          {/* Adjust gap and wrap content for mobile responsiveness */}
+          <Grid
+            item
+            xs={12}
+            sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }} // Wrap content and set spacing
+          >
+            <DotLegendAttandaceCalender color="primary" text="Present" />
             <DotLegendAttandaceCalender color="info" text="Absent" />
             <DotLegendAttandaceCalender color="Holiday" text="Holiday" />
             <DotLegendAttandaceCalender color="Warning" text="Weekend" />
@@ -143,19 +167,10 @@ function CardCalenderList({
               color="Suceess"
               text="Outside Academic Year"
             />
-            {/* <DotLegendTeacher color={legendColors.p} text="Present" />
-            <DotLegendTeacher color={legendColors.a} text="Absent" />
-            <DotLegendTeacher color={legendColors.h} text="Holiday" />
-            <DotLegendTeacher color={legendColors.w} text="Weekend" />
-
-            <DotLegendTeacher
-              color={legendColors.o}
-              text="Outside Acadamic Year "
-            /> */}
-            <DotLegendAttandaceCalender color={'LateJoin'} text="Late Join " />
+            <DotLegendAttandaceCalender color="LateJoin" text="Late Join" />
             <DotLegendAttandaceCalender
-              color={'NotAvailable'}
-              text="Attendance Unavailable "
+              color="NotAvailable"
+              text="Attendance Unavailable"
             />
           </Grid>
         </Grid>

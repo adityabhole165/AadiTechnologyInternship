@@ -7,6 +7,7 @@ import {
   IconButton,
   InputBase,
   Paper,
+  Stack,
   Tooltip
 } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
@@ -32,7 +33,9 @@ const MonthwiseAttandance = () => {
   const StudentId = Number(sessionStorage.getItem('StudentId'));
   const Note = (
     <span>
-      Displays list of students along with their month wise attendance. Attendance is given in following format.<br />
+      Displays list of students along with their month wise attendance.
+      Attendance is given in following format.
+      <br />
       Number of days present / Total attendance days.
     </span>
   );
@@ -51,7 +54,7 @@ const MonthwiseAttandance = () => {
   const GetMonthwiseAttendanceBody: IGetMonthwiseAttendanceBody = {
     asSchoolId: asSchoolId,
     asAcademicyearId: asAcademicYearId,
-    asStanardDivisionId: Number(selectClasstecahernew),
+    asStanardDivisionId: Number(selectClasstecahernew)
     // TopRanker: 1000,
     // Student_Id: StudentId,
     // SortExp: ' ORDER BY [Roll_No] ASC',
@@ -71,9 +74,8 @@ const MonthwiseAttandance = () => {
     }
   };
 
-
   const onKeyDown = (e) => {
-    if (e.key === "Tab" || e.key === "Enter") {
+    if (e.key === 'Tab' || e.key === 'Enter') {
       e.preventDefault();
 
       changeSearchText();
@@ -110,7 +112,11 @@ const MonthwiseAttandance = () => {
           navLinks={[
             {
               title: 'Attendance',
-              path: '/extended-sidebar/Teacher/TAttendance/' + selectClasstecahernew + '/' + AssignedDate
+              path:
+                '/extended-sidebar/Teacher/TAttendance/' +
+                selectClasstecahernew +
+                '/' +
+                AssignedDate
             },
             {
               title: 'Month Wise Attendance',
@@ -119,6 +125,21 @@ const MonthwiseAttandance = () => {
           ]}
           rightActions={
             <>
+            <Stack
+                      direction={{ xs: 'row', sm: 'row' }}
+                      spacing={1}
+                      alignItems="center"
+                      justifyContent="flex-end"
+                      sx={{
+                        width: '100%',
+                        flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                      }}
+                    >
+                       <Box
+                sx={{
+                  width: { xs: '100%', sm: 'auto' },
+                  mb: { xs: 1, sm: 'auto' }
+                }}>
               <Paper
                 component="form"
                 sx={{
@@ -130,8 +151,9 @@ const MonthwiseAttandance = () => {
               >
                 {search ? (
                   <>
+                    
                     <InputBase
-                      sx={{ ml: 1, flex: 1, width: '20vw' }}
+                      sx={{ ml: 1, flex: 1,  width: { xs: '56vw', sm: '20vw' }}}
                       placeholder="Search Text"
                       inputProps={{ 'aria-label': 'search Text' }}
                       value={SearchText}
@@ -145,31 +167,33 @@ const MonthwiseAttandance = () => {
                   </>
                 ) : (
                   ''
-                )} </Paper>
-                {/* <Divider sx={{ height: 28,  }} orientation="vertical" /> */}
-                <Tooltip title="search">
-                  <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: blue[500],
-                      ':hover': { backgroundColor: blue[600] }
-                    }}
-                    onClick={() => {
-                      setSearch(!search);
+                )}{' '}
+              </Paper>
+              </Box>
+              {/* <Divider sx={{ height: 28,  }} orientation="vertical" /> */}
+              <Tooltip title="search">
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    ':hover': { backgroundColor: blue[600] }
+                  }}
+                  onClick={() => {
+                    setSearch(!search);
+                    changeSearchText();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === 'Tab') {
                       changeSearchText();
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' ||e.key === 'Tab'  ) {
-                        changeSearchText();
-                      }
-                    }}
-                    color="primary"
-                    aria-label="directions"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </Tooltip>
-             
+                    }
+                  }}
+                  color="primary"
+                  aria-label="directions"
+                >
+                  <SearchIcon />
+                </IconButton>
+              </Tooltip>
+
               <Tooltip title={Note}>
                 <IconButton
                   sx={{
@@ -181,6 +205,7 @@ const MonthwiseAttandance = () => {
                   <Help />
                 </IconButton>
               </Tooltip>
+              </Stack>
             </>
           }
         />

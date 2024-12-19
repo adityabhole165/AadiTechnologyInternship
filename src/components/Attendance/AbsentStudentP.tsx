@@ -98,17 +98,19 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
             </Typography>
             <DialogContent >
                 <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={12} sm={6} md={6}>
                         <TextField
-                            sx={{ minWidth: '19vw', bgcolor: '#F0F0F0' }}
+                            sx={{ minWidth: '15vw', bgcolor: '#F0F0F0' }}
                             label={'Class Name'}
+                            fullWidth
                             size={"small"}
                             value={classname} />
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={12} sm={6} md={6}>
                         <TextField
-                            sx={{ minWidth: '19vw', bgcolor: '#F0F0F0' }}
+                            sx={{ minWidth: '15vw', bgcolor: '#F0F0F0' }}
                             label={'Date'}
+                            fullWidth
                             size={"small"}
                             value={date} />
                     </Grid>

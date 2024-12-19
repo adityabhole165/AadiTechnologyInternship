@@ -4,6 +4,7 @@ import {
   Box,
   Grid,
   IconButton,
+  Stack,
   Tooltip,
   Typography
 } from '@mui/material';
@@ -96,7 +97,21 @@ const SchoolAttendanceOverview = () => {
         ]}
         rightActions={
           <>
-            <Box sx={{ background: 'white' }}>
+           <Stack
+              direction={{ xs: 'row', sm: 'row' }}
+              spacing={1} 
+              alignItems="center"
+              justifyContent="flex-end"
+              sx={{
+                width: '100%',
+                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+              }}
+            >
+            <Box 
+            sx={{ background: 'white',
+              width: { xs: '100%', sm: 'auto' },
+              mb: { xs: 1, sm: 'auto' }
+            }}>
               {/* <TextField
                 value={SelectDate}
                 type='date'
@@ -126,13 +141,9 @@ const SchoolAttendanceOverview = () => {
                 DateValue={SelectDate}
                 onDateChange={onSelectDate}
                 label={'Start Date'}
-                size={"small"}
-
+                size={"small"}   
               />
             </Box>
-
-            <Box>
-
               <Tooltip title={Note}>
                 <IconButton
                   sx={{
@@ -146,11 +157,12 @@ const SchoolAttendanceOverview = () => {
                   <QuestionMarkIcon />
                 </IconButton>
               </Tooltip>
-            </Box>
+            </Stack>
+          
           </>
         }
-      /><br></br>
-      <Box sx={{ display: 'flex', backgroundColor: 'white', p: 2, mb: 2 }}>
+      />
+      <Box sx={{ display: 'flex', backgroundColor: 'white', p: 1, mb: 1 }}>
         <Typography><b>Legend : </b></Typography>
         <ClearIcon sx={{ color: 'red' }} />{' '}
         <Typography><b>Attendance Not Marked </b></Typography>
@@ -160,9 +172,9 @@ const SchoolAttendanceOverview = () => {
           {ISWeekendStatusList}
         </Typography>
       ) : (
-        <Box sx={{ backgroundColor: 'white', p: 2 }}>
+        <Box sx={{ backgroundColor: 'white', p: 2 , mb: { xs: 2, md: 0 }}}>
           <Grid container spacing={2}>
-            <Grid item xs={12} >
+            <Grid item xs={12}  >
               <TableUsingArray
                 ItemList={ISAttendanceOverviewGridData}
                 HeaderArray={HeaderArray}
