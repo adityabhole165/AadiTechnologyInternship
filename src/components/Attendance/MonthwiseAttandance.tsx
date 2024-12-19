@@ -9,7 +9,7 @@ import {
   Paper,
   Tooltip
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -131,7 +131,7 @@ const MonthwiseAttandance = () => {
                 {search ? (
                   <>
                     <InputBase
-                      sx={{ ml: 1, flex: 1, width: '450px' }}
+                      sx={{ ml: 1, flex: 1, width: '20vw' }}
                       placeholder="Search Text"
                       inputProps={{ 'aria-label': 'search Text' }}
                       value={SearchText}
@@ -145,10 +145,15 @@ const MonthwiseAttandance = () => {
                   </>
                 ) : (
                   ''
-                )}
-                <Divider sx={{ height: 28 }} orientation="vertical" />
+                )} </Paper>
+                {/* <Divider sx={{ height: 28,  }} orientation="vertical" /> */}
                 <Tooltip title="search">
                   <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: blue[500],
+                      ':hover': { backgroundColor: blue[600] }
+                    }}
                     onClick={() => {
                       setSearch(!search);
                       changeSearchText();
@@ -164,7 +169,7 @@ const MonthwiseAttandance = () => {
                     <SearchIcon />
                   </IconButton>
                 </Tooltip>
-              </Paper>
+             
               <Tooltip title={Note}>
                 <IconButton
                   sx={{
