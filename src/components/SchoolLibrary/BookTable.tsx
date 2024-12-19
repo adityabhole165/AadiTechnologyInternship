@@ -39,7 +39,7 @@ interface BookTableProps {
 }
 
 const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete, handleSortChange, SortBy, SortDirection }) => {
-
+  const safeData = Array.isArray(data) ? data : [];
 
   return (
     <Box>
@@ -83,7 +83,7 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete,
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((book, index) => (
+            {safeData.map((book, index) => (
               <TableRow key={index}>
                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                   {book.bookTitle}
