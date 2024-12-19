@@ -498,7 +498,7 @@ const asStandardwiseExamScheduleId = IsConfigured1 == "false"  ? SchoolwiseStand
                         path: '/extended-sidebar/Teacher/ExamScheduleBasescreen',
                     },
                     {
-                        title: 'Standardwise Exam Schedule' + ` > configure state ${IsConfigured1}`,
+                        title: 'Standardwise Exam Schedule',
                         path: '',
                     },
                 ]}
