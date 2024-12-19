@@ -196,7 +196,7 @@ const AdditionalDetails = ({ additional, onChange }) => {
         </Grid>
         <Grid item xs={3}>
           <TextField
-            name="lastSchoolRollNumber"
+            name="schoolUDISENo"
             label="School UDISE No"
             variant="outlined"
             fullWidth
@@ -329,16 +329,30 @@ const AdditionalDetails = ({ additional, onChange }) => {
                 fullWidth
                 value={additional.previousMarksObtained}
                 onChange={handleInputChange}
+                type="number"
+                onInput={(e) => {
+                  const input = e.target as HTMLInputElement;
+                  if (input.value.length > 3) {
+                    input.value = input.value.slice(0, 3); // Limit to 3 digits
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={3}>
               <TextField
                 name="previousMarksOutOf"
-                label="Previous Marks Out Of"
+                label="Previous Marks Out Off"
                 variant="outlined"
                 fullWidth
                 value={additional.previousMarksOutOf}
                 onChange={handleInputChange}
+                type="number"
+                onInput={(e) => {
+                  const input = e.target as HTMLInputElement;
+                  if (input.value.length > 3) {
+                    input.value = input.value.slice(0, 3); // Limit to 3 digits
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={3}>

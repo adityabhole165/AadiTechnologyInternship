@@ -252,22 +252,39 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
   //#region Photos Opr
   const { showAlert, closeAlert } = useContext(AlertContext);
   const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
-  const MaxfileSize2 = 3000000;
+  const MaxfileSize2 = 5000000;
 
+  const [fileNameError, setFileNameError] = useState('');
   const [ImageFile, setImageFile] = useState('');
   const [base64URL2, setbase64URL2] = useState('');
   const [imageFileExtention, setImageFileExtention] = useState('');
 
   const handlePhotoChange = (key, value) => {
     console.log(`0️⃣Selected file for ${key}:`, value);
+    if (!ValidFileTypes2.includes(value.FileExtension.toUpperCase())) {
+      //setFileNameError('Invalid file format. Supported formats are JPEG, PNG, BMP.');
+      setFileNameError(value.ErrorMsg);
+      onChange(key, value.Name); // Clear file name
+      setbase64URL2(''); // Clear Base64 URL
+      return;
+    }
 
-    // setForm((prevForm) => ({
-    //   ...prevForm,
-    //   [key]: value.Name, // Dynamically update the key in the form
-    // }));
+    // Calculate file size from Base64 string
+    const base64Length = value.Value.length - (value.Value.indexOf(',') + 1); // Exclude metadata
+    const padding = (value.Value.endsWith('==') ? 2 : value.Value.endsWith('=') ? 1 : 0);
+    const fileSizeInBytes = (base64Length * 3) / 4 - padding;
+
+    if (fileSizeInBytes > MaxfileSize) {
+      setFileNameError('File size exceeds 5 MB. Please upload a smaller file.');
+      onChange(key, value.Name); // Clear file name
+      setbase64URL2(''); // Clear Base64 URL
+      return;
+    }
+
     onChange(key, value.Name);
     setbase64URL2(value.Value);
     setImageFileExtention(value.FileExtension);
+    setFileNameError(value.ErrorMsg);
   };
 
   // const url = `${localStorage.getItem("SiteURL")}RITESCHOOL/DOWNLOADS/Student Documents/${form.familyPhoto}`;   //--remeber to set aadharCardScanCopy
@@ -346,7 +363,7 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
         },
       });
     }
-    onChange(key, '');
+    //onChange(key, '');
   };
 
 
@@ -354,21 +371,25 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
     if (DeleteFamilyPhotoMsg !== '') {
       toast.success(DeleteFamilyPhotoMsg);
       //setForm((prevForm) => ({ ...prevForm, familyPhoto: '', }));              // delete photo
+      onChange('familyPhoto', '');
       dispatch(CDAresetDeletePhotoMsg());
     }
     if (DeleteFatherPhotoMsg !== '') {
       toast.success(DeleteFatherPhotoMsg);
       //setForm((prevForm) => ({ ...prevForm, fatherPhoto: '', }));              // delete photo
+      onChange('fatherPhoto', '');
       dispatch(CDAresetDeletePhotoMsg());
     }
     if (DeleteMotherPhotoMsg !== '') {
       toast.success(DeleteMotherPhotoMsg);
       //setForm((prevForm) => ({ ...prevForm, motherPhoto: '', }));              // delete photo
+      onChange('motherPhoto', '');
       dispatch(CDAresetDeletePhotoMsg());
     }
     if (DeleteGuardianPhotoMsg !== '') {
       toast.success(DeleteGuardianPhotoMsg);
       //setForm((prevForm) => ({ ...prevForm, localGuardianPhoto: '', }));              // delete photo
+      onChange('localGuardianPhoto', '');
       dispatch(CDAresetDeletePhotoMsg());
     }
   }, [DeleteFamilyPhotoMsg, DeleteFatherPhotoMsg, DeleteMotherPhotoMsg, DeleteGuardianPhotoMsg]);
@@ -540,14 +561,15 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
             {/* fatherPhoto */}
             <Grid item xs={12} md={2}>
               <SingleFile
-                ValidFileTypes={ValidFileTypes}
-                MaxfileSize={MaxfileSize}
+                ValidFileTypes={ValidFileTypes2}
+                MaxfileSize={MaxfileSize2}
                 FileName={family.fatherPhoto}
                 ChangeFile={(value) => handlePhotoChange('fatherPhoto', value)}
                 FileLabel={'Father Photo'}
                 width={'100%'}
                 height={'52px'}
                 isMandatory={false}
+                errorMessage={fileNameError}
               />
             </Grid>
             <Grid item xs={1} md={1}>
@@ -742,14 +764,15 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
             {/* motherPhoto */}
             <Grid item xs={12} md={2}>
               <SingleFile
-                ValidFileTypes={ValidFileTypes}
-                MaxfileSize={MaxfileSize}
+                ValidFileTypes={ValidFileTypes2}
+                MaxfileSize={MaxfileSize2}
                 FileName={family.motherPhoto}
                 ChangeFile={(value) => handlePhotoChange('motherPhoto', value)}
                 FileLabel={'Mother Photo'}
                 width={'100%'}
                 height={'52px'}
                 isMandatory={false}
+                errorMessage={fileNameError}
               />
             </Grid>
 
@@ -850,8 +873,14 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 variant="outlined"
                 value={family.motherAnnualIncome}
                 onChange={handleInputChange}
-                type="number"
                 fullWidth
+                type="number"
+                onInput={(e) => {
+                  const input = e.target as HTMLInputElement;
+                  if (input.value.length > 10) {
+                    input.value = input.value.slice(0, 10); // Limit to 3 digits
+                  }
+                }}
               />
             </Grid>
           </Grid>
@@ -874,14 +903,15 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
             {/* localGuardianPhoto */}
             <Grid item xs={12} md={2}>
               <SingleFile
-                ValidFileTypes={ValidFileTypes}
-                MaxfileSize={MaxfileSize}
+                ValidFileTypes={ValidFileTypes2}
+                MaxfileSize={MaxfileSize2}
                 FileName={family.localGuardianPhoto}
                 ChangeFile={(value) => handlePhotoChange('localGuardianPhoto', value)}
                 FileLabel={'Local Guadian Photo'}
                 width={'100%'}
                 height={'52px'}
                 isMandatory={false}
+                errorMessage={fileNameError}
               />
             </Grid>
             <Grid item xs={1} md={1}>
@@ -999,6 +1029,7 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
             width={'100%'}
             height={'52px'}
             isMandatory={false}
+            errorMessage={fileNameError}
           />
         </Grid>
         <Grid item xs={1} md={1}>

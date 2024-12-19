@@ -337,7 +337,8 @@ const AdmissionDocumentInformation = () => {
   const ChangeFile = (value) => {
     console.log('value', value);
     if (!ValidFileTypes.includes(value.FileExtension.toUpperCase())) {
-      setFileNameError('Invalid file format. Supported formats are BMP, DOC, DOCX, JPG, JPEG, PDF, XLS, XLSX.');
+      //setFileNameError('Invalid file format. Supported formats are BMP, DOC, DOCX, JPG, JPEG, PDF, XLS, XLSX.');
+      setFileNameError(value.ErrorMsg);
       setFileName(''); // Clear file name
       setbase64URL(''); // Clear Base64 URL
       return;
