@@ -297,7 +297,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
 
     return (
         <Box>
- 
+  {(Loading) && <SuspenseLoader />}
             {subErrorMsg && <span style={{ color: 'red', fontWeight: 'bolder' }}>Atleast one subject should be selected.<br /></span>}
             {TimeError.length > 0 && <span style={{ color: 'red', fontWeight: 'bolder' }}>{TimeError}</span>}
             <TableContainer component={Paper} variant="outlined">

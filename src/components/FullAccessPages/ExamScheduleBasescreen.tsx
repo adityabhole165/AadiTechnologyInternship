@@ -45,7 +45,7 @@ const ExamScheduleBasescreen = () => {
 
     return (
         <Box sx={{ px: 2 }}>
-             
+              {(Loading) && <SuspenseLoader />}
             <CommonPageHeader
                 navLinks={[
                     {

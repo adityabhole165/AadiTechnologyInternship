@@ -276,6 +276,7 @@ const asStandardwiseExamScheduleId = IsConfigured1 == "false"  ? SchoolwiseStand
     const insertExamSchedule = async () => {
         await dispatch(GetInsertExamSchedule(InsertExamScheduleBody));
         toast.success("Exam schedule has been saved successfully and you can copy exam schedule.");
+        dispatch(CDAGetSubjectExamSchedule(GetSubjectExamScheduleBody))
         GetPageReloadApiCall()
     }
 
@@ -462,7 +463,7 @@ const asStandardwiseExamScheduleId = IsConfigured1 == "false"  ? SchoolwiseStand
         //     asStandardwiseExamScheduleId: ExamScheduleId.toString() ? ExamScheduleId.toString() :SchoolwiseStandardExamScheduleId
 
         // };
-        // await dispatch(GetSubjectExamSchedule(GetSubjectExamScheduleBody))
+        dispatch(CDAGetSubjectExamSchedule(GetSubjectExamScheduleBody))
 
         // Update the state based on action
         setIsUnsubmitted(isUnsubmit);
