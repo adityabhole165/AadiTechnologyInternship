@@ -121,8 +121,8 @@ const AddNotePopup: React.FC<AddNotePopupProps> = ({
           }}
         />
       </DialogTitle>
-      <Typography variant="h3" sx={{ p: 2 }}>
-        {editMode ? 'Update Note' : 'Add Note'}
+      <Typography variant="h3" sx={{ px: 2, pt:2}}>
+        {editMode ? 'Update Notice' : 'Add Notice'}
       </Typography>
 
       {/* Dialog Content */}
