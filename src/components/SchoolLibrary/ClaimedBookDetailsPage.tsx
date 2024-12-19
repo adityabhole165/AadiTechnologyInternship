@@ -13,6 +13,7 @@ import CommonPageHeader from '../CommonPageHeader';
 import BookTable from './BookTable';
 
 const ClaimedBookDetailsPage = () => {
+
     const dispatch = useDispatch();
     const { showAlert, closeAlert } = useContext(AlertContext);
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -22,6 +23,14 @@ const ClaimedBookDetailsPage = () => {
     const [BookTitle, setBookTitle] = useState('');
     const [UserName, setUserName] = useState('');
 
+    const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+    const [SortBy, setSortBy] = useState('');
+
+    console.log(SortDirection, "SortDirection!!!");
+    console.log(SortBy, "SortBy@@@");
+
+
+
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState<number>(1);
     const rowsPerPageOptions = [10, 20, 50, 100, 200];
@@ -30,7 +39,7 @@ const ClaimedBookDetailsPage = () => {
     const UsCancelBookReservationMsg: any = useSelector((state: RootState) => state.SchoolLibrary.ICancelBookReservationMsg);
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
     const USReserveBookDetailsCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetailsCount);
-    console.log(USReserveBookDetails, "👍👍👍👍")
+
     const singleTotalCount: number = useMemo(() => {
         if (!Array.isArray(USReserveBookDetailsCount)) {
             return 0;
@@ -54,63 +63,48 @@ const ClaimedBookDetailsPage = () => {
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
-
+    // const getSortKey = () => {
+    //     let SortHeader = ""
+    //     .map(item => {
+    //         if (item.Id == sortHeader)
+    //             SortHeader =headerArray item.sortKey
+    //     })
+    //     return SortHeader;
+    // }
+    const handleSortChange = (column: string) => {
+        if (SortBy === column) {
+            setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(column);
+            setSortDirection('asc');
+        }
+    };
 
     const bookReserveDetails: IGetReserveBookDetailsBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asUserID: asUserId,
         asStartIndex: (page - 1) * rowsPerPage,
-        asEndIndex: 200,
+        asEndIndex: 1000,
         asBookTitle: BookTitle,
         asUserName: UserName,
-        asSortExpression: "ORDER BY Book_Title ASC",
-        asAllUserFlag: showAllUsers == true  ? 1 : 0
-
+        asSortExpression: "Order By " + SortBy + " " + SortDirection, //"ORDER BY Book_Title ASC",
+        asAllUserFlag: showAllUsers == true ? 1 : 0
     };
-
-
     useEffect(() => {
         dispatch(CDAGetReserveBookDetails(bookReserveDetails))
-        
-    }, [showAllUsers,UserName,BookTitle,page]);
+    }, [showAllUsers, UserName, BookTitle, page, SortDirection, SortBy]);
+
     const handleCheckboxChange = () => {
         setShowAllUsers(!showAllUsers);
     };
     const handleCancel = () => {
         setBookTitle('')
         setUserName('')
-        const bookReserveDetails: IGetReserveBookDetailsBody = {
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
-            asUserID: asUserId,
-            asStartIndex: 0,
-            asEndIndex: 20,
-            asBookTitle: '',
-            asUserName: '',
-            asSortExpression: "ORDER BY Book_Title ASC",
-            asAllUserFlag: showAllUsers ? 1 : 0
-
-        };
-        dispatch(CDAGetReserveBookDetails(bookReserveDetails))
     };
-
     const clickSearch = () => {
-        const bookReserveDetails: IGetReserveBookDetailsBody = {
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
-            asUserID: asUserId,
-            asStartIndex: 0,
-            asEndIndex: 200,
-            asBookTitle: BookTitle,
-            asUserName: UserName,
-            asSortExpression: "ORDER BY Book_Title ASC",
-            asAllUserFlag: showAllUsers ? 1 : 0
-
-        };
-        // console.log(BookTitle, "BookTitle!!!!")
-        // console.log(UserName, "UserName!!!!")
-        dispatch(CDAGetReserveBookDetails(bookReserveDetails))
+        setUserName(''),
+            setBookTitle('')
     };
 
     const handleDelete = (BookId: string) => {
@@ -134,13 +128,7 @@ const ClaimedBookDetailsPage = () => {
                 dispatch(CDACancelBookReservationMsg(CancelBookReservation));
                 closeAlert();
             },
-            // onCancel: closeAlert,
-            // onConfirm: () => {
-            //     dispatch(CDACancelBookReservationMsg(CancelBookReservation)); // Cancel reservation
-            //     // toast.success(UsCancelBookReservationMsg); // Success feedback
-            //     closeAlert();
 
-            // },
         });
     };
     useEffect(() => {
@@ -150,6 +138,9 @@ const ClaimedBookDetailsPage = () => {
             dispatch(CDAGetReserveBookDetails(bookReserveDetails));
         }
     }, [UsCancelBookReservationMsg]);
+
+
+
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -274,6 +265,9 @@ const ClaimedBookDetailsPage = () => {
                             data={USReserveBookDetails}
                             showAllUsers={showAllUsers}
                             handleDelete={handleDelete}
+                            handleSortChange={handleSortChange}
+                            SortBy={SortBy}
+                            SortDirection={SortDirection}
                         />
                         {endRecord > 9 ? (
                             <ButtonGroupComponent

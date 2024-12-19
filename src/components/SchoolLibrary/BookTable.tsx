@@ -1,4 +1,5 @@
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+
+import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
@@ -11,11 +12,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TableSortLabel,
   Tooltip
 } from '@mui/material';
 import { red } from '@mui/material/colors';
-import React, { useState } from 'react';
+import React from 'react';
 type BookDataType = {
   bookTitle?: string;
   date?: string;
@@ -31,35 +31,15 @@ type BookDataType = {
 interface BookTableProps {
   data: BookDataType[];
   showAllUsers: boolean;
-  handleDelete
+  handleDelete,
+  handleSortChange,
+  SortBy,
+  SortDirection
 
 }
 
-const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete }) => {
+const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete, handleSortChange, SortBy, SortDirection }) => {
 
-  
-
-  const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("asc");
-  const [orderBy, setOrderBy] = useState<string>('bookTitle');
-  const [sortedData, setSortedData] = useState(data);
-
-  
-
-  const handleSortRequest = (property: string) => {
-    const isAsc = orderBy === property && orderDirection === 'asc';
-    setOrderDirection(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-
-    const sortedArray = [...sortedData].sort((a, b) => {
-      if (a[property] < b[property]) return isAsc ? -1 : 1;
-      if (a[property] > b[property]) return isAsc ? 1 : -1;
-      return 0;
-    });
-
-    console.log(sortedArray,"sortedArray");
-    
-    setSortedData(sortedArray);
-  };
 
   return (
     <Box>
@@ -68,87 +48,40 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete 
           <TableHead>
             <TableRow sx={{ background: (theme) => theme.palette.secondary.main }}>
               <TableCell sx={{ color: 'white', py: 1.5 }}>
-                <TableSortLabel
-                  active={orderBy === 'bookTitle'}
-                  direction={orderDirection}
-                  onClick={() => handleSortRequest('bookTitle')}
-                  IconComponent={orderDirection === 'asc' ? ArrowCircleUpIcon : ArrowCircleDownIcon}
-                  sx={{
-                    color: 'white !important',
-                    '& .MuiTableSortLabel-icon': { color: 'white !important' },
-                  }}
-                >
-                  Book Title
-                </TableSortLabel>
+                <b
+                  onClick={() => handleSortChange('bookTitle')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                  Book Title {SortBy === 'bookTitle' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                </b>
               </TableCell>
               {showAllUsers && (
                 <>
                   <TableCell sx={{ color: 'white', py: 1.5 }}>
-                    <TableSortLabel
-                      active={orderBy === 'userName'}
-                      direction={orderDirection}
-                      onClick={() => handleSortRequest('userName')}
-                      IconComponent={orderDirection === 'asc' ? ArrowCircleUpIcon : ArrowCircleDownIcon}
-                      sx={{
-                        color: 'white !important',
-                        '& .MuiTableSortLabel-icon': { color: 'white !important' },
-                      }}
-                    >
-                      User Name
-                    </TableSortLabel>
+                    <b onClick={() => handleSortChange('userName')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                      User Name {SortBy === 'userName' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                    </b>
                   </TableCell>
 
                   <TableCell sx={{ color: 'white', py: 1.5 }}>
-                    <TableSortLabel
-                      active={orderBy === 'class'}
-                      direction={orderDirection}
-                      onClick={() => handleSortRequest('class')}
-                      IconComponent={orderDirection === 'asc' ? ArrowCircleUpIcon : ArrowCircleDownIcon}
-                      sx={{
-                        color: 'white !important',
-                        '& .MuiTableSortLabel-icon': { color: 'white !important' },
-                      }}
-                    >
-                      Class
-                    </TableSortLabel>
-                  </TableCell>
+                    <b onClick={() => handleSortChange('class')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                      Class {SortBy === 'class' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
 
+                    </b>
+                  </TableCell>
                   <TableCell sx={{ color: 'white !important', py: 1.5 }}>
-                    <TableSortLabel
-                      active={orderBy === 'designation'}
-                      direction={orderDirection}
-                      onClick={() => handleSortRequest('designation')}
-                      IconComponent={orderDirection === 'asc' ? ArrowCircleUpIcon : ArrowCircleDownIcon}
-                      sx={{
-                        color: 'white !important',
-                        '& .MuiTableSortLabel-icon': { color: 'white !important' },
-                      }}
-                    >
-                      Designation
-                    </TableSortLabel>
+                    <b onClick={() => handleSortChange('designation')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                      Designation {SortBy === 'designation' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                    </b>
                   </TableCell>
                 </>
               )}
               <TableCell sx={{ color: 'white', py: 1.5, pl: 4 }}>
-                <TableSortLabel
-                  active={orderBy === 'date'}
-                  direction={orderDirection}
-                  onClick={() => handleSortRequest('date')}
-                  IconComponent={orderDirection === 'asc' ? ArrowCircleUpIcon : ArrowCircleDownIcon}
-                  sx={{
-                    color: 'white !important',
-                    '& .MuiTableSortLabel-icon': { color: 'white !important' },
-                  }}
-                >
-                  Date
-                </TableSortLabel>
+                <b onClick={() => handleSortChange('date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                  Date{SortBy === 'date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                </b>
               </TableCell>
-
-              {/* Cancel Column */}
               <TableCell sx={{ color: 'white', py: 1.5, textAlign: 'center' }}>Cancel</TableCell>
             </TableRow>
           </TableHead>
-
           <TableBody>
             {data.map((book, index) => (
               <TableRow key={index}>
@@ -171,8 +104,6 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete 
                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                   {book.date}
                 </TableCell>
-                {/* {
-                  book.UserId == localStorage.getItem('UserId') && */}
 
                 <TableCell
                   sx={{
@@ -183,23 +114,27 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete 
                   }}
                   align="center"
                 >
-                  <IconButton
-                    onClick={() => handleDelete(book.BookId)}
-                    sx={{
-                      color: '#223354',
-                      '&:hover': {
-                        color: 'red',
-                        backgroundColor: red[100],
-                      },
-                    }}
-                  >
+                  {
+                    book.UserId == localStorage.getItem('UserId') &&
 
-                    <Tooltip title="Delete">
-                      <DeleteForeverIcon />
-                    </Tooltip>
-                  </IconButton>
+                    <IconButton
+                      onClick={() => handleDelete(book.BookId)}
+                      sx={{
+                        color: '#223354',
+                        '&:hover': {
+                          color: 'red',
+                          backgroundColor: red[100],
+                        },
+                      }}
+                    >
+
+                      <Tooltip title="Delete">
+                        <DeleteForeverIcon />
+                      </Tooltip>
+                    </IconButton>
+                  }
                 </TableCell>
-                {/* } */}
+
               </TableRow>
             ))}
           </TableBody>
