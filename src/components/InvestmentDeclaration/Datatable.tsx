@@ -154,9 +154,9 @@ const DataTable: React.FC<Props> = ({
               ) : (
                 (isPagination
                   ? tableData.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                   : tableData
                 ).map((row, rowIndex) => (
                   <TableRow key={rowIndex}>
@@ -208,8 +208,9 @@ const DataTable: React.FC<Props> = ({
                     sx={{
                       backgroundColor: '#324b84',
                       p: 0.5,
-                      mr: 10,
-                      color: 'white'
+                      mr: 12,
+                      color: 'white',
+                      textAlign: 'center'
                     }}
                   >
                     {totalAmount}
