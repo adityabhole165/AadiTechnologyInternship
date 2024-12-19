@@ -1180,7 +1180,7 @@ const StudentRegistrationForm = () => {
       }
 
       // Update Streamwise Subject Details
-      if (streamwiseSubjectDetailsBody) {
+      if (parseInt(schoolId) === 122 && streamwiseSubjectDetailsBody) {
         console.log('Updating streamwise subject details:', streamwiseSubjectDetailsBody);
         await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(streamwiseSubjectDetailsBody));
       }

@@ -138,7 +138,7 @@ const GetStandardwiseMinMaxDOBslice = createSlice({
             state.Loading = false;
         },
         ResetDeleteStudentSiblingDetailsMsg(state) {
-            state.ISSaveStudentSiblingDetailsMsg = '';
+            state.ISDeleteStudentSiblingDetailsMsg = '';
             state.Loading = false;
         },
         ROverwriteSiblingDetailsMsg(state, action) {

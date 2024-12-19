@@ -1,9 +1,9 @@
-import { SearchTwoTone } from '@mui/icons-material';
+import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import SaveIcon from '@mui/icons-material/Save';
 import SquareIcon from '@mui/icons-material/Square';
 import { Box, Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
-import { green } from '@mui/material/colors';
+import { green, grey } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -26,17 +26,33 @@ const EnterStudentSiblingDetails = () => {
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const teacherId = sessionStorage.getItem('Id');
   const userId = localStorage.getItem('UserId');
-  console.log('userId', userId);
+  const localStudentData = JSON.parse(localStorage.getItem('studentData'));
+
+  // Destructure all values from the object
+  const {
+    Name: local_Name,
+    standardId: local_standardId,
+    DivisionId: local_DivisionId,
+    YearWise_Student_Id: local_YearWise_Student_Id,
+    SchoolWise_Student_Id: local_SchoolWise_Student_Id,
+    StandardDivision_Id: local_StandardDivision_Id,
+    Enrolment_Number: local_Enrolment_Number,
+    Joining_Date: local_Joining_Date
+  } = localStudentData;
+
+  console.log('👍LocalStorage data', local_YearWise_Student_Id, local_Name);
+
   const { showAlert, closeAlert } = useContext(AlertContext);
 
   const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
-  const YearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
+  const YearWise_Student_Id = NavigationValues?.YearWise_Student_Id ?? local_YearWise_Student_Id;
+
   console.log('0️⃣NavigationValues EnterStudentSiblingDetails', NavigationValues, YearWise_Student_Id);
 
   //StudentName
   const StudentDetailsForSibling = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentDetailsForSibling);
   const oStudentDetailsForSibling: any = StudentDetailsForSibling;
-  const StudentName = oStudentDetailsForSibling?.StudentFullName;         //Student Name
+  const StudentName = oStudentDetailsForSibling?.StudentFullName ?? local_Name;         //Student Name
   //console.log('1️⃣StudentName', StudentName);
   //Sibling List
   const GetStudentSiblingList = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentSiblingList);
@@ -89,18 +105,17 @@ const EnterStudentSiblingDetails = () => {
     setIsSearchPerformed(true); // Mark search as performed
   };
   // useEffect to handle API call on page or rowsPerPage change
+  const GetStudentsListBody = {
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asYearwiseStudentId: YearWise_Student_Id,
+    asFilter: searchTerm.trim() || '', // Maintain the current search term
+    asStartIndex: (page - 1) * rowsPerPage,
+    asEndIndex: rowsPerPage,         // page * rowsPerPage
+    asSortExpression: `${sortColumn} ${isAsc ? 'ASC' : 'DESC'}`,
+  };
   useEffect(() => {
     if (!isSearchPerformed) return;
-
-    const GetStudentsListBody = {
-      asSchoolId: Number(schoolId),
-      asAcademicYearId: Number(academicYearId),
-      asYearwiseStudentId: YearWise_Student_Id,
-      asFilter: searchTerm.trim() || '', // Maintain the current search term
-      asStartIndex: (page - 1) * rowsPerPage,
-      asEndIndex: rowsPerPage,         // page * rowsPerPage
-      asSortExpression: `${sortColumn} ${isAsc ? 'ASC' : 'DESC'}`,
-    };
 
     dispatch(CDASearchStudentsList(GetStudentsListBody));
   }, [page, rowsPerPage, sortColumn, isAsc, searchTerm, isSearchPerformed]); // Add dependencies to trigger the effect
@@ -127,6 +142,10 @@ const EnterStudentSiblingDetails = () => {
 
     setSelected(newSelected);
   };
+
+  useEffect(() => {
+    console.log('selected', selected);
+  }, [selected]);
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -216,7 +235,8 @@ const EnterStudentSiblingDetails = () => {
       toast.success(SaveStudentSiblingDetailsMsg);
       dispatch(ResetSaveStudentSiblingDetailsMsg());
       dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
-      handleClearSearch();
+      //handleClearSearch();
+      dispatch(CDASearchStudentsList(GetStudentsListBody));
     }
   }, [SaveStudentSiblingDetailsMsg]);
 
@@ -247,10 +267,10 @@ const EnterStudentSiblingDetails = () => {
   useEffect(() => {
     if (DeleteStudentSiblingDetailsMsg !== '') {
       toast.success(DeleteStudentSiblingDetailsMsg);
-      dispatch(ResetDeleteStudentSiblingDetailsMsg());
-
       dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
+      dispatch(ResetDeleteStudentSiblingDetailsMsg());
     }
+
   }, [DeleteStudentSiblingDetailsMsg]);
 
 
@@ -271,15 +291,19 @@ const EnterStudentSiblingDetails = () => {
         rightActions={
           <>
             <TextField
-              sx={{ width: '18vw' }}
+              sx={{ width: '18vw', bgcolor: '#F0F0F0' }}
               fullWidth
               name="StudentName"
               label={'Student Name'}
               value={StudentName || ''}
+              InputLabelProps={{ shrink: true }}
               variant="outlined"
               size="small"
+              InputProps={{
+                readOnly: true,
+              }}
             />
-            <TextField
+            {/* <TextField
               sx={{ width: '15vw' }}
               fullWidth
               label={
@@ -313,9 +337,9 @@ const EnterStudentSiblingDetails = () => {
               >
                 <SearchTwoTone />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
 
-            {/* <Tooltip title={'Add/Edit student details and click on "Save".'}>
+            <Tooltip title={'Add/Delete student sibling details.'}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -327,7 +351,7 @@ const EnterStudentSiblingDetails = () => {
               >
                 <QuestionMark />
               </IconButton>
-            </Tooltip> */}
+            </Tooltip>
 
             <Tooltip title={'Save'}>
               <IconButton
@@ -351,7 +375,7 @@ const EnterStudentSiblingDetails = () => {
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-              <SquareIcon style={{ color: '#F0F0F0', fontSize: 25, position: 'relative', top: '-2px' }} />
+              <SquareIcon style={{ color: '#F0F0F0', fontSize: 25, position: 'relative', top: '-2px', border: '1px solid black', boxSizing: 'border-box' }} />
               <Typography variant='h6'>Deactivated User </Typography>
             </Box>
           </Box>
@@ -360,9 +384,50 @@ const EnterStudentSiblingDetails = () => {
       <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
         <Typography variant="h4" sx={{ py: 1 }}>
 
-          Sibling Details
+          Sibling Details:
         </Typography>
         <AddSiblingStudentTable itemList={GetStudentSiblingList} onDelete={handleDelete} />
+      </Box>
+      <Box sx={{ backgroundColor: 'white', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', }}>
+        <Typography variant="h4" sx={{ py: 1, display: 'flex', alignItems: 'start', paddingRight: '7rem' }}>
+          Search for Sibling:
+        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <TextField
+            sx={{ width: '15vw' }}
+            fullWidth
+            label={
+              <span>
+                Search by Name / Reg. No.<span style={{ color: 'red' }}> </span>
+              </span>
+            }
+            variant="outlined"
+            size="small"
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(searchTerm);
+              }
+            }}
+          />
+
+          <Tooltip title="Search">
+            <IconButton
+              onClick={() => handleSearch(searchTerm)}
+              sx={{
+                background: (theme) => theme.palette.primary.main,
+                color: 'white',
+                marginLeft: '0.5rem',
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.primary.dark
+                }
+              }}
+            >
+              <SearchTwoTone />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
       {isSearchPerformed && SearchStudentsList.length > 0 &&
         <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
@@ -397,7 +462,7 @@ const EnterStudentSiblingDetails = () => {
                       onChange={handleSelectAllClick}
                     />
                   </TableCell>
-                  <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                  {/* <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
                     <SortableHeader column="RegNo" label="Registration Number" />
                   </TableCell>
                   <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
@@ -405,10 +470,10 @@ const EnterStudentSiblingDetails = () => {
                   </TableCell>
                   <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
                     <SortableHeader column="ClassName" label="Class" />
-                  </TableCell>
-                  {/* <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
-              <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
-              <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell> */}
+                  </TableCell> */}
+                  <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
+                  <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
+                  <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
