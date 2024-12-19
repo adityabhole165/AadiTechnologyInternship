@@ -937,6 +937,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   label={'Date of Birth'}
                   error={!!validationMessages.dateOfBirth}
                   helperText={validationMessages.dateOfBirth ? 'Date of Birth should not be blank.' : ''}
+                  maxDate={new Date()}
                 />
                 {/* <TextField
                   name="dateOfBirth"

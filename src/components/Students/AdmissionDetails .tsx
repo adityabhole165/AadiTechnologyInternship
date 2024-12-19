@@ -10,6 +10,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
@@ -538,7 +539,8 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             size={'medium'}
             label={'Admission Date'}
             error={!!validationMessages.admissionDate}
-            helperText={validationMessages.admissionDate ? 'Admission Date should not be blank.' : ''}
+            helperText={validationMessages.admissionDate ? 'Admission date should not be blank.' : ''}
+            maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
           />
           {/* {validationMessages.admissionDate && (
               <Typography color="error" variant="caption" sx={{ mt: 1 }}>
@@ -573,7 +575,8 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             size={'medium'}
             label={'Joining Date'}
             error={!!validationMessages.joiningDate}
-            helperText={validationMessages.joiningDate ? 'Joining Date should not be blank.' : ''}
+            helperText={validationMessages.joiningDate ? 'Joining date should not be blank.' : ''}
+            maxDate={new Date()}
           />
           {/* <TextField
             name="joiningDate"
@@ -614,14 +617,10 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             onChange={handleInputChange}
             error={!!validationMessages.studentRollNumber}
             helperText={validationMessages.studentRollNumber ? 'Student Roll Number should not be blank.' : ''}
-            sx={{
-              backgroundColor: errors.studentRollNumber
-                ? 'white'
-                : admission.studentRollNumber
-                  ? 'white'
-                  : 'inherit'
-            }}
             fullWidth
+            inputProps={{
+              maxLength: 3, // Restricts the input length to 50 characters
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>

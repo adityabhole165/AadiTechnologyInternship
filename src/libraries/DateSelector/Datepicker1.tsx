@@ -2,7 +2,7 @@
 import { DatePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
 
-const Datepicker1 = ({ DateValue, onDateChange, label, size, error, helperText }) => {
+const Datepicker1 = ({ DateValue, onDateChange, label, size, error, helperText, maxDate }) => {
     return (
         <>
             <DatePicker
@@ -23,6 +23,7 @@ const Datepicker1 = ({ DateValue, onDateChange, label, size, error, helperText }
                 //     {label || "Select Date"} <span style={{ color: 'red' }}>*</span>
                 // </>}
                 views={['year', 'month', 'day']}
+                maxDate={maxDate ? moment(maxDate).toDate() : undefined} // Use maxDate if provided
                 slotProps={{
                     textField: {
                         variant: 'outlined',

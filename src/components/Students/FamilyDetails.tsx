@@ -9,6 +9,7 @@ import {
   Typography
 } from '@mui/material';
 import { red } from '@mui/material/colors';
+import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -532,6 +533,7 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 label={"Father's DOB"}
                 error={!!validationMessages.fatherDOB}
                 helperText={validationMessages.fatherDOB ? "Father's Date of Birth should not be blank." : ''}
+                maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
               />
             </Grid>
 
@@ -733,6 +735,7 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 label={"Mother's DOB"}
                 error={!!validationMessages.motherDOB}
                 helperText={validationMessages.motherDOB ? "Mother's Date of Birth should not be blank." : ''}
+                maxDate={new Date()}
               />
             </Grid>
 
@@ -864,6 +867,7 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 label={"Marriage Anniversary Date"}
                 error={!!validationMessages.marriageAnniversaryDate}
                 helperText={validationMessages.marriageAnniversaryDate ? "Marriage Anniversary Date should not be blank." : ''}
+                maxDate={new Date()}
               />
             </Grid>
 
