@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit, clickchange,clickTitle}) {
+function SentsmsList({ isPrincipal ,ItemList, HeaderArray, ClickHeader, clickEdit, clickchange,clickTitle}) {
 
 
     // Function to handle sorting on headers
@@ -98,11 +98,19 @@ function SentsmsList({ ItemList, HeaderArray, ClickHeader, clickEdit, clickchang
                                         onChange={() => onClick(item.Id)}
                                     />
                                 </TableCell>
+                              {isPrincipal &&
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
+                                    {item.SenderName}
+                                </TableCell>}
+                                
+
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                                    
                                     {item.UserName}
                                     
                                 </TableCell>
+
+
                                 <TableCell sx={{ textAlign: 'left', py: 0.5 }}>
                                     <Link href={''} onClick={() => clickTitle(item.Id)}>
                                     {item.Subject}

@@ -18,8 +18,9 @@ import { grey } from '@mui/material/colors';
 
 const RequistionView = () => {
     const dispatch = useDispatch();
-
+    
     const { ViewId } = useParams();
+    const ViewId1 = atob(ViewId)
     console.log(ViewId, "ViewId");
     const [StartDate, setStartDate]: any = useState(getCalendarDateFormatDateNew(new Date()));
 
@@ -71,13 +72,13 @@ const RequistionView = () => {
 
     const GetRequisitionDetailsBodynew: IGetRequisitionDetailsBody = {
         asSchoolId: asSchoolId,
-        asRequisitionId: Number(ViewId),
+        asRequisitionId: Number( ViewId1),
         asMode: "View"
     };
 
     useEffect(() => {
         dispatch(CDAGetRequisitionDetails(GetRequisitionDetailsBodynew));
-    }, [ViewId]);
+    }, [atob(ViewId)]);
 
 
     return (

@@ -213,7 +213,7 @@ const StatusRequisition = () => {
   };
 
   const clickView = (ViewId) => {
-    navigate('/extended-sidebar/Teacher/RequistionView/' + ViewId);
+    navigate('/extended-sidebar/Teacher/RequistionView/' + btoa(ViewId) );
   };
 
   // const clickEdit = (Value) => {

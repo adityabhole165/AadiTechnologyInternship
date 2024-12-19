@@ -1,22 +1,14 @@
+import { AddTwoTone } from '@mui/icons-material';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems, CDAResendSMS, CDAResetDelete } from 'src/requests/SentSms/ReqSentsms';
-import { IDeleteSMSBody, IExportSentItemsBody, IGetSentItemsBody, ResendSMSBody } from 'src/interfaces/SentSms/Sentsms';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { AddTwoTone } from '@mui/icons-material';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { toast } from 'react-toastify';
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import Download from '@mui/icons-material/Download';
-import QuestionMark from '@mui/icons-material/QuestionMark';
-import { AlertContext } from 'src/contexts/AlertContext';
 import AllInboxIcon from '@mui/icons-material/AllInbox';
 import ArrowCircleDown from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Download from '@mui/icons-material/Download';
 import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { default as QuestionMark, default as QuestionMarkIcon } from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SmsIcon from '@mui/icons-material/Sms';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
@@ -24,8 +16,15 @@ import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Link, Table, Tab
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { format } from 'date-fns';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
+import { IDeleteSMSBody, IExportSentItemsBody, IGetSentItemsBody } from 'src/interfaces/SentSms/Sentsms';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems, CDAResendSMS, CDAResetDelete } from 'src/requests/SentSms/ReqSentsms';
 // import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import { Styles } from 'src/assets/style/student-style';
 import CommonPageHeader from 'src/components/CommonPageHeader';
@@ -33,8 +32,8 @@ import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Studen
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
 
-import { RootState } from 'src/store';
 import SentsmsList from 'src/components/SentSms/SentsmsList';
+import { RootState } from 'src/store';
 const PageSize = 20;
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -150,6 +149,10 @@ function SmsCenter() {
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
+  console.log(endRecord,"endRecord");
+  
+
+
   const ChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
@@ -238,25 +241,55 @@ function SmsCenter() {
   const endIndexNew = startIndexNew + rowsPerPageNew;
   const { showAlert, closeAlert } = useContext(AlertContext);
   const [sortExpression, setSortExpression] = useState('ORDER BY Insert_Date DESC ');
+  const [sortExpression1, setSortExpression1] = useState('ORDER BY Insert_Date DESC ');
+  const isPrincipal = DesignationName == 'Principal' && activeTab == 'AllSendItem';
+console.log(isPrincipal,"isPrincipal");
 
-  const [headerArray, setHeaderArray] = useState([
-      { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
-      { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
-      { Id: 3, Header: 'Sent Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
-      { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
-      // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
+const [headerArray, setHeaderArray] = useState([
+  { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
+  { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
+  { Id: 3, Header: 'Sent Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
+  { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
+  // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
 
-  ]);
+]);
+
+
+const [headerArray1 ,setHeaderArray1] = useState([
+  { Id: 0, Header: 'From', SortOrder: null, sortKey: 'ORDER BY UserName' },
+  { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
+  { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
+  { Id: 3, Header: 'Sent Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
+  { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
+  // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
+
+]);
+
+
+
+
+
+
+
+  
+  
   const handleHeaderClick = (updatedHeaderArray) => {
-      setHeaderArray(updatedHeaderArray);
-      const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
-      const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Created_Date desc';
-      setSortExpression(newSortExpression);
+    setHeaderArray(updatedHeaderArray);
+    const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Created_Date desc';
+    setSortExpression(newSortExpression);
+  };
+
+  const handleHeaderClick1 = (updatedHeaderArray) => {
+    setHeaderArray1(updatedHeaderArray);
+    const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Created_Date desc';
+    setSortExpression1(newSortExpression);
   };
 
 
   const USGetSentItems: any = useSelector(
-      (state: RootState) => state.SentSms.ISGetSentItems
+    (state: RootState) => state.SentSms.ISGetSentItems
   );
 
   const Loading: any = useSelector((state: RootState) => state.SentSms.Loading);
@@ -265,302 +298,308 @@ function SmsCenter() {
   const totalRowsNew = USGetSentItems.length > 0 ? USGetSentItems[0].TotalRows : null;
 
   const DeleteSMS = useSelector(
-      (state: RootState) => state.SentSms.ISDeleteSMS
+    (state: RootState) => state.SentSms.ISDeleteSMS
   );
   const UsExportSentItems = useSelector(
-      (state: RootState) => state.SentSms.ISExportSentItems
+    (state: RootState) => state.SentSms.ISExportSentItems
   );
-  const ResendSMS  : any = useSelector(
-      (state: RootState) => state.SentSms.ISResendSMS
+  const ResendSMS: any = useSelector(
+    (state: RootState) => state.SentSms.ISResendSMS
   );
 
   const ClickValue = (value) => {
-      setSmsName(value);
+    setSmsName(value);
   };
 
   const ClickValue1 = (value) => {
-      setSmsName1(value);
+    setSmsName1(value);
   };
 
   const clickSearchNew1 = () => {
-      if (SmsName1 === '') {
-          setSmsListNew(USGetSentItems);
-      } else {
-          setSmsListNew(
-              USGetSentItems.filter((item) => {
-                  const text1Match = item.SenderName.toLowerCase().includes(
-                      SmsName.toLowerCase()
-                  );
-                  const text2Match = item.StatusId.toLowerCase().includes(
-                      SmsName.toLowerCase()
-                  );
-                  const text3Match = item.Subject.toLowerCase().includes(
-                      SmsName.toLowerCase()
-                  );
-                  const text4Match = item.Insert_Date.toLowerCase().includes(
-                      SmsName.toLowerCase()
-                  );
-
-                  return (text1Match || text2Match) || (text3Match || text4Match);
-              })
+    if (SmsName1 === '') {
+      setSmsListNew(USGetSentItems);
+    } else {
+      setSmsListNew(
+        USGetSentItems.filter((item) => {
+          const text1Match = item.SenderName.toLowerCase().includes(
+            SmsName.toLowerCase()
           );
-      }
-      dispatch(CDAGetSentItems(GetSentItemsBody));
+          const text2Match = item.StatusId.toLowerCase().includes(
+            SmsName.toLowerCase()
+          );
+          const text3Match = item.Subject.toLowerCase().includes(
+            SmsName.toLowerCase()
+          );
+          const text4Match = item.Insert_Date.toLowerCase().includes(
+            SmsName.toLowerCase()
+          );
+
+          return (text1Match || text2Match) || (text3Match || text4Match);
+        })
+      );
+    }
+    dispatch(CDAGetSentItems(GetSentItemsBody));
   };
 
 
   const clickSearchNew = () => {
-      clickSearchNew1()
-      if (SmsName === '') {
-          setSmsListNew(USGetSentItems);
-      } else {
-          setSmsListNew(
-              USGetSentItems.filter((item) => {
-                  const text1Match = item.SenderName.toLowerCase().includes(
-                      SmsName.toLowerCase()
-                  );
-                  const text2Match = item.StatusId.toLowerCase().includes(
-                      SmsName.toLowerCase()
-                  );
-
-
-                  return text1Match || text2Match;
-              })
+    clickSearchNew1()
+    if (SmsName === '') {
+      setSmsListNew(USGetSentItems);
+    } else {
+      setSmsListNew(
+        USGetSentItems.filter((item) => {
+          const text1Match = item.SenderName.toLowerCase().includes(
+            SmsName.toLowerCase()
           );
-      }
-      dispatch(CDAGetSentItems(GetSentItemsBody));
+          const text2Match = item.StatusId.toLowerCase().includes(
+            SmsName.toLowerCase()
+          );
+
+
+          return text1Match || text2Match;
+        })
+      );
+    }
+    dispatch(CDAGetSentItems(GetSentItemsBody));
   };
 
   const startRecordNew = (pageNew - 1) * rowsPerPageNew + 1;
   const endRecordNew = Math.min(pageNew * rowsPerPageNew, totalRowsNew);
   const pagecountNew = Math.ceil(totalRowsNew / rowsPerPageNew);
   const ChangeRowsPerPageNew = (event) => {
-      setRowsPerPageNew(parseInt(event.target.value, 10));
-      setPageNew(1);
+    setRowsPerPageNew(parseInt(event.target.value, 10));
+    setPageNew(1);
   };
 
   const PageChangeNew = (pageNumber) => {
-      setPageNew(pageNumber);
+    setPageNew(pageNumber);
   };
 
   const GetSentItemsBody: IGetSentItemsBody = {
-      asSchoolId: Number(asSchoolId),
-      asUser_Id: asUserId,
-      asReceiver_User_Role_Id: 2,
-      asAcademic_Year_Id: Number(asAcademicYearId),
-      asSortExp: sortExpression,
-      asprm_StartIndex: startIndexNew,
-      asPageSize: endIndexNew,
-      asName: SmsName,
-      asContent: SmsName1,
-      asViewAllSMS: 0
+    asSchoolId: Number(asSchoolId),
+    asUser_Id: asUserId,
+    asReceiver_User_Role_Id: 2,
+    asAcademic_Year_Id: Number(asAcademicYearId),
+    asSortExp: isPrincipal ? sortExpression1 : sortExpression,
+    asprm_StartIndex: startIndexNew,
+    asPageSize: endIndexNew,
+    asName: SmsName,
+    asContent: SmsName1,
+    asViewAllSMS: activeTab == 'AllSendItem' ? 1 : 0
   }
 
+
+
+ 
+
   const ExportSentItemsBody: IExportSentItemsBody = {
-      asSchoolId: Number(asSchoolId),
-      asUser_Id: asUserId,
-      asReceiver_User_Role_Id: 2,
-      asAcademic_Year_Id: Number(asAcademicYearId),
-      asSortExp: sortExpression,
-      asprm_StartIndex: startIndexNew,
-      asPageSize: endIndexNew,
-      asName: SmsName,
-      asContent: SmsName1,
-      asViewAllSMS: 0
+    asSchoolId: Number(asSchoolId),
+    asUser_Id: asUserId,
+    asReceiver_User_Role_Id: 2,
+    asAcademic_Year_Id: Number(asAcademicYearId),
+    asSortExp: isPrincipal ? sortExpression1 : sortExpression,
+    asprm_StartIndex: startIndexNew,
+    asPageSize: 1000,
+    asName: SmsName,
+    asContent: SmsName1,
+    asViewAllSMS: activeTab == 'AllSendItem' ? 1 : 0
 
   };
 
   const clickdelete = () => {
-      if (!SmsListIDNew || SmsListIDNew.length === 0) {
-          showAlert({
-              title: 'Error',
-              message: 'At least one SMS should be selected for deletion.',
-              variant: 'error',
-              confirmButtonText: 'OK',
-              cancelButtonText: 'Cancel',
-              onConfirm: () => {
-                  closeAlert();
-              },
-              onCancel: () => {
-                  closeAlert();
-              },
-              
-          });
-          return;
-      }
-
-      const DeleteSMSBody: IDeleteSMSBody = {
-          "asSMS_Id": SmsListIDNew.toString(),
-          "asSchoolId": Number(asSchoolId)
-      };
-
+    if (!SmsListIDNew || SmsListIDNew.length === 0) {
       showAlert({
-          title: 'Please Confirm',
-          message:
-              'Are you sure you want to delete the selected SMS(s)?',
-          variant: 'warning',
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          onCancel: () => {
-              closeAlert();
-          },
-          onConfirm: () => {
-              dispatch(CDADeleteSMSApi(DeleteSMSBody));
-              closeAlert();
-          }
+        title: 'Error',
+        message: 'At least one SMS should be selected for deletion.',
+        variant: 'error',
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        onConfirm: () => {
+          closeAlert();
+        },
+        onCancel: () => {
+          closeAlert();
+        },
+
       });
+      return;
+    }
+
+    const DeleteSMSBody: IDeleteSMSBody = {
+      "asSMS_Id": SmsListIDNew.toString(),
+      "asSchoolId": Number(asSchoolId)
+    };
+
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete the selected SMS(s)?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(CDADeleteSMSApi(DeleteSMSBody));
+        closeAlert();
+      }
+    });
   };
 
   useEffect(() => {
-      if (DeleteSMS != '') {
-          dispatch(CDAResetDelete());
-          toast.success(DeleteSMS);
+    if (DeleteSMS != '') {
+      dispatch(CDAResetDelete());
+      toast.success(DeleteSMS);
 
-          dispatch(CDAGetSentItems(GetSentItemsBody));
+      dispatch(CDAGetSentItems(GetSentItemsBody));
 
-      }
+    }
   }, [DeleteSMS]);
 
-const [SMS_Text, SetSMS_Text] = useState('');
-const [Display_Text, SetDisplay_Text] = useState('');
-const [RoleIdNew, SetRoleIdNew] = useState('');
-const [UserIdNew, SetUserIdNew] = useState('');
+  const [SMS_Text, SetSMS_Text] = useState('');
+  const [Display_Text, SetDisplay_Text] = useState('');
+  const [RoleIdNew, SetRoleIdNew] = useState('');
+  const [UserIdNew, SetUserIdNew] = useState('');
 
-useEffect(() => {
-  // Check if ResendSMS has data and set state variables
-  if (ResendSMS && ResendSMS.length > 0) {
-    const smsData = ResendSMS[0]; // Access the first object in the array
-    SetSMS_Text(smsData.SMS_Text);
-    SetDisplay_Text(smsData.Display_Text);
-    SetRoleIdNew(smsData.RoleId);
-    SetUserIdNew(smsData.UserId);
-  }
-}, [ResendSMS]);
+  useEffect(() => {
+    // Check if ResendSMS has data and set state variables
+    if (ResendSMS && ResendSMS.length > 0) {
+      const smsData = ResendSMS[0]; // Access the first object in the array
+      SetSMS_Text(smsData.SMS_Text);
+      SetDisplay_Text(smsData.Display_Text);
+      SetRoleIdNew(smsData.RoleId);
+      SetUserIdNew(smsData.UserId);
+    }
+  }, [ResendSMS]);
 
-const handleClickEdit = (Id) => {
+  const handleClickEdit = (Id) => {
 
-  const ResendSMSBody = {
-    asSmsId: Number(Id),
-    asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId)
-  };
+    const ResendSMSBody = {
+      asSmsId: Number(Id),
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId)
+    };
 
-  dispatch(CDAResendSMS(ResendSMSBody));
+    dispatch(CDAResendSMS(ResendSMSBody));
 
-  if (SMS_Text && Display_Text && RoleIdNew && UserIdNew) {
-      let state1 = {SMS_Text , Display_Text ,RoleId, UserId};
+    if (SMS_Text && Display_Text && RoleIdNew && UserIdNew) {
+      let state1 = { SMS_Text, Display_Text, RoleId, UserId };
       navigate('/extended-sidebar/Teacher/ComposeSMS', { state: state1 });
     }
 
-};
+  };
 
 
   const NewSms = (ViewId) => {
-      navigate('/extended-sidebar/Teacher/ComposeSMS');
+    navigate('/extended-sidebar/Teacher/ComposeSMS');
   };
 
 
 
   const Changevalue = (updatedList) => {
-      setSmsListNew(updatedList);  
-      const activeItems = updatedList.filter(item => item.IsActive).map(item => item.Id);
-      setSmsListIDNew(activeItems);  
+    setSmsListNew(updatedList);
+    const activeItems = updatedList.filter(item => item.IsActive).map(item => item.Id);
+    setSmsListIDNew(activeItems);
   };
 
   const clickTitle1 = (Id) => {
-      navigate('/extended-sidebar/Teacher/ViewSmsNew/' + Id 
+    navigate('/extended-sidebar/Teacher/ViewSmsNew/' + Id
     );
-    };
+  };
 
   const convertToCSV = () => {
-      // Prepare headers
-      const headers = [
-          'RowID',
-          'From',
-          'To',
-          'SMSText',
-          'SendDate',
+    // Prepare headers
+    const headers = [
+      'RowID',
+      'From',
+      'To',
+      'SMSText',
+      'SendDate',
+    ];
+
+    // Prepare rows
+    const rows = UsExportSentItems.map(item => {
+      const row = [
+        item.RowID,
+        item.From,
+        item.To,
+        item.SMSText,
+        item.SendDate,
+
+
+
       ];
 
-      // Prepare rows
-      const rows = UsExportSentItems.map(item => {
-          const row = [
-              item.RowID,
-              item.From,
-              item.To,
-              item.SMSText,
-              item.SendDate,
+      return row;
+    });
 
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row =>
+        row.map(cell =>
+          `"${String(cell || '').replace(/"/g, '""')}"`
+        ).join(',')
+      ),
+    ].join('\n');
 
-
-          ];
-
-          return row;
-      });
-
-      const csvContent = [
-          headers.join(','),
-          ...rows.map(row =>
-              row.map(cell =>
-                  `"${String(cell || '').replace(/"/g, '""')}"`
-              ).join(',')
-          ),
-      ].join('\n');
-
-      return csvContent;
+    return csvContent;
   };
 
   const exportToExcel = () => {
-      try {
-          const csvContent = convertToCSV();
-          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-          const link = document.createElement('a');
-          const url = URL.createObjectURL(blob);
-          link.setAttribute('href', url);
-          link.setAttribute('download', `SentSmsDetails.csv`);
-          link.style.visibility = 'hidden';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-      } catch (error) {
-          console.error('Error exporting to CSV:', error);
-      }
+    try {
+      const csvContent = convertToCSV();
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `SentSmsDetails.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error exporting to CSV:', error);
+    }
   };
 
   const Exportremark = () => {
-      const confirmMessage = "This Action will show only saved details. Do you want to continue?";
+    const confirmMessage = "This Action will show only saved details. Do you want to continue?";
 
 
-      showAlert({
-          title: 'Please Confirm',
-          message: confirmMessage,
-          variant: 'warning',
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          onCancel: () => {
-              closeAlert();
-          },
-          onConfirm: () => {
-              exportToExcel();
+    showAlert({
+      title: 'Please Confirm',
+      message: confirmMessage,
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        exportToExcel();
 
 
-              closeAlert();
-          }
-      });
+        closeAlert();
+      }
+    });
 
   };
 
 
   useEffect(() => {
-      dispatch(CDAExportSentItems(ExportSentItemsBody));
-  }, [startIndexNew, endIndexNew, sortExpression]);
+    dispatch(CDAExportSentItems(ExportSentItemsBody));
+  }, [startIndexNew, endIndexNew, sortExpression,sortExpression1,isPrincipal]);
 
   useEffect(() => {
-      dispatch(CDAGetSentItems(GetSentItemsBody));
-  }, [startIndexNew, endIndexNew, sortExpression]);
+    dispatch(CDAGetSentItems(GetSentItemsBody));
+  }, [startIndexNew, endIndexNew, sortExpression,activeTab,sortExpression1,isPrincipal]);
+
+  
 
   useEffect(() => {
-      setSmsListNew(USGetSentItems);
+    setSmsListNew(USGetSentItems);
   }, [USGetSentItems]);
 
 
@@ -577,7 +616,7 @@ const handleClickEdit = (Id) => {
         rightActions={
           <>
 
-            {activeTab == 'Send Item' ? <></> :
+            {activeTab == 'Received SMS' && 
               <>
 
                 <TextField
@@ -640,139 +679,272 @@ const handleClickEdit = (Id) => {
                     </IconButton>
                   </Tooltip>
                 </Box>
-              </>}
+              </>
+              
+              }
 
 
-              {activeTab == 'Send Item' && (
+            {activeTab == 'Send Item' && (
               <>
 
-              <TextField
-                sx={{ width: '15vw' }}
-                fullWidth
-                label="Name / Reg. No. / User Name :"
-                value={SmsName}
-                variant={'outlined'}
-                size={"small"}
-                inputProps={{ maxLength: 50 }}
-                onChange={(e) => {
-                  ClickValue(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === 'Tab') {
-                    clickSearchNew();
-                  }
-                }}
-              />
+                <TextField
+                  sx={{ width: '15vw' }}
+                  fullWidth
+                  label="Name / Reg. No. / User Name :"
+                  value={SmsName}
+                  variant={'outlined'}
+                  size={"small"}
+                  inputProps={{ maxLength: 50 }}
+                  onChange={(e) => {
+                    ClickValue(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === 'Tab') {
+                      clickSearchNew();
+                    }
+                  }}
+                />
 
-              <TextField
-                sx={{ width: '15vw' }}
-                fullWidth
-                label="Content :"
-                value={SmsName1}
-                variant={'outlined'}
-                size={"small"}
-                inputProps={{ maxLength: 100 }}
-                onChange={(e) => {
-                  ClickValue1(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === 'Tab') {
-                    clickSearchNew();
-                  }
-                }}
-              />
+                <TextField
+                  sx={{ width: '15vw' }}
+                  fullWidth
+                  label="Content :"
+                  value={SmsName1}
+                  variant={'outlined'}
+                  size={"small"}
+                  inputProps={{ maxLength: 100 }}
+                  onChange={(e) => {
+                    ClickValue1(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === 'Tab') {
+                      clickSearchNew();
+                    }
+                  }}
+                />
 
-              <IconButton
-                onClick={clickSearchNew}
-                sx={{
-                  background: (theme) => theme.palette.primary.main,
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: (theme) => theme.palette.primary.dark
-                  }
-                }}
-              >
-                <SearchTwoTone />
-              </IconButton>
-
-
-              {SmsListNew.length > 0 && <Box>
-                <Tooltip title={"Delete"}>
-                  <IconButton
-                    onClick={clickdelete}
-
-                    sx={{
-                      color: 'white',
-                      backgroundColor: red[500],
-                      '&:hover': {
-                        // color: red[300],
-                        backgroundColor: red[600]
-                      }
-                    }}
-
-
-
-                  >
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>}
-
-
-              <Box>
-                <Tooltip title={'Export'}>
-                  <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: blue[500],
-                      '&:hover': {
-                        backgroundColor: blue[600]
-                      }
-                    }}
-                    onClick={Exportremark}  >
-                    <Download />
-                  </IconButton>
-                </Tooltip>
-
-              </Box>
-              <Tooltip title={'New Sms'}>
                 <IconButton
-                  onClick={NewSms}
+                  onClick={clickSearchNew}
                   sx={{
+                    background: (theme) => theme.palette.primary.main,
                     color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: green[600] },
-
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.palette.primary.dark
+                    }
                   }}
                 >
-                  <AddTwoTone />
+                  <SearchTwoTone />
                 </IconButton>
-              </Tooltip>
 
 
-              <Box>
-                <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
+                {SmsListNew.length > 0 && <Box>
+                  <Tooltip title={"Delete"}>
+                    <IconButton
+                      onClick={clickdelete}
+
+                      sx={{
+                        color: 'white',
+                        backgroundColor: red[500],
+                        '&:hover': {
+                          // color: red[300],
+                          backgroundColor: red[600]
+                        }
+                      }}
+
+
+
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>}
+
+
+                <Box>
+                  <Tooltip title={'Export'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: blue[500],
+                        '&:hover': {
+                          backgroundColor: blue[600]
+                        }
+                      }}
+                      onClick={Exportremark}  >
+                      <Download />
+                    </IconButton>
+                  </Tooltip>
+
+                </Box>
+                <Tooltip title={'New Sms'}>
                   <IconButton
+                    onClick={NewSms}
                     sx={{
                       color: 'white',
-                      backgroundColor: grey[500],
-                      '&:hover': {
-                        backgroundColor: grey[600]
-                      }
+                      backgroundColor: green[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: green[600] },
+
                     }}
                   >
-                    <QuestionMark />
+                    <AddTwoTone />
                   </IconButton>
                 </Tooltip>
-              </Box>
+
+
+                <Box>
+                  <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                          backgroundColor: grey[600]
+                        }
+                      }}
+                    >
+                      <QuestionMark />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
 
 
 
 
-            </>
+              </>
             )}
-            
+
+
+{activeTab == 'AllSendItem' && (
+              <>
+
+                <TextField
+                  sx={{ width: '15vw' }}
+                  fullWidth
+                  label="Name / Reg. No. / User Name :"
+                  value={SmsName}
+                  variant={'outlined'}
+                  size={"small"}
+                  inputProps={{ maxLength: 50 }}
+                  onChange={(e) => {
+                    ClickValue(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === 'Tab') {
+                      clickSearchNew();
+                    }
+                  }}
+                />
+
+                <TextField
+                  sx={{ width: '15vw' }}
+                  fullWidth
+                  label="Content :"
+                  value={SmsName1}
+                  variant={'outlined'}
+                  size={"small"}
+                  inputProps={{ maxLength: 100 }}
+                  onChange={(e) => {
+                    ClickValue1(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === 'Tab') {
+                      clickSearchNew();
+                    }
+                  }}
+                />
+
+                <IconButton
+                  onClick={clickSearchNew}
+                  sx={{
+                    background: (theme) => theme.palette.primary.main,
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.palette.primary.dark
+                    }
+                  }}
+                >
+                  <SearchTwoTone />
+                </IconButton>
+
+
+                {SmsListNew.length > 0 && <Box>
+                  <Tooltip title={"Delete"}>
+                    <IconButton
+                      onClick={clickdelete}
+
+                      sx={{
+                        color: 'white',
+                        backgroundColor: red[500],
+                        '&:hover': {
+                          // color: red[300],
+                          backgroundColor: red[600]
+                        }
+                      }}
+
+
+
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>}
+
+
+                <Box>
+                  <Tooltip title={'Export'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: blue[500],
+                        '&:hover': {
+                          backgroundColor: blue[600]
+                        }
+                      }}
+                      onClick={Exportremark}  >
+                      <Download />
+                    </IconButton>
+                  </Tooltip>
+
+                </Box>
+                <Tooltip title={'New Sms'}>
+                  <IconButton
+                    onClick={NewSms}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: green[600] },
+
+                    }}
+                  >
+                    <AddTwoTone />
+                  </IconButton>
+                </Tooltip>
+
+
+                <Box>
+                  <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                          backgroundColor: grey[600]
+                        }
+                      }}
+                    >
+                      <QuestionMark />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+
+
+
+
+              </>
+            )}
+
 
 
 
@@ -873,16 +1045,16 @@ const handleClickEdit = (Id) => {
                 <br />
                 <b style={{ color: '#38548A' }}>Scheduled SMS</b>
               </Card>
-              {DesignationName === 'Principal' && (
+              {DesignationName == 'Principal' && (
                 <Card
                   sx={{
                     textAlign: 'center',
                     height: '85px',
-                    backgroundColor: activeTab === 'All Send Item' ? blue[100] : 'white',
+                    backgroundColor: activeTab == 'AllSendItem' ? blue[100] : 'white',
                     mb: '10px',
                     borderRadius: '10px',
                   }}
-                  onClick={() => handleTabClick('All Send Item')}
+                  onClick={() => handleTabClick('AllSendItem')}
                 >
 
                   <AllInboxIcon
@@ -891,69 +1063,160 @@ const handleClickEdit = (Id) => {
                     className={classes.IconSize}
                   />
                   <br />
-                  <b style={{ color: '#38548A' }}>All send Item</b>
+                  <b style={{ color: '#38548A' }}>All Send Item</b>
                 </Card>
               )}
             </Hidden>
           </Grid>
+
           <Grid item sx={{ minWidth: '90%', p: 2, background: 'white', borderRadius: '10px' }}>
-            {activeTab == 'Send Item' ? <span></span> : <Grid container spacing={2} pb={2}>
-              {/* Free SMS Count */}
-              <Grid item xs={12} sm={3}>
-                <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                  <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
-                  <Box>
-                    <Typography variant="h6" color="blue">
-                      Free SMS
-                    </Typography>
-                    <Typography variant="h4">{SmsCount.AllowedSMSCount ?? 0}</Typography>
-                  </Box>
-                </Card>
+            
+              {activeTab == 'Scheduled SMS' &&
+              <Grid container spacing={2} pb={2}>
+                
+                <Grid item xs={12} sm={3}>
+                  <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                    <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
+                    <Box>
+                      <Typography variant="h6" color="blue">
+                        Free SMS
+                      </Typography>
+                      <Typography variant="h4">{SmsCount.AllowedSMSCount ?? 0}</Typography>
+                    </Box>
+                  </Card>
+                </Grid>
+
+                
+                <Grid item xs={12} sm={3}>
+                  <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                    <SmsIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
+                    <Box>
+                      <Typography variant="h6" color="green">
+                        Sent SMS
+                      </Typography>
+                      <Typography variant="h4">{SmsCount.SentSMSCount ?? 0}</Typography>
+                    </Box>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                    <SmsFailedIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
+                    <Box>
+                      <Typography variant="h6" color="blue">
+                        Balance SMS
+                      </Typography>
+                      <Typography variant="h4">0</Typography>
+                    </Box>
+                  </Card>
+                </Grid>
+               
+                <Grid item xs={12} sm={3}>
+                  <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                    <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 2 }} />
+                    <Box>
+                      <Typography variant="h6" color="red">
+                        Exceeded SMS
+                      </Typography>
+                      <Typography variant="h4">{SmsCount.ExceededSMSCount ?? 0}</Typography>
+                    </Box>
+                  </Card>
+                </Grid>
+
               </Grid>
+              }
+            
 
-              {/* Sent SMS Count */}
-              <Grid item xs={12} sm={3}>
-                <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                  <SmsIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
-                  <Box>
-                    <Typography variant="h6" color="green">
-                      Sent SMS
-                    </Typography>
-                    <Typography variant="h4">{SmsCount.SentSMSCount ?? 0}</Typography>
-                  </Box>
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={3}>
-                <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                  <SmsFailedIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
-                  <Box>
-                    <Typography variant="h6" color="blue">
-                      Balance SMS
-                    </Typography>
-                    <Typography variant="h4">0</Typography>
-                  </Box>
-                </Card>
-              </Grid>
-              {/* Exceeded SMS Count */}
-              <Grid item xs={12} sm={3}>
-                <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                  <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 2 }} />
-                  <Box>
-                    <Typography variant="h6" color="red">
-                      Exceeded SMS
-                    </Typography>
-                    <Typography variant="h4">{SmsCount.ExceededSMSCount ?? 0}</Typography>
-                  </Box>
-                </Card>
-              </Grid>
+            {activeTab == 'AllSendItem' && (
 
-            </Grid>}
+              <Box>
+                {(Loading) && <SuspenseLoader />}
 
 
-            {activeTab !== 'Send Item' && (
 
-              <Typography variant={'h4'} fontWeight={800} textAlign={'center'} pt={1}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
 
+
+
+
+                {SmsListNew.length > 0 && <Box mb={1} sx={{ background: 'white' }}>
+                  {
+                    SmsListNew.length > 0 ? (
+                      <div style={{ flex: 1, textAlign: 'center' }}>
+                        <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                          <Box component="span" fontWeight="fontWeightBold">
+                            {startRecordNew} to {endRecordNew}
+                          </Box>
+                          {' '}out of{' '}
+                          <Box component="span" fontWeight="fontWeightBold">
+                            {totalRowsNew}
+                          </Box>{' '}
+                          {totalRowsNew === 1 ? 'record' : 'records'}
+                        </Typography>
+                      </div>
+
+                    ) : (
+                      <span></span>
+
+                    )
+                  }
+
+                  <SentsmsList
+                    HeaderArray={headerArray1}
+                    ItemList={SmsListNew}
+                    ClickHeader={handleHeaderClick1}
+                    clickEdit={handleClickEdit}
+                    clickchange={Changevalue}
+                    clickTitle={clickTitle1}
+                    isPrincipal={isPrincipal}
+                  />
+
+                  {
+                    endRecordNew > 19 ? (
+                      <ButtonGroupComponent
+                        rowsPerPage={rowsPerPageNew}
+                        ChangeRowsPerPage={ChangeRowsPerPageNew}
+                        rowsPerPageOptions={rowsPerPageOptionsNew}
+                        PageChange={PageChangeNew}
+                        pagecount={pagecountNew}
+                      />
+
+                    ) : (
+                      <span></span>
+
+                    )
+                  }
+
+
+
+                </Box>
+
+
+                }
+
+                {
+                  SmsListNew.length == 0 && !Loading ? <Typography
+                    variant="body1"
+                    sx={{
+                      textAlign: 'center',
+                      marginTop: 4,
+                      backgroundColor: '#324b84',
+                      padding: 1,
+                      borderRadius: 2,
+                      color: 'white',
+                    }}
+                  >
+                    <b>No Records Found.</b>
+                  </Typography>
+                    : (
+                      <span></span>
+                    )
+                }
+
+
+
+
+
+
+              </Box>
             )}
 
             {activeTab == 'Received SMS' && (
@@ -1030,95 +1293,106 @@ const handleClickEdit = (Id) => {
 
 
             {activeTab == 'Send Item' && (
-             <Box>
-             {(Loading) && <SuspenseLoader />}
- 
-             
- 
- 
- 
- 
- 
-             {SmsListNew.length > 0 && <Box mb={1} sx={{ background: 'white' }}>
-                 {
-                     SmsListNew.length > 0 ? (
-                         <div style={{ flex: 1, textAlign: 'center' }}>
-                             <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                                 <Box component="span" fontWeight="fontWeightBold">
-                                     {startRecordNew} to {endRecordNew}
-                                 </Box>
-                                 {' '}out of{' '}
-                                 <Box component="span" fontWeight="fontWeightBold">
-                                     {totalRowsNew}
-                                 </Box>{' '}
-                                 {totalRowsNew === 1 ? 'record' : 'records'}
-                             </Typography>
-                         </div>
- 
-                     ) : (
-                         <span></span>
- 
-                     )
-                 }
- 
-                 <SentsmsList
-                     HeaderArray={headerArray}
-                     ItemList={SmsListNew}
-                     ClickHeader={handleHeaderClick}
-                     clickEdit={handleClickEdit}
-                     clickchange={Changevalue}
-                     clickTitle={clickTitle1}
-                 />
- 
-                 {
-                     endRecord > 19 ? (
-                         <ButtonGroupComponent
-                             rowsPerPage={rowsPerPageNew}
-                             ChangeRowsPerPage={ChangeRowsPerPageNew}
-                             rowsPerPageOptions={rowsPerPageOptionsNew}
-                             PageChange={PageChangeNew}
-                             pagecount={pagecountNew}
-                         />
- 
-                     ) : (
-                         <span></span>
- 
-                     )
-                 }
- 
- 
- 
-             </Box>
- 
- 
-             }
- 
-             {
-                 SmsListNew.length == 0 && !Loading ? <Typography
-                     variant="body1"
-                     sx={{
-                         textAlign: 'center',
-                         marginTop: 4,
-                         backgroundColor: '#324b84',
-                         padding: 1,
-                         borderRadius: 2,
-                         color: 'white',
-                     }}
-                 >
-                     <b>No Records Found.</b>
-                 </Typography>
-                     : (
-                         <span></span>
-                     )
-             }
- 
- 
- 
- 
- 
- 
-         </Box>
+              <Box>
+                {(Loading) && <SuspenseLoader />}
+
+
+
+
+
+
+
+                {SmsListNew.length > 0 && <Box mb={1} sx={{ background: 'white' }}>
+                  {
+                    SmsListNew.length > 0 ? (
+                      <div style={{ flex: 1, textAlign: 'center' }}>
+                        <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                          <Box component="span" fontWeight="fontWeightBold">
+                            {startRecordNew} to {endRecordNew}
+                          </Box>
+                          {' '}out of{' '}
+                          <Box component="span" fontWeight="fontWeightBold">
+                            {totalRowsNew}
+                          </Box>{' '}
+                          {totalRowsNew === 1 ? 'record' : 'records'}
+                        </Typography>
+                      </div>
+
+                    ) : (
+                      <span></span>
+
+                    )
+                  }
+
+                  <SentsmsList
+                    HeaderArray={headerArray}
+                    ItemList={SmsListNew}
+                    ClickHeader={handleHeaderClick}
+                    clickEdit={handleClickEdit}
+                    clickchange={Changevalue}
+                    clickTitle={clickTitle1}
+                    
+                    isPrincipal={isPrincipal}
+
+                  />
+
+                  {
+                    endRecordNew > 19 ? (
+                      <ButtonGroupComponent
+                        rowsPerPage={rowsPerPageNew}
+                        ChangeRowsPerPage={ChangeRowsPerPageNew}
+                        rowsPerPageOptions={rowsPerPageOptionsNew}
+                        PageChange={PageChangeNew}
+                        pagecount={pagecountNew}
+                        
+                      />
+
+                    ) : (
+                      <span></span>
+
+                    )
+                  }
+
+
+
+                </Box>
+
+
+                }
+
+                {
+                  SmsListNew.length == 0 && !Loading ? <Typography
+                    variant="body1"
+                    sx={{
+                      textAlign: 'center',
+                      marginTop: 4,
+                      backgroundColor: '#324b84',
+                      padding: 1,
+                      borderRadius: 2,
+                      color: 'white',
+                    }}
+                  >
+                    <b>No Records Found.</b>
+                  </Typography>
+                    : (
+                      <span></span>
+                    )
+                }
+
+
+
+
+
+
+              </Box>
             )}
+
+
+
+
+
+
+
 
           </Grid>
         </Grid>
