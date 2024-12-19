@@ -215,7 +215,7 @@ const softwareNote =
                     </>
                 }
             />
-            <Box sx={{ backgroundColor: 'white', p: 1, mb: 1 }}>
+            <Box sx={{ backgroundColor: 'white', py: 0.5 ,pl:2, mb: 1 }}>
                 <FormControl component="fieldset">
                     <RadioGroup row value={selectedFeedback} onChange={handleRadioChange} aria-label="feedback-options">
                         <FormControlLabel value="users" control={<Radio />} label="Feedback from Users" />
