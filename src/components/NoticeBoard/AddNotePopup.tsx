@@ -14,6 +14,7 @@ import {
   Box
 } from '@mui/material';
 import { ClearIcon } from '@mui/x-date-pickers';
+import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 
 interface Note {
   id?: number;
@@ -129,7 +130,11 @@ const AddNotePopup: React.FC<AddNotePopupProps> = ({
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              label="Message"
+              label={
+                <span>
+                  Message <span style={{ color: 'red' }}> *</span>
+                </span>
+              }
               name="message"
               value={form.message}
               onChange={handleChange}
@@ -138,27 +143,23 @@ const AddNotePopup: React.FC<AddNotePopupProps> = ({
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              label="Start Date"
-              type="date"
-              name="startDate"
-              value={form.startDate}
-              onChange={handleChange}
-              fullWidth
-              margin="dense"
-              InputLabelProps={{ shrink: true }}
+            <Datepicker1
+              DateValue={form.startDate}
+              onDateChange={handleChange}
+              size={'medium'}
+              label={'Start Date '}
+              error={undefined}
+              helperText={undefined}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              label="End Date"
-              type="date"
-              name="endDate"
-              value={form.endDate}
-              onChange={handleChange}
-              fullWidth
-              margin="dense"
-              InputLabelProps={{ shrink: true }}
+            <Datepicker1
+              DateValue={form.endDate}
+              onDateChange={handleChange}
+              size={'medium'}
+              label={'End Date '}
+              error={undefined}
+              helperText={undefined}
             />
           </Grid>
           <Box pl={1} width="100%" ml={1} mt={1}>
@@ -173,7 +174,12 @@ const AddNotePopup: React.FC<AddNotePopupProps> = ({
                     onChange={handleCheckboxChange}
                   />
                 }
-                label={<strong> Applicable To</strong>}
+                label={
+                  <span>
+                    <strong> Applicable To</strong>
+                    <span style={{ color: 'red' }}> *</span>
+                  </span>
+                }
               />
             </Box>
 
@@ -208,7 +214,7 @@ const AddNotePopup: React.FC<AddNotePopupProps> = ({
       </DialogContent>
 
       {/* Actions */}
-      <DialogActions>
+      <DialogActions sx={{ pt: 2, pb: 3, px: 3 }}>
         <Button onClick={onClose} color="error">
           Cancel
         </Button>
