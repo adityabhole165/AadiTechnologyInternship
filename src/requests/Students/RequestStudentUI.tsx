@@ -215,6 +215,10 @@ const StudentUISlice = createSlice({
             state.ISReferenceMessages = action.payload;
             state.Loading = false;
         },
+        ResetFeeDependencyErrorMsg(state) {
+            state.ISReferenceMessages = [];
+            state.Loading = false;
+        },
         getLoading(state, action) {
             state.Loading = true;
         },
@@ -686,4 +690,10 @@ export const CDACheckDependenciesForFees =
             //console.log('StudentStreamDetails:', StudentStreamDetails);
         };
 
+export const ResetFeeDependencyErrorMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            dispatch(StudentUISlice.actions.ResetFeeDependencyErrorMsg());
+        }
 export default StudentUISlice.reducer;

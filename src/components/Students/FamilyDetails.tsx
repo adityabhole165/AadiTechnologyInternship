@@ -80,9 +80,9 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
   useEffect(() => {
     if (family) {
       //console.log('3️⃣family data from Parent', family);
-      console.log('🎈🎈FatherDOB From Parent', family.fatherDOB);
-      console.log('🎈🎈MotherDOB From Parent', family.motherDOB);
-      console.log('🎈🎈Anniversery From Parent', family.marriageAnniversaryDate);
+      // console.log('🎈🎈FatherDOB From Parent', family.fatherDOB);
+      // console.log('🎈🎈MotherDOB From Parent', family.motherDOB);
+      // console.log('🎈🎈Anniversery From Parent', family.marriageAnniversaryDate);
     }
   }, [family]);
 

@@ -52,7 +52,7 @@ import {
 import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
   CDAAddStudentAdditionalDetails, CDACheckDependenciesForFees, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
-  CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails, ResetUpdateStudentMsg
+  CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
@@ -264,9 +264,7 @@ const StudentRegistrationForm = () => {
   const [selectedSiblings, setSelectedSiblings] = useState('');
   //console.log('✅ selectedSiblings', selectedSiblings)
   const [resetTrigger, setResetTrigger] = useState(false);
-  console.log('🎈Father', form.family.fatherDOB);
-  console.log('🎈Mother', form.family.motherDOB);
-  console.log('🎈Anniversery', form.family.marriageAnniversaryDate);
+
   //#region Local States
   const [localstudentData, setLocalStudentData] = useState({});
   useEffect(() => {
@@ -550,16 +548,19 @@ const StudentRegistrationForm = () => {
   //#region hiddenfields
   const oStudentDetails = USGetSingleStudentDetails[0]
   const StudentSiblingName = oStudentDetails?.SiblingStudentName || '';
-  const hidRuleId = oStudentDetails?.Rule_Id; // Old RuleId
-  //const oJoiningDate = oStudentDetails?.Joining_Date.toLocaleString('en', { year: 'numeric', month: 'short', day: '2-digit', });;
-  const hidOldJoiningDate = oStudentDetails?.Joining_Date ? moment(oStudentDetails?.Joining_Date, 'DD-MM-YYYY HH:mm:ss').format('DD-MMM-yyyy') : '';
-  const currentDate = moment(form.admission?.joiningDate).format('DD-MMM-yyyy');
+  const hidRuleId = oStudentDetails?.Rule_Id ?? '0'; // Old RuleId
+  const hidOldJoiningDate = oStudentDetails?.Joining_Date ?
+    moment(oStudentDetails?.Joining_Date, 'DD-MM-YYYY HH:mm:ss').format('DD-MM-YYYY') : '';
+  const currentJoiningDate = form.admission?.joiningDate ?
+    moment(form.admission?.joiningDate, 'DD-MM-YYYY').format('DD-MM-YYYY') : '';
+  console.log(typeof form.admission.applicableRules, form.admission.applicableRules, '🎈',
+    typeof hidRuleId, hidRuleId, '🎈', hidOldJoiningDate, '🎈', currentJoiningDate);
 
-  //console.log(hidOldJoiningDate, '🎈', currentDate);
-  //const monthFromOJoiningDate = oJoiningDate?.split('-')[1]; // e.g., "Sep"
-  const monthFromHidOldJoiningDate = moment(hidOldJoiningDate, 'DD-MMM-YYYY').format('MMM'); // e.g., "Jun"
-  const monthFromCurrentDate = moment(currentDate, 'DD-MMM-YYYY').format('MMM');
-  //console.log(monthFromHidOldJoiningDate, '🎈🎈', monthFromCurrentDate);
+  const hidOldJoiningDateMonth = hidOldJoiningDate ?
+    moment(hidOldJoiningDate, 'DD-MM-YYYY').format('MMM') : 'LOL'; // e.g., "Sep"
+  const currentJoiningDateMonth = currentJoiningDate ?
+    moment(currentJoiningDate, 'DD-MM-YYYY').format('MMM') : 'LOL';
+  console.log(hidOldJoiningDateMonth, '🎈🎈', currentJoiningDateMonth);
 
   const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
   //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
@@ -628,7 +629,7 @@ const StudentRegistrationForm = () => {
           PENNumber: studentData?.PENNumber || '',
           secondlanguage: studentData?.SecondLanguageSubjectId || '',
           thirdlanguage: studentData?.ThirdLanguageSubjectId || '',
-          applicableRules: studentData?.Rule_Id || '',
+          applicableRules: studentData?.Rule_Id || '0',
           staffUserRole: studentData?.User_Role_Id || '',
           staffName: studentData?.staffName || '',
           residenceTypes: studentData?.ResidenceTypeId || '',
@@ -986,7 +987,7 @@ const StudentRegistrationForm = () => {
     asIsOnlyChild: form.admission?.isOnlyChild === false ? 'False' : 'True',
     asMinority: form.admission?.isMinority === false ? 'False' : 'True',
     asRoll_No: form.admission?.studentRollNumber || '',
-    asRule_Id: form.admission?.applicableRules || '',
+    asRule_Id: form.admission?.applicableRules || '0',
     asIsStaffKid: form.admission?.isStaffKid === false ? false : true,
     asHeight: 0, //Not Found on Screen
     asWeight: 0, //Not Found on Screen
@@ -1114,11 +1115,16 @@ const StudentRegistrationForm = () => {
   const CheckDependenciesForFees = async () => {
     //let sMsg = '';
     let bFlag = false;
+    const ruleChanged = hidRuleId !== form.admission?.applicableRules
+    const dateChanged = hidOldJoiningDate !== currentJoiningDate
+    const monthChanged = hidOldJoiningDateMonth !== currentJoiningDateMonth
 
-    if ((hidRuleId !== form.admission?.applicableRules) || ((hidOldJoiningDate) !== currentDate)) {  // ⭐FeeCategory condions remained
+    console.log(ruleChanged, '⚠️', dateChanged, '⚠️', monthChanged);
+
+    if (ruleChanged || dateChanged) {  // ⭐FeeCategory condions remained
       bFlag = true;
 
-      if ((RoleName !== 'SuperAdmin' && monthFromHidOldJoiningDate !== monthFromCurrentDate)) {
+      if ((RoleName !== 'SuperAdmin' && monthChanged)) {
         await dispatch(CDACheckDependenciesForFees(CheckDependenciesForFeesBody));
 
         console.log(RoleName, "⚠️Executing CheckDependenciesForFees API", CheckDependenciesForFeesBody);
@@ -1129,6 +1135,8 @@ const StudentRegistrationForm = () => {
     return { bFlag };
 
   }
+  useEffect(() => { CheckDependenciesForFees() },    //Safety regards
+    [currentJoiningDate, currentJoiningDateMonth, form.admission?.applicableRules])
 
   const executeApiCalls = async (
     updateStudentBody,
@@ -1143,7 +1151,7 @@ const StudentRegistrationForm = () => {
       await dispatch(CDAUpdateStudent(updateStudentBody));
 
       // Add Additional Student Details
-      if (IsAdditionalFieldsApplicable && additionalDetailsBody) {
+      if (IsAdditionalFieldsApplicable) {
         console.log('Sending additional details:', additionalDetailsBody);
         await dispatch(CDAAddStudentAdditionalDetails(additionalDetailsBody));
         // Transport Fee Logic
@@ -1191,6 +1199,16 @@ const StudentRegistrationForm = () => {
       return;
     }
 
+    // First check dependencies
+    await CheckDependenciesForFees();
+
+    // Check if there's any blocking message from the dependency check
+    if (ReferenceMessages[0]?.ReferenceMsg) {
+      toast.warning(ReferenceMessages[0].ReferenceMsg);
+      setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
+      return;
+    }
+
     // Check if popup needs to open
     const shouldOpenPopup = !!StudentSiblingName; // Popup opens if sibling name exists
     if (shouldOpenPopup) {
@@ -1198,7 +1216,7 @@ const StudentRegistrationForm = () => {
       return; // Do not proceed with API calls in this flow
     }
 
-    // const bFlag = await CheckDependenciesForFees();  // Only working on 2nd Execution
+    //const bFlag = await CheckDependenciesForFees();  // Only working on 2nd Execution
 
     // if (bFlag.bFlag) {
     //   console.log('⚠️ bFlag triggered:', bFlag);
@@ -1227,7 +1245,8 @@ const StudentRegistrationForm = () => {
       console.log(
         '✅ Form submitted successfully with all API calls completed!'
       );
-      setShowValidation(false); // Hide validation display
+      setShowValidation(false);
+      setFeeDependencyError(''); // Hide validation display
     } catch (error) {
       console.error('🚨 Error during form submission or API calls:', error);
     }
@@ -1243,13 +1262,14 @@ const StudentRegistrationForm = () => {
       return;
     }
     // Enable validation display
+    await CheckDependenciesForFees();
 
-    // const { sMsg, bFlag } = CheckDependenciesForFees();
-
-    // if (sMsg == "") {
-    //   toast.warning(sMsg);
-    //   return;
-    // }
+    // Check if there's any blocking message from the dependency check
+    if (ReferenceMessages[0]?.ReferenceMsg) {
+      toast.warning(ReferenceMessages[0].ReferenceMsg);
+      setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
+      return;
+    }
     // Proceed with API calls when the popup Save button is clicked
     try {
       console.log('Popup validation passed! Proceeding with sibling and other API calls...');
@@ -1269,7 +1289,7 @@ const StudentRegistrationForm = () => {
   //#endregion
 
   useEffect(() => {
-    console.log('✅UpdateStudentResult:', UpdateStudentResult);
+    //console.log('✅UpdateStudentResult:', UpdateStudentResult);
     if (UpdateStudentResult !== null && Object.keys(UpdateStudentResult).length > 0) {
       if (UpdateStudentResult.iReturnValue === 3 && !UpdateStudentResult.IsRollNumberDuplicate && !UpdateStudentResult.IsRegisterNoAlreadyPresent
         && !UpdateStudentResult.IsGeneralRegisterNoAlreadyPresent && !UpdateStudentResult.IsStudentUniqueNoAlreadyPresent
@@ -1316,7 +1336,11 @@ const StudentRegistrationForm = () => {
       dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
     }
     dispatch(ResetUpdateStudentMsg());
-  }, [TrackingId]);
+
+    if (currentJoiningDate === hidOldJoiningDate) {
+      dispatch(ResetFeeDependencyErrorMsg());
+    }
+  }, [TrackingId, currentJoiningDate, form.admission.applicableRules, form.admission.joiningDate]);
 
   //#region EventHandlers
   const handleAdmissionChange = (name: string, value: any) => {
