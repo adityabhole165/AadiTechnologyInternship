@@ -345,8 +345,8 @@ function Form13() {
         return false;
       }
 
-      if (fileData?.size >= 50e6) {
-        setFilerror('Total file size should be less than 50 MB.');
+      if (fileData?.size > 11e6) {
+        setFilerror('Total file size should be less than 10 MB.');
         return false;
       }
       setFilerror(null);
@@ -761,7 +761,7 @@ function Form13() {
   };
   const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
   //const MaxfileSize = 10000000;
-  const MaxfileSize = 50000000;
+  const MaxfileSize = 10000000;
   // const ValidFileTypes2 =  ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
   const ValidFileTypes2 = [
     'DOC',
@@ -1266,7 +1266,10 @@ function Form13() {
                   </Button>
                 </Tooltip>
 
-                <Box sx={{  width: '220px' }}>
+                {/* <Box sx={{ width: '220px' }}>
+                  <Errormessages Error={fileerror} />
+                </Box> */}
+                <Box sx={{ width: '220px', mt: 1.5 }}>
                   <Errormessages Error={fileerror} />
                 </Box>
               </Grid>
@@ -1413,40 +1416,40 @@ function Form13() {
               </Grid>
 
 
-              <Grid item xs={6} sx={{ mt: 0, ml: '1px' }}>
+              <Grid item xs={6} sx={{ mb: 2, ml: '1px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Grid>
               <Grid container spacing={1} sx={{ ml: 1 }}>
-              <Grid item xs={11.9} 
-              sx={messageCenter}
-              >
-                <Box sx={{}}>
-                  {/* <ReactQuill value={formik.values.Content}
+                <Grid item xs={11.9}
+                  sx={messageCenter}
+                >
+                  <Box sx={{}}>
+                    {/* <ReactQuill value={formik.values.Content}
                     onChange={(content) => formik.setFieldValue('Content', content)}
                     modules={toolbarOptions}
                     style={{ height: '20vh', resize: 'vertical' }} /> */}
-                  {/* <QuillEditor formik={formik} /> */}
-                  <JoditEditor
-                    ref={editor}
-                    value={formik.values.Content}
-                    config={editorConfig}
-                    onChange={(newContent) => {
-                      formik.setFieldValue('Content', newContent);
-                    }}
-                  />
-                  
-                </Box>
-                <Errormessages Error={contenterror} />
-                <Box mb={0.5}>
-                  {formik.touched.Content && formik.errors.Content ? (
-                    <ErrorMessage1 Error={formik.errors.Content} />
-                  ) : null}
-                </Box>
-              </Grid>
-              <Grid item xs={0.1} sm={0.1} >
-              <span style={{ color: 'red' }}>*</span>
-              </Grid>
+                    {/* <QuillEditor formik={formik} /> */}
+                    <JoditEditor
+                      ref={editor}
+                      value={formik.values.Content}
+                      config={editorConfig}
+                      onChange={(newContent) => {
+                        formik.setFieldValue('Content', newContent);
+                      }}
+                    />
+
+                  </Box>
+                  <Errormessages Error={contenterror} />
+                  <Box mb={0.5}>
+                    {formik.touched.Content && formik.errors.Content ? (
+                      <ErrorMessage1 Error={formik.errors.Content} />
+                    ) : null}
+                  </Box>
+                </Grid>
+                <Grid item xs={0.1} sm={0.1} >
+                  <span style={{ color: 'red' }}>*</span>
+                </Grid>
               </Grid>
               <Grid item xs={12} sm={12} sx={{ mb: 5, }}>
                 {PageName === 'Reply' || PageName === 'Forwa' ? (
