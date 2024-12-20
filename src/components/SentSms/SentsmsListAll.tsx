@@ -78,7 +78,7 @@ function SentsmsListAll({ isPrincipal, ItemList, HeaderArray, ClickHeader, click
                                         display: 'flex',
                                         alignItems: 'center',
                                         gap: 2,
-                                        justifyContent: i < 3 ? 'flex-start' : 'center', // Left-align for index 1 and 2, center for others
+                                        justifyContent: i < 3 ? 'flex-start' : 'flex-start', // Left-align for index 1 and 2, center for others
                                     }}>
                                         <b>{item.Header}</b>
                                         {item.SortOrder !== null && i >= 1 && i < 3 ? ( // Show sorting icons only for index 1 and 2
