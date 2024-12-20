@@ -260,6 +260,12 @@ const GenerateAll = ({ }) => {
         dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
     }, [IsTotalConsiderForProgressReport]);
 
+    const GetViewResultBody: IViewBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcadmeicYearId),
+        asStudentId: Number(asStudentId),
+        asWithGrace: 0,
+    };
     useEffect(() => {
         const GetViewResultBody: IViewBody = {
             asSchoolId: Number(asSchoolId),
@@ -314,7 +320,7 @@ const GenerateAll = ({ }) => {
         await dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
         dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
         setIsResultGenerated(true); // Set the result as generated
-
+        dispatch(ViewResultGA(GetViewResultBody));
     };
 
     // const handleVisibilityClick = () => {
