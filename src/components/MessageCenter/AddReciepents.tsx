@@ -176,6 +176,7 @@ const AddReciepents = ({
     setSelectedRecipents(updatedRecipients);
     setSelectedRecipentsId(updatedRecipientIds);
   };
+  
   useEffect(() => {
     const asSchoolId = sessionStorage.getItem('SchoolId');
     const roleId = sessionStorage.getItem('RoleId');
@@ -236,6 +237,7 @@ const AddReciepents = ({
 
     if (isComposeSMS) {
       initialTecherStudent.push({ Id: '12', Name: 'Left Students', isActive: false });
+      initialTecherStudent.push({ Id: '7', Name: 'Other Staff', isActive: false }); // Ensure "Other Staff" is added only for ComposeSMS
     }
 
     setTecherStudent(initialTecherStudent);
