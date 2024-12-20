@@ -614,7 +614,7 @@ const AddReciepents = ({
                   )}
                   {(techerStudent1 === '12') && (
                     <DropdownofAddrecipent
-                      sx={{ minWidth: '300px' }}
+                      sx={{ minWidth: '300px' ,mb: 1 }}
                       ItemList={getClass}
                       onChange={leftstudentclassChange}
                       label={'Select Class'}
