@@ -35,6 +35,7 @@ import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Studen
 import SentsmsList from 'src/components/SentSms/SentsmsList';
 import { RootState } from 'src/store';
 import { getDateFormattedDashNew } from 'src/components/Common/Util';
+import SentsmsListAll from 'src/components/SentSms/SentsmsListAll';
 const PageSize = 20;
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -1160,7 +1161,7 @@ const [headerArray1 ,setHeaderArray1] = useState([
                     )
                   }
 
-                  <SentsmsList
+                  <SentsmsListAll
                     HeaderArray={headerArray1}
                     ItemList={SmsListNew}
                     ClickHeader={handleHeaderClick1}
