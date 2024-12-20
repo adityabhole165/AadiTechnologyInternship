@@ -7,7 +7,7 @@ import { grey, yellow } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
-import { getDateFormattedDashNew } from 'src/components/Common/Util';
+import { getDateFormattedNew } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import { IMobileNumber, INewSmsList } from 'src/interfaces/Student/SMSCenter';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
@@ -217,7 +217,7 @@ function ReceivedSMSOwn() {
                                                 <TableCell>
                                                     <Link href={url + row.SMS_Id}>{row.Subject}</Link>
                                                 </TableCell>
-                                                <TableCell>{getDateFormattedDashNew(new Date(row.Date))}</TableCell>
+                                                <TableCell>{getDateFormattedNew(new Date(row.Date))}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

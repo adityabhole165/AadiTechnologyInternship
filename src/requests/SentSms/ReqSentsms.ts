@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiSentsms from 'src/api/SentSms/Sentsms';
-import { getDateFormattedDashNew } from 'src/components/Common/Util';
+import { getDateFormattedNew } from 'src/components/Common/Util';
 import { ICheckIfPersonalAddressExistsBody, ICheckIfPersonalAddressGroupAlreadyExistsBody, IDeletePersonalAddressBookBody, IDeletePersonalAddressBookGroupBody, IDeleteSMSBody, IExportSentItemsBody, IGetAddressBookGroupDetailsBody, IGetAddressBookGroupListBody, IGetAddressBookListBody, IGetDetailsOfGroupsBody, IGetSentItemsBody, IInsertPersonalAddressBookBody, IInsertPersonalAddressBookGroupBody, IUpdatePersonalAddressBookBody, IUpdatePersonalAddressBookGroupBody, ResendSMSBody } from 'src/interfaces/SentSms/Sentsms';
 import { AppThunk } from 'src/store';
 
@@ -22,7 +22,7 @@ const SliceSentsms = createSlice({
     ISGetDetailsOfGroups: [],
     Loading: false,
     ISExportSentItems: [],
-    ISResendSMS:[],
+    ISResendSMS: [],
   },
 
 
@@ -104,7 +104,7 @@ const SliceSentsms = createSlice({
       state.ISResendSMS = action.payload;
     },
 
-    
+
     ResetDelete(state,) {
       state.ISDeleteSMS = '';
     },
@@ -133,7 +133,7 @@ export const CDAGetSentItems =
           Read_Message_Flag: item.Read_Message_Flag,
           UserName: item.UserName,
           Subject: item.Subject,
-          Insert_Date:  getDateFormattedDashNew(item.Insert_Date),
+          Insert_Date: getDateFormattedNew(item.Insert_Date),
           Id: item.SMS_Id,
           SMS_Receiver_Details_Id: item.SMS_Receiver_Details_Id,
           StatusId: item.StatusId,
@@ -361,21 +361,21 @@ export const CDAExportSentItems =
           From: item.From,
           To: item.To,
           SMSText: item.SMSText,
-          SendDate:item.SendDate,
-          
+          SendDate: item.SendDate,
+
 
         };
       });
       dispatch(SliceSentsms.actions.RExportSentItems(SentItems));
     };
 
-    export const CDAResendSMS =
-    (data: ResendSMSBody): AppThunk =>
-      async (dispatch) => {
-        dispatch(SliceSentsms.actions.getLoading(true));
-        const response = await ApiSentsms.ResendSMS(data);
-        dispatch(SliceSentsms.actions.ResendSMS(response.data));
-      };
+export const CDAResendSMS =
+  (data: ResendSMSBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceSentsms.actions.getLoading(true));
+      const response = await ApiSentsms.ResendSMS(data);
+      dispatch(SliceSentsms.actions.ResendSMS(response.data));
+    };
 
 
 export default SliceSentsms.reducer;

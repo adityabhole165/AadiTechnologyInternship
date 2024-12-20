@@ -828,3 +828,39 @@ export const getDateFormattedDashNew = (dateStr) => {
   return `${Day}-${Month}-${Year} ${formattedHours}:${formattedMinutes} ${period}`;
 };
 
+export const getDateFormattedNew = (dateStr) => {
+  let date;
+
+  if (!dateStr) {
+    date = new Date();
+  } else if (typeof dateStr === 'string') {
+    const [day, month, yearTime] = dateStr.split('-');
+    const [year, time] = yearTime.split(' ');
+    const [hours, minutes, seconds] = time.split(':');
+
+    // Convert string parts to numbers and create a Date object
+    date = new Date(
+      +year, // Convert to number
+      +month - 1, // Convert to number and adjust month (0-based index)
+      +day, // Convert to number
+      +hours, // Convert to number
+      +minutes, // Convert to number
+      +seconds // Convert to number
+    );
+  } else {
+    date = new Date(dateStr);
+  }
+
+  const Day = date.getDate();
+  const Month = date.toLocaleString('default', { month: 'short' });
+  const Year = date.getFullYear();
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? 'PM' : 'AM';
+
+  const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+  const formattedMinutes = minutes.toString().padStart(2, '0'); // Ensure two digits for minutes
+
+  return `${Day} ${Month} ${Year} ${formattedHours}:${formattedMinutes} ${period}`;
+};
