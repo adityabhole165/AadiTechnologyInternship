@@ -45,15 +45,6 @@ const ComposeSMSform = () => {
     const [requestSchedule, setRequestSchedule] = useState(false);
     const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
     const [IsConfirm, setIsConfirm] = useState('');
-    const [RecipientsArray, setRecipientsArray] = useState(
-        {
-            RecipientName: [],
-            RecipientId: []
-        }
-    );
-
-    console.log(RecipientsArray,"RecipientsArray");
-    
 
     const [RecipientsObject, setRecipientsObject] = useState<any>({
         RecipientName: [],
@@ -122,16 +113,16 @@ const ComposeSMSform = () => {
         }
     }, [state]);
     useEffect(() => {
-        if(state?.Display_Text !== undefined ){
+        if (state?.Display_Text !== undefined) {
             setContentTemplateDependent(state?.SMS_Text)
-            setRecipientsArray({
+            setRecipientsObject({
                 RecipientName: state?.Display_Text.split(','),
                 RecipientId: state?.UserId.split(',')
             })
         }
     }, [state]);
 
-    
+
     const handleChangeForTemplate = (e) => {
         if (e.target.value != '') {
             const indexValue = e.target.value.indexOf(',')
@@ -213,12 +204,20 @@ const ComposeSMSform = () => {
 
     // Input value for teacher list ,student list ,other staff and admin staff
     const dispatch = useDispatch();
+    const [recipients, setRecipients] = useState(
+        RecipientsObject.RecipientName || []
+    );
+
+    useEffect(() => {
+        setRecipients(RecipientsObject.RecipientName || []);
+    }, [RecipientsObject.RecipientName]);
 
     // List of classes of students
     const getSendSMS: any = useSelector(
         (state: RootState) => state.getASendSMS.ASendSMS
     );
     const handleOpenDialog = (isRecipients) => {
+        setIsConfirm('');
         setOpenDialog(true);
     };
     const handleOpenDialog1 = (p0: boolean) => {
@@ -304,7 +303,7 @@ const ComposeSMSform = () => {
     const formik = useFormik({
         initialValues: {
             From: senderUserName,
-            To: RecipientsArray.RecipientName.toString(),
+            To: RecipientsObject.RecipientName.toString(),
             Content: ContentTemplateDependent
         },
         onSubmit: () => {
@@ -312,7 +311,7 @@ const ComposeSMSform = () => {
         },
         validate: (values) => {
             const errors: any = {};
-            if (RecipientsArray.RecipientName.toString().length == 0) {
+            if (RecipientsObject.RecipientName.toString().length == 0) {
                 errors.To = 'Atleast one recipient should be selected.';
             }
             if (ContentTemplateDependent == undefined || ContentTemplateDependent == '') {
@@ -331,7 +330,7 @@ const ComposeSMSform = () => {
                 Body: ContentTemplateDependent,
                 Subject: "",
                 SenderName: senderUserName,
-                DisplayText: RecipientsArray.RecipientName.toString(),
+                DisplayText: RecipientsObject.RecipientName.toString(),
                 SenderUserId: asUserId,
                 SenderUserRoleId: userRoleId,
                 AcademicYearId: asAcademicYearId,
@@ -339,7 +338,7 @@ const ComposeSMSform = () => {
                 InsertedById: asUserId,
                 Attachment: ""
             },
-            asSelectedUserIds: RecipientsArray.RecipientId.toString(),
+            asSelectedUserIds: RecipientsObject.RecipientId.toString(),
             asSelectedStDivId: "",
             asIsSoftwareCordinator: 0,
             asMessageId: 0,
@@ -391,7 +390,7 @@ const ComposeSMSform = () => {
 
     const RecipientsListFun = (e) => {
         clickConfirmFunc(e);
-        setRecipientsArray(e);
+        setRecipientsObject(e);
         setdisplayOfTo_RecipientsPage('none');
         setdisplayOfCompose_Page('block');
     };
@@ -526,15 +525,16 @@ const ComposeSMSform = () => {
             })
         }
     }
-    const handleDelete = (index) => {
-        const updatedRecipients = RecipientsArray.RecipientName.filter(
-            (_, i) => i !== index
+    const handleDelete = (chipToDelete, index) => {
+        const updatedRecipients = recipients.filter(
+            (recipient, i) => i !== index
         );
-
+        setRecipients(updatedRecipients);
         // Update the parent state
-        setRecipientsArray((prev) => ({
+        setRecipientsObject((prev) => ({
             ...prev,
-            RecipientName: updatedRecipients,
+            RecipientName: prev.RecipientName.filter((recipient, i) => i !== index),
+            RecipientId: prev.RecipientId.filter((recipient, i) => i !== index),
         }));
     };
     return (
@@ -726,11 +726,11 @@ const ComposeSMSform = () => {
                                                 <Box
                                                     sx={{ display: 'flex', flexWrap: 'wrap', overflowY: 'scroll', minWidth: '100%', height: '100px' }}
                                                 >
-                                                    {RecipientsArray.RecipientName.map((recipient, index) => (
+                                                    {recipients.map((recipient, index) => (
                                                         <Chip
                                                             key={index}
-                                                            label={recipient.trim()}
-                                                            onDelete={() => handleDelete(index)}
+                                                            label={recipient?.trim()}
+                                                            onDelete={() => handleDelete(recipient, index)}
                                                             sx={{ my: 1, mx: 0.5, }}
                                                         />
                                                     ))}
