@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-function SentsmsList({ isPrincipal ,ItemList, HeaderArray, ClickHeader, clickEdit, clickchange,clickTitle}) {
+function SentsmsListAll({ isPrincipal, ItemList, HeaderArray, ClickHeader, clickEdit, clickchange, clickTitle }) {
 
 
     // Function to handle sorting on headers
@@ -72,21 +72,22 @@ function SentsmsList({ isPrincipal ,ItemList, HeaderArray, ClickHeader, clickEdi
                                 <TableCell
                                     key={i}
                                     sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1.5 }}
-                                    onClick={i < 3 ? () => clickHeader(item.Id) : null} // Make only the first 3 headers clickable
+                                    onClick={i >= 1 && i < 3 ? () => clickHeader(item.Id) : null} // Make only the second (index 1) and third (index 2) headers clickable
                                 >
                                     <div style={{
                                         display: 'flex',
                                         alignItems: 'center',
                                         gap: 2,
-                                        justifyContent: i < 3 ? 'flex-start' : 'center', // Left-align for the first three headers, center for others
+                                        justifyContent: i < 3 ? 'flex-start' : 'flex-start', // Left-align for index 1 and 2, center for others
                                     }}>
                                         <b>{item.Header}</b>
-                                        {item.SortOrder !== null && i < 3 ? ( // Show sorting icons only for the first 3 columns
-                                            item.SortOrder === "DESC" ? <ArrowCircleDown /> : < ArrowCircleUpIcon />
+                                        {item.SortOrder !== null && i >= 1 && i < 3 ? ( // Show sorting icons only for index 1 and 2
+                                            item.SortOrder === "DESC" ? <ArrowCircleDown /> : <ArrowCircleUpIcon />
                                         ) : null}
                                     </div>
                                 </TableCell>
                             ))}
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -99,37 +100,37 @@ function SentsmsList({ isPrincipal ,ItemList, HeaderArray, ClickHeader, clickEdi
                                     />
                                 </TableCell>
 
-                              {isPrincipal &&
-                              <Tooltip title={item.SenderName}>
-                                <TableCell  sx={{
-                                    textTransform: 'capitalize',
-                                    textAlign: 'left',
-                                    py: 0.5,
-                                    width: '200px', // Fixed width
-                                    maxWidth: '200px', // Prevent resizing
-                                    whiteSpace: 'nowrap', // Keep text on one line
-                                    overflow: 'hidden', // Hide overflow content
-                                    textOverflow: 'ellipsis', // Add ellipsis for overflow
-                                }}>
-                                    {item.SenderName}
-                                    
-                                </TableCell>
-                                </Tooltip>
+                                {isPrincipal &&
+                                    <Tooltip title={item.SenderName}>
+                                        <TableCell sx={{
+                                            textTransform: 'capitalize',
+                                            textAlign: 'left',
+                                            py: 0.5,
+                                            width: '200px', // Fixed width
+                                            maxWidth: '200px', // Prevent resizing
+                                            whiteSpace: 'nowrap', // Keep text on one line
+                                            overflow: 'hidden', // Hide overflow content
+                                            textOverflow: 'ellipsis', // Add ellipsis for overflow
+                                        }}>
+                                            {item.SenderName}
+
+                                        </TableCell>
+                                    </Tooltip>
                                 }
-                                
+
                                 <Tooltip title={item.UserName}>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
-                               
-                                    {item.UserName}
-                                    
-                                </TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
+
+                                        {item.UserName}
+
+                                    </TableCell>
                                 </Tooltip>
 
 
 
                                 <TableCell sx={{ textAlign: 'left', py: 0.5 }}>
                                     <Link href={''} onClick={() => clickTitle(item.Id)}>
-                                    {item.Subject}
+                                        {item.Subject}
                                     </Link>
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
@@ -164,4 +165,4 @@ function SentsmsList({ isPrincipal ,ItemList, HeaderArray, ClickHeader, clickEdi
     );
 }
 
-export default SentsmsList;
+export default SentsmsListAll;
