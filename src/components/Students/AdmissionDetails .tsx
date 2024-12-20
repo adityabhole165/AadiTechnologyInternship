@@ -521,8 +521,11 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
               value={admission.registrationNumber}
               defaultValue={admission.registrationNumber}
               onChange={handleInputChange}
-              error={!!validationMessages.registrationNumber}
-              helperText={validationMessages.registrationNumber ? 'Registration Number should not be blank.' : ''}
+              error={!!validationMessages.registrationNumber || admission.registrationNumber === '0'}
+              helperText={validationMessages.registrationNumber ? 'Registration Number should not be blank.'
+                : admission.registrationNumber === '0'
+                  ? 'Registration number should not be zero.'
+                  : ''}
               sx={{ cursor: 'pointer' }}
               fullWidth
               inputProps={{
@@ -539,7 +542,7 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             size={'medium'}
             label={'Admission Date'}
             error={!!validationMessages.admissionDate}
-            helperText={validationMessages.admissionDate ? 'Admission date should not be blank.' : ''}
+            helperText={validationMessages.admissionDate ? 'Addmission date should not be blank.' : ''}
             maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
           />
           {/* {validationMessages.admissionDate && (

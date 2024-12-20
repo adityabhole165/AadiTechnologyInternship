@@ -920,9 +920,12 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   error={!!validationMessages.pin}
                   helperText={validationMessages.pin ? 'PIN Code should not be blank.' : ''}
                   fullWidth
-                  inputProps={{
-                    maxLength: 6,
-                    typeof: 'number', // Restricts the input length to 50 characters
+                  type='number'
+                  onInput={(e) => {
+                    const input = e.target as HTMLInputElement;
+                    if (input.value.length > 6) {
+                      input.value = input.value.slice(0, 5); // Limit to 3 digits
+                    }
                   }}
                 />
               </Grid>
@@ -1134,9 +1137,12 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 value={personal.aadharCardNumber}
                 onChange={handleInputChange}
                 fullWidth
-                inputProps={{
-                  maxLength: 12, // Restricts the input length to 12 characters
-                  typeof: 'number',
+                type='number'
+                onInput={(e) => {
+                  const input = e.target as HTMLInputElement;
+                  if (input.value.length > 12) {
+                    input.value = input.value.slice(0, 11); // Limit to 3 digits
+                  }
                 }}
               />
             </Grid>
