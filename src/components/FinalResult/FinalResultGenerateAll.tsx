@@ -1,5 +1,5 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,6 @@ const GenerateAll = ({ }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { asStudentId, isGenerated, IsView, stdId } = useParams();
-    //console.log("asStudentId", asStudentId);
 
     const asAcadmeicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
@@ -31,15 +30,12 @@ const GenerateAll = ({ }) => {
     const ExamDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getExamDetails);
     const TestMarksDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getTestMarksGA);
     const SubjectDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetails);
-    // console.log(SubjectDetails, 'SubjectDetails');
     const MarkDetailsList = useSelector((state: RootState) => state.FinalResultGenerateAll.MarkDetailsList);
     const HeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.HeaderArray);
     const SubHeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.SubHeaderArray);
     const ShortenTestDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getShortenTestDetails);
     const EntireDataList: any = useSelector((state: RootState) => state.FinalResultGenerateAll.EntireDataList);
     const ListDisplayNameDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.ListDisplayNameDetails);
-    console.log(ListDisplayNameDetails, "rows");
-
     const ViewProgress = useSelector((state: RootState) => state.FinalResultGenerateAll.getViewResult);
     const MarkDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getMarkDetailsView);
     const SubjectDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetailsView);
@@ -58,8 +54,6 @@ const GenerateAll = ({ }) => {
     useEffect(() => {
         if (UsGetSchoolSettings != null)
             setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
-        console.log(IsTotalConsiderForProgressReport, "IsTotalConsiderForProgressReport ✅✅✅✅");
-        // setIsTotalConsiderForProgressReport('False');
     }, [UsGetSchoolSettings])
 
     const getListDisplayName = (ShortName) => {
@@ -75,20 +69,100 @@ const GenerateAll = ({ }) => {
     useEffect(() => {
         if (UsGetSchoolSettings != null)
             setTotalCount(UsGetSchoolSettings?.GetSchoolSettingsResult?.ToppersCount.toString());
-        console.log(totalCount, 'this is count setting');
-
     }, [UsGetSchoolSettings])
-    useEffect(() => {
-        console.log("isGenerated 🎯🎯🎯🎯🎯", MarkDetailsList);
 
-    }, [MarkDetailsList])
+    // Edit Table Cell Data 
+    const [marksListArray, setMarksListArray] = useState([]);
+    useEffect(() => {
+        console.log('MarkDetailsList', MarkDetailsList);
+
+    }, [MarkDetailsList]);
+    useEffect(() => {
+        if (MarkDetailsList.length > 0) {
+            setMarksListArray(MarkDetailsList);
+        }
+    }, [MarkDetailsList]);
+    function findMarksScored(testId, testMarksId, subMarksId, testTypeId) {
+        // MarkDetailsList
+        const testObject = MarkDetailsList.find(obj => obj.Test_Id === testId);
+        if (testObject) {
+            const marksArray = testObject.MarksArr;
+            const mark = marksArray.find(mark => mark.schoolWiseStudentTestMarksId === testMarksId && mark.testwiseSubjectMarksId === subMarksId && mark.testType === testTypeId);
+            if (mark) {
+                return mark.MarksScored;
+            }
+            return null;
+        }
+    }
+    function updateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
+        setMarksListArray(prevArray => {
+            return prevArray.map(testObject => {
+                if (testObject.Test_Id === testId) {
+                    return {
+                        ...testObject,
+                        MarksArr: testObject.MarksArr.map(mark => {
+                            if (mark.schoolWiseStudentTestMarksId === testMarksId && mark.testwiseSubjectMarksId === subMarksId && mark.testType === testTypeId && mark.isEdit) {
+                                return {
+                                    ...mark,
+                                    MarksScored: MarksScored
+                                };
+                            }
+                            return mark;
+                        })
+                    };
+                }
+                return testObject;
+            });
+        });
+    }
+    function onBlurUpdateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
+        setMarksListArray(prevArray => {
+            return prevArray.map(testObject => {
+                if (testObject.Test_Id === testId) {
+                    return {
+                        ...testObject,
+                        MarksArr: testObject.MarksArr.map(mark => {
+                            if (mark.schoolWiseStudentTestMarksId === testMarksId && mark.testwiseSubjectMarksId === subMarksId && mark.testType === testTypeId && mark.isEdit) {
+                                return {
+                                    ...mark,
+                                    MarksScored: '0'
+                                };
+                            }
+                            return mark;
+                        })
+                    };
+                }
+                return testObject;
+            });
+        });
+    }
+    function resetUpdateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
+        setMarksListArray(prevArray => {
+            return prevArray.map(testObject => {
+                if (testObject.Test_Id === testId) {
+                    return {
+                        ...testObject,
+                        MarksArr: testObject.MarksArr.map(mark => {
+                            if (mark.schoolWiseStudentTestMarksId === testMarksId && mark.testwiseSubjectMarksId === subMarksId && mark.testType === testTypeId && mark.isEdit) {
+                                return {
+                                    ...mark,
+                                    MarksScored: findMarksScored(testId, testMarksId, subMarksId, testTypeId)
+                                };
+                            }
+                            return mark;
+                        })
+                    };
+                }
+                return testObject;
+            });
+        });
+    }
 
     // #region Parent Header 
     const [dataList, setDataList] = useState<any>({});
     const [hasParentHeader, setHasParentHeader] = useState(false);
     useEffect(() => {
         setDataList(EntireDataList);
-        console.log(dataList, "dataList");
         if (EntireDataList?.listSubjectsDetails?.find((item) => item.Parent_Subject_Id !== '0')) {
             setHasParentHeader(true);
         } else {
@@ -154,7 +228,6 @@ const GenerateAll = ({ }) => {
                 ans.push({ ...item, rowSpan: 2, colSpan: getColSpan(item.Subject_Id) }); // Corrected push syntax //3
             } else if (!ParentSubArr.includes(item.Parent_Subject_Id)) { // For child subjects with unique Parent_Subject_Id
                 ParentSubArr.push(item.Parent_Subject_Id);
-                console.log(item.Parent_Subject_Id);
                 ans.push({
                     ...item,
                     Subject_Name: findName(item.Parent_Subject_Id),
@@ -164,7 +237,6 @@ const GenerateAll = ({ }) => {
             }
             // No need for return since map is only used for iteration
         });
-        console.log('ans ⭐⭐🦥🔥', ans);
         return ans;
     }
     function findRow2() {
@@ -177,14 +249,14 @@ const GenerateAll = ({ }) => {
         });
     }
     // #endregion
-    useEffect(() => {
-        const GetStudentPrrogressReportBody: IGetStudentPrrogressReportBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcadmeicYearId: Number(asAcadmeicYearId),
-            asStudentId: Number(asStudentId),
-            asUserId: Number(asUserId)
-        };
+    const GetStudentPrrogressReportBody: IGetStudentPrrogressReportBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcadmeicYearId: Number(asAcadmeicYearId),
+        asStudentId: Number(asStudentId),
+        asUserId: Number(asUserId)
+    };
 
+    useEffect(() => {
         dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
     }, [IsTotalConsiderForProgressReport]);
 
@@ -205,35 +277,42 @@ const GenerateAll = ({ }) => {
     };
 
     const getXML = () => {
-        let sXML =
-            '<SchoolWiseStudentTestMarksDetails>';
-        Itemlist.map((Item) => {
-            sXML =
-                sXML +
-                '<SchoolWiseStudentTestMarksDetail >' +
-                '<School_Id>' + asSchoolId + '</School_Id>' +
-                '<Academic_Year_Id=>' + asAcadmeicYearId + '</Academic_Year_Id=>' +
-                '<Student_Id>' + Item.Student_Id + '</Student_Id>' +
-                '<TestWise_Subject_Marks_Id>' + Item.TestWise_Subject_Marks_Id + '</TestWise_Subject_Marks_Id>' +
-                '<SchoolWise_Student_Test_Marks_Id>' + Item.SchoolWise_Student_Test_Marks_Id + '</SchoolWise_Student_Test_Marks_Id>' +
-                '<TestType_Id>' + Item.TestType_Id + '</TestType_Id>' +
-                '<Marks_Scored>' + Item.Marks_Scored + '</Marks_Scored> ' +
-                '<Assigned_Grade_Id>' + Item.Grade_id + '</Assigned_Grade_Id> ' +
-                '/>';
+        let sXML = '<SchoolWiseStudentTestMarksDetails>';
+        // Ensure that marksListArray and StudentDetailsUS are properly populated before using them
+        const studentID = StudentDetailsUS[0]?.Id;
+        // Loop over marksListArray to create XML for each item
+        marksListArray.forEach((marksItem) => {
+            // Loop over the MarksArr within each marksItem to generate individual entries
+            marksItem.MarksArr.forEach((mark) => {
+                // Checking if isEdit is true before generating the XML entry and the student is not absent
+                if (mark.isEdit && mark.IsAbsent === 'N') {
+                    sXML +=
+                        '<SchoolWiseStudentTestMarksDetail ' +
+                        'School_Id="' + asSchoolId + '" ' +
+                        'Academic_Year_Id="' + asAcadmeicYearId + '" ' +
+                        'Student_Id="' + studentID + '" ' +
+                        'TestWise_Subject_Marks_Id="' + mark.testwiseSubjectMarksId + '" ' +
+                        'SchoolWise_Student_Test_Marks_Id="' + mark.schoolWiseStudentTestMarksId + '" ' +
+                        'TestType_Id="' + mark.testType + '" ' +
+                        'Marks_Scored="' + mark.MarksScored + '" ' +
+                        'Assigned_Grade_Id="" />';
+                }
+            });
         });
 
-        sXML = sXML + '</SchoolWiseStudentTestMarksDetails>';
+        sXML += '</SchoolWiseStudentTestMarksDetails>';
         return sXML;
     };
 
-    const onSaveGenerate = () => {
+    const onSaveGenerate = async () => {
         const UpdateStudentTestMarksBody: IUpdateStudentTestMarksBody = {
             asschoolId: Number(asSchoolId),
             asStudentMarkDetails: getXML(),
-            asUpdatedById: 0,
-            asUseAvarageFinalResult: ""
+            asUpdatedById: Number(asUserId),
+            asUseAvarageFinalResult: "Y"
         };
-        dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
+        await dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
+        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
         setIsResultGenerated(true); // Set the result as generated
 
     };
@@ -273,6 +352,7 @@ const GenerateAll = ({ }) => {
         }
         return result;
     }
+    const [temp, setTemp] = useState('8');
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -439,8 +519,6 @@ const GenerateAll = ({ }) => {
                                                                                     {item.Is_CoCurricularActivity == "True" && (
                                                                                         <span style={{ color: 'red' }}>*</span>
                                                                                     )}
-
-
                                                                                 </b>
 
 
@@ -542,26 +620,53 @@ const GenerateAll = ({ }) => {
                                                 </TableRow>
                                             </TableHead>
 
-                                            {MarkDetailsList.length > 0 && MarkDetailsList.map((testItem, i) => (
+                                            {marksListArray.length > 0 && marksListArray.map((testItem, i) => (
                                                 <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center', }}>
                                                     <TableRow>
                                                         <TableCell sx={{ py: 1, alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, maxWidth: '100%', minWidth: '300px' }}>
                                                             <b> {testItem.TestName}</b>
                                                         </TableCell>
-
                                                         {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell sx={{ py: 1, alignItems: 'center', fontWeight: i === MarkDetailsList.length - 1 ? 'bold' : 'normal', textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}` }}>
-                                                                <span style={{ fontWeight: MarkItem?.IsGrades === 'Y' || i === MarkDetailsList.length - 1 ? 'bold' : 'normal' }}>
+                                                            <TableCell sx={{ py: 1, alignItems: 'center', fontWeight: i === marksListArray.length - 1 ? 'bold' : 'normal', textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`, minWidth: '150px', width: '150px' }}>
+                                                                <span style={{ fontWeight: MarkItem?.IsGrades === 'Y' || i === marksListArray.length - 1 ? 'bold' : 'normal', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                                                     {
                                                                         !MarkItem
                                                                             ? '-'
-                                                                            : (MarkItem?.MarksScored === ''
+                                                                            : (MarkItem?.MarksScored === undefined || MarkItem?.MarksScored === null || MarkItem?.MarksScored === '-'
                                                                                 ? '-'
                                                                                 : (MarkItem?.IsAbsent !== 'N'
                                                                                     ? getRemarkForGradeCell(MarkItem.IsAbsent)
-                                                                                    : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null
+                                                                                    : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null || MarkItem?.MarksScored === '-'
                                                                                         ? '-'
-                                                                                        : MarkItem.MarksScored + (MarkItem.TotalMarks === "-" ? "" : (" / " + MarkItem.TotalMarks))
+                                                                                        : <>
+                                                                                            {MarkItem?.isEdit && i !== marksListArray.length - 1
+                                                                                                ? <TextField
+                                                                                                    size="small"
+                                                                                                    value={MarkItem?.MarksScored}
+                                                                                                    inputProps={{
+                                                                                                        maxLength: 3,
+                                                                                                        pattern: '[0-9]*'
+                                                                                                    }}
+                                                                                                    onChange={(e) => {
+                                                                                                        const value = e.target.value.replace(/[^0-9]/g, '')
+                                                                                                        if (value.length <= 3) {
+                                                                                                            updateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, value, MarkItem.testType);
+                                                                                                        }
+                                                                                                    }}
+                                                                                                    onBlur={(e) => {
+                                                                                                        if (e.target.value === '') {
+                                                                                                            onBlurUpdateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, '0', MarkItem.testType);
+                                                                                                        } else if (Number(e.target.value) > Number(MarkItem.TotalMarks)) {
+                                                                                                            resetUpdateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, '0', MarkItem.testType);
+
+                                                                                                        }
+                                                                                                    }}
+                                                                                                    sx={{ width: '60px', marginRight: '8px' }}
+                                                                                                />
+                                                                                                : MarkItem.MarksScored
+                                                                                            }
+                                                                                            {MarkItem.TotalMarks !== "-" && ` / ${MarkItem.TotalMarks}`}
+                                                                                        </>
                                                                                     )
                                                                                 )
                                                                             )
