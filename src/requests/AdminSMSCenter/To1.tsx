@@ -109,6 +109,7 @@ export const GetGetAdminAndprincipalUsers =
     async (dispatch) => {
       dispatch(GetuserSlice1.actions.getLoading());
       const response = await getuserlistapi.GetGetAdminAndprincipalUsers(data);
+      const isComposeSMS = location.pathname.includes('ComposeSMS');
       let AddResipent = [];
       if (sessionStorage.getItem('RoleId') === '3') {
         AddResipent = response.data.GetAdminAndprincipalUsersResult.filter(
@@ -137,7 +138,11 @@ export const GetGetAdminAndprincipalUsers =
             };
           }
         );
+        if (isComposeSMS) {
+          AddResipent = AddResipent.filter((item) => item.Name !== 'S/W Coordinator');
+        }
       }
+
       dispatch(GetuserSlice1.actions.getGetAdminAndprincipalUsers(AddResipent));
     };
 
