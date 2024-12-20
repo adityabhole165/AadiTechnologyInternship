@@ -851,7 +851,7 @@ export const getDateFormattedNew = (dateStr) => {
     date = new Date(dateStr);
   }
 
-  const Day = date.getDate();
+  const Day = String(date.getDate()).padStart(2, '0');
   const Month = date.toLocaleString('default', { month: 'short' });
   const Year = date.getFullYear();
 
