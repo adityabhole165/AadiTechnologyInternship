@@ -57,8 +57,8 @@ function SentsmsList({ isPrincipal ,ItemList, HeaderArray, ClickHeader, clickEdi
 
     return (
         <>
-            <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
-                <Table aria-label="simple table">
+            <TableContainer component={Box} >
+                <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                     <TableHead>
                         <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                             <TableCell padding="checkbox">
@@ -98,17 +98,33 @@ function SentsmsList({ isPrincipal ,ItemList, HeaderArray, ClickHeader, clickEdi
                                         onChange={() => onClick(item.Id)}
                                     />
                                 </TableCell>
-                              {isPrincipal &&
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
-                                    {item.SenderName}
-                                </TableCell>}
-                                
 
+                              {isPrincipal &&
+                              <Tooltip title={item.SenderName}>
+                                <TableCell  sx={{
+                                    textTransform: 'capitalize',
+                                    textAlign: 'left',
+                                    py: 0.5,
+                                    width: '200px', // Fixed width
+                                    maxWidth: '200px', // Prevent resizing
+                                    whiteSpace: 'nowrap', // Keep text on one line
+                                    overflow: 'hidden', // Hide overflow content
+                                    textOverflow: 'ellipsis', // Add ellipsis for overflow
+                                }}>
+                                    {item.SenderName}
+                                    
+                                </TableCell>
+                                </Tooltip>
+                                }
+                                
+                                <Tooltip title={item.UserName}>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
-                                   
+                               
                                     {item.UserName}
                                     
                                 </TableCell>
+                                </Tooltip>
+
 
 
                                 <TableCell sx={{ textAlign: 'left', py: 0.5 }}>
