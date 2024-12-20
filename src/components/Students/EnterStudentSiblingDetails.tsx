@@ -93,6 +93,7 @@ const EnterStudentSiblingDetails = () => {
   const [isAsc, setIsAsc] = useState<boolean>(true);
   const [sortHeader, setSortHeader] = useState<string>('RegNo');
   const [isSearchPerformed, setIsSearchPerformed] = useState(false);
+  const [fileNameError, setFileNameError] = useState('');
 
   // Constants for pagination
   const rowsPerPageOptions = [20, 50, 100, 200];
@@ -103,6 +104,7 @@ const EnterStudentSiblingDetails = () => {
   const handleSearch = (term) => {
     setSearchTerm(term);
     setIsSearchPerformed(true); // Mark search as performed
+    setFileNameError('');
   };
   // useEffect to handle API call on page or rowsPerPage change
   const GetStudentsListBody = {
@@ -128,6 +130,7 @@ const EnterStudentSiblingDetails = () => {
     } else {
       setSelected([]);
     }
+    setFileNameError('');
   };
 
   const handleCheckboxClick = (id) => {
@@ -141,6 +144,7 @@ const EnterStudentSiblingDetails = () => {
     }
 
     setSelected(newSelected);
+    setFileNameError('');
   };
 
   useEffect(() => {
@@ -204,9 +208,11 @@ const EnterStudentSiblingDetails = () => {
     setIsSearchPerformed(false);
     setSelected([]);
     setPage(1);
+    setFileNameError('');
   };
   //#region Save
   const handleSave = () => {
+    let isError = false;
     console.log('Selected IDs:', selected);
     const currentDate = new Date().toLocaleDateString('en-CA'); // Format date as YYYY-MM-DD
 
@@ -225,9 +231,17 @@ const EnterStudentSiblingDetails = () => {
       asUpdatedById: Number(userId),
     }
 
+    if (!Array.isArray(selected) || selected.length === 0) {
+      setFileNameError('At least one student should be selected to save as sibling.');
+      isError = true;
+    } else {
+      setFileNameError('');
+    }
     console.log('Save Payload:', ISaveStudentSiblingDetailsBody);
-    // Call the save API here, passing selectedIds as payload
-    dispatch(CDASaveStudentSiblingDetailsMsg(ISaveStudentSiblingDetailsBody))
+    if (!isError) {
+      // Call the save API here, passing selectedIds as payload
+      dispatch(CDASaveStudentSiblingDetailsMsg(ISaveStudentSiblingDetailsBody))
+    }
 
   };
   useEffect(() => {
@@ -236,6 +250,7 @@ const EnterStudentSiblingDetails = () => {
       dispatch(ResetSaveStudentSiblingDetailsMsg());
       dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
       //handleClearSearch();
+      setFileNameError('');
       dispatch(CDASearchStudentsList(GetStudentsListBody));
     }
   }, [SaveStudentSiblingDetailsMsg]);
@@ -388,81 +403,93 @@ const EnterStudentSiblingDetails = () => {
         </Typography>
         <AddSiblingStudentTable itemList={GetStudentSiblingList} onDelete={handleDelete} />
       </Box>
-      <Box sx={{ backgroundColor: 'white', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', }}>
-        <Typography variant="h4" sx={{ py: 1, display: 'flex', alignItems: 'start', paddingRight: '7rem' }}>
-          Search for Sibling:
-        </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <TextField
-            sx={{ width: '15vw' }}
-            fullWidth
-            label={
-              <span>
-                Search by Name / Reg. No.<span style={{ color: 'red' }}> </span>
-              </span>
-            }
-            variant="outlined"
-            size="small"
-            value={searchTerm}
-            onChange={(e) => handleSearch(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                handleSearch(searchTerm);
-              }
-            }}
-          />
 
-          <Tooltip title="Search">
-            <IconButton
-              onClick={() => handleSearch(searchTerm)}
-              sx={{
-                background: (theme) => theme.palette.primary.main,
-                color: 'white',
-                marginLeft: '0.5rem',
-                '&:hover': {
-                  backgroundColor: (theme) => theme.palette.primary.dark
+      <Box sx={{ backgroundColor: 'white', pt: 1, marginTop: '1rem', pl: 2 }}>
+        {fileNameError && (
+          <Typography variant="h5" style={{ color: 'red' }}>
+            {fileNameError}
+          </Typography>
+        )}
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+          <Box sx={{ padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Typography variant="h4">
+              Search for Sibling:
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <TextField
+                sx={{ width: '15vw' }}
+                fullWidth
+                label={
+                  <span>
+                    Search by Name / Reg. No.<span style={{ color: 'red' }}> </span>
+                  </span>
                 }
-              }}
-            >
-              <SearchTwoTone />
-            </IconButton>
-          </Tooltip>
+                variant="outlined"
+                size="small"
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch(searchTerm);
+                  }
+                }}
+              />
+
+              <Tooltip title="Search">
+                <IconButton
+                  onClick={() => handleSearch(searchTerm)}
+                  sx={{
+                    background: (theme) => theme.palette.primary.main,
+                    color: 'white',
+                    marginLeft: '0.5rem',
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.palette.primary.dark
+                    }
+                  }}
+                >
+                  <SearchTwoTone />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Box>
         </Box>
       </Box>
-      {isSearchPerformed && SearchStudentsList.length > 0 &&
+      {isSearchPerformed &&
         <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
-          {/* <StudentTable StudentsList={SearchStudentsList} onSelectionChange={handleSelectionChange} /> */}
-          {count > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
-            <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-              <Box component="span" fontWeight="fontWeightBold">
-                {startRecord} to {endRecord}
-              </Box>
-              {' '}out of{' '}
-              <Box component="span" fontWeight="fontWeightBold">
-                {count}
-              </Box>{' '}
-              {count === 1 ? 'record' : 'records'}
-            </Typography>
-          </div> : <span> </span>}
-          <TableContainer component={Paper}>
-            <Table aria-label="simple table"
-              sx={{
-                border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-              }}>
-              <TableHead>
-                <TableRow sx={{
-                  background: (theme) => theme.palette.secondary.main,
-                  color: (theme) => theme.palette.common.white,
-                }}>
-                  <TableCell sx={{ color: "white", py: 1 }}>
-                    <Checkbox
-                      size='small'
-                      indeterminate={selected.length > 0 && selected.length < SearchStudentsList.length}
-                      checked={SearchStudentsList.length > 0 && selected.length === SearchStudentsList.length}
-                      onChange={handleSelectAllClick}
-                    />
-                  </TableCell>
-                  {/* <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+          {SearchStudentsList.length > 0 ? (
+            <>
+              {/* <StudentTable StudentsList={SearchStudentsList} onSelectionChange={handleSelectionChange} /> */}
+              {count > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+                <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                  <Box component="span" fontWeight="fontWeightBold">
+                    {startRecord} to {endRecord}
+                  </Box>
+                  {' '}out of{' '}
+                  <Box component="span" fontWeight="fontWeightBold">
+                    {count}
+                  </Box>{' '}
+                  {count === 1 ? 'record' : 'records'}
+                </Typography>
+              </div> : <span> </span>}
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table"
+                  sx={{
+                    border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+                  }}>
+                  <TableHead>
+                    <TableRow sx={{
+                      background: (theme) => theme.palette.secondary.main,
+                      color: (theme) => theme.palette.common.white,
+                    }}>
+                      <TableCell sx={{ color: "white", py: 1 }}>
+                        <Checkbox
+                          size='small'
+                          indeterminate={selected.length > 0 && selected.length < SearchStudentsList.length}
+                          checked={SearchStudentsList.length > 0 && selected.length === SearchStudentsList.length}
+                          onChange={handleSelectAllClick}
+                        />
+                      </TableCell>
+                      {/* <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
                     <SortableHeader column="RegNo" label="Registration Number" />
                   </TableCell>
                   <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
@@ -471,39 +498,47 @@ const EnterStudentSiblingDetails = () => {
                   <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
                     <SortableHeader column="ClassName" label="Class" />
                   </TableCell> */}
-                  <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
-                  <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
-                  <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {SearchStudentsList.map((student) => (
-                  <TableRow key={student.YearwiseStudentId}
-                    selected={isSelected(student.YearwiseStudentId)}>
-                    <TableCell sx={{ py: 0.5 }}>
-                      <Checkbox
-                        size='small'
-                        checked={isSelected(student.YearwiseStudentId)}
-                        onChange={() => handleCheckboxClick(student.YearwiseStudentId)}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ py: 0.5 }}>{student.RegNo}</TableCell>
-                    <TableCell sx={{ py: 0.5 }}>{student.StudentName}</TableCell>
-                    <TableCell sx={{ py: 0.5 }}>{student.ClassName}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            {endRecord > 19 && (
-              <ButtonGroupComponent
-                rowsPerPage={rowsPerPage}
-                ChangeRowsPerPage={ChangeRowsPerPage}
-                rowsPerPageOptions={rowsPerPageOptions}
-                PageChange={PageChange}
-                pagecount={pagecount}
-              />
-            )}
-          </TableContainer>
+                      <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
+                      <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
+                      <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {SearchStudentsList.map((student) => (
+                      <TableRow key={student.YearwiseStudentId}
+                        selected={isSelected(student.YearwiseStudentId)}>
+                        <TableCell sx={{ py: 0.5 }}>
+                          <Checkbox
+                            size='small'
+                            checked={isSelected(student.YearwiseStudentId)}
+                            onChange={() => handleCheckboxClick(student.YearwiseStudentId)}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ py: 0.5 }}>{student.RegNo}</TableCell>
+                        <TableCell sx={{ py: 0.5 }}>{student.StudentName}</TableCell>
+                        <TableCell sx={{ py: 0.5 }}>{student.ClassName}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                {endRecord > 19 && (
+                  <ButtonGroupComponent
+                    rowsPerPage={rowsPerPage}
+                    ChangeRowsPerPage={ChangeRowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                    PageChange={PageChange}
+                    pagecount={pagecount}
+                  />
+                )}
+              </TableContainer>
+            </>
+          ) : (
+            // <Paper sx={{ padding: 2, textAlign: 'center', backgroundColor: '#D2FDFC' }}>
+            <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+              No record found.
+            </Typography>
+            // </Paper>
+          )}
         </Box>
       }
     </Box>
