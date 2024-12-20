@@ -121,7 +121,7 @@ function ReceivedSMSOwn() {
     }, [page, rowsPerPage]);
 
     const displayList = sortedAndFilteredSmsList; // Implement pagination
-    let url = '/extended-sidebar/Student/viewsms/';
+    let url = '/RITeSchool/Student/viewsms/';
 
     return (
         <Box sx={{ px: 2 }}>
@@ -129,7 +129,7 @@ function ReceivedSMSOwn() {
                 navLinks={[
                     {
                         title: 'SMS Center',
-                        path: '/extended-sidebar/Student/SmsCenter',
+                        path: '/RITeSchool/Student/SmsCenter',
                     },
                 ]}
                 rightActions={

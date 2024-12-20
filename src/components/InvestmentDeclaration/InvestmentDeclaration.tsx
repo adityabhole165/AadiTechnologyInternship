@@ -281,7 +281,7 @@ const InvestmentDeclaration = () => {
           navLinks={[
             {
               title: 'Investment Declaration',
-              path: '/extended-sidebar/Teacher/InvestmentDeclaration'
+              path: '/RITeSchool/Teacher/InvestmentDeclaration'
             }
           ]}
           rightActions={
@@ -332,7 +332,7 @@ const InvestmentDeclaration = () => {
                         !(
                           USISlistInvestmentEmpDetails[0]?.IsSaved == 'True' &&
                           USISlistInvestmentEmpDetails[0]?.IsSubmitted ==
-                            'False'
+                          'False'
                         )
                       }
                       sx={{
@@ -479,121 +479,121 @@ const InvestmentDeclaration = () => {
                     pr: 14
                   }}
                 > */}
-                  <Grid container spacing={2} mb={2}>
-                    {/* Row 1 */}
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="h6">
-                        <Box
-                          display="inline-block"
-                          border={1}
-                          borderRadius={40}
-                          pl={1}
-                          pr={7.4}
-                          mr={1}
-                          component="span"
-                        >
-                          Name
-                        </Box>
-                        <Typography variant="h5" component="span">
-                          {detail.UserName}
-                        </Typography>
+                <Grid container spacing={2} mb={2}>
+                  {/* Row 1 */}
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="h6">
+                      <Box
+                        display="inline-block"
+                        border={1}
+                        borderRadius={40}
+                        pl={1}
+                        pr={7.4}
+                        mr={1}
+                        component="span"
+                      >
+                        Name
+                      </Box>
+                      <Typography variant="h5" component="span">
+                        {detail.UserName}
                       </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="body1">
-                        <Box
-                          display="inline-block"
-                          border={1}
-                          borderRadius={4}
-                          pl={1}
-                          pr={2}
-                          mr={1}
-                          component="span"
-                        >
-                          Employee No
-                        </Box>
-                        <Typography variant="h5" component="span">
-                          {detail.EmployeeNo}
-                        </Typography>
-                      </Typography>
-                    </Grid>
-
-                    {/* Row 2 */}
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="body1">
-                        <Box
-                          display="inline-block"
-                          border={1}
-                          borderRadius={4}
-                          pl={1}
-                          pr={5.5}
-                          mr={1}
-                          component="span"
-                        >
-                          Address
-                        </Box>
-                        <Typography variant="h5" component="span">
-                          {detail.Address}
-                        </Typography>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="body1">
-                        <Box
-                          display="inline-block"
-                          border={1}
-                          borderRadius={4}
-                          pl={1}
-                          pr={2}
-                          mr={1}
-                          component="span"
-                        >
-                          Designation
-                        </Box>
-                        <Typography variant="h5" component="span">
-                          {detail.Designation}
-                        </Typography>
-                      </Typography>
-                    </Grid>
-
-                    {/* Row 3 */}
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="body1">
-                        <Box
-                          display="inline-block"
-                          border={1}
-                          borderRadius={4}
-                          pl={1}
-                          pr={5}
-                          mr={1}
-                          component="span"
-                        >
-                          PAN No
-                        </Box>
-                        <Typography variant="h5" component="span">
-                          {detail.PanNo}
-                        </Typography>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="body1">
-                        <Box
-                          display="inline-block"
-                          border={1}
-                          borderRadius={4}
-                          pl={1}
-                          pr={5.4}
-                          mr={1}
-                          component="span"
-                        >
-                          Gender
-                        </Box>
-                        <Typography variant="h5" component="span">
-                          {detail.Gender}
-                        </Typography>
-                      </Typography>
-                    </Grid>
+                    </Typography>
                   </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body1">
+                      <Box
+                        display="inline-block"
+                        border={1}
+                        borderRadius={4}
+                        pl={1}
+                        pr={2}
+                        mr={1}
+                        component="span"
+                      >
+                        Employee No
+                      </Box>
+                      <Typography variant="h5" component="span">
+                        {detail.EmployeeNo}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+
+                  {/* Row 2 */}
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body1">
+                      <Box
+                        display="inline-block"
+                        border={1}
+                        borderRadius={4}
+                        pl={1}
+                        pr={5.5}
+                        mr={1}
+                        component="span"
+                      >
+                        Address
+                      </Box>
+                      <Typography variant="h5" component="span">
+                        {detail.Address}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body1">
+                      <Box
+                        display="inline-block"
+                        border={1}
+                        borderRadius={4}
+                        pl={1}
+                        pr={2}
+                        mr={1}
+                        component="span"
+                      >
+                        Designation
+                      </Box>
+                      <Typography variant="h5" component="span">
+                        {detail.Designation}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+
+                  {/* Row 3 */}
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body1">
+                      <Box
+                        display="inline-block"
+                        border={1}
+                        borderRadius={4}
+                        pl={1}
+                        pr={5}
+                        mr={1}
+                        component="span"
+                      >
+                        PAN No
+                      </Box>
+                      <Typography variant="h5" component="span">
+                        {detail.PanNo}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body1">
+                      <Box
+                        display="inline-block"
+                        border={1}
+                        borderRadius={4}
+                        pl={1}
+                        pr={5.4}
+                        mr={1}
+                        component="span"
+                      >
+                        Gender
+                      </Box>
+                      <Typography variant="h5" component="span">
+                        {detail.Gender}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                </Grid>
                 {/* </Box> */}
                 <Box>
                   <SearchableDropdown

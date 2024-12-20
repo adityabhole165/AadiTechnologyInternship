@@ -61,7 +61,7 @@
 //       ResetForm();
 //     }
 //     if (Reason != '') {
-//       navigate('/extended-sidebar/Teacher/PrePrimaryResult');
+//       navigate('/RITeSchool/Teacher/PrePrimaryResult');
 //     }
 //   };
 
@@ -70,7 +70,7 @@
 //   };
 
 //   const onClickCancel = () => {
-//     navigate('/extended-sidebar/Teacher/PrePrimaryResult');
+//     navigate('/RITeSchool/Teacher/PrePrimaryResult');
 //   };
 
 //   return (

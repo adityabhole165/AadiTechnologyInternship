@@ -55,7 +55,7 @@
 //         AllActiveNoticesId.toString()
 //       ) {
 //         localStorage.setItem('AllActiveNotices', AllActiveNoticesId.toString());
-//         navigate('/extended-sidebar/Common/SchoolNotice');
+//         navigate('/RITeSchool/Common/SchoolNotice');
 //       }
 //     }
 //   }, [GetAllActiveNotices]);
@@ -190,7 +190,7 @@ function SchoolNoticeBoard() {
           json = [{ UserId: asUserId, NoticeRead: "Y" }]
         }
         sessionStorage.setItem("NoticeRead", JSON.stringify(json))
-        //navigate('/extended-sidebar/Common/ActiveSchoolNotice');
+        //navigate('/RITeSchool/Common/ActiveSchoolNotice');
       }
     }
 

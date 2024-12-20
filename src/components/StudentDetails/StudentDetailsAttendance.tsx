@@ -1,33 +1,31 @@
-import { SearchTwoTone, QuestionMark } from '@mui/icons-material';
-import { Box, Card, CardContent, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
-import React, { useState } from 'react';
-import CommonPageHeader from '../CommonPageHeader';
+import { QuestionMark } from '@mui/icons-material';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { Box, Card, CardContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router';
+import CommonPageHeader from '../CommonPageHeader';
 
 const StudentDetailsAttendance = () => {
   const navigate = useNavigate();
-      const cardData = [
-        { label: 'School working days', value: '0 out of 30' },
-        { label: 'Total present days', value: '0 out of 0' },
-        { label: 'Total absent days', value: '0 out of 0' },
-      ];
+  const cardData = [
+    { label: 'School working days', value: '0 out of 30' },
+    { label: 'Total present days', value: '0 out of 0' },
+    { label: 'Total absent days', value: '0 out of 0' },
+  ];
   return (
     <Box px={2}>
       <CommonPageHeader
         navLinks={[
           {
             title: 'Student Details',
-            path: '/extended-sidebar/Teacher/StudentDetailsBaseScreen'
+            path: '/RITeSchool/Teacher/StudentDetailsBaseScreen'
           },
           {
             title: 'Attendance',
-            path: '/extended-sidebar/Teacher/StudentDetailsAttendance'
+            path: '/RITeSchool/Teacher/StudentDetailsAttendance'
           }
         ]}
-        rightActions={  
+        rightActions={
           <>
             {/* <TextField
               sx={{ width: '15vw' }}
@@ -65,7 +63,7 @@ const StudentDetailsAttendance = () => {
                   }
                 }}
                 onClick={() =>
-                  navigate(`/extended-sidebar/Teacher/AttendanceTopperspage`)
+                  navigate(`/RITeSchool/Teacher/AttendanceTopperspage`)
                 }
               >
                 <MilitaryTechIcon />
@@ -89,44 +87,44 @@ const StudentDetailsAttendance = () => {
         }
       />
       <Box>
-      <Grid container spacing={2}>
-      {cardData.map((data, index) => (
-        <Grid item xs={12} sm={4} key={index}>
-          <Card
-            sx={{
-              backgroundColor: 'white',
-              borderRadius: '10px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              padding: 0,
-              textAlign: 'center',
-            }}
-          >
-            <CardContent>
-              <Typography
+        <Grid container spacing={2}>
+          {cardData.map((data, index) => (
+            <Grid item xs={12} sm={4} key={index}>
+              <Card
                 sx={{
-                  fontSize: 14,
-                  fontWeight: 'bold',
-                  color: '#38548A',
+                  backgroundColor: 'white',
+                  borderRadius: '10px',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                  padding: 0,
+                  textAlign: 'center',
                 }}
               >
-                {data.label}
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                //   color: '#333',
-                }}
-              >
-                {data.value}
-              </Typography>
-            </CardContent>
-          </Card>
+                <CardContent>
+                  <Typography
+                    sx={{
+                      fontSize: 14,
+                      fontWeight: 'bold',
+                      color: '#38548A',
+                    }}
+                  >
+                    {data.label}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                      //   color: '#333',
+                    }}
+                  >
+                    {data.value}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
-      ))}
-    </Grid>
       </Box>
-       {/* <Box sx={{ pl: 2 }}>
+      {/* <Box sx={{ pl: 2 }}>
         <CardCalenderList
           ItemList={ItemList}
           ClickItem={ClickItem}

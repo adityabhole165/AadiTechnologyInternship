@@ -393,7 +393,7 @@ const AddHomeworkNew = () => {
   };
 
   const clickTitle = (Id) => {
-    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id + '/' +
+    navigate('/RITeSchool/Teacher/ViewHomework/' + Id + '/' +
       TeacherId + '/' +
       TeacherName + '/' +
       ClassName + '/' +
@@ -403,7 +403,7 @@ const AddHomeworkNew = () => {
       SelectClass)
   };
   const clickView = (Id) => {
-    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id + '/' +
+    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + Id + '/' +
       TeacherId + '/' +
       TeacherName + '/' +
       ClassName + '/' +
@@ -807,7 +807,7 @@ const AddHomeworkNew = () => {
   //   }
   // };
   const clickTitle1 = (Id) => {
-    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id + '/' +
+    navigate('/RITeSchool/Teacher/ViewHomework/' + Id + '/' +
       TeacherId + '/' +
       TeacherName + '/' +
       ClassName + '/' +
@@ -965,9 +965,9 @@ const AddHomeworkNew = () => {
           navLinks={[
             {
               title: 'Assign Homework',
-              path: '/extended-sidebar/Teacher/AssignHomework'
+              path: '/RITeSchool/Teacher/AssignHomework'
             },
-            { title: 'Add Homework', path: '/extended-sidebar/Teacher/AddHomework' },
+            { title: 'Add Homework', path: '/RITeSchool/Teacher/AddHomework' },
           ]}
           rightActions={
             <>

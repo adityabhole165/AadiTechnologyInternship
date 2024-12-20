@@ -240,7 +240,7 @@ const PerEvalViewReport = () => {
                             }}
                         >
                             <Link
-                                to={'/extended-sidebar/landing/landing'}
+                                to={'/RITeSchool/landing/landing'}
                                 color="inherit"
                                 style={{ textDecoration: 'none' }}
                             >

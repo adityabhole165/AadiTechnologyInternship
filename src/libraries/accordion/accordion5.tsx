@@ -29,7 +29,7 @@ function Accordion5({ Title, Datee, username, desig, parents }) {
   const classes = Styles();
   const navigate = useNavigate();
   const redirect = () => {
-    navigate('/extended-sidebar/student/Library');
+    navigate('/RITeSchool/student/Library');
   };
   return (
     <>

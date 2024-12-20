@@ -29,7 +29,7 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                         }}
                     >
                         <Link
-                            to={'/extended-sidebar/landing/landing'}
+                            to={'/RITeSchool/landing/landing'}
                             color="inherit"
                             style={{ textDecoration: 'none' }}
                         >

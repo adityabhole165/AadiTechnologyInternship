@@ -71,7 +71,7 @@ function Form2({ YearsList, allMonthList, searchFunction, YearChangeCapture }) {
   //  Page name for api call
   const pathname = window.location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/msgCenter/',
+    '/RITeSchool/MessageCenter/msgCenter/',
     ''
   );
 
@@ -94,7 +94,7 @@ function Form2({ YearsList, allMonthList, searchFunction, YearChangeCapture }) {
     //  Page conditions
     if (
       pageName === 'Inbox' ||
-      pageName === '/extended-sidebar/MessageCenter/msgCenter'
+      pageName === '/RITeSchool/MessageCenter/msgCenter'
     ) {
       InboxMessageApi.GetInboxList(getList)
         .then((data) => {

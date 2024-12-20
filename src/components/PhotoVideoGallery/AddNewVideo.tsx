@@ -135,7 +135,7 @@ const AddNewVideo = () => {
         navLinks={[
           {
             title: "Photo/Video Gallery",
-            path: "/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen",
+            path: "/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen",
           },
           { title: "Add Video Gallery", path: "" },
         ]}
@@ -216,7 +216,7 @@ const AddNewVideo = () => {
               Video should be from <strong>www.youtube.com</strong>, URL Example: http://www.youtube.com/v/bAUT_Pux73w.
             </Alert>
             <Alert variant="filled" severity="info">
-             When you edit any gallery, changes made to the gallery name, dates, user roles, and classes will be applied to all subjects of the respective gallery.
+              When you edit any gallery, changes made to the gallery name, dates, user roles, and classes will be applied to all subjects of the respective gallery.
             </Alert>
           </AccordionDetails>
         </Accordion>

@@ -7,11 +7,11 @@ import AuthenticationRoutes from 'src/router/Authentication';
 import WebRoutes from './webTeacher';
 
 const Loader = (Component) => (props) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 const routerWeb: PartialRouteObject[] = [
   {
@@ -22,7 +22,7 @@ const routerWeb: PartialRouteObject[] = [
   // ExtendedSidebarLayout
 
   {
-    path: 'extended-sidebar',
+    path: 'RITeSchool',
     element: <ExtendedSidebarLayout />,
     children: [
       {

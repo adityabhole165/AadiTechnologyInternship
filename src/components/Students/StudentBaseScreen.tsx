@@ -303,7 +303,7 @@ const StudentBaseScreen = () => {
                                                                             cursor: 'pointer',
                                                                             '&:hover': { backgroundColor: '' }
                                                                         }}
-                                                                        onClick={() => navigate(`/extended-sidebar/Teacher/StudentRegistrationForms`, {
+                                                                        onClick={() => navigate(`/RITeSchool/Teacher/StudentRegistrationForms`, {
                                                                             state: {
                                                                                 Name: item.Text1,
                                                                                 standardId: standardId,

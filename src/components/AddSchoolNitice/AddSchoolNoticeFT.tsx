@@ -398,7 +398,7 @@ const AddSchoolNoticeFT = () => {
             }
             dispatch(resetSaveSchoolNoticeDetails());
 
-            navigate('/extended-sidebar/Teacher/SchoolNoticeBasescreen');
+            navigate('/RITeSchool/Teacher/SchoolNoticeBasescreen');
         }
     }, [SaveNotice])
 
@@ -407,7 +407,7 @@ const AddSchoolNoticeFT = () => {
         toolbar: [
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
             //  [{ size: [] }],
-            [{ 'font': [ ] }],
+            [{ 'font': [] }],
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
             [{ 'script': 'sub' }, { 'script': 'super' }], // Subscript and Superscript
             [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
@@ -582,11 +582,11 @@ const AddSchoolNoticeFT = () => {
                     navLinks={[
                         {
                             title: 'School Notice',
-                            path: '/extended-sidebar/Teacher/SchoolNoticeBasescreen/' + Text
+                            path: '/RITeSchool/Teacher/SchoolNoticeBasescreen/' + Text
                         },
                         {
                             title: `${radioBtn === '1' ? 'File' : 'Text'}`,
-                            path: '/extended-sidebar/Teacher/AddSchoolNotceFT'
+                            path: '/RITeSchool/Teacher/AddSchoolNotceFT'
                         }
                     ]}
                     rightActions={
@@ -878,45 +878,45 @@ const AddSchoolNoticeFT = () => {
                                 </Typography>
 
                                 <FormGroup >
-                                <Box  ml={1} gap={2} sx={{display:'flex'}}>
-                                    <Box bgcolor={'lightgrey'} px={1} width={'200px'}>
-                                        <FormControlLabel
-                                            control={<Checkbox checked={selectAll} onChange={handleSelectAll} disabled={selectDisplayLocation === 'H'} />}
-                                            label={<Typography variant="h5">Select All</Typography>}
-                                        />
-                                    </Box>
-                                    <Box>
-                                        <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="admin" />}
-                                            label="Admin"
-                                        /></Box>
+                                    <Box ml={1} gap={2} sx={{ display: 'flex' }}>
+                                        <Box bgcolor={'lightgrey'} px={1} width={'200px'}>
+                                            <FormControlLabel
+                                                control={<Checkbox checked={selectAll} onChange={handleSelectAll} disabled={selectDisplayLocation === 'H'} />}
+                                                label={<Typography variant="h5">Select All</Typography>}
+                                            />
+                                        </Box>
+                                        <Box>
+                                            <FormControlLabel
+                                                control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="admin" />}
+                                                label="Admin"
+                                            /></Box>
                                         <Box>
                                             <FormControlLabel
                                                 control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="teacher" />}
                                                 label="Teacher"
                                             /></Box>
-                                            <Box>
-                                        <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="student" />}
-                                            label="Student"
-                                        /></Box>
+                                        <Box>
+                                            <FormControlLabel
+                                                control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="student" />}
+                                                label="Student"
+                                            /></Box>
                                         <Box width={'125px'}>
                                             <FormControlLabel
                                                 control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="adminStaff" />}
                                                 label="Admin Staff"
                                             /></Box>
-                                            <Box width={'200px'}>
-                                        <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="otherStaff" />}
-                                            label="Other Staff"
-                                        /></Box>
-                                    </Box> 
-                                     <ErrorMessage1 Error={ErrorUserRole} />
-                                   
+                                        <Box width={'200px'}>
+                                            <FormControlLabel
+                                                control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="otherStaff" />}
+                                                label="Other Staff"
+                                            /></Box>
+                                    </Box>
+                                    <ErrorMessage1 Error={ErrorUserRole} />
+
                                 </FormGroup>
                             </Grid>
-                            </Grid>
-                            <Grid container pl={3} mt={2}>
+                        </Grid>
+                        <Grid container pl={3} mt={2}>
                             {applicableTo.student && (
                                 <Grid item xs={12} md={12} mt={1}>
                                     <Typography variant="h4" py={1}>
@@ -934,7 +934,7 @@ const AddSchoolNoticeFT = () => {
                             :
                             <Grid item md={12}>
                                 <Box>
-                                    <ReactQuill  className= 'ql-editor' value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
+                                    <ReactQuill className='ql-editor' value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
                                     <ErrorMessage1 Error={NoticeContentError}></ErrorMessage1>
                                 </Box>
                             </Grid>

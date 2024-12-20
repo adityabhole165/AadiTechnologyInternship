@@ -149,8 +149,8 @@ const EventOverview = (props: Props) => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Annual Planner', path: '/extended-sidebar/Common/AnnualPlanner' },
-          { title: 'Events Overview', path: '/extended-sidebar/Common/EventOverview' }
+          { title: 'Annual Planner', path: '/RITeSchool/Common/AnnualPlanner' },
+          { title: 'Events Overview', path: '/RITeSchool/Common/EventOverview' }
         ]}
         rightActions={
           <>

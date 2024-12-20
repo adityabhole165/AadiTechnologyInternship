@@ -53,7 +53,7 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     ]
     const ClickIcon = (value) => {
         if (value == 'EventsOverview') {
-            navigate('/extended-sidebar/Common/EventOverview');
+            navigate('/RITeSchool/Common/EventOverview');
         }
         if (value == 'Save') {
             ClickSave();
@@ -65,7 +65,7 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     const Breadcrumbs = [{
         Id: 1,
         Name: 'Annual Planner',
-        Value: '/extended-sidebar/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId,
+        Value: '/RITeSchool/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId,
         IsActive: false
     }, {
         Id: 2,
@@ -78,7 +78,7 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
                 navLinks={[
                     {
                         title: 'Annual Planner',
-                        path: '/extended-sidebar/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId
+                        path: '/RITeSchool/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId
                     },
                     {
                         title: 'Event(s) Management',

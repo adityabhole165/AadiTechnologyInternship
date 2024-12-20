@@ -106,7 +106,7 @@ const ViewProgressReport = () => {
                 navLinks={[
                     {
                         title: 'Exam Result',
-                        path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + '/' + TestId
+                        path: '/RITeSchool/Teacher/ExamResultBase/' + StandardDivisionId + '/' + TestId
                     },
                     {
                         title: 'View Progress Report',

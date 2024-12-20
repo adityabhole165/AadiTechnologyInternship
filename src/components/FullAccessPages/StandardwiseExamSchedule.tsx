@@ -14,28 +14,28 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IConfigurationData, IExamScheduleConfigBody, IGetSubjectExamScheduleBody, IInsertExamScheduleBody, ISumbitExamScheduleBody, IUpdateExamScheduleInstructionsBody } from 'src/interfaces/Teacher/TExamSchedule';
-import { GetCopyStandardTestMsg, GetInsertExamSchedule, GetIsSchoolConfigured, CDAGetSubjectExamSchedule, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, InsertConfigurationSchoolMaster, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { CDAGetSubjectExamSchedule, GetCopyStandardTestMsg, GetInsertExamSchedule, GetIsSchoolConfigured, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, InsertConfigurationSchoolMaster, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
 import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const StandardwiseExamSchedule = () => {
     const { StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId, IsConfigured, SchoolwiseStandardTestId } = useParams();
 
-    
-  const inistailSchoolwiseStandardExamScheduleId = SchoolwiseStandardExamScheduleId !== undefined ?    SchoolwiseStandardExamScheduleId:0
-  const inistailStandardTestId = StandardTestId !== undefined ? StandardTestId : SchoolwiseStandardTestId;
+
+    const inistailSchoolwiseStandardExamScheduleId = SchoolwiseStandardExamScheduleId !== undefined ? SchoolwiseStandardExamScheduleId : 0
+    const inistailStandardTestId = StandardTestId !== undefined ? StandardTestId : SchoolwiseStandardTestId;
 
 
-  
+
     const dispatch = useDispatch();
     const [IsConfigured1, setIsConfigured1] = useState(IsConfigured);
     const [openDialog, setOpenDialog] = useState(false);
     const [IsConfirm, setIsConfirm] = useState('');
 
-   
+
 
     const [showRecipients, setShowRecipients] = useState(false);
     const [selectedStandards, setSelectedStandards] = useState<number[]>([]);
@@ -77,9 +77,9 @@ const StandardwiseExamSchedule = () => {
 
     const Loading: any = useSelector((state: RootState) => state.StandardAndExamList.Loading);
 
-     const ExamScheduleId = USInsertExamSchedule.map( item => item.ExamScheduleId)
-    
-        
+    const ExamScheduleId = USInsertExamSchedule.map(item => item.ExamScheduleId)
+
+
     // function getXML(value) {
     //     let Insertxml = '<SubjectwiseStandardExamSchedule>\r\n';
 
@@ -114,13 +114,13 @@ const StandardwiseExamSchedule = () => {
         dispatch(RExamSchedule(RExamScheduleBody));
     }, [])
 
-const asStandardwiseExamScheduleId = IsConfigured1 == "false"  ? SchoolwiseStandardExamScheduleId :  ExamScheduleId.toString() 
+    const asStandardwiseExamScheduleId = IsConfigured1 == "false" ? SchoolwiseStandardExamScheduleId : ExamScheduleId.toString()
 
     const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
         asStandardId: Number(StandardId),
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
-        asStandardwiseExamScheduleId:asStandardwiseExamScheduleId 
+        asStandardwiseExamScheduleId: asStandardwiseExamScheduleId
 
     }
 
@@ -226,7 +226,7 @@ const asStandardwiseExamScheduleId = IsConfigured1 == "false"  ? SchoolwiseStand
         setXML(value)
     }
 
-    
+
 
     useEffect(() => {
         if (getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === 'False') {
@@ -259,7 +259,7 @@ const asStandardwiseExamScheduleId = IsConfigured1 == "false"  ? SchoolwiseStand
         setIsConfigured1('true');
     }
 
-  
+
 
     const GetPageReloadApiCall_1 = async () => {
         await dispatch(InsertConfigurationSchoolMaster(getExamConfigurationBody));
@@ -490,12 +490,12 @@ const asStandardwiseExamScheduleId = IsConfigured1 == "false"  ? SchoolwiseStand
 
     return (
         <Box px={2}>
- {(Loading) && <SuspenseLoader />}
+            {(Loading) && <SuspenseLoader />}
             <CommonPageHeader
                 navLinks={[
                     {
                         title: 'Exam Schedule',
-                        path: '/extended-sidebar/Teacher/ExamScheduleBasescreen',
+                        path: '/RITeSchool/Teacher/ExamScheduleBasescreen',
                     },
                     {
                         title: 'Standardwise Exam Schedule',

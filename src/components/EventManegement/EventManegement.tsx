@@ -300,7 +300,7 @@ const EventsManagement = () => {
   };
 
   const clickItem = (value) => {
-    Navigate('/extended-sidebar/Common/EventOverview');
+    Navigate('/RITeSchool/Common/EventOverview');
   };
 
   const clickList = (value) => {
@@ -308,7 +308,7 @@ const EventsManagement = () => {
   };
 
   const clickEventEdit = (Id) => {
-    Navigate('/extended-sidebar/Teacher/EventManegement/' + '/' + Id);
+    Navigate('/RITeSchool/Teacher/EventManegement/' + '/' + Id);
   };
 
   // const clickeventDelete = (Id) => {
@@ -365,7 +365,7 @@ const EventsManagement = () => {
           navLinks={[
             {
               title: 'Annual Planner',
-              path: '/extended-sidebar/Common/AnnualPlanner'
+              path: '/RITeSchool/Common/AnnualPlanner'
             },
             {
               title: 'Event(s) Management',

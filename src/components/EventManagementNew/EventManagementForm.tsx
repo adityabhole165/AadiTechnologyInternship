@@ -139,8 +139,8 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             toast.success(SaveUpdateEventt, { toastId: 'success1' });
             dispatch(resetMessage());
             resetForm();
-            // navigate('/extended-sidebar/Common/AnnualPlanner');
-            navigate('/extended-sidebar/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId);
+            // navigate('/RITeSchool/Common/AnnualPlanner');
+            navigate('/RITeSchool/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId);
 
         }
     }, [SaveUpdateEventt]);
@@ -282,7 +282,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             };
             debouncedFetch(UpdateEventBody);
             // dispatch(GetupdateEvent(UpdateEventBody));
-            // navigate('/extended-sidebar/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId)
+            // navigate('/RITeSchool/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId)
         }
     };
 

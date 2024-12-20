@@ -1,4 +1,5 @@
 import { AddPhotoAlternate, QuestionMark, VideoLibrary } from '@mui/icons-material';
+import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import React, { useState } from 'react';
@@ -8,7 +9,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import PhotopageTableCard from './PhotopageTableCard';
 import VideoPageTableCard from './VideoPageTableCard';
-import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 
 const PhotoVideoGalleryBaseScreen = () => {
     const [selectedOption, setSelectedOption] = useState<string>('photo');
@@ -109,10 +109,10 @@ const PhotoVideoGalleryBaseScreen = () => {
     };
 
     const AddNewPhoto = (value) => {
-        navigate('/extended-sidebar/Teacher/AddNewPhoto');
+        navigate('/RITeSchool/Teacher/AddNewPhoto');
     };
     const AddNewVideo = (value) => {
-        navigate('/extended-sidebar/Teacher/AddNewVideo');
+        navigate('/RITeSchool/Teacher/AddNewVideo');
     };
 
     function clickSearch() {
@@ -123,7 +123,7 @@ const PhotoVideoGalleryBaseScreen = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Photo/Video Gallery', path: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen' }
+                    { title: 'Photo/Video Gallery', path: '/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen' }
                 ]}
                 rightActions={<>
                     <TextField
@@ -140,19 +140,19 @@ const PhotoVideoGalleryBaseScreen = () => {
                                 clickSearch();
                             }
                         }}></TextField>
-                        <Tooltip title={'Search'}>
-                    <IconButton
-                        onClick={clickSearch}
-                        sx={{
-                            background: (theme) => theme.palette.primary.main,
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: (theme) => theme.palette.primary.dark
-                            }
-                        }}
-                    >
-                        <SearchTwoTone />
-                    </IconButton>
+                    <Tooltip title={'Search'}>
+                        <IconButton
+                            onClick={clickSearch}
+                            sx={{
+                                background: (theme) => theme.palette.primary.main,
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: (theme) => theme.palette.primary.dark
+                                }
+                            }}
+                        >
+                            <SearchTwoTone />
+                        </IconButton>
                     </Tooltip>
                     <Tooltip title={'Create new photo galleries or add photos to existing gallery. You can also view all gallery photos by clicking on SlideShow.You can also add or view videos into gallery.'}>
                         <IconButton

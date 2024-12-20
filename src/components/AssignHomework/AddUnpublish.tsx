@@ -26,7 +26,7 @@ const AddUnpublish = () => {
   console.log(PublishUnpublishHomework, 'ddddd....');
 
   const ClickBack = () => {
-    navigate('/extended-sidebar/Teacher/AddHomework');
+    navigate('/RITeSchool/Teacher/AddHomework');
   };
   const Unpublish = () => {
     const newAsIsPublish = !PublishUnpublishHomework;
@@ -68,9 +68,9 @@ const AddUnpublish = () => {
               setDetails(e.target.value);
             }}
             variant="standard"
-            // error={ErrorDetails !== ''}
-            // helperText={ErrorDetails}
-            // label={''}
+          // error={ErrorDetails !== ''}
+          // helperText={ErrorDetails}
+          // label={''}
           />
         </Grid>
       </Grid>

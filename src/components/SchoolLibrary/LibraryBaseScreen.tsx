@@ -227,7 +227,7 @@ const LibraryBaseScreen = () => {
     }
     useEffect(() => {
         setErrorMsg(""); // Clear error message
-    }, []); 
+    }, []);
     const clickReset = () => {
         // Reset local state
         setBookTitle('');
@@ -261,7 +261,7 @@ const LibraryBaseScreen = () => {
     return (
         <Box px={2}>
             <CommonPageHeader
-                navLinks={[{ title: 'Library', path: '/extended-sidebar/Teacher/LibraryBaseScreen' }]}
+                navLinks={[{ title: 'Library', path: '/RITeSchool/Teacher/LibraryBaseScreen' }]}
                 rightActions={
                     <>
                         <Tooltip title={"Here you can search the books and also you can see the issued book details."}>
@@ -287,7 +287,7 @@ const LibraryBaseScreen = () => {
                                     },
                                 }}
                                 onClick={() =>
-                                    navigate('/extended-sidebar/Teacher/ClaimedBookDetailsPage' + '/')
+                                    navigate('/RITeSchool/Teacher/ClaimedBookDetailsPage' + '/')
                                 }
                             >
                                 <BookLockIcon />

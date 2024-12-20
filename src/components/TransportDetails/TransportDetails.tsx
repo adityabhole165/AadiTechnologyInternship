@@ -67,7 +67,7 @@ function TransportDetails() {
 
   const Map = () => {
     navigate(
-      '/extended-sidebar/Student/TransportDetails/Map/' +
+      '/RITeSchool/Student/TransportDetails/Map/' +
       variableToPass +
       `/` +
       alignment

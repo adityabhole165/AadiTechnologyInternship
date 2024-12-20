@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { GetProgressReportDetailsBody, GetStudentDetailsDropdownBody, IGetAllPrimaryClassTeacherssBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import { IGetAcademicYearsOfStudentBody, IIsXseedApplicableBody } from 'src/interfaces/ProgressReport/IprogressReport';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAAllPrimaryClassTeachers, CDAProgressReportDetails, CDAStudentDetailsDropdown } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
@@ -22,7 +23,6 @@ import NonXseedSubjectGrades from './NonXseedSubjectGrades';
 import SchoolDetails from './SchoolDetails';
 import StudentDetails from './StudentDetails';
 import XseedRemarks from './XseedRemarks';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const PreprimaryProgressReport1 = () => {
     const dispatch = useDispatch();
     const [ClassTeacher, setClassTeacher]: any = useState('-1');
@@ -121,12 +121,12 @@ const PreprimaryProgressReport1 = () => {
 
     }, [AcademicYear, state.GetOldStudentDetails.StandardDivisionId, state.GetOldStudentDetails.StandardId]);
 
- 
-   const  Newvalue = true;
+
+    const Newvalue = true;
     useEffect(() => {
         if (!USIsXseedApplicable) {
-            let state1 = { AcademicYear, newstudntid ,Newvalue,TeacherID};
-            navigate('/extended-sidebar/Teacher/ProgressReportNew', { state: state1 });
+            let state1 = { AcademicYear, newstudntid, Newvalue, TeacherID };
+            navigate('/RITeSchool/Teacher/ProgressReportNew', { state: state1 });
 
         }
     }, [USIsXseedApplicable]);
@@ -292,19 +292,19 @@ const PreprimaryProgressReport1 = () => {
             }
         }
     }, [USlistAssessmentDetailss, state.USIsXseedApplicable]);
-    
+
 
 
 
 
     return (
         <Box sx={{ px: 2 }}>
-             {(Loading) && <SuspenseLoader />}
+            {(Loading) && <SuspenseLoader />}
 
             {!state.USIsXseedApplicable &&
                 <CommonPageHeader
                     navLinks={[
-                        { title: 'Pre Primary Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
+                        { title: 'Pre Primary Progress Report', path: '/RITeSchool/Teacher/PreprimaryProgressReport' },
 
                     ]}
 
@@ -427,7 +427,7 @@ const PreprimaryProgressReport1 = () => {
             {state.USIsXseedApplicable &&
                 <CommonPageHeader
                     navLinks={[
-                        { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew' },
+                        { title: 'Progress Report', path: '/RITeSchool/Teacher/ProgressReportNew' },
 
                     ]}
 
@@ -559,7 +559,7 @@ const PreprimaryProgressReport1 = () => {
             }
 
 
-             <br></br>
+            <br></br>
             {true && (
                 PreprimaryFullAccess == 'Y' && ClassTeacher == '0' || AssessmentId == '0' ? (
                     <div></div>

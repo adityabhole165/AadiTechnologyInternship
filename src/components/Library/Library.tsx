@@ -74,7 +74,7 @@ function Library() {
   ]);
 
   const clickNav = (path) => {
-    navigate('/extended-sidebar/Student/Library/' + path);
+    navigate('/RITeSchool/Student/Library/' + path);
   };
 
   const clickFilter = ({

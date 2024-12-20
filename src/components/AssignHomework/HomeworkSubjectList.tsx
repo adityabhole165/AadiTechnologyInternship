@@ -236,7 +236,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
 
 
   const clickView = (Id) => {
-    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id);
+    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + Id);
   };
 
   const clickFileName = (value) => {
@@ -249,7 +249,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
     }
   };
   const clickTitle = (Id) => {
-    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
+    navigate('/RITeSchool/Teacher/ViewHomework/' + Id);
   };
 
   const filteredSubjects = Subjectlistsforteacher.filter(subject => subject.id === selectedSubjectId);

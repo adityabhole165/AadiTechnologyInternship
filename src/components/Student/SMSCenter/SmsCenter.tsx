@@ -15,7 +15,6 @@ import SmsFailedIcon from '@mui/icons-material/SmsFailed';
 import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
-import { format } from 'date-fns';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -32,10 +31,10 @@ import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Studen
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
 
+import { getDateFormattedNew } from 'src/components/Common/Util';
 import SentsmsList from 'src/components/SentSms/SentsmsList';
-import { RootState } from 'src/store';
-import { getDateFormattedDashNew, getDateFormattedNew } from 'src/components/Common/Util';
 import SentsmsListAll from 'src/components/SentSms/SentsmsListAll';
+import { RootState } from 'src/store';
 const PageSize = 20;
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -84,9 +83,9 @@ function SmsCenter() {
 
   const pathname = window.location.pathname;
   const pageName =
-    pathname.indexOf('/extended-sidebar/Teacher/SmsCenter/') === -1
-      ? pathname.replace('/extended-sidebar/Teacher/SmsCenter', '')
-      : pathname.replace('/extended-sidebar/Teacher/SmsCenter/', '');
+    pathname.indexOf('/RITeSchool/Teacher/SmsCenter/') === -1
+      ? pathname.replace('/RITeSchool/Teacher/SmsCenter', '')
+      : pathname.replace('/RITeSchool/Teacher/SmsCenter/', '');
 
   useEffect(() => {
     const MobileNumber_body: IMobileNumber = {
@@ -151,8 +150,8 @@ function SmsCenter() {
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
-  console.log(endRecord,"endRecord");
-  
+  console.log(endRecord, "endRecord");
+
 
 
   const ChangeRowsPerPage = (event) => {
@@ -225,7 +224,7 @@ function SmsCenter() {
       setSortDirection('asc');
     }
   };
-  let url = "/extended-sidebar/Student/viewsms/"
+  let url = "/RITeSchool/Student/viewsms/"
 
 
 
@@ -245,36 +244,36 @@ function SmsCenter() {
   const [sortExpression, setSortExpression] = useState('ORDER BY Insert_Date DESC ');
   const [sortExpression1, setSortExpression1] = useState('ORDER BY Insert_Date DESC ');
   const isPrincipal = DesignationName == 'Principal' && activeTab == 'AllSendItem';
-console.log(isPrincipal,"isPrincipal");
+  console.log(isPrincipal, "isPrincipal");
 
-const [headerArray, setHeaderArray] = useState([
-  { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
-  { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
-  { Id: 3, Header: 'Sent Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
-  { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
-  // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
+  const [headerArray, setHeaderArray] = useState([
+    { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
+    { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
+    { Id: 3, Header: 'Sent Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
+    { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
+    // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
 
-]);
-
-
-const [headerArray1 ,setHeaderArray1] = useState([
-  { Id: 0, Header: 'From', SortOrder: null, sortKey: 'ORDER BY UserName' },
-  { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
-  { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
-  { Id: 3, Header: 'Sent Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
-  { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
-  // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
-
-]);
+  ]);
 
 
+  const [headerArray1, setHeaderArray1] = useState([
+    { Id: 0, Header: 'From', SortOrder: null, sortKey: 'ORDER BY UserName' },
+    { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
+    { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
+    { Id: 3, Header: 'Sent Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
+    { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
+    // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
+
+  ]);
 
 
 
 
 
-  
-  
+
+
+
+
   const handleHeaderClick = (updatedHeaderArray) => {
     setHeaderArray(updatedHeaderArray);
     const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
@@ -393,7 +392,7 @@ const [headerArray1 ,setHeaderArray1] = useState([
 
 
 
- 
+
 
   const ExportSentItemsBody: IExportSentItemsBody = {
     asSchoolId: Number(asSchoolId),
@@ -488,14 +487,14 @@ const [headerArray1 ,setHeaderArray1] = useState([
 
     if (SMS_Text && Display_Text && RoleIdNew && UserIdNew) {
       let state1 = { SMS_Text, Display_Text, RoleId, UserId };
-      navigate('/extended-sidebar/Teacher/ComposeSMS', { state: state1 });
+      navigate('/RITeSchool/Teacher/ComposeSMS', { state: state1 });
     }
 
   };
 
 
   const NewSms = (ViewId) => {
-    navigate('/extended-sidebar/Teacher/ComposeSMS');
+    navigate('/RITeSchool/Teacher/ComposeSMS');
   };
 
 
@@ -507,7 +506,7 @@ const [headerArray1 ,setHeaderArray1] = useState([
   };
 
   const clickTitle1 = (Id) => {
-    navigate('/extended-sidebar/Teacher/ViewSmsNew/' + Id
+    navigate('/RITeSchool/Teacher/ViewSmsNew/' + Id
     );
   };
 
@@ -592,13 +591,13 @@ const [headerArray1 ,setHeaderArray1] = useState([
 
   useEffect(() => {
     dispatch(CDAExportSentItems(ExportSentItemsBody));
-  }, [startIndexNew, endIndexNew, sortExpression,sortExpression1,isPrincipal]);
+  }, [startIndexNew, endIndexNew, sortExpression, sortExpression1, isPrincipal]);
 
   useEffect(() => {
     dispatch(CDAGetSentItems(GetSentItemsBody));
-  }, [startIndexNew, endIndexNew, sortExpression,activeTab,sortExpression1,isPrincipal]);
+  }, [startIndexNew, endIndexNew, sortExpression, activeTab, sortExpression1, isPrincipal]);
 
-  
+
 
   useEffect(() => {
     setSmsListNew(USGetSentItems);
@@ -612,13 +611,13 @@ const [headerArray1 ,setHeaderArray1] = useState([
         navLinks={[
           {
             title: 'SMS Center',
-            path: '/extended-sidebar/Student/SmsCenter',
+            path: '/RITeSchool/Student/SmsCenter',
           },
         ]}
         rightActions={
           <>
 
-            {activeTab == 'Received SMS' && 
+            {activeTab == 'Received SMS' &&
               <>
 
                 <TextField
@@ -682,8 +681,8 @@ const [headerArray1 ,setHeaderArray1] = useState([
                   </Tooltip>
                 </Box>
               </>
-              
-              }
+
+            }
 
 
             {activeTab == 'Send Item' && (
@@ -817,7 +816,7 @@ const [headerArray1 ,setHeaderArray1] = useState([
             )}
 
 
-{activeTab == 'AllSendItem' && (
+            {activeTab == 'AllSendItem' && (
               <>
 
                 <TextField
@@ -1072,10 +1071,10 @@ const [headerArray1 ,setHeaderArray1] = useState([
           </Grid>
 
           <Grid item sx={{ minWidth: '90%', p: 2, background: 'white', borderRadius: '10px' }}>
-            
-              {activeTab == 'Scheduled SMS' &&
+
+            {activeTab == 'Scheduled SMS' &&
               <Grid container spacing={2} pb={2}>
-                
+
                 <Grid item xs={12} sm={3}>
                   <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                     <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
@@ -1088,7 +1087,7 @@ const [headerArray1 ,setHeaderArray1] = useState([
                   </Card>
                 </Grid>
 
-                
+
                 <Grid item xs={12} sm={3}>
                   <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                     <SmsIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
@@ -1111,7 +1110,7 @@ const [headerArray1 ,setHeaderArray1] = useState([
                     </Box>
                   </Card>
                 </Grid>
-               
+
                 <Grid item xs={12} sm={3}>
                   <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                     <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 2 }} />
@@ -1125,8 +1124,8 @@ const [headerArray1 ,setHeaderArray1] = useState([
                 </Grid>
 
               </Grid>
-              }
-            
+            }
+
 
             {activeTab == 'AllSendItem' && (
 
@@ -1333,7 +1332,7 @@ const [headerArray1 ,setHeaderArray1] = useState([
                     clickEdit={handleClickEdit}
                     clickchange={Changevalue}
                     clickTitle={clickTitle1}
-                    
+
                     isPrincipal={isPrincipal}
 
                   />
@@ -1346,7 +1345,7 @@ const [headerArray1 ,setHeaderArray1] = useState([
                         rowsPerPageOptions={rowsPerPageOptionsNew}
                         PageChange={PageChangeNew}
                         pagecount={pagecountNew}
-                        
+
                       />
 
                     ) : (

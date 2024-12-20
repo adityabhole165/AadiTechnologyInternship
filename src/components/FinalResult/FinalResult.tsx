@@ -123,11 +123,11 @@ const FinalResult = () => {
 
 
   const AssignmentClickIcon = (value) => {
-    navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asUserId + '/' + asStudentId)
+    navigate('/RITeSchool/Teacher/StudentProgressReport/' + asUserId + '/' + asStudentId)
   }
 
   const VisibilityClickIcon = (value) => {
-    navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asStudentId)
+    navigate('/RITeSchool/Teacher/StudentProgressReport/' + asStudentId)
   }
 
 
@@ -200,7 +200,7 @@ const FinalResult = () => {
         !GetResultGenerated || buttonsDisabled ? (
           <IconButton
             onClick={() => {
-              navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false + '/' + StandardDivisionId);
+              navigate('/RITeSchool/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false + '/' + StandardDivisionId);
             }}
             sx={{
               display: 'flex',
@@ -220,7 +220,7 @@ const FinalResult = () => {
         row.CanShowVisibility ? (
           <IconButton
             onClick={() => {
-              navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + 'Y' + '/' + true + '/' + StandardDivisionId);
+              navigate('/RITeSchool/Teacher/GenerateAll/' + row.Id + '/' + 'Y' + '/' + true + '/' + StandardDivisionId);
             }}
             sx={{
               display: 'flex',
@@ -560,7 +560,7 @@ const FinalResult = () => {
 
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
+    navigate('/RITeSchool/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
   };
 
 
@@ -842,7 +842,7 @@ const FinalResult = () => {
               <span>
                 <IconButton
                   onClick={() => {
-                    navigate('/extended-sidebar/Teacher/ViewResultAll/' + StandardDivisionId)
+                    navigate('/RITeSchool/Teacher/ViewResultAll/' + StandardDivisionId)
                   }}
                   disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
                   sx={{

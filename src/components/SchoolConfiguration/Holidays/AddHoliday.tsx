@@ -273,7 +273,7 @@ const AddHoliday = ({ }) => {
             }
             dispatch(resetSaveHolidays());
 
-            navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
+            navigate('/RITeSchool/Admin/SchoolConfiguration/Holidays');
         }
     }, [SaveHolidays])
 
@@ -354,7 +354,7 @@ const AddHoliday = ({ }) => {
     //     if (!isError) {
     //         dispatch(getSaveHolidays(SaveHolidayBody))
     //         toast.success("Holiday details saved successfully.");
-    //         navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
+    //         navigate('/RITeSchool/Admin/SchoolConfiguration/Holidays');
 
     //     }
     // }
@@ -362,7 +362,7 @@ const AddHoliday = ({ }) => {
 
 
     const resetForm = () => {
-        navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays')
+        navigate('/RITeSchool/Admin/SchoolConfiguration/Holidays')
     }
 
     return (
@@ -373,16 +373,16 @@ const AddHoliday = ({ }) => {
                     navLinks={[
                         {
                             title: 'Holidays',
-                            path: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
+                            path: '/RITeSchool/Admin/SchoolConfiguration/Holidays',
                         },
                         Holiday_Id ?
                             {
                                 title: 'Edit Holiday',
-                                path: '/extended-sidebar/Admin/SchoolConfiguration/EditHoliday/',
+                                path: '/RITeSchool/Admin/SchoolConfiguration/EditHoliday/',
                             } :
                             {
                                 title: 'Add Holiday',
-                                path: '/extended-sidebar/Admin/SchoolConfiguration/AddHoliday',
+                                path: '/RITeSchool/Admin/SchoolConfiguration/AddHoliday',
                             },
                     ]}
                     rightActions={

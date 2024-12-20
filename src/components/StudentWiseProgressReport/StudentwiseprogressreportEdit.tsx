@@ -433,7 +433,7 @@ const StudentwiseprogressreportEdit = () => {
 
     const ClickShow = () => {
 
-        navigate('/extended-sidebar/Teacher/PreprimaryProgressReportView/' +
+        navigate('/RITeSchool/Teacher/PreprimaryProgressReportView/' +
             AssessmentId + '/' +
             YearwiseStudentId + '/' +
             StandardId
@@ -457,8 +457,8 @@ const StudentwiseprogressreportEdit = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport/' + AssessmentId },
-                    { title: 'Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
+                    { title: 'Student Wise Progress Report ', path: '/RITeSchool/Teacher/StudentwiseProgressReport/' + AssessmentId },
+                    { title: 'Progress Report', path: '/RITeSchool/Teacher/PreprimaryProgressReport' },
                 ]}
                 rightActions={
                     <>
@@ -814,23 +814,23 @@ const StudentwiseprogressreportEdit = () => {
                                         </TableCell>
 
 
-                                        
+
 
 
 
                                         {SchoolScreensAccessPermission() && (
                                             <span>
-                                              
-                                                        <TableCell
-                                                            sx={{
-                                                                textTransform: 'capitalize',
-                                                                color: (theme) => theme.palette.common.white,
-                                                                py: 1
-                                                            }}
-                                                        >
-                                                            Facilitator's Observation
-                                                        </TableCell>
-                                                  
+
+                                                <TableCell
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        color: (theme) => theme.palette.common.white,
+                                                        py: 1
+                                                    }}
+                                                >
+                                                    Facilitator's Observation
+                                                </TableCell>
+
                                             </span>
 
 

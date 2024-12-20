@@ -360,7 +360,7 @@ const AddStudentRecord = () => {
                 navLinks={[
                     {
                         title: 'Student Record List',
-                        path: '/extended-sidebar/Teacher/StudentRecords'
+                        path: '/RITeSchool/Teacher/StudentRecords'
                     },
                     {
                         title: 'Student Record',

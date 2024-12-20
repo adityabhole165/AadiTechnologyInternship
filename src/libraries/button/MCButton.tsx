@@ -20,11 +20,11 @@ const Item = styled(Card)(({ theme }) => ({
 }));
 
 const MCButton = ({ ButtonType, clickTab, activeTab, MarkAsRead, TrashReadMessage }) => {
-  const pageLink = '/extended-sidebar/MessageCenter/msgCenter/' + ButtonType;
+  const pageLink = '/RITeSchool/MessageCenter/msgCenter/' + ButtonType;
   const classes = Styles();
   const pathname = window.location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/msgCenter/',
+    '/RITeSchool/MessageCenter/msgCenter/',
     ''
   );
   return (

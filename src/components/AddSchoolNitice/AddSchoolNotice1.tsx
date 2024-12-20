@@ -115,7 +115,7 @@ const AddSchoolNotice1: React.FC = () => {
 
     const handleCancel = () => {
         formik.resetForm(); // Reset all form fields
-        //navigate('/extended-sidebar/Teacher/AllNoticeList'); // Navigate to the desired path
+        //navigate('/RITeSchool/Teacher/AllNoticeList'); // Navigate to the desired path
     };
     // MS Word ToolBox
     const handleTextChange = (value: string) => {
@@ -270,11 +270,11 @@ const AddSchoolNotice1: React.FC = () => {
                     navLinks={[
                         {
                             title: 'School Notice',
-                            path: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
+                            path: '/RITeSchool/Teacher/SchoolNoticeBasescreen'
                         },
                         {
                             title: `${radioBtn === '1' ? 'File' : 'Text'}`,
-                            path: '/extended-sidebar/Teacher/AddSchoolNotce1'
+                            path: '/RITeSchool/Teacher/AddSchoolNotce1'
                         }
                     ]}
                     rightActions={
@@ -321,7 +321,7 @@ const AddSchoolNotice1: React.FC = () => {
                                             height: '36px !important',
                                             ':hover': { backgroundColor: red[600] }
                                         }}
-                                        //onClick={() => navigate('/extended-sidebar/Teacher/AllNoticeList')}
+                                        //onClick={() => navigate('/RITeSchool/Teacher/AllNoticeList')}
                                         onClick={handleCancel}
                                     >
                                         <Close />

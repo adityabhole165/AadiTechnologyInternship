@@ -81,7 +81,7 @@ const ViewHomework = () => {
 
 
   const ClickAttachments = () => {
-    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id +
+    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + Id +
       '/' +
       TeacherId +
       '/' +
@@ -112,11 +112,11 @@ const ViewHomework = () => {
           navLinks={[
             {
               title: 'Assign Homework',
-              path: '/extended-sidebar/Teacher/AssignHomework'
+              path: '/RITeSchool/Teacher/AssignHomework'
             },
             {
               title: 'Add Homework',
-              path: '/extended-sidebar/Teacher/AddHomeworkNew/' +
+              path: '/RITeSchool/Teacher/AddHomeworkNew/' +
                 TeacherId +
                 '/' +
                 TeacherName +

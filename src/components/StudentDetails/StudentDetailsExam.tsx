@@ -1,13 +1,13 @@
-import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import CommonPageHeader from '../CommonPageHeader';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
-import { blue, grey } from '@mui/material/colors';
-import PrintIcon from '@mui/icons-material/Print';
-import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone';
-import GradeConfigurationPopup from './GradeConfigurationPopup';
 import DownloadIcon from '@mui/icons-material/Download';
+import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone';
+import PrintIcon from '@mui/icons-material/Print';
+import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
+import { useState } from 'react';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import CommonPageHeader from '../CommonPageHeader';
+import GradeConfigurationPopup from './GradeConfigurationPopup';
 
 const StudentDetailsExam = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -24,7 +24,7 @@ const StudentDetailsExam = () => {
         navLinks={[
           {
             title: 'Student Details',
-            path: '/extended-sidebar/Teacher/StudentDetailsBaseScreen'
+            path: '/RITeSchool/Teacher/StudentDetailsBaseScreen'
           },
           {
             title: 'Old Academic Record',
@@ -120,7 +120,7 @@ const StudentDetailsExam = () => {
             fontSize: '14px',
             borderColor: '#ccc',
             color: 'black',
-            backgroundColor:'white'
+            backgroundColor: 'white'
           }}
         >
           Download Term I Report
@@ -135,7 +135,7 @@ const StudentDetailsExam = () => {
             fontSize: '14px',
             borderColor: '#ccc',
             color: 'black',
-            backgroundColor:'white'
+            backgroundColor: 'white'
           }}
         >
           Download Term II Report

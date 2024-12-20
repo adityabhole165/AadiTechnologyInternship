@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const BreadCrumbs = ({ ItemList }) => {
     return (<>
         <Breadcrumbs aria-label="breadcrumb" separator={<ChevronRightTwoTone />}>
-            <Link to={'/extended-sidebar/landing/landing'} color="inherit"
+            <Link to={'/RITeSchool/landing/landing'} color="inherit"
                 style={{ textDecoration: 'none' }}
             >
                 <IconButton

@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import {
   CardDetail,
-  CardDetail1,
   CardDetail2,
   ListStyle,
   Wordbreak
@@ -26,7 +25,7 @@ function Card5({ Content, FileName, Name }) {
   const navigate = useNavigate();
 
   const redirect = () => {
-    navigate('/extended-sidebar/Common/SchoolNotice');
+    navigate('/RITeSchool/Common/SchoolNotice');
   };
 
   const download = (e) => {
@@ -48,9 +47,9 @@ function Card5({ Content, FileName, Name }) {
 
   return (
     <>
-      <Box sx={{ height:'600px' }}>
+      <Box sx={{ height: '600px' }}>
         <ListStyle>
-          <Typography  variant='h3'> {Name}</Typography>
+          <Typography variant='h3'> {Name}</Typography>
           <Divider />
           <CardDetail2
             dangerouslySetInnerHTML={{ __html: Content }}
@@ -63,9 +62,9 @@ function Card5({ Content, FileName, Name }) {
               {FileName === '' ? null : (
                 <>
                   <Box sx={{ marginTop: '1px' }}>
-                      <a>
-                        <FileDownloadOutlinedIcon onClick={download} />
-                      </a>
+                    <a>
+                      <FileDownloadOutlinedIcon onClick={download} />
+                    </a>
                   </Box>
                 </>
               )}

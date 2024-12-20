@@ -20,7 +20,7 @@ function SearchableDropdown1({ ItemList, onChange, label, defaultValue = '',
     mandatory = false, sx = null, size = "medium", DisableClearable = false, disabled = false, InputProps = null }) {
     const location = useLocation();
     const pathname = location.pathname;
-    const pageName = pathname.replace('/extended-sidebar/Student/', '');
+    const pageName = pathname.replace('/RITeSchool/Student/', '');
 
     const handleKeyDown = (event) => {
         if (/[&@*%#!0-9-^_$()+=]/.test(event.key)) {

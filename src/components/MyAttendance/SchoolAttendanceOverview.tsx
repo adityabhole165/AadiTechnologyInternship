@@ -74,7 +74,7 @@ const SchoolAttendanceOverview = () => {
 
   const navigate = useNavigate();
   const click = () => {
-    navigate('/extended-sidebar/Teacher/TAttendance/' + SelectDate);
+    navigate('/RITeSchool/Teacher/TAttendance/' + SelectDate);
   };
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const SchoolAttendanceOverview = () => {
         navLinks={[
           {
             title: 'Attendance',
-            path: '/extended-sidebar/Teacher/TAttendance'
+            path: '/RITeSchool/Teacher/TAttendance'
             //  + SelectDate
           },
           {
@@ -97,9 +97,9 @@ const SchoolAttendanceOverview = () => {
         ]}
         rightActions={
           <>
-           <Stack
+            <Stack
               direction={{ xs: 'row', sm: 'row' }}
-              spacing={1} 
+              spacing={1}
               alignItems="center"
               justifyContent="flex-end"
               sx={{
@@ -107,12 +107,13 @@ const SchoolAttendanceOverview = () => {
                 flexWrap: { xs: 'nowrap', sm: 'nowrap' }
               }}
             >
-            <Box 
-            sx={{ background: 'white',
-              width: { xs: '100%', sm: 'auto' },
-              mb: { xs: 1, sm: 'auto' }
-            }}>
-              {/* <TextField
+              <Box
+                sx={{
+                  background: 'white',
+                  width: { xs: '100%', sm: 'auto' },
+                  mb: { xs: 1, sm: 'auto' }
+                }}>
+                {/* <TextField
                 value={SelectDate}
                 type='date'
                 onChange={(e) => { onSelectDate(e.target.value) }}
@@ -122,7 +123,7 @@ const SchoolAttendanceOverview = () => {
                   max: new Date().toISOString().split('T')[0]
                 }}
               /> */}
-              {/* <DatePicker
+                {/* <DatePicker
                 views={['year', 'month', 'day']}
                 value={new Date(SelectDate)}
                 onChange={(date) => {
@@ -137,13 +138,13 @@ const SchoolAttendanceOverview = () => {
                 }}
 
               /> */}
-              <Datepicker
-                DateValue={SelectDate}
-                onDateChange={onSelectDate}
-                label={'Start Date'}
-                size={"small"}   
-              />
-            </Box>
+                <Datepicker
+                  DateValue={SelectDate}
+                  onDateChange={onSelectDate}
+                  label={'Start Date'}
+                  size={"small"}
+                />
+              </Box>
               <Tooltip title={Note}>
                 <IconButton
                   sx={{
@@ -158,7 +159,7 @@ const SchoolAttendanceOverview = () => {
                 </IconButton>
               </Tooltip>
             </Stack>
-          
+
           </>
         }
       />
@@ -172,7 +173,7 @@ const SchoolAttendanceOverview = () => {
           {ISWeekendStatusList}
         </Typography>
       ) : (
-        <Box sx={{ backgroundColor: 'white', p: 2 , mb: { xs: 2, md: 0 }}}>
+        <Box sx={{ backgroundColor: 'white', p: 2, mb: { xs: 2, md: 0 } }}>
           <Grid container spacing={2}>
             <Grid item xs={12}  >
               <TableUsingArray

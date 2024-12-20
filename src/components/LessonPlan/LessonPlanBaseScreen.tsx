@@ -428,13 +428,13 @@ const LessonPlanBaseScreen = () => {
     };
     console.log('whats this', obj);
 
-    navigate('/extended-sidebar/Teacher/AddLessonPlan/Edit/' +
+    navigate('/RITeSchool/Teacher/AddLessonPlan/Edit/' +
       value.UserId + '/' +
       value.StartDate.replaceAll(' ', '-') + '/' +
       value.EndDate.replaceAll(' ', '-'));
   };
   const Clicknav = (value) => {
-    navigate('/extended-sidebar/Teacher/AddLessonPlan/View/' +
+    navigate('/RITeSchool/Teacher/AddLessonPlan/View/' +
       value.UserId + '/' +
       value.StartDate.replaceAll(' ', '-') + '/' +
       value.EndDate.replaceAll(' ', '-')
@@ -448,14 +448,14 @@ const LessonPlanBaseScreen = () => {
     dispatch(GetLessonPlanreport(GetLessonPlanReportBody));
   };
   const onClickAdd = () => {
-    navigate('/extended-sidebar/Teacher/AddLessonPlan/Add');
+    navigate('/RITeSchool/Teacher/AddLessonPlan/Add');
   };
 
   const onClickaaaa1 = () => {
-    navigate('/extended-sidebar/Teacher/AddLessonPlan');
+    navigate('/RITeSchool/Teacher/AddLessonPlan');
   };
   const onClickaaaa2 = () => {
-    navigate('/extended-sidebar/Teacher/AddHomework');
+    navigate('/RITeSchool/Teacher/AddHomework');
   };
 
   const handleOpenViewRemarkDialog = () => {

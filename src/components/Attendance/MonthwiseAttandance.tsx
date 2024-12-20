@@ -3,7 +3,6 @@ import Help from '@mui/icons-material/QuestionMark';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
-  Divider,
   IconButton,
   InputBase,
   Paper,
@@ -99,7 +98,7 @@ const MonthwiseAttandance = () => {
   }, [MonthWiseAttendance]);
 
   const click = () => {
-    navigate('/extended-sidebar/Teacher/TAttendance/' + selectClasstecahernew);
+    navigate('/RITeSchool/Teacher/TAttendance/' + selectClasstecahernew);
   };
   return (
     <>
@@ -113,7 +112,7 @@ const MonthwiseAttandance = () => {
             {
               title: 'Attendance',
               path:
-                '/extended-sidebar/Teacher/TAttendance/' +
+                '/RITeSchool/Teacher/TAttendance/' +
                 selectClasstecahernew +
                 '/' +
                 AssignedDate
@@ -125,86 +124,86 @@ const MonthwiseAttandance = () => {
           ]}
           rightActions={
             <>
-            <Stack
-                      direction={{ xs: 'row', sm: 'row' }}
-                      spacing={1}
-                      alignItems="center"
-                      justifyContent="flex-end"
-                      sx={{
-                        width: '100%',
-                        flexWrap: { xs: 'nowrap', sm: 'nowrap' }
-                      }}
-                    >
-                       <Box
+              <Stack
+                direction={{ xs: 'row', sm: 'row' }}
+                spacing={1}
+                alignItems="center"
+                justifyContent="flex-end"
                 sx={{
-                  width: { xs: '100%', sm: 'auto' },
-                  mb: { xs: 1, sm: 'auto' }
-                }}>
-              <Paper
-                component="form"
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                  flexWrap: 'nowrap'
+                  width: '100%',
+                  flexWrap: { xs: 'nowrap', sm: 'nowrap' }
                 }}
               >
-                {search ? (
-                  <>
-                    
-                    <InputBase
-                      sx={{ ml: 1, flex: 1,  width: { xs: '56vw', sm: '20vw' }}}
-                      placeholder="Search Text"
-                      inputProps={{ 'aria-label': 'search Text' }}
-                      value={SearchText}
-                      onKeyDown={onKeyDown}
-                      onChange={(e) => SearchNameChange(e.target.value)}
-                    />
-
-                    <IconButton type="button" aria-label="search">
-                      <CloseTwoTone onClick={clickReset} />
-                    </IconButton>
-                  </>
-                ) : (
-                  ''
-                )}{' '}
-              </Paper>
-              </Box>
-              {/* <Divider sx={{ height: 28,  }} orientation="vertical" /> */}
-              <Tooltip title="search">
-                <IconButton
+                <Box
                   sx={{
-                    color: 'white',
-                    backgroundColor: blue[500],
-                    ':hover': { backgroundColor: blue[600] }
-                  }}
-                  onClick={() => {
-                    setSearch(!search);
-                    changeSearchText();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === 'Tab') {
+                    width: { xs: '100%', sm: 'auto' },
+                    mb: { xs: 1, sm: 'auto' }
+                  }}>
+                  <Paper
+                    component="form"
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      alignItems: 'center',
+                      flexWrap: 'nowrap'
+                    }}
+                  >
+                    {search ? (
+                      <>
+
+                        <InputBase
+                          sx={{ ml: 1, flex: 1, width: { xs: '56vw', sm: '20vw' } }}
+                          placeholder="Search Text"
+                          inputProps={{ 'aria-label': 'search Text' }}
+                          value={SearchText}
+                          onKeyDown={onKeyDown}
+                          onChange={(e) => SearchNameChange(e.target.value)}
+                        />
+
+                        <IconButton type="button" aria-label="search">
+                          <CloseTwoTone onClick={clickReset} />
+                        </IconButton>
+                      </>
+                    ) : (
+                      ''
+                    )}{' '}
+                  </Paper>
+                </Box>
+                {/* <Divider sx={{ height: 28,  }} orientation="vertical" /> */}
+                <Tooltip title="search">
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: blue[500],
+                      ':hover': { backgroundColor: blue[600] }
+                    }}
+                    onClick={() => {
+                      setSearch(!search);
                       changeSearchText();
-                    }
-                  }}
-                  color="primary"
-                  aria-label="directions"
-                >
-                  <SearchIcon />
-                </IconButton>
-              </Tooltip>
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === 'Tab') {
+                        changeSearchText();
+                      }
+                    }}
+                    color="primary"
+                    aria-label="directions"
+                  >
+                    <SearchIcon />
+                  </IconButton>
+                </Tooltip>
 
-              <Tooltip title={Note}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    ':hover': { backgroundColor: grey[600] }
-                  }}
-                >
-                  <Help />
-                </IconButton>
-              </Tooltip>
+                <Tooltip title={Note}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <Help />
+                  </IconButton>
+                </Tooltip>
               </Stack>
             </>
           }

@@ -26,9 +26,9 @@ function SMSCenter() {
 
   const pathname = window.location.pathname;
   const pageName =
-    pathname.indexOf('/extended-sidebar/SMSCenter/smsCenter/') === -1
-      ? pathname.replace('/extended-sidebar/SMSCenter/smsCenter', '')
-      : pathname.replace('/extended-sidebar/SMSCenter/smsCenter/', '');
+    pathname.indexOf('/RITeSchool/SMSCenter/smsCenter/') === -1
+      ? pathname.replace('/RITeSchool/SMSCenter/smsCenter', '')
+      : pathname.replace('/RITeSchool/SMSCenter/smsCenter/', '');
 
   const body: ISent = {
     asUserId: sessionStorage.getItem('Id'),
@@ -73,7 +73,7 @@ function SMSCenter() {
         <Grid container spacing={1}>
           <Grid item xs={3}>
             <Link
-              to="/extended-sidebar/SMSCenter/Compose"
+              to="/RITeSchool/SMSCenter/Compose"
               className={classes.TextDecoration}
             >
               <ButtonTab
@@ -86,7 +86,7 @@ function SMSCenter() {
 
           <Grid item xs={3}>
             <Link
-              to="/extended-sidebar/SMSCenter/smsCenter/Received"
+              to="/RITeSchool/SMSCenter/smsCenter/Received"
               className={classes.TextDecoration}
             >
               <ButtonTab
@@ -99,7 +99,7 @@ function SMSCenter() {
 
           <Grid item xs={3}>
             <Link
-              to="/extended-sidebar/SMSCenter/smsCenter/Sent"
+              to="/RITeSchool/SMSCenter/smsCenter/Sent"
               className={classes.TextDecoration}
             >
               <ButtonTab
@@ -111,7 +111,7 @@ function SMSCenter() {
           </Grid>
           <Grid item xs={3}>
             <Link
-              to="/extended-sidebar/SMSCenter/smsCenter/Scheduled"
+              to="/RITeSchool/SMSCenter/smsCenter/Scheduled"
               className={classes.TextDecoration}
             >
               <ButtonTab

@@ -275,9 +275,9 @@ const AllNoticeList = () => {
           navLinks={[
             {
               title: 'School Notice',
-              path: '/extended-sidebar/Teacher/AllSchoolNotice'
+              path: '/RITeSchool/Teacher/AllSchoolNotice'
             },
-            // { title: 'Add Homework', path: '/extended-sidebar/Teacher/AddHomework' },
+            // { title: 'Add Homework', path: '/RITeSchool/Teacher/AddHomework' },
           ]}
           rightActions={
             <>
@@ -328,7 +328,7 @@ const AllNoticeList = () => {
               <Box>
                 <Tooltip title={'Add New Notice'}>
                   <IconButton
-                    onClick={() => navigate('/extended-sidebar/Teacher/AddSchoolNotice')}
+                    onClick={() => navigate('/RITeSchool/Teacher/AddSchoolNotice')}
                     sx={{
                       color: 'white',
                       backgroundColor: green[500],
@@ -420,7 +420,7 @@ const AllNoticeList = () => {
                                 onChange={() => toggleRowSelection(itemList.NoticeName)}
                               />
                             </TableCell>
-                            <TableCell align='center'><Tooltip title='Edit'><IconButton sx={{ color: '#223354', '&:hover': { color: '#223354', cursor: 'pointer' } }} onClick={() => navigate('/extended-sidebar/Teacher/AddSchoolNotice', { state: itemList })}><EditIcon /></IconButton></Tooltip></TableCell>
+                            <TableCell align='center'><Tooltip title='Edit'><IconButton sx={{ color: '#223354', '&:hover': { color: '#223354', cursor: 'pointer' } }} onClick={() => navigate('/RITeSchool/Teacher/AddSchoolNotice', { state: itemList })}><EditIcon /></IconButton></Tooltip></TableCell>
                             <TableCell align='center'><Tooltip title='Delete'><IconButton sx={{ color: '#223354', '&:hover': { color: 'red', backgroundColor: red[100] } }} onClick={() => deleteHandle(itemList)} ><DeleteForeverIcon /></IconButton></Tooltip></TableCell>
                           </TableRow>
                         );

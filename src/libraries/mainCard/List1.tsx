@@ -15,13 +15,13 @@ function List1({
     else if (path !== undefined) {
       if (SelectedMonth === null)
         navigate(
-          '/extended-sidebar/' +
+          '/RITeSchool/' +
           path.replace('%', encodeURIComponent('%')) +
           linkParams
         );
       else
         navigate(
-          '/extended-sidebar/' +
+          '/RITeSchool/' +
           path.replace('%', encodeURIComponent('%')) +
           '/' +
           SelectedMonth +

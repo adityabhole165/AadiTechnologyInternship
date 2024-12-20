@@ -208,11 +208,11 @@ const StudentRecords = () => {
     setShowRiseAndShine(value);
   };
   const clickEdit = (value) => {
-    navigate('/extended-sidebar/Teacher/AddStudentRecord/Add/' + SelectTeacher +
+    navigate('/RITeSchool/Teacher/AddStudentRecord/Add/' + SelectTeacher +
       '/' + value);
   };
   const clickView = (value) => {
-    navigate('/extended-sidebar/Teacher/AddStudentRecord/Edit/' + SelectTeacher +
+    navigate('/RITeSchool/Teacher/AddStudentRecord/Edit/' + SelectTeacher +
       '/' + value);
   };
   const PageChange = (pageNumber) => {
@@ -227,7 +227,7 @@ const StudentRecords = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Student Record List', path: '/extended-sidebar/Teacher/StudentRecordBaseScreen' }
+          { title: 'Student Record List', path: '/RITeSchool/Teacher/StudentRecordBaseScreen' }
         ]}
         rightActions={
           <>

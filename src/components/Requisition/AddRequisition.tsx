@@ -322,7 +322,7 @@ const AddRequisition = () => {
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
             toast.success("Requisition is sent successfully.");
-            navigate('/extended-sidebar/Teacher/Requisition')
+            navigate('/RITeSchool/Teacher/Requisition')
             setItemlist([]);
             setAddItemlistNew([]);
             setError('')
@@ -505,7 +505,7 @@ const AddRequisition = () => {
     }
 
     const onClickBack = () => {
-        navigate('/extended-sidebar/Teacher/ExamResultBase');
+        navigate('/RITeSchool/Teacher/ExamResultBase');
     };
 
     useEffect(() => {
@@ -636,8 +636,8 @@ const AddRequisition = () => {
 
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Requisition', path: '/extended-sidebar/Teacher/Requisition' },
-                    { title: 'Requisition Details', path: '/extended-sidebar/Teacher/AddRequisition' }
+                    { title: 'Requisition', path: '/RITeSchool/Teacher/Requisition' },
+                    { title: 'Requisition Details', path: '/RITeSchool/Teacher/AddRequisition' }
                 ]}
 
                 rightActions={
@@ -962,39 +962,39 @@ const AddRequisition = () => {
                             />
                         ))}
                     </DialogContent>
-                   
+
                 </Dialog>
                 <Dialog open={!!selectedImage} onClose={handleClose1} fullWidth
-                        maxWidth="sm"
-                        PaperProps={{
-                            sx: {
-                                borderRadius: "15px",
-                            }
-                        }}>
-                        <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
-                            <ClearIcon onClick={handleClose1}
-                                sx={{
-                                    color: 'white',
-                                    borderRadius: '7px',
-                                    position: 'absolute',
-                                    top: '5px',
-                                    right: '8px',
-                                    cursor: 'pointer',
-                                    '&:hover': {
-                                        color: 'red',
-                                    }
-                                }} />
-                        </DialogTitle>
-                        <DialogContent>
-                            {selectedImage && (
-                                <img
-                                    src={selectedImage}
-                                    alt="Enlarged view"
-                                    style={{ width: '100%', height: 'auto',paddingTop:'7px' }} // Full size
-                                />
-                            )}
-                        </DialogContent>
-                    </Dialog>
+                    maxWidth="sm"
+                    PaperProps={{
+                        sx: {
+                            borderRadius: "15px",
+                        }
+                    }}>
+                    <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+                        <ClearIcon onClick={handleClose1}
+                            sx={{
+                                color: 'white',
+                                borderRadius: '7px',
+                                position: 'absolute',
+                                top: '5px',
+                                right: '8px',
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    color: 'red',
+                                }
+                            }} />
+                    </DialogTitle>
+                    <DialogContent>
+                        {selectedImage && (
+                            <img
+                                src={selectedImage}
+                                alt="Enlarged view"
+                                style={{ width: '100%', height: 'auto', paddingTop: '7px' }} // Full size
+                            />
+                        )}
+                    </DialogContent>
+                </Dialog>
 
                 {/* <Dialog open={open1} onClose={handleClose} scroll="body" >
                     <Box sx={{ backgroundColor: "#ede7f6" }}>

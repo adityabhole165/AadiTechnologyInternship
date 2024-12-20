@@ -9,7 +9,7 @@ function Card31({ Name, Value, text1 = '', text2 = '', text3 }) {
   const pathname = location.pathname;
   const [checked, setChecked] = useState(true);
 
-  const pageName = pathname.replace('/extended-sidebar/', '');
+  const pageName = pathname.replace('/RITeSchool/', '');
   const isMiddle =
     pageName === 'Student/Timetable' || pageName === 'Teacher/TeacherTimeTable';
   return (

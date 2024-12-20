@@ -61,7 +61,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
   }, [GetNavbarMenuDetails])
   const handleItemClick = (item) => {
     console.log('Clicked item:', item);
-    navigate('/extended-sidebar/landing/NavContent');
+    navigate('/RITeSchool/landing/NavContent');
     dispatch(getMenuDescription({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
     dispatch(getChildMenuId({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
   };
@@ -146,7 +146,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
             console.log('----->>>>', item);
             // handleMenuClick(e, item.MenuId)
             // actionPage(item)
-            navigate('/extended-sidebar/landing/NavContent');
+            navigate('/RITeSchool/landing/NavContent');
             dispatch(getMenuDescription({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
             dispatch(getChildMenuId({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }))
           }}

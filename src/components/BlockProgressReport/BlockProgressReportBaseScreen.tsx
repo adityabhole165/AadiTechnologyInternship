@@ -67,7 +67,7 @@ const BlockProgressReportBaseScreen = () => {
         <Box px={2}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Block Progress Report', path: '/extended-sidebar/Teacher/BlockProgressReportBaseScreen' }
+                    { title: 'Block Progress Report', path: '/RITeSchool/Teacher/BlockProgressReportBaseScreen' }
                 ]}
                 rightActions={<>
                     <SearchableDropdown2
@@ -187,12 +187,16 @@ const BlockProgressReportBaseScreen = () => {
                 {/* Display Page Content */}
                 {selectedOption === 'Unblocked' ? (
                     <>
-                        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center',
-                             pt: 2, pl: 2,  }}>
+                        <Box sx={{
+                            display: 'flex', gap: '20px', alignItems: 'center',
+                            pt: 2, pl: 2,
+                        }}>
                             <Typography variant="h4"
-                                sx={{ mb: 0, lineHeight: 'normal', 
-                                alignSelf: 'center', paddingBottom: '2px' }}>
-                                    Legend</Typography>
+                                sx={{
+                                    mb: 0, lineHeight: 'normal',
+                                    alignSelf: 'center', paddingBottom: '2px'
+                                }}>
+                                Legend</Typography>
                             <Box sx={{ display: 'flex', gap: '20px' }}>
                                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                                     {/* <SquareIcon style={{ color: green[500], fontSize: 25, position: 'relative', top: '-2px' }} /> */}
@@ -232,12 +236,16 @@ const BlockProgressReportBaseScreen = () => {
                     </>
                 ) : (
                     <Box sx={{ px: 2, py: 1 }}>
-                        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center',
-                             pt: 1, pl: 0,  }}>
+                        <Box sx={{
+                            display: 'flex', gap: '20px', alignItems: 'center',
+                            pt: 1, pl: 0,
+                        }}>
                             <Typography variant="h4"
-                                sx={{ mb: 0, lineHeight: 'normal', 
-                                alignSelf: 'center', paddingBottom: '2px' }}>
-                                    Legend</Typography>
+                                sx={{
+                                    mb: 0, lineHeight: 'normal',
+                                    alignSelf: 'center', paddingBottom: '2px'
+                                }}>
+                                Legend</Typography>
                             <Box sx={{ display: 'flex', gap: '20px' }}>
                                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                                     {/* <SquareIcon style={{ color: green[500], fontSize: 25, position: 'relative', top: '-2px' }} /> */}

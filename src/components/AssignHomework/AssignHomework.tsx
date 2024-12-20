@@ -135,7 +135,7 @@ const AssignHomework = () => {
 
   const clickItem1 = (value, MySubject) => {
     navigate(
-      '/extended-sidebar/Teacher/AddHomeworkNew/' +
+      '/RITeSchool/Teacher/AddHomeworkNew/' +
       SelectTeacher + '/' +
       getClassTeacherName() + '/' +
       value.StandardDivision + '/' +
@@ -146,7 +146,7 @@ const AssignHomework = () => {
     );
   };
   const onClick = () => {
-    navigate('/extended-sidebar/Teacher/AddDailyLog/' +
+    navigate('/RITeSchool/Teacher/AddDailyLog/' +
       SelectClass + '/' +
       getClassName()
     );
@@ -156,7 +156,7 @@ const AssignHomework = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' }
+          { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' }
         ]}
         rightActions={<>
           <SearchableDropdown

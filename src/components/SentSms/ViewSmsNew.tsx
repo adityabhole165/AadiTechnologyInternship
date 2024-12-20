@@ -42,7 +42,7 @@ function ViewSmsNew() {
   const RoleId = sessionStorage.getItem('RoleId');
   const { SmsId } = useParams();
   console.log(SmsId);
-  
+
 
   const GetViewMessageResult = () => {
     const ViewSms_body: IViewSms = {
@@ -68,15 +68,15 @@ function ViewSmsNew() {
     });
     return perm;
   };
- 
+
   return (
     <>
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
-        navLinks={[
-          { title: 'SMS Center ', path: '/extended-sidebar/Teacher/SmsCenter' },
-          { title: 'View SMS', path: '/extended-sidebar/Teacher/ViewSmsNew' }
-      ]}
+          navLinks={[
+            { title: 'SMS Center ', path: '/RITeSchool/Teacher/SmsCenter' },
+            { title: 'View SMS', path: '/RITeSchool/Teacher/ViewSmsNew' }
+          ]}
 
 
           rightActions={

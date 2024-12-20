@@ -20,13 +20,13 @@ import {
 } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 
-import React, { useState } from 'react';
-import CommonPageHeader from '../CommonPageHeader';
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from "@mui/icons-material/Edit";
-import { ClearIcon } from '@mui/x-date-pickers';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { ClearIcon } from '@mui/x-date-pickers';
+import React, { useState } from 'react';
+import CommonPageHeader from '../CommonPageHeader';
 
 
 
@@ -40,7 +40,7 @@ const ViewVideoGallery = () => {
   const [data, setData] = useState<Video[]>([
     { id: 1, url: 'https://www.youtube.com/embed/6fc2ahfyYQ0', title: 'Sasa' },
     { id: 2, url: 'https://www.youtube.com/embed/6fc2ahfyYQ0', title: 'Saaasa' },
-   
+
   ]);
 
   const [formData, setFormData] = useState<Pick<Video, 'url' | 'title'>>({
@@ -121,7 +121,7 @@ const ViewVideoGallery = () => {
         navLinks={[
           {
             title: 'Photo/Video Gallery',
-            path: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
+            path: '/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen',
           },
           { title: 'View Video Gallery', path: '' },
         ]}
@@ -243,15 +243,15 @@ const ViewVideoGallery = () => {
               }}>
                 <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5 }}>Comments</TableCell>
                 <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 1.5 }}>View</TableCell>
-                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py:  1.5 }}>Edit</TableCell>
-                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py:  1.5 }}>Delete</TableCell>
+                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 1.5 }}>Edit</TableCell>
+                <TableCell align="center" sx={{ textTransform: 'capitalize', color: 'white', py: 1.5 }}>Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {data.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell sx={{ textTransform: 'capitalize', py:  1.5,  }}>{item.title}</TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize', py:  0.5, textAlign: 'center', }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 1.5, }}>{item.title}</TableCell>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                     <Tooltip title={"View"}>
                       <IconButton
                         onClick={() => handleView(item.url)}
@@ -262,29 +262,29 @@ const ViewVideoGallery = () => {
                     </Tooltip>
                   </TableCell>
                   <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
-                  <Tooltip title={"Edit"}>
-                    <IconButton
-                      color="primary"
-                      onClick={() => handleEdit(item.id)}
-                    >
-                      <EditIcon />
-                    </IconButton>
+                    <Tooltip title={"Edit"}>
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleEdit(item.id)}
+                      >
+                        <EditIcon />
+                      </IconButton>
                     </Tooltip>
                   </TableCell>
                   <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
-                  <Tooltip title={"Delete"}>
-                    <IconButton
-                      sx={{
-                        color: "primary",
-                        "&:hover": {
+                    <Tooltip title={"Delete"}>
+                      <IconButton
+                        sx={{
+                          color: "primary",
+                          "&:hover": {
                             color: "red",
                             backgroundColor: red[100],
-                        },
-                    }}
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      <DeleteForeverIcon />
-                    </IconButton>
+                          },
+                        }}
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <DeleteForeverIcon />
+                      </IconButton>
                     </Tooltip>
                   </TableCell>
                 </TableRow>
@@ -302,8 +302,8 @@ const ViewVideoGallery = () => {
           sx: isFullscreen ? { width: '100%', height: '100%' } : { height: 'auto', borderRadius: '15px' },
         }}
       >
-         <DialogTitle sx={{ bgcolor: '#223354' }}>
-         <ClearIcon
+        <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <ClearIcon
             onClick={handleCloseDialog}
             sx={{
               color: 'white',
@@ -317,7 +317,7 @@ const ViewVideoGallery = () => {
               }
             }}
           />
-          </DialogTitle>
+        </DialogTitle>
         <DialogContent
           sx={{
             display: 'flex',
@@ -326,8 +326,8 @@ const ViewVideoGallery = () => {
             p: 0,
           }}
         >
-        
-          
+
+
           <iframe
             src={dialogVideo}
             title="Video Player"

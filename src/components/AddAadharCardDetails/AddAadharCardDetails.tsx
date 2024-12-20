@@ -109,7 +109,7 @@ const AddAadharCardDetails = () => {
     // }, [SubmitAadharCarddetails])
 
     const onClickClose = () => {
-        navigate('/extended-sidebar/Teacher/ExamResultBase')
+        navigate('/RITeSchool/Teacher/ExamResultBase')
     }
 
     // const handleSubmit = () => {

@@ -122,7 +122,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
             status: radioBtn,
         };
         // Data is Passed to the next page using navigate's state property  | state: dataToPass (can pass an entire Object)
-        navigate('/extended-sidebar/Teacher/PerformanceEvaluation', { state: dataToPass })
+        navigate('/RITeSchool/Teacher/PerformanceEvaluation', { state: dataToPass })
     }
     const PageChange = (pageNumber) => {
         setPage(pageNumber);
@@ -136,7 +136,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Performance Grade Assignment', path: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen' }
+                    { title: 'Performance Grade Assignment', path: '/RITeSchool/Teacher/PerformanceGradeAssignmentBaseScreen' }
                 ]}
                 rightActions={
                     <>

@@ -258,7 +258,7 @@ const AnnualPlannerBase = () => {
       setSelectedDate(value);
       setValue(value, 'MonthYear');
       dispatch(resetEventList())
-      navigate('/extended-sidebar/Common/EventManagementForm/' + value.replaceAll('/', '-') + '/' + DefaultValue.Standard + '/' + DefaultValue.StandardDivision)
+      navigate('/RITeSchool/Common/EventManagementForm/' + value.replaceAll('/', '-') + '/' + DefaultValue.Standard + '/' + DefaultValue.StandardDivision)
     }
   };
   const ClickFilterItem = (value) => {

@@ -5,7 +5,6 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { blue, green, grey } from "@mui/material/colors";
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import ExamScheduleTable from '../ExamScheduleTable';
-import React from 'react';
 
 
 const HeaderArray1 = [
@@ -78,7 +77,7 @@ const ExamScheduleBasescreen = () => {
         navLinks={[
           {
             title: 'Exam Schedule',
-            path: '/extended-sidebar/Teacher/ExamScheduleBasescreen',
+            path: '/RITeSchool/Teacher/ExamScheduleBasescreen',
           },
         ]}
         rightActions={

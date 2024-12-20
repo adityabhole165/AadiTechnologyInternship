@@ -280,7 +280,7 @@ const AddLessonPlanPrint = ({ valueProp }) => {
     };
 
     const onClickBack = () => {
-        navigate('/extended-sidebar/Teacher/LessonPlanBaseScreen');
+        navigate('/RITeSchool/Teacher/LessonPlanBaseScreen');
     };
 
     const onTextChange = (value) => {

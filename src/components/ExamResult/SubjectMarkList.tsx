@@ -121,8 +121,8 @@ const SubjectMarkList = () => {
       </>
     }])
 
-    console.log(Columns,"value");
-    
+  console.log(Columns, "value");
+
   useEffect(() => {
     if (HeaderListTestMark.length > 0) {
       let Columncpy = [...Columns];
@@ -141,7 +141,7 @@ const SubjectMarkList = () => {
                   )
 
                   || rowData.Marks[i].theoryType === "-" && (
-                    <span style={{ color: 'green', fontWeight: 'bold', backgroundColor: green[100], margin:'0px', paddingLeft:'5px', paddingRight:'5px' }}>{rowData.Marks[i].theoryType}</span>
+                    <span style={{ color: 'green', fontWeight: 'bold', backgroundColor: green[100], margin: '0px', paddingLeft: '5px', paddingRight: '5px' }}>{rowData.Marks[i].theoryType}</span>
                   )
 
                   || rowData.Marks[i].theoryType === "Ab" && (
@@ -184,7 +184,7 @@ const SubjectMarkList = () => {
           navLinks={[
             {
               title: 'Exam Result',
-              path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
+              path: '/RITeSchool/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
             },
             {
               title: 'Subject Mark List',
@@ -269,8 +269,8 @@ const SubjectMarkList = () => {
           }
         />
         <Box >
-        <Box sx={{backgroundColor:'white', p:1,mb:2}}>
-            
+          <Box sx={{ backgroundColor: 'white', p: 1, mb: 2 }}>
+
             <Stack direction={"row"} gap={2} alignItems={'center'} mt={1}>
               <Box>
                 <Typography variant='h5'>
@@ -342,24 +342,26 @@ const SubjectMarkList = () => {
               </Box>
             </Stack>
           </Box>
-        <Box sx={{ p: 2, background: 'white' }}>
-          {/* New Table */}
-          <Grid container spacing={2}>
-            {arrPages.map((arrItem) => {
-              return (
-                <Grid item xs={gridIndex}>
-                  <DataTable
-                    columns={Columns}
-                    data={TestMarkListNew.filter((item) => { return (item.Index >= arrItem.startIndex && item.Index <= arrItem.endIndex
-                    ) })}
-                    isPagination={false}
-                  />
-                </Grid>
-              )
-            })}</Grid>
+          <Box sx={{ p: 2, background: 'white' }}>
+            {/* New Table */}
+            <Grid container spacing={2}>
+              {arrPages.map((arrItem) => {
+                return (
+                  <Grid item xs={gridIndex}>
+                    <DataTable
+                      columns={Columns}
+                      data={TestMarkListNew.filter((item) => {
+                        return (item.Index >= arrItem.startIndex && item.Index <= arrItem.endIndex
+                        )
+                      })}
+                      isPagination={false}
+                    />
+                  </Grid>
+                )
+              })}</Grid>
 
-          
-        </Box>
+
+          </Box>
         </Box>
         {/* New Table End */}
 

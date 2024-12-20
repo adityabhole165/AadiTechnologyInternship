@@ -26,7 +26,7 @@ function DropdownofAddrecipent({
 }) {
   const location = useLocation();
   const pathname = location.pathname;
-  const pageName = pathname.replace('/extended-sidebar/Student/', '');
+  const pageName = pathname.replace('/RITeSchool/Student/', '');
 
   // Prevent special characters and numbers in the search
   const handleKeyDown = (event) => {

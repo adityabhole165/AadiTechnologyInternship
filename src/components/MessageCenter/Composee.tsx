@@ -94,7 +94,7 @@ function Form13() {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/Compose/',
+    '/RITeSchool/MessageCenter/Compose/',
     ''
   );
   const PageName = pageName.slice(0, 5);
@@ -369,7 +369,7 @@ function Form13() {
   };
 
   const RediretToSentPage = () => {
-    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
+    navigate('/RITeSchool/MessageCenter/msgCenter/Inbox');
   };
 
   const sendMessage = () => {
@@ -900,7 +900,7 @@ function Form13() {
           navLinks={[
             {
               title: 'Message Center',
-              path: '/extended-sidebar/MessageCenter/msgCenter'
+              path: '/RITeSchool/MessageCenter/msgCenter'
             },
             { title: 'Compose Message', path: '' }
           ]}

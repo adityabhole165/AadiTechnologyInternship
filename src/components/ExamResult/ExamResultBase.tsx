@@ -496,7 +496,7 @@ const ExamResultBase = () => {
   const ClickItem = (value) => {
 
     // const isPublish = publish === ClassPassFailDetailsForButton.IsPublish;
-    navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
+    navigate('/RITeSchool/Teacher/SubjectExamMarks/' +
       '0' + '/' +
       StandardDivisionId + '/' +
       getSubjectId(value.Index) + '/' +
@@ -515,12 +515,12 @@ const ExamResultBase = () => {
   };
 
   const TransferOptionalSubjectMarks = (value) => {
-    navigate('/extended-sidebar/Teacher/TransferOptionalSubjectMarks');
+    navigate('/RITeSchool/Teacher/TransferOptionalSubjectMarks');
   };
 
   const ClickLink = (value) => {
     navigate(
-      '/extended-sidebar/Teacher/SubjectMarkList/' +
+      '/RITeSchool/Teacher/SubjectMarkList/' +
       TestId +
       '/' +
       StandardDivisionId +
@@ -537,7 +537,7 @@ const ExamResultBase = () => {
   };
 
   const TermwiseHighwight = (value) => {
-    navigate('/extended-sidebar/Teacher/TermwiseHeightWeight/' + StandardDivisionId);
+    navigate('/RITeSchool/Teacher/TermwiseHeightWeight/' + StandardDivisionId);
   };
 
   // const getClassTeacherName = () => {
@@ -555,10 +555,10 @@ const ExamResultBase = () => {
 
 
   const ProgressRemark = (value) => {
-    navigate('/extended-sidebar/Teacher/ProgressRemarks/' + TestId + '/' + getTeacherId());
+    navigate('/RITeSchool/Teacher/ProgressRemarks/' + TestId + '/' + getTeacherId());
   }
   const ViewProgressRemark = (value) => {
-    navigate('/extended-sidebar/Teacher/ViewProgressReport/' + TestId + '/' + StandardDivisionId);
+    navigate('/RITeSchool/Teacher/ViewProgressReport/' + TestId + '/' + StandardDivisionId);
   };
 
 
@@ -586,7 +586,7 @@ const ExamResultBase = () => {
 
   const onClickUnpublish = (value) => {
     navigate(
-      '/extended-sidebar/Teacher/ExamResultUnpublish/' +
+      '/RITeSchool/Teacher/ExamResultUnpublish/' +
       TestId +
       '/' +
       StandardDivisionId +
@@ -597,14 +597,14 @@ const ExamResultBase = () => {
     );
   };
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + false);
+    navigate('/RITeSchool/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + false);
   };
   // const Toppers = (value) => {
-  //   navigate('/extended-sidebar/Teacher/ExamResultToppers/' + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + true);
+  //   navigate('/RITeSchool/Teacher/ExamResultToppers/' + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + true);
   // };
 
   const ClickSubject = (Id) => {
-    navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);
+    navigate('/RITeSchool/Teacher/SubjectMarkList/' + Id);
   };
   // send message to students f()
   const sendMessageTostudent = () => {
@@ -760,7 +760,7 @@ const ExamResultBase = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' }
+          { title: 'Exam Results', path: '/RITeSchool/Teacher/ExamResultBase' }
         ]}
         rightActions={<>
 

@@ -68,7 +68,7 @@ const PreprimaryProgressReport = () => {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asStandardDivId: PreprimaryFullAccess == 'Y' ? ClassTeacher : asStandardDivisionId,
-        asStudentId:  0
+        asStudentId: 0
     };
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
     {
@@ -193,16 +193,16 @@ const PreprimaryProgressReport = () => {
                   }
                 </style>
             `;
-           
-        
+
+
             printWindow.document.write('<html><head><title>Print</title>' + styles + '</head><body>');
-           
+
             printWindow.document.write(printContent); // Include the rest of the content
             printWindow.document.write('</body></html>');
             printWindow.document.close();
             printWindow.print();
         }
-        
+
 
     };
 
@@ -235,7 +235,7 @@ const PreprimaryProgressReport = () => {
 
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Pre Primary Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
+                    { title: 'Pre Primary Progress Report', path: '/RITeSchool/Teacher/PreprimaryProgressReport' },
 
                 ]}
 
@@ -380,7 +380,7 @@ const PreprimaryProgressReport = () => {
                                                 (item) => item.YearwiseStudentId == detail.YearWiseStudentId
                                             ).length}
                                         />
-                                          {/* <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} /> */}
+                                        {/* <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} /> */}
 
 
 
@@ -390,7 +390,7 @@ const PreprimaryProgressReport = () => {
                                                 Key to Curricular and Co-Curricular
 
                                             </Typography>
-                                           
+
 
                                             <TableContainer component={Box} >
                                                 <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>

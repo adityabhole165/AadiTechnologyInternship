@@ -65,7 +65,7 @@ function SidebarFooter() {
               color: `${theme.colors.alpha.trueWhite[100]}`
             }
           }}
-          to="/extended-sidebar/Student/attendance"
+          to="/RITeSchool/Student/attendance"
           component={RouterLink}
         >
           <EventTwoToneIcon fontSize="small" />
@@ -89,7 +89,7 @@ function SidebarFooter() {
           overlap="circular"
         >
           <IconButton
-            to="/extended-sidebar/MessageCenter/msgCenter"
+            to="/RITeSchool/MessageCenter/msgCenter"
             component={RouterLink}
             sx={{
               background: `${theme.colors.alpha.trueWhite[10]}`,

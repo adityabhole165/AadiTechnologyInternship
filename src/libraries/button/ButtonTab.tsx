@@ -6,11 +6,11 @@ import { Styles } from 'src/assets/style/student-style';
 import { Buttontab } from '../styled/ButtonStyle';
 
 const ButtonTab = ({ ButtonType, clickTab, activeTab }) => {
-  const pageLink = '/extended-sidebar/MessageCenter/msgCenter/' + ButtonType;
+  const pageLink = '/RITeSchool/MessageCenter/msgCenter/' + ButtonType;
   const classes = Styles();
   const pathname = window.location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/msgCenter/',
+    '/RITeSchool/MessageCenter/msgCenter/',
     ''
   );
   return (

@@ -351,7 +351,7 @@ const ComposeSMSform = () => {
             .then((res: any) => {
                 if (res.status === 200) {
                     toast.success('SMS sent successfully');
-                    navigate('/extended-sidebar/SMSCenter/smsCenter')
+                    navigate('/RITeSchool/SMSCenter/smsCenter')
                     formik.resetForm();
                 }
             })
@@ -545,7 +545,7 @@ const ComposeSMSform = () => {
                     navLinks={[
                         {
                             title: 'SMS Center',
-                            path: '/extended-sidebar/Teacher/SmsCenter',
+                            path: '/RITeSchool/Teacher/SmsCenter',
                         },
                         { title: 'Compose SMS', path: '' }
                     ]}
@@ -697,7 +697,7 @@ const ComposeSMSform = () => {
                                         }}
                                         onClick={() => {
                                             // pass data via state > mobileNumbers
-                                            navigate('/extended-sidebar/teacher/PersonalAddressBook', { state: { mobileNumbers } })
+                                            navigate('/RITeSchool/teacher/PersonalAddressBook', { state: { mobileNumbers } })
                                         }}
                                     >
                                         Personal Address book

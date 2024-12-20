@@ -364,7 +364,7 @@ function AnnualPlanner() {
     navigate('UpcomingEvent');
   };
   const clickAddAnnual = () => {
-    navigate('/extended-sidebar/teacher/AddAnnualPlaner');
+    navigate('/RITeSchool/teacher/AddAnnualPlaner');
   };
 
   return (
@@ -378,11 +378,11 @@ function AnnualPlanner() {
               navLinks={[
                 {
                   title: 'Annual Planner',
-                  path: '/extended-sidebar/landing/landing',
+                  path: '/RITeSchool/landing/landing',
                 },
                 {
                   title: 'Event Overview',
-                  path: '/extended-sidebar/Common/EventOverview',
+                  path: '/RITeSchool/Common/EventOverview',
                 }
               ]}
               rightActions={
@@ -432,7 +432,7 @@ function AnnualPlanner() {
                           }
                         }}
                         onClick={() => {
-                          navigate('/extended-sidebar/Common/EventOverview');
+                          navigate('/RITeSchool/Common/EventOverview');
                         }}
                       >
                         <CalendarMonthIcon />

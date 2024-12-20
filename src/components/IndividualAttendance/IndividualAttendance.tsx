@@ -146,8 +146,8 @@ const IndividualAttendance = () => {
       selectClasstecahernew !== undefined
         ? Number(selectClasstecahernew)
         : StudentList && StudentList.length > 0
-        ? Number(StudentList[0].Value)
-        : null
+          ? Number(StudentList[0].Value)
+          : null
   };
   const IGetCalendarForStudent: IGetCalendarForStudentBody = {
     asSchoolId: asSchoolId,
@@ -216,11 +216,11 @@ const IndividualAttendance = () => {
       ItemList.map((obj) =>
         obj.IsClickable
           ? {
-              ...obj,
-              Status: value,
-              BackgroundColor: getAttendanceLegend(value),
-              Text1: value == 'Y' ? 'Present' : 'Absent'
-            }
+            ...obj,
+            Status: value,
+            BackgroundColor: getAttendanceLegend(value),
+            Text1: value == 'Y' ? 'Present' : 'Absent'
+          }
           : obj
       )
     );
@@ -234,7 +234,7 @@ const IndividualAttendance = () => {
     if (ItemList.length >= 0) setAttendanceXML(getAttendanceString());
   }, [ItemList]);
   const click = () => {
-    navigate('/extended-sidebar/Teacher/TAttendance');
+    navigate('/RITeSchool/Teacher/TAttendance');
   };
   const handlePrevMonth = () => {
     const newDate = new Date(FormattedDate);
@@ -375,14 +375,14 @@ const IndividualAttendance = () => {
           {
             title: 'Attendance',
             path:
-              '/extended-sidebar/Teacher/TAttendance/' +
+              '/RITeSchool/Teacher/TAttendance/' +
               selectClasstecahernew +
               '/' +
               AssignedDate
           },
           {
             title: 'Individual Attendance',
-            path: '/extended-sidebar/Teacher/TAttendance/IndividualAttendance'
+            path: '/RITeSchool/Teacher/TAttendance/IndividualAttendance'
           }
         ]}
         rightActions={
@@ -409,7 +409,7 @@ const IndividualAttendance = () => {
               >
                 <Box
                   sx={{
-                   
+
                     width: { xs: '100%', sm: 'auto' },
                     mb: { xs: 1, sm: 'auto' }
                   }}
@@ -544,7 +544,7 @@ const IndividualAttendance = () => {
                         backgroundColor: green[600],
                         color: 'white'
                       }}
-                      // color="primary"
+                    // color="primary"
                     >
                       Confirm
                     </Button>
@@ -609,7 +609,7 @@ const IndividualAttendance = () => {
                         backgroundColor: green[600],
                         color: 'white'
                       }}
-                      // color="primary"
+                    // color="primary"
                     >
                       Update
                     </Button>
@@ -687,7 +687,7 @@ const IndividualAttendance = () => {
               backgroundColor: green[600],
               color: 'white'
             }}
-            // color="primary"
+          // color="primary"
           >
             Confirm
           </Button>

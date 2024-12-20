@@ -57,11 +57,11 @@ function CardDraft({
   const { FromRoute } = useParams();
 
   const navigateToInBox = () => {
-    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
+    navigate('/RITeSchool/MessageCenter/msgCenter/Inbox');
   };
 
   const navigateToEdit = () => {
-    navigate('/extended-sidebar/MessageCenter/Compose/Edit');
+    navigate('/RITeSchool/MessageCenter/Compose/Edit');
   };
   return (
     <>

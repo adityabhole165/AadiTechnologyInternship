@@ -1,7 +1,7 @@
 import { Close, QuestionMark, SearchTwoTone } from '@mui/icons-material';
 import { Box, Checkbox, FormControlLabel, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
@@ -11,7 +11,6 @@ import { CDACancelBookReservationMsg, CDAClearCancelBookReservationMsg, CDAGetRe
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import BookTable from './BookTable';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const ClaimedBookDetailsPage = () => {
 
     const dispatch = useDispatch();
@@ -28,14 +27,14 @@ const ClaimedBookDetailsPage = () => {
 
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState<number>(1);
-    
+
     const [ReserveBookDetails, SetReserveBookDetails] = useState([]);
     const rowsPerPageOptions = [10, 20, 50, 100, 200];
 
     const UsCancelBookReservationMsg: any = useSelector((state: RootState) => state.SchoolLibrary.ICancelBookReservationMsg);
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
     const USReserveBookDetailsCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetailsCount);
-    const singleTotalCount =  USReserveBookDetailsCount.map(item => item.Count)
+    const singleTotalCount = USReserveBookDetailsCount.map(item => item.Count)
 
     const loading = useSelector((state: RootState) => state.SchoolLibrary.Loading);
     const PageChange = (pageNumber) => {
@@ -60,7 +59,7 @@ const ClaimedBookDetailsPage = () => {
     };
 
 
-  
+
     const startIndexNew = (page - 1) * rowsPerPage;
     const endIndexNew = startIndexNew + rowsPerPage;
     const bookReserveDetails: IGetReserveBookDetailsBody = {
@@ -68,7 +67,7 @@ const ClaimedBookDetailsPage = () => {
         asAcademicYearId: asAcademicYearId,
         asUserID: asUserId,
         asStartIndex: startIndexNew,
-        asEndIndex: endIndexNew, 
+        asEndIndex: endIndexNew,
         asBookTitle: BookTitle,
         asUserName: UserName,
         asSortExpression: "Order By " + SortBy + " " + SortDirection, // "ORDER BY Book_Title ASC",
@@ -76,65 +75,65 @@ const ClaimedBookDetailsPage = () => {
     };
     useEffect(() => {
         dispatch(CDAGetReserveBookDetails(bookReserveDetails))
-    }, [showAllUsers, page, SortDirection, SortBy,startIndexNew,endIndexNew]);
+    }, [showAllUsers, page, SortDirection, SortBy, startIndexNew, endIndexNew]);
 
     const handleCheckboxChange = () => {
         setShowAllUsers(!showAllUsers);
     };
 
-    
 
-        useEffect(() => {
+
+    useEffect(() => {
         SetReserveBookDetails(USReserveBookDetails);
-      }, [USReserveBookDetails]);
-    
+    }, [USReserveBookDetails]);
+
 
     const ClickValue1 = (value) => {
         setBookTitle(value);
-      };
+    };
 
-      const ClickValue = (value) => {
+    const ClickValue = (value) => {
         setUserName(value);
-      };
+    };
 
-const clickSearchNew = () => {
-    if (BookTitle === '') {
-        SetReserveBookDetails(USReserveBookDetails);
-    } else {
-        SetReserveBookDetails(
-            USReserveBookDetails.filter((item) => {
-          const text1Match = item.bookTitle.toLowerCase().includes(
-            BookTitle.toLowerCase()
-          );
-        
-    
-          return text1Match ;
-        })
-      );
-    }
-    dispatch(CDAGetReserveBookDetails(bookReserveDetails))
-  };
+    const clickSearchNew = () => {
+        if (BookTitle === '') {
+            SetReserveBookDetails(USReserveBookDetails);
+        } else {
+            SetReserveBookDetails(
+                USReserveBookDetails.filter((item) => {
+                    const text1Match = item.bookTitle.toLowerCase().includes(
+                        BookTitle.toLowerCase()
+                    );
 
 
-  const clickSearchNew1 = () => {
-    clickSearchNew()
-    if (UserName === '') {
-        SetReserveBookDetails(USReserveBookDetails);
-    } else {
-        SetReserveBookDetails(
-            USReserveBookDetails.filter((item) => {
-          const text1Match = item.userName.toLowerCase().includes(
-            UserName.toLowerCase()
-          );
-          
-          
+                    return text1Match;
+                })
+            );
+        }
+        dispatch(CDAGetReserveBookDetails(bookReserveDetails))
+    };
 
-          return text1Match ;
-        })
-      );
-    }
-    dispatch(CDAGetReserveBookDetails(bookReserveDetails))
-  };
+
+    const clickSearchNew1 = () => {
+        clickSearchNew()
+        if (UserName === '') {
+            SetReserveBookDetails(USReserveBookDetails);
+        } else {
+            SetReserveBookDetails(
+                USReserveBookDetails.filter((item) => {
+                    const text1Match = item.userName.toLowerCase().includes(
+                        UserName.toLowerCase()
+                    );
+
+
+
+                    return text1Match;
+                })
+            );
+        }
+        dispatch(CDAGetReserveBookDetails(bookReserveDetails))
+    };
 
 
 
@@ -182,11 +181,11 @@ const clickSearchNew = () => {
 
     return (
         <Box px={2}>
-             
+
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Library', path: '/extended-sidebar/Teacher/LibraryBaseScreen' },
-                    { title: 'Claimed Book Details', path: '/extended-sidebar/Teacher/LibraryBaseScreen/ClaimedBookDetailsPage' },
+                    { title: 'Library', path: '/RITeSchool/Teacher/LibraryBaseScreen' },
+                    { title: 'Claimed Book Details', path: '/RITeSchool/Teacher/LibraryBaseScreen/ClaimedBookDetailsPage' },
                 ]}
                 rightActions={
                     <Box sx={{ display: 'flex', gap: 1 }}>
@@ -197,7 +196,7 @@ const clickSearchNew = () => {
                             size={"small"}
                             onChange={(e) => {
                                 ClickValue(e.target.value);
-                              }}
+                            }}
                             value={UserName}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === 'Tab') {
@@ -212,9 +211,9 @@ const clickSearchNew = () => {
                             size={'small'}
                             onChange={(e) => {
                                 ClickValue1(e.target.value);
-                              }}
+                            }}
 
-                           
+
                             value={BookTitle}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === 'Tab') {

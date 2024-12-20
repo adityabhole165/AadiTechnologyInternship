@@ -293,14 +293,14 @@ const EnterStudentSiblingDetails = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Students', path: '/extended-sidebar/Teacher/Students' },
+          { title: 'Students', path: '/RITeSchool/Teacher/Students' },
           {
             title: 'Enter Students Details',
-            path: '/extended-sidebar/Teacher/StudentRegistrationForms'
+            path: '/RITeSchool/Teacher/StudentRegistrationForms'
           },
           {
             title: 'Enter Student Sibling Details',
-            path: '/extended-sidebar/Teacher/EnterStudentSiblingDetails'
+            path: '/RITeSchool/Teacher/EnterStudentSiblingDetails'
           }
         ]}
         rightActions={

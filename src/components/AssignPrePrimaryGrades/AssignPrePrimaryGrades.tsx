@@ -267,12 +267,12 @@ const AssignPrePrimaryGrades = () => {
     if (isXseed === 'N') {
       // Navigate for non-Xseed cases
       if (SubmitStatusId === "1" || SubmitStatusId === "2" || SubmitStatusId === "3") {
-        navigate('/extended-sidebar/Teacher/AssignProgressReportSubject', { state });
+        navigate('/RITeSchool/Teacher/AssignProgressReportSubject', { state });
       }
     } else if (isXseed === 'Y') {
       // Navigate for Xseed cases
       if (SubmitStatusId === "1" || SubmitStatusId === "2" || SubmitStatusId === "3") {
-        navigate('/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades', { state });
+        navigate('/RITeSchool/Teacher/AssignPrePrimarySubjectGrades', { state });
       }
     }
   };

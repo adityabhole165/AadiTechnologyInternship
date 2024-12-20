@@ -349,7 +349,7 @@ const AddDailyLog = () => {
   };
 
   const onClickBack = () => {
-    navigate('/extended-sidebar/Teacher/AssignHomework');
+    navigate('/RITeSchool/Teacher/AssignHomework');
   };
   const handleDateChange = (selectedDate) => {
     setDateState(selectedDate);
@@ -524,7 +524,7 @@ const AddDailyLog = () => {
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
-            { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' },
+            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' },
             { title: 'Manage Daily Log', path: '' }
           ]}
           rightActions={<>

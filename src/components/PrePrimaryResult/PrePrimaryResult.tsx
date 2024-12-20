@@ -221,10 +221,10 @@ const PrePrimaryResult = () => {
       selectTeacher: 'RP',
     };
     if (IsXseedSubject === 'Y') {
-      navigate('/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades/', { state });
+      navigate('/RITeSchool/Teacher/AssignPrePrimarySubjectGrades/', { state });
     } else if (IsXseedSubject === 'N') {
       navigate(
-        '/extended-sidebar/Teacher/AssignProgressReportSubject/', { state });
+        '/RITeSchool/Teacher/AssignProgressReportSubject/', { state });
     }
   };
 
@@ -319,7 +319,7 @@ const PrePrimaryResult = () => {
 
       <CommonPageHeader
         navLinks={[
-          { title: `Pre-Primary Progress Report Results`, path: '/extended-sidebar/Teacher/PrePrimaryResult' },
+          { title: `Pre-Primary Progress Report Results`, path: '/RITeSchool/Teacher/PrePrimaryResult' },
 
         ]}
 
@@ -497,15 +497,15 @@ const PrePrimaryResult = () => {
             </h1>
             <Grid container spacing={0} alignItems="center">
               <Grid item xs={6}>
-              <Tooltip title={getClassName()} >
-                <TextField fullWidth label={'Assessment'}
-                  sx={{ width: '95%', bgcolor: '#f0f0f0' }}
-                  InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  value={getClassName()}
-                />
+                <Tooltip title={getClassName()} >
+                  <TextField fullWidth label={'Assessment'}
+                    sx={{ width: '95%', bgcolor: '#f0f0f0' }}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={getClassName()}
+                  />
                 </Tooltip>
               </Grid>
 

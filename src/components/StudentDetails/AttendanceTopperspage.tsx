@@ -1,3 +1,4 @@
+import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
 import {
   Box,
   IconButton,
@@ -8,15 +9,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Tooltip
 } from '@mui/material';
-import React, { useState } from 'react';
-import CommonPageHeader from '../CommonPageHeader';
-import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
-import { grey, blue } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import GradeConfigurationPopup from './GradeConfigurationPopup';
+import CommonPageHeader from '../CommonPageHeader';
 
 const AttendanceTopperspage = () => {
   const yourAttendance = [
@@ -210,11 +207,11 @@ const AttendanceTopperspage = () => {
         navLinks={[
           {
             title: 'Student Details',
-            path: '/extended-sidebar/Teacher/StudentDetailsBaseScreen'
+            path: '/RITeSchool/Teacher/StudentDetailsBaseScreen'
           },
           {
             title: 'Attendance',
-            path: '/extended-sidebar/Teacher/StudentDetailsAttendance'
+            path: '/RITeSchool/Teacher/StudentDetailsAttendance'
           },
           {
             title: 'Attendance Toppers And Old Records',
@@ -271,7 +268,7 @@ const AttendanceTopperspage = () => {
           </>
         }
       />
-     
+
       <Box sx={{ backgroundColor: 'white', px: 2, py: 1 }}>
         <h3>Your Attendance</h3>
         {renderTable(yourAttendance)}

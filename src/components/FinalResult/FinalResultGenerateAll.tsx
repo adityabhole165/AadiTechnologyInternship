@@ -279,7 +279,7 @@ const GenerateAll = ({ }) => {
 
 
     const onClickClose = () => {
-        navigate('/extended-sidebar/Teacher/FinalResult');
+        navigate('/RITeSchool/Teacher/FinalResult');
     };
 
     const getXML = () => {
@@ -365,7 +365,7 @@ const GenerateAll = ({ }) => {
                 navLinks={[
                     {
                         title: 'Final Result',
-                        path: '/extended-sidebar/Teacher/FinalResult/' + getstandardDivId()
+                        path: '/RITeSchool/Teacher/FinalResult/' + getstandardDivId()
                     },
                     {
                         title: 'Generate/View Final Result',

@@ -19,7 +19,7 @@ function MessaageCenter() {
   // const classes = Styles();
   // const pathname = window.location.pathname;
   // const pageName = pathname.replace(
-  //   '/extended-sidebar/MessageCenter/msgCenter/',
+  //   '/RITeSchool/MessageCenter/msgCenter/',
   //   ''
   // );
   // const [FilterData,setFilterData] = useState<boolean>(false);
@@ -61,12 +61,12 @@ function MessaageCenter() {
   //           >
   //             <Grid item xs={3.5}>
   //               <Link
-  //                 to="/extended-sidebar/MessageCenter/msgCenter/Inbox"
+  //                 to="/RITeSchool/MessageCenter/msgCenter/Inbox"
   //                 className={classes.TextDecoration}
   //               >
   //                 <Item
   //                   sx={
-  //                     pageName == '/extended-sidebar/MessageCenter/msgCenter' ||
+  //                     pageName == '/RITeSchool/MessageCenter/msgCenter' ||
   //                     pageName == 'Inbox'
   //                       ? {
   //                           fontSize: '10px',
@@ -84,7 +84,7 @@ function MessaageCenter() {
   //             </Grid>
   //             <Grid item xs={3.5}>
   //               <Link
-  //                 to="/extended-sidebar/MessageCenter/msgCenter/Sent"  //FilterData
+  //                 to="/RITeSchool/MessageCenter/msgCenter/Sent"  //FilterData
   //                 className={classes.TextDecoration}
   //               >
   //                 <Item
@@ -106,7 +106,7 @@ function MessaageCenter() {
   //             </Grid>
   //             <Grid item xs={3.5}>
   //               <Link
-  //                 to="/extended-sidebar/MessageCenter/msgCenter/Trash"
+  //                 to="/RITeSchool/MessageCenter/msgCenter/Trash"
   //                 className={classes.TextDecoration}
   //               >
   //                 <Item

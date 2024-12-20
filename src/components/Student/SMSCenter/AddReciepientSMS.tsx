@@ -445,13 +445,13 @@ const AddReciepentsSMS = ({
       ClassId: classId,
       ContactGroup: contactGroup
     });
-    // navigate('/extended-sidebar/MessageCenter/Compose');
+    // navigate('/RITeSchool/MessageCenter/Compose');
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
   const handleClick = () => {
-    navigate('/extended-sidebar/SMSCenter/ContactGroup'); // Replace with your desired route path
+    navigate('/RITeSchool/SMSCenter/ContactGroup'); // Replace with your desired route path
   };
 
   const handleOpenDialog = (isRecipients) => {

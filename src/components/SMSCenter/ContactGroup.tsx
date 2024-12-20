@@ -28,7 +28,7 @@ function ContactGroup() {
             <CommonPageHeader
                 navLinks={[
                     {
-                        title: 'Compose SMS', path: '/extended-sidebar/Teacher/ComposeSMS'
+                        title: 'Compose SMS', path: '/RITeSchool/Teacher/ComposeSMS'
                     },
                     {
                         title: 'Contact Group', path: ''

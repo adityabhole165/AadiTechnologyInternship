@@ -151,7 +151,7 @@ function Basenav() {
                   }}
                 >
                   <NavLink
-                    to="/extended-sidebar/landing/landing"
+                    to="/RITeSchool/landing/landing"
                     className={classes.root}
                     activeStyle={{ color: '#9e9e9e' }}
                   >

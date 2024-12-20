@@ -138,7 +138,7 @@ function Card7({
   const { FromRoute } = useParams();
 
   const navigateToInBox = () => {
-    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
+    navigate('/RITeSchool/MessageCenter/msgCenter/Inbox');
   };
   function replaceTableStyles(htmlString) {
     // Regular expression to match td tags with or without existing style
@@ -166,8 +166,8 @@ function Card7({
         // <PageHeader heading="Message Center" subheading=""></PageHeader>
         // <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
         navLinks={[
-          { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
-          { title: 'View Message', path: '/extended-sidebar/MessageCenter/viewMSg ' }
+          { title: 'Message Center', path: '/RITeSchool/MessageCenter/msgCenter' },
+          { title: 'View Message', path: '/RITeSchool/MessageCenter/viewMSg ' }
         ]}
         rightActions={
           <>

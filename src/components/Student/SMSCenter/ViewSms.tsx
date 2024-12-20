@@ -70,14 +70,14 @@ function ViewSms() {
     {
       title: 'SMS Center',
       path: GetScreenPermission() === 'N'
-        ? '/extended-sidebar/Teacher/ReceivedSMSOwn'
-        : '/extended-sidebar/Teacher/SmsCenter',
+        ? '/RITeSchool/Teacher/ReceivedSMSOwn'
+        : '/RITeSchool/Teacher/SmsCenter',
     },
     {
       title: 'View SMS',
       path: GetScreenPermission() === 'Y'
-        ? '/extended-sidebar/Teacher/SmsCenter'
-        : '/extended-sidebar/Teacher/ReceivedSMSOwn',
+        ? '/RITeSchool/Teacher/SmsCenter'
+        : '/RITeSchool/Teacher/ReceivedSMSOwn',
     }
   ];
   return (

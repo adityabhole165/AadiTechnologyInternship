@@ -275,13 +275,13 @@ const AddHomework = () => {
   };
 
   const Back = () => {
-    navigate('/extended-sidebar/Teacher/AssignHomework');
+    navigate('/RITeSchool/Teacher/AssignHomework');
   };
   const clickTitle1 = (Id) => {
-    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
+    navigate('/RITeSchool/Teacher/ViewHomework/' + Id);
   };
   const Back1 = () => {
-    navigate('/extended-sidebar/Teacher/AddUnpublish1/' + Id);
+    navigate('/RITeSchool/Teacher/AddUnpublish1/' + Id);
   };
   const Changevalue = (value) => {
     // setitemPublish(value);
@@ -351,9 +351,9 @@ const AddHomework = () => {
           navLinks={[
             {
               title: 'Assign Homework',
-              path: '/extended-sidebar/Teacher/AssignHomework'
+              path: '/RITeSchool/Teacher/AssignHomework'
             },
-            { title: 'Add Homework', path: '/extended-sidebar/Teacher/AddHomework' },
+            { title: 'Add Homework', path: '/RITeSchool/Teacher/AddHomework' },
           ]}
           rightActions={
             <>

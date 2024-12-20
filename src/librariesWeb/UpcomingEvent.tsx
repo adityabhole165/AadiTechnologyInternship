@@ -156,7 +156,7 @@ function UpcomingEvent() {
                 {/* <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" /> */}
                 <Typography>
                   {/* {event.Text1.length > 4 ? event.Text1.slice(0, -5) + '' : event.Text1} to  {event.Text2.length > 4 ? event.Text2.slice(0, -5) + '' : event.Text2} */}
-                  <Typography sx={{ mt: 0.5,ml:2 }}>
+                  <Typography sx={{ mt: 0.5, ml: 2 }}>
                     {event.Text1.length > 4 ? event.Text1.slice(0, -5) + '' : event.Text1}
                     {event.Text1 !== event.Text2 && ` to ${event.Text2.length > 4 ? event.Text2.slice(0, -5) + '' : event.Text2}`}
                   </Typography>
@@ -205,7 +205,7 @@ function UpcomingEvent() {
 
       <Grid container p={1} pl={19}>
         <Link
-          href="/extended-sidebar/Common/AnnualPlanner"
+          href="/RITeSchool/Common/AnnualPlanner"
           style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', width: '70%' }}
         >
           <Typography variant="h4">

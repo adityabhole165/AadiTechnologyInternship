@@ -172,7 +172,7 @@ const ViewLeaveDetails = () => {
             toast.success(USApproveorRejectLeaveDetails)
             dispatch(resetapproveorreject())
             // dispatch(getLeaveDetailList());
-            navigate('/extended-sidebar/Teacher/LeaveDetails');
+            navigate('/RITeSchool/Teacher/LeaveDetails');
         }
     }, [USApproveorRejectLeaveDetails])
 
@@ -344,16 +344,16 @@ const ViewLeaveDetails = () => {
                 navLinks={[
                     {
                         title: 'Leave Details',
-                        path: '/extended-sidebar/Teacher/LeaveDetails',
+                        path: '/RITeSchool/Teacher/LeaveDetails',
                     },
                     LeaveDId ?
                         {
                             title: 'Apply / Approve / Reject Leave page',
-                            path: '/extended-sidebar/Teacher/ViewLeaveDetails/',
+                            path: '/RITeSchool/Teacher/ViewLeaveDetails/',
                         } :
                         {
                             title: 'Apply / Approve / Reject Leave page',
-                            path: '/extended-sidebar/Teacher/ViewLeaveDetails',
+                            path: '/RITeSchool/Teacher/ViewLeaveDetails',
                         }
                 ]}
                 rightActions={rightActions}

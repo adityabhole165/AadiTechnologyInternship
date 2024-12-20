@@ -368,7 +368,7 @@ const SchoolNoticeBaseScreen = () => {
                             <Tooltip title={'Add New Notice'}>
                                 <IconButton
                                     onClick={() =>
-                                        navigate('/extended-sidebar/Teacher/AddSchoolNoticeFT' + '/' + selectDisplayType)
+                                        navigate('/RITeSchool/Teacher/AddSchoolNoticeFT' + '/' + selectDisplayType)
                                     }
                                     sx={{
                                         color: 'white',

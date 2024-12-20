@@ -14,15 +14,14 @@ import PhotoIcon from '@mui/icons-material/Photo';
 import SmsIcon from '@mui/icons-material/Sms';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import {
-    Avatar,
-    Box,
-    Card,
-    CardContent,
-    CardHeader,
-    Container,
-    Grid,
-    IconButton,
-    Typography
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  IconButton,
+  Typography
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
@@ -108,7 +107,7 @@ function Card24() {
               sx={{ marginTop: '-25px', textAlign: 'center' }}
             >
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/schoolnotice">
+                <Link to="/RITeSchool/Student/schoolnotice">
                   <IconButton>
                     <AssignmentIcon fontSize="large" color="primary" />
                   </IconButton>
@@ -116,7 +115,7 @@ function Card24() {
                 <Text>School Notice</Text>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/eventoverview">
+                <Link to="/RITeSchool/Student/eventoverview">
                   <IconButton>
                     <EventIcon fontSize="large" color="secondary" />
                   </IconButton>
@@ -124,7 +123,7 @@ function Card24() {
                 <Text>Annual Planner</Text>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/holidays">
+                <Link to="/RITeSchool/Student/holidays">
                   <IconButton>
                     <DateRangeIcon fontSize="large" color="warning" />
                   </IconButton>
@@ -132,7 +131,7 @@ function Card24() {
                 <Text>Holidays</Text>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/Gallery">
+                <Link to="/RITeSchool/Student/Gallery">
                   <IconButton>
                     <PhotoIcon
                       fontSize="large"
@@ -143,7 +142,7 @@ function Card24() {
                 <Text sx={{ ml: -1 }}>Photo Gallary</Text>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/VideoGallery">
+                <Link to="/RITeSchool/Student/VideoGallery">
                   <IconButton>
                     <VideoLibraryIcon
                       fontSize="large"
@@ -166,7 +165,7 @@ function Card24() {
               sx={{ marginTop: '-50px', textAlign: 'center' }}
             >
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/attendance">
+                <Link to="/RITeSchool/Student/attendance">
                   <IconButton>
                     <EventNoteIcon
                       fontSize="large"
@@ -178,7 +177,7 @@ function Card24() {
                 <Text>Attendance</Text>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/Timetable">
+                <Link to="/RITeSchool/Student/Timetable">
                   <IconButton>
                     <AccessTimeIcon
                       fontSize="large"
@@ -190,7 +189,7 @@ function Card24() {
                 <Text>Timetable</Text>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/Fees">
+                <Link to="/RITeSchool/Student/Fees">
                   <IconButton>
                     <MonetizationOnIcon
                       fontSize="large"
@@ -202,7 +201,7 @@ function Card24() {
                 <Text>Fees</Text>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/Homework">
+                <Link to="/RITeSchool/Student/Homework">
                   <IconButton>
                     <MenuBookIcon fontSize="large" sx={{ color: '#80cbc4' }} />
                   </IconButton>
@@ -210,7 +209,7 @@ function Card24() {
                 <Text>Homework</Text>
               </Grid>
               <Grid item xs={3} sx={{ marginTop: '-50px' }}>
-                <Link to="/extended-sidebar/Student/changePassword">
+                <Link to="/RITeSchool/Student/changePassword">
                   <IconButton>
                     <LockOpenIcon
                       fontSize="large"
@@ -233,7 +232,7 @@ function Card24() {
               sx={{ marginTop: '-60px', textAlign: 'center' }}
             >
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/SubjectTeacher">
+                <Link to="/RITeSchool/Student/SubjectTeacher">
                   <IconButton>
                     <PeopleIcon fontSize="large" color="primary" />
                   </IconButton>
@@ -241,7 +240,7 @@ function Card24() {
                 <Text sx={{ marginTop: -1 }}>Subject Teachers</Text>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/examschedule">
+                <Link to="/RITeSchool/Student/examschedule">
                   <IconButton>
                     <CalendarTodayIcon fontSize="large" color="success" />
                   </IconButton>
@@ -250,7 +249,7 @@ function Card24() {
               </Grid>
 
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/progressreport">
+                <Link to="/RITeSchool/Student/progressreport">
                   <IconButton>
                     <AssessmentIcon fontSize="large" color="warning" />
                   </IconButton>
@@ -272,7 +271,7 @@ function Card24() {
               sx={{ marginTop: '-60px', textAlign: 'center' }}
             >
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/MessageCenter/msgCenter">
+                <Link to="/RITeSchool/MessageCenter/msgCenter">
                   <IconButton>
                     <ForwardToInboxIcon
                       fontSize="large"
@@ -285,7 +284,7 @@ function Card24() {
                 </Typography>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/smscenter">
+                <Link to="/RITeSchool/Student/smscenter">
                   <IconButton>
                     <SmsIcon fontSize="large" sx={{ color: '#aed581' }} />
                   </IconButton>
@@ -295,7 +294,7 @@ function Card24() {
                 </Typography>
               </Grid>
               <Grid item xs={3}>
-                <Link to="/extended-sidebar/Student/pta">
+                <Link to="/RITeSchool/Student/pta">
                   <IconButton>
                     <PeopleIcon fontSize="large" color="info" />
                   </IconButton>

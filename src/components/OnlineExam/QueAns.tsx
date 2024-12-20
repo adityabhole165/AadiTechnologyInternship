@@ -171,7 +171,7 @@ const QueAns = () => {
       toast.success(Getsubmitexam, { toastId: 'success1' });
       dispatch(resetSubmitMsg());
       setTimeout(() => {
-        window.location.href = '/extended-sidebar/Student/OnlineExam';
+        window.location.href = '/RITeSchool/Student/OnlineExam';
       }, 2000);
     }
     if (Getsaveexam !== null && Getsaveexam !== '') {

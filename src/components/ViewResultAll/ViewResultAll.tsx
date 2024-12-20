@@ -374,7 +374,7 @@ const ViewResultAll = (props: Props) => {
         navLinks={[
           {
             title: 'Final Result',
-            path: '/extended-sidebar/Teacher/FinalResult/' + StandardDivisionId,
+            path: '/RITeSchool/Teacher/FinalResult/' + StandardDivisionId,
           },
           {
             title: 'View Result All',

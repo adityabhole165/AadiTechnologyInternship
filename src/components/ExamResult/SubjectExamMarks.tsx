@@ -230,7 +230,7 @@ const SubjectExamMarks = () => {
   }, []);
 
   const onClickBack = () => {
-    navigate('/extended-sidebar/Teacher/AssignExamMark');
+    navigate('/RITeSchool/Teacher/AssignExamMark');
   };
   const getIsMarkAssigned = (StudentId) => {
     let bIsReturn = false
@@ -365,12 +365,12 @@ const SubjectExamMarks = () => {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
       if (examResultProp === "true") {
-        navigate("/extended-sidebar/Teacher/ExamResultBase/" + StandardDivisionId + "/" + TestId);
+        navigate("/RITeSchool/Teacher/ExamResultBase/" + StandardDivisionId + "/" + TestId);
       } else {
-        navigate("/extended-sidebar/Teacher/AssignExamMark/" + ClassTecher + "/" + ClassId + "/" + TestId);
+        navigate("/RITeSchool/Teacher/AssignExamMark/" + ClassTecher + "/" + ClassId + "/" + TestId);
       }
     }
-    //   navigate("/extended-sidebar/Teacher/AssignExamMark/" +
+    //   navigate("/RITeSchool/Teacher/AssignExamMark/" +
     //     ClassTecher + "/" + TestId + "/" + ClassId
     //   )
     // }
@@ -455,13 +455,13 @@ const SubjectExamMarks = () => {
   };
   const ExamResultLink = {
     title: 'Exam Results',
-    path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
-    //path: '/extended-sidebar/Teacher/ExamResultBase'
+    path: '/RITeSchool/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
+    //path: '/RITeSchool/Teacher/ExamResultBase'
   };
 
   const AssignExamMarkLink = {
     title: 'Assign Exam Mark',
-    path: '/extended-sidebar/Teacher/AssignExamMark/' + ClassTecher + "/" + ClassId + "/" + TestId
+    path: '/RITeSchool/Teacher/AssignExamMark/' + ClassTecher + "/" + ClassId + "/" + TestId
   };
   return (
     <Box sx={{ px: 2 }}>

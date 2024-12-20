@@ -355,7 +355,7 @@ function Header() {
       result.RoleName == 'Teacher' ||
       result.RoleName == 'Admin Staff'
     ) {
-      navigate('/extended-sidebar/landing/landing');
+      navigate('/RITeSchool/landing/landing');
     }
     // deviceRegistrationFCM(result.Id)
   };
@@ -449,7 +449,7 @@ function Header() {
   //   if (AllActiveNoticesId.length > 0) {
   //     if ((localStorage.getItem("AllActiveNotices") !== AllActiveNoticesId.toString())) {
   //       localStorage.setItem("AllActiveNotices", AllActiveNoticesId.toString())
-  //       navigate('/extended-sidebar/Common/SchoolNotice');
+  //       navigate('/RITeSchool/Common/SchoolNotice');
   //     }
   //   }
 
@@ -495,12 +495,12 @@ function Header() {
             boxShadow:
               theme.palette.mode === 'dark'
                 ? '0 1px 0 ' +
-                  alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
-                  ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
+                alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
+                ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
                 : '0px 2px 8px -3px ' +
-                  alpha(theme.colors.alpha.black[100], 0.2) +
-                  ', 0px 5px 22px -4px ' +
-                  alpha(theme.colors.alpha.black[100], 0.1)
+                alpha(theme.colors.alpha.black[100], 0.2) +
+                ', 0px 5px 22px -4px ' +
+                alpha(theme.colors.alpha.black[100], 0.1)
           }}
         >
           {Toaster()}
@@ -599,7 +599,7 @@ function Header() {
                 }}
                 display="flex"
               >
-              <Avatar
+                <Avatar
                   alt="user.name"
                   src={userprofile}
                   sx={{
@@ -644,7 +644,7 @@ function Header() {
                   onClick={() => {
                     handleClose();
                   }}
-                  to={'/extended-sidebar/Student/Profile'}
+                  to={'/RITeSchool/Student/Profile'}
                   component={NavLink}
                   sx={{
                     '&:hover': {
@@ -674,7 +674,7 @@ function Header() {
                   onClick={() => {
                     handleClose();
                   }}
-                  to={'/extended-sidebar/common/changePassword'}
+                  to={'/RITeSchool/common/changePassword'}
                   component={NavLink}
                   sx={{
                     '&:hover': {
@@ -842,7 +842,7 @@ function Header() {
               </List>
               {/* Set '!==' to '===' | Currently set !== just for testing on Web App */}
               {window.localStorage.getItem('deviceType') !== 'android' ||
-              localStorage.getItem('deviceType') !== 'ios' ? (
+                localStorage.getItem('deviceType') !== 'ios' ? (
                 <Box m={1}>
                   <Button color="primary" fullWidth onClick={handleCloseApp}>
                     <PowerSettingsNewIcon

@@ -262,7 +262,7 @@ function SelectSchool() {
     localStorage.setItem('RoleName', result.RoleName);
 
     const url = localStorage.getItem('url');
-    navigate('/extended-sidebar/landing/landing');
+    navigate('/RITeSchool/landing/landing');
     // if (url != null && url !== '/') {
     //   // navigate(url);
     // } else if (
@@ -270,7 +270,7 @@ function SelectSchool() {
     //   result.RoleName == 'Teacher' ||
     //   result.RoleName == 'Admin Staff'
     // ) {
-    //   navigate('/extended-sidebar/landing/landing');
+    //   navigate('/RITeSchool/landing/landing');
     // }
     //  deviceRegistrationFCM(result.Id)
   };

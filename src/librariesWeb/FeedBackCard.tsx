@@ -129,7 +129,7 @@ function FeedBackCard() {
     setAnchorEl(null);
   };
   const ClickFeddback = () => {
-    navigate('/extended-sidebar/Student/Feedback');
+    navigate('/RITeSchool/Student/Feedback');
   };
 
   const open = Boolean(anchorEl);

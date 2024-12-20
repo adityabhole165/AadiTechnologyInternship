@@ -1,7 +1,9 @@
 
 
 
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Box, Grid, IconButton, TextField, Tooltip } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -10,15 +12,13 @@ import { CDAGetRequisitionDetails } from 'src/requests/Requisition/RequestAddReq
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import Requisioneditlist from './Requisioneditlist';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import RequistionViewlist from './RequistionViewlist';
 import Datepicker from './Datepicker';
-import { grey } from '@mui/material/colors';
+import Requisioneditlist from './Requisioneditlist';
+import RequistionViewlist from './RequistionViewlist';
 
 const RequistionView = () => {
     const dispatch = useDispatch();
-    
+
     const { ViewId } = useParams();
     const ViewId1 = atob(ViewId)
     console.log(ViewId, "ViewId");
@@ -28,12 +28,12 @@ const RequistionView = () => {
         const futureDate = new Date(start);
         futureDate.setDate(start.getDate() + daysToAdd);
         return getCalendarDateFormatDateNew(futureDate);
-      };
-      useEffect(() => {
+    };
+    useEffect(() => {
         const today = new Date();
         const futureDate = calculateFutureDate(today, 10);
         setStartDate(futureDate);
-      }, []);
+    }, []);
 
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -67,12 +67,12 @@ const RequistionView = () => {
 
     ];
 
-    
+
 
 
     const GetRequisitionDetailsBodynew: IGetRequisitionDetailsBody = {
         asSchoolId: asSchoolId,
-        asRequisitionId: Number( ViewId1),
+        asRequisitionId: Number(ViewId1),
         asMode: "View"
     };
 
@@ -86,18 +86,18 @@ const RequistionView = () => {
 
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Requisition', path: '/extended-sidebar/Teacher/Requisition' },
-                    { title: 'Requisition Details', path: '/extended-sidebar/Teacher/AddRequisition' }
+                    { title: 'Requisition', path: '/RITeSchool/Teacher/Requisition' },
+                    { title: 'Requisition Details', path: '/RITeSchool/Teacher/AddRequisition' }
                 ]}
 
                 rightActions={
                     <>
-                     <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
+                        <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
                                     backgroundColor: grey[500],
-                                   
+
                                     height: '36px !important',
                                     ':hover': { backgroundColor: grey[600] }
                                 }}
@@ -168,15 +168,15 @@ const RequistionView = () => {
                     <br></br>
                     <Grid container spacing={2}>
                         <Grid item xs={2}>
-                     <Datepicker
-                    DateValue={StartDate}
-                    onDateChange={''}
-                    label={'Expiry Date'}
-                    size={"small"}
-                 
-                  />
+                            <Datepicker
+                                DateValue={StartDate}
+                                onDateChange={''}
+                                label={'Expiry Date'}
+                                size={"small"}
 
-                            
+                            />
+
+
                         </Grid>
 
                     </Grid>

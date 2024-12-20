@@ -3,9 +3,11 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { GetProgressReportDetailsBody, GetStudentDetailsDropdownBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { GetProgressReportDetailsBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { IGetAssessmentDropdownBody } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAProgressReportDetails, CDAStudentDetailsDropdown } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
+import { CDAProgressReportDetails } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
+import { CDAAssessmentDropdown } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -14,8 +16,6 @@ import NonXseedSubjectGrades from '../PreprimaryProgressReport/NonXseedSubjectGr
 import SchoolDetails from '../PreprimaryProgressReport/SchoolDetails';
 import StudentDetails from '../PreprimaryProgressReport/StudentDetails';
 import XseedRemarks from '../PreprimaryProgressReport/XseedRemarks';
-import { IGetAssessmentDropdownBody } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
-import { CDAAssessmentDropdown } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 
 const PreprimaryProgressReportView = () => {
     const { Assessment, YearwiseStudentId, StandardId } = useParams();
@@ -56,7 +56,7 @@ const PreprimaryProgressReportView = () => {
 
     const USAssessmentDrop = useSelector((state: RootState) => state.Studentwiseprogress.ISAssessmentDropdown);
 
-    
+
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
     {
         asSchoolId: asSchoolId,
@@ -67,25 +67,25 @@ const PreprimaryProgressReportView = () => {
 
     };
 
-    
+
 
 
     const GetAssessmentDropdown_Body: IGetAssessmentDropdownBody = {
         asAcademicYearId: Number(asAcademicYearId),
         asSchoolId: Number(asSchoolId),
-      };
+    };
 
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
 
     };
 
-   
+
 
 
     useEffect(() => {
         dispatch(CDAAssessmentDropdown(GetAssessmentDropdown_Body));
-      }, []);
+    }, []);
 
     useEffect(() => {
         dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
@@ -96,7 +96,7 @@ const PreprimaryProgressReportView = () => {
 
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport' },
+                    { title: 'Student Wise Progress Report ', path: '/RITeSchool/Teacher/StudentwiseProgressReport' },
                     { title: ' Progress Report ', path: '' }
                 ]}
                 rightActions={

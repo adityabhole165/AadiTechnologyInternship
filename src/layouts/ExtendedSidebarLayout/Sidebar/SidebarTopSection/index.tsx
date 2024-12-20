@@ -219,7 +219,7 @@ function SidebarTopSection() {
               handleClose();
             }}
             button
-            to={'/extended-sidebar/Student/Profile'}
+            to={'/RITeSchool/Student/Profile'}
             component={NavLink}
           >
             <AccountBoxTwoToneIcon fontSize="small" sx={{ color: 'blue' }} />
@@ -230,7 +230,7 @@ function SidebarTopSection() {
               handleClose();
             }}
             button
-            to={'/extended-sidebar/Student/changePassword'}
+            to={'/RITeSchool/Student/changePassword'}
             component={NavLink}
           >
             <LockOpenTwoToneIcon fontSize="small" sx={{ color: 'blue' }} />

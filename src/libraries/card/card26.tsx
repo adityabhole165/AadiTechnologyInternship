@@ -18,7 +18,7 @@ function Card26() {
       <div>
         <RouterLink
           to={
-            '/extended-sidebar/Student/Fees/' +
+            '/RITeSchool/Student/Fees/' +
             ActiveYear +
             '/' +
             InternalOrSchool

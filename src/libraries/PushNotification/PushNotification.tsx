@@ -23,7 +23,7 @@ function PushNotification() {
   PushNotifications.addListener(
     'pushNotificationActionPerformed',
     (notification: ActionPerformed) => {
-      window.location.href = '/extended-sidebar/Student/Notification';
+      window.location.href = '/RITeSchool/Student/Notification';
     }
   );
 

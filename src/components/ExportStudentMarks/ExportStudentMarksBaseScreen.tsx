@@ -1,10 +1,9 @@
-import { Box, Grid, IconButton, TextField, Tooltip } from '@mui/material';
-import React, { useState } from 'react';
-import CommonPageHeader from '../CommonPageHeader';
-import { SearchTwoTone, QuestionMark } from '@mui/icons-material';
-import { blue, grey } from '@mui/material/colors';
 import GetAppIcon from '@mui/icons-material/GetApp';
+import { Box, Grid, IconButton, Tooltip } from '@mui/material';
+import { blue } from '@mui/material/colors';
+import React, { useState } from 'react';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import CommonPageHeader from '../CommonPageHeader';
 
 const ExportStudentMarksBaseScreen = () => {
   const [selectedStandard, setSelectedStandard] = useState('');
@@ -46,7 +45,7 @@ const ExportStudentMarksBaseScreen = () => {
         navLinks={[
           {
             title: 'Export Student Marks',
-            path: '/extended-sidebar/Teacher/ExportStudentMarksBaseScreen'
+            path: '/RITeSchool/Teacher/ExportStudentMarksBaseScreen'
           }
         ]}
         rightActions={
@@ -83,8 +82,8 @@ const ExportStudentMarksBaseScreen = () => {
           </>
         }
       />
-      <Box sx={{ backgroundColor: 'white', p:2 }}>
-         <Grid container spacing={2}>
+      <Box sx={{ backgroundColor: 'white', p: 2 }}>
+        <Grid container spacing={2}>
           <Grid item xs={12} md={6} lg={4}>
             {' '}
             <SearchableDropdown

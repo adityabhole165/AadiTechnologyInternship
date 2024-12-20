@@ -1367,7 +1367,7 @@ const WeeklyTimetable = (props: Props) => {
             <Box sx={{ mb: 5, mx: 2 }}>
                 <CommonPageHeader
                     navLinks={[
-                        { title: 'Weekly Timetable', path: '/extended-sidebar/Teacher/WeeklyTimetable' },
+                        { title: 'Weekly Timetable', path: '/RITeSchool/Teacher/WeeklyTimetable' },
                     ]}
                     rightActions={
                         <>

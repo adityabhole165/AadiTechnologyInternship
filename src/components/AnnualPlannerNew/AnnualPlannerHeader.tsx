@@ -100,7 +100,7 @@ const AnnualPlannerHeader = () => {
 
     const ClickIcon = (value) => {
         if (value == 'EventsOverview') {
-            navigate('/extended-sidebar/Common/EventOverview');
+            navigate('/RITeSchool/Common/EventOverview');
         }
         if (value == 'AddAnnualPlanner') {
             if (AnnualPlannerViewAccess == "N") {
@@ -132,7 +132,7 @@ const AnnualPlannerHeader = () => {
         <>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Annual Planner', path: '/extended-sidebar/Common/AnnualPlanner' },
+                    { title: 'Annual Planner', path: '/RITeSchool/Common/AnnualPlanner' },
 
                 ]}
                 rightActions={

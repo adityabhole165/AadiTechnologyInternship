@@ -1,6 +1,5 @@
-import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
-import React, { useState } from "react";
+import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -14,13 +13,14 @@ import {
     TableCell,
     TableHead,
     TableRow,
+    TableSortLabel,
+    Theme,
     Tooltip,
     Typography,
     useMediaQuery,
-    TableSortLabel,
-    Theme,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
 interface VideoData {
@@ -63,7 +63,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
     };
 
     const ViewVideoGalleryPage = (value: string) => {
-        navigate("/extended-sidebar/Teacher/ViewVideoGallery");
+        navigate("/RITeSchool/Teacher/ViewVideoGallery");
     };
 
     return (
@@ -82,7 +82,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                 color: (theme) => theme.palette.common.white,
                             }}
                         >
-                            <TableCell sx={{ color: "white" , py:1.5}}>
+                            <TableCell sx={{ color: "white", py: 1.5 }}>
                                 <TableSortLabel
                                     active={sortConfig?.key === "videoName"}
                                     direction={sortConfig?.key === "videoName" ? sortConfig.direction : "asc"}
@@ -90,9 +90,9 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                     IconComponent={() =>
                                         sortConfig?.key === "videoName" &&
                                         (sortConfig.direction === "asc" ? (
-                                            <ArrowCircleUpIcon sx={{ml:1, color: "white", fontSize: "20px" }} />
+                                            <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
                                         ) : (
-                                            <ArrowCircleDownIcon sx={{ml:1, color: "white",fontSize: "20px" }} />
+                                            <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
                                         ))
                                     }
                                     sx={{
@@ -107,7 +107,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                     Video Name
                                 </TableSortLabel>
                             </TableCell>
-                            <TableCell sx={{ color: "white", py:1.5}}>
+                            <TableCell sx={{ color: "white", py: 1.5 }}>
                                 <TableSortLabel
                                     active={sortConfig?.key === "lastUpdated"}
                                     direction={sortConfig?.key === "lastUpdated" ? sortConfig.direction : "asc"}
@@ -115,9 +115,9 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                     IconComponent={() =>
                                         sortConfig?.key === "lastUpdated" &&
                                         (sortConfig.direction === "asc" ? (
-                                            <ArrowCircleUpIcon sx={{ml:1, color: "white", fontSize: "20px"}} />
+                                            <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
                                         ) : (
-                                            <ArrowCircleDownIcon sx={{ml:1, color: "white" , fontSize: "20px"}} />
+                                            <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
                                         ))
                                     }
                                     sx={{
@@ -132,31 +132,31 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onView, o
                                     Last Updated Date
                                 </TableSortLabel>
                             </TableCell>
-                            <TableCell sx={{ color: "white", textAlign: "center" , py:1.5}}>View</TableCell>
-                            <TableCell sx={{ color: "white", textAlign: "center", py:1.5 }}>Edit</TableCell>
-                            <TableCell sx={{ color: "white", textAlign: "center", py:1.5 }}>Delete</TableCell>
+                            <TableCell sx={{ color: "white", textAlign: "center", py: 1.5 }}>View</TableCell>
+                            <TableCell sx={{ color: "white", textAlign: "center", py: 1.5 }}>Edit</TableCell>
+                            <TableCell sx={{ color: "white", textAlign: "center", py: 1.5 }}>Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {sortedData.map((row, index) => (
                             <TableRow key={index}>
-                                <TableCell sx={{py:0.5}}>{row.videoName}</TableCell>
-                                <TableCell sx={{py:0.5}}>{row.lastUpdated}</TableCell>
-                                <TableCell sx={{ textAlign: "center" , py:0.5}}>
+                                <TableCell sx={{ py: 0.5 }}>{row.videoName}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>{row.lastUpdated}</TableCell>
+                                <TableCell sx={{ textAlign: "center", py: 0.5 }}>
                                     <Tooltip title="View">
                                         <IconButton onClick={() => ViewVideoGalleryPage(row.videoName)} color="primary">
                                             <VisibilityIcon />
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textAlign: "center", py:0.5 }}>
+                                <TableCell sx={{ textAlign: "center", py: 0.5 }}>
                                     <Tooltip title="Edit">
                                         <IconButton onClick={() => onEdit?.(row.videoName)} color="primary">
                                             <EditIcon />
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textAlign: "center", py:0.5 }}>
+                                <TableCell sx={{ textAlign: "center", py: 0.5 }}>
                                     <Tooltip title="Delete">
                                         <IconButton
                                             onClick={() => onDelete?.(row.videoName)}

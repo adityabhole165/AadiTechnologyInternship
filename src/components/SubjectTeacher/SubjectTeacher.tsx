@@ -1,4 +1,5 @@
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -11,7 +12,6 @@ import { RootState } from 'src/store';
 import ISubjectTeacher, {
   GetSubjectTeacherResult
 } from '../../interfaces/Student/SubjectTeacher';
-import { Box } from '@mui/material';
 function SubjectTeacher() {
   const dispatch = useDispatch();
 
@@ -72,7 +72,7 @@ function SubjectTeacher() {
       text1: item.Subject,
       Icon: <MailOutlineIcon />,
       color: '#35abd9',
-      NavPath: '/extended-sidebar/MessageCenter/Compose/',
+      NavPath: '/RITeSchool/MessageCenter/Compose/',
       IsActive: false
     };
   });

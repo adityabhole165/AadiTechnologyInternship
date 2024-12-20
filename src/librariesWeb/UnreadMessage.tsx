@@ -51,7 +51,7 @@
 //   };
 
 //   const clickMessage = (item) => {
-//     navigate('/extended-sidebar/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox');
+//     navigate('/RITeSchool/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox');
 //   };
 
 //   return (
@@ -136,12 +136,12 @@
 //         )}
 //       </Box>
 //       <Grid container py={1.5}>
-//         <Grid item xs={7} textAlign={'right'} onClick={() => navigate('/extended-sidebar/MessageCenter/msgCenter')}>
+//         <Grid item xs={7} textAlign={'right'} onClick={() => navigate('/RITeSchool/MessageCenter/msgCenter')}>
 //           <Typography variant="h4">
 //             <b>See all messages</b>
 //           </Typography>
 //         </Grid>
-//         <Grid item xs={5} onClick={() => navigate('/extended-sidebar/MessageCenter/msgCenter')}>
+//         <Grid item xs={5} onClick={() => navigate('/RITeSchool/MessageCenter/msgCenter')}>
 //           <ArrowCircleRightIcon />
 //         </Grid>
 //       </Grid>
@@ -204,7 +204,7 @@ const UnreadMessage = () => {
   };
 
   const clickMessage = (item) => {
-    navigate('/extended-sidebar/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox');
+    navigate('/RITeSchool/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox');
   };
 
   return (
@@ -293,7 +293,7 @@ const UnreadMessage = () => {
       </Box>
       <Grid container p={1.5} pl={19} pb={2}>
         <Link
-          href="/extended-sidebar/MessageCenter/msgCenter"
+          href="/RITeSchool/MessageCenter/msgCenter"
           style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', width: '70%' }}
         >
           <Typography variant="h4">

@@ -276,7 +276,7 @@ const AssignExamMark = () => {
 
   const clickEdit = (value) => {
 
-    navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
+    navigate('/RITeSchool/Teacher/SubjectExamMarks/' +
       ClassTecher + '/' +
       value.StandardDivisionId + '/' +
       value.SubjectId + '/' +
@@ -299,7 +299,7 @@ const AssignExamMark = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Assign Exam Marks', path: '/extended-sidebar/Teacher/AssignExamMark' }
+          { title: 'Assign Exam Marks', path: '/RITeSchool/Teacher/AssignExamMark' }
         ]}
         rightActions={<>
           {

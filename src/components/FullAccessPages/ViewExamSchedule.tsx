@@ -90,7 +90,7 @@ const ViewExamSchedule = () => {
                 navLinks={[
                     {
                         title: 'Exam Schedule',
-                        path: '/extended-sidebar/Teacher/ExamScheduleBasescreen',
+                        path: '/RITeSchool/Teacher/ExamScheduleBasescreen',
                     },
                     {
                         title: 'View Exam Schedule',

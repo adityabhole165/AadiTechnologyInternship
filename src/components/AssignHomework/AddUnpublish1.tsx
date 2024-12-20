@@ -55,7 +55,7 @@ const AddUnpublish1 = ({ open, setOpen, ClickCloseDialogbox, clickPublishUnpubli
     dispatch(GetPublishUnpublishHomework(AllPublishUnpublishAddHomeworkBody));
   };
   const ClickBack = () => {
-    navigate('/extended-sidebar/Teacher/AddHomework');
+    navigate('/RITeSchool/Teacher/AddHomework');
   };
   const ClickOk = () => {
     if (Details != '') clickPublishUnpublish(0);

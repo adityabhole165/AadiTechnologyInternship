@@ -1,4 +1,8 @@
 import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
+import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
+import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import ThreePRoundedIcon from '@mui/icons-material/ThreePRounded';
 import {
   Box,
   Card,
@@ -11,14 +15,10 @@ import {
 } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useState } from 'react';
-import CommonPageHeader from '../CommonPageHeader';
-import StudentTable from './StudentTable';
-import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
-import ThreePRoundedIcon from '@mui/icons-material/ThreePRounded';
-import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
 import { useNavigate } from 'react-router';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
+import CommonPageHeader from '../CommonPageHeader';
+import StudentTable from './StudentTable';
 
 export const StudentDetailsBaseScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -138,7 +138,7 @@ export const StudentDetailsBaseScreen = () => {
         navLinks={[
           {
             title: 'Student Details',
-            path: '/extended-sidebar/Teacher/StudentDetailsBaseScreen'
+            path: '/RITeSchool/Teacher/StudentDetailsBaseScreen'
           }
         ]}
         rightActions={
@@ -196,7 +196,7 @@ export const StudentDetailsBaseScreen = () => {
                 }}
                 onClick={() => {
                   navigate(
-                    `/extended-sidebar/Teacher/StudentRegistrationForms/SD`
+                    `/RITeSchool/Teacher/StudentRegistrationForms/SD`
                   );
                 }}
               >
@@ -226,7 +226,7 @@ export const StudentDetailsBaseScreen = () => {
                   }
                 }}
                 onClick={() =>
-                  navigate(`/extended-sidebar/Teacher/StudentDetailsAttendance`)
+                  navigate(`/RITeSchool/Teacher/StudentDetailsAttendance`)
                 }
               >
                 <EventNoteOutlinedIcon />
@@ -242,7 +242,7 @@ export const StudentDetailsBaseScreen = () => {
                   }
                 }}
                 onClick={() =>
-                  navigate(`/extended-sidebar/Teacher/StudentDetailsExam`)
+                  navigate(`/RITeSchool/Teacher/StudentDetailsExam`)
                 }
               >
                 <ImportContactsIcon />

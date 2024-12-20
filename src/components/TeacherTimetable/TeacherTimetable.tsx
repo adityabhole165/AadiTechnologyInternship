@@ -300,7 +300,7 @@ const TeacherTimetable = () => {
       {/* <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
-            { title: 'Timetable', path: '/extended-sidebar/teacher-timetable' }
+            { title: 'Timetable', path: '/RITeSchool/teacher-timetable' }
           ]}
           rightActions={
             <>
@@ -354,7 +354,7 @@ const TeacherTimetable = () => {
       <Box sx={{ mb: 5, mx: 2 }}>
         <CommonPageHeader
           navLinks={[
-            { title: 'Timetable', path: '/extended-sidebar/teacher-timetable' }
+            { title: 'Timetable', path: '/RITeSchool/teacher-timetable' }
           ]}
           rightActions={
             <>

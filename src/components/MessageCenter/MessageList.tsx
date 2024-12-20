@@ -68,9 +68,9 @@ const NextPageIndex = 2; // Initial page index
 const MessageList = () => {
   const pathname = window.location.pathname;
   const pageName =
-    pathname.indexOf('/extended-sidebar/MessageCenter/msgCenter/') === -1
-      ? pathname.replace('/extended-sidebar/MessageCenter/msgCenter', '')
-      : pathname.replace('/extended-sidebar/MessageCenter/msgCenter/', '');
+    pathname.indexOf('/RITeSchool/MessageCenter/msgCenter/') === -1
+      ? pathname.replace('/RITeSchool/MessageCenter/msgCenter', '')
+      : pathname.replace('/RITeSchool/MessageCenter/msgCenter/', '');
 
   const dispatch = useDispatch();
   const classes = Styles();
@@ -610,7 +610,7 @@ const MessageList = () => {
   let navigate = useNavigate();
 
   const clickSetting = () => {
-    navigate('/extended-sidebar/MessageCenter/EmailSetting');
+    navigate('/RITeSchool/MessageCenter/EmailSetting');
   };
   const handleClickOpen = () => {
     setOpen(true);

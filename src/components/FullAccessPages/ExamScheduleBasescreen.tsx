@@ -5,11 +5,11 @@ import { blue, green, grey } from "@mui/material/colors";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import ExamScheduleTable from './ExamScheduleTable';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const ExamScheduleBasescreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -37,20 +37,20 @@ const ExamScheduleBasescreen = () => {
         console.log(Value, "ClickSchedule");
 
         if (Value.IsConfigured == true) {
-            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardExamScheduleId + '/' + Value.StandardTestId + '/' + 'true', { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
+            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardExamScheduleId + '/' + Value.StandardTestId + '/' + 'true', { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
         } else {
-            navigate('/extended-sidebar/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardTestId + '/' + 'false', { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
+            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardTestId + '/' + 'false', { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
         }
     };
 
     return (
         <Box sx={{ px: 2 }}>
-              {(Loading) && <SuspenseLoader />}
+            {(Loading) && <SuspenseLoader />}
             <CommonPageHeader
                 navLinks={[
                     {
                         title: 'Exam Schedule',
-                        path: '/extended-sidebar/Teacher/ExamScheduleBasescreen',
+                        path: '/RITeSchool/Teacher/ExamScheduleBasescreen',
                     },
                 ]}
                 rightActions={
@@ -79,7 +79,7 @@ const ExamScheduleBasescreen = () => {
                                 }}
                                 onClick={() => {
                                     // pass data via state > mobileNumbers
-                                    navigate('/extended-sidebar/teacher/ViewExamSchedule')
+                                    navigate('/RITeSchool/teacher/ViewExamSchedule')
                                 }}
                             >
                                 <CalendarViewMonthIcon />

@@ -256,7 +256,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Calendar',
       title: 'Annual Planner', // getPageName(62),
       icon: <EventOutlinedIcon />,
-      link: '/extended-sidebar/Common/AnnualPlanner',
+      link: '/RITeSchool/Common/AnnualPlanner',
       screenId: 0, //62
       visible: true
     },
@@ -264,7 +264,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Exam',
       title: 'Assign Exam Marks',// getPageName(74),
       icon: <RuleIcon />,
-      link: '/extended-sidebar/Teacher/AssignExamMark',
+      link: '/RITeSchool/Teacher/AssignExamMark',
       screenId: 0, //74
       visible: true
     },
@@ -281,7 +281,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Other Utilities',
       title: 'Change Password',
       icon: <LockResetTwoToneIcon />,
-      link: '/extended-sidebar/common/changePassword',
+      link: '/RITeSchool/common/changePassword',
       screenId: 0,
       visible: true
     },
@@ -289,7 +289,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Other Utilities',
       title: 'Library',
       icon: <LibraryBooksIcon />,
-      link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
+      link: externalSite !== '' ? externalSite : '/RITeSchool/Teacher/LibraryBaseScreen',
       screenId: 150,
       visible: true
     },
@@ -297,7 +297,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Calendar',
       title: 'Holidays',  // getPageName(14),
       icon: <DateRangeOutlinedIcon />,
-      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
+      link: '/RITeSchool/Admin/SchoolConfiguration/Holidays',
       screenId: 0,  // 14
       visible: true
     },
@@ -305,7 +305,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Calendar',
       title: 'Staff Birthday',
       icon: <DateRangeOutlinedIcon />,
-      link: '/extended-sidebar/Common/StaffBirthday',
+      link: '/RITeSchool/Common/StaffBirthday',
       screenId: 0,
       visible: true
     },
@@ -321,7 +321,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Other Utilities',
       title: 'Requisition',
       icon: <AddShoppingCartTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/Requisition',
+      link: '/RITeSchool/Teacher/Requisition',
       screenId: 0,
       visible: true
     },
@@ -337,7 +337,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Daily Activities',
       title: 'Timetable',
       icon: <AccessTimeIcon />,
-      link: '/extended-sidebar/Teacher/TeacherTimeTable',
+      link: '/RITeSchool/Teacher/TeacherTimeTable',
       screenId: 0,
       visible: true
     },
@@ -365,98 +365,98 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Extra Screens',
       title: getPageName(266),
       icon: <InsertCommentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/ProgressRemarks',
+      link: '/RITeSchool/Teacher/ProgressRemarks',
       screenId: 266
     },
     {
       id: 'Extra Screens',
       title: getPageName(267),
       icon: <AddCardTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/AadharCard',
+      link: '/RITeSchool/Teacher/AadharCard',
       screenId: 267
     },
     {
       id: 'Extra Screens',
       title: getPageName(240),// 'Investment Declaration',
       icon: <AssuredWorkloadTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/InvestmentDeclaration',
+      link: '/RITeSchool/Teacher/InvestmentDeclaration',
       screenId: 240
     },
     {
       id: 'Extra Screens',
       title: 'Leave Details',
       icon: <LibraryBooksTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/LeaveDetails',
+      link: '/RITeSchool/Teacher/LeaveDetails',
       screenId: 303// 0
     },
     {
       id: 'Extra Screens',
       title: getPageName(233),
       icon: <HistoryEduTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/LessonPlanBaseScreen',
+      link: '/RITeSchool/Teacher/LessonPlanBaseScreen',
       screenId: 233
     },
     {
       id: 'Extra Screens',
       title: 'Performance Grade Assignment',
       icon: <AddchartIcon />,
-      link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen',
+      link: '/RITeSchool/Teacher/PerformanceGradeAssignmentBaseScreen',
       screenId: 213
     },
     {
       id: 'Extra Screens',
       title: getPageName(271),
       icon: <CoPresentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/StudentRecords',
+      link: '/RITeSchool/Teacher/StudentRecords',
       screenId: 271
     },
     {
       id: 'Extra Screens',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
-      link: GetScreenPermission() === 'N' ? '/extended-sidebar/Common/SchoolnoticeOwn' : '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
+      link: GetScreenPermission() === 'N' ? '/RITeSchool/Common/SchoolnoticeOwn' : '/RITeSchool/Teacher/SchoolNoticeBasescreen',
       screenId: 187
     },
     {
       id: 'Extra Screens',
       title: 'Final Result', // getPageName(80),
       icon: <FactCheck />,
-      link: '/extended-sidebar/Teacher/FinalResult',
+      link: '/RITeSchool/Teacher/FinalResult',
       screenId: 80
     },
     {
       id: 'Extra Screens',
       title: 'Exam Results', // getPageName(78),
       icon: <TableChart />,
-      link: '/extended-sidebar/Teacher/ExamResultBase',
+      link: '/RITeSchool/Teacher/ExamResultBase',
       screenId: 78 // 78
     },
     {
       id: 'Extra Screens',
       title: getPageName(179),
       icon: <TableChartTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/StudentwiseProgressReport',
+      link: '/RITeSchool/Teacher/StudentwiseProgressReport',
       screenId: 179
     },
     {
       id: 'Extra Screens',
       title: getPageName(163),
       icon: <SchoolTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/PrePrimaryResult',
+      link: '/RITeSchool/Teacher/PrePrimaryResult',
       screenId: 163
     },
     {
       id: 'Extra Screens',
       title: getPageName(164),
       icon: <FactCheckTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/PreprimaryProgressReport',
+      link: '/RITeSchool/Teacher/PreprimaryProgressReport',
       screenId: 164
     },
     {
       id: 'Extra Screens',
       title: getPageName(162),
       icon: <ReceiptTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades',
+      link: '/RITeSchool/Teacher/AssignPrePrimaryGrades',
       screenId: 162
     },
     // This Page is being Added while Harsh was developing the code. for Photo Video Gallery | 🚩
@@ -464,14 +464,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Extra Screens',
       title: 'Photo Video Gallery',
       icon: <PhotoCameraFrontIcon />,
-      link: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
+      link: '/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Export Student Marks',
       icon: <GetAppIcon />,
-      link: '/extended-sidebar/Teacher/ExportStudentMarksBaseScreen',
+      link: '/RITeSchool/Teacher/ExportStudentMarksBaseScreen',
       screenId: 0
     },
   ];
@@ -486,126 +486,126 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Extra Screens',
       title: getPageName(266),
       icon: <InsertCommentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/ProgressRemarks',
+      link: '/RITeSchool/Teacher/ProgressRemarks',
       screenId: 266
     },
     {
       id: 'Dashboard',
       title: ' Dashboard',
       icon: <DashboardCustomizeOutlinedIcon />,
-      link: '/extended-sidebar/landing/landing',
+      link: '/RITeSchool/landing/landing',
       screenId: 0
     },
     {
       id: 'Calendar',
       title: 'Holidays',  // getPageName(14),
       icon: <DateRangeOutlinedIcon />,
-      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
+      link: '/RITeSchool/Admin/SchoolConfiguration/Holidays',
       screenId: 0  // 14
     },
     {
       id: 'Calendar',
       title: 'Annual Planner', // getPageName(62),
       icon: <EventOutlinedIcon />,
-      link: '/extended-sidebar/Common/AnnualPlanner',
+      link: '/RITeSchool/Common/AnnualPlanner',
       screenId: 0 //62
     },
     {
       id: 'Exam',
       title: 'Assign Exam Marks',// getPageName(74),
       icon: <RuleIcon />,
-      link: '/extended-sidebar/Teacher/AssignExamMark',
+      link: '/RITeSchool/Teacher/AssignExamMark',
       screenId: 0 //74
     },
     {
       id: 'Other Utilities',
       title: 'Change Password',
       icon: <LockResetTwoToneIcon />,
-      link: '/extended-sidebar/common/changePassword',
+      link: '/RITeSchool/common/changePassword',
       screenId: 0
     },
     {
       id: 'Exam',
       title: 'Progress Report',  //getPageName(79),
       icon: <AssessmentOutlinedIcon />,
-      link: '/extended-sidebar/Teacher/ProgressReportNew',
+      link: '/RITeSchool/Teacher/ProgressReportNew',
       screenId: 0 // 79
     },
     {
       id: 'Other Utilities',
       title: 'Requisition',
       icon: <AddShoppingCartTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/Requisition',
+      link: '/RITeSchool/Teacher/Requisition',
       screenId: 0
     },
     {
       id: 'Other Utilities',
       title: 'Library',
       icon: <LibraryBooksIcon />,
-      link: externalSite !== '' ? externalSite : '/extended-sidebar/Teacher/LibraryBaseScreen',
+      link: externalSite !== '' ? externalSite : '/RITeSchool/Teacher/LibraryBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: getPageName(267),
       icon: <AddCardTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/AadharCard',
+      link: '/RITeSchool/Teacher/AadharCard',
       screenId: 267
     },
     {
       id: 'Extra Screens',
       title: 'Students',
       icon: <SwitchAccountIcon />,
-      link: '/extended-sidebar/Teacher/Students',
+      link: '/RITeSchool/Teacher/Students',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: getPageName(240),// 'Investment Declaration',
       icon: <AssuredWorkloadTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/InvestmentDeclaration',
+      link: '/RITeSchool/Teacher/InvestmentDeclaration',
       screenId: 240
     },
     {
       id: 'Extra Screens',
       title: 'Leave Details',
       icon: <LibraryBooksTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/LeaveDetails',
+      link: '/RITeSchool/Teacher/LeaveDetails',
       screenId: 303// 0
     },
     {
       id: 'Extra Screens',
       title: getPageName(233),
       icon: <HistoryEduTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/LessonPlanBaseScreen',
+      link: '/RITeSchool/Teacher/LessonPlanBaseScreen',
       screenId: 233
     },
     {
       id: 'Extra Screens',
       title: 'Performance Grade Assignment',
       icon: <AddchartIcon />,
-      link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen',
+      link: '/RITeSchool/Teacher/PerformanceGradeAssignmentBaseScreen',
       screenId: 213
     },
     {
       id: 'Extra Screens',
       title: getPageName(271),
       icon: <CoPresentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/StudentRecords',
+      link: '/RITeSchool/Teacher/StudentRecords',
       screenId: 271
     },
     {
       id: 'Extra Screens',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
-      link: GetScreenPermission() === 'N' ? '/extended-sidebar/Common/SchoolnoticeOwn' : '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
+      link: GetScreenPermission() === 'N' ? '/RITeSchool/Common/SchoolnoticeOwn' : '/RITeSchool/Teacher/SchoolNoticeBasescreen',
       screenId: 187
     },
     {
       id: 'Calendar',
       title: 'Staff Birthday',
       icon: <CakeIcon />,
-      link: '/extended-sidebar/Common/StaffBirthday',
+      link: '/RITeSchool/Common/StaffBirthday',
       screenId: 0
     },
     // This Page is being Added while Harsh was developing the code. for Photo Video Gallery | 🚩
@@ -613,56 +613,56 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Extra Screens',
       title: 'Photo Video Gallery',
       icon: <PhotoCameraFrontIcon />,
-      link: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen',
+      link: '/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Exam Schedule Full Access',
       icon: <AutoStoriesIcon />,
-      link: '/extended-sidebar/Teacher/ExamScheduleBaseScreen',
+      link: '/RITeSchool/Teacher/ExamScheduleBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Block Progress Report',
       icon: <BlockIcon />,
-      link: '/extended-sidebar/Teacher/BlockProgressReportBaseScreen',
+      link: '/RITeSchool/Teacher/BlockProgressReportBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Feedback Details',
       icon: <FeedbackIcon />,
-      link: '/extended-sidebar/Teacher/FeedbackDetailsBaseScreen',
+      link: '/RITeSchool/Teacher/FeedbackDetailsBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Student Details',
       icon: <FeedbackIcon />,
-      link: '/extended-sidebar/Teacher/StudentDetailsBaseScreen',
+      link: '/RITeSchool/Teacher/StudentDetailsBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Export Student Marks',
       icon: <GetAppIcon />,
-      link: '/extended-sidebar/Teacher/ExportStudentMarksBaseScreen',
+      link: '/RITeSchool/Teacher/ExportStudentMarksBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'User Document Details',
       icon: <ContactPageIcon />,
-      link: '/extended-sidebar/Teacher/UserDocumentDetailsBaseScreen',
+      link: '/RITeSchool/Teacher/UserDocumentDetailsBaseScreen',
       screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Notice Board',
       icon: <MarkUnreadChatAltIcon />,
-      link: '/extended-sidebar/Teacher/NoticeBoardBaseScreen',
+      link: '/RITeSchool/Teacher/NoticeBoardBaseScreen',
       screenId: 0
     },
   ];
@@ -672,7 +672,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   //   sideList.push({
   //     title: 'Attendance',
   //     icon: <DateRange />,
-  //     link: '/extended-sidebar/Teacher/TAttendance'
+  //     link: '/RITeSchool/Teacher/TAttendance'
   //   });
   // }
   const userRoleID = sessionStorage.getItem('RoleId');
@@ -694,14 +694,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Communication',
         title: 'SMS Center',
         icon: <SmsTwoToneIcon />,
-        link: GetScreenAccessPermissionByPageID(81) === 'N' ? '/extended-sidebar/Teacher/ReceivedSMSOwn' : '/extended-sidebar/Teacher/SmsCenter',
+        link: GetScreenAccessPermissionByPageID(81) === 'N' ? '/RITeSchool/Teacher/ReceivedSMSOwn' : '/RITeSchool/Teacher/SmsCenter',
         screenId: 0 // 81
       },
       {
         id: 'Communication',
         title: 'Message Center',
         icon: <ForwardToInboxTwoToneIcon />,
-        link: '/extended-sidebar/MessageCenter/msgCenter',
+        link: '/RITeSchool/MessageCenter/msgCenter',
         screenId: 0
       }
     ];
@@ -723,7 +723,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Daily Activities',
         title: 'Assign Homework', //getPageName(201),
         icon: <AutoStoriesTwoToneIcon />,
-        link: '/extended-sidebar/Teacher/AssignHomework',
+        link: '/RITeSchool/Teacher/AssignHomework',
         screenId: 0 //201
       },
     )
@@ -732,7 +732,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Daily Activities',
         title: 'Assign Homework', //getPageName(201),
         icon: <AutoStoriesTwoToneIcon />,
-        link: '/extended-sidebar/Teacher/AssignHomework',
+        link: '/RITeSchool/Teacher/AssignHomework',
         screenId: 0, //201
         visible: true
       }
@@ -746,7 +746,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Daily Activities',
         title: 'Weekly Timetable',
         icon: <TableChartOutlinedIcon />,
-        link: '/extended-sidebar/Teacher/WeeklyTimetable',
+        link: '/RITeSchool/Teacher/WeeklyTimetable',
         screenId: 0
       }
     )
@@ -755,7 +755,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Daily Activities',
         title: 'Weekly Timetable',
         icon: <TableChartOutlinedIcon />,
-        link: '/extended-sidebar/Teacher/WeeklyTimetable',
+        link: '/RITeSchool/Teacher/WeeklyTimetable',
         screenId: 0,
         visible: true
       }
@@ -768,7 +768,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Daily Activities',
         title: 'Timetable',
         icon: <AccessTimeIcon />,
-        link: '/extended-sidebar/Teacher/TeacherTimeTable',
+        link: '/RITeSchool/Teacher/TeacherTimeTable',
         screenId: 0
       }
     )
@@ -778,7 +778,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Daily Activities',
         title: 'Timetable',
         icon: <AccessTimeIcon />,
-        link: '/extended-sidebar/Teacher/TeacherTimeTable',
+        link: '/RITeSchool/Teacher/TeacherTimeTable',
         screenId: 0
       })
   }
@@ -789,7 +789,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Daily Activities',
         title: getPageName(77),
         icon: <EventNoteOutlinedIcon />,
-        link: '/extended-sidebar/Teacher/TAttendance',
+        link: '/RITeSchool/Teacher/TAttendance',
         screenId: 0 //77
       }
     )
@@ -802,7 +802,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           id: 'Exam',
           title: 'Final Result', // getPageName(80),
           icon: <FactCheck />,
-          link: '/extended-sidebar/Teacher/FinalResult',
+          link: '/RITeSchool/Teacher/FinalResult',
           screenId: 0
         });
     }
@@ -811,7 +811,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Exam',
         title: 'Exam Results', // getPageName(78),
         icon: <TableChart />,
-        link: '/extended-sidebar/Teacher/PrePrimaryResult',
+        link: '/RITeSchool/Teacher/PrePrimaryResult',
         screenId: 0 // 78
       });
     if (schoolSettingList?.IsExamScheduleForPrePrimaryClassTeacher) {
@@ -820,7 +820,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           id: 'Calendar',
           title: 'Exam Schedule',
           icon: <Dataset />,
-          link: GetScreenAccessPermissionByPageID(19) === 'N' ? '/extended-sidebar/Teacher/Texamschedule' : '/extended-sidebar/Teacher/ExamScheduleBaseScreen',
+          link: GetScreenAccessPermissionByPageID(19) === 'N' ? '/RITeSchool/Teacher/Texamschedule' : '/RITeSchool/Teacher/ExamScheduleBaseScreen',
           screenId: 19
         });
     }
@@ -830,7 +830,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Exam',
         title: 'Final Result', // getPageName(80),
         icon: <FactCheck />,
-        link: '/extended-sidebar/Teacher/FinalResult',
+        link: '/RITeSchool/Teacher/FinalResult',
         screenId: 0
       });
     sideList.push(
@@ -838,7 +838,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Calendar',
         title: 'Exam Schedule',
         icon: <Dataset />,
-        link: GetScreenAccessPermissionByPageID(19) === 'N' ? '/extended-sidebar/Teacher/Texamschedule' : '/extended-sidebar/Teacher/ExamScheduleBaseScreen',
+        link: GetScreenAccessPermissionByPageID(19) === 'N' ? '/RITeSchool/Teacher/Texamschedule' : '/RITeSchool/Teacher/ExamScheduleBaseScreen',
         screenId: 19
       });
     sideList.push(
@@ -846,7 +846,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         id: 'Exam',
         title: 'Exam Results', // getPageName(78),
         icon: <TableChart />,
-        link: '/extended-sidebar/Teacher/ExamResultBase',
+        link: '/RITeSchool/Teacher/ExamResultBase',
         screenId: 0 // 78
       });
   }
@@ -875,7 +875,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   //     id: 'Daily Activities',
   //     title: 'School Notices',
   //     icon: <AssignmentTwoToneIcon />,
-  //     link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
+  //     link: '/RITeSchool/Teacher/SchoolNoticeBasescreen',
   //     screenId: 0
   //   });
   // }
@@ -884,7 +884,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   //     id: 'Extra Screens',
   //     title: 'School Notices',
   //     icon: <AssignmentTwoToneIcon />,
-  //     link: '/extended-sidebar/Common/SchoolnoticeOwn',
+  //     link: '/RITeSchool/Common/SchoolnoticeOwn',
   //     screenId: 187
   //   });
   // }
@@ -894,7 +894,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Daily Activities',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
-      link: '/extended-sidebar/Common/SchoolNotice',
+      link: '/RITeSchool/Common/SchoolNotice',
       screenId: 0
     });
   }
@@ -904,7 +904,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Extra Screens',
       title: getPageName(162),
       icon: <ReceiptTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades',
+      link: '/RITeSchool/Teacher/AssignPrePrimaryGrades',
       screenId: 162
     });
   }
@@ -913,7 +913,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Extra Screens',
       title: getPageName(164),
       icon: <FactCheckTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/PreprimaryProgressReport',
+      link: '/RITeSchool/Teacher/PreprimaryProgressReport',
       screenId: 164
     });
   }
@@ -923,7 +923,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Extra Screens',
       title: getPageName(163),
       icon: <SchoolTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/PrePrimaryResult',
+      link: '/RITeSchool/Teacher/PrePrimaryResult',
       screenId: 163
     });
   }
@@ -933,7 +933,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Extra Screens',
       title: getPageName(179),
       icon: <TableChartTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/StudentwiseProgressReport',
+      link: '/RITeSchool/Teacher/StudentwiseProgressReport',
       screenId: 179
     });
   }
@@ -948,7 +948,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   };
 
   const ClickUser = (value) => {
-    navigate('/extended-sidebar/Student/Profile');
+    navigate('/RITeSchool/Student/Profile');
   };
   const [isOpen, setOpen] = useState<boolean>(false);
   const handleClose = (): void => {
@@ -1171,7 +1171,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         spacing={2} sx={{ pl: 1 }}>
         <Box onClick={() => {
           toggleDrawer(anchor, false);
-          navigate('/extended-sidebar/landing/landing')
+          navigate('/RITeSchool/landing/landing')
         }} sx={{ cursor: 'pointer', zIndex: '1000' }}>
           <img src={imgsrc} className={classes.smalllogo} />
         </Box>
@@ -1217,7 +1217,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           <Box px={0}>
             <ListItemButton onClick={() => {
               toggleDrawer(anchor, false);
-              navigate('/extended-sidebar/landing/landing')
+              navigate('/RITeSchool/landing/landing')
             }}>
               <IconButton
                 onKeyDown={() => { toggleDrawer(anchor, false); }} >

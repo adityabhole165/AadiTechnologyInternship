@@ -104,7 +104,7 @@ const PerformanceEvaluation = () => {
             asYear: asYear,
             asUserId: userId,
         }
-        navigate(`/extended-sidebar/Teacher/PerfEvalViewReport`, { state: dataPass })
+        navigate(`/RITeSchool/Teacher/PerfEvalViewReport`, { state: dataPass })
     }
 
     useEffect(() => {
@@ -690,7 +690,7 @@ const PerformanceEvaluation = () => {
             <Box sx={{ px: 2 }}>
                 <CommonPageHeader
                     navLinks={[
-                        { title: `Performance Grade Assignment`, path: `/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen/${encodeURL(asYear)}/${encodeURL(status)}` },
+                        { title: `Performance Grade Assignment`, path: `/RITeSchool/Teacher/PerformanceGradeAssignmentBaseScreen/${encodeURL(asYear)}/${encodeURL(status)}` },
                         { title: 'Performance Evaluation', path: '' }
                     ]}
                     rightActions={
@@ -870,25 +870,25 @@ const PerformanceEvaluation = () => {
                                 <Grid item xs={12} key={item.UserId}>
                                     <Table>
                                         <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
-                                            <TableCell align="center" sx={{ border: '1px solid black', py:1 }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black', py: 1 }}>
                                                 <Typography variant={"h4"} color={"#38548a"}>
                                                     {item.schoolOrgName}
                                                 </Typography>
                                             </TableCell>
                                         </TableRow>
                                         <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
-                                            <TableCell align="center" sx={{ border: '1px solid black', py:1  }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black', py: 1 }}>
                                                 <Typography variant={"h4"} color={"#38548a"}>
                                                     {item.schoolName}
                                                 </Typography></TableCell>
                                         </TableRow>
                                         <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
-                                            <TableCell align="center" sx={{ border: '1px solid black', py:1  }}>      <Typography variant={"h4"} color={"#38548a"}>
+                                            <TableCell align="center" sx={{ border: '1px solid black', py: 1 }}>      <Typography variant={"h4"} color={"#38548a"}>
                                                 {item.address}
                                             </Typography></TableCell>
                                         </TableRow>
                                         <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
-                                            <TableCell align="center" sx={{ border: '1px solid black', py:1  }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black', py: 1 }}>
                                                 <Typography variant={"h4"} color={"#38548a"}>
                                                     Staff Performance Evaluation
                                                 </Typography></TableCell>

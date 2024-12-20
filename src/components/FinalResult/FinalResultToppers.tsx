@@ -69,41 +69,41 @@ const FinalResultToppers = () => {
   const HeaderListST = ['Rank', 'Class', 'Roll No.', 'Student Name', 'Marks'];
   const HeaderList1ST = ['Roll No.', 'Class', 'Student Name'];
 
-  
+
   const data = [
     {
-        rank: "1",
-        students: [
-            {
-                rank: "1",
-                rollNo: 3,
-                studentName: "Student Name",
-            },
-        ]
+      rank: "1",
+      students: [
+        {
+          rank: "1",
+          rollNo: 3,
+          studentName: "Student Name",
+        },
+      ]
     },
     {
-        rank: "2",
-        students: [
-            {
-                rank: "2",
-                rollNo: 3,
-                studentName: "Student Name",
-            },
-     
-        ]
+      rank: "2",
+      students: [
+        {
+          rank: "2",
+          rollNo: 3,
+          studentName: "Student Name",
+        },
+
+      ]
     },
     {
-        rank: "3",
-        students: [
-            {
-                rank: "3",
-                rollNo: 3,
-                studentName: "Student Name",
-            },
-           
-        ]
+      rank: "3",
+      students: [
+        {
+          rank: "3",
+          rollNo: 3,
+          studentName: "Student Name",
+        },
+
+      ]
     },
-];
+  ];
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -342,7 +342,7 @@ const FinalResultToppers = () => {
     setHighlightStudentId('0')
   };
   const onClickClose = () => {
-    navigate('/extended-sidebar/Teacher/FinalResult');
+    navigate('/RITeSchool/Teacher/FinalResult');
   };
   const clickHighlightStudent = (value) => {
     if (
@@ -360,7 +360,7 @@ const FinalResultToppers = () => {
       <CommonPageHeader navLinks={[
         {
           title: "Final Result",
-          path: "/extended-sidebar/Teacher/FinalResult"
+          path: "/RITeSchool/Teacher/FinalResult"
         },
         {
           title: radioBtn === '1' ? "Class Toppers" : 'Standard Toppers',

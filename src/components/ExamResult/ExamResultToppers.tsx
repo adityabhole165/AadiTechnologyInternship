@@ -480,7 +480,7 @@ const ExamResultToppers = () => {
         setSelectedExamName('');
     };
     const onClickClose = () => {
-        navigate('/extended-sidebar/Teacher/ExamResultBase');
+        navigate('/RITeSchool/Teacher/ExamResultBase');
     };
     const clickHighlightStudent = (value) => {
         if (
@@ -510,13 +510,13 @@ const ExamResultToppers = () => {
 
     const ExamResultLink = {
         title: 'Exam Results',
-        path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
-        //path: '/extended-sidebar/Teacher/ExamResultBase'
+        path: '/RITeSchool/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
+        //path: '/RITeSchool/Teacher/ExamResultBase'
     };
 
     const FinalResultLink = {
         title: 'Final Result ',
-        path: '/extended-sidebar/Teacher/FinalResult/' + TeacherId
+        path: '/RITeSchool/Teacher/FinalResult/' + TeacherId
 
     };
 
@@ -525,18 +525,18 @@ const ExamResultToppers = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 // navLinks={[
-                //     { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
-                //     { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }
+                //     { title: 'Exam Results', path: '/RITeSchool/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
+                //     { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/ExamResultToppers/' }
                 // ]}
                 navLinks={
                     IsReadOnly
                         ? (examtopperProp === "true"
-                            ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
-                            : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
+                            ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/FinalResultToppers/' }]
+                            : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/ExamResultToppers/' }])
 
                         : (examtopperProp === "true"
-                            ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
-                            : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
+                            ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/FinalResultToppers/' }]
+                            : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/ExamResultToppers/' }])
                 }
 
                 rightActions={<>

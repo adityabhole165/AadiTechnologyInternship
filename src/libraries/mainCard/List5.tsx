@@ -15,18 +15,18 @@ function List5({
     else if (path !== undefined) {
       if (SelectedMonth === null)
         navigate(
-          '/extended-sidebar/' +
-            path.replace('%', encodeURIComponent('%')) +
-            linkParams
+          '/RITeSchool/' +
+          path.replace('%', encodeURIComponent('%')) +
+          linkParams
         );
       else
         navigate(
-          '/extended-sidebar/' +
-            path.replace('%', encodeURIComponent('%')) +
-            '/' +
-            SelectedMonth +
-            '/' +
-            SelectedYear
+          '/RITeSchool/' +
+          path.replace('%', encodeURIComponent('%')) +
+          '/' +
+          SelectedMonth +
+          '/' +
+          SelectedYear
         );
     }
   };

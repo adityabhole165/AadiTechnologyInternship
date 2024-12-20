@@ -22,6 +22,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IGetClassTeachersBody,
   IGetOptionalSubjectsForMarksTransferBody,
@@ -41,7 +42,6 @@ import {
 } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { AlertContext } from 'src/contexts/AlertContext';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -101,7 +101,7 @@ const TransferOptionalSubjectMarks = () => {
   const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([]);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  
+
   useEffect(() => {
     setIsDirty(false);
     setSelectedStudents(USOptionalSubjectsForMarksTransfer);
@@ -149,11 +149,11 @@ const TransferOptionalSubjectMarks = () => {
   };
 
   const GetOptionalSubjectsForMarksTransferBody: IGetOptionalSubjectsForMarksTransferBody =
-    {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivisionId: Number(selectClasstecaher)
-    };
+  {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: Number(selectClasstecaher)
+  };
 
   const getSubjectId = () => {
     let returnVal = [];
@@ -361,7 +361,7 @@ const TransferOptionalSubjectMarks = () => {
   };
 
   const ExamResultBase = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultBase');
+    navigate('/RITeSchool/Teacher/ExamResultBase');
   };
   useEffect(() => {
     dispatch(CDAGetClassTeachers(GetClassTeachersBody));
@@ -459,11 +459,11 @@ const TransferOptionalSubjectMarks = () => {
           navLinks={[
             {
               title: 'Exam Results',
-              path: '/extended-sidebar/Teacher/ExamResultBase'
+              path: '/RITeSchool/Teacher/ExamResultBase'
             },
             {
               title: 'Transfer Optional Subject Marks',
-              path: '/extended-sidebar/Teacher/TransferOptionalSubjectMarks'
+              path: '/RITeSchool/Teacher/TransferOptionalSubjectMarks'
             }
           ]}
           rightActions={
@@ -627,7 +627,7 @@ const TransferOptionalSubjectMarks = () => {
                                 {OptionalSubjects.filter((objParent) => {
                                   return (
                                     objParent.ParentOptionalSubjectId ===
-                                      subject.ParentOptionalSubjectId &&
+                                    subject.ParentOptionalSubjectId &&
                                     objParent.OptionalSubjectsId !== '0'
                                   );
                                 }).map((subItem, subIndex) => (
@@ -651,11 +651,11 @@ const TransferOptionalSubjectMarks = () => {
                                         (objChildItem) => {
                                           return (
                                             objChildItem.ParentOptionalSubjectId ===
-                                              subject.ParentOptionalSubjectId &&
+                                            subject.ParentOptionalSubjectId &&
                                             objChildItem.OptionalSubjectsId ===
-                                              '0' &&
+                                            '0' &&
                                             objChildItem.SubjectGroupId ===
-                                              subItem.SubjectGroupId
+                                            subItem.SubjectGroupId
                                           );
                                         }
                                       ).map((objChild, objChildIndex) => (

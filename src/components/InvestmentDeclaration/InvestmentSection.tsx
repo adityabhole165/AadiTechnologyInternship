@@ -132,7 +132,7 @@ const InvestmentSection = ({ refreshData, clickDocumentDetails }) => {
             const totalAmount = filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
             const clickDocument = (value) => {
                 // navigate(
-                //     '/extended-sidebar/Teacher/InvestmentDetailsDocument')
+                //     '/RITeSchool/Teacher/InvestmentDetailsDocument')
                 // console.log(value, "clickDocument");
                 clickDocumentDetails(value)
             }

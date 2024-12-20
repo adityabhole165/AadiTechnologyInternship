@@ -19,19 +19,19 @@ const SchoolConfiguration = (props: Props) => {
                 {
                     id: 0,
                     title: 'Weekdays',
-                    link: '/extended-sidebar/Admin/SchoolConfiguration/Weekdays',
+                    link: '/RITeSchool/Admin/SchoolConfiguration/Weekdays',
                     status: true
                 },
                 {
                     id: 1,
                     title: 'Holidays',
-                    link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
+                    link: '/RITeSchool/Admin/SchoolConfiguration/Holidays',
                     status: true
                 },
                 {
                     id: 2,
                     title: 'Missing Attendance Alert Configuration',
-                    link: '/extended-sidebar/Admin/SchoolConfiguration/MissingAttendanceAlertConfiguration',
+                    link: '/RITeSchool/Admin/SchoolConfiguration/MissingAttendanceAlertConfiguration',
                     status: true
                 }
             ]

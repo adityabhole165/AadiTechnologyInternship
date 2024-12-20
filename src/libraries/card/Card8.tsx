@@ -28,10 +28,10 @@ function Card8({ ViewDetail, From, To, Body, Text, Attachments }) {
     localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/' + Attachments;
 
   const redirect = () => {
-    navigate('/extended-sidebar/Student/Inbox');
+    navigate('/RITeSchool/Student/Inbox');
   };
   const Compredirect = () => {
-    navigate('/extended-sidebar/Student/Compose');
+    navigate('/RITeSchool/Student/Compose');
   };
 
   const classes = Styles();

@@ -1,26 +1,8 @@
-import AttachmentIcon from '@mui/icons-material/Attachment';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import EmailIcon from '@mui/icons-material/Email';
-import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import { Dialog } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ReadReceiptDetail } from 'src/requests/MessageCenter/MessaageCenter';
 import { RootState } from 'src/store';
-import {
-  AttachmentIcon1,
-  CardD,
-  CardDetail,
-  CardDetail1,
-  CardDetail2,
-  CardDetail3,
-  CardDetail9,
-  DateWidth,
-  DateWidth1
-} from '../styled/CardStyle';
-import Card15 from './Card15';
 
 function Card4({
   header,
@@ -44,9 +26,9 @@ function Card4({
   const dispatch = useDispatch();
   const location = useLocation();
   const pathname = location.pathname;
-  const pageName = pathname.replace('/extended-sidebar/Common/', '');
-  const pageName1 = pathname.replace('/extended-sidebar/', '');
-  const pageNameStudent = pathname.replace('/extended-sidebar/Student/', '');
+  const pageName = pathname.replace('/RITeSchool/Common/', '');
+  const pageName1 = pathname.replace('/RITeSchool/', '');
+  const pageNameStudent = pathname.replace('/RITeSchool/Student/', '');
 
   const SchoolId = localStorage.getItem('localSchoolId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -129,7 +111,7 @@ function Card4({
         )}
       </CardDetail> */}
 
-        {/* <CardDetail>
+      {/* <CardDetail>
           {pageName1 == 'MessageCenter/msgCenter' ? (
             <CardD>{text1}</CardD>
           ) : (

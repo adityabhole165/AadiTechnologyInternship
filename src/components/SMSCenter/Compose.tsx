@@ -208,7 +208,7 @@ const Compose = () => {
       .then((res: any) => {
         if (res.status === 200) {
           toast.success('SMS sent successfully');
-          navigate('/extended-sidebar/SMSCenter/smsCenter');
+          navigate('/RITeSchool/SMSCenter/smsCenter');
           formik.resetForm();
         }
       })

@@ -1,13 +1,12 @@
 import { QuestionMark } from '@mui/icons-material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import EditIcon from '@mui/icons-material/Edit'
-import { Box, Button, Card, CardContent, CardMedia, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
+import SaveAsIcon from '@mui/icons-material/SaveAs'
+import SwitchAccountIcon from '@mui/icons-material/SwitchAccount'
+import { Box, Card, CardContent, CardMedia, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { blue, green, grey, red } from '@mui/material/colors'
 import { useState } from 'react'
 import CommonPageHeader from '../CommonPageHeader'
-import SaveIcon from '@mui/icons-material/Save';
-import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
-import SaveAsIcon from '@mui/icons-material/SaveAs';
 
 const ViewPhotoFile = () => {
     const [photos, setPhotos] = useState([
@@ -65,7 +64,7 @@ const ViewPhotoFile = () => {
         <Box px={2}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Photo Video Gallery', path: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen' },
+                    { title: 'Photo Video Gallery', path: '/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen' },
                     { title: 'View Images', path: '' },
                 ]}
                 rightActions={<>
@@ -74,14 +73,14 @@ const ViewPhotoFile = () => {
                             <QuestionMark />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title= {isTableView ? 'Switch to Card View' : 'Switch to Table View'}>
+                    <Tooltip title={isTableView ? 'Switch to Card View' : 'Switch to Table View'}>
                         <IconButton onClick={() => setIsTableView(!isTableView)} sx={{ color: 'white', backgroundColor: blue[500], '&:hover': { backgroundColor: blue[600] } }}>
                             <SwitchAccountIcon />
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={'Update'}>
-                        <IconButton  onClick={handleUpdatePhoto}
-                                disabled={isUpdateDisabled} sx={{ color: 'white', backgroundColor: green[500], '&:hover': { backgroundColor: green[600] } }}>
+                        <IconButton onClick={handleUpdatePhoto}
+                            disabled={isUpdateDisabled} sx={{ color: 'white', backgroundColor: green[500], '&:hover': { backgroundColor: green[600] } }}>
                             <SaveAsIcon />
                         </IconButton>
                     </Tooltip>
@@ -104,28 +103,28 @@ const ViewPhotoFile = () => {
                             disabled
                             variant="outlined"
                             fullWidth
-                             label="Gallery Name"
+                            label="Gallery Name"
                         />
                     </Grid>
 
                     {/* Comment Section */}
-                  
-                        <Grid item xs={8}>
-                            <TextField
-                                label="Comment"
-                                variant="outlined"
-                                fullWidth
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                disabled={isUpdateDisabled}
-                            />
-                        </Grid>
-                      
-                    
+
+                    <Grid item xs={8}>
+                        <TextField
+                            label="Comment"
+                            variant="outlined"
+                            fullWidth
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            disabled={isUpdateDisabled}
+                        />
+                    </Grid>
+
+
                 </Grid>
 
-              
-            
+
+
                 {isSmallScreen || !isTableView ? (
                     // Mobile/Tablet View (Card View)
                     <Grid container spacing={2} mt={1}>
@@ -165,14 +164,14 @@ const ViewPhotoFile = () => {
                     </Grid>
                 ) : (
                     // Desktop View (Table View)
-                    <TableContainer sx={{mt:2}}>
+                    <TableContainer sx={{ mt: 2 }}>
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                             <TableHead>
                                 <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                     <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}><strong>Images</strong> </TableCell>
                                     <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2 }}><strong>Comments</strong></TableCell>
-                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2,  textAlign: 'center', }}><strong>Edit</strong></TableCell> 
-                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2,  textAlign: 'center', }}><strong>Delete</strong></TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2, textAlign: 'center', }}><strong>Edit</strong></TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 2, textAlign: 'center', }}><strong>Delete</strong></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -182,14 +181,14 @@ const ViewPhotoFile = () => {
                                             <img src={photo.url} alt={photo.title} style={{ width: 50, height: 50 }} />
                                         </TableCell>
                                         <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>{photo.comment}</TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', py: 1,  textAlign: 'center' }}>
+                                        <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center' }}>
                                             <Tooltip title={'Edit'}>
                                                 <IconButton color="primary" onClick={() => handleEditPhoto(photo)}>
                                                     <EditIcon />
                                                 </IconButton>
                                             </Tooltip>
                                         </TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', py: 1,  textAlign: 'center' }}>
+                                        <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center' }}>
                                             <Tooltip title={'Delete'}>
                                                 <IconButton
                                                     sx={{

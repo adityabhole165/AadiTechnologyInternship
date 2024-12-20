@@ -1,16 +1,15 @@
 import { Browser } from '@capacitor/browser';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import {
-    Box,
-    ClickAwayListener,
-    Container,
-    Grid,
-    Link,
-    ToggleButton,
-    ToggleButtonGroup,
-    Tooltip,
-    Typography,
-    useTheme
+  Box,
+  ClickAwayListener,
+  Grid,
+  Link,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  Typography,
+  useTheme
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,9 +17,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import IFees, {
-    GetAllAcademicYearsApiBody,
-    IIsPendingFeesForStudentBody,
-    IPayOnline
+  GetAllAcademicYearsApiBody,
+  IIsPendingFeesForStudentBody,
+  IPayOnline
 } from 'src/interfaces/Student/Fees';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -32,39 +31,39 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
-    CardDetail1,
-    CardDetail7,
-    ListStyle,
-    Wordbreak
+  CardDetail1,
+  CardDetail7,
+  ListStyle,
+  Wordbreak
 } from 'src/libraries/styled/CardStyle';
 import {
-    DotLegend1,
-    DotLegendStyled1
+  DotLegend1,
+  DotLegendStyled1
 } from 'src/libraries/styled/DotLegendStyled';
 import { NoteStyle } from 'src/libraries/styled/NoteStyle';
 import {
-    getFeeStructureLink,
-    getFees,
-    getInternalFeeDetails,
-    getInternalYearList,
-    getIsPendingFeesForStudent,
-    getNextYearDetails,
-    getNextYearFeeDetails,
-    getOldstudentDetails,
-    getYearList,
-    payOnline,
-    resetPaymentUrl
+  getFeeStructureLink,
+  getFees,
+  getInternalFeeDetails,
+  getInternalYearList,
+  getIsPendingFeesForStudent,
+  getNextYearDetails,
+  getNextYearFeeDetails,
+  getOldstudentDetails,
+  getYearList,
+  payOnline,
+  resetPaymentUrl
 } from 'src/requests/Fees/Fees';
 import {
-    EnableAdvancefeePayment,
-    GetEnableOnlinePaymentForInternalFee,
-    ShowFeeStructureOfNextYear,
-    getEnableOnlinePaymentForLastYearfee,
-    getEnableadvanceFeepayment,
-    getEnabledOnlineFeePayment,
-    getOnlinePaymentForCautionMoney,
-    getRestrictNewPaymentIfOldPaymentIsPending,
-    getallowNextYearInternalFeePaymentForStudent
+  EnableAdvancefeePayment,
+  GetEnableOnlinePaymentForInternalFee,
+  ShowFeeStructureOfNextYear,
+  getEnableOnlinePaymentForLastYearfee,
+  getEnableadvanceFeepayment,
+  getEnabledOnlineFeePayment,
+  getOnlinePaymentForCautionMoney,
+  getRestrictNewPaymentIfOldPaymentIsPending,
+  getallowNextYearInternalFeePaymentForStudent
 } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
 import PayCautionMoney from './PayCautionMoney';
@@ -369,7 +368,7 @@ function Fees() {
       };
       openCapacitorSite(paymentPageLink);
       navigate(
-        '/extended-sidebar/Student/PayOnline/' + currentYear + '/' + showCaution
+        '/RITeSchool/Student/PayOnline/' + currentYear + '/' + showCaution
       );
       dispatch(resetPaymentUrl());
     }

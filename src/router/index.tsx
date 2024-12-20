@@ -19,7 +19,7 @@ const router: PartialRouteObject[] = [
   // ExtendedSidebarLayout
 
   {
-    path: 'extended-sidebar',
+    path: 'RITeSchool',
     element: <ExtendedSidebarLayout />,
     children: [
       {

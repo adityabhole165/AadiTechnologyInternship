@@ -1,21 +1,21 @@
-import { Box, IconButton, Tooltip, Alert, Fade, Typography } from '@mui/material';
-import React, { useState, useEffect } from 'react';
-import CommonPageHeader from '../CommonPageHeader';
 import { QuestionMark } from '@mui/icons-material';
-import { blue, green, grey } from '@mui/material/colors';
 import AddIcon from '@mui/icons-material/Add';
-import NoticeList from './NoticeList';
-import AddNotePopup from './AddNotePopup';
 import SquareIcon from '@mui/icons-material/Square';
+import { Alert, Box, Fade, IconButton, Tooltip, Typography } from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
+import { useEffect, useState } from 'react';
+import CommonPageHeader from '../CommonPageHeader';
+import AddNotePopup from './AddNotePopup';
+import NoticeList from './NoticeList';
 
 
 interface Note {
-    id: number;
-    message: string;
-    startDate: string;
-    endDate: string;
-    isDefault?: boolean; 
-  }
+  id: number;
+  message: string;
+  startDate: string;
+  endDate: string;
+  isDefault?: boolean;
+}
 
 const NoticeBoardBaseScreen = () => {
   const [notes, setNotes] = useState<Note[]>([
@@ -32,12 +32,12 @@ const NoticeBoardBaseScreen = () => {
       endDate: '31 Mar 2025'
     },
     {
-        id: 3,
-        message: "Feedback facility is available now! Click on top-right link Feedback to give your opinion about School as well as RITeSchool software.",
-        startDate: "2024-01-01",
-        endDate: "2024-12-31",
-        isDefault: true, // Mark as default notice
-      },
+      id: 3,
+      message: "Feedback facility is available now! Click on top-right link Feedback to give your opinion about School as well as RITeSchool software.",
+      startDate: "2024-01-01",
+      endDate: "2024-12-31",
+      isDefault: true, // Mark as default notice
+    },
   ]);
 
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -50,7 +50,7 @@ const NoticeBoardBaseScreen = () => {
     const timer = setInterval(() => {
       setShowBanner(false);
       setTimeout(() => {
-        setCurrentNoticeIndex((prevIndex) => 
+        setCurrentNoticeIndex((prevIndex) =>
           prevIndex === notes.length - 1 ? 0 : prevIndex + 1
         );
         setShowBanner(true);
@@ -97,7 +97,7 @@ const NoticeBoardBaseScreen = () => {
         navLinks={[
           {
             title: 'Notice Board',
-            path: '/extended-sidebar/Teacher/NoticeBoardBaseScreen'
+            path: '/RITeSchool/Teacher/NoticeBoardBaseScreen'
           }
         ]}
         rightActions={
@@ -133,9 +133,9 @@ const NoticeBoardBaseScreen = () => {
         }
       />
 
-      <Fade in={showBanner} style={{marginBottom:'10px', }}>
-        <Alert 
-        //    severity="info"
+      <Fade in={showBanner} style={{ marginBottom: '10px', }}>
+        <Alert
+          //    severity="info"
           sx={{
             width: '100%',
             color: '#38548A',
@@ -153,7 +153,7 @@ const NoticeBoardBaseScreen = () => {
         </Alert>
       </Fade>
 
-      <Box sx={{ background: 'white', p: 1, mb:1 }}>
+      <Box sx={{ background: 'white', p: 1, mb: 1 }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
@@ -165,12 +165,12 @@ const NoticeBoardBaseScreen = () => {
               <SquareIcon style={{ color: grey[500], fontSize: 25, position: 'relative', top: '-2px' }} />
               <Typography>Default Notice</Typography>
             </Box>
-           
+
           </Box>
         </Box>
       </Box>
 
-      <Box sx={{ backgroundColor: (theme) => theme.palette.common.white, p:2}}>
+      <Box sx={{ backgroundColor: (theme) => theme.palette.common.white, p: 2 }}>
         <NoticeList notes={notes} onEdit={handleEdit} onDelete={handleDelete} />
       </Box>
       <Box>

@@ -435,12 +435,12 @@ const PersonalAddressBook = () => {
                 cancelButtonText: 'Cancel',
                 onConfirm: () => {
                     closeAlert();
-                    navigate('/extended-sidebar/Teacher/ComposeSMS', { state: { activeNoList } });
+                    navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList } });
                 },
                 onCancel: closeAlert
             });
         } else {
-            navigate('/extended-sidebar/Teacher/ComposeSMS', { state: { activeNoList } });
+            navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList } });
         }
     }
     function getActiveGroupIds(groups) {
@@ -470,7 +470,7 @@ const PersonalAddressBook = () => {
             const activeNoList = GetDetailsOfGroups?.map(({ Mobile_No }) => Mobile_No).join(',');
 
             if (!isLoading) {
-                navigate('/extended-sidebar/Teacher/ComposeSMS', { state: { activeNoList } });
+                navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList } });
             }
 
             console.log(activeNoList);
@@ -491,7 +491,7 @@ const PersonalAddressBook = () => {
                 cancelButtonText: 'Cancel',
                 onConfirm: () => {
                     closeAlert();
-                    navigate('/extended-sidebar/Teacher/ComposeSMS');
+                    navigate('/RITeSchool/Teacher/ComposeSMS');
                 },
                 onCancel: closeAlert
             });
@@ -507,7 +507,7 @@ const PersonalAddressBook = () => {
             <CommonPageHeader
                 navLinks={[
                     {
-                        title: 'Compose SMS', path: '/extended-sidebar/Teacher/ComposeSMS'
+                        title: 'Compose SMS', path: '/RITeSchool/Teacher/ComposeSMS'
                     },
                     {
                         title: 'Select User To Send Message', path: ''

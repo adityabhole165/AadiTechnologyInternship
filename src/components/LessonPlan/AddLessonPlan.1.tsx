@@ -155,7 +155,7 @@ export const AddLessonPlan = () => {
     };
 
     const onClickBack = () => {
-        navigate('/extended-sidebar/Teacher/LessonPlanBaseScreen');
+        navigate('/RITeSchool/Teacher/LessonPlanBaseScreen');
     };
 
     return (
@@ -164,7 +164,7 @@ export const AddLessonPlan = () => {
                 navLinks={[
                     {
                         title: 'Lesson Plans',
-                        path: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
+                        path: '/RITeSchool/Teacher/LessonPlanBaseScreen'
                     },
                     {
                         title: 'Lesson Plan Details',

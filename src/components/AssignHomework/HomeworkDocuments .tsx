@@ -98,7 +98,7 @@ const HomeworkDocuments = () => {
   }, [DeleteHomeworkDocument]);
 
   const click = () => {
-    navigate('/extended-sidebar/Teacher/AddHomework');
+    navigate('/RITeSchool/Teacher/AddHomework');
   };
   const clickFileName = (value) => {
     if (value !== '') {
@@ -114,10 +114,10 @@ const HomeworkDocuments = () => {
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
-            { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' },
+            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' },
             {
               title: 'Add Homework',
-              path: '/extended-sidebar/Teacher/AddHomeworkNew/' +
+              path: '/RITeSchool/Teacher/AddHomeworkNew/' +
                 TeacherId +
                 '/' +
                 TeacherName +
@@ -132,7 +132,7 @@ const HomeworkDocuments = () => {
                 '/' +
                 SelectClass
             },
-            { title: 'Documents', path: '/extended-sidebar/Teacher/HomeworkDocuments' }
+            { title: 'Documents', path: '/RITeSchool/Teacher/HomeworkDocuments' }
           ]}
           rightActions={
             <>

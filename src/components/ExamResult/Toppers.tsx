@@ -34,7 +34,7 @@ import { StyledTableCell, StyledTableRow } from '../DataTable';
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly ,AcademicYear,LatestExamId,LatestExamId1,Studentid} = useParams();
+    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly, AcademicYear, LatestExamId, LatestExamId1, Studentid } = useParams();
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId == undefined ? "0" : StandardDivisionId);
     const [SelectExamCT, setExamCT] = useState(TestId == undefined ? "" : TestId);
@@ -160,7 +160,7 @@ const ExamResultToppers = () => {
             dispatch(StandarddropdownListST(StandardDropdownBodyST));
             // setClassCT("0")
         }
-    }, [radioBtn,AcademicYear]);
+    }, [radioBtn, AcademicYear]);
 
     useEffect(() => {
         if (GetClassdropdownCT.length > 0 && radioBtn == '1') {
@@ -173,7 +173,7 @@ const ExamResultToppers = () => {
             setStandardST(getStandardFromCT())
 
         }
-    }, [GetClassdropdownCT, GetStandarddropdownST,AcademicYear])
+    }, [GetClassdropdownCT, GetStandarddropdownST, AcademicYear])
 
     useEffect(() => {
 
@@ -184,19 +184,19 @@ const ExamResultToppers = () => {
             dispatch(StandardExamdropdownListST(ExamDropdownBodyST));
             setExamCT(SelectExamCT)
         }
-    }, [radioBtn, SelectClassCT, SelectStandardST,AcademicYear]);
+    }, [radioBtn, SelectClassCT, SelectStandardST, AcademicYear]);
 
     useEffect(() => {
         let SelectExamTemp = "0"
         if (GetExamdropdownCT.length > 0 && radioBtn == '1') {
             if (IsPageload) {
-                SelectExamTemp = TestId == undefined ? LatestExamId ? LatestExamId : GetExamdropdownCT[0].Value  : TestId
+                SelectExamTemp = TestId == undefined ? LatestExamId ? LatestExamId : GetExamdropdownCT[0].Value : TestId
             }
             else {
                 if (CanEdit == 'Y') {
 
                     if (GetExamdropdownCT[0].Value === '-1') {
-                        SelectExamTemp = LatestExamId ? LatestExamId : GetExamdropdownCT[0].Value 
+                        SelectExamTemp = LatestExamId ? LatestExamId : GetExamdropdownCT[0].Value
                     } else {
                         SelectExamTemp = GetLatestclassExam
                     }
@@ -213,7 +213,7 @@ const ExamResultToppers = () => {
         }
         if (GetExamdropdownST.length > 0 && radioBtn == '2') {
             if (CanEdit == 'Y') {
-                SelectExamTemp = LatestExamId ? LatestExamId : GetExamdropdownCT[0].Value 
+                SelectExamTemp = LatestExamId ? LatestExamId : GetExamdropdownCT[0].Value
             } else {
                 SelectExamTemp = SelectExamCT
             }
@@ -224,14 +224,14 @@ const ExamResultToppers = () => {
             }
 
         }
-    }, [GetExamdropdownCT, GetExamdropdownST,AcademicYear])
+    }, [GetExamdropdownCT, GetExamdropdownST, AcademicYear])
 
 
     useEffect(() => {
         if (radioBtn == '1') {
             dispatch(ClassSubjectdropdownListCT(SubjectDropdownBodyCT));
         }
-    }, [SelectExamCT,AcademicYear]);
+    }, [SelectExamCT, AcademicYear]);
     useEffect(() => {
         dispatch(ClassToppersList(ToppersListBodyCT));
     }, [SelectClassCT, SelectExamCT, SelectSubjectCT]);
@@ -239,10 +239,10 @@ const ExamResultToppers = () => {
         if (radioBtn == '2') {
             dispatch(StandardSubjectdropdownListST(SubjectDropdownBodyST));
         }
-    }, [SelectExamST,AcademicYear]);
+    }, [SelectExamST, AcademicYear]);
     useEffect(() => {
         dispatch(StandardToppersList(StandardToppersBodyST));
-    }, [SelectStandardST, SelectExamST, SelectSubjectST,AcademicYear]);
+    }, [SelectStandardST, SelectExamST, SelectSubjectST, AcademicYear]);
 
 
 
@@ -295,32 +295,32 @@ const ExamResultToppers = () => {
 
     const LatestExamSTBody: IGetLatestExamIdandDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
+        asAcademicYearId: Number(AcademicYear ? AcademicYear : asAcademicYearId),
         asStandardDivId: null,
         asStandardId: Number(SelectStandardST)
     };
 
     const ClassDropdownBodyCT: IGetClassDivandStandardDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
+        asAcademicYearId: Number(AcademicYear ? AcademicYear : asAcademicYearId),
         IsStandardList: false
     };
     const ExamDropdownBodyCT: IGetLatestExamIdandDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
+        asAcademicYearId: Number(AcademicYear ? AcademicYear : asAcademicYearId),
         asStandardDivId: Number(SelectClassCT),
         asStandardId: 0
     };
     const SubjectDropdownBodyCT: IGetSubjectDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId:Number (AcademicYear ?AcademicYear : asAcademicYearId),
+        asAcademicYearId: Number(AcademicYear ? AcademicYear : asAcademicYearId),
         asStandardDivId: Number(SelectClassCT),
         asStandardId: null,
         asTestId: Number(SelectExamCT)
     };
     const ToppersListBodyCT: IGetClassandStandardToppersListBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
+        asAcademicYearId: Number(AcademicYear ? AcademicYear : asAcademicYearId),
         asStandardDivId: Number(SelectClassCT),
         asStandardId: null,
         asTestId: Number(SelectExamCT),
@@ -329,25 +329,25 @@ const ExamResultToppers = () => {
 
     const StandardDropdownBodyST: IGetClassDivandStandardDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
+        asAcademicYearId: Number(AcademicYear ? AcademicYear : asAcademicYearId),
         IsStandardList: true
     };
     const ExamDropdownBodyST: IGetLatestExamIdandDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId:Number (AcademicYear ?AcademicYear : asAcademicYearId),
+        asAcademicYearId: Number(AcademicYear ? AcademicYear : asAcademicYearId),
         asStandardDivId: 0,
         asStandardId: Number(SelectStandardST)
     };
     const SubjectDropdownBodyST: IGetSubjectDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
+        asAcademicYearId: Number(AcademicYear ? AcademicYear : asAcademicYearId),
         asStandardDivId: null,
         asStandardId: Number(SelectStandardST),
         asTestId: Number(SelectExamST)
     };
     const StandardToppersBodyST: IGetClassandStandardToppersListBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: Number (AcademicYear ?AcademicYear : asAcademicYearId),
+        asAcademicYearId: Number(AcademicYear ? AcademicYear : asAcademicYearId),
         asStandardDivId: 0,
         asStandardId: Number(SelectStandardST),
         asTestId: Number(SelectExamST),
@@ -394,7 +394,7 @@ const ExamResultToppers = () => {
         setIsPageload(false)
     };
     const onClickClose = () => {
-        navigate('/extended-sidebar/Teacher/ExamResultBase');
+        navigate('/RITeSchool/Teacher/ExamResultBase');
     };
     const clickHighlightStudent = (value) => {
         if (
@@ -424,13 +424,13 @@ const ExamResultToppers = () => {
 
     const ExamResultLink = {
         title: 'Exam Results',
-        path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
-        //path: '/extended-sidebar/Teacher/ExamResultBase'
+        path: '/RITeSchool/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
+        //path: '/RITeSchool/Teacher/ExamResultBase'
     };
 
     const FinalResultLink = {
         title: 'Final Result ',
-        path: '/extended-sidebar/Teacher/FinalResult/' + StandardDivisionId
+        path: '/RITeSchool/Teacher/FinalResult/' + StandardDivisionId
 
     };
 
@@ -438,47 +438,47 @@ const ExamResultToppers = () => {
     const getNavLinks = () => {
         if (LatestExamId1) {
             return [
-                { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew/' + AcademicYear + '/'+Studentid+'/' + TeacherId},
-                 { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`},
-               
+                { title: 'Progress Report', path: '/RITeSchool/Teacher/ProgressReportNew/' + AcademicYear + '/' + Studentid + '/' + TeacherId },
+                { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}` },
+
             ];
         }
-    
+
         if (IsReadOnly) {
             return examtopperProp === "true"
                 ? [
                     FinalResultLink,
                     {
                         title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`,
-                        path: '/extended-sidebar/Teacher/FinalResultToppers/'
+                        path: '/RITeSchool/Teacher/FinalResultToppers/'
                     }
                 ]
                 : [
                     ExamResultLink,
                     {
                         title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`,
-                        path: '/extended-sidebar/Teacher/ExamResultToppers/'
+                        path: '/RITeSchool/Teacher/ExamResultToppers/'
                     }
                 ];
         }
-    
+
         return examtopperProp === "true"
             ? [
                 FinalResultLink,
                 {
                     title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`,
-                    path: '/extended-sidebar/Teacher/FinalResultToppers/'
+                    path: '/RITeSchool/Teacher/FinalResultToppers/'
                 }
             ]
             : [
                 ExamResultLink,
                 {
                     title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`,
-                    path: '/extended-sidebar/Teacher/ExamResultToppers/'
+                    path: '/RITeSchool/Teacher/ExamResultToppers/'
                 }
             ];
     };
-    
+
 
 
 
@@ -487,23 +487,23 @@ const ExamResultToppers = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 // navLinks={[
-                //     { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
-                //     { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }
+                //     { title: 'Exam Results', path: '/RITeSchool/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
+                //     { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/ExamResultToppers/' }
                 // ]}
-                navLinks={ getNavLinks()
-                    
+                navLinks={getNavLinks()
+
                 }
 
 
                 // navLinks={
                 //     IsReadOnly
                 //         ? (examtopperProp === "true"
-                //             ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
-                //             : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
+                //             ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/FinalResultToppers/' }]
+                //             : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/ExamResultToppers/' }])
 
                 //         : (examtopperProp === "true"
-                //             ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
-                //             : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
+                //             ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/FinalResultToppers/' }]
+                //             : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/RITeSchool/Teacher/ExamResultToppers/' }])
                 // }
 
                 rightActions={<>
@@ -633,7 +633,7 @@ const ExamResultToppers = () => {
                             {Object.keys(groupedBySubject).map((subject, subjectIndex) => (
                                 <Grid item key={subjectIndex} xs={12} sm={12} md={6}>
                                     <TableContainer component={Paper}>
-                                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`}}>
+                                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell colSpan={3}>
@@ -654,7 +654,7 @@ const ExamResultToppers = () => {
                                                     row.Students.map((student, studentIndex) => (
                                                         <TableRow key={`${subjectIndex}-${index}-${studentIndex}`}>
                                                             {studentIndex === 0 && (
-                                                                <TableCell rowSpan={row.Students.length} sx={{  width:'220px',  borderRight:(theme) => `1px solid ${theme.palette.grey[300]}`}}>
+                                                                <TableCell rowSpan={row.Students.length} sx={{ width: '220px', borderRight: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                                                                     {row.Rank_Image === "~/RITeSchool/images/Number1.gif" && (
                                                                         <Stack direction={"row"} alignItems={"center"} gap={2}>
                                                                             <img src={GoldMedal} width={"40"} alt="Gold Medal" />
@@ -675,9 +675,9 @@ const ExamResultToppers = () => {
                                                                     )}
                                                                 </TableCell>
                                                             )}
-                                                            <TableCell sx={{py:1, color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text1}</TableCell>
+                                                            <TableCell sx={{ py: 1, color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text1}</TableCell>
                                                             <TableCell
-                                                                sx={{py:1, color: student.IsHighlightStudent ? 'red' : '' }}
+                                                                sx={{ py: 1, color: student.IsHighlightStudent ? 'red' : '' }}
                                                             >{student.Text2}</TableCell>
                                                         </TableRow>
                                                     ))

@@ -36,7 +36,7 @@ function Form() {
     if (window.location.pathname === '/changePassword') {
       navigate('/');
     } else {
-      navigate('/extended-sidebar/landing/landing');
+      navigate('/RITeSchool/landing/landing');
     }
   };
   const { showAlert, closeAlert } = useContext(AlertContext);

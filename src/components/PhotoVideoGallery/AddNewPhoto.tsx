@@ -116,7 +116,7 @@ const AddNewPhoto = () => {
         navLinks={[
           {
             title: "Photo Video Gallery",
-            path: "/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen",
+            path: "/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen",
           },
           { title: "Add Photo Gallery", path: "" },
         ]}

@@ -922,8 +922,8 @@ const ProgressRemarks = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + getStdDivisionId() + '/' + TestId },
-          { title: 'Progress Remarks', path: '/extended-sidebar/Teacher/ProgressRemarks' }
+          { title: 'Exam Results', path: '/RITeSchool/Teacher/ExamResultBase/' + getStdDivisionId() + '/' + TestId },
+          { title: 'Progress Remarks', path: '/RITeSchool/Teacher/ProgressRemarks' }
         ]}
         rightActions={<>
 

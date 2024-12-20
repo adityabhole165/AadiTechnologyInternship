@@ -63,7 +63,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
     };
 
     const ViewPhotoFilePage = (value) => {
-        navigate('/extended-sidebar/Teacher/ViewPhotoFile');
+        navigate('/RITeSchool/Teacher/ViewPhotoFile');
     };
     const sortedData = React.useMemo(() => {
         if (!sortConfig) return data;
@@ -300,7 +300,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                     />
                 </DialogTitle>
                 <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-                Slide Show Photo
+                    Slide Show Photo
                 </Typography>
                 <DialogContent onDoubleClick={handleDoubleClick}>
                     <SlideshowPhotoGallery />

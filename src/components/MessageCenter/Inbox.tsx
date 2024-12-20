@@ -115,7 +115,7 @@ function Inbox() {
   const [Id, setId] = useState({ DetailInfo: [], recieverInfo: [] });
   const pathname = window.location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/msgCenter/',
+    '/RITeSchool/MessageCenter/msgCenter/',
     ''
   );
 

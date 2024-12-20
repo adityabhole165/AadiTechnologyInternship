@@ -187,7 +187,7 @@ const AddLeaveDetails = () => {
 
     const resetForm = () => {
         clear();
-        //navigate('/extended-sidebar/Teacher/LeaveDetails');
+        //navigate('/RITeSchool/Teacher/LeaveDetails');
     };
     const calculateTotalDays = (startDate, endDate) => {
         const start = new Date(startDate);
@@ -321,7 +321,7 @@ const AddLeaveDetails = () => {
                 toast.success("Leave record saved successfully.", { toastId: "success1" });
             }
             dispatch(resetSubmitLeave());
-            navigate('/extended-sidebar/Teacher/LeaveDetails');
+            navigate('/RITeSchool/Teacher/LeaveDetails');
         }
     }, [SubmitLeaveDetails])
     // useEffect(() => {
@@ -386,16 +386,16 @@ const AddLeaveDetails = () => {
                 navLinks={[
                     {
                         title: 'Leave Details',
-                        path: '/extended-sidebar/Teacher/LeaveDetails',
+                        path: '/RITeSchool/Teacher/LeaveDetails',
                     },
                     LeaveDId ?
                         {
                             title: 'Apply / Approve / Reject Leave page',
-                            path: '/extended-sidebar/Teacher/AddLeaveDetails/',
+                            path: '/RITeSchool/Teacher/AddLeaveDetails/',
                         } :
                         {
                             title: 'Apply / Approve / Reject Leave page',
-                            path: '/extended-sidebar/Teacher/AddLeaveDetails',
+                            path: '/RITeSchool/Teacher/AddLeaveDetails',
                         }
                 ]}
                 rightActions={rightActions}

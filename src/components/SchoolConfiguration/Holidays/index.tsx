@@ -248,7 +248,7 @@ const Holidays = (props: Props) => {
                 navLinks={[
                     // {
                     //     title: 'School Configuration',
-                    //     path: '/extended-sidebar/Admin/SchoolConfiguration'
+                    //     path: '/RITeSchool/Admin/SchoolConfiguration'
                     // },
                     {
                         title: 'Holidays',

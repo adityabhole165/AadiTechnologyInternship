@@ -269,8 +269,8 @@ const AnnualPlanerBaseScreen = () => {
   };
   const ClickItemList = (Id) => {
     alert(Id);
-    navigate('/extended-sidebar/Teacher/EventManegement/' + Id);
-    // navigate('/extended-sidebar/Teacher/EventManegement');
+    navigate('/RITeSchool/Teacher/EventManegement/' + Id);
+    // navigate('/RITeSchool/Teacher/EventManegement');
   };
 
   // const ClickGetMonth = (value) => {
@@ -291,7 +291,7 @@ const AnnualPlanerBaseScreen = () => {
   };
 
   const clickEventsoverview = (value) => {
-    navigate('/extended-sidebar/common/EventOverview');
+    navigate('/RITeSchool/common/EventOverview');
   };
   const shouldDisplayDropdown = GetScreenPermission() === 'N' ? 0 : null;
 

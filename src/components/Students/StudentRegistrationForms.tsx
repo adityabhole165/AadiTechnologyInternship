@@ -1708,16 +1708,16 @@ const StudentRegistrationForm = () => {
   //     }
   // };
   const handleNavigation = () => {
-    navigate('/extended-sidebar/Teacher/EnterStudentSiblingDetails');
+    navigate('/RITeSchool/Teacher/EnterStudentSiblingDetails');
   };
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: `Students${PageID === 'SD' ? ' Details' : ''}`, path: PageID === 'SD' ? '/extended-sidebar/Teacher/StudentDetailsBaseScreen' : '/extended-sidebar/Teacher/Students' },
+          { title: `Students${PageID === 'SD' ? ' Details' : ''}`, path: PageID === 'SD' ? '/RITeSchool/Teacher/StudentDetailsBaseScreen' : '/RITeSchool/Teacher/Students' },
           {
             title: "Enter Student's Details",
-            path: '/extended-sidebar/Teacher/Students/StudentRegistrationForm'
+            path: '/RITeSchool/Teacher/Students/StudentRegistrationForm'
           }
         ]}
         rightActions={

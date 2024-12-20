@@ -141,15 +141,15 @@ const FeedbackDetailsBasescreen = () => {
 
         setLinkName(''); // Reset input field after adding/updating
     };
-const softwareNote =
-    'On click of ‘Submit Your Feedback’ button, you will be redirected to another link, where you can give detailed feedback about software.';   
+    const softwareNote =
+        'On click of ‘Submit Your Feedback’ button, you will be redirected to another link, where you can give detailed feedback about software.';
 
 
 
     return (
         <Box px={2}>
             <CommonPageHeader
-                navLinks={[{ title: 'Feedback Details', path: '/extended-sidebar/Teacher/FeedbackDetailsBasescreen' }]}
+                navLinks={[{ title: 'Feedback Details', path: '/RITeSchool/Teacher/FeedbackDetailsBasescreen' }]}
                 rightActions={
                     <>
                         {selectedFeedback === 'users' && (
@@ -181,7 +181,7 @@ const softwareNote =
                                         <SearchTwoTone />
                                     </IconButton>
                                 </Tooltip>
-                                </>
+                            </>
                         )}
                         <Tooltip title="Save">
                             <IconButton
@@ -197,25 +197,25 @@ const softwareNote =
                             </IconButton>
                         </Tooltip>
                         {selectedFeedback === 'users' && (
-                        <Tooltip title="Add new feedback">
-                            <IconButton
-                                onClick={handleAddNewFeedbackClick}
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600],
-                                    },
-                                }}
-                            >
-                                <AddIcon />
-                            </IconButton>
-                        </Tooltip>
+                            <Tooltip title="Add new feedback">
+                                <IconButton
+                                    onClick={handleAddNewFeedbackClick}
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: blue[500],
+                                        '&:hover': {
+                                            backgroundColor: blue[600],
+                                        },
+                                    }}
+                                >
+                                    <AddIcon />
+                                </IconButton>
+                            </Tooltip>
                         )}
                     </>
                 }
             />
-            <Box sx={{ backgroundColor: 'white', py: 0.5 ,pl:2, mb: 1 }}>
+            <Box sx={{ backgroundColor: 'white', py: 0.5, pl: 2, mb: 1 }}>
                 <FormControl component="fieldset">
                     <RadioGroup row value={selectedFeedback} onChange={handleRadioChange} aria-label="feedback-options">
                         <FormControlLabel value="users" control={<Radio />} label="Feedback from Users" />
@@ -244,7 +244,7 @@ const softwareNote =
                         </Paper>
 
                         {dummyData.length > 0 ? (
-                            <Typography variant="subtitle1" sx={{ mt:2, mb:1, textAlign: 'center' }}>
+                            <Typography variant="subtitle1" sx={{ mt: 2, mb: 1, textAlign: 'center' }}>
                                 <Box component="span" fontWeight="fontWeightBold">
                                     {dummyData.length}
                                 </Box>{' '}
@@ -341,13 +341,13 @@ const softwareNote =
                 <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
                     Add New Feedback
                 </Typography>
-                
+
                 <DialogContent>
-                    <AddNewFeedback softwareNote={softwareNote}/>
+                    <AddNewFeedback softwareNote={softwareNote} />
                 </DialogContent>
                 <DialogActions>
                     <Grid item xs={12} display="flex" justifyContent="flex-end" gap={2} pr={2} pb={2}>
-                    <Button color="error" onClick={handleClosePopup}>
+                        <Button color="error" onClick={handleClosePopup}>
                             Clear
                         </Button>
                         <Button color="error" onClick={handleClosePopup}>

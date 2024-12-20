@@ -10,7 +10,7 @@ Dropdown.propTypes = {
 function Dropdown({ Array, disabled = false, handleChange, label, size = 'medium', defaultValue = '', width = 'auto', variant = "standard" }) {
   const location = useLocation();
   const pathname = location.pathname;
-  const pageName = pathname.replace('/extended-sidebar/Student/', '');
+  const pageName = pathname.replace('/RITeSchool/Student/', '');
   return (
     <>
       <FormControl variant="standard" fullWidth>

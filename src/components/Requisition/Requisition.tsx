@@ -120,8 +120,8 @@ const StatusRequisition = () => {
       asUpdatedById: Number(asUserId),
       asCanceledById: Number(asUserId),
     };
-  
-   
+
+
     if (textall.trim() == '') {
       showAlert({
         title: 'Please Confirm',
@@ -136,13 +136,13 @@ const StatusRequisition = () => {
           closeAlert();
         },
       });
-      return; 
+      return;
     }
-  
-   
+
+
     dispatch(CDACancelRequisition(CancelRequisitionBody));
   };
-  
+
 
   const RequisitionCode = () => {
     let classStudentName = '';
@@ -213,18 +213,18 @@ const StatusRequisition = () => {
   };
 
   const clickView = (ViewId) => {
-    navigate('/extended-sidebar/Teacher/RequistionView/' + btoa(ViewId) );
+    navigate('/RITeSchool/Teacher/RequistionView/' + btoa(ViewId));
   };
 
   // const clickEdit = (Value) => {
   //   setasRequisitionId(Value)
-  //   navigate('/extended-sidebar/Teacher/AddRequisition');
+  //   navigate('/RITeSchool/Teacher/AddRequisition');
 
   // };
 
 
   const clickEdit = (asRequisitionId) => {
-    navigate('/extended-sidebar/Teacher/AddRequisition/' + asRequisitionId);
+    navigate('/RITeSchool/Teacher/AddRequisition/' + asRequisitionId);
   };
 
   const clickReset = () => {
@@ -257,7 +257,7 @@ const StatusRequisition = () => {
   };
 
   const AddRequisition = (value) => {
-    navigate('/extended-sidebar/Teacher/AddRequisition');
+    navigate('/RITeSchool/Teacher/AddRequisition');
   };
 
   useEffect(() => {
@@ -298,7 +298,7 @@ const StatusRequisition = () => {
     dispatch(RequisitionStatus(Requisition));
   }, []);
 
-  
+
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, CountGetPagedRequisition.TotalCount);
   const pagecount = Math.ceil(CountGetPagedRequisition.TotalCount / rowsPerPage);
@@ -319,7 +319,7 @@ const StatusRequisition = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Requisition', path: '/extended-sidebar/Teacher/Requisition' }
+          { title: 'Requisition', path: '/RITeSchool/Teacher/Requisition' }
         ]}
         rightActions={<>
           <SearchableDropdown

@@ -6,7 +6,8 @@ import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import {
   IGetStudentPrrogressReportBody,
   IViewBody
@@ -28,33 +29,31 @@ import GradeConfigurationDetails from './GradeConfigurationDetails';
 import ProgressReportGradeView from './ProgressReportGradeView';
 import ProgressReportMarkView from './ProgressReportMarkView';
 import Studentdetails from './Studentdetails';
-import { useLocation } from 'react-router-dom';
-import {useParams } from 'react-router';
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-    let { AcademicYearTopper,StudentidTopper,TeacherIdTopper} = useParams();
+  let { AcademicYearTopper, StudentidTopper, TeacherIdTopper } = useParams();
 
 
   const location = useLocation();
-    const { state } = location;
-    
-    
+  const { state } = location;
+
+
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const TeacherIdsession = sessionStorage.getItem('TeacherId');
 
   const asUserId = Number(sessionStorage.getItem('Id'));
- 
-  
-  const initialStudentId1 = state && state.newstudntid !== undefined  ? state.newstudntid :StudentidTopper ? StudentidTopper :0 ;
+
+
+  const initialStudentId1 = state && state.newstudntid !== undefined ? state.newstudntid : StudentidTopper ? StudentidTopper : 0;
 
   const initialStudentId = state?.newstudntid ?? StudentidTopper ?? 0;
   const initialcademicYearId = state?.AcademicYear ?? AcademicYearTopper ?? asAcademicYearId;
-  console.log(initialStudentId,initialcademicYearId,"oo");
-  
-  const initialcademicYearId1 = state && state.AcademicYear !== undefined  ? state.AcademicYear : AcademicYearTopper ? AcademicYearTopper :asAcademicYearId;
+  console.log(initialStudentId, initialcademicYearId, "oo");
+
+  const initialcademicYearId1 = state && state.AcademicYear !== undefined ? state.AcademicYear : AcademicYearTopper ? AcademicYearTopper : asAcademicYearId;
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
 
 
@@ -62,11 +61,11 @@ const ProgressReportNew = () => {
   const [Error, SetError] = useState('');
   const [StudentId, SetStudentId] = useState(initialStudentId);
   const [AcademicYear, SetAcademicYear] = useState(initialcademicYearId);
-  const Newvalue = state && state.Newvalue !== undefined  ? state.Newvalue : false ; 
-  const [open, setOpen] = useState( Newvalue);
+  const Newvalue = state && state.Newvalue !== undefined ? state.Newvalue : false;
+  const [open, setOpen] = useState(Newvalue);
   const [open1, setOpen1] = useState(false);
-  console.log("--",StudentId,AcademicYear);
- 
+  console.log("--", StudentId, AcademicYear);
+
   const [AllowProgressReportDownloadAtStudentLogin, setAllowProgressReportDownloadAtStudentLogin] = useState("")
   const [ShowProgressReportGraphOnMobileApp, setShowProgressReportGraphOnMobileApp] = useState("")
   const [ShowTotalAsPerOutOfMarks, setShowTotalAsPerOutOfMarks] = useState("");
@@ -93,7 +92,7 @@ const ProgressReportNew = () => {
 
 
 
-  const initialTeacherId = state && state.TeacherID !== undefined  ? state.TeacherID : CanEdit == 'N' ? TeacherIdsession : '';
+  const initialTeacherId = state && state.TeacherID !== undefined ? state.TeacherID : CanEdit == 'N' ? TeacherIdsession : '';
 
 
   const [selectTeacher, SetselectTeacher] = useState(CanEdit == 'N' ? TeacherIdsession : '');
@@ -153,7 +152,7 @@ const ProgressReportNew = () => {
         }));
       let finalFormat: any = parsedData?.map(item => DataParserAndFormatter(item, AllStudentsProgressSheet.listDisplaynameDetiles))
       setParsedDataList(finalFormat);
-     
+
 
     }
   }, [AllStudentsProgressSheet])
@@ -204,7 +203,7 @@ const ProgressReportNew = () => {
   const getIsTermExamPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsTermExamPublished);
 
   const getIsFinalResultPublished = useSelector((state: RootState) => state.ProgressReportNew.ISgetIsFinalResultPublished);
-  
+
   const USGetTeachersForPrePrimaryProgressReportBody = useSelector((state: RootState) => state.ProgressReportNew.ISGetTeachersForPrePrimaryProgressReport);
 
   const progressReportFilePath: any = useSelector((state: RootState) => state.ProgressReportNew.ProgressReportDownload);
@@ -291,9 +290,9 @@ const ProgressReportNew = () => {
   }, [StudentidTopper])
 
 
-  
 
-  
+
+
   const [progressReportMessage, setProgressReportMessage] = useState(null);
   useEffect(() => {
     if (USlistStudentsDetails?.length > 0) {
@@ -519,10 +518,10 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsXseedApplicable(IsXseedApplicableBody));
 
-  }, [AcademicYear, GetOldStudentDetails.StandardDivisionId,GetOldStudentDetails.StandardId]);
+  }, [AcademicYear, GetOldStudentDetails.StandardDivisionId, GetOldStudentDetails.StandardId]);
 
 
-  
+
   useEffect(() => {
     dispatch(CDAGetLatestExamId1(GetLatestExamIdBody1));
 
@@ -597,11 +596,11 @@ const ProgressReportNew = () => {
 
   const ClickShow = (value) => {
 
-    if(USIsXseedApplicable){
-      let state1 = { GetOldStudentDetails, AcademicYear ,USIsXseedApplicable,Acadamicyearname,StudentId,selectTeacher};
-      navigate('/extended-sidebar/Teacher/PreprimaryProgressReport1' , { state: state1 });
+    if (USIsXseedApplicable) {
+      let state1 = { GetOldStudentDetails, AcademicYear, USIsXseedApplicable, Acadamicyearname, StudentId, selectTeacher };
+      navigate('/RITeSchool/Teacher/PreprimaryProgressReport1', { state: state1 });
       return
-     }
+    }
 
     if (selectTeacher === '0') {
       SetError('Class Teacher should be selected.');
@@ -642,7 +641,7 @@ const ProgressReportNew = () => {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(AcademicYear),
     asSchoolWise_Standard_Division_Id: GetOldStudentDetails.StandardDivisionId,
-    
+
   };
   useEffect(() => {
     dispatch(CDAGetTeachersForPrePrimaryProgressReport(GetTeachersForPrePrimaryProgressReportBody));
@@ -664,7 +663,7 @@ const ProgressReportNew = () => {
   //   if(AcademicYearTopper !== undefined){
   //     SetAcademicYear(AcademicYearTopper)
   //   }
-  
+
   //   }, [AcademicYearTopper]);
   //   useEffect(() => {
   //     if(StudentidTopper !== undefined){
@@ -672,19 +671,19 @@ const ProgressReportNew = () => {
   //     }}, [StudentidTopper]);
 
   //     console.log(StudentidTopper,"StudentidTopper");
-      
-    
+
+
   useEffect(() => {
     if (USGetClassTeachers.length > 0) {
-        if (state?.Newvalue) {
-            SetselectTeacher(state.TeacherID); // Set the value from state
-        } else if (CanEdit === 'Y') {
-            SetselectTeacher(USGetClassTeachers[0].Value); // Set the first teacher if CanEdit is 'Y'
-        } else if(TeacherIdTopper !== undefined){
-          SetselectTeacher(TeacherIdTopper)
-        }
+      if (state?.Newvalue) {
+        SetselectTeacher(state.TeacherID); // Set the value from state
+      } else if (CanEdit === 'Y') {
+        SetselectTeacher(USGetClassTeachers[0].Value); // Set the first teacher if CanEdit is 'Y'
+      } else if (TeacherIdTopper !== undefined) {
+        SetselectTeacher(TeacherIdTopper)
+      }
     }
-}, [USGetClassTeachers, state?.Newvalue, state?.TeacherID, CanEdit]);
+  }, [USGetClassTeachers, state?.Newvalue, state?.TeacherID, CanEdit]);
 
 
 
@@ -713,7 +712,7 @@ const ProgressReportNew = () => {
     if (StudentId !== '0') {
       dispatch(CDAStudentProgressReport(StudentProgressReportBody, IsGradingStandard, totalCount, isFailCriteria));
     }
-  }, [IsTotalConsiderForProgressReport, AcademicYear, GetOldStudentDetails.StudentId,totalCount,isFailCriteria])
+  }, [IsTotalConsiderForProgressReport, AcademicYear, GetOldStudentDetails.StudentId, totalCount, isFailCriteria])
   // }, [AcademicYear, GetOldStudentDetails.StudentId, IsTotalConsiderForProgressReport]);
 
   useEffect(() => {
@@ -879,25 +878,25 @@ const ProgressReportNew = () => {
 
   const Toppers = (value) => {
     const progressreporttppper = true
-    navigate('/extended-sidebar/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + LatestExamId + '/' + progressreporttppper + '/' +  StudentId + '/'+ true);
+    navigate('/RITeSchool/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + LatestExamId + '/' + progressreporttppper + '/' + StudentId + '/' + true);
   };
 
   const shouldShowToppersButton = !IsPrePrimary && AcademicYear !== asAcademicYearId && !USIsGradingStandard && ShowTopppers;
-  const ShowDownlodebutton = IsPrePrimary &&  PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true ;
-  const ShowDownlodebutton1 = IsPrePrimary &&  PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true ;
+  const ShowDownlodebutton = IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm1AssessmentPublished == true;
+  const ShowDownlodebutton1 = IsPrePrimary && PrePrimaryExamPublishStatus.IsTerm2AssessmentPublished == true;
 
 
 
- 
+
   // useEffect(() => {
   //  if(USIsXseedApplicable){
   //   let state1 = { GetOldStudentDetails, AcademicYear ,USIsXseedApplicable,Acadamicyearname,StudentId,selectTeacher};
-  //   navigate('/extended-sidebar/Teacher/PreprimaryProgressReport1' , { state: state1 });
+  //   navigate('/RITeSchool/Teacher/PreprimaryProgressReport1' , { state: state1 });
 
   //  }
   // }, [USIsXseedApplicable]);
-  
-  
+
+
 
   return (
     <Box sx={{ px: 2 }}>
@@ -906,7 +905,7 @@ const ProgressReportNew = () => {
 
       <CommonPageHeader
         navLinks={[
-          { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew' }
+          { title: 'Progress Report', path: '/RITeSchool/Teacher/ProgressReportNew' }
         ]}
         rightActions={<>
 
@@ -931,7 +930,7 @@ const ProgressReportNew = () => {
             label={'Student Name'}
             size={"small"} />
 
-          {StudentId == "0"  ? <span></span> :
+          {StudentId == "0" ? <span></span> :
             <SearchableDropdown
               ItemList={UsAcademicYearsOfStudent}
               sx={{ minWidth: '300px' }}
@@ -980,7 +979,7 @@ const ProgressReportNew = () => {
 
 
 
-          {((shouldShowToppersButton && open) && SchoolScreensAccessPermission() ) && <Tooltip title="Toppers">
+          {((shouldShowToppersButton && open) && SchoolScreensAccessPermission()) && <Tooltip title="Toppers">
             <span>
               <IconButton
                 onClick={Toppers}
@@ -1000,58 +999,58 @@ const ProgressReportNew = () => {
 
       />
 
-{USlistStudentsDetails.length>0 &&
-      <Grid container sx={{ mt: 2 }} >
-        <Grid xs={8}>
-          {open && (<div >
+      {USlistStudentsDetails.length > 0 &&
+        <Grid container sx={{ mt: 2 }} >
+          <Grid xs={8}>
+            {open && (<div >
 
-            {
-              AcademicYear === asAcademicYearId ? (
-                <span></span>
-              ) : (
-                ((EntireDataList?.listStudentsDetails || []).length !== 0 && StudentId !== "0") && (getIsTermExamPublished && AcademicYear >= "50") ? (
-                  <ErrorMessage1 Error={"On publish, you will see download buttons to download Term 1/2 progress report."}></ErrorMessage1>
-                ) : (
+              {
+                AcademicYear === asAcademicYearId ? (
                   <span></span>
+                ) : (
+                  ((EntireDataList?.listStudentsDetails || []).length !== 0 && StudentId !== "0") && (getIsTermExamPublished && AcademicYear >= "50") ? (
+                    <ErrorMessage1 Error={"On publish, you will see download buttons to download Term 1/2 progress report."}></ErrorMessage1>
+                  ) : (
+                    <span></span>
+                  )
                 )
-              )
-            }
+              }
 
-            {AcademicYear !== asAcademicYearId && StudentId !== "0" ? <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1> :
-              <span></span>
-            }
-          </div>)}
-        </Grid>
-        {(!SchoolScreensAccessPermission()  && AcademicYear !== asAcademicYearId )&& 
-          <Grid xs={4}>
-            {(open && !IsPrePrimary)&& (
-              <Box display={'flex'} sx={{ justifyContent: 'flex-end' }}>
-                <Box sx={{mr:1}}>
-                {( getIsTermExamPublished && AcademicYear >= "50") &&
-                  <Card5
-                    text1={ asSchoolId == "11" ? 'DOWNLOAD PDF' :  academictermsResult[0]?.TermName}
-                    text2=""
-                    clickIcon={() => { downloadProgress(1); }}
-                  />
-                 }</Box>
-                <Box>
-                {(getIsFinalResultPublished && AcademicYear >= "50") &&
-                  <Card5
-                    text1={academictermsResult[1]?.TermName}
-                    text2=""
-                    clickIcon={() => { downloadProgress(2); }}
-                  />
-                }</Box>
-              </Box>
-            )}
+              {AcademicYear !== asAcademicYearId && StudentId !== "0" ? <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1> :
+                <span></span>
+              }
+            </div>)}
           </Grid>
+          {(!SchoolScreensAccessPermission() && AcademicYear !== asAcademicYearId) &&
+            <Grid xs={4}>
+              {(open && !IsPrePrimary) && (
+                <Box display={'flex'} sx={{ justifyContent: 'flex-end' }}>
+                  <Box sx={{ mr: 1 }}>
+                    {(getIsTermExamPublished && AcademicYear >= "50") &&
+                      <Card5
+                        text1={asSchoolId == "11" ? 'DOWNLOAD PDF' : academictermsResult[0]?.TermName}
+                        text2=""
+                        clickIcon={() => { downloadProgress(1); }}
+                      />
+                    }</Box>
+                  <Box>
+                    {(getIsFinalResultPublished && AcademicYear >= "50") &&
+                      <Card5
+                        text1={academictermsResult[1]?.TermName}
+                        text2=""
+                        clickIcon={() => { downloadProgress(2); }}
+                      />
+                    }</Box>
+                </Box>
+              )}
+            </Grid>
           }
-          
 
-      </Grid> }
+
+        </Grid>}
 
       <ErrorMessage1 Error={Error}></ErrorMessage1>
- 
+
       {open && (
         <span>
           {StudentId !== "0" ? (
@@ -1060,15 +1059,15 @@ const ProgressReportNew = () => {
               < Box ref={printRef}>
                 {StudentId !== "0" ? EntireDataList?.listStudentsDetails?.[0]?.ShowOnlyGrades?.trim() === 'true' ? //USIsGradingStandard == true ?
                   <>
-                   {USlistStudentsDetails.length>0 &&
-                    <GradeConfigurationDetails
-                      handleClick={handleClick}
-                      open1={open1}
-                      handleClose={handleClose}
-                      USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
-                      USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
-                      headerArray={headerArray}
-                    />}
+                    {USlistStudentsDetails.length > 0 &&
+                      <GradeConfigurationDetails
+                        handleClick={handleClick}
+                        open1={open1}
+                        handleClose={handleClose}
+                        USGetAllMarksGradeConfiguration={USGetAllMarksGradeConfiguration}
+                        USGetAllMarksGradeConfiguration1={USGetAllMarksGradeConfiguration1}
+                        headerArray={headerArray}
+                      />}
                     <Studentdetails
                       USlistStudentsDetails={USlistStudentsDetails}
                     />
@@ -1082,9 +1081,9 @@ const ProgressReportNew = () => {
                     )}
                     <Box sx={{ overflowX: 'auto' }}>
                       <ProgressReportGradeView
-                    
-                      USlistStudentsDetails={USlistStudentsDetails}
-                      progressReportMessage={USErrorMessage}
+
+                        USlistStudentsDetails={USlistStudentsDetails}
+                        progressReportMessage={USErrorMessage}
                         totalCount={totalCount}
                         isFailCriteria={isFailCriteria}
                         EntireDataList={EntireDataList}
@@ -1096,7 +1095,7 @@ const ProgressReportNew = () => {
                     </Box>
                   </>
                   :
-                  <> {USlistStudentsDetails.length>0 &&
+                  <> {USlistStudentsDetails.length > 0 &&
                     <GradeConfigurationDetails
                       handleClick={handleClick}
                       open1={open1}
@@ -1117,8 +1116,8 @@ const ProgressReportNew = () => {
                     )}
                     <Box sx={{ overflowX: 'auto' }}>
                       <ProgressReportMarkView
-                      USlistStudentsDetails={USlistStudentsDetails}
-                      progressReportMessage={USErrorMessage}
+                        USlistStudentsDetails={USlistStudentsDetails}
+                        progressReportMessage={USErrorMessage}
                         isFailCriteria={isFailCriteria}
                         totalCount={totalCount}
                         HeaderArray={HeaderArray}
@@ -1176,7 +1175,7 @@ const ProgressReportNew = () => {
                 USlistStudentsDetails={USlistStudentsDetails}
                 USErrorMessage={USErrorMessage}
               />
-              
+
             ))
 
           }
@@ -1185,7 +1184,7 @@ const ProgressReportNew = () => {
         </div>
       )}
 
-      {(SchoolScreensAccessPermission() && getIsFinalResultPublished)&&
+      {(SchoolScreensAccessPermission() && getIsFinalResultPublished) &&
         <Grid xs={6} >
           {open && (
             <>
