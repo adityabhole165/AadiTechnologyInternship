@@ -176,7 +176,7 @@ const AddReciepents = ({
     setSelectedRecipents(updatedRecipients);
     setSelectedRecipentsId(updatedRecipientIds);
   };
-  
+
   useEffect(() => {
     const asSchoolId = sessionStorage.getItem('SchoolId');
     const roleId = sessionStorage.getItem('RoleId');
@@ -487,9 +487,10 @@ const AddReciepents = ({
   };
 
   const ClickGroupRadio = (value) => {
+    const isChecked = value.isActive;
     getGroupRadio(value.Id);
     if (value.Id == 12) {
-      setIsLeftStudentsChecked(true)
+      setIsLeftStudentsChecked(isChecked)
     }
     else {
       setIsLeftStudentsChecked(false)
@@ -614,7 +615,7 @@ const AddReciepents = ({
                   )}
                   {(techerStudent1 === '12') && (
                     <DropdownofAddrecipent
-                      sx={{ minWidth: '300px' ,mb: 1 }}
+                      sx={{ minWidth: '300px', mb: 1 }}
                       ItemList={getClass}
                       onChange={leftstudentclassChange}
                       label={'Select Class'}
