@@ -34,7 +34,7 @@ import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Studen
 
 import SentsmsList from 'src/components/SentSms/SentsmsList';
 import { RootState } from 'src/store';
-import { getDateFormattedDashNew } from 'src/components/Common/Util';
+import { getDateFormattedDashNew, getDateFormattedNew } from 'src/components/Common/Util';
 import SentsmsListAll from 'src/components/SentSms/SentsmsListAll';
 const PageSize = 20;
 const Item = styled(Card)(({ theme }) => ({
@@ -1255,7 +1255,7 @@ const [headerArray1 ,setHeaderArray1] = useState([
                           <TableCell sx={{ py: 1 }}>   <Link href={url + row.SMS_Id}>
                             {row.Subject}
                           </Link></TableCell>
-                          <TableCell sx={{ py: 1 }}>{getDateFormattedDashNew(new Date(row.Date))}</TableCell>
+                          <TableCell sx={{ py: 1 }}>{getDateFormattedNew(new Date(row.Date))}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
