@@ -318,9 +318,9 @@ const GenerateAll = ({ }) => {
             asUseAvarageFinalResult: "Y"
         };
         await dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
-        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
-        setIsResultGenerated(true); // Set the result as generated
-        dispatch(ViewResultGA(GetViewResultBody));
+        await dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));// Set the result as generated
+        await dispatch(ViewResultGA(GetViewResultBody));
+        setIsResultGenerated(true);
     };
 
     // const handleVisibilityClick = () => {
