@@ -30,7 +30,11 @@ function DropdownofAddrecipent({
 
   // Prevent special characters and numbers in the search
   const handleKeyDown = (event) => {
-    if (/[&@*%#!0-9-^_$()+=]/.test(event.key)) {
+    // Allow alphanumeric input, dash (-), space, and basic navigation keys
+    const allowedKeys =
+      /[a-zA-Z0-9\s-]/.test(event.key) ||
+      ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete'].includes(event.key);
+    if (!allowedKeys) {
       event.preventDefault();
     }
   };
