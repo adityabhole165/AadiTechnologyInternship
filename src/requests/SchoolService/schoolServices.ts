@@ -14,5 +14,8 @@ export default axios.create({
   headers: {
     'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*'
-  }
+  },
+  timeout: 30000, // 30 seconds
+  maxContentLength: 15728640, // 15 MB
+  maxBodyLength: 15728640, // 15 MB
 });
