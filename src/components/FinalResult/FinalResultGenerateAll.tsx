@@ -80,7 +80,7 @@ const GenerateAll = ({ }) => {
                     uniqueId: `${item.Grade_Name}-${item.Marks_Grades_Configuration_Detail_ID}`
                 }))
             ); // Non-co-curricular subjects
-            console.log(co_curricularDropdown, non_co_curricularDropdown);
+            // console.log(co_curricularDropdown, non_co_curricularDropdown);
         }
     }, [EntireDataList]);
     useEffect(() => {
@@ -127,11 +127,11 @@ const GenerateAll = ({ }) => {
         }
     }
     async function updateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
-        console.log(testId, testMarksId, subMarksId, MarksScored, testTypeId);
+       // console.log(testId, testMarksId, subMarksId, MarksScored, testTypeId);
 
         await setMarksListArray(prevArray => {
             return prevArray.map(testObject => {
-                console.log('testObject >>>', testObject);
+                //console.log('testObject >>>', testObject);
 
                 if (testObject.Test_Id === testId) {
                     return {
@@ -147,19 +147,19 @@ const GenerateAll = ({ }) => {
                         })
                     };
                 }
-                console.log('testObject', testObject);
+                //console.log('testObject', testObject);
 
                 return testObject;
             });
         });
-        console.log('following is markedscored', MarksScored);
-        console.log('marksListArray', marksListArray);
+       // console.log('following is markedscored', MarksScored);
+       // console.log('marksListArray', marksListArray);
 
     }
     function updateGradeDropdown(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
-        console.log('markslistarray part one', marksListArray);
+        //console.log('markslistarray part one', marksListArray);
 
-        console.log(testId, testMarksId, subMarksId, MarksScored, testTypeId);
+        //console.log(testId, testMarksId, subMarksId, MarksScored, testTypeId);
 
         setMarksListArray(prevArray => {
             return prevArray.map(testObject => {
@@ -177,12 +177,12 @@ const GenerateAll = ({ }) => {
                         })
                     };
                 }
-                console.log('newly formed array to add', testObject);
+                //console.log('newly formed array to add', testObject);
                 return testObject;
 
             });
         });
-        console.log('following is markedscored', MarksScored);
+        //console.log('following is markedscored', MarksScored);
         setTimeout(() => {
             console.log('marksListArray', marksListArray);
         }, 1000);
@@ -940,14 +940,14 @@ const GenerateAll = ({ }) => {
                                                         }
                                                         return null;
                                                     })}
-                                                    {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                    {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
                                                         if (index === 0) {
                                                             return (
                                                                 <TableCell
                                                                     key={index}
-                                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
                                                                 >
-                                                                    {resultData.Result || '-'}
+                                                                    {resultData.Result.trim() ? resultData.Result.trim() : '-'}
                                                                 </TableCell>
                                                             );
                                                         }
@@ -973,6 +973,14 @@ const GenerateAll = ({ }) => {
                                                         <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
                                                         <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
                                                         <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                        {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                            if (index === 0) {
+                                                                return (
+                                                                    <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
+                                                                );
+                                                            }
+                                                            return null;
+                                                        })}
                                                     </>
                                                 )}
                                                 {showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
@@ -994,14 +1002,14 @@ const GenerateAll = ({ }) => {
                                                             return null;
                                                         })}
 
-                                                        {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                        {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
                                                             if (index === 0) {
                                                                 return (
                                                                     <TableCell
                                                                         key={index}
-                                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
                                                                     >
-                                                                        {resultData.Result || '-'}
+                                                                        {resultData.Result.trim() ? resultData.Result.trim() : '-'}
                                                                     </TableCell>
                                                                 );
                                                             }
