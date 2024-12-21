@@ -1,5 +1,8 @@
 import {
   GetImagesResult,
+  IDeletePhotoBody,
+  IGetPhotoDetailsBody,
+  IGetPhotoDetailsResult,
   IPics,
   Iimg
 } from 'src/interfaces/Common/PhotoGallery';
@@ -26,10 +29,20 @@ const GetimgList = (data: Iimg) => {
   return http.post<GetImagesResult>('User/GetImages', data);
 };
 
+const GetPhotodetails = (data: IGetPhotoDetailsBody) => {
+  return http.post<IGetPhotoDetailsResult[]>('Teacher/GetAllPhotoGalleriesDetails', data);
+};
+
+const DeletePhoto = (data: IDeletePhotoBody) => {
+  return http.post('Teacher/DeletePhotoGallery', data);
+};
+
 const PhotoGallaryApi = {
   GetAllAcademicYearsForSchool,
   GetPICSList,
-  GetimgList
+  GetimgList,
+  GetPhotodetails,
+  DeletePhoto
 };
 
 export default PhotoGallaryApi;

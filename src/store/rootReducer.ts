@@ -121,6 +121,7 @@ import Notificationslice from '../requests/Notification/Notification';
 import PerformanceGradeAssignmentslice from '../requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
+import PhotoSlice from '../requests/Reqphoto/ReqPhoto';
 import SchoolLibraryslice from '../requests/SchoolLibrary/ReqLibraryBaseScreen';
 import SchoolNoticePopupslice from '../requests/SchoolNoticePopup/RequestSchoolNoticePopup';
 import SliceSentsms from '../requests/SentSms/ReqSentsms';
@@ -272,6 +273,8 @@ const rootReducer = combineReducers({
   GetStandardwiseMinMaxDOB: GetStandardwiseMinMaxDOBslice,
   ContactGroup: ContactGroupSlice,
   StudentUI: StudentUISlice,
+  Photo: PhotoSlice
+
 });
 
 export default rootReducer;

@@ -1,8 +1,31 @@
+
 // photo gallery
 export interface IPics {
   asSchoolId: string;
   asMonth: any;
   asYear: any;
+}
+export interface IGetPhotoDetailsBody {
+  asSchoolId: number,
+  asSortExp: string,
+  asStartIndex: number,
+  asPageSize: number,
+  asAcademicYearId: number
+}
+
+export interface IGetPhotoDetailsResult {
+  RowID: string,
+  TotalRows: string,
+  Gallery_Name: string,
+  Classes: string,
+  Update_Date: string,
+}
+
+export interface IDeletePhotoBody {
+
+  asGalleryName: string,
+  asSchoolId: number
+
 }
 
 export interface GetPics {
