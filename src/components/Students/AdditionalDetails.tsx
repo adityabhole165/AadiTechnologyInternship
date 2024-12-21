@@ -329,12 +329,14 @@ const AdditionalDetails = ({ additional, onChange }) => {
                 fullWidth
                 value={additional.previousMarksObtained}
                 onChange={handleInputChange}
-                type="number"
+                inputProps={{
+                  maxLength: 3,
+                  pattern: '[0-9]*',
+                  inputMode: 'numeric'
+                }}
                 onInput={(e) => {
                   const input = e.target as HTMLInputElement;
-                  if (input.value.length > 3) {
-                    input.value = input.value.slice(0, 3); // Limit to 3 digits
-                  }
+                  input.value = input.value.replace(/\D/g, '').slice(0, 3);
                 }}
               />
             </Grid>
@@ -346,12 +348,14 @@ const AdditionalDetails = ({ additional, onChange }) => {
                 fullWidth
                 value={additional.previousMarksOutOf}
                 onChange={handleInputChange}
-                type="number"
+                inputProps={{
+                  maxLength: 3,
+                  pattern: '[0-9]*',
+                  inputMode: 'numeric'
+                }}
                 onInput={(e) => {
                   const input = e.target as HTMLInputElement;
-                  if (input.value.length > 3) {
-                    input.value = input.value.slice(0, 3); // Limit to 3 digits
-                  }
+                  input.value = input.value.replace(/\D/g, '').slice(0, 3);
                 }}
               />
             </Grid>

@@ -669,7 +669,15 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 variant="outlined"
                 value={family.fatherAnnualIncome}
                 onChange={handleInputChange}
-                type="number"
+                inputProps={{
+                  maxLength: 10,
+                  pattern: '[0-9]*',
+                  inputMode: 'numeric'
+                }}
+                onInput={(e) => {
+                  const input = e.target as HTMLInputElement;
+                  input.value = input.value.replace(/\D/g, '').slice(0, 10);
+                }}
                 fullWidth
               />
             </Grid>
@@ -874,12 +882,14 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 value={family.motherAnnualIncome}
                 onChange={handleInputChange}
                 fullWidth
-                type="number"
+                inputProps={{
+                  maxLength: 10,
+                  pattern: '[0-9]*',
+                  inputMode: 'numeric'
+                }}
                 onInput={(e) => {
                   const input = e.target as HTMLInputElement;
-                  if (input.value.length > 10) {
-                    input.value = input.value.slice(0, 10); // Limit to 3 digits
-                  }
+                  input.value = input.value.replace(/\D/g, '').slice(0, 10);
                 }}
               />
             </Grid>
@@ -957,7 +967,14 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 variant="outlined"
                 value={family.familyMonthlyIncome}
                 onChange={handleInputChange}
-                type="number"
+                inputProps={{
+                  pattern: '[0-9]*',
+                  inputMode: 'numeric'
+                }}
+                onInput={(e) => {
+                  const input = e.target as HTMLInputElement;
+                  input.value = input.value.replace(/\D/g, '');
+                }}
                 fullWidth
               />
             </Grid>
@@ -1095,11 +1112,19 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 name="age1"
                 label="Age"
                 variant="outlined"
-                type="number"
                 value={family.age1}
                 onChange={handleInputChange}
                 fullWidth
-                inputProps={{ min: 0 }}
+                inputProps={{
+                  min: 0,
+                  maxLength: 2,
+                  pattern: '[0-9]*',
+                  inputMode: 'numeric'
+                }}
+                onInput={(e) => {
+                  const input = e.target as HTMLInputElement;
+                  input.value = input.value.replace(/\D/g, '').slice(0, 2);
+                }}
               />
             </Grid>
 
@@ -1141,10 +1166,18 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 name="age2"
                 label="Age"
                 variant="outlined"
-                type="number"
                 value={family.age2}
                 onChange={handleInputChange}
-                inputProps={{ min: 0 }}
+                inputProps={{
+                  min: 0,
+                  maxLength: 2,
+                  pattern: '[0-9]*',
+                  inputMode: 'numeric'
+                }}
+                onInput={(e) => {
+                  const input = e.target as HTMLInputElement;
+                  input.value = input.value.replace(/\D/g, '').slice(0, 2);
+                }}
                 fullWidth
               />
             </Grid>

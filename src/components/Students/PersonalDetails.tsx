@@ -200,10 +200,17 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
   //     return '';
   //   }
   // };
+  console.log(compareAgeTillDate, '🔲compareAgeTillDate');
+  console.log(personal.dateOfBirth, 'Date of Birth');
+
   const calculateAge = (dob: string, tillDate: string): string => {
     if (!dob || !tillDate) return '';
 
-    const birthDate = new Date(dob);
+    // Convert DD-MM-YYYY to YYYY-MM-DD format
+    const [day, month, year] = dob.split('-');
+    const formattedDob = `${year}-${month}-${day}`;
+
+    const birthDate = new Date(formattedDob);
     const compareDate = new Date(tillDate);
 
     let years = compareDate.getFullYear() - birthDate.getFullYear();
@@ -216,6 +223,9 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
 
     return `${years} Year(s) ${months} Month(s)`;
   };
+
+
+  const age = personal.dateOfBirth ? calculateAge(personal.dateOfBirth, compareAgeTillDate) : '';
 
   //#endregion
 
@@ -308,7 +318,6 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
     }
   }
 
-  const age = personal.dateOfBirth ? calculateAge(personal.dateOfBirth, compareAgeTillDate) : '';
 
   //#region WebCam/StPhoto 
   const [open, setOpen] = useState(false);
@@ -920,12 +929,14 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   error={!!validationMessages.pin}
                   helperText={validationMessages.pin ? 'PIN Code should not be blank.' : ''}
                   fullWidth
-                  type='number'
+                  inputProps={{
+                    maxLength: 6,
+                    pattern: '[0-9]*',
+                    inputMode: 'numeric'
+                  }}
                   onInput={(e) => {
                     const input = e.target as HTMLInputElement;
-                    if (input.value.length > 6) {
-                      input.value = input.value.slice(0, 5); // Limit to 3 digits
-                    }
+                    input.value = input.value.replace(/\D/g, '').slice(0, 6);
                   }}
                 />
               </Grid>
