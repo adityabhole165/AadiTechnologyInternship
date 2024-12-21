@@ -59,7 +59,7 @@ function RegenerateRollNoList2({
                                                 color: (theme) => theme.palette.common.white,
                                                 textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'center', pt: 1.5, pb: 1.5
                                             }}
-                                            onClick={item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ? () => clickHeader(item.Id) : null}
+                                           onClick={i !== 4 ? () => clickHeader(item.Id) : null}
                                         >
                                             <Box sx={{ display: 'flex', gap: 0.5 }}>
                                                 <b>{item.Header}</b>
@@ -76,25 +76,25 @@ function RegenerateRollNoList2({
                                 {ItemList.map((item, index) => {
                                     return (
                                         <TableRow key={index}>
-                                            <TableCell sx={{ width: '220px', py: 1 }} align="left">
-                                                {item.Text1}
+                                            <TableCell sx={{ width: '100px', py: 1 }} align="left">
+                                                {item.RegNo}
                                             </TableCell>
-                                            <TableCell sx={{ width: '200px', py: 1 }} align="left">
-                                                {item.Text2}
+                                            <TableCell sx={{ width: '100px', py: 1 }} align="left">
+                                                {item.Class}
                                             </TableCell>
-                                            <TableCell sx={{ width: '200px', py: 1 }} align="left">
-                                                {item.Text3}
+                                            <TableCell sx={{ width: '100px', py: 1 }} align="left">
+                                                {item.RollNo}
                                             </TableCell>
                                             {/* TextField for 4th position (Text4) with numeric input */}
-                                            <TableCell sx={{ width: '200px', py: 1 }} align="left">
+                                            <TableCell sx={{ width: '100px', py: 1 }} align="left">
                                                 <TextField
                                                     size="small"
                                                     variant="outlined"
-                                                    value={item.Text4 || ''}
+                                                    value={item.NewRollNo || ''}
                                                     onChange={(e) => {
                                                         // Ensure only numeric values are allowed
                                                         if (/^\d*$/.test(e.target.value)) {
-                                                            item.Text4 = e.target.value; // Update the value
+                                                            item.NewRollNo = e.target.value; // Update the value
                                                         }
                                                     }}
                                                     type="number"
@@ -102,15 +102,14 @@ function RegenerateRollNoList2({
                                                 />
                                             </TableCell>
                                             <TableCell sx={{ width: '300px', py: 1 }} align="left">
+                                                {item.StudentName}
+                                            </TableCell>
+                                            <TableCell sx={{ width: '300px', py: 1 }} align="left">
                                                 {moment(item.Text5).format('DD MMM YYYY   h:mm A')}
                                             </TableCell>
                                             {/* New Field: Text6 */}
                                             <TableCell sx={{ width: '150px', py: 1 }} align="left">
-                                                {item.Text6}
-                                            </TableCell>
-                                            {/* New Field: Text7 */}
-                                            <TableCell sx={{ width: '150px', py: 1 }} align="left">
-                                                {item.Text7}
+                                                {item.Category}
                                             </TableCell>
                                         </TableRow>
                                     );

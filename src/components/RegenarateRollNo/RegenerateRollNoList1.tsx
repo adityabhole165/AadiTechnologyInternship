@@ -77,24 +77,24 @@ function RegenerateRollNoList1({
                                 {ItemList.map((item, index) => {
                                     return (
                                         <TableRow key={index}>
-                                            <TableCell sx={{ width: '220px', py: 1 }} align="left">
-                                                {item.Text1}
+                                            <TableCell sx={{ width: '170px', py: 1 }} align="left">
+                                                {item.RegNo}
                                             </TableCell>
-                                            <TableCell sx={{ width: '200px', py: 1 }} align="left">
-                                                {item.Text2}
+                                            <TableCell sx={{ width: '170px', py: 1 }} align="left">
+                                                {item.Class}
                                             </TableCell>
-                                            <TableCell sx={{ width: '200px', py: 1 }} align="left">
-                                                {item.Text3}
+                                            <TableCell sx={{ width: '170px', py: 1 }} align="left">
+                                                {item.RollNo}
                                             </TableCell>
-                                            <TableCell sx={{ width: '200px', py: 1 }} align="left">
-                                                {item.Text4}
+                                            <TableCell sx={{ width: '350px', py: 1 }} align="left">
+                                                {item.StudentName}
                                             </TableCell>
                                             <TableCell sx={{ width: '300px', py: 1 }} align="left">
                                                 {moment(item.Text5).format('DD MMM YYYY   h:mm A')}
                                             </TableCell>
-                                            {/* New Field: Text7 */}
-                                            <TableCell sx={{ width: '150px', py: 1 }} align="left">
-                                                {item.Text6}
+                                            {/* New Field: Text6 */}
+                                            <TableCell sx={{ width: '300px', py: 1 }} align="left">
+                                                {item.Category}
                                             </TableCell>
                                         </TableRow>
                                     );

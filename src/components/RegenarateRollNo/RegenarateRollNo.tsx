@@ -6,20 +6,102 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, FormControl, FormControlLabel, Grid, IconButton, MenuItem, Radio, RadioGroup, Select, Tooltip, Typography } from '@mui/material';
 import { blue, grey, yellow } from "@mui/material/colors";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
+import RegenerateRollNoList1 from './RegenerateRollNoList1';
+import RegenerateRollNoList2 from './RegenerateRollNoList2';
 
 const RegenarateRollNo = () => {
     // Hardcoded data arrays
     const dummyData = [
-        { Id: 1, Name: 'Priority 1', Value: 1 },
-        { Id: 2, Name: 'Priority 2', Value: 2 },
-        { Id: 3, Name: 'Priority 3', Value: 3 },
-        { Id: 4, Name: 'Priority 4', Value: 4 },
-        { Id: 5, Name: 'Priority 5', Value: 5 },
-        { Id: 6, Name: 'Priority 6', Value: 6 },
+        {
+            Id: 1,
+            Name: 'Priority 1',
+            Value: 1,
+            options: [
+                { Id: 0, label: 'Select', value: 'Select' },
+                { Id: 1, label: 'First Name', value: 'firstName' },
+                { Id: 2, label: 'Middle Name', value: 'middleName' },
+                { Id: 3, label: 'Last Name', value: 'lastName' },
+                { Id: 4, label: 'Gender', value: 'gender' },
+                { Id: 5, label: 'Category', value: 'category' },
+                { Id: 6, label: 'Registration Number', value: 'registrationNumber' },
+            ]
+        },
+        {
+            Id: 2,
+            Name: 'Priority 2',
+            Value: 2,
+            options: [
+                { Id: 0, label: 'Select', value: 'Select' },
+                { Id: 1, label: 'First Name', value: 'firstName' },
+                { Id: 2, label: 'Middle Name', value: 'middleName' },
+                { Id: 3, label: 'Last Name', value: 'lastName' },
+                { Id: 4, label: 'Gender', value: 'gender' },
+                { Id: 5, label: 'Category', value: 'category' },
+                { Id: 6, label: 'Registration Number', value: 'registrationNumber' },
+            ]
+        },
+        {
+            Id: 3,
+            Name: 'Priority 3',
+            Value: 3,
+            options: [
+                { Id: 0, label: 'Select', value: 'Select' },
+                { Id: 1, label: 'First Name', value: 'firstName' },
+                { Id: 2, label: 'Middle Name', value: 'middleName' },
+                { Id: 3, label: 'Last Name', value: 'lastName' },
+                { Id: 4, label: 'Gender', value: 'gender' },
+                { Id: 5, label: 'Category', value: 'category' },
+                { Id: 6, label: 'Registration Number', value: 'registrationNumber' },
+            ]
+        },
+        {
+            Id: 4,
+            Name: 'Priority 4',
+            Value: 4,
+            options: [
+                { Id: 0, label: 'Select', value: 'Select' },
+                { Id: 1, label: 'First Name', value: 'firstName' },
+                { Id: 2, label: 'Middle Name', value: 'middleName' },
+                { Id: 3, label: 'Last Name', value: 'lastName' },
+                { Id: 4, label: 'Gender', value: 'gender' },
+                { Id: 5, label: 'Category', value: 'category' },
+                { Id: 6, label: 'Registration Number', value: 'registrationNumber' },
+            ]
+        },
+        {
+            Id: 5,
+            Name: 'Priority 5',
+            Value: 5,
+            options: [
+                { Id: 0, label: 'Select', value: 'Select' },
+                { Id: 1, label: 'First Name', value: 'firstName' },
+                { Id: 2, label: 'Middle Name', value: 'middleName' },
+                { Id: 3, label: 'Last Name', value: 'lastName' },
+                { Id: 4, label: 'Gender', value: 'gender' },
+                { Id: 5, label: 'Category', value: 'category' },
+                { Id: 6, label: 'Registration Number', value: 'registrationNumber' },
+            ]
+        },
+        {
+            Id: 6,
+            Name: 'Priority 6',
+            Value: 6,
+            options: [
+                { Id: 0, label: 'Select', value: 'Select' },
+                { Id: 1, label: 'First Name', value: 'firstName' },
+                { Id: 2, label: 'Middle Name', value: 'middleName' },
+                { Id: 3, label: 'Last Name', value: 'lastName' },
+                { Id: 4, label: 'Gender', value: 'gender' },
+                { Id: 5, label: 'Category', value: 'category' },
+                { Id: 6, label: 'Registration Number', value: 'registrationNumber' },
+            ]
+        }
     ];
+
     const dropdownData = [
         { Id: 0, Name: " All", Value: "all" },
         { Id: 1, Name: "Nursery", Value: "nursery" },
@@ -49,7 +131,7 @@ const RegenarateRollNo = () => {
     const [HeaderList1, setHeaderList1] = useState([
         { Id: 1, Header: 'Reg. No.', SortOrder: null, sortKey: 'RegNo' },
         { Id: 2, Header: 'Class', SortOrder: null, sortKey: 'Class' },
-        { Id: 3, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo' },
+        { Id: 3, Header: 'Roll No.', SortOrder: 'desc', sortKey: 'RollNo' },
         { Id: 4, Header: 'Student Name', SortOrder: null, sortKey: 'StudentName' },
         { Id: 5, Header: 'Date of Birth', SortOrder: null, sortKey: 'DateOfBirth' },
         { Id: 6, Header: 'Category', SortOrder: null, sortKey: 'Category' }
@@ -57,13 +139,48 @@ const RegenarateRollNo = () => {
     const [HeaderList2, setHeaderList2] = useState([
         { Id: 1, Header: 'Reg. No.', SortOrder: null, sortKey: 'RegNo' },
         { Id: 2, Header: 'Class', SortOrder: null, sortKey: 'Class' },
-        { Id: 3, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo' },
+        { Id: 3, Header: 'Roll No.', SortOrder: 'desc', sortKey: 'RollNo' },
         { Id: 4, Header: 'New Roll No.', SortOrder: null, sortKey: 'NewRollNo' },
         { Id: 5, Header: 'Student Name', SortOrder: null, sortKey: 'StudentName' },
         { Id: 6, Header: 'Date of Birth', SortOrder: null, sortKey: 'DateOfBirth' },
         { Id: 7, Header: 'Category', SortOrder: null, sortKey: 'Category' }
     ]);
-    const [isClicked, setIsClicked] = useState(false);
+    const [dummyDataList1, setdummyDataList1] = useState([
+        { RegNo: 4226, Class: '1-A', RollNo: 1, StudentName: 'Master Aarav Deshmukh', DateOfBirth: '22 Nov 2017', Category: 'OBC' },
+        { RegNo: 4321, Class: '1-A', RollNo: 2, StudentName: 'Master Rohan Patil', DateOfBirth: '11 Jul 2018', Category: 'Other' },
+        { RegNo: 4279, Class: '1-A', RollNo: 3, StudentName: 'Master Ayaan Koli', DateOfBirth: '22 Jun 2018', Category: 'OPEN' },
+        { RegNo: 4264, Class: '1-A', RollNo: 4, StudentName: 'Master Ishan More', DateOfBirth: '16 Jul 2017', Category: 'OPEN' },
+        { RegNo: 4299, Class: '1-A', RollNo: 5, StudentName: 'Miss Priya Desai', DateOfBirth: '23 Feb 2018', Category: 'OPEN' },
+        { RegNo: 4229, Class: '1-A', RollNo: 6, StudentName: 'Miss Neha Shah', DateOfBirth: '18 Feb 2018', Category: 'OPEN' },
+        { RegNo: 4281, Class: '1-A', RollNo: 7, StudentName: 'Master Aryan Patil', DateOfBirth: '30 Apr 2018', Category: 'OPEN' },
+        { RegNo: 4308, Class: '1-A', RollNo: 8, StudentName: 'Miss Simran Rathi', DateOfBirth: '30 Sep 2018', Category: 'GENERAL' },
+        { RegNo: 4173, Class: '1-A', RollNo: 9, StudentName: 'Miss Ananya Joshi', DateOfBirth: '14 Oct 2017', Category: 'OPEN' },
+        { RegNo: 4252, Class: '1-A', RollNo: 10, StudentName: 'Miss Meera Deshmukh', DateOfBirth: '02 May 2018', Category: 'OBC' },
+        { RegNo: 4307, Class: '1-A', RollNo: 11, StudentName: 'Master Sahil Kulkarni', DateOfBirth: '21 Jun 2018', Category: 'GENERAL' },
+        { RegNo: 4196, Class: '1-A', RollNo: 12, StudentName: 'Miss Aditi Kadam', DateOfBirth: '11 Jul 2018', Category: 'SBC' },
+        { RegNo: 4235, Class: '1-A', RollNo: 13, StudentName: 'Miss Sanya Chavan', DateOfBirth: '05 Nov 2018', Category: 'OPEN' },
+        { RegNo: 4167, Class: '1-A', RollNo: 14, StudentName: 'Master Karan Shinde', DateOfBirth: '04 Jan 2018', Category: 'OPEN' },
+        { RegNo: 4322, Class: '1-A', RollNo: 15, StudentName: 'Master Pranav Yadav', DateOfBirth: '28 Apr 2018', Category: 'GENERAL' }
+    ]);
+
+    const [dummyDataList2, setdummyDataList2] = useState([
+        { RegNo: 4226, Class: '1-A', RollNo: 1, NewRollNo: 1, StudentName: 'Master Yatharth Kshitij Raut', DateOfBirth: '22 Nov 2017', Category: 'OBC' },
+        { RegNo: 4321, Class: '1-A', RollNo: 2, NewRollNo: 2, StudentName: 'Master Vivaan Vaibhav Yadav', DateOfBirth: '11 Jul 2018', Category: 'Other' },
+        { RegNo: 4279, Class: '1-A', RollNo: 3, NewRollNo: 3, StudentName: 'Master Virat Mohan Kalbhor', DateOfBirth: '22 Jun 2018', Category: 'OPEN' },
+        { RegNo: 4264, Class: '1-A', RollNo: 4, NewRollNo: 4, StudentName: 'Master Vihaan Pushpendra Mahajan', DateOfBirth: '16 Jul 2017', Category: 'OPEN' },
+        { RegNo: 4299, Class: '1-A', RollNo: 5, NewRollNo: 5, StudentName: 'Miss Veera Sandeep Randive', DateOfBirth: '23 Feb 2018', Category: 'OPEN' },
+        { RegNo: 4229, Class: '1-A', RollNo: 6, NewRollNo: 6, StudentName: 'Miss Tanishka Radhesham Sarda', DateOfBirth: '18 Feb 2018', Category: 'OPEN' },
+        { RegNo: 4281, Class: '1-A', RollNo: 7, NewRollNo: 7, StudentName: 'Master Swojas Rajadhyaksha', DateOfBirth: '30 Apr 2018', Category: 'OPEN' },
+        { RegNo: 4308, Class: '1-A', RollNo: 8, NewRollNo: 8, StudentName: 'Miss Smayra Kirankumar Chandergi', DateOfBirth: '30 Sep 2018', Category: 'GENERAL' },
+        { RegNo: 4173, Class: '1-A', RollNo: 9, NewRollNo: 9, StudentName: 'Miss Shubhada Tushar Dunde', DateOfBirth: '14 Oct 2017', Category: 'OPEN' },
+        { RegNo: 4252, Class: '1-A', RollNo: 10, NewRollNo: 10, StudentName: 'Miss Shreesha Swapnil Velhal', DateOfBirth: '02 May 2018', Category: 'OBC' },
+        { RegNo: 4307, Class: '1-A', RollNo: 11, NewRollNo: 11, StudentName: 'Master Shahu Amol Boraste', DateOfBirth: '21 Jun 2018', Category: 'GENERAL' },
+        { RegNo: 4196, Class: '1-A', RollNo: 12, NewRollNo: 12, StudentName: 'Miss Shaarvi Santosh Kangle', DateOfBirth: '11 Jul 2018', Category: 'SBC' },
+        { RegNo: 4235, Class: '1-A', RollNo: 13, NewRollNo: 13, StudentName: 'Miss Saanvi Chetan Shinde', DateOfBirth: '05 Nov 2018', Category: 'OPEN' },
+        { RegNo: 4167, Class: '1-A', RollNo: 14, NewRollNo: 14, StudentName: 'Master Rutvik Rajendra Chavan', DateOfBirth: '04 Jan 2018', Category: 'OPEN' },
+        { RegNo: 4322, Class: '1-A', RollNo: 15, NewRollNo: 15, StudentName: 'Master Rugved Shrikant Chavan', DateOfBirth: '28 Apr 2018', Category: 'GENERAL' }
+    ]);
+    const totalCount = dummyDataList2.length;
     const [selectDisplayType, setDisplayType] = useState('all');
     const [selectDisplayLocation, setDisplayLocation] = useState('all');
     const [open, setOpen] = useState(false);
@@ -72,6 +189,55 @@ const RegenarateRollNo = () => {
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const rowsPerPageOptions = [20, 50, 100, 200];
     const [page, setPage] = useState(1);
+    const [sortExpression, setSortExpression] = useState('RollNo desc');
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc'); // Initial sorting direction (ascending)
+    const [sortedData, setSortedData] = useState(dummyDataList2); // Initial sorted data
+    const [isAscending, setIsAscending] = useState(true);
+    const [isClicked, setIsClicked] = useState(false);
+
+    const handleAscendClick = () => {
+        setIsAscending(true);
+        setIsClicked(!isClicked);
+    };
+
+    const handleDescendClick = () => {
+        setIsAscending(false);
+        setIsClicked(!isClicked);
+    };
+
+    const filteredList = ShowRollNo === "true" ? dummyDataList2.filter(
+        (item) => totalCount !== undefined
+    ) : dummyDataList1.filter(
+        (item) => totalCount !== undefined
+    );
+
+    const TotalCount = filteredList.map((item) => totalCount);
+    const uniqueTotalCount = [...new Set(TotalCount)];
+    const singleTotalCount = uniqueTotalCount[0];
+
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+    const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
+
+    const [selectedOptions, setSelectedOptions] = useState({});
+
+    useEffect(() => {
+        // Set default selected option for each dropdown to the first option (if available)
+        const initialSelectedOptions = dummyData.reduce((acc, item) => {
+            acc[item.Id] = item.options[0].value; // Select the first option by default
+            return acc;
+        }, {});
+
+        setSelectedOptions(initialSelectedOptions);
+    }, []); // Empty dependency array ensures this runs only once when the component mounts
+
+    // Handle Select change
+    const handleSelectChange = (e, priorityId) => {
+        setSelectedOptions({
+            ...selectedOptions,
+            [priorityId]: e.target.value, // Update selected value for the specific dropdown
+        });
+    };
     const handleClick = () => {
         setIsClicked(!isClicked); // Toggle the clicked state
     };
@@ -86,6 +252,19 @@ const RegenarateRollNo = () => {
         setRowsPerPage(20)
         setPage(1);
     };
+    const handleHeaderClickk = (updatedHeaderArray) => {
+        setHeaderList1(updatedHeaderArray);
+        const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+        const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'RollNo desc';
+        setSortExpression(newSortExpression);
+    };
+
+    const handleHeaderClick = (updatedHeaderArray) => {
+        setHeaderList2(updatedHeaderArray);
+        const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+        const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'RollNo desc';
+        setSortExpression(newSortExpression);
+    };
 
     const clickDisplayLocationDropdown = (value) => {
         setDisplayLocation(value);
@@ -96,6 +275,13 @@ const RegenarateRollNo = () => {
         setOpen(true)
         setIsShowClicked(true);
     }
+    const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1);
+    };
+    const PageChange = (pageNumber: number) => {
+        setPage(pageNumber);
+    };
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -116,12 +302,10 @@ const RegenarateRollNo = () => {
                             defaultValue={selectDisplayLocation}
                             onChange={clickDisplayTypeDropdown}
                             size={'small'}
-                            label='Division'
+                            label="Division"
                         />
                         <Box>
-                            <Tooltip
-                                title={`If any exam result is published then updated roll number will not be displayed on the progress report on screen.`}
-                            >
+                            <Tooltip title={`If any exam result is published then updated roll number will not be displayed on the progress report on screen.`}>
                                 <IconButton
                                     sx={{
                                         color: 'white',
@@ -134,7 +318,6 @@ const RegenarateRollNo = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
-
                         <Box>
                             <Tooltip title={`Select standard and division and regenerate / reassign the roll numbers from displayed student's list and click on save to save new roll numbers.`}>
                                 <IconButton
@@ -159,7 +342,8 @@ const RegenarateRollNo = () => {
                                             backgroundColor: blue[600]
                                         }
                                     }}
-                                    onClick={ClickShow}>
+                                    onClick={ClickShow}
+                                >
                                     <VisibilityTwoToneIcon />
                                 </IconButton>
                             </Tooltip>
@@ -174,7 +358,8 @@ const RegenarateRollNo = () => {
                                             backgroundColor: blue[600]
                                         }
                                     }}
-                                    onClick={undefined} >
+                                    onClick={undefined} // Replace with actual function if needed
+                                >
                                     <RestartAltIcon />
                                 </IconButton>
                             </Tooltip>
@@ -192,66 +377,170 @@ const RegenarateRollNo = () => {
                                     aria-label="options"
                                     name="options"
                                     value={ShowRollNo}
-                                    onChange={(e) => { clickShowAllNotices(e.target.defaultValue) }}
+                                    onChange={(e) => { clickShowAllNotices(e.target.value) }} // Corrected onChange handler
                                 >
                                     <FormControlLabel value="true" control={<Radio />} label="Regenerate Roll.No." />
-                                    <FormControlLabel value="false" control={<Radio />} label="Reassign Roll.No.
-" />
+                                    <FormControlLabel value="false" control={<Radio />} label="Reassign Roll.No." />
                                 </RadioGroup>
                             </FormControl>
                         </Grid>
-
                     </Grid>
                 </Grid >
             </Box>
-            <Box sx={{ flexGrow: 1, padding: 2, backgroundColor: 'white' }}>
-                <Typography variant="h4" sx={{ mb: 1 }}>Criteria For Roll Number Generation
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>Please select atleast one field for generating roll number.
-                </Typography>
-                <Grid container spacing={2}>
-                    {dummyData.map((item, index) => (
-                        <Grid item xs={12} sm={6} lg={4} key={item.Id}>
-                            {/* <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    border: '1px solid #ddd',
-                                    padding: 2,
-                                    borderRadius: 2,
-                                }}
-                            > */}
-                            <Select
-                                value={item.Name}
-                                size="medium"
+            {ShowRollNo === "true" && (
+                <Box sx={{ flexGrow: 1, padding: 2, backgroundColor: 'white' }}>
+                    <Typography variant="h4" sx={{ mb: 1 }}>
+                        Criteria For Roll Number Generation
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                        Please select at least one field for generating roll number.
+                    </Typography>
+                    <Grid container spacing={2}>
+                        {dummyData.map((item, index) => (
+                            <Grid item xs={12} sm={6} lg={4} key={item.Id}>
+                                <Select
+                                    value={selectedOptions[item.Id] || ''} // Default to empty if no value is selected
+                                    onChange={(e) => handleSelectChange(e, item.Id)} // Handle change for each dropdown
+                                    size="medium"
+                                    sx={{ flexGrow: 1, marginRight: 1, width: '80%' }}
+                                >
+                                    {item.options.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                                <IconButton
+                                    onClick={handleAscendClick}
+                                    sx={{
+                                        border: (theme) => `1px solid ${theme.palette.divider}`,
+                                        height: '36px !important',
+                                        mr: 1,
+                                        backgroundColor: isClicked && isAscending ? blue[400] : 'transparent',
+                                        color: isClicked && isAscending ? 'white' : 'inherit',
+                                    }}
+                                >
+                                    <ArrowUpwardIcon />
+                                </IconButton>
+                                <IconButton
+                                    onClick={handleDescendClick}
+                                    sx={{
+                                        border: (theme) => `1px solid ${theme.palette.divider}`,
+                                        height: '36px !important',
+                                        backgroundColor: isClicked && !isAscending ? blue[400] : 'transparent',
+                                        color: isClicked && !isAscending ? 'white' : 'inherit',
+                                    }}
+                                >
+                                    <ArrowDownwardIcon />
+                                </IconButton>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+            )}
 
-                                sx={{ flexGrow: 1, marginRight: 1, width: '80%' }}
+
+            {/* Conditionally render RegenerateRollNoList1 or RegenerateRollNoList2 based on ShowRollNo value */}
+            {ShowRollNo === "true" ? (
+                <Box sx={{ background: 'white', pr: 2, pl: 2, pt: 1, pb: 2 }}>
+                    {singleTotalCount > 0 ? (
+                        <div style={{ flex: 1, textAlign: 'center' }}>
+                            <Typography variant='subtitle1' sx={{ margin: '16px 0', textAlign: 'center' }}>
+                                <Box component='span' fontWeight='fontWeightBold'>
+                                    {startRecord} to {endRecord}
+                                </Box>{' '}
+                                out of{' '}
+                                <Box component='span' fontWeight='fontWeightBold'>
+                                    {singleTotalCount}
+                                </Box>{' '}
+                                {singleTotalCount === 1 ? 'record' : 'records'}
+                            </Typography>
+                        </div>
+                    ) : (
+                        <span> </span>
+                    )}
+
+                    {dummyDataList1 && dummyDataList1.length > 0 ? (
+                        <RegenerateRollNoList1
+                            HeaderArray={HeaderList1}
+                            ItemList={dummyDataList1}
+                            ClickHeader={handleHeaderClickk}
+                        />
+                    ) : (
+                        <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                            <Typography
+                                variant="h6"
+                                align="center"
+                                sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
                             >
-                                <MenuItem value={item.Name}>{item.Name}</MenuItem>
-                            </Select>
-                            <IconButton
-                                onClick={handleClick}
-                                sx={{
-                                    border: (theme) => `1px solid ${theme.palette.divider}`,
-                                    height: '36px !important',
-                                    mr: 1,
-                                    backgroundColor: isClicked ? blue[400] : 'transparent', // Change background color on click
-                                    color: isClicked ? 'white' : 'inherit', // Adjust text/icon color for visibility
-                                }}
+                                No record found.
+                            </Typography>
+                        </Box>
+                    )}
+
+                    {totalCount > 19 ? (
+                        <ButtonGroupComponent
+                            rowsPerPage={rowsPerPage}
+                            ChangeRowsPerPage={ChangeRowsPerPage}
+                            rowsPerPageOptions={rowsPerPageOptions}
+                            PageChange={PageChange}
+                            pagecount={pagecount}
+                        />
+                    ) : (
+                        <span></span>
+                    )}
+                </Box>
+            ) : ShowRollNo === "false" && (
+                <Box sx={{ background: 'white', pr: 2, pl: 2, pt: 1, pb: 2 }}>
+                    {singleTotalCount > 0 ? (
+                        <div style={{ flex: 1, textAlign: 'center' }}>
+                            <Typography variant='subtitle1' sx={{ margin: '16px 0', textAlign: 'center' }}>
+                                <Box component='span' fontWeight='fontWeightBold'>
+                                    {startRecord} to {endRecord}
+                                </Box>{' '}
+                                out of{' '}
+                                <Box component='span' fontWeight='fontWeightBold'>
+                                    {singleTotalCount}
+                                </Box>{' '}
+                                {singleTotalCount === 1 ? 'record' : 'records'}
+                            </Typography>
+                        </div>
+                    ) : (
+                        <span> </span>
+                    )}
+
+                    {dummyDataList2 && dummyDataList2.length > 0 ? (
+                        <RegenerateRollNoList2
+                            HeaderArray={HeaderList2}
+                            ItemList={dummyDataList2}
+                            ClickHeader={handleHeaderClick}
+                        />
+                    ) : (
+                        <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                            <Typography
+                                variant="h6"
+                                align="center"
+                                sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
                             >
-                                <ArrowUpwardIcon />
-                            </IconButton>
-                            <IconButton sx={{ border: (theme) => `1px solid ${theme.palette.divider}`, height: '36px !important' }}>
-                                <ArrowDownwardIcon />
-                            </IconButton>
-                            {/* </Box> */}
-                        </Grid>
-                    ))}
-                </Grid>
-            </Box>
+                                No record found.
+                            </Typography>
+                        </Box>
+                    )}
+
+                    {totalCount > 19 ? (
+                        <ButtonGroupComponent
+                            rowsPerPage={rowsPerPage}
+                            ChangeRowsPerPage={ChangeRowsPerPage}
+                            rowsPerPageOptions={rowsPerPageOptions}
+                            PageChange={PageChange}
+                            pagecount={pagecount}
+                        />
+                    ) : (
+                        <span></span>
+                    )}
+                </Box>
+            )}
         </Box>
     );
-};
-
+}
 export default RegenarateRollNo;
