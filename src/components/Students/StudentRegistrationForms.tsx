@@ -39,7 +39,7 @@ import {
   IGetStudentsSiblingDetailBody, IOverwriteAllSiblingDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody
 } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
-  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody
+  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile from 'src/libraries/File/SingleFile3';
@@ -52,6 +52,7 @@ import {
 import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
   CDAAddStudentAdditionalDetails, CDACheckDependenciesForFees, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
+  CDAGetStudentDocuments,
   CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
@@ -821,6 +822,13 @@ const StudentRegistrationForm = () => {
           asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id
         };
 
+        const GetStudentDocuments: IStandrdwiseStudentsDocumentBody = {
+          asSchoolId: Number(localStorage.getItem('localSchoolId')),
+          asStandardId: standardId ?? RStandardId,
+          asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
+          asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+        };
+
         await Promise.all([
           dispatch(CDAGetSchoolSettings(GetSchoolSettings)),
           dispatch(CDAGetMasterData(GetMasterData)),
@@ -828,6 +836,8 @@ const StudentRegistrationForm = () => {
           dispatch(CDAGetStudentAdditionalDetails(GetStudentAdditionalDetailsBody)),
           //dispatch(CDAFeeAreaNames(FeeAreaNamesBody)),
           dispatch(GetFormNumber(FormNumberBody)),
+          dispatch(CDAGetStudentDocuments(GetStudentDocuments))
+
         ]);
       } catch (error) {
         console.error('Failed to fetch data:', error);

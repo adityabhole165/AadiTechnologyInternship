@@ -35,7 +35,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
 import { IGetUserInvestmentMethodDetailsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
-import { IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
 import SingleFile from 'src/libraries/File/SingleFile';
 import { deleteresetInvestMessage, getDeleteInvestmentDocument, getSaveInvestmentDocument, resetSaveInvestmentMessage } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { CDAGetAllDocumentsList, CDAGetUserInvestmentMethodDetails } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
@@ -45,6 +44,7 @@ import { RootState } from 'src/store';
 import { toast } from 'react-toastify';
 import UploadDocList from 'src/components/PerformanceGradeAssignment/UploadDocList';
 import { AlertContext } from 'src/contexts/AlertContext';
+import { IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
 
 
 const AdmissionDocumentInformation = () => {
@@ -52,7 +52,7 @@ const AdmissionDocumentInformation = () => {
   const location = useLocation();
   const schoolId = localStorage.getItem('SchoolId');
   const financialYearId = sessionStorage.getItem('FinancialYearId');
-  const asUserId = Number(localStorage.getItem('UserId'));
+  const asUserId = Number(localStorage.getItem('UserId'));  //Environmental User Id
   const asFolderName = localStorage.getItem('FolderName');
 
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
@@ -103,9 +103,9 @@ const AdmissionDocumentInformation = () => {
     asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
   };
 
-  useEffect(() => {
-    dispatch(CDAGetStudentDocuments(GetStudentDocuments));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(CDAGetStudentDocuments(GetStudentDocuments));
+  // }, []);
 
   useEffect(() => {
     if (GetStudentDocumentsList?.length > 0) {
@@ -191,9 +191,13 @@ const AdmissionDocumentInformation = () => {
     { Id: 3, Header: 'Delete', align: "center" },
 
   ];
+  const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
+  const oStudentDetails = USGetSingleStudentDetails[0]
+  const User_Id = oStudentDetails?.User_Id || '';  //Student UserId
+  //console.log('User_Id', User_Id);
   const UserInvestmentMethodDetails: any = useSelector((state: RootState) => state.PerformanceGradeAssignment.ISUserInvestmentMethodDetails);
   const GetAllDocumentsList: any = useSelector((state: RootState) => state.PerformanceGradeAssignment.ISGetAllDocumentsList);
-  //console.log('UserInvestmentMethodDetails', UserInvestmentMethodDetails);
+  console.log('UserInvestmentMethodDetails', UserInvestmentMethodDetails);
   //console.log('GetAllDocumentsList', GetAllDocumentsList);
 
   const USDeleteInvestmentDocument: any = useSelector((state: RootState) => state.AddInvestmentDetailsDoc.ISDeleteInvestmentDocument);
@@ -204,14 +208,14 @@ const AdmissionDocumentInformation = () => {
   const GetUserInvestmentMethodDetailsBody: IGetUserInvestmentMethodDetailsBody = {
     asSchoolId: Number(schoolId),
     asFinancialYearId: Number(financialYearId),
-    asUserId: 3856,
+    asUserId: User_Id,
     asDocumentId: documentId,
     asDocumentTypeId: 2
   }
 
   const IGetAllDocumentsListBody: IGetAllDocumentsListBody = {
     asSchoolId: Number(schoolId),
-    asUserId: 3856,
+    asUserId: User_Id,
     asFinancialYearId: 1,
     asDocumentTypeId: 2,
     asAcademicYearId: 0,// Number(yearId),
@@ -237,7 +241,7 @@ const AdmissionDocumentInformation = () => {
       asFinancialYearId: Number(financialYearId),
       asDocumentId: Number(documentId),
       asFileName: fileName === '' ? null : fileName,
-      asUserId: 3856,
+      asUserId: User_Id,
       asInsertedById: asUserId,
       asDocumnetTypeId: 2,
       asReportingUserId: 0,// Number(ReportingUserId),
