@@ -147,7 +147,7 @@ export const GetsingleStudentResultVA =
             const response = await VeiwResultAll.GetsingleStudentResult(data);
             console.log(response.data, "respons");
 
-            let StudentListAll = response.data.listStudentDetail.map((item, i) => {
+            let StudentListAll = response.data[0].listStudentDetail.map((item, i) => {
                 return {
                     Id: item.YearWise_Student_Id,
                     Text1: item.Student_Name,
@@ -164,7 +164,7 @@ export const GetsingleStudentResultVA =
                 // console.log(StudentListAll,"showonlygradess");
 
             });
-            let MarkList = response.data.listSubjectDetails.map((item, i) => {
+            let MarkList = response.data[0].listSubjectDetails.map((item, i) => {
                 const marksScored = item.Marks_Scored.includes('.0') ? parseInt(item.Marks_Scored) : item.Marks_Scored;
                 return {
                     Id: item.Subject_Id,
@@ -172,7 +172,7 @@ export const GetsingleStudentResultVA =
                     Value: item.Subject_Id
                 };
             });
-            let subject = response.data.listSubjectDetails.map((item, i) => {
+            let subject = response.data[0].listSubjectDetails.map((item, i) => {
                 return {
                     Id: item.Subject_Id,
                     Name: item.Subject_Name,
@@ -181,14 +181,14 @@ export const GetsingleStudentResultVA =
 
                 };
             });
-            let Grades = response.data.listSubjectDetails.map((item, i) => {
+            let Grades = response.data[0].listSubjectDetails.map((item, i) => {
                 return {
                     Id: item.ID_Num,
                     Name: item.Grade,
                     Value: item.Grade
                 };
             });
-            let Total = response.data.listMarksDetails.map((item, i) => {
+            let Total = response.data[0].listMarksDetails.map((item, i) => {
                 const totalmarksScored = item.Total_Marks_Scored.includes('.0') ? parseInt(item.Total_Marks_Scored) : item.Total_Marks_Scored;
                 return {
                     TotalMarks: `${totalmarksScored} / ${item.Subjects_Total_Marks}`,
@@ -198,7 +198,7 @@ export const GetsingleStudentResultVA =
                     Result: item.Result,
                 };
             });
-            let PerCentDetails = response.data.listParcentageDetails.map((item, i) => {
+            let PerCentDetails = response.data[0].listParcentageDetails.map((item, i) => {
                 return {
                     TotalMarks: item.Range,
                     Grade: item.Grade,
