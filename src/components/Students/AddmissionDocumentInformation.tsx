@@ -94,7 +94,7 @@ const AdmissionDocumentInformation = () => {
   const RDivisionId = NavigationValues?.DivisionId;
   const RStandardId = NavigationValues?.standardId;
   const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
-  // console.log('GetStudentDocumentsList', GetStudentDocumentsList);
+  console.log('GetStudentDocumentsList', GetStudentDocumentsList);
 
   const GetStudentDocuments: IStandrdwiseStudentsDocumentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -111,12 +111,11 @@ const AdmissionDocumentInformation = () => {
     if (GetStudentDocumentsList?.length > 0) {
       setLocalDocuments(GetStudentDocumentsList.map(doc => ({
         ...doc,
-        IsApplicable: doc.IsApplicable == "True" ? true : false,
-        IsSubmitted: doc.IsSubmitted == "True" ? true : false,
+        IsApplicable: doc.IsApplicable === "True" || doc.IsApplicable === "1",
+        IsSubmitted: doc.IsSubmitted === "True" || doc.IsSubmitted === "1",
       })));
     }
   }, [GetStudentDocumentsList]);
-
   // const handleCheckboxChange = (index, field) => {
   //   const updatedDocuments = [...GetStudentDocumentsList];
   //   updatedDocuments[index][field] = !updatedDocuments[index][field];
@@ -203,7 +202,7 @@ const AdmissionDocumentInformation = () => {
   const USDeleteInvestmentDocument: any = useSelector((state: RootState) => state.AddInvestmentDetailsDoc.ISDeleteInvestmentDocument);
   const USSaveInvestmentDocument: any = useSelector((state: RootState) => state.AddInvestmentDetailsDoc.ISSaveInvestmentDocument);
   const USGetAllDocumentsList: any = useSelector((state: RootState) => state.AddInvestmentDetailsDoc.ISGetAllDocumentsList);
-  console.log('USGetAllDocumentsList', GetAllDocumentsList);
+  //console.log('USGetAllDocumentsList', GetAllDocumentsList);
 
   const GetUserInvestmentMethodDetailsBody: IGetUserInvestmentMethodDetailsBody = {
     asSchoolId: Number(schoolId),
@@ -245,7 +244,7 @@ const AdmissionDocumentInformation = () => {
       asInsertedById: asUserId,
       asDocumnetTypeId: 2,
       asReportingUserId: 0,// Number(ReportingUserId),
-      asSaveFeature: UserInvestmentMethodDetails?.DocumentName,
+      asSaveFeature: 'Student Documents', //UserInvestmentMethodDetails?.DocumentName,
       asFolderName: asFolderName.toString(),
       asBase64String: base64URL == '' ? null : base64URL
     }
@@ -448,7 +447,7 @@ const AdmissionDocumentInformation = () => {
           </TableHead>
           <TableBody>
             {localDocuments.map((doc, index) => (
-              <TableRow key={doc.StandardwiseDocumentId}>
+              <TableRow key={doc.StandardwiseDocumentId} sx={{ backgroundColor: (doc.IsSubmissionMandatory !== '0') ? '#EFDCC9' : 'inherit' }}>
                 <TableCell align="center" sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '1.5px', paddingBottom: '1.5px' }}>
                   <Checkbox
                     color="primary"
