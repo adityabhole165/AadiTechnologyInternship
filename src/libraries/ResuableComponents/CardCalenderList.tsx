@@ -13,13 +13,13 @@ function CardCalenderList({
   ArrayList
 }) {
   const legendColors = {
-    p: '#4caf50', // Green for Present
-    a: '#f44336', // Red for Absent
-    h: '#ff9800', // Orange for Holiday
-    w: '#2196f3', // Blue for Weekend
-    o: '#9e9e9e', // Gray for Outside
-    l: '#ff5722', // Deep Orange for Late
-    n: '#607d8b' // Slate for Not Available
+    p: '#008000',
+    a: '#9e9e9e',
+    h: '#751b1b',
+    w: '#ff0000',
+    o: '#f06292',
+    l: '#303f9f',
+    n: '#FCCF31'
   };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
