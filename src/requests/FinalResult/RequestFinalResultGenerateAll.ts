@@ -433,7 +433,7 @@ export const StudentDetailsGA =
                         if (Subject.Is_CoCurricularActivity === 'True') {
                             let valArr = response.data.listSubjectIdDetails.filter(item => item.Original_SchoolWise_Test_Id === Test.Original_SchoolWise_Test_Id && item.Is_CoCurricularActivity.toLowerCase() === 'true' && item.Subject_Id === Subject.Subject_Id)
                             // let data = response.data.listSubjectIdDetails.filter((item) => )
-                            console.log('magic array', valArr);
+                            //console.log('magic array', valArr);
 
                             function showGradeHeader(subId) {
                                 let flag = true;
