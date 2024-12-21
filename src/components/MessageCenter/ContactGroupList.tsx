@@ -267,13 +267,25 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     setErrorSelectedUser('');
     setErrorGroupNameExists('');
   };
+  // useEffect(() => {
+  //   if (USAddUpdateGroup != "") {
+  //     toast.success(USAddUpdateGroup);
+  //     dispatch(resetAddUpdateGroup());
+  //     dispatch(ContactGroup(ContactgroupBody));
+  //   }
+  // }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected, GPID])
+
   useEffect(() => {
-    if (USAddUpdateGroup != "") {
-      toast.success(USAddUpdateGroup);
+    if (USAddUpdateGroup !== "") {
+      if (GPID === 0) {
+        toast.success("Group details added successfully.");
+      } else {
+        toast.success("Group details updated successfully.");
+      }
       dispatch(resetAddUpdateGroup());
       dispatch(ContactGroup(ContactgroupBody));
     }
-  }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected, GPID])
+  }, [USAddUpdateGroup, onClose, GroupName, selectedd, selected, GPID]);
 
   const isGroupNameExists = async (groupName) => {
     const existingGroupNames = getuserlist.map(item => item.Value);
