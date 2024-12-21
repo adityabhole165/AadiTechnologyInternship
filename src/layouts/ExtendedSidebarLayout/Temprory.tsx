@@ -474,6 +474,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/RITeSchool/Teacher/ExportStudentMarksBaseScreen',
       screenId: 0
     },
+    {
+      id: 'Extra Screens',
+      title: 'Regenerate/Reassign Roll Nos',
+      icon: <GetAppIcon />,
+      link: '/RITeSchool/Teacher/RegenarateRollNo',
+      screenId: 0
+    },
   ];
 
   // #endregion
@@ -663,6 +670,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Notice Board',
       icon: <MarkUnreadChatAltIcon />,
       link: '/RITeSchool/Teacher/NoticeBoardBaseScreen',
+      screenId: 0
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Regenerate/Reassign Roll Nos',
+      icon: <GetAppIcon />,
+      link: '/RITeSchool/Teacher/RegenarateRollNo',
       screenId: 0
     },
   ];

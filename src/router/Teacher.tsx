@@ -373,7 +373,9 @@ const UserDocumentDetailsBaseScreen = Loader(
 const NoticeBoardBaseScreen = Loader(
   lazy(() => import('src/components/NoticeBoard/NoticeBoardBaseScreen'))
 );
-
+const RegenarateRollNo = Loader(
+  lazy(() => import('src/components/RegenarateRollNo/RegenarateRollNo'))
+);
 const StudentDetailsBaseScreen = Loader(
   lazy(() =>
     import('src/components/StudentDetails/StudentDetailsBaseScreen').then(
@@ -583,7 +585,7 @@ const teacherRoutes = [
     path: 'TermwiseHeightWeight/:StandardDivisionId',
     element: <TermwiseHeightWeight />
   },
-///encrypted  Url  
+  ///encrypted  Url  
   {
     path: 'AddDailyLog',
     element: <AddDailyLog />
@@ -998,6 +1000,10 @@ const teacherRoutes = [
   {
     path: 'NoticeBoardBaseScreen',
     element: <NoticeBoardBaseScreen />
+  },
+  {
+    path: 'RegenarateRollNo',
+    element: <RegenarateRollNo />
   }
 ];
 
