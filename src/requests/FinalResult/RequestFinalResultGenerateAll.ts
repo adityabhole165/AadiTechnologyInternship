@@ -709,6 +709,7 @@ export const resetGenerateAllGA = (): AppThunk => async (dispatch) => {
 export const ViewResultGA =
     (data: IViewBody): AppThunk =>
         async (dispatch) => {
+            dispatch(FinalResultGenerateAllSlice.actions.getLoading(true));
             const response = await ApiFinalResultGenerateAll.ViewReportProgress(data);
 
             let abc = response.data[0].listStudentDetail.map((item, i) => {
