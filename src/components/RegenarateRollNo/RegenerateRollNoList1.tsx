@@ -1,0 +1,111 @@
+import { ArrowCircleDown } from '@mui/icons-material';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import { Box, Typography } from '@mui/material';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import moment from 'moment';
+
+function RegenerateRollNoList1({
+    ItemList,
+    HeaderArray,
+    ClickHeader,
+}) {
+    function formatDate(date) {
+        const day = date.getDate().toString().padStart(2, '0');
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+    const currentDate = new Date();
+    const formattedDate = formatDate(currentDate);
+
+    const clickHeader = (id) => {
+        const updatedHeaderArray = HeaderArray.map((item) => {
+            if (item.Id === id) {
+                return {
+                    ...item,
+                    SortOrder: item.SortOrder === 'desc' ? 'asc' : 'desc'
+                };
+            } else {
+                return { ...item, SortOrder: null };
+            }
+        });
+        ClickHeader(updatedHeaderArray);
+    };
+
+    return (
+        <div>
+            {ItemList.length === 0 ? (
+                <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                    <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                        No record found.
+                    </Typography>
+                </Box>
+            ) : (
+                <>
+                    <TableContainer component={Box}>
+                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                            <TableHead sx={{ overflow: 'auto' }}>
+                                <TableRow sx={{ background: (theme) => theme.palette.secondary.main }}>
+                                    {HeaderArray.map((item, i) => (
+                                        <TableCell
+                                            key={i}
+                                            sx={{
+                                                color: (theme) => theme.palette.common.white,
+                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'center', pt: 1.5, pb: 1.5
+                                            }}
+                                            onClick={item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ? () => clickHeader(item.Id) : null}
+                                        >
+                                            <Box sx={{ display: 'flex', gap: 0.5 }}>
+                                                <b>{item.Header}</b>
+                                                {item.SortOrder !== null && item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ?
+                                                    item.SortOrder === "desc" ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
+                                                    : null
+                                                }
+                                            </Box>
+                                        </TableCell>
+                                    ))}
+                                    <span></span>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {ItemList.map((item, index) => {
+                                    return (
+                                        <TableRow key={index}>
+                                            <TableCell sx={{ width: '220px', py: 1 }} align="left">
+                                                {item.Text1}
+                                            </TableCell>
+                                            <TableCell sx={{ width: '200px', py: 1 }} align="left">
+                                                {item.Text2}
+                                            </TableCell>
+                                            <TableCell sx={{ width: '200px', py: 1 }} align="left">
+                                                {item.Text3}
+                                            </TableCell>
+                                            <TableCell sx={{ width: '200px', py: 1 }} align="left">
+                                                {item.Text4}
+                                            </TableCell>
+                                            <TableCell sx={{ width: '300px', py: 1 }} align="left">
+                                                {moment(item.Text5).format('DD MMM YYYY   h:mm A')}
+                                            </TableCell>
+                                            {/* New Field: Text7 */}
+                                            <TableCell sx={{ width: '150px', py: 1 }} align="left">
+                                                {item.Text6}
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>
+            )}
+        </div>
+    );
+}
+
+export default RegenerateRollNoList1;

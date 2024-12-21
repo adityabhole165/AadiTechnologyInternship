@@ -2,9 +2,10 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import SaveIcon from '@mui/icons-material/Save';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, FormControl, FormControlLabel, Grid, IconButton, MenuItem, Radio, RadioGroup, Select, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey, yellow } from "@mui/material/colors";
+import { blue, grey, yellow } from "@mui/material/colors";
 import { useState } from 'react';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
@@ -44,9 +45,29 @@ const RegenarateRollNo = () => {
         { Id: 4, Name: "D", Value: "d" },
         { Id: 5, Name: "E", Value: "e" },
     ];
+
+    const [HeaderList1, setHeaderList1] = useState([
+        { Id: 1, Header: 'Reg. No.', SortOrder: null, sortKey: 'RegNo' },
+        { Id: 2, Header: 'Class', SortOrder: null, sortKey: 'Class' },
+        { Id: 3, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo' },
+        { Id: 4, Header: 'Student Name', SortOrder: null, sortKey: 'StudentName' },
+        { Id: 5, Header: 'Date of Birth', SortOrder: null, sortKey: 'DateOfBirth' },
+        { Id: 6, Header: 'Category', SortOrder: null, sortKey: 'Category' }
+    ]);
+    const [HeaderList2, setHeaderList2] = useState([
+        { Id: 1, Header: 'Reg. No.', SortOrder: null, sortKey: 'RegNo' },
+        { Id: 2, Header: 'Class', SortOrder: null, sortKey: 'Class' },
+        { Id: 3, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo' },
+        { Id: 4, Header: 'New Roll No.', SortOrder: null, sortKey: 'NewRollNo' },
+        { Id: 5, Header: 'Student Name', SortOrder: null, sortKey: 'StudentName' },
+        { Id: 6, Header: 'Date of Birth', SortOrder: null, sortKey: 'DateOfBirth' },
+        { Id: 7, Header: 'Category', SortOrder: null, sortKey: 'Category' }
+    ]);
     const [isClicked, setIsClicked] = useState(false);
     const [selectDisplayType, setDisplayType] = useState('all');
     const [selectDisplayLocation, setDisplayLocation] = useState('all');
+    const [open, setOpen] = useState(false);
+    const [isShowClicked, setIsShowClicked] = useState(false);
     const [ShowRollNo, setShowRollNo] = useState("true");
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const rowsPerPageOptions = [20, 50, 100, 200];
@@ -71,6 +92,10 @@ const RegenarateRollNo = () => {
         setRowsPerPage(20)
         setPage(1);
     };
+    const ClickShow = (value) => {
+        setOpen(true)
+        setIsShowClicked(true);
+    }
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -125,17 +150,32 @@ const RegenarateRollNo = () => {
                             </Tooltip>
                         </Box>
                         <Box>
-                            <Tooltip title={`Save`}>
+                            <Tooltip title={'Show'}>
                                 <IconButton
                                     sx={{
                                         color: 'white',
-                                        backgroundColor: green[500],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: green[600] },
+                                        backgroundColor: blue[500],
+                                        '&:hover': {
+                                            backgroundColor: blue[600]
+                                        }
                                     }}
-                                    onClick={() => console.log("Save Button Clicked")}
-                                >
-                                    <SaveIcon />
+                                    onClick={ClickShow}>
+                                    <VisibilityTwoToneIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                        <Box>
+                            <Tooltip title={'Change Input'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: blue[500],
+                                        '&:hover': {
+                                            backgroundColor: blue[600]
+                                        }
+                                    }}
+                                    onClick={undefined} >
+                                    <RestartAltIcon />
                                 </IconButton>
                             </Tooltip>
                         </Box>
