@@ -2,73 +2,92 @@ import { AddPhotoAlternate, QuestionMark, VideoLibrary } from '@mui/icons-materi
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
+import { IDeletePhotoBody, IGetPhotoDetailsBody } from 'src/interfaces/Common/PhotoGallery';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
+import { CDADeletePhoto, CDAGetPhotoDetails, resetDeletePhoto } from 'src/requests/Reqphoto/ReqPhoto';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import PhotopageTableCard from './PhotopageTableCard';
 import VideoPageTableCard from './VideoPageTableCard';
 
 const PhotoVideoGalleryBaseScreen = () => {
+    const dispatch = useDispatch();
+
     const [selectedOption, setSelectedOption] = useState<string>('photo');
     const [view, setView] = useState<"table" | "card">("table");
     const [SelectResult, setSelectResult] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState(1);
     const rowsPerPageOptions = [20, 50, 100, 200];
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const navigate = useNavigate();
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asUserId = Number(localStorage.getItem('UserId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value);
     };
-    const photoData = [
-        {
-            galleryName: "Janmashtami Aug 24",
-            className: "Nursery, Junior KG, Senior KG",
-            lastUpdated: "26 Aug 2024",
-        },
-        {
-            galleryName: "Test New",
-            className: "Nursery, Junior KG, Senior KG",
-            lastUpdated: "26 Aug 2024",
-        },
-        {
-            galleryName: "Sanskrit Divas",
-            className: "Junior KG",
-            lastUpdated: "22 Aug 2024",
-        },
-        {
-            galleryName: "Raksha Bandhan",
-            className: "Senior KG",
-            lastUpdated: "20 Aug 2024",
-        },
-        {
-            galleryName: "Raksha Bandhan",
-            className: "Senior KG",
-            lastUpdated: "20 Aug 2024",
-        },
-        {
-            galleryName: "Raksha Bandhan",
-            className: "Senior KG",
-            lastUpdated: "20 Aug 2024",
-        },
-        {
-            galleryName: "Raksha Bandhan",
-            className: "Senior KG",
-            lastUpdated: "20 Aug 2024",
-        },
-        {
-            galleryName: "Raksha Bandhan",
-            className: "Senior KG",
-            lastUpdated: "20 Aug 2024",
-        },
-        {
-            galleryName: "Raksha Bandhan",
-            className: "Senior KG",
-            lastUpdated: "20 Aug 2024",
-        },
-    ];
+
+    const USPhotoGallery: any = useSelector((state: RootState) => state.Photo.ISGetPhotoDetils)
+    console.log(USPhotoGallery, "USPhotoGallery")
+
+    const USDeletePhoto = useSelector((state: RootState) => state.Photo.ISDeletePhoto);
+    console.log(USDeletePhoto, "USDeletePhoto")
+
+    const singleTotalCount = USPhotoGallery.length > 0 ? USPhotoGallery[0].TotalRows : 0;
+
+    const photoD1ata: IGetPhotoDetailsBody = {
+        asSchoolId: asSchoolId,
+        asSortExp: "ORDER BY Update_Date desc",
+        asStartIndex: (page - 1) * rowsPerPage,
+        asPageSize: page * rowsPerPage,
+        asAcademicYearId: asAcademicYearId
+    }
+    useEffect(() => {
+        dispatch(CDAGetPhotoDetails(photoD1ata))
+    }, [page, rowsPerPage])
+
+    const handleDelete = (GalleryName) => {
+        console.log(GalleryName, "Gallery1234")
+
+        const DeletePhotoGallery: IDeletePhotoBody = {
+            asGalleryName: GalleryName,
+            asSchoolId: asSchoolId
+
+        }
+
+
+        showAlert({
+            title: 'Please Confirm',
+            message:
+                'Are you sure you want to delete this requisition?  ',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(CDADeletePhoto(DeletePhotoGallery));
+
+                closeAlert();
+            }
+        });
+    }
+    useEffect(() => {
+        if (USDeletePhoto != "") {
+            toast.success(USDeletePhoto);
+            dispatch(resetDeletePhoto());
+            dispatch(CDAGetPhotoDetails(photoD1ata));
+        }
+    }, [USDeletePhoto]);
+    //Video Section
     const videoData = [
         { videoName: "Video Test1111", lastUpdated: "26 Aug 2024" },
         { videoName: "Gokulashtami", lastUpdated: "26 Aug 2024" },
@@ -84,9 +103,9 @@ const PhotoVideoGalleryBaseScreen = () => {
         alert(`Edit clicked for ${videoName}`);
     };
 
-    const handleDelete = (videoName: string) => {
-        alert(`Delete clicked for ${videoName}`);
-    };
+    // const handleDelete = (videoName: string) => {
+    //     alert(`Delete clicked for ${videoName}`);
+    // };
     const CountGetPagedRequisition: any = useSelector(
         (state: RootState) => state.SliceRequisition.RequisitionListCount
 
@@ -109,10 +128,10 @@ const PhotoVideoGalleryBaseScreen = () => {
     };
 
     const AddNewPhoto = (value) => {
-        navigate('/RITeSchool/Teacher/AddNewPhoto');
+        navigate('/extended-sidebar/Teacher/AddNewPhoto');
     };
     const AddNewVideo = (value) => {
-        navigate('/RITeSchool/Teacher/AddNewVideo');
+        navigate('/extended-sidebar/Teacher/AddNewVideo');
     };
 
     function clickSearch() {
@@ -123,7 +142,7 @@ const PhotoVideoGalleryBaseScreen = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Photo/Video Gallery', path: '/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen' }
+                    { title: 'Photo/Video Gallery', path: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen' }
                 ]}
                 rightActions={<>
                     <TextField
@@ -226,16 +245,16 @@ const PhotoVideoGalleryBaseScreen = () => {
                         </Typography> */}
 
                         {/* Record Format */}
-                        {photoData.length > 0 ? (
+                        {USPhotoGallery.length > 0 ? (
                             <Typography variant="subtitle1" sx={{ margin: '2px 0', textAlign: 'center' }}>
                                 <Box component="span" fontWeight="fontWeightBold">
                                     {startRecord} to {endRecord}
                                 </Box>
                                 {' '}out of{' '}
                                 <Box component="span" fontWeight="fontWeightBold">
-                                    {photoData.length}
+                                    {USPhotoGallery.length}
                                 </Box>{' '}
-                                {photoData.length === 1 ? 'record' : 'records'}
+                                {USPhotoGallery.length === 1 ? 'record' : 'records'}
                             </Typography>
                         ) : (
                             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -244,18 +263,19 @@ const PhotoVideoGalleryBaseScreen = () => {
                         )}
 
                         {/* Render the PhotoPage */}
-                        <PhotopageTableCard data={photoData} view={view} />
+                        <PhotopageTableCard data={USPhotoGallery} handleDelete={handleDelete} view={'table'}
+                        />
 
                         {/* Add ButtonGroupComponent */}
-                        {/* {photoData.length > 19 && (
+                        {USPhotoGallery.length > 19 && (
                             <ButtonGroupComponent
-                            rowsPerPage={rowsPerPage}
-                            ChangeRowsPerPage={ChangeRowsPerPage}
-                            rowsPerPageOptions={rowsPerPageOptions}
-                            PageChange={PageChange}
-                            pagecount={pagecount}
-                        />
-                        )} */}
+                                rowsPerPage={rowsPerPage}
+                                ChangeRowsPerPage={ChangeRowsPerPage}
+                                rowsPerPageOptions={rowsPerPageOptions}
+                                PageChange={PageChange}
+                                pagecount={pagecount}
+                            />
+                        )}
                     </Box>
                 ) : (
                     <Box sx={{ px: 2, py: 1 }}>

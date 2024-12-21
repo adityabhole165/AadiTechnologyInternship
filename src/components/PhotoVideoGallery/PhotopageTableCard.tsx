@@ -34,15 +34,18 @@ import SlideshowPhotoGallery from "./SlideshowPhotoGallery";
 
 // Define props for PhotoPage
 interface PhotopageTableCardProps {
+    handleDelete
     data: Array<{
         galleryName: string;
         className: string;
         lastUpdated: string;
+        IsDelete;
+
     }>;
     view: "table" | "card";
 }
 
-const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) => {
+const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDelete }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
     const navigate = useNavigate();
@@ -63,7 +66,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
     };
 
     const ViewPhotoFilePage = (value) => {
-        navigate('/RITeSchool/Teacher/ViewPhotoFile');
+        navigate('/extended-sidebar/Teacher/ViewPhotoFile');
     };
     const sortedData = React.useMemo(() => {
         if (!sortConfig) return data;
@@ -193,9 +196,10 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                                         </Tooltip>
                                     </TableCell>
                                     <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
+
                                         <Tooltip title={"Delete"}>
                                             <IconButton
-                                                onClick={() => handleAction("Delete", item)}
+                                                onClick={() => handleDelete(item.galleryName)}
                                                 sx={{
                                                     color: 'primary',
                                                     '&:hover': {
@@ -207,6 +211,8 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, view }) =
                                                 <DeleteForeverIcon />
                                             </IconButton>
                                         </Tooltip>
+
+
                                     </TableCell>
                                 </TableRow>
                             ))}
