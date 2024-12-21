@@ -905,28 +905,32 @@ const StudentRegistrationForm = () => {
 
     if (num < 10) return ones[num];
     if (num < 20) return teens[num - 11];
-    if (num < 100)
-      return (
-        tens[Math.floor(num / 10)] + (num % 10 ? ' ' + ones[num % 10] : '')
-      );
+    if (num < 100) {
+      return tens[Math.floor(num / 10)] + (num % 10 ? ' ' + ones[num % 10] : '');
+    }
 
     const hundred = Math.floor(num / 100);
     const remainder = num % 100;
-    return (
-      ones[hundred] +
-      ' Hundred' +
-      (remainder ? ' ' + numberToWords(remainder) : '')
-    );
+    return ones[hundred] + ' Hundred' + (remainder ? ' ' + numberToWords(remainder) : '');
   };
 
   const dateToText = (dateString) => {
-    const [year, month, day] = dateString.split('-').map(Number);
+    // Remove the time portion and split by hyphen
+    const datePart = dateString.split(' ')[0];
+    const [day, month, year] = datePart.split('-').map(Number);
+
     const dayText = numberToWords(day);
     const monthText = months[month - 1];
-    const yearText = numberToWords(year).replace('Twenty', 'Two Thousand');
+
+    // Handle year conversion
+    const yearFirstTwo = Math.floor(year / 100);
+    const yearLastTwo = year % 100;
+    const yearText = `Two Thousand ${numberToWords(yearLastTwo)}`;
 
     return `${dayText} ${monthText} ${yearText}`;
   };
+
+  //console.log('Date of Birth:', form.personal?.dateOfBirth, '🎈', dateToText(form.personal?.dateOfBirth));
   //#endregion
 
   //#region API CAlls
@@ -942,7 +946,7 @@ const StudentRegistrationForm = () => {
     asInsertedById: Number(teacherId), // Missing
     asID: 0, // Missing
     asAcademicYearId: academicYearId,
-    asFormNumber: Number(form.admission?.formNumber), // Missing
+    asFormNumber: Number(form.admission?.formNumber) || 0, // Missing
     asPhoto_file_Path: form.personal?.photoFilePath || '', // Missing
     asFirst_Name: form.personal?.firstName || '',
     asMiddle_Name: form.personal?.middleName || '',
