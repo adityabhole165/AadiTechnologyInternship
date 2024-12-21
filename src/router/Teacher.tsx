@@ -583,7 +583,7 @@ const teacherRoutes = [
     path: 'TermwiseHeightWeight/:StandardDivisionId',
     element: <TermwiseHeightWeight />
   },
-
+///encrypted  Url  
   {
     path: 'AddDailyLog',
     element: <AddDailyLog />
