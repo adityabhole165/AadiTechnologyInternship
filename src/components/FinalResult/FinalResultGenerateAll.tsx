@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
     IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import {
     StudentDetailsGA,
     UpdateStudentTestMarks, ViewResultGA
@@ -47,6 +48,7 @@ const GenerateAll = ({ }) => {
     const ToppersCount = UsGetSchoolSettings?.GetSchoolSettingsResult?.ToppersCount
     const TotalPerGradeView = useSelector((state: RootState) => state.FinalResultGenerateAll.getTotalPerGradeView);
     const PercentageDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getPerDetails);
+    const Loading = useSelector((state: RootState) => state.FinalResultGenerateAll.Loading);
     const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
     const [co_curricularDropdown, set_co_curricularDropdown] = useState([]);
     const [non_co_curricularDropdown, set_non_co_curricularDropdown] = useState([]);
@@ -127,7 +129,7 @@ const GenerateAll = ({ }) => {
         }
     }
     async function updateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
-       // console.log(testId, testMarksId, subMarksId, MarksScored, testTypeId);
+        // console.log(testId, testMarksId, subMarksId, MarksScored, testTypeId);
 
         await setMarksListArray(prevArray => {
             return prevArray.map(testObject => {
@@ -152,8 +154,8 @@ const GenerateAll = ({ }) => {
                 return testObject;
             });
         });
-       // console.log('following is markedscored', MarksScored);
-       // console.log('marksListArray', marksListArray);
+        // console.log('following is markedscored', MarksScored);
+        // console.log('marksListArray', marksListArray);
 
     }
     function updateGradeDropdown(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
@@ -794,6 +796,7 @@ const GenerateAll = ({ }) => {
                             </Box>
                         </div>
                     )}
+                    {Loading && <SuspenseLoader />}
                     {(isResultGenerated || isGenerated == 'Y') && ( // Conditionally display the final result section
                         <Box sx={{ mt: 2, background: 'white', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                             <Box>
