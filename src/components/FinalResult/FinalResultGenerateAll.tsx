@@ -1,5 +1,5 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, IconButton, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,9 +48,41 @@ const GenerateAll = ({ }) => {
     const TotalPerGradeView = useSelector((state: RootState) => state.FinalResultGenerateAll.getTotalPerGradeView);
     const PercentageDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getPerDetails);
     const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
+    const [co_curricularDropdown, set_co_curricularDropdown] = useState([]);
+    const [non_co_curricularDropdown, set_non_co_curricularDropdown] = useState([]);
     const hasTopRanks = TotalPerGradeView?.some((item) =>
         [1, 2, 3].includes(item.rank)
     );
+
+    // Dropdown for Co-curricular subjects and Non-co-curricular subjects | Edit Cells
+    useEffect(() => {
+        if (EntireDataList?.ListMarkssDetails?.length > 0) {
+            let initialArray = EntireDataList?.ListMarkssDetails;
+            // let bothDropdownStructure = [
+            //     {
+            //         "Marks_Grades_Configuration_Detail_ID": "4042",
+            //         "Grade_Name": "D",
+            //         "Remarks": "Below Average",
+            //         "IsForCoCurricularSubjects": "True"
+            //     },...
+            // ];
+            set_co_curricularDropdown(initialArray
+                .filter((item) => item.IsForCoCurricularSubjects?.toLowerCase() === "true")
+                .map(item => ({
+                    ...item,
+                    uniqueId: `${item.Grade_Name}-${item.Marks_Grades_Configuration_Detail_ID}`
+                }))
+            ); // Co-curricular subjects
+            set_non_co_curricularDropdown(initialArray
+                .filter((item) => item.IsForCoCurricularSubjects?.toLowerCase() === "false")
+                .map(item => ({
+                    ...item,
+                    uniqueId: `${item.Grade_Name}-${item.Marks_Grades_Configuration_Detail_ID}`
+                }))
+            ); // Non-co-curricular subjects
+            console.log(co_curricularDropdown, non_co_curricularDropdown);
+        }
+    }, [EntireDataList]);
     useEffect(() => {
         if (UsGetSchoolSettings != null)
             setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
@@ -94,9 +126,13 @@ const GenerateAll = ({ }) => {
             return null;
         }
     }
-    function updateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
-        setMarksListArray(prevArray => {
+    async function updateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
+        console.log(testId, testMarksId, subMarksId, MarksScored, testTypeId);
+
+        await setMarksListArray(prevArray => {
             return prevArray.map(testObject => {
+                console.log('testObject >>>', testObject);
+
                 if (testObject.Test_Id === testId) {
                     return {
                         ...testObject,
@@ -111,9 +147,45 @@ const GenerateAll = ({ }) => {
                         })
                     };
                 }
+                console.log('testObject', testObject);
+
                 return testObject;
             });
         });
+        console.log('following is markedscored', MarksScored);
+        console.log('marksListArray', marksListArray);
+
+    }
+    function updateGradeDropdown(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
+        console.log('markslistarray part one', marksListArray);
+
+        console.log(testId, testMarksId, subMarksId, MarksScored, testTypeId);
+
+        setMarksListArray(prevArray => {
+            return prevArray.map(testObject => {
+                if (testObject.Test_Id === testId) {
+                    return {
+                        ...testObject,
+                        MarksArr: testObject.MarksArr.map(mark => {
+                            if (mark.schoolWiseStudentTestMarksId === testMarksId && mark.testwiseSubjectMarksId === subMarksId && mark.isEdit && mark.MarksOrGrade === 'G') {
+                                return {
+                                    ...mark,
+                                    MarksScored: MarksScored
+                                };
+                            }
+                            return mark;
+                        })
+                    };
+                }
+                console.log('newly formed array to add', testObject);
+                return testObject;
+
+            });
+        });
+        console.log('following is markedscored', MarksScored);
+        setTimeout(() => {
+            console.log('marksListArray', marksListArray);
+        }, 1000);
     }
     function onBlurUpdateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
         setMarksListArray(prevArray => {
@@ -260,28 +332,28 @@ const GenerateAll = ({ }) => {
         dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
     }, [IsTotalConsiderForProgressReport]);
 
+    // Student Results API Call | Table 2 (Result to generate on clicking genarate button)
     const GetViewResultBody: IViewBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcadmeicYearId),
-        asStudentId: Number(asStudentId),
-        asWithGrace: 0,
+        asStudentsIds: [asStudentId],
+        asStdDivId: Number(stdId),
+        asWithGrace: 1,
     };
     useEffect(() => {
-        const GetViewResultBody: IViewBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcadmeicYearId),
-            asStudentId: Number(asStudentId),
-            asWithGrace: 0,
-        };
         dispatch(ViewResultGA(GetViewResultBody));
     }, []);
 
 
 
     const onClickClose = () => {
-        navigate('/RITeSchool/Teacher/FinalResult');
+        navigate('/extended-sidebar/Teacher/FinalResult');
     };
-
+    // f() to find the gradeId with Gade_Name and isCoCurricular flag
+    function getGradeId(grade, isCoCurricular) {
+        const dropdown = isCoCurricular === "True" ? co_curricularDropdown : non_co_curricularDropdown;
+        return dropdown.find(item => item.Grade_Name === grade)?.Marks_Grades_Configuration_Detail_ID;
+    }
     const getXML = () => {
         let sXML = '<SchoolWiseStudentTestMarksDetails>';
         // Ensure that marksListArray and StudentDetailsUS are properly populated before using them
@@ -299,9 +371,9 @@ const GenerateAll = ({ }) => {
                         'Student_Id="' + studentID + '" ' +
                         'TestWise_Subject_Marks_Id="' + mark.testwiseSubjectMarksId + '" ' +
                         'SchoolWise_Student_Test_Marks_Id="' + mark.schoolWiseStudentTestMarksId + '" ' +
-                        'TestType_Id="' + mark.testType + '" ' +
-                        'Marks_Scored="' + mark.MarksScored + '" ' +
-                        'Assigned_Grade_Id="" />';
+                        'TestType_Id="' + (mark.testType !== '999' ? mark.testType : '1') + '" ' +
+                        'Marks_Scored="' + (mark.MarksOrGrade === 'M' ? mark.MarksScored : '') + '" ' +
+                        'Assigned_Grade_Id="' + (mark.MarksOrGrade === 'G' ? getGradeId(mark.MarksScored, mark.isCoCurricular) : '') + '" />';
                 }
             });
         });
@@ -318,9 +390,10 @@ const GenerateAll = ({ }) => {
             asUseAvarageFinalResult: "Y"
         };
         await dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
-        await dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));// Set the result as generated
-        await dispatch(ViewResultGA(GetViewResultBody));
-        setIsResultGenerated(true);
+        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
+        setIsResultGenerated(true); // Set the result as generated
+        dispatch(ViewResultGA(GetViewResultBody));
+
     };
 
     // const handleVisibilityClick = () => {
@@ -365,7 +438,7 @@ const GenerateAll = ({ }) => {
                 navLinks={[
                     {
                         title: 'Final Result',
-                        path: '/RITeSchool/Teacher/FinalResult/' + getstandardDivId()
+                        path: '/extended-sidebar/Teacher/FinalResult/' + getstandardDivId()
                     },
                     {
                         title: 'Generate/View Final Result',
@@ -553,7 +626,7 @@ const GenerateAll = ({ }) => {
                                                                 <Typography color="black" textAlign={'center'} mr={0}>
                                                                     <b style={{ marginRight: "5px" }}>{item.Subject_Name}
 
-                                                                        {item.Is_CoCurricularActivity == "True" && (
+                                                                        {item.Total_Consideration == "N" && (
                                                                             <span style={{ color: 'red' }}>*</span>
                                                                         )}
                                                                     </b>
@@ -646,7 +719,7 @@ const GenerateAll = ({ }) => {
                                                                                         ? '-'
                                                                                         : <>
                                                                                             {MarkItem?.isEdit && i !== marksListArray.length - 1
-                                                                                                ? <TextField
+                                                                                                ? MarkItem?.MarksOrGrade === 'M' ? <TextField
                                                                                                     size="small"
                                                                                                     value={MarkItem?.MarksScored}
                                                                                                     inputProps={{
@@ -668,7 +741,21 @@ const GenerateAll = ({ }) => {
                                                                                                         }
                                                                                                     }}
                                                                                                     sx={{ width: '60px', marginRight: '8px' }}
-                                                                                                />
+                                                                                                /> : <Select
+                                                                                                    size="small"
+                                                                                                    value={MarkItem?.MarksScored || ''}
+                                                                                                    onChange={(e) => {
+                                                                                                        // updateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, e.target.value, MarkItem.testType);
+                                                                                                        updateGradeDropdown(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, e.target.value, MarkItem.testType);
+                                                                                                    }}
+                                                                                                    sx={{ width: '80px', marginRight: '8px' }}
+                                                                                                >
+                                                                                                    {(MarkItem?.isCoCurricular === 'True' ? co_curricularDropdown : non_co_curricularDropdown)?.map((grade) => (
+                                                                                                        <MenuItem key={grade.Marks_Grades_Configuration_Detail_ID} value={grade.Grade_Name}>
+                                                                                                            {grade.Grade_Name}
+                                                                                                        </MenuItem>
+                                                                                                    ))}
+                                                                                                </Select>
                                                                                                 : MarkItem.MarksScored
                                                                                             }
                                                                                             {MarkItem.TotalMarks !== "-" && ` / ${MarkItem.TotalMarks}`}

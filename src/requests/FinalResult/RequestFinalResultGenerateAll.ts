@@ -218,6 +218,18 @@ export const StudentDetailsGA =
 
                 return '-';
             }
+            function find_isCoCurricularFlag(list, psId, testTypeId, testId) {
+                let filter1 = list.filter(item => {
+                    return item.Parent_Subject_Id == psId &&
+                        item.TestType_Id == testTypeId &&
+                        item.Test_Id == testId;  // Use loose equality (==)
+                });
+                if (filter1.length >= 1) {
+                    return parseFloat(filter1[0].Is_CoCurricularActivity); // Correct property name
+                }
+
+                return 'False';
+            }
             // Get TestWise_Subject_Marks_Id | f()
             function GetTestwiseSubjectMarksId(testId, subjectId, testTypeId) {
                 let result = [];
@@ -274,7 +286,10 @@ export const StudentDetailsGA =
                                     schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
                                     testwiseSubjectMarksId: GetTestwiseSubjectMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
                                     testType: TestType.TestType_Id,
-                                    testId: Test.Test_Id
+                                    testId: Test.Test_Id,
+                                    isCoCurricular: cell ? cell.Is_CoCurricularActivity : 'False',
+                                    MarksOrGrade: cell ? cell.Grade_Or_Marks.trim() : 'M',
+                                    // isGrade: 
                                 })
                             } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
                                 columns.push({
@@ -285,7 +300,9 @@ export const StudentDetailsGA =
                                     schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
                                     testwiseSubjectMarksId: GetTestwiseSubjectMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
                                     testType: TestType.TestType_Id,
-                                    testId: Test.Test_Id
+                                    testId: Test.Test_Id,
+                                    isCoCurricular: cell ? cell.Is_CoCurricularActivity : 'False',
+                                    MarksOrGrade: cell ? cell.Grade_Or_Marks.trim() : 'M',
                                 })
                             }                            //#region  check
                             // }
@@ -313,7 +330,8 @@ export const StudentDetailsGA =
                                             MarksScored: " ",
                                             TotalMarks: "-",
                                             IsAbsent: "N",
-                                            isEdit: false
+                                            isEdit: false,
+                                            isCoCurricular: 'False'
                                         };
                                     }
 
@@ -338,7 +356,8 @@ export const StudentDetailsGA =
                                         schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
                                         testwiseSubjectMarksId: GetTestwiseSubjectMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
                                         testType: TestType.TestType_Id,
-                                        testId: Test.Test_Id
+                                        testId: Test.Test_Id,
+                                        isCoCurricular: 'False'
                                     };
                                 };
 
@@ -362,11 +381,12 @@ export const StudentDetailsGA =
                                         MarksScored: marksScored,
                                         TotalMarks: findCellValue(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id),
                                         IsAbsent: "N",
-                                        IsEdit: marksScored !== '-' && marksScored.toString() !== '' && Test.Test_Id !== '-1',
+                                        IsEdit: false,
                                         schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
                                         testwiseSubjectMarksId: GetTestwiseSubjectMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
-                                        TestType: itemArr.TestType_Id,
-                                        testId: Test.Test_Id
+                                        testType: itemArr.TestType_Id,
+                                        testId: Test.Test_Id,
+                                        isCoCurricular: 'False',
                                     })
                                 })                                // }
                                 // }
@@ -383,11 +403,12 @@ export const StudentDetailsGA =
                                                 MarksScored: marksScored,
                                                 TotalMarks: `${Item.ChildSubject_Marks_Total}`,
                                                 IsAbsent: "N",
-                                                isEdit: marksScored !== '' && marksScored !== '-' && Test.Test_Id !== '-1',
+                                                isEdit: false,
                                                 schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
                                                 testwiseSubjectMarksId: GetTestwiseSubjectMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
                                                 TestType: TestType.TestType_Id,
-                                                testId: Test.Test_Id
+                                                testId: Test.Test_Id,
+                                                isCoCurricular: 'False'
                                             });
                                             isDataPushed = true;
                                         }
@@ -412,6 +433,8 @@ export const StudentDetailsGA =
                         if (Subject.Is_CoCurricularActivity === 'True') {
                             let valArr = response.data.listSubjectIdDetails.filter(item => item.Original_SchoolWise_Test_Id === Test.Original_SchoolWise_Test_Id && item.Is_CoCurricularActivity.toLowerCase() === 'true' && item.Subject_Id === Subject.Subject_Id)
                             // let data = response.data.listSubjectIdDetails.filter((item) => )
+                            console.log('magic array', valArr);
+
                             function showGradeHeader(subId) {
                                 let flag = true;
                                 let filter = [];
@@ -421,20 +444,36 @@ export const StudentDetailsGA =
                                 }
                                 return flag;
                             }
+                            // schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
+                            // testwiseSubjectMarksId: GetTestwiseSubjectMarksId(Test.Test_Id, TestType.Subject_Id, TestType.TestType_Id),
+                            // TestType: itemArr.TestType_Id,
+                            // testId: Test.Test_Id,
                             if (response.data?.listStudentsDetails[0]?.ShowOnlyGrades.trim() === 'true1' && showGradeHeader(Subject.Subject_Id)) {
                                 columns.push({
                                     MarksScored: valArr.length > 0 ? `${valArr[0].Marks}` : '-',
                                     TotalMarks: "-",
                                     // Is_Absent
                                     IsAbsent: valArr.length > 0 ? valArr[0].Is_Absent : "N",
-                                    isEdit: true,
+                                    isEdit: valArr.length > 0 && valArr[0].Is_Absent === 'N' && valArr[0].Marks !== '' ? true : false,
+                                    isCoCurricular: valArr.length > 0 ? valArr[0].Is_CoCurricularActivity : "False",
+                                    MarksOrGrade: valArr.length > 0 ? valArr[0].Grade_Or_Marks.trim() : 'M',
+                                    schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, Subject.Subject_Id, ''),
+                                    testType: '999',
+                                    testId: Test.Test_Id,
+                                    testwiseSubjectMarksId: GetTestwiseSubjectMarksId(Test.Test_Id, Subject.Subject_Id, ''),
                                 })
                             } else if (showGradeHeader(Subject.Subject_Id)) {
                                 columns.push({
                                     MarksScored: valArr.length > 0 ? `${valArr[0].Marks}` : '-',
                                     TotalMarks: "-",
                                     IsAbsent: valArr.length > 0 ? valArr[0].Is_Absent : "N",
-                                    isEdit: true,
+                                    isEdit: valArr.length > 0 && valArr[0].Is_Absent === 'N' && valArr[0].Marks !== '' ? true : false,
+                                    isCoCurricular: valArr.length > 0 ? valArr[0].Is_CoCurricularActivity : "False",
+                                    MarksOrGrade: valArr.length > 0 ? valArr[0].Grade_Or_Marks.trim() : 'M',
+                                    schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, Subject.Subject_Id, ''),
+                                    testType: '999',
+                                    testId: Test.Test_Id,
+                                    testwiseSubjectMarksId: GetTestwiseSubjectMarksId(Test.Test_Id, Subject.Subject_Id, ''),
                                 })
                             }
                         }
@@ -454,7 +493,8 @@ export const StudentDetailsGA =
                                     TotalMarks: Item.Subjects_Total_Marks,
                                     IsAbsent: "N",
                                     IsGrades: "Y",
-                                    isEdit: false
+                                    isEdit: false,
+                                    isCoCurricular: 'False'
                                 })
 
                                 columns.push({
@@ -462,7 +502,8 @@ export const StudentDetailsGA =
                                     TotalMarks: "-",
                                     IsAbsent: "N",
                                     IsGrades: "Y",
-                                    isEdit: false
+                                    isEdit: false,
+                                    isCoCurricular: 'False'
                                 })
                                 // }
 
@@ -471,7 +512,8 @@ export const StudentDetailsGA =
                                     TotalMarks: "-",
                                     IsAbsent: "N",
                                     IsGrades: "Y",
-                                    isEdit: false
+                                    isEdit: false,
+                                    isCoCurricular: 'False'
                                 })
                             }
 
@@ -492,18 +534,20 @@ export const StudentDetailsGA =
                                             IsGrades: "Y",
                                             Result: Item.Result.trim(),
                                             Rank: Item.rank,
-                                            isEdit: false
+                                            isEdit: false,
+                                            isCoCurricular: 'False'
                                         })
                                     }
                                     if (totalCount !== '0' && data1.toLowerCase() === 'true') {
                                         columns.push({
-                                            MarksScored: Item.rank.trim().includes('999') ? '-' : Item.rank.trim(),
+                                            MarksScored: Item.rank.trim().includes('999') || Item.FailCount === '' ? '-' : Item.rank.trim(),
                                             TotalMarks: "-",
                                             IsAbsent: "N",
                                             IsGrades: "Y",
                                             Result: Item.Result.trim(),
                                             Rank: Item.rank,
-                                            isEdit: false
+                                            isEdit: false,
+                                            isCoCurricular: 'False'
                                         })
                                     }
                                 }
@@ -514,14 +558,16 @@ export const StudentDetailsGA =
                                 MarksScored: `-`,
                                 TotalMarks: '-',
                                 IsAbsent: "N",
-                                isEdit: false
+                                isEdit: false,
+                                isCoCurricular: 'False'
                             })
 
                             columns.push({
                                 MarksScored: "-",
                                 TotalMarks: "-",
                                 IsAbsent: "N",
-                                isEdit: false
+                                isEdit: false,
+                                isCoCurricular: 'False'
                             })
                             // }
 
@@ -529,14 +575,16 @@ export const StudentDetailsGA =
                                 MarksScored: `-`,
                                 TotalMarks: "-",
                                 IsAbsent: "N",
-                                isEdit: false
+                                isEdit: false,
+                                isCoCurricular: 'False'
                             })
                             if (response.data.listStudentsDetails[0]?.IsFailCriteriaNotApplicable === 'N' && data1.toLowerCase() === 'true') {
                                 columns.push({
                                     MarksScored: `-`,
                                     TotalMarks: "-",
                                     IsAbsent: "N",
-                                    isEdit: false
+                                    isEdit: false,
+                                    isCoCurricular: 'False'
                                 })
                             }
                             if (totalCount !== '0' && data1.toLowerCase() === 'true') {
@@ -544,7 +592,8 @@ export const StudentDetailsGA =
                                     MarksScored: `-`,
                                     TotalMarks: "-",
                                     IsAbsent: "N",
-                                    isEdit: false
+                                    isEdit: false,
+                                    isCoCurricular: 'False'
                                 })
                             }
                             // 🚩
@@ -662,7 +711,7 @@ export const ViewResultGA =
         async (dispatch) => {
             const response = await ApiFinalResultGenerateAll.ViewReportProgress(data);
 
-            let abc = response.data.listStudentDetail.map((item, i) => {
+            let abc = response.data[0].listStudentDetail.map((item, i) => {
                 return {
                     Id: item.YearWise_Student_Id,
                     Text1: item.Student_Name,
@@ -679,7 +728,7 @@ export const ViewResultGA =
             dispatch(FinalResultGenerateAllSlice.actions.ViewResult(abc));
 
             let Subject = [];
-            response.data.listSubjectDetails.map((item, i) => {
+            response.data[0].listSubjectDetails.map((item, i) => {
                 Subject.push({
                     Id: item.Subject_Id,
                     Name: item.Subject_Name,
@@ -691,7 +740,7 @@ export const ViewResultGA =
             dispatch(FinalResultGenerateAllSlice.actions.SubjectDetailsView(Subject));
 
             let Marks = [{ Id: '0', Name: 'Marks', Value: '0', IsAbsent: '0' }];
-            response.data.listSubjectDetails.map((item, i) => {
+            response.data[0].listSubjectDetails.map((item, i) => {
                 const marksScored = item.Marks_Scored.includes('.0') ? parseFloat(item.Marks_Scored) : item.Marks_Scored;
                 Marks.push({
                     Id: item.Subject_Id,
@@ -703,7 +752,7 @@ export const ViewResultGA =
             dispatch(FinalResultGenerateAllSlice.actions.MarkDetailsView(Marks));
 
             let grades = [{ Id: '0', Name: 'Subject Grade', Value: '0', IsAbsent: '0' }];
-            response.data.listSubjectDetails.map((item, i) => {
+            response.data[0].listSubjectDetails.map((item, i) => {
                 grades.push({
                     Id: item.Subject_Id,
                     Name: item.Grade,
@@ -713,7 +762,7 @@ export const ViewResultGA =
             });
             dispatch(FinalResultGenerateAllSlice.actions.GradesDetailsView(grades));
 
-            let Total = response.data.listMarksDetails.map((item, i) => {
+            let Total = response.data[0].listMarksDetails.map((item, i) => {
                 const totalmarksScored = item.Total_Marks_Scored.includes('.0') ? parseFloat(item.Total_Marks_Scored) : item.Total_Marks_Scored;
                 return {
                     TotalMarks: `${totalmarksScored} / ${item.Subjects_Total_Marks}`,
@@ -724,7 +773,7 @@ export const ViewResultGA =
                     rank: item.rank.trim() ? item.rank.trim() : "-",
                 };
             });
-            let PerCentDetails = response.data.listParcentageDetails.map((item, i) => {
+            let PerCentDetails = response.data[0].listParcentageDetails.map((item, i) => {
                 return {
                     TotalMarks: item.Range,
                     Grade: item.Grade,

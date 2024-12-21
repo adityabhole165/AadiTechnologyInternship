@@ -30,7 +30,7 @@ export interface IGetStudentPrrogressReportResult {
             ID_Num: string;
             Subject_Name: string;
             Student_Id: string;
-            Subject_Id:string;
+            Subject_Id: string;
             Parent_Subject_Id: string;
             Total_Consideration: string;
             Is_CoCurricularActivity: string;
@@ -149,10 +149,10 @@ export interface IGetGenerateAllStudentBody {
 export interface IViewBody {
     asSchoolId: number,
     asAcademicYearId: number,
-    asStudentId: number,
+    asStdDivId?: number,
+    asStudentsIds: string[],
     asWithGrace: number
 }
-
 export interface IViewResult {
     listStudentDetail: [
         {
