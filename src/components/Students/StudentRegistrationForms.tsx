@@ -266,31 +266,31 @@ const StudentRegistrationForm = () => {
   const [resetTrigger, setResetTrigger] = useState(false);
 
   //#region Local States
-  const [localstudentData, setLocalStudentData] = useState({});
-  useEffect(() => {
-    // Store in localStorage
-    const dataToStore = {
-      Name,
-      standardId,
-      DivisionId,
-      YearWise_Student_Id,
-      SchoolWise_Student_Id,
-      StandardDivision_Id,
-      Enrolment_Number,
-      Joining_Date
-    };
-    localStorage.setItem('studentData', JSON.stringify(dataToStore));
+  // const [localstudentData, setLocalStudentData] = useState({});
+  // useEffect(() => {
+  //   // Store in localStorage
+  //   const dataToStore = {
+  //     Name,
+  //     standardId,
+  //     DivisionId,
+  //     YearWise_Student_Id,
+  //     SchoolWise_Student_Id,
+  //     StandardDivision_Id,
+  //     Enrolment_Number,
+  //     Joining_Date
+  //   };
+  //   localStorage.setItem('studentData', JSON.stringify(dataToStore));
 
-    // Retrieve and set state for immediate access
-    const storedData = JSON.parse(localStorage.getItem('studentData'));
-    setLocalStudentData(storedData);
+  //   // Retrieve and set state for immediate access
+  //   const storedData = JSON.parse(localStorage.getItem('studentData'));
+  //   setLocalStudentData(storedData);
 
-  }, []);
+  // }, []);
 
-  useEffect(() => {
-    //console.log('0️⃣️location Data:', location.state);
-    //console.log('1️⃣localstudentData:', localstudentData);
-  }, [localstudentData]);
+  // useEffect(() => {
+  //   //console.log('0️⃣️location Data:', location.state);
+  //   //console.log('1️⃣localstudentData:', localstudentData);
+  // }, [localstudentData]);
 
   //#endregion
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);

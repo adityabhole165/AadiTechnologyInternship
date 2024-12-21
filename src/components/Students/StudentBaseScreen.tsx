@@ -184,6 +184,47 @@ const StudentBaseScreen = () => {
         // }
     };
 
+    //separate function to handle edit click
+    const handleEditClick = (item: any) => {
+        // Console log the data
+        console.log("🎈Selected Student Data:", item);
+
+        // Store in local variables
+        const StudentData = {
+            Name: item.Text1,
+            standardId: standardId,
+            DivisionId: divId,
+            YearWise_Student_Id: item.Text12,
+            SchoolWise_Student_Id: item.Text13,
+            StandardDivision_Id: item.Text14,
+            Enrolment_Number: item.Text3,
+            NewMode: 'N',
+            Joining_Date: item.Text15
+        };
+
+        // Store in localStorage
+        localStorage.setItem('studentData', JSON.stringify(StudentData));
+
+        // Dispatch to Redux if needed
+        //dispatch(setSelectedStudent(studentData));
+
+        // Then proceed with navigation
+        navigate(`/RITeSchool/Teacher/StudentRegistrationForms`, {
+            state: {
+                Name: item.Text1,
+                standardId: standardId,
+                DivisionId: divId,
+                YearWise_Student_Id: item.Text12,
+                SchoolWise_Student_Id: item.Text13,
+                StandardDivision_Id: item.Text14,
+                Enrolment_Number: item.Text3,
+                NewMode: 'N',
+                Joining_Date: item.Text15
+            }
+        });
+    };
+
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -303,20 +344,24 @@ const StudentBaseScreen = () => {
                                                                             cursor: 'pointer',
                                                                             '&:hover': { backgroundColor: '' }
                                                                         }}
-                                                                        onClick={() => navigate(`/RITeSchool/Teacher/StudentRegistrationForms`, {
-                                                                            state: {
-                                                                                Name: item.Text1,
-                                                                                standardId: standardId,
-                                                                                DivisionId: divId,
-                                                                                YearWise_Student_Id: item.Text12,
-                                                                                SchoolWise_Student_Id: item.Text13,
-                                                                                StandardDivision_Id: item.Text14,
-                                                                                Enrolment_Number: item.Text3,
-                                                                                NewMode: 'N',
-                                                                                Joining_Date: item.Text15
-
-                                                                            }
-                                                                        })} />
+                                                                        onClick={() => handleEditClick(item)}
+                                                                    // onClick={() => {
+                                                                    //     setSelectedItem(item);
+                                                                    //     // navigate(`/RITeSchool/Teacher/StudentRegistrationForms`, {
+                                                                    //     //     state: {
+                                                                    //     //         Name: item.Text1,
+                                                                    //     //         standardId: standardId,
+                                                                    //     //         DivisionId: divId,
+                                                                    //     //         YearWise_Student_Id: item.Text12,
+                                                                    //     //         SchoolWise_Student_Id: item.Text13,
+                                                                    //     //         StandardDivision_Id: item.Text14,
+                                                                    //     //         Enrolment_Number: item.Text3,
+                                                                    //     //         NewMode: 'N',
+                                                                    //     //         Joining_Date: item.Text15
+                                                                    //     //     }
+                                                                    //     // })
+                                                                    // }}
+                                                                    />
                                                                 </Tooltip>
                                                             </IconButton>}
                                                     </TableCell>
