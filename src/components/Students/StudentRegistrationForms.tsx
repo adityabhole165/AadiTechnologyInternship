@@ -1304,7 +1304,7 @@ const StudentRegistrationForm = () => {
         && !UpdateStudentResult.IsGeneralRegisterNoAlreadyPresent && !UpdateStudentResult.IsStudentUniqueNoAlreadyPresent
         && !UpdateStudentResult.CheckIsRFormNumberDuplicate
       ) {
-        toast.success("Student information updated successfully!");
+        toast.success("Student information updated successfully.");
       } else {
         if (UpdateStudentResult.IsRollNumberDuplicate) {
           toast.error("Roll number is already present.");

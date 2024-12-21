@@ -1137,23 +1137,29 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 value={personal.aadharCardNumber}
                 onChange={handleInputChange}
                 fullWidth
-                type='number'
+                inputProps={{
+                  maxLength: 12,
+                  pattern: '[0-9]*',
+                  inputMode: 'numeric'
+                }}
                 onInput={(e) => {
                   const input = e.target as HTMLInputElement;
-                  if (input.value.length > 12) {
-                    input.value = input.value.slice(0, 11); // Limit to 3 digits
-                  }
+                  input.value = input.value.replace(/\D/g, '').slice(0, 12);
                 }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
+              {/* TextField for capturing name as it appears on Aadhar Card */}
               <TextField
                 name="nameOnAadharCard"
-                label="Name on Adhar Card"
+                label="Name on Aadhar Card"
                 variant="outlined"
                 value={personal.nameOnAadharCard}
                 onChange={handleInputChange}
                 fullWidth
+                inputProps={{
+                  maxLength: 50
+                }}
               />
             </Grid>
             {/* Single File Upload */}
