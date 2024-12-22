@@ -26,33 +26,22 @@ const EnterStudentSiblingDetails = () => {
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const teacherId = sessionStorage.getItem('Id');
   const userId = localStorage.getItem('UserId');
-  const localStudentData = JSON.parse(localStorage.getItem('studentData'));
+  //StudentDetails from Local Storage
+  const studentDataString = localStorage.getItem('studentData');
+  const localData = JSON.parse(studentDataString);
 
-  // Destructure all values from the object
-  const {
-    Name: local_Name,
-    standardId: local_standardId,
-    DivisionId: local_DivisionId,
-    YearWise_Student_Id: local_YearWise_Student_Id,
-    SchoolWise_Student_Id: local_SchoolWise_Student_Id,
-    StandardDivision_Id: local_StandardDivision_Id,
-    Enrolment_Number: local_Enrolment_Number,
-    Joining_Date: local_Joining_Date
-  } = localStudentData;
-
-  console.log('👍LocalStorage data', local_YearWise_Student_Id, local_Name);
 
   const { showAlert, closeAlert } = useContext(AlertContext);
 
   const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
-  const YearWise_Student_Id = NavigationValues?.YearWise_Student_Id ?? local_YearWise_Student_Id;
+  const YearWise_Student_Id = localData.YearWise_Student_Id ?? NavigationValues?.YearWise_Student_Id;
 
   console.log('0️⃣NavigationValues EnterStudentSiblingDetails', NavigationValues, YearWise_Student_Id);
 
   //StudentName
   const StudentDetailsForSibling = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentDetailsForSibling);
   const oStudentDetailsForSibling: any = StudentDetailsForSibling;
-  const StudentName = oStudentDetailsForSibling?.StudentFullName ?? local_Name;         //Student Name
+  const StudentName = oStudentDetailsForSibling?.StudentFullName ?? localData?.Name;         //Student Name
   //console.log('1️⃣StudentName', StudentName);
   //Sibling List
   const GetStudentSiblingList = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentSiblingList);
@@ -249,12 +238,11 @@ const EnterStudentSiblingDetails = () => {
       toast.success(SaveStudentSiblingDetailsMsg);
       dispatch(ResetSaveStudentSiblingDetailsMsg());
       dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
-      //handleClearSearch();
+      setSelected([]);
       setFileNameError('');
       dispatch(CDASearchStudentsList(GetStudentsListBody));
     }
   }, [SaveStudentSiblingDetailsMsg]);
-
   //#region Delete
   const handleDelete = (StudentSiblingId) => {
     const DeleteStudentSiblingDetailsBody: IDeleteStudentSiblingDetailsBody = {
