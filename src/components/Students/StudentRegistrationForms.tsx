@@ -1699,9 +1699,11 @@ const StudentRegistrationForm = () => {
   //         alert('All required fields are filled, saving draft!');
   //     }
   // };
+  //Navigation to Add Sibling Page.
   const handleNavigation = () => {
     navigate('/RITeSchool/Teacher/EnterStudentSiblingDetails');
   };
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -2018,7 +2020,7 @@ const StudentRegistrationForm = () => {
             }
           }}
         >
-          {/* Add Note Popup */}
+          {/* Add Note Popup - Student Achievement/Punishment Details */}
           <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
             <ClearIcon
               onClick={handleCloseDialog}

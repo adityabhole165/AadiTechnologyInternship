@@ -50,6 +50,11 @@ import { IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStude
 const AdmissionDocumentInformation = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+
+  //StudentDetails from Local Storage
+  const studentDataString = localStorage.getItem('studentData');
+  const localData = JSON.parse(studentDataString);
+
   const schoolId = localStorage.getItem('SchoolId');
   const financialYearId = sessionStorage.getItem('FinancialYearId');
   const asUserId = Number(localStorage.getItem('UserId'));  //Environmental User Id
@@ -87,19 +92,14 @@ const AdmissionDocumentInformation = () => {
   const [localDocuments, setLocalDocuments] = useState([]);
   console.log('localDocuments', localDocuments);
 
-  const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
-  const RName = NavigationValues?.Name;
-  const RYearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
-  const RSchoolWise_Student_Id = NavigationValues?.SchoolWise_Student_Id;
-  const RDivisionId = NavigationValues?.DivisionId;
-  const RStandardId = NavigationValues?.standardId;
+
   const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
   console.log('GetStudentDocumentsList', GetStudentDocumentsList);
 
   const GetStudentDocuments: IStandrdwiseStudentsDocumentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
-    asStandardId: standardId ?? RStandardId,
-    asStudentId: SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
+    asStandardId: standardId ?? localData?.standardId,
+    asStudentId: SchoolWise_Student_Id ?? localData?.SchoolWise_Student_Id,
     asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
   };
 
@@ -286,9 +286,7 @@ const AdmissionDocumentInformation = () => {
 
   const ClickView = (fileName) => {
     window.open(
-      localStorage.getItem('SiteURL') +
-      '/RITESCHOOL/DOWNLOADS/StudentDocuments/' +
-      fileName
+      localStorage.getItem('SiteURL') + '/RITESCHOOL/DOWNLOADS/StudentDocuments/' + fileName
       // \\PPSN Website\RITESCHOOL\DOWNLOADS\Performance Evaluation\MCAResult12320240906143621.pdf
       // http://web.aaditechnology.info/RITeSchool//downloads//Performance%20Evaluation//Screenshot%202024-09-05%20095824.pdf
     );
@@ -366,7 +364,7 @@ const AdmissionDocumentInformation = () => {
 
   const handleOpenDialog = (index) => {
     setSelectedDocumentIndex(index);
-    setStudentName(Name ?? RName); // Replace with actual student name logic
+    setStudentName(Name ?? localData.Name); // Replace with actual student name logic
     setDocumentName(GetStudentDocumentsList[index].Name);
     setDocumentId(GetStudentDocumentsList[index].StandardwiseDocumentId);
     setOpen(true);
