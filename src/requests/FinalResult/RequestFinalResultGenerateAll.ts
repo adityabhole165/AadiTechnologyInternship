@@ -30,6 +30,7 @@ const FinalResultGenerateAllSlice = createSlice({
         HeaderArray: [],
         SubHeaderArray: [],
         EntireDataList: [],
+        ISEntireStudentFinalResult: [],
         Loading: true
     },
 
@@ -45,6 +46,10 @@ const FinalResultGenerateAllSlice = createSlice({
         REntireDataList(state, action) {
             state.Loading = false;
             state.EntireDataList = action.payload;
+        },
+        R_allStudentFinalResult(state, action) {
+            state.Loading = false;
+            state.ISEntireStudentFinalResult = action.payload;
         },
         ShowHeader(state, action) {
             state.Loading = false;
@@ -688,6 +693,13 @@ export const GenerateAllGA = (data: IGetGenerateAllStudentBody): AppThunk => asy
     const response = await ApiFinalResultGenerateAll.GenerateResultAll(data);
     dispatch(FinalResultGenerateAllSlice.actions.GenerateAll(response.data));
 };
+
+export const CDA_EntireStudentFinalResult =
+    (data: IViewBody): AppThunk =>
+        async (dispatch) => {
+            const response = await ApiFinalResultGenerateAll.ViewReportProgress(data);
+            dispatch(FinalResultGenerateAllSlice.actions.R_allStudentFinalResult(response.data));
+        }
 
 export const UpdateStudentTestMarks = (data: IUpdateStudentTestMarksBody): AppThunk => async (dispatch) => {
     dispatch(FinalResultGenerateAllSlice.actions.getLoading(true));
