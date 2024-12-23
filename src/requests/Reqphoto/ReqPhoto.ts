@@ -60,7 +60,7 @@ export const CDAGetCount =
             const response = await PhotoGallaryApi.GetCount(data);
             const count = response.data.map((item) => {
                 return {
-                    TotalRecordCount =item.TotalRecordCount
+                    TotalRecordCount: item.TotalRecordCount
 
                 }
             });

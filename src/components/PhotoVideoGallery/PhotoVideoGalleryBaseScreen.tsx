@@ -5,11 +5,10 @@ import { blue, grey } from '@mui/material/colors';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IDeletePhotoBody, IGetPhotoDetailsBody } from 'src/interfaces/Common/PhotoGallery';
+import { IDeletePhotoBody, IGetCountBody, IGetPhotoDetailsBody } from 'src/interfaces/Common/PhotoGallery';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { CDADeletePhoto, CDAGetPhotoDetails, resetDeletePhoto } from 'src/requests/Reqphoto/ReqPhoto';
+import { CDADeletePhoto, CDAGetCount, CDAGetPhotoDetails } from 'src/requests/Reqphoto/ReqPhoto';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import PhotopageTableCard from './PhotopageTableCard';
@@ -33,27 +32,38 @@ const PhotoVideoGalleryBaseScreen = () => {
 
 
     const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
     const [SortBy, setSortBy] = useState('Update_Date');
 
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedOption(event.target.value);
-    };
 
     const USPhotoGallery: any = useSelector((state: RootState) => state.Photo.ISGetPhotoDetils)
-    console.log(USPhotoGallery, "USPhotoGallery")
-
     const USDeletePhoto = useSelector((state: RootState) => state.Photo.ISDeletePhoto);
-    console.log(USDeletePhoto, "USDeletePhoto")
+    const UScount = useSelector((state: RootState) => state.Photo.ISCount);
 
-    const CountGetPagedRequisition: any = useSelector(
-        (state: RootState) => state.SliceRequisition.RequisitionListCount
 
-    );
-    // const singleTotalCountNew = USPhotoGallery.length > 0 ? USPhotoGallery[0].TotalRows : 0;
+    const singleTotalCountNew: number = useMemo(() => {
+        if (!Array.isArray(UScount)) {
+            return 0;
+        }
+        return UScount.reduce((acc: number, item: any) => {
+            const count = Number(item.TotalRecordCount);
+            if (isNaN(count)) {
+                return acc;
+            }
+            return acc + count;
+        }, 0);
+    }, [UScount]);
+
+    const GetCountList: IGetCountBody = {
+        asSchoolId: asSchoolId,
+    }
+
+    useEffect(() => {
+        dispatch(CDAGetCount(GetCountList))
+    }, []);
 
     const startIndexNew = (page - 1) * rowsPerPage;
-
     const photoD1ata: IGetPhotoDetailsBody = {
         asSchoolId: asSchoolId,
         asSortExp: "ORDER BY " + SortBy + " " + SortDirection,
@@ -64,6 +74,8 @@ const PhotoVideoGalleryBaseScreen = () => {
     useEffect(() => {
         dispatch(CDAGetPhotoDetails(photoD1ata))
     }, [dispatch, page, rowsPerPage, SortDirection, SortBy, startIndexNew])
+
+
 
     const handleDelete = (GalleryName) => {
         console.log(GalleryName, "Gallery1234")
@@ -92,25 +104,13 @@ const PhotoVideoGalleryBaseScreen = () => {
             }
         });
     }
-    const singleTotalCountNew: number = useMemo(() => {
-        if (!Array.isArray(CountGetPagedRequisition)) {
-            return 0;
-        }
-        return CountGetPagedRequisition.reduce((acc: number, item: any) => {
-            const count = Number(item.TotalCount);
-            if (isNaN(count)) {
-                return acc;
-            }
-            return acc + count;
-        }, 0);
-    }, [CountGetPagedRequisition]);
-    useEffect(() => {
-        if (USDeletePhoto != "") {
-            toast.success(USDeletePhoto);
-            dispatch(resetDeletePhoto());
-            dispatch(CDAGetPhotoDetails(photoD1ata));
-        }
-    }, [USDeletePhoto]);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedOption(event.target.value);
+    };
+
+
+
     //Video Section
     const videoData = [
         { videoName: "Video Test1111", lastUpdated: "26 Aug 2024" },
@@ -131,13 +131,13 @@ const PhotoVideoGalleryBaseScreen = () => {
     //     alert(`Delete clicked for ${videoName}`);
     // };
 
-    // const singleTotalCountNew = CountGetPagedRequisition.map(item => item.Count) 
+
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, singleTotalCountNew);
     const pagecount = Math.ceil(singleTotalCountNew / rowsPerPage);
 
     const ChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value, 20));
         setPage(1);
     };
 
@@ -271,41 +271,23 @@ const PhotoVideoGalleryBaseScreen = () => {
                         </Typography> */}
 
                         {/* Record Format */}
-                        {USPhotoGallery.length > 0 ? (
+                        {singleTotalCountNew > 0 ? (
                             <Typography variant="subtitle1" sx={{ margin: '2px 0', textAlign: 'center' }}>
                                 <Box component="span" fontWeight="fontWeightBold">
                                     {startRecord} to {endRecord}
                                 </Box>
                                 {' '}out of{' '}
                                 <Box component="span" fontWeight="fontWeightBold">
-                                    {USPhotoGallery.length}
+                                    {singleTotalCountNew}
                                 </Box>{' '}
-                                {USPhotoGallery.length === 1 ? 'record' : 'records'}
+                                {singleTotalCountNew === 1 ? 'record' : 'records'}
                             </Typography>
                         ) : (
                             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                                 <b>No record found.</b>
                             </Typography>
                         )}
-                        {singleTotalCountNew > 0 ? (
-                            <Box style={{ flex: 1, textAlign: 'center' }}>
-                                <Typography
-                                    variant='subtitle1'
-                                    sx={{ margin: '16px 0', textAlign: 'center' }}
-                                >
-                                    <Box component='span' fontWeight='fontWeightBold'>
-                                        {startRecord} to {endRecord}
-                                    </Box>{' '}
-                                    out of{' '}
-                                    <Box component='span' fontWeight='fontWeightBold'>
-                                        {singleTotalCountNew}
-                                    </Box>{' '}
-                                    {singleTotalCountNew === 1 ? 'record' : 'records'}
-                                </Typography>
-                            </Box>
-                        ) : (
-                            <span> </span>
-                        )}
+
                         {/* Render the PhotoPage */}
                         <PhotopageTableCard data={USPhotoGallery} handleDelete={handleDelete} view={'table'}
                             handleSortChange={handleSortChange}
