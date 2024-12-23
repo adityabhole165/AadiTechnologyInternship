@@ -96,7 +96,7 @@ const StudentRegistrationForm = () => {
   //StudentDetails from Local Storage
   const studentDataString = localStorage.getItem('studentData');
   const localData = JSON.parse(studentDataString);
-  console.log('Name:', localData);
+  //console.log('Name:', localData);
 
   const [currentTab, setCurrentTab] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -269,7 +269,7 @@ const StudentRegistrationForm = () => {
   //console.log('✅ selectedSiblings', selectedSiblings)
   const [resetTrigger, setResetTrigger] = useState(false);
 
-
+  console.log('admission date from child to parent', form.admission.admissionDate);
   //#endregion
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
@@ -400,53 +400,151 @@ const StudentRegistrationForm = () => {
     });
   }, [form]); // Trigger recalculation whenever the form changes
 
+  // Centralized Required Fields Configuration
 
-  const handleValidation = () => {
-    const allMessages = [];
+  const [progress, setProgress] = useState(0);
+  const [invalidFields, setInvalidFields] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-    const admissionValidation = calculateCompletion('admission', form.admission, IsAdditionalFieldsApplicable);
-    const personalValidation = calculateCompletion('personal', form.personal, IsAdditionalFieldsApplicable);
-    const familyValidation = calculateCompletion('family', form.family, IsAdditionalFieldsApplicable);
+  const schoolRequiredFields = {
+    18: {
+      admission: ['registrationNumber', 'admissionDate', 'joiningDate', 'studentRollNumber'],
+      personal: [
+        'firstName',
+        'mobileNumber1',
+        'parentName',
+        'parentOccupation',
+        'address',
+        'city',
+        'pin',
+        'state',
+        'dateOfBirth',
+        'placeOfBirth',
+        'casteAndSubCaste'
+      ],
+      family: ['fatherDOB', 'motherDOB', 'marriageAnniversaryDate'] // Conditional
+    },
+    71: {
+      admission: ['formNumber', 'admissionDate', 'joiningDate', 'studentRollNumber'],
+      personal: [
+        'firstName',
+        'motherName',
+        'parentName',
+        'mobileNumber2',
+        'parentOccupation',
+        'address',
+        'city',
+        'pin',
+        'state',
+        'dateOfBirth',
+        'placeOfBirth',
+        'nationality',
+        'casteAndSubCaste',
+        'motherTongue'
+      ],
+    },
+    122: {
+      admission: ['registrationNumber', 'admissionDate', 'joiningDate', 'studentRollNumber'],
+      personal: [
+        'firstName',
+        'mobileNumber1',
+        'parentName',
+        'parentOccupation',
+        'address',
+        'city',
+        'pin',
+        'state',
+        'dateOfBirth'
+      ]
+    }
+  };
 
-    //Collect unfilled fields for each tab
-    [admissionValidation, personalValidation, familyValidation].forEach(
-      ({ unfilledFields, tabName }) => {
-        unfilledFields.forEach((field) => {
-          allMessages.push(`"${field}" is missing in ${tabName} tab.`);
-        });
+  // Helper Function: Dynamic Required Fields
+  const getRequiredFields = (schoolId, form) => {
+    const currentSchoolFields = schoolRequiredFields[schoolId];
+    const requiredFields = [];
+
+    Object.keys(currentSchoolFields).forEach((tab) => {
+      currentSchoolFields[tab].forEach((field) => {
+        // Handle conditional fields in PPSH
+        if (tab === 'family' && schoolId === 18) {
+          if (IsAdditionalFieldsApplicable) {
+            requiredFields.push({ tab, field });
+          }
+        } else {
+          requiredFields.push({ tab, field });
+        }
+      });
+    });
+
+    return requiredFields;
+  };
+
+  // Usage Example
+  const requiredFields = getRequiredFields(schoolId, form);
+  console.log(requiredFields);
+
+  // Validation and Progress Calculation Function
+  const validateFieldsAndCalculateProgress = (schoolId, form) => {
+    const requiredFields = getRequiredFields(schoolId, form); // Fetch dynamic required fields
+    let validFieldsCount = 0; // Count of valid fields
+    const invalidFields = []; // List of invalid fields for feedback
+
+
+    requiredFields.forEach(({ tab, field }) => {
+      const fieldValue = form[tab]?.[field];
+
+      // Special handling for date fields
+      const isDateField = [
+        'admissionDate',
+        'joiningDate',
+        'dateOfBirth',
+        'fatherDOB',
+        'motherDOB',
+        'marriageAnniversaryDate'
+      ].includes(field);
+
+      if (isDateField) {
+        // Check if it's a valid date
+        if (fieldValue && moment(fieldValue, "DD-MM-YYYY").isValid()) {
+          validFieldsCount++;
+        } else {
+          invalidFields.push({ tab, field });
+        }
+      } else {
+        // Regular field validation
+        if (fieldValue && fieldValue !== '') {
+          validFieldsCount++;
+        } else {
+          invalidFields.push({ tab, field });
+        }
       }
-    );
+    });
 
-    // Update validation messages state
-    //setValidationMessages(allMessages);
+    // Calculate progress
+    const progress = (validFieldsCount / requiredFields.length) * 100;
 
-    // Return true if there are no unfilled fields
-    return allMessages.length === 0;
+    return {
+      progress: progress.toFixed(2), // Return progress as a percentage
+      invalidFields // List of missing/invalid fields for feedback
+    };
   };
 
-  // useEffect(() => {
-  //   handleValidation();
-  // }, [admissionDetailsData, personalDetailsData, familyDetailsData]);
+  const result = validateFieldsAndCalculateProgress(schoolId, form);
+  console.log('Progress:', result.progress + '%');
+  console.log('Invalid Fields:', result.invalidFields);
 
-  const handleSave = (isSuccessful: boolean) => {
-    if (currentTab === 0) {
-      setStatus((prevStatus) => ({
-        ...prevStatus,
-        admissionDetails: isSuccessful
-      }));
-    } else if (currentTab === 1) {
-      setStatus((prevStatus) => ({
-        ...prevStatus,
-        personalDetails: isSuccessful
-      }));
+  useEffect(() => {
+    const { progress, invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
+    setProgress(Number(progress));
+    if (isSubmitted) {
+      setInvalidFields(invalidFields);
     }
+  }, [schoolId, form, isSubmitted]);
 
-    if (isSuccessful) {
-      // Slide to the next tab automatically if the form is successfully saved
-      setCurrentTab((prevTab) => prevTab + 1);
-    }
-  };
 
+
+  //#region Tabs
   const totalTabs = parseInt(schoolId) === 122 ? 6 : 5;
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(Math.min(newValue, totalTabs - 1));
@@ -1126,8 +1224,8 @@ const StudentRegistrationForm = () => {
     return { bFlag };
 
   }
-  useEffect(() => { CheckDependenciesForFees() },    //Safety regards
-    [currentJoiningDate, currentJoiningDateMonth, form.admission?.applicableRules])
+  // useEffect(() => { CheckDependenciesForFees() },    //Safety regards
+  //   [currentJoiningDate, currentJoiningDateMonth, form.admission?.applicableRules])
 
   const executeApiCalls = async (
     updateStudentBody,
@@ -1182,12 +1280,34 @@ const StudentRegistrationForm = () => {
   const handleFormSubmission = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
     setShowValidation(true); // Enable validation display
+    setIsSubmitted(true);
     // Validate the form
     //const isFormValid = handleValidation();
-    const isFormValid = Object.values(tabValidationStatus).every(status => status === true);
-    if (!isFormValid) {
-      console.log('😶 Form submission halted due to validation errors.');
-      return;
+    // const isFormValid = Object.values(tabValidationStatus).every(status => status === true);
+    // if (!isFormValid) {
+    //   console.log('😶 Form submission halted due to validation errors.');
+    //   return;
+    // }
+
+    // Validate the form and calculate invalid fields
+    const { invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
+
+    if (invalidFields.length > 0) {
+      console.log('Validation errors found:', invalidFields);
+      // Switch to the tab with the first invalid field
+      setCurrentTab(() => {
+        const firstInvalidTab = invalidFields[0].tab;
+        const tabIndexMapping = {
+          admission: 0,
+          personal: 1,
+          documents: 2,
+          family: 3,
+          additional: 4,
+          stream: 5
+        };
+        return tabIndexMapping[firstInvalidTab] || 0;
+      });
+      return; // Stop submission
     }
 
     // First check dependencies
@@ -1206,19 +1326,6 @@ const StudentRegistrationForm = () => {
       OpenSiblingPop(); // Open the popup
       return; // Do not proceed with API calls in this flow
     }
-
-    //const bFlag = await CheckDependenciesForFees();  // Only working on 2nd Execution
-
-    // if (bFlag.bFlag) {
-    //   console.log('⚠️ bFlag triggered:', bFlag);
-    //   if (ReferenceMessages[0] !== '') {
-    //     console.log('⚠️ ReferenceMsg:', ReferenceMessages[0]?.ReferenceMsg);
-    //     toast.warning(ReferenceMessages[0]?.ReferenceMsg);
-    //     setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
-    //     return; // Exit the entire function
-    //   }
-    // }
-
 
     // Validation passed, proceed with API calls
     try {
@@ -1805,11 +1912,11 @@ const StudentRegistrationForm = () => {
           </Typography>
           <LinearProgress
             variant="determinate"
-            value={profileCompletion}
+            value={progress}
             sx={{ flexGrow: 1, height: 10 }}
           />
           <Typography variant="body1" sx={{ ml: 2 }}>
-            {profileCompletion}%
+            {progress}%
           </Typography>
         </Box>
       </Box>
@@ -1830,7 +1937,7 @@ const StudentRegistrationForm = () => {
           aria-label="Student Registration Tabs"
           TabIndicatorProps={{
             style: {
-              backgroundColor: tabValidationStatus[currentTab] ? 'primary' : 'error'
+              backgroundColor: invalidFields.some(field => field.tab === currentTab) ? 'red' : 'primary'
             }
           }}
           sx={{
@@ -1860,21 +1967,14 @@ const StudentRegistrationForm = () => {
           }}
         >
           <Tab
-            sx={{ m: 2, maxWidth: 200 }}
+            sx={{ m: 2, maxWidth: 200, }}
             icon={<SchoolIcon />}
             label="Admission Details"
-            // onChange={(data) => handleDataChange('user', data)}
-            style={{
-              color: !showValidation || tabValidationStatus.admission ? 'inherit' : 'red'
-            }}
           />
           <Tab
             sx={{ m: 2, maxWidth: 200 }}
             icon={<AccountCircleIcon />}
             label="Personal Details"
-            style={{
-              color: !showValidation || tabValidationStatus.personal ? 'inherit' : 'red'
-            }}
           />
           <Tab
             sx={{ m: 2, maxWidth: 200 }}
@@ -1908,8 +2008,9 @@ const StudentRegistrationForm = () => {
               <AdmissionDetails
                 admission={form.admission}
                 onChange={handleAdmissionChange}
-                validationMessages={showValidation ? fieldValidationMessages.admission : {}}
-                isValid={!showValidation || tabValidationStatus.admission}
+                // validationMessages={showValidation ? fieldValidationMessages.admission : {}}
+                // isValid={!showValidation || tabValidationStatus.admission}
+                invalidFields={invalidFields.filter(field => field.tab === 'admission')}
               />
             </Grid>
           </Grid>
@@ -1920,8 +2021,9 @@ const StudentRegistrationForm = () => {
               <PersonalDetails
                 personal={form.personal}
                 onChange={handlePersonalChange}
-                validationMessages={showValidation ? fieldValidationMessages.personal : {}}
-                isValid={!showValidation || tabValidationStatus.personal}
+                // validationMessages={showValidation ? fieldValidationMessages.personal : {}}
+                // isValid={!showValidation || tabValidationStatus.personal}
+                invalidFields={invalidFields.filter(field => field.tab === 'personal')}
               />
             </Grid>
           </Grid>
@@ -1940,9 +2042,10 @@ const StudentRegistrationForm = () => {
               <FamilyDetails
                 family={form.family}
                 onChange={handleFamilyChange}
-                validationMessages={showValidation ? fieldValidationMessages.family : {}}
-                isValid={!showValidation || tabValidationStatus.family}
-              // onTabChange={onFamilyTab}
+                // validationMessages={showValidation ? fieldValidationMessages.family : {}}
+                // isValid={!showValidation || tabValidationStatus.family}
+                // onTabChange={onFamilyTab}
+                invalidFields={invalidFields.filter(field => field.tab === 'family')}
               />
             </Grid>
           </Grid>

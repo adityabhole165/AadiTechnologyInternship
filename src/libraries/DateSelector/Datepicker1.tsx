@@ -3,12 +3,29 @@ import { DatePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
 
 const Datepicker1 = ({ DateValue, onDateChange, label, size, error, helperText, maxDate }) => {
+    const handleDateChange = (date) => {
+        // If date is null (cleared) or invalid
+        if (!date || !moment(date).isValid()) {
+            onDateChange(''); // Send empty string to parent for validation
+            return;
+        }
+
+        // Valid date - format and send
+        onDateChange(moment(date).format("DD-MM-YYYY"));
+    };
+
+    const parseInitialDate = (dateValue) => {
+        if (!dateValue || !moment(dateValue, "DD-MM-YYYY").isValid()) {
+            return null;
+        }
+        return moment(dateValue, "DD-MM-YYYY").toDate();
+    };
     return (
         <>
             <DatePicker
                 //value={new Date(DateValue)}
-                value={DateValue ? moment(DateValue, "DD-MM-YYYY").toDate() : null}
-                onChange={(date) => onDateChange(moment(date).format("DD-MM-YYYY"))}
+                value={parseInitialDate(DateValue)}
+                onChange={handleDateChange}
                 format="dd MMM yyyy"
                 label={
                     label ? (

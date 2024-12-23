@@ -22,7 +22,7 @@ import { CDADeleteFamilyPhoto, CDADeleteFatherPhoto, CDADeleteGuardianPhoto, CDA
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
+const FamilyDetails = ({ family, onChange, invalidFields }) => {
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
@@ -552,8 +552,8 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 onDateChange={handleDateChange('fatherDOB')}
                 size={'medium'}
                 label={"Father's DOB"}
-                error={!!validationMessages.fatherDOB}
-                helperText={validationMessages.fatherDOB ? "Father's Date of Birth should not be blank." : ''}
+                error={!!invalidFields.find(field => field.field === "fatherDOB")}
+                helperText={invalidFields.find(field => field.field === "fatherDOB") ? "Father's Date of Birth should not be blank." : ''}
                 maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
               />
             </Grid>
@@ -763,8 +763,8 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 onDateChange={handleDateChange('motherDOB')}
                 size={'medium'}
                 label={"Mother's DOB"}
-                error={!!validationMessages.motherDOB}
-                helperText={validationMessages.motherDOB ? "Mother's Date of Birth should not be blank." : ''}
+                error={!!invalidFields.find(field => field.field === "motherDOB")}
+                helperText={invalidFields.find(field => field.field === "motherDOB") ? "Mother's Date of Birth should not be blank." : ''}
                 maxDate={new Date()}
               />
             </Grid>
@@ -904,8 +904,8 @@ const FamilyDetails = ({ family, onChange, validationMessages, isValid }) => {
                 onDateChange={handleDateChange('marriageAnniversaryDate')}
                 size={'medium'}
                 label={"Marriage Anniversary Date"}
-                error={!!validationMessages.marriageAnniversaryDate}
-                helperText={validationMessages.marriageAnniversaryDate ? "Marriage Anniversary Date should not be blank." : ''}
+                error={!!invalidFields.find(field => field.field === "marriageAnniversaryDate")}
+                helperText={invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}
                 maxDate={new Date()}
               />
             </Grid>

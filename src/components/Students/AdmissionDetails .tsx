@@ -32,8 +32,8 @@ import {
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
-
-const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) => {
+//validationMessages,isValid
+const AdmissionDetails = ({ admission, onChange, invalidFields }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
@@ -521,8 +521,8 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
               value={admission.registrationNumber}
               defaultValue={admission.registrationNumber}
               onChange={handleInputChange}
-              error={!!validationMessages.registrationNumber || admission.registrationNumber === '0'}
-              helperText={validationMessages.registrationNumber ? 'Registration Number should not be blank.'
+              error={!!invalidFields.find(field => field.field === "registrationNumber") || admission.registrationNumber === '0'}
+              helperText={invalidFields.find(field => field.field === "registrationNumber") ? 'Registration Number should not be blank.'
                 : admission.registrationNumber === '0'
                   ? 'Registration number should not be zero.'
                   : ''}
@@ -541,8 +541,8 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             onDateChange={handleDateChange('admissionDate')}
             size={'medium'}
             label={'Admission Date'}
-            error={!!validationMessages.admissionDate}
-            helperText={validationMessages.admissionDate ? 'Addmission date should not be blank.' : ''}
+            error={!!invalidFields.find(field => field.field === "admissionDate")}
+            helperText={invalidFields.find(field => field.field === "admissionDate") ? 'Addmission date should not be blank.' : ''}
             maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
           />
           {/* {validationMessages.admissionDate && (
@@ -577,8 +577,8 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             // label={'Start Date'}
             size={'medium'}
             label={'Joining Date'}
-            error={!!validationMessages.joiningDate}
-            helperText={validationMessages.joiningDate ? 'Joining date should not be blank.' : ''}
+            error={!!invalidFields.find(field => field.field === "joiningDate")}
+            helperText={invalidFields.find(field => field.field === "joiningDate") ? 'Joining date should not be blank.' : ''}
             maxDate={new Date()}
           />
           {/* <TextField
@@ -618,8 +618,8 @@ const AdmissionDetails = ({ admission, onChange, validationMessages, isValid }) 
             variant="outlined"
             value={admission.studentRollNumber}
             onChange={handleInputChange}
-            error={!!validationMessages.studentRollNumber}
-            helperText={validationMessages.studentRollNumber ? 'Student Roll Number should not be blank.' : ''}
+            error={!!invalidFields.find(field => field.field === "studentRollNumber")}
+            helperText={invalidFields.find(field => field.field === "studentRollNumber") ? 'Student Roll Number should not be blank.' : ''}
             fullWidth
             inputProps={{
               maxLength: 3, // Restricts the input length to 50 characters

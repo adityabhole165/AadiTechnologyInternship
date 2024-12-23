@@ -63,7 +63,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 //   </div>
 // )
 
-const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) => {
+const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   const [usingWebcam, setUsingWebcam] = useState(false);
   const webcamRef = useRef(null);
 
@@ -636,8 +636,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 variant="outlined"
                 value={personal.firstName}
                 onChange={handleInputChange}
-                error={!!validationMessages.firstName}
-                helperText={validationMessages.firstName ? 'First Name should not be blank.' : ''}
+                error={!!invalidFields.find(field => field.field === 'firstName')}
+                helperText={invalidFields.find(field => field.field === 'firstName') ? 'First Name should not be blank.' : ''}
                 fullWidth
                 inputProps={{
                   maxLength: 50, // Restricts the input length to 50 characters
@@ -698,13 +698,15 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.mobileNumber1}
                   onChange={handleContactNoChange}
-                  error={!!validationMessages.mobileNumber1}
-                  helperText={validationMessages.mobileNumber1 ? 'Mobile Number should not be blank.' : ''}
+                  error={!!invalidFields.find(field => field.field === "mobileNumber1")}
+                  helperText={invalidFields.find(field => field.field === "mobileNumber1") ? 'Mobile Number should not be blank.' : ''}
                   fullWidth
+                  inputProps={{
+                    maxLength: 10,
+                  }}
                 />
               </Grid>
             )}
-
             {personal.email !== undefined && (
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
@@ -732,8 +734,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.parentName}
                   onChange={handleInputChange}
-                  error={!!validationMessages.parentName}
-                  helperText={validationMessages.parentName ? 'Parent Name should not be blank.' : ''}
+                  error={!!invalidFields.find(field => field.field === "parentName")}
+                  helperText={invalidFields.find(field => field.field === "parentName") ? 'Parent Name should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 50, // Restricts the input length to 50 characters
@@ -843,8 +845,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.parentOccupation == '5' ? personal.otherOccupation : ''}
                   onChange={handleInputChange}
-                  error={!!validationMessages.parentOccupation}
-                  helperText={validationMessages.parentOccupation ? 'Parent Occupation should not be blank.' : ''}
+                  error={!!invalidFields.find(field => field.field === "parentOccupation")}
+                  helperText={invalidFields.find(field => field.field === "parentOccupation") ? 'Parent Occupation should not be blank.' : ''}
                   fullWidth
                 />
               </Grid>
@@ -862,8 +864,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.address}
                   onChange={handleInputChange}
-                  error={!!validationMessages.address}
-                  helperText={validationMessages.address ? 'Address should not be blank.' : ''}
+                  error={!!invalidFields.find(field => field.field === "address")}
+                  helperText={invalidFields.find(field => field.field === "address") ? 'Address should not be blank.' : ''}
                   fullWidth
                   multiline
                 />
@@ -882,8 +884,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.city}
                   onChange={handleInputChange}
-                  error={!!validationMessages.city}
-                  helperText={validationMessages.city ? 'City Name should not be blank.' : ''}
+                  error={!!invalidFields.find(field => field.field === "city")}
+                  helperText={invalidFields.find(field => field.field === "city") ? 'City name should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 50, // Restricts the input length to 50 characters
@@ -904,8 +906,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.state}
                   onChange={handleInputChange}
-                  error={!!validationMessages.state}
-                  helperText={validationMessages.state ? 'State Name should not be blank.' : ''}
+                  error={!!invalidFields.find(field => field.field === "state")}
+                  helperText={invalidFields.find(field => field.field === "state") ? 'State Name should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 50, // Restricts the input length to 50 characters
@@ -926,8 +928,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.pin}
                   onChange={handleInputChange}
-                  error={!!validationMessages.pin}
-                  helperText={validationMessages.pin ? 'PIN Code should not be blank.' : ''}
+                  error={!!invalidFields.find(field => field.field === "pin")}
+                  helperText={invalidFields.find(field => field.field === "pin") ? 'PIN Code should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 6,
@@ -949,8 +951,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   onDateChange={handleDateChange('dateOfBirth')}
                   size={'medium'}
                   label={'Date of Birth'}
-                  error={!!validationMessages.dateOfBirth}
-                  helperText={validationMessages.dateOfBirth ? 'Date of Birth should not be blank.' : ''}
+                  error={!!invalidFields.find(field => field.field === "dateOfBirth")}
+                  helperText={invalidFields.find(field => field.field === "dateOfBirth") ? 'Date of Birth should not be blank.' : ''}
                   maxDate={new Date()}
                 />
                 {/* <TextField
@@ -973,7 +975,7 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 />*/}
                 {compareAgeTillDate && (
                   <Typography variant="body2" sx={{ marginTop: '8px', color: 'gray' }}>
-                    {age} till {new Date(compareAgeTillDate).toLocaleDateString('en-GB', {
+                    {age ?? '--'} till {new Date(compareAgeTillDate).toLocaleDateString('en-GB', {
                       year: 'numeric',
                       month: 'short',
                       day: '2-digit',
@@ -995,8 +997,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                   variant="outlined"
                   value={personal.placeOfBirth}
                   onChange={handleInputChange}
-                  error={!!validationMessages.placeOfBirth}
-                  helperText={validationMessages.placeOfBirth ? 'Place of Birth should not be blank.' : ''}
+                  error={!!invalidFields.find(field => field.field === "placeOfBirth")}
+                  helperText={invalidFields.find(field => field.field === "placeOfBirth") ? 'Place of Birth should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 50, // Restricts the input length to 50 characters
@@ -1089,8 +1091,8 @@ const PersonalDetails = ({ personal, onChange, validationMessages, isValid }) =>
                 variant="outlined"
                 value={personal.casteAndSubCaste}
                 onChange={handleInputChange}
-                error={!!validationMessages.casteAndSubCaste}
-                helperText={validationMessages.casteAndSubCaste ? 'Caste and Sub-Caste should not be blank.' : ''}
+                error={!!invalidFields.find(field => field.field === "casteAndSubCaste")}
+                helperText={invalidFields.find(field => field.field === "casteAndSubCaste") ? 'Caste and Sub-Caste should not be blank.' : ''}
                 fullWidth
                 inputProps={{
                   maxLength: 50, // Restricts the input length to 50 characters
