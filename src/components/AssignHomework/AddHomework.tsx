@@ -37,6 +37,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import AddUnpublish1 from './AddUnpublish1';
 import UploadMultipleDialog from './UploadMultipleDialog';
+import { encodeURL } from '../Common/Util';
 const AddHomework = () => {
   const { ClassId, ClassName, TeacherId, TeacherName, SubjectName, subjectId, Id } =
     useParams();
@@ -278,10 +279,10 @@ const AddHomework = () => {
     navigate('/RITeSchool/Teacher/AssignHomework');
   };
   const clickTitle1 = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewHomework/' + Id);
+    navigate('/RITeSchool/Teacher/ViewHomework/' + encodeURL(Id));
   };
   const Back1 = () => {
-    navigate('/RITeSchool/Teacher/AddUnpublish1/' + Id);
+    navigate('/RITeSchool/Teacher/AddUnpublish1/' + encodeURL(Id));
   };
   const Changevalue = (value) => {
     // setitemPublish(value);

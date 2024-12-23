@@ -32,7 +32,7 @@ import ListEditIcon2 from 'src/libraries/ResuableComponents/ListEditIcon2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-
+import { encodeURL } from '../Common/Util';
 const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -277,18 +277,18 @@ const AssignExamMark = () => {
   const clickEdit = (value) => {
 
     navigate('/RITeSchool/Teacher/SubjectExamMarks/' +
-      ClassTecher + '/' +
-      value.StandardDivisionId + '/' +
-      value.SubjectId + '/' +
-      selectClass + '/' +
-      ClassWiseExam + '/' +
-      aTeacherId.toString() + '/' +
-      value.StandardId + '/' +
-      value.IsMonthConfig + '/' +
-      !(value.IsSubmitted == "N") + '/' +
-      false + '/' +
-      'true' + '/' +
-      getStandardId()
+      encodeURL(ClassTecher) + '/' +
+      encodeURL(value.StandardDivisionId) + '/' +
+      encodeURL(value.SubjectId) + '/' +
+      encodeURL(selectClass) + '/' +
+      encodeURL(ClassWiseExam) + '/' +
+      encodeURL(aTeacherId.toString()) + '/' +
+      encodeURL(value.StandardId)+ '/' +
+      encodeURL(value.IsMonthConfig) + '/' +
+      encodeURL( !(value.IsSubmitted == "N") )+ '/' +
+      encodeURL(false) + '/' +
+      encodeURL('true') + '/' +
+      encodeURL(getStandardId()) 
     )
       ;
 

@@ -18,6 +18,7 @@ import { RootState } from 'src/store';
 import { getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import DatepickerLeave from '../LeaveDetails/DatepickerLeave';
+import { encodeURL } from '../Common/Util';
 const ViewHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -81,21 +82,21 @@ const ViewHomework = () => {
 
 
   const ClickAttachments = () => {
-    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + Id +
+    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + encodeURL(Id) +
       '/' +
-      TeacherId +
+      encodeURL(TeacherId) +
       '/' +
-      TeacherName +
+      encodeURL(TeacherName) +
       '/' +
-      ClassName +
+      encodeURL(ClassName) +
       '/' +
-      SubjectName +
+      encodeURL(SubjectName) +
       '/' +
-      SubjectId +
+      encodeURL(SubjectId )+
       '/' +
-      MySubject +
+      encodeURL(MySubject) +
       '/' +
-      SelectClass
+      encodeURL(SelectClass)
 
     );
   };

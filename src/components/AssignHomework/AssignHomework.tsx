@@ -18,7 +18,7 @@ import {
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-
+import { encodeURL } from '../Common/Util';
 const AssignHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -136,19 +136,19 @@ const AssignHomework = () => {
   const clickItem1 = (value, MySubject) => {
     navigate(
       '/RITeSchool/Teacher/AddHomeworkNew/' +
-      SelectTeacher + '/' +
-      getClassTeacherName() + '/' +
-      value.StandardDivision + '/' +
-      value.SubjectName + '/' +
-      value.SubjectId + '/' +
-      MySubject + '/' +
-      SelectClass
+      encodeURL(SelectTeacher) + '/' +
+      encodeURL(getClassTeacherName()) + '/' +
+      encodeURL(value.StandardDivision) + '/' +
+      encodeURL(value.SubjectName) + '/' +
+      encodeURL(value.SubjectId )+ '/' +
+      encodeURL(MySubject) + '/' +
+      encodeURL(SelectClass)
     );
   };
   const onClick = () => {
     navigate('/RITeSchool/Teacher/AddDailyLog/' +
-      SelectClass + '/' +
-      getClassName()
+      encodeURL(SelectClass) + '/' +
+      encodeURL(getClassName())
     );
   };
 

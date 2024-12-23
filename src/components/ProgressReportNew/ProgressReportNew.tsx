@@ -22,7 +22,7 @@ import AllStudents from 'src/requests/ProgressReport/AllStudent';
 import { DataParserAndFormatter } from 'src/requests/ProgressReport/PotoType';
 import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAGetLatestExamId, CDAGetLatestExamId1, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAGetTeachersForPrePrimaryProgressReport, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAIsXseedApplicable, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
-import { getSchoolConfigurations, SchoolScreensAccessPermission } from '../Common/Util';
+import { encodeURL, getSchoolConfigurations, SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import FinalResultTable from './FinalResultTable';
 import GradeConfigurationDetails from './GradeConfigurationDetails';
@@ -878,7 +878,7 @@ const ProgressReportNew = () => {
 
   const Toppers = (value) => {
     const progressreporttppper = true
-    navigate('/RITeSchool/Teacher/Toppers/' + selectTeacher + '/' + GetOldStudentDetails.StandardDivisionId + '/' + GetOldStudentDetails.StandardId + '/' + AcademicYear + '/' + LatestExamId + '/' + progressreporttppper + '/' + StudentId + '/' + true);
+    navigate('/RITeSchool/Teacher/Toppers/' + encodeURL(selectTeacher) + '/' + encodeURL(GetOldStudentDetails.StandardDivisionId) + '/' + encodeURL(GetOldStudentDetails.StandardId) + '/' + encodeURL(AcademicYear) + '/' + encodeURL(LatestExamId) + '/' + encodeURL(progressreporttppper) + '/' + encodeURL(StudentId) + '/' + encodeURL(true));
   };
 
   const shouldShowToppersButton = !IsPrePrimary && AcademicYear !== asAcademicYearId && !USIsGradingStandard && ShowTopppers;

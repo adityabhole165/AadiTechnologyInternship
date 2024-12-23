@@ -52,7 +52,7 @@ import {
 import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
 import AbsentStudentP from '../Attendance/AbsentStudentP';
-import { getDateFormatted, getDateFormattedDash } from '../Common/Util';
+import { encodeURL, getDateFormatted, getDateFormattedDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AttendanceSummary from './AttendanceSummary';
 
@@ -626,13 +626,13 @@ const TAttendance = () => {
 
   const clickNav = (value) => {
     navigate(
-      `/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + value
+      `/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + encodeURL(value)
     );
   };
   const clickNavigateSchoolAttendanceOverview = () => {
     navigate(
       '/RITeSchool/Teacher/SchoolAttendanceOverview/' +
-        getDateFormattedDash(assignedDate)
+        getDateFormattedDash(encodeURL(assignedDate))
     );
   };
   const ClickItemList = (value) => {
@@ -824,9 +824,9 @@ const TAttendance = () => {
                     onClick={() =>
                       navigate(
                         '/RITeSchool/Teacher/IndidualAttendance/' +
-                          selectClasstecahernew +
+                        encodeURL(selectClasstecahernew) +
                           '/' +
-                          getDateFormattedDash(assignedDate)
+                          getDateFormattedDash(encodeURL(assignedDate))
                       )
                     }
                     sx={{
@@ -846,9 +846,9 @@ const TAttendance = () => {
                     onClick={() =>
                       navigate(
                         '/RITeSchool/Teacher/MonthwiseAttendance/' +
-                          selectClasstecahernew +
+                        encodeURL(selectClasstecahernew) +
                           '/' +
-                          getDateFormattedDash(assignedDate)
+                          getDateFormattedDash(encodeURL(assignedDate))
                       )
                     }
                     sx={{

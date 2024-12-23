@@ -10,6 +10,7 @@ import { RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import ExamScheduleTable from './ExamScheduleTable';
+import { encodeURL } from '../Common/Util';
 const ExamScheduleBasescreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -37,9 +38,9 @@ const ExamScheduleBasescreen = () => {
         console.log(Value, "ClickSchedule");
 
         if (Value.IsConfigured == true) {
-            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardExamScheduleId + '/' + Value.StandardTestId + '/' + 'true', { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
+            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + encodeURL(Value.StandardId) + '/' + encodeURL(Value.TestId) + '/' + encodeURL(Value.SchoolwiseStandardExamScheduleId) + '/' + encodeURL(Value.StandardTestId) + '/' + encodeURL('true'), { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
         } else {
-            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardTestId + '/' + 'false', { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
+            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + encodeURL(Value.StandardId) + '/' + encodeURL(Value.TestId) + '/' + encodeURL(Value.SchoolwiseStandardTestId) + '/' + encodeURL('false'), { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
         }
     };
 

@@ -22,6 +22,7 @@ import {
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
+import { encodeURL } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     const { SelectedDate, StandardId, DivisionId } = useParams();
@@ -140,7 +141,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             dispatch(resetMessage());
             resetForm();
             // navigate('/RITeSchool/Common/AnnualPlanner');
-            navigate('/RITeSchool/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId);
+            navigate('/RITeSchool/Common/AnnualPlanner/' +  encodeURL(SelectedDate) + '/' +  encodeURL(StandardId) + '/' +  encodeURL(DivisionId));
 
         }
     }, [SaveUpdateEventt]);

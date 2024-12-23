@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
+import { encodeURL } from '../Common/Util';
 import {
   IDeleteHomeworkBody,
   IGetAllHomeworkDocumentsBody,
@@ -236,7 +237,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
 
 
   const clickView = (Id) => {
-    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + Id);
+    navigate('/RITeSchool/Teacher/HomeworkDocuments/' +  encodeURL(Id));
   };
 
   const clickFileName = (value) => {
@@ -249,7 +250,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
     }
   };
   const clickTitle = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewHomework/' + Id);
+    navigate('/RITeSchool/Teacher/ViewHomework/' +  encodeURL(Id));
   };
 
   const filteredSubjects = Subjectlistsforteacher.filter(subject => subject.id === selectedSubjectId);

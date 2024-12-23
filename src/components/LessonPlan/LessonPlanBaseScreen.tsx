@@ -38,7 +38,7 @@ import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupCo
 import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
 import { GetAddOrEditLessonPlanDetails } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
-import { getSchoolConfigurations } from '../Common/Util';
+import { encodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ExportLessonPlan from './ExportLessonPlan';
 import IsHighliteStaus from './LessonPlanContext';
@@ -429,15 +429,15 @@ const LessonPlanBaseScreen = () => {
     console.log('whats this', obj);
 
     navigate('/RITeSchool/Teacher/AddLessonPlan/Edit/' +
-      value.UserId + '/' +
-      value.StartDate.replaceAll(' ', '-') + '/' +
-      value.EndDate.replaceAll(' ', '-'));
+      encodeURL( value.UserId) + '/' +
+      encodeURL(value.StartDate.replaceAll(' ', '-') )+ '/' +
+      encodeURL(value.EndDate.replaceAll(' ', '-')));
   };
   const Clicknav = (value) => {
     navigate('/RITeSchool/Teacher/AddLessonPlan/View/' +
-      value.UserId + '/' +
-      value.StartDate.replaceAll(' ', '-') + '/' +
-      value.EndDate.replaceAll(' ', '-')
+      encodeURL(value.UserId) + '/' +
+      encodeURL(value.StartDate.replaceAll(' ', '-') )+ '/' +
+      encodeURL(value.EndDate.replaceAll(' ', '-'))
     );
   };
 

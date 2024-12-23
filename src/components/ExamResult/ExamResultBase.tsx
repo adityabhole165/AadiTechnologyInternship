@@ -48,7 +48,7 @@ import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressRep
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState, useSelector } from 'src/store';
 import { Constants } from 'src/utils/hooks/constants/Constants';
-import { getSchoolConfigurations, GetScreenAccessPermissionByPageID } from '../Common/Util';
+import { encodeURL, getSchoolConfigurations, GetScreenAccessPermissionByPageID } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
@@ -497,19 +497,19 @@ const ExamResultBase = () => {
 
     // const isPublish = publish === ClassPassFailDetailsForButton.IsPublish;
     navigate('/RITeSchool/Teacher/SubjectExamMarks/' +
-      '0' + '/' +
-      StandardDivisionId + '/' +
-      getSubjectId(value.Index) + '/' +
-      '0' + '/' +
-      TestId + '/' +
-      getTeacherId() + '/' +
-      '0/' +
+       encodeURL('0') + '/' +
+       encodeURL(StandardDivisionId )+ '/' +
+       encodeURL(getSubjectId(value.Index)) + '/' +
+       encodeURL('0') + '/' +
+       encodeURL(TestId) + '/' +
+       encodeURL(getTeacherId() )+ '/' +
+       encodeURL('0/') +
       // getStandardId() + '/' +
-      'true' + '/' +
-      'false' + '/' +
-      'true' + '/' +
-      ((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false") + '/' +
-      getStandardId()
+       encodeURL('true') + '/' +
+       encodeURL('false') + '/' +
+       encodeURL('true') + '/' +
+       encodeURL( ((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false")) + '/' +
+       encodeURL( getStandardId())
 
     );
   };
@@ -521,15 +521,15 @@ const ExamResultBase = () => {
   const ClickLink = (value) => {
     navigate(
       '/RITeSchool/Teacher/SubjectMarkList/' +
-      TestId +
+      encodeURL(TestId) +
       '/' +
-      StandardDivisionId +
+      encodeURL(StandardDivisionId) +
       '/' +
-      getExamName() +
+      encodeURL(getExamName()) +
       '/' +
-      getTeacherName() +
+      encodeURL(getTeacherName()) +
       '/' +
-      value.Id.SubjectName + '/' + value.Id.SubjectId
+      encodeURL( value.Id.SubjectName) + '/' +encodeURL( value.Id.SubjectId)
     );
   }
   const handleCheckboxChange = (value) => {
@@ -537,7 +537,7 @@ const ExamResultBase = () => {
   };
 
   const TermwiseHighwight = (value) => {
-    navigate('/RITeSchool/Teacher/TermwiseHeightWeight/' + StandardDivisionId);
+    navigate('/RITeSchool/Teacher/TermwiseHeightWeight/' + encodeURL(StandardDivisionId));
   };
 
   // const getClassTeacherName = () => {
@@ -555,10 +555,10 @@ const ExamResultBase = () => {
 
 
   const ProgressRemark = (value) => {
-    navigate('/RITeSchool/Teacher/ProgressRemarks/' + TestId + '/' + getTeacherId());
+    navigate('/RITeSchool/Teacher/ProgressRemarks/' + encodeURL(TestId) + '/' + encodeURL(getTeacherId()));
   }
   const ViewProgressRemark = (value) => {
-    navigate('/RITeSchool/Teacher/ViewProgressReport/' + TestId + '/' + StandardDivisionId);
+    navigate('/RITeSchool/Teacher/ViewProgressReport/' + encodeURL(TestId) + '/' + encodeURL(StandardDivisionId));
   };
 
 
@@ -587,24 +587,24 @@ const ExamResultBase = () => {
   const onClickUnpublish = (value) => {
     navigate(
       '/RITeSchool/Teacher/ExamResultUnpublish/' +
-      TestId +
+      encodeURL(TestId) +
       '/' +
-      StandardDivisionId +
+      encodeURL(StandardDivisionId) +
       '/' +
-      getExamName() +
+      encodeURL(getExamName()) +
       '/' +
-      getTeacherName()
+      encodeURL(getTeacherName())
     );
   };
   const Toppers = (value) => {
-    navigate('/RITeSchool/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + false);
+    navigate('/RITeSchool/Teacher/Toppers/' + encodeURL(getTeacherId()) + '/' + encodeURL(StandardDivisionId) + '/' + encodeURL(TestId) + '/' + encodeURL(standardId) + '/' + encodeURL(false));
   };
   // const Toppers = (value) => {
   //   navigate('/RITeSchool/Teacher/ExamResultToppers/' + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + true);
   // };
 
   const ClickSubject = (Id) => {
-    navigate('/RITeSchool/Teacher/SubjectMarkList/' + Id);
+    navigate('/RITeSchool/Teacher/SubjectMarkList/' + encodeURL(Id));
   };
   // send message to students f()
   const sendMessageTostudent = () => {

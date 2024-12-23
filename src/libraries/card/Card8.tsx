@@ -10,6 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
+import { encodeURL } from 'src/components/Common/Util';
 
 Card8.propTypes = {
   From: PropTypes.string,
@@ -25,7 +26,7 @@ function Card8({ ViewDetail, From, To, Body, Text, Attachments }) {
   const theme = useTheme();
   const navigate = useNavigate();
   const file_path =
-    localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/' + Attachments;
+    localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/' +  encodeURL(Attachments);
 
   const redirect = () => {
     navigate('/RITeSchool/Student/Inbox');

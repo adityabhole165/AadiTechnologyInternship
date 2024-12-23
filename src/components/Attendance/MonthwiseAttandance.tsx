@@ -18,6 +18,7 @@ import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
 import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttendance';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { encodeURL } from '../Common/Util';
 
 const MonthwiseAttandance = () => {
   const { selectClasstecahernew, AssignedDate } = useParams();
@@ -98,7 +99,7 @@ const MonthwiseAttandance = () => {
   }, [MonthWiseAttendance]);
 
   const click = () => {
-    navigate('/RITeSchool/Teacher/TAttendance/' + selectClasstecahernew);
+    navigate('/RITeSchool/Teacher/TAttendance/' +  encodeURL(selectClasstecahernew));
   };
   return (
     <>

@@ -30,6 +30,7 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { encodeURL } from '../Common/Util';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
@@ -213,7 +214,7 @@ const StatusRequisition = () => {
   };
 
   const clickView = (ViewId) => {
-    navigate('/RITeSchool/Teacher/RequistionView/' + btoa(ViewId));
+    navigate('/RITeSchool/Teacher/RequistionView/' + encodeURL(ViewId));
   };
 
   // const clickEdit = (Value) => {
@@ -224,7 +225,7 @@ const StatusRequisition = () => {
 
 
   const clickEdit = (asRequisitionId) => {
-    navigate('/RITeSchool/Teacher/AddRequisition/' + asRequisitionId);
+    navigate('/RITeSchool/Teacher/AddRequisition/' + encodeURL(asRequisitionId));
   };
 
   const clickReset = () => {

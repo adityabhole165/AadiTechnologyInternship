@@ -45,6 +45,7 @@ import {
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { encodeURL } from '../Common/Util';
 
 const EventsManagement = () => {
   const dispatch = useDispatch();
@@ -308,7 +309,7 @@ const EventsManagement = () => {
   };
 
   const clickEventEdit = (Id) => {
-    Navigate('/RITeSchool/Teacher/EventManegement/' + '/' + Id);
+    Navigate('/RITeSchool/Teacher/EventManegement/' + '/' +  encodeURL(Id));
   };
 
   // const clickeventDelete = (Id) => {

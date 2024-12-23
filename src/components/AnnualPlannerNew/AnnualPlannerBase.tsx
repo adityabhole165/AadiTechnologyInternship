@@ -21,7 +21,7 @@ import {
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { resetEventList } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { getDateDDMMMDash } from '../Common/Util';
+import { encodeURL, getDateDDMMMDash } from '../Common/Util';
 import AnnualPlannerHeader from './AnnualPlannerHeader';
 import CalendarAnnualPlanner from './CalendarAnnualPlanner';
 
@@ -258,7 +258,7 @@ const AnnualPlannerBase = () => {
       setSelectedDate(value);
       setValue(value, 'MonthYear');
       dispatch(resetEventList())
-      navigate('/RITeSchool/Common/EventManagementForm/' + value.replaceAll('/', '-') + '/' + DefaultValue.Standard + '/' + DefaultValue.StandardDivision)
+      navigate('/RITeSchool/Common/EventManagementForm/' +  encodeURL(value.replaceAll('/', '-')) + '/' +  encodeURL(DefaultValue.Standard) + '/' +  encodeURL(DefaultValue.StandardDivision))
     }
   };
   const ClickFilterItem = (value) => {

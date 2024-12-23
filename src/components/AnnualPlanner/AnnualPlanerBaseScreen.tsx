@@ -35,6 +35,7 @@ import { GetFile } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
 import AddAnnualPlaner from './AddAnnualPlaner';
+import { encodeURL } from '../Common/Util';
 
 const AnnualPlanerBaseScreen = () => {
   const navigate = useNavigate();
@@ -269,7 +270,7 @@ const AnnualPlanerBaseScreen = () => {
   };
   const ClickItemList = (Id) => {
     alert(Id);
-    navigate('/RITeSchool/Teacher/EventManegement/' + Id);
+    navigate('/RITeSchool/Teacher/EventManegement/' + encodeURL(Id));
     // navigate('/RITeSchool/Teacher/EventManegement');
   };
 

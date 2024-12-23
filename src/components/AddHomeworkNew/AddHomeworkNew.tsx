@@ -23,7 +23,7 @@ import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isGreaterOrEqualDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-
+import { encodeURL } from '../Common/Util';
 
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass, StandardDivision } =
@@ -393,24 +393,24 @@ const AddHomeworkNew = () => {
   };
 
   const clickTitle = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewHomework/' + Id + '/' +
-      TeacherId + '/' +
-      TeacherName + '/' +
-      ClassName + '/' +
-      SubjectName + '/' +
-      SubjectId + '/' +
-      MySubject + '/' +
-      SelectClass)
+    navigate('/RITeSchool/Teacher/ViewHomework/' + encodeURL(Id) + '/' +
+    encodeURL(TeacherId) + '/' +
+    encodeURL(TeacherName) + '/' +
+    encodeURL(ClassName) + '/' +
+    encodeURL(SubjectName) + '/' +
+    encodeURL(SubjectId) + '/' +
+    encodeURL(MySubject) + '/' +
+    encodeURL(SelectClass))
   };
   const clickView = (Id) => {
-    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + Id + '/' +
-      TeacherId + '/' +
-      TeacherName + '/' +
-      ClassName + '/' +
-      SubjectName + '/' +
-      SubjectId + '/' +
-      MySubject + '/' +
-      SelectClass
+    navigate('/RITeSchool/Teacher/HomeworkDocuments/' +  encodeURL(Id) + '/' +
+    encodeURL(TeacherId) + '/' +
+    encodeURL(TeacherName) + '/' +
+    encodeURL(ClassName) + '/' +
+    encodeURL(SubjectName) + '/' +
+    encodeURL(SubjectId) + '/' +
+    encodeURL(MySubject) + '/' +
+    encodeURL(SelectClass)
     );
   };
 
@@ -806,16 +806,19 @@ const AddHomeworkNew = () => {
   //     );
   //   }
   // };
+  
   const clickTitle1 = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewHomework/' + Id + '/' +
-      TeacherId + '/' +
-      TeacherName + '/' +
-      ClassName + '/' +
-      SubjectName + '/' +
-      SubjectId + '/' +
-      MySubject + '/' +
-      SelectClass);
+    navigate('/RITeSchool/Teacher/ViewHomework/' +  encodeURL(Id) + '/' +
+    encodeURL(TeacherId) + '/' +
+    encodeURL(TeacherName) + '/' +
+    encodeURL(ClassName) + '/' +
+    encodeURL(SubjectName) + '/' +
+    encodeURL(SubjectId) + '/' +
+    encodeURL(MySubject) + '/' +
+    encodeURL(SelectClass)
+    );
   };
+
 
   const clickHomeworkStatus = (value) => {
     setHomeworkS(value);

@@ -24,7 +24,7 @@ import {
   resetManageStudentsTestMark
 } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterDate, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
+import { encodeURL, formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterDate, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 
 // import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
@@ -365,9 +365,9 @@ const SubjectExamMarks = () => {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
       if (examResultProp === "true") {
-        navigate("/RITeSchool/Teacher/ExamResultBase/" + StandardDivisionId + "/" + TestId);
+        navigate("/RITeSchool/Teacher/ExamResultBase/" + encodeURL(StandardDivisionId) + "/" + encodeURL(TestId));
       } else {
-        navigate("/RITeSchool/Teacher/AssignExamMark/" + ClassTecher + "/" + ClassId + "/" + TestId);
+        navigate("/RITeSchool/Teacher/AssignExamMark/" + encodeURL(ClassTecher) + "/" + encodeURL(ClassId) + "/" + encodeURL(TestId));
       }
     }
     //   navigate("/RITeSchool/Teacher/AssignExamMark/" +
