@@ -258,19 +258,28 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
   }
   //#region Photos Opr
   const { showAlert, closeAlert } = useContext(AlertContext);
-  const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
-  const MaxfileSize2 = 5000000;
+  const ValidFileTypes2 = ['JPG', 'PNG', 'BMP', 'JPEG'];
+  const MaxfileSize2 = 3000000;
 
-  const [fileNameError, setFileNameError] = useState('');
+  const [fileErrors, setFileErrors] = useState({
+    fatherPhoto: '',
+    motherPhoto: '',
+    localGuardianPhoto: '',
+    familyPhoto: '',
+  });
+
   const [ImageFile, setImageFile] = useState('');
   const [base64URL2, setbase64URL2] = useState('');
   const [imageFileExtention, setImageFileExtention] = useState('');
 
   const handlePhotoChange = (key, value) => {
     console.log(`0️⃣Selected file for ${key}:`, value);
+    const newErrors = { ...fileErrors };
+
     if (!ValidFileTypes2.includes(value.FileExtension.toUpperCase())) {
-      //setFileNameError('Invalid file format. Supported formats are JPEG, PNG, BMP.');
-      setFileNameError(value.ErrorMsg);
+      //('Invalid file format. Supported formats are JPEG, PNG, BMP.');
+      newErrors[key] = value.ErrorMsg;
+      setFileErrors(newErrors);
       onChange(key, value.Name); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
       return;
@@ -281,17 +290,20 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
     const padding = (value.Value.endsWith('==') ? 2 : value.Value.endsWith('=') ? 1 : 0);
     const fileSizeInBytes = (base64Length * 3) / 4 - padding;
 
-    if (fileSizeInBytes > MaxfileSize) {
-      setFileNameError('File size exceeds 5 MB. Please upload a smaller file.');
+    if (fileSizeInBytes > MaxfileSize2) {
+      newErrors[key] = 'File size exceeds 3 MB. Please upload a smaller file.';
+      setFileErrors(newErrors);
       onChange(key, value.Name); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
       return;
     }
 
+    newErrors[key] = '';
     onChange(key, value.Name);
     setbase64URL2(value.Value);
     setImageFileExtention(value.FileExtension);
-    setFileNameError(value.ErrorMsg);
+    setFileErrors(newErrors);
+    // Clear error
   };
 
   // const url = `${localStorage.getItem("SiteURL")}RITESCHOOL/DOWNLOADS/Student Documents/${form.familyPhoto}`;   //--remeber to set aadharCardScanCopy
@@ -306,9 +318,11 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
   // };
 
   const ViewFatherPhoto = () => {
-    //console.log('fileName', fileName);
-    window.open(
-      localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Parent Photos/' + family.fatherPhoto);
+    console.log('fileName', family.fatherPhoto);
+    if (family.fatherPhoto !== '') {
+      window.open(
+        localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Parent Photos/' + family.fatherPhoto);
+    }
   }
   const ViewMotherPhoto = () => {
     //console.log('fileName', fileName);
@@ -321,9 +335,11 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
       localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Parent Photos/' + family.localGuardianPhoto);
   }
   const ViewFamilyPhoto = () => {
-    //console.log('fileName', fileName);
-    window.open(
-      localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Family Photos/' + family.familyPhoto);
+    console.log('fileName', family.familyPhoto);
+    if (family.familyPhoto !== '') {
+      window.open(
+        localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Family Photos/' + family.familyPhoto);
+    }
   }
 
   const viewPhoto = (key) => {
@@ -598,7 +614,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 width={'100%'}
                 height={'52px'}
                 isMandatory={false}
-                errorMessage={fileNameError}
+                errorMessage={fileErrors.fatherPhoto}
               />
             </Grid>
             <Grid item xs={1} md={1}>
@@ -810,7 +826,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 width={'100%'}
                 height={'52px'}
                 isMandatory={false}
-                errorMessage={fileNameError}
+                errorMessage={fileErrors.motherPhoto}
               />
             </Grid>
 
@@ -952,7 +968,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 width={'100%'}
                 height={'52px'}
                 isMandatory={false}
-                errorMessage={fileNameError}
+                errorMessage={fileErrors.localGuardianPhoto}
               />
             </Grid>
             <Grid item xs={1} md={1}>
@@ -1077,7 +1093,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
             width={'100%'}
             height={'52px'}
             isMandatory={false}
-            errorMessage={fileNameError}
+            errorMessage={fileErrors.familyPhoto}
           />
         </Grid>
         <Grid item xs={1} md={1}>

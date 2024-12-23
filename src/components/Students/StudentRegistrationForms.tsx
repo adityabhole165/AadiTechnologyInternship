@@ -42,7 +42,7 @@ import {
   IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
-import SingleFile from 'src/libraries/File/SingleFile3';
+import SingleFile from 'src/libraries/File/SingleFile';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import {
   CDADeleteStudentAchievementDetailsMsg, CDAEditGetStudentAchievementDetails, CDAGenerateTransportFeeEntries, CDAGetStudentNameForAchievementControl,
@@ -269,7 +269,7 @@ const StudentRegistrationForm = () => {
   //console.log('✅ selectedSiblings', selectedSiblings)
   const [resetTrigger, setResetTrigger] = useState(false);
 
-  console.log('admission date from child to parent', form.admission.admissionDate);
+  //console.log('admission date from child to parent', form.admission.admissionDate);
   //#endregion
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
@@ -369,7 +369,7 @@ const StudentRegistrationForm = () => {
 
   // Usage Example
   const requiredFields = getRequiredFields(schoolId, form);
-  console.log(requiredFields);
+  //console.log(requiredFields);
 
   // Validation and Progress Calculation Function
   const validateFieldsAndCalculateProgress = (schoolId, form) => {
@@ -418,8 +418,8 @@ const StudentRegistrationForm = () => {
   };
 
   const result = validateFieldsAndCalculateProgress(schoolId, form);
-  console.log('Progress:', result.progress + '%');
-  console.log('Invalid Fields:', result.invalidFields);
+  //console.log('Progress:', result.progress + '%');
+  //console.log('Invalid Fields:', result.invalidFields);
 
   useEffect(() => {
     const { progress, invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
@@ -471,8 +471,8 @@ const StudentRegistrationForm = () => {
   });
 
 
-  const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
-  const MaxfileSize = 5000000;
+  const ValidFileTypes = ["JPG", "JPEG", "PNG", "BMP", "PDF"];
+  const MaxfileSize = 1000000;
   const [SelectDate, SetSelectDate] = useState(
     AssignedDate == undefined
       ? new Date().toISOString().split('T')[0]
@@ -1405,7 +1405,7 @@ const StudentRegistrationForm = () => {
   const { showAlert, closeAlert } = useContext(AlertContext);
   const [alertmsg, showAlertMsg] = useState('');
   const [descriptionAlertMsg, showDescriptionAlertMsg] = useState('');
-  const MaxAchievementfileSize = 1048576;
+  const MaxAchievementfileSize = 1000000;
 
   const GetStudentNameForAchievementControl = useSelector(
     (state: RootState) =>
@@ -1527,6 +1527,7 @@ const StudentRegistrationForm = () => {
   }
   const handleEdit = (Id: number) => {
     console.log(`Edit row ${Id}`);
+    showAlertMsg('');
     setAchievementId(Id);
     const GetStudentAchievementDetailsBody: IGetStudentAchievementDetailsBody =
     {
@@ -1563,7 +1564,7 @@ const StudentRegistrationForm = () => {
       return;
     }
     if (!attachment) {
-      showAlertMsg('Please upload file.');
+      showAlertMsg('Please select file.');
       return;
     }
     showDescriptionAlertMsg('');
@@ -2081,20 +2082,16 @@ const StudentRegistrationForm = () => {
                 >
                   <SingleFile
                     ValidFileTypes={ValidFileTypes}
-                    MaxfileSize={MaxfileSize}
+                    MaxfileSize={MaxAchievementfileSize}
                     FileName={attachment}
                     ChangeFile={handleFileUpload}
                     FileLabel={'Attachment'}
-                    isMandatory={false}
+                    isMandatory={true}
                     height={'52px'}
                     width="100%"
+                    errorMessage={alertmsg ? alertmsg : ''}
                   />
                 </Tooltip>
-                {alertmsg && (
-                  <Typography variant="h5" style={{ color: 'red' }}>
-                    {alertmsg ? alertmsg : ''}
-                  </Typography>
-                )}
               </Grid>
               <Grid item xs={2}>
                 <>

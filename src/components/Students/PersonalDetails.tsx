@@ -203,8 +203,8 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   //     return '';
   //   }
   // };
-  console.log(compareAgeTillDate, '🔲compareAgeTillDate');
-  console.log(personal.dateOfBirth, 'Date of Birth');
+  //console.log(compareAgeTillDate, '🔲compareAgeTillDate');
+  //console.log(personal.dateOfBirth, 'Date of Birth');
 
   const calculateAge = (dob: string, tillDate: string): string => {
     if (!dob || !tillDate) return '';
@@ -323,12 +323,16 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
 
   //#region WebCam/StPhoto 
+  const ValidFileTypes1 = ['JPG', 'JPEG'];
+  const MaxfileSize1 = 1000000;
+
   const [open, setOpen] = useState(false);
   //  const [fileNameError, setFileNameError] = useState('');
   const [isWebcamActive, setIsWebcamActive] = useState(true)
   const [capturedImage, setCapturedImage] = useState(null)
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageName, setImageName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   //#region orgPhotos
   // Update uploadedImage state when photoFilePath is available in props
@@ -349,7 +353,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
   const generateImageName = (prefix) => {
     const dateTime = new Date().toISOString();
-    return `${personal.firstName}_${prefix}_${dateTime}.png`;
+    return `${personal.firstName}_${prefix}_${dateTime}.jpg`;
   };
 
   const processImage = (imageData, prefix) => {
@@ -369,6 +373,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
     //   photoFilePath: newImageName
     // }));
     onChange('photoFilePath', newImageName);
+    console.log('onChange complete', personal.photoFilePath);
   };
 
   useEffect(() => {
@@ -378,6 +383,20 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      console.log('🎈file', file);
+      setErrorMessage('');
+      // File type validation
+      const fileExtension = file.name.split('.').pop().toUpperCase();
+      if (!ValidFileTypes1.includes(fileExtension)) {
+        setErrorMessage('File type should be .jpg or .jpeg.');
+        return;
+      }
+      // File size validation
+      if (file.size > MaxfileSize1) {
+        setErrorMessage('File size exceeds 1 MB. Please upload a smaller file.');
+        return;
+      }
+
       const reader = new FileReader();
       console.log('file', reader);
       // const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -436,7 +455,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
   const ClickUpload = () => {
     console.log('Captured Image after clicked Upload 1️⃣', capturedImage);
-
+    setErrorMessage('');
     if (capturedImage) {
       processImage(capturedImage, 'WebCam');
       // const dateTime = new Date().toISOString();
@@ -506,28 +525,44 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   }, [DeleteStudentPhotoMsg]);
 
   //#region photo Upload
-  const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
+  const ValidFileTypes2 = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize2 = 3000000;
 
+  const [alertmsg, showAlertMsg] = useState('');
   const [ImageFile, setImageFile] = useState('');
   const [base64URL2, setbase64URL2] = useState('');
   const [imageFileExtention, setImageFileExtention] = useState('');
 
   const ChangeFile2 = (value) => {
-    console.log('🆕ChangeFile', value);
+    console.log('🆕ChangeFile2', value);
+    // Calculate file size from Base64 string
+    const base64Length = value.Value.length - (value.Value.indexOf(',') + 1); // Exclude metadata
+    const padding = (value.Value.endsWith('==') ? 2 : value.Value.endsWith('=') ? 1 : 0);
+    const fileSizeInBytes = (base64Length * 3) / 4 - padding;
+
+    if (!ValidFileTypes2.includes(value.FileExtension.toUpperCase())) {
+      //('Invalid file format. Supported formats are'PDF', 'JPG', 'PNG', 'BMP', 'JPEG'');
+      showAlertMsg(value.ErrorMsg);
+      onChange('aadharCardScanCopy', value.Name); // Clear file name
+      setbase64URL2(''); // Clear Base64 URL
+      return;
+    }
+
+    if (fileSizeInBytes > MaxfileSize2) {
+      showAlertMsg('File size exceeds 3 MB. Please upload a smaller file.');
+      onChange('aadharCardScanCopy', value.Name); // Clear file name
+      setbase64URL2(''); // Clear Base64 URL
+      return;
+    }
 
     //setImageFile(value.Name);
+    showAlertMsg(value.ErrorMsg);
+    onChange('aadharCardScanCopy', value.Name);
     setbase64URL2(value.Value);
     setImageFileExtention(value.FileExtension);
     console.log('1️⃣', personal.aadharCardScanCopy);
     console.log('2️⃣', base64URL2);
     console.log('3️⃣', imageFileExtention);
-
-    console.log('Selected file:', value.Name);            // late render
-
-
-    onChange('aadharCardScanCopy', value.Name);
-    console.log('🆕1️⃣aadharCardScanCopy', personal.aadharCardScanCopy);
   };
 
   //let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/Student Documents/"
@@ -860,6 +895,9 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
               </Tooltip>
             </Grid>
           </Grid>
+          {errorMessage && (
+            <p style={{ color: 'red', marginTop: '8px' }}>{errorMessage}</p> // Error message display
+          )}
         </Grid>
 
         <Grid item xs={12}>
@@ -1220,12 +1258,12 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
                 ChangeFile={ChangeFile2}
-                errorMessage={''}
                 FileName={personal.aadharCardScanCopy}
                 FileLabel={'Select Aadhar Card'}
                 width={'100%'}
                 height={"52px"}
                 isMandatory={false}
+                errorMessage={alertmsg}
               />
             </Grid>
             <Grid item xs={1} md={1}>
