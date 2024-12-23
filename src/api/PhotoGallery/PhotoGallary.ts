@@ -1,6 +1,8 @@
 import {
   GetImagesResult,
   IDeletePhotoBody,
+  IGetCountBody,
+  IGetCountResult,
   IGetPhotoDetailsBody,
   IGetPhotoDetailsResult,
   IPics,
@@ -32,7 +34,9 @@ const GetimgList = (data: Iimg) => {
 const GetPhotodetails = (data: IGetPhotoDetailsBody) => {
   return http.post<IGetPhotoDetailsResult[]>('Teacher/GetAllPhotoGalleriesDetails', data);
 };
-
+const GetCount = (data: IGetCountBody) => {
+  return http.post<IGetCountResult[]>('Teacher/CountPhotoGalleriesS', data);
+};
 const DeletePhoto = (data: IDeletePhotoBody) => {
   return http.post('Teacher/DeletePhotoGallery', data);
 };
@@ -42,7 +46,8 @@ const PhotoGallaryApi = {
   GetPICSList,
   GetimgList,
   GetPhotodetails,
-  DeletePhoto
+  DeletePhoto,
+  GetCount
 };
 
 export default PhotoGallaryApi;

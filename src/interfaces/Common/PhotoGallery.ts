@@ -21,6 +21,13 @@ export interface IGetPhotoDetailsResult {
   Update_Date: string,
 }
 
+export interface IGetCountBody {
+  asSchoolId: number
+}
+
+export interface IGetCountResult {
+  TotalRecordCount: number
+}
 export interface IDeletePhotoBody {
 
   asGalleryName: string,

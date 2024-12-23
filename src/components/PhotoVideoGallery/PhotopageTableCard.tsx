@@ -1,5 +1,3 @@
-import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
-import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
@@ -7,6 +5,9 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { ClearIcon } from '@mui/x-date-pickers';
+
+import { ArrowCircleDown } from '@mui/icons-material';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 import {
     Box,
@@ -34,7 +35,10 @@ import SlideshowPhotoGallery from "./SlideshowPhotoGallery";
 
 // Define props for PhotoPage
 interface PhotopageTableCardProps {
-    handleDelete
+    handleDelete,
+    handleSortChange,
+    SortBy,
+    SortDirection
     data: Array<{
         galleryName: string;
         className: string;
@@ -45,13 +49,13 @@ interface PhotopageTableCardProps {
     view: "table" | "card";
 }
 
-const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDelete }) => {
+const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDelete, handleSortChange, SortBy, SortDirection }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
     const navigate = useNavigate();
-    const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" } | null>(null);
     const [slideShow, setSlideShow] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
 
 
     const handleAction = (action: string, item: any) => {
@@ -68,30 +72,10 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
     const ViewPhotoFilePage = (value) => {
         navigate('/extended-sidebar/Teacher/ViewPhotoFile');
     };
-    const sortedData = React.useMemo(() => {
-        if (!sortConfig) return data;
-
-        return [...data].sort((a, b) => {
-            const aValue = a[sortConfig.key];
-            const bValue = b[sortConfig.key];
-
-            if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
-            if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
-            return 0;
-        });
-    }, [data, sortConfig]);
 
 
-    const handleSort = (key: string) => {
-        setSortConfig((prevConfig) => {
-            if (prevConfig?.key === key) {
-                // Toggle sort direction
-                return { key, direction: prevConfig.direction === "asc" ? "desc" : "asc" };
-            }
-            // Default to ascending
-            return { key, direction: "asc" };
-        });
-    };
+
+
 
     return (
         <>
@@ -103,44 +87,37 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                         <TableHead>
                             <TableRow
                                 sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                                <TableCell onClick={() => handleSort("galleryName")}
+                                <TableCell
+
                                     sx={{
-                                        cursor: "pointer",
-                                        display: "flex",
                                         alignItems: "center",
                                         textTransform: 'capitalize',
-                                        color: 'white', py: 1.5
+                                        color: 'white',
+                                        py: 1.5,
+                                        cursor: "pointer",
                                     }}>
                                     Gallery Name
-                                    {sortConfig?.key === "galleryName" && (
-                                        sortConfig.direction === "asc" ? (
-                                            <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                                        ) : (
-                                            <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                                        )
-                                    )}
+
                                 </TableCell>
-                                <TableCell onClick={() => handleSort("className")}
-                                    sx={{ alignItems: "center", textTransform: 'capitalize', color: 'white', py: 1.5, cursor: "pointer", }}>
+                                <TableCell
+                                    sx={{
+                                        alignItems: "center",
+                                        textTransform: 'capitalize',
+                                        color: 'white',
+                                        py: 1.5,
+                                        cursor: "pointer",
+                                    }}>
                                     Class Name
-                                    {sortConfig?.key === "className" && (
-                                        sortConfig.direction === "asc" ? (
-                                            <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                                        ) : (
-                                            <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                                        )
-                                    )}
+
                                 </TableCell>
-                                <TableCell onClick={() => handleSort("lastUpdated")}
-                                    sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, cursor: "pointer", }}>Last Updated Date
-                                    {sortConfig?.key === "lastUpdated" && (
-                                        sortConfig.direction === "asc" ? (
-                                            <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                                        ) : (
-                                            <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                                        )
-                                    )}
+                                <TableCell
+                                    sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, cursor: "pointer", }}>
+                                    <b onClick={() => handleSortChange('ReservationDate')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                                        Last Updated Date{SortBy === 'ReservationDate' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                                    </b>
                                 </TableCell>
+
+
                                 <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>View</TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Slide Show</TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Download</TableCell>

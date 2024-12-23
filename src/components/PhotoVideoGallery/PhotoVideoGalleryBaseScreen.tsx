@@ -2,7 +2,7 @@ import { AddPhotoAlternate, QuestionMark, VideoLibrary } from '@mui/icons-materi
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -21,14 +21,20 @@ const PhotoVideoGalleryBaseScreen = () => {
     const [selectedOption, setSelectedOption] = useState<string>('photo');
     const [view, setView] = useState<"table" | "card">("table");
     const [SelectResult, setSelectResult] = useState(0);
+
     const [rowsPerPage, setRowsPerPage] = useState(20);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState<number>(1);
     const rowsPerPageOptions = [20, 50, 100, 200];
     const { showAlert, closeAlert } = useContext(AlertContext);
     const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+
+
+    const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+    const [SortBy, setSortBy] = useState('Update_Date');
+
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value);
@@ -40,18 +46,24 @@ const PhotoVideoGalleryBaseScreen = () => {
     const USDeletePhoto = useSelector((state: RootState) => state.Photo.ISDeletePhoto);
     console.log(USDeletePhoto, "USDeletePhoto")
 
-    const singleTotalCount = USPhotoGallery.length > 0 ? USPhotoGallery[0].TotalRows : 0;
+    const CountGetPagedRequisition: any = useSelector(
+        (state: RootState) => state.SliceRequisition.RequisitionListCount
+
+    );
+    // const singleTotalCountNew = USPhotoGallery.length > 0 ? USPhotoGallery[0].TotalRows : 0;
+
+    const startIndexNew = (page - 1) * rowsPerPage;
 
     const photoD1ata: IGetPhotoDetailsBody = {
         asSchoolId: asSchoolId,
-        asSortExp: "ORDER BY Update_Date desc",
-        asStartIndex: (page - 1) * rowsPerPage,
+        asSortExp: "ORDER BY " + SortBy + " " + SortDirection,
+        asStartIndex: startIndexNew,
         asPageSize: page * rowsPerPage,
         asAcademicYearId: asAcademicYearId
     }
     useEffect(() => {
         dispatch(CDAGetPhotoDetails(photoD1ata))
-    }, [page, rowsPerPage])
+    }, [dispatch, page, rowsPerPage, SortDirection, SortBy, startIndexNew])
 
     const handleDelete = (GalleryName) => {
         console.log(GalleryName, "Gallery1234")
@@ -80,6 +92,18 @@ const PhotoVideoGalleryBaseScreen = () => {
             }
         });
     }
+    const singleTotalCountNew: number = useMemo(() => {
+        if (!Array.isArray(CountGetPagedRequisition)) {
+            return 0;
+        }
+        return CountGetPagedRequisition.reduce((acc: number, item: any) => {
+            const count = Number(item.TotalCount);
+            if (isNaN(count)) {
+                return acc;
+            }
+            return acc + count;
+        }, 0);
+    }, [CountGetPagedRequisition]);
     useEffect(() => {
         if (USDeletePhoto != "") {
             toast.success(USDeletePhoto);
@@ -106,18 +130,12 @@ const PhotoVideoGalleryBaseScreen = () => {
     // const handleDelete = (videoName: string) => {
     //     alert(`Delete clicked for ${videoName}`);
     // };
-    const CountGetPagedRequisition: any = useSelector(
-        (state: RootState) => state.SliceRequisition.RequisitionListCount
 
-    );
-    const GetRequisitionStatusDropdown = (value) => {
-        setSelectResult(value);
-        setRowsPerPage(20)
-        setPage(1);
-    };
+    // const singleTotalCountNew = CountGetPagedRequisition.map(item => item.Count) 
     const startRecord = (page - 1) * rowsPerPage + 1;
-    const endRecord = Math.min(page * rowsPerPage, CountGetPagedRequisition.TotalCount);
-    const pagecount = Math.ceil(CountGetPagedRequisition.TotalCount / rowsPerPage);
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCountNew);
+    const pagecount = Math.ceil(singleTotalCountNew / rowsPerPage);
+
     const ChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1);
@@ -127,6 +145,14 @@ const PhotoVideoGalleryBaseScreen = () => {
         setPage(pageNumber);
     };
 
+    const handleSortChange = (column: string) => {
+        if (SortBy === column) {
+            setSortDirection(SortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(column);
+            setSortDirection('asc');
+        }
+    };
     const AddNewPhoto = (value) => {
         navigate('/extended-sidebar/Teacher/AddNewPhoto');
     };
@@ -261,13 +287,35 @@ const PhotoVideoGalleryBaseScreen = () => {
                                 <b>No record found.</b>
                             </Typography>
                         )}
-
+                        {singleTotalCountNew > 0 ? (
+                            <Box style={{ flex: 1, textAlign: 'center' }}>
+                                <Typography
+                                    variant='subtitle1'
+                                    sx={{ margin: '16px 0', textAlign: 'center' }}
+                                >
+                                    <Box component='span' fontWeight='fontWeightBold'>
+                                        {startRecord} to {endRecord}
+                                    </Box>{' '}
+                                    out of{' '}
+                                    <Box component='span' fontWeight='fontWeightBold'>
+                                        {singleTotalCountNew}
+                                    </Box>{' '}
+                                    {singleTotalCountNew === 1 ? 'record' : 'records'}
+                                </Typography>
+                            </Box>
+                        ) : (
+                            <span> </span>
+                        )}
                         {/* Render the PhotoPage */}
                         <PhotopageTableCard data={USPhotoGallery} handleDelete={handleDelete} view={'table'}
+                            handleSortChange={handleSortChange}
+                            SortBy={SortBy}
+                            SortDirection={SortDirection}
                         />
 
                         {/* Add ButtonGroupComponent */}
-                        {USPhotoGallery.length > 19 && (
+
+                        {endRecord > 19 ? (
                             <ButtonGroupComponent
                                 rowsPerPage={rowsPerPage}
                                 ChangeRowsPerPage={ChangeRowsPerPage}
@@ -275,6 +323,9 @@ const PhotoVideoGalleryBaseScreen = () => {
                                 PageChange={PageChange}
                                 pagecount={pagecount}
                             />
+                        ) : (
+                            <span></span>
+
                         )}
                     </Box>
                 ) : (

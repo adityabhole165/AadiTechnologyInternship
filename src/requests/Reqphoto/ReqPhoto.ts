@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import PhotoGallaryApi from "src/api/PhotoGallery/PhotoGallary";
-import { IDeletePhotoBody, IGetPhotoDetailsBody } from "src/interfaces/Common/PhotoGallery";
+import { IDeletePhotoBody, IGetCountBody, IGetPhotoDetailsBody } from "src/interfaces/Common/PhotoGallery";
 import { AppThunk } from "src/store";
 
 const PhotoSlice = createSlice({
@@ -9,6 +9,7 @@ const PhotoSlice = createSlice({
     initialState: {
         ISGetPhotoDetils: [],
         ISDeletePhoto: "",
+        ISCount: [],
         Loading: true
     },
 
@@ -16,6 +17,9 @@ const PhotoSlice = createSlice({
         RGetPhotoDetails(state, action) {
             state.Loading = false;
             state.ISGetPhotoDetils = action.payload
+        },
+        RCountPhotoList(state, action) {
+            state.ISCount = action.payload;
         },
         RDeletePhoto(state, action) {
             state.ISDeletePhoto = action.payload;
@@ -38,6 +42,7 @@ export const CDAGetPhotoDetails =
             const PhotoDetails = response.data.map((item) => {
                 return {
                     RowID: item.RowID,
+                    TotalRows: item.TotalRows,
                     galleryName: item.Gallery_Name,
                     className: item.Classes,
                     lastUpdated: item.Update_Date
@@ -46,8 +51,22 @@ export const CDAGetPhotoDetails =
                 }
             });
             dispatch(PhotoSlice.actions.RGetPhotoDetails(PhotoDetails));
-        }
 
+        }
+export const CDAGetCount =
+    (data: IGetCountBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(PhotoSlice.actions.getLoading(true));
+            const response = await PhotoGallaryApi.GetCount(data);
+            const count = response.data.map((item) => {
+                return {
+                    TotalRecordCount =item.TotalRecordCount
+
+                }
+            });
+            dispatch(PhotoSlice.actions.RCountPhotoList(count));
+
+        }
 //deletePhotoGallery
 export const CDADeletePhoto =
     (data: IDeletePhotoBody): AppThunk =>
