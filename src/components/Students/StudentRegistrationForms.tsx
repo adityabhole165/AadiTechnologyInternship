@@ -274,131 +274,6 @@ const StudentRegistrationForm = () => {
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
-  //#region validProgress
-  const [tabCompletion, setTabCompletion] = useState({
-    admission: 0,
-    personal: 0,
-    family: 0
-  });
-
-  const [profileCompletion, setProfileCompletion] = useState(0);
-  //const [validationMessages, setValidationMessages] = useState<string[]>([]);
-
-  //  new state for tab validation status
-  const [tabValidationStatus, setTabValidationStatus] = useState({
-    admission: true,
-    personal: true,
-    family: true
-  });
-
-  // state for field-level validation messages
-  const [fieldValidationMessages, setFieldValidationMessages] = useState({
-    admission: {},
-    personal: {},
-    family: {}
-  });
-  const [showValidation, setShowValidation] = useState(false);
-
-  const requiredFieldsMap = {
-    admission: [
-      'registrationNumber',
-      'admissionDate',
-      'joiningDate',
-      'studentRollNumber'
-    ],
-    personal: [
-      'firstName',
-      'mobileNumber1',
-      'parentName',
-      'parentOccupation',
-      'address',
-      'city',
-      'pin',
-      'state',
-      'dateOfBirth',
-      'placeOfBirth',
-      'casteAndSubCaste'
-    ],
-    family: ['fatherDOB', 'motherDOB', 'marriageAnniversaryDate']
-  };
-
-  const calculateCompletion = (tabName: string, data: any, IsAdditionalFieldsApplicable: boolean) => {
-    // Get required fields dynamically from the map
-    const requiredFields = requiredFieldsMap[tabName] || [];
-    // Skip conditional fields if IsAdditionalFieldsApplicable is false
-    const filteredFields = requiredFields.filter((field) => {
-      if (['fatherDOB', 'motherDOB', 'marriageAnniversaryDate'].includes(field) && !IsAdditionalFieldsApplicable) {
-        return false; // Skip these fields
-      }
-      return true;
-    }
-    );
-    // console.log('filteredFields', IsAdditionalFieldsApplicable);
-    // console.log('filteredFields', filteredFields);
-    // console.log('filteredFields length', filteredFields.length);
-
-    if (filteredFields.length === 0) {
-      setTabCompletion((prev) => ({
-        ...prev,
-        [tabName]: 100, // Default to 100% if no fields are required
-      }));
-      return { unfilledFields: [], tabName }; // No unfilled fields
-    }
-
-    const unfilledFields = filteredFields.filter((field) => !data[field]);
-
-    // Update tab validation status
-    setTabValidationStatus(prev => ({
-      ...prev,
-      [tabName]: unfilledFields.length === 0
-    }));
-
-    // Create field-level validation messages
-    const messages = {};
-    unfilledFields.forEach(field => { messages[field] = `${field} is required`; });
-
-    // Update field validation messages
-    setFieldValidationMessages(prev => ({
-      ...prev,
-      [tabName]: messages
-    }));
-
-    // Calculate completed and unfilled fields
-    const completedFields = filteredFields.filter((field) => !!data[field]).length;
-    //console.log('completedFields', completedFields);
-    // Calculate completion percentage
-    const completionPercentage = (completedFields / filteredFields.length) * 100;
-    //console.log('completionPercentage', completionPercentage);
-
-    // Update the tabCompletion state
-    setTabCompletion((prev) => ({
-      ...prev,
-      [tabName]: completionPercentage
-    }));
-
-    return { unfilledFields, tabName };
-  };
-
-  useEffect(() => {
-    // Calculate overall profile completion dynamically
-    const totalTabs = Object.keys(tabCompletion).length;
-    const totalProgress = Object.values(tabCompletion).reduce(
-      (acc, curr) => acc + curr,
-      0
-    );
-    // console.log('tabCompletion', tabCompletion);
-    // console.log('totalProgress', totalProgress);
-    // console.log('Progress', totalProgress / totalTabs);
-
-    setProfileCompletion(Math.round(totalProgress / totalTabs));
-  }, [tabCompletion]);
-
-  useEffect(() => {
-    // Dynamically loop through all tabs in the map
-    Object.keys(requiredFieldsMap).forEach((tabName) => {
-      calculateCompletion(tabName, form[tabName], IsAdditionalFieldsApplicable);
-    });
-  }, [form]); // Trigger recalculation whenever the form changes
 
   // Centralized Required Fields Configuration
 
@@ -466,14 +341,26 @@ const StudentRegistrationForm = () => {
 
     Object.keys(currentSchoolFields).forEach((tab) => {
       currentSchoolFields[tab].forEach((field) => {
+        // Base required fields
+        requiredFields.push({ tab, field });
+
+        // otherOccupation conditionally
+        if (field === 'parentOccupation' && form?.personal?.parentOccupation === '5') {
+          requiredFields.push({ tab: 'personal', field: 'otherOccupation' });
+        }
+        // else {
+        //   requiredFields.push({ tab, field });
+        // }
+
         // Handle conditional fields in PPSH
         if (tab === 'family' && schoolId === 18) {
           if (IsAdditionalFieldsApplicable) {
             requiredFields.push({ tab, field });
           }
-        } else {
-          requiredFields.push({ tab, field });
         }
+        // else {
+        //   requiredFields.push({ tab, field });
+        // }
       });
     });
 
@@ -1279,8 +1166,7 @@ const StudentRegistrationForm = () => {
 
   const handleFormSubmission = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
-    setShowValidation(true); // Enable validation display
-    setIsSubmitted(true);
+    setIsSubmitted(true); // Enable validation display
     // Validate the form
     //const isFormValid = handleValidation();
     // const isFormValid = Object.values(tabValidationStatus).every(status => status === true);
@@ -1343,7 +1229,7 @@ const StudentRegistrationForm = () => {
       console.log(
         '✅ Form submitted successfully with all API calls completed!'
       );
-      setShowValidation(false);
+      setIsSubmitted(false);
       setFeeDependencyError(''); // Hide validation display
     } catch (error) {
       console.error('🚨 Error during form submission or API calls:', error);
@@ -1352,7 +1238,7 @@ const StudentRegistrationForm = () => {
 
   //#region SiblingPopSave
   const handleSiblingPopSave = async () => {
-    setShowValidation(true);
+    setIsSubmitted(true);
     // Check if at least one checkbox is selected
     if (!selectedSiblings || selectedSiblings.length === 0) {
       toast.warning('At least one detail should be selected to update in the sibling profile');
@@ -1414,7 +1300,7 @@ const StudentRegistrationForm = () => {
           toast.error("Update failed. Please check values.");
         }
       }
-      setShowValidation(false); // Hide validation display
+      setIsSubmitted(false); // Hide validation display
       //dispatch(ResetUpdateStudentMsg());
     }
   }, [UpdateStudentResult]);

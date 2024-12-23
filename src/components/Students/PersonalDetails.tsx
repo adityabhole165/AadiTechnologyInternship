@@ -10,6 +10,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  FormHelperText,
   Grid,
   IconButton,
   MenuItem,
@@ -770,20 +772,39 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
             {/* Dropdown */}
             <Grid item xs={12} sm={6} md={4}>
-              <SearchableDropdown
-                sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
-                ItemList={OccupationDropdown}
-                onChange={(value) => onChange('parentOccupation', value)}
-                label={'Parent Occupation'}
-                mandatory
-                defaultValue={personal.parentOccupation}
-                size="medium"
-              //error={!!invalidFields.find((field) => field.field === "parentOccupation")}
-              // helperText={invalidFields.find((field) => field.field === "parentOccupation")
-              //   ? "Parent Occupation should not be blank."
-              //   : ""
-              // }
-              />
+              <FormControl error={!!invalidFields.find(field => field.field === "parentOccupation")}>
+                <SearchableDropdown
+                  sx={{
+                    minWidth: { xs: '100%', sm: '15vw' },
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': {
+                        borderColor: invalidFields.find(field => field.field === "parentOccupation")
+                          ? '#d32f2f'
+                          : 'rgba(0, 0, 0, 0.23)'
+                      }
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: invalidFields.find(field => field.field === "parentOccupation")
+                        ? '#d32f2f'
+                        : 'rgba(0, 0, 0, 0.6)'
+                    }
+                  }}
+                  ItemList={OccupationDropdown}
+                  onChange={(value) => onChange('parentOccupation', value)}
+                  label={'Parent Occupation'}
+                  mandatory
+                  defaultValue={personal.parentOccupation}
+                  size="medium"
+                //error={!!invalidFields.find((field) => field.field === "parentOccupation")}
+                // helperText={invalidFields.find((field) => field.field === "parentOccupation")
+                //   ? "Parent Occupation should not be blank."
+                //   : ""
+                // }
+                />
+                {invalidFields.find(field => field.field === "parentOccupation") && (
+                  <FormHelperText error>Parent Occupation should not be blank.</FormHelperText>
+                )}
+              </FormControl>
             </Grid>
           </Grid>
         </Grid>
@@ -854,14 +875,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                   name="otherOccupation"
                   label={
                     <span>
-                      Other Occupation <span style={{ color: "red" }}> *</span>
+                      Other Occupation {personal.parentOccupation === '5' && <span style={{ color: 'red' }}>*</span>}
                     </span>
                   }
                   variant="outlined"
                   value={personal.parentOccupation == '5' ? personal.otherOccupation : ''}
                   onChange={handleInputChange}
-                  error={!!invalidFields.find(field => field.field === "parentOccupation")}
-                  helperText={invalidFields.find(field => field.field === "parentOccupation") ? 'Other Occupation should not be blank.' : ''}
+                  error={personal.parentOccupation === '5' && !!invalidFields.find(field => field.field === "otherOccupation")}
+                  helperText={personal.parentOccupation === '5' && invalidFields.find(field => field.field === "otherOccupation") ? 'Other Occupation is required when Parent Occupation is Other.' : ''}
                   fullWidth
                 />
               </Grid>
