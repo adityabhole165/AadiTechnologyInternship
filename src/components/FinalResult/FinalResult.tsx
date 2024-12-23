@@ -55,7 +55,7 @@ import {
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
-import { GetScreenPermission } from '../Common/Util';
+import { decodeURL, encodeURL, GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { Column } from '../DataTable';
 import FinalResultTable from './FinalResultTable';

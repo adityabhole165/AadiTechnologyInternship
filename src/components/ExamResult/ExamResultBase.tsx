@@ -48,7 +48,7 @@ import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressRep
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState, useSelector } from 'src/store';
 import { Constants } from 'src/utils/hooks/constants/Constants';
-import { getSchoolConfigurations, GetScreenAccessPermissionByPageID } from '../Common/Util';
+import { decodeURL, encodeURL, getSchoolConfigurations, GetScreenAccessPermissionByPageID } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {

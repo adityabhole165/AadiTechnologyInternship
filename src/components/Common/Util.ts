@@ -726,14 +726,36 @@ export const IsPhoneNoValid = (value) => {
 import { Buffer } from 'buffer';
 
 // Encrypt Function
+// Encrypt Function
 export const encodeURL = (data) => {
-  return Buffer.from(data).toString('base64');
+  try {
+    if (typeof data !== 'string') {
+      throw new Error('Input must be a string');
+    }
+    return Buffer.from(data).toString('base64');
+  } catch (error) {
+    console.error('Error encoding URL:', error);
+    return null; // or handle as appropriate
+  }
 }
 
 // Decrypt Function
 export const decodeURL = (data) => {
-  return Buffer.from(data, 'base64').toString('utf-8');
+  try {
+    if (typeof data !== 'string') {
+      throw new Error('Input must be a string');
+    }
+    // Check if the data is valid base64 before attempting to decode
+    if (!/^[A-Za-z0-9+/=]*$/.test(data)) {
+      throw new Error('Invalid base64 string');
+    }
+    return Buffer.from(data, 'base64').toString('utf-8');
+  } catch (error) {
+    console.error('Error decoding URL:', error);
+    return null; // or handle as appropriate
+  }
 }
+
 
 
 //SchoolScreensAccessPermission

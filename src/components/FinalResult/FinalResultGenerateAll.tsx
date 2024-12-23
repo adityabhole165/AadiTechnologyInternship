@@ -13,7 +13,7 @@ import {
     UpdateStudentTestMarks, ViewResultGA
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
 import { RootState } from 'src/store';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const GenerateAll = ({ }) => {
@@ -453,7 +453,7 @@ const GenerateAll = ({ }) => {
                 navLinks={[
                     {
                         title: 'Final Result',
-                        path: '/RITeSchool/Teacher/FinalResult/' + getstandardDivId()
+                        path: '/RITeSchool/Teacher/FinalResult/' + encodeURL(getstandardDivId())
                     },
                     {
                         title: 'Generate/View Final Result',
