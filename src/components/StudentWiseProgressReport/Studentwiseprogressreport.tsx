@@ -38,7 +38,7 @@ import {
   oneDeleteStudentTest
 } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
-import { decodeURL, getSchoolConfigurations } from '../Common/Util';
+import { decodeURL,encodeURL , getSchoolConfigurations } from '../Common/Util';
 import IsPublishstatus from './IsPublishstatus';
 
 import CommonPageHeader from '../CommonPageHeader';
@@ -414,9 +414,9 @@ const Studentwiseprogressreport = () => {
   const ClicEdit = (YearwiseStudentId, StandardId) => {
 
     navigate('/RITeSchool/Teacher/StudentwiseprogressreportEdit/' +
-      Assessment + '/' +
-      YearwiseStudentId + '/' +
-      StandardId
+      encodeURL(Assessment )+ '/' +
+      encodeURL(YearwiseStudentId) + '/' +
+      encodeURL(StandardId)
 
     );
   };

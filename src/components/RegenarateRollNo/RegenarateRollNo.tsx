@@ -160,7 +160,14 @@ const RegenarateRollNo = () => {
         { RegNo: 4196, Class: '1-A', RollNo: 12, StudentName: 'Miss Aditi Kadam', DateOfBirth: '11 Jul 2018', Category: 'SBC' },
         { RegNo: 4235, Class: '1-A', RollNo: 13, StudentName: 'Miss Sanya Chavan', DateOfBirth: '05 Nov 2018', Category: 'OPEN' },
         { RegNo: 4167, Class: '1-A', RollNo: 14, StudentName: 'Master Karan Shinde', DateOfBirth: '04 Jan 2018', Category: 'OPEN' },
-        { RegNo: 4322, Class: '1-A', RollNo: 15, StudentName: 'Master Pranav Yadav', DateOfBirth: '28 Apr 2018', Category: 'GENERAL' }
+        { RegNo: 4322, Class: '1-A', RollNo: 15, StudentName: 'Master Pranav Yadav', DateOfBirth: '28 Apr 2018', Category: 'GENERAL' },
+        { RegNo: 4350, Class: '1-A', RollNo: 16, StudentName: 'Miss Riya Patil', DateOfBirth: '15 Feb 2018', Category: 'OBC' },
+        { RegNo: 4375, Class: '1-A', RollNo: 17, StudentName: 'Master Aryan Joshi', DateOfBirth: '22 Mar 2018', Category: 'GENERAL' },
+        { RegNo: 4401, Class: '1-A', RollNo: 18, StudentName: 'Miss Priya Naik', DateOfBirth: '18 Apr 2018', Category: 'OPEN' },
+        { RegNo: 4430, Class: '1-A', RollNo: 19, StudentName: 'Master Arjun Patil', DateOfBirth: '12 May 2018', Category: 'SC' },
+        { RegNo: 4456, Class: '1-A', RollNo: 20, StudentName: 'Miss Ananya Ghadge', DateOfBirth: '20 Jun 2018', Category: 'SBC' },
+        { RegNo: 4478, Class: '1-A', RollNo: 21, StudentName: 'Master Rohan Jadhav', DateOfBirth: '08 Jul 2018', Category: 'GENERAL' },
+        { RegNo: 4502, Class: '1-A', RollNo: 22, StudentName: 'Miss Sneha Pawar', DateOfBirth: '25 Aug 2018', Category: 'OBC' }
     ]);
 
     const [dummyDataList2, setdummyDataList2] = useState([
@@ -178,7 +185,14 @@ const RegenarateRollNo = () => {
         { RegNo: 4196, Class: '1-A', RollNo: 12, NewRollNo: 12, StudentName: 'Miss Shaarvi Santosh Kangle', DateOfBirth: '11 Jul 2018', Category: 'SBC' },
         { RegNo: 4235, Class: '1-A', RollNo: 13, NewRollNo: 13, StudentName: 'Miss Saanvi Chetan Shinde', DateOfBirth: '05 Nov 2018', Category: 'OPEN' },
         { RegNo: 4167, Class: '1-A', RollNo: 14, NewRollNo: 14, StudentName: 'Master Rutvik Rajendra Chavan', DateOfBirth: '04 Jan 2018', Category: 'OPEN' },
-        { RegNo: 4322, Class: '1-A', RollNo: 15, NewRollNo: 15, StudentName: 'Master Rugved Shrikant Chavan', DateOfBirth: '28 Apr 2018', Category: 'GENERAL' }
+        { RegNo: 4322, Class: '1-A', RollNo: 15, NewRollNo: 15, StudentName: 'Master Rugved Shrikant Chavan', DateOfBirth: '28 Apr 2018', Category: 'GENERAL' },
+        { RegNo: 4350, Class: '1-A', RollNo: 16, NewRollNo: 16, StudentName: 'Miss Riya Radhesham Patil', DateOfBirth: '15 Feb 2018', Category: 'OBC' },
+        { RegNo: 4375, Class: '1-A', RollNo: 17, NewRollNo: 17, StudentName: 'Master Aryan Arjun Joshi', DateOfBirth: '22 Mar 2018', Category: 'GENERAL' },
+        { RegNo: 4401, Class: '1-A', RollNo: 18, NewRollNo: 18, StudentName: 'Miss Priya Shahu Naik', DateOfBirth: '18 Apr 2018', Category: 'OPEN' },
+        { RegNo: 4430, Class: '1-A', RollNo: 19, NewRollNo: 19, StudentName: 'Master Arjun Sandeep Patil', DateOfBirth: '12 May 2018', Category: 'SC' },
+        { RegNo: 4456, Class: '1-A', RollNo: 20, NewRollNo: 20, StudentName: 'Miss Ananya Sandeep Ghadge', DateOfBirth: '20 Jun 2018', Category: 'SBC' },
+        { RegNo: 4478, Class: '1-A', RollNo: 21, NewRollNo: 21, StudentName: 'Master Rohan Vaibhav Jadhav', DateOfBirth: '08 Jul 2018', Category: 'GENERAL' },
+        { RegNo: 4502, Class: '1-A', RollNo: 22, NewRollNo: 22, StudentName: 'Miss Sneha Vaibhav Pawar', DateOfBirth: '25 Aug 2018', Category: 'OBC' }
     ]);
     const totalCount = dummyDataList2.length;
     const [selectDisplayType, setDisplayType] = useState('all');
@@ -244,6 +258,7 @@ const RegenarateRollNo = () => {
 
     const clickShowAllNotices = (value) => {
         setShowRollNo(value);
+        setIsShowClicked(false);
     };
 
     const clickDisplayTypeDropdown = (value) => {
@@ -271,10 +286,16 @@ const RegenarateRollNo = () => {
         setRowsPerPage(20)
         setPage(1);
     };
-    const ClickShow = (value) => {
-        setOpen(true)
-        setIsShowClicked(true);
-    }
+    const ClickShow = () => {
+        if (ShowRollNo === "true" || ShowRollNo === "false") {
+            setOpen(true);
+            setIsShowClicked(true);
+        }
+    };
+    const ClickChangeInput = () => {
+        setShowRollNo("true"); // Set the first radio button as selected
+        setIsShowClicked(false); // Ensure the list is not displayed
+    };
     const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1);
@@ -358,7 +379,7 @@ const RegenarateRollNo = () => {
                                             backgroundColor: blue[600]
                                         }
                                     }}
-                                    onClick={undefined} // Replace with actual function if needed
+                                    onClick={ClickChangeInput} // Replace with actual function if needed
                                 >
                                     <RestartAltIcon />
                                 </IconButton>
@@ -387,7 +408,7 @@ const RegenarateRollNo = () => {
                     </Grid>
                 </Grid >
             </Box>
-            {ShowRollNo === "true" && (
+            {isShowClicked && ShowRollNo === "true" && (
                 <Box sx={{ flexGrow: 1, padding: 2, backgroundColor: 'white' }}>
                     <Typography variant="h4" sx={{ mb: 1 }}>
                         Criteria For Roll Number Generation
@@ -402,7 +423,7 @@ const RegenarateRollNo = () => {
                                     value={selectedOptions[item.Id] || ''} // Default to empty if no value is selected
                                     onChange={(e) => handleSelectChange(e, item.Id)} // Handle change for each dropdown
                                     size="medium"
-                                    sx={{ flexGrow: 1, marginRight: 1, width: '80%' }}
+                                    sx={{ flexGrow: 1, marginRight: 1, width: '77.5%' }}
                                 >
                                     {item.options.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
@@ -441,7 +462,7 @@ const RegenarateRollNo = () => {
 
 
             {/* Conditionally render RegenerateRollNoList1 or RegenerateRollNoList2 based on ShowRollNo value */}
-            {ShowRollNo === "true" ? (
+            {isShowClicked && ShowRollNo === "true" ? (
                 <Box sx={{ background: 'white', pr: 2, pl: 2, pt: 1, pb: 2 }}>
                     {singleTotalCount > 0 ? (
                         <div style={{ flex: 1, textAlign: 'center' }}>
@@ -490,7 +511,7 @@ const RegenarateRollNo = () => {
                         <span></span>
                     )}
                 </Box>
-            ) : ShowRollNo === "false" && (
+            ) : isShowClicked && ShowRollNo === "false" && (
                 <Box sx={{ background: 'white', pr: 2, pl: 2, pt: 1, pb: 2 }}>
                     {singleTotalCount > 0 ? (
                         <div style={{ flex: 1, textAlign: 'center' }}>

@@ -1,6 +1,7 @@
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { encodeURL } from 'src/components/Common/Util';
 function List1({
   items,
   SelectedMonth = null,
@@ -17,16 +18,16 @@ function List1({
         navigate(
           '/RITeSchool/' +
           path.replace('%', encodeURIComponent('%')) +
-          linkParams
+          encodeURL(linkParams)
         );
       else
         navigate(
           '/RITeSchool/' +
           path.replace('%', encodeURIComponent('%')) +
           '/' +
-          SelectedMonth +
+          encodeURL(SelectedMonth) +
           '/' +
-          SelectedYear
+          encodeURL(SelectedYear)
         );
     }
   };

@@ -174,6 +174,7 @@ import { getUnreadMessages } from "src/requests/Dashboard/Dashboard";
 import { RootState } from 'src/store';
 import Actions from './Actions';
 import Header from './Header';
+import { encodeURL } from 'src/components/Common/Util';
 
 const UnreadMessage = () => {
   const dispatch = useDispatch();
@@ -204,7 +205,7 @@ const UnreadMessage = () => {
   };
 
   const clickMessage = (item) => {
-    navigate('/RITeSchool/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox');
+    navigate('/RITeSchool/MessageCenter/viewMSg/' + encodeURL(item.MessageDetailsId) + '/Inbox');
   };
 
   return (

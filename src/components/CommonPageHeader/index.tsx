@@ -14,7 +14,7 @@ type Props = {
 
 const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
     return (
-        <Box sx={{ pt: 5, pb: 2 }}>
+        <Box sx={{ pt: 4, pb: 2 }}>
             <Grid container spacing={2} alignItems="center">
                 {/* Left Section */}
                 <Grid item xs={12} sm={6}>
@@ -86,7 +86,7 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                 </Grid>
 
                 {/* Right Section */}
-                <Grid item xs={12} sm={6} display="flex" justifyContent={{ xs: 'flex-end', sm: 'flex-end' }}>
+                <Grid item xs={12} sm={6} display="flex" justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}>
                     <Stack direction="row" alignItems="right" gap={1}>
                         {rightActions}
                     </Stack>

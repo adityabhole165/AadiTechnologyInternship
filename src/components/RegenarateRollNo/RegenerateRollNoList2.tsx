@@ -59,11 +59,11 @@ function RegenerateRollNoList2({
                                                 color: (theme) => theme.palette.common.white,
                                                 textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'center', pt: 1.5, pb: 1.5
                                             }}
-                                           onClick={i !== 4 ? () => clickHeader(item.Id) : null}
+                                           onClick={i !== 3 ? () => clickHeader(item.Id) : null}
                                         >
                                             <Box sx={{ display: 'flex', gap: 0.5 }}>
                                                 <b>{item.Header}</b>
-                                                {item.SortOrder !== null && item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ?
+                                                {item.SortOrder !== null && item.Id !== 8 && item.Id !== 9 ?
                                                     item.SortOrder === "desc" ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
                                                     : null
                                                 }

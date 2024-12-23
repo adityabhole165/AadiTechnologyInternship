@@ -20,7 +20,7 @@ import { TeacherXseedSubjects } from 'src/requests/PrePrimaryResult/RequestPrePr
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { CDAAssessmentDropdown } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
-import { decodeURL, SchoolScreensAccessPermission } from '../Common/Util';
+import { decodeURL,encodeURL , SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField1 } from './ResizableTextField1';
 const StudentwiseprogressreportEdit = () => {
@@ -444,9 +444,9 @@ const StudentwiseprogressreportEdit = () => {
     const ClickShow = () => {
 
         navigate('/RITeSchool/Teacher/PreprimaryProgressReportView/' +
-            AssessmentId + '/' +
-            YearwiseStudentId + '/' +
-            StandardId
+            encodeURL(AssessmentId) + '/' +
+            encodeURL(YearwiseStudentId) + '/' +
+            encodeURL(StandardId)
 
         );
     };

@@ -38,9 +38,14 @@ import {
 import { RootState } from 'src/store';
 import { getAttendanceLegend } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-
+import { encodeURL ,decodeURL} from '../Common/Util';
 const IndividualAttendance = () => {
-  const { selectClasstecahernew, AssignedDate } = useParams();
+  let { selectClasstecahernew, AssignedDate } = useParams();
+  AssignedDate = decodeURL(AssignedDate);
+ selectClasstecahernew = decodeURL(selectClasstecahernew);
+
+
+
   // console.log("Assigneddate", AssignedDate)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -376,9 +381,9 @@ const IndividualAttendance = () => {
             title: 'Attendance',
             path:
               '/RITeSchool/Teacher/TAttendance/' +
-              selectClasstecahernew +
+              encodeURL(selectClasstecahernew) +
               '/' +
-              AssignedDate
+              encodeURL(AssignedDate)
           },
           {
             title: 'Individual Attendance',

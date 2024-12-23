@@ -21,7 +21,7 @@ import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState, useDispatch, useSelector } from 'src/store';
-import { getDateMonthYearDayDash } from '../Common/Util';
+import { encodeURL, getDateMonthYearDayDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { Column } from '../DataTable';
 
@@ -213,7 +213,7 @@ const LeaveDetailsBaseScreen = () => {
                 },
                 renderCell: (row) => (
                     <VisibilityIcon onClick={() => {
-                        navigate("../AddLeaveDetails" + "/" + row.Id)
+                        navigate("../AddLeaveDetails" + "/" + encodeURL(row.Id))
                     }} />
                 )
             },
@@ -277,7 +277,7 @@ const LeaveDetailsBaseScreen = () => {
     const ViewLeave = (Id, value) => {
         console.log(Id, "value");
 
-        navigate("../ViewLeaveDetails" + "/" + Id + "/" + asUserId + "/" + selectCategory + "/" + value)
+        navigate("../ViewLeaveDetails" + "/" + encodeURL(Id) + "/" + encodeURL(asUserId) + "/" + encodeURL(selectCategory) + "/" + encodeURL(value))
     };
     const clickAcademicYearDropdown = (value) => {
         setAcademicYear(value);

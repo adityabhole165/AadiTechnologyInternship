@@ -13,6 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
+import { encodeURL } from 'src/components/Common/Util';
 import ErrorMessages2 from 'src/libraries/ErrorMessages/DashboardError';
 
 Card9.propTypes = {
@@ -62,7 +63,7 @@ function Card9({ Count, UnreadMessage, SenderPhoto }) {
                     key={i}
                     to={
                       `/${location.pathname.split('/')[1]
-                      }/MessageCenter/viewMSg/` + items.MessageDetailsId
+                      }/MessageCenter/viewMSg/` + encodeURL(items.MessageDetailsId)
                     }
                     color="primary"
                     style={{ textDecoration: 'none' }}

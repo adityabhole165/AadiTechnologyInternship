@@ -37,7 +37,7 @@ import { RootState, useDispatch, useSelector } from 'src/store';
 import { decodeURL, isBetweenDates } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SchoolNoticeList from './SchoolNoticeList';
-
+import { encodeURL } from '../Common/Util';
 const SchoolNoticeBaseScreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -221,10 +221,10 @@ const SchoolNoticeBaseScreen = () => {
 
     const EditSchoolNotice = (Id: number) => {
         if (selectDisplayT) {
-            navigate('../../AddSchoolNoticeFT/' + Id + '/' + selectDisplayType);
+            navigate('../../AddSchoolNoticeFT/' + encodeURL(Id) + '/' + encodeURL(selectDisplayType));
         }
         else {
-            navigate('../AddSchoolNoticeFT/' + Id + '/' + selectDisplayType);
+            navigate('../AddSchoolNoticeFT/' + encodeURL(Id) + '/' + encodeURL(selectDisplayType));
         }
     };
 
@@ -374,7 +374,7 @@ const SchoolNoticeBaseScreen = () => {
                             <Tooltip title={'Add New Notice'}>
                                 <IconButton
                                     onClick={() =>
-                                        navigate('/RITeSchool/Teacher/AddSchoolNoticeFT' + '/' + selectDisplayType)
+                                        navigate('/RITeSchool/Teacher/AddSchoolNoticeFT' + '/' + encodeURL(selectDisplayType))
                                     }
                                     sx={{
                                         color: 'white',

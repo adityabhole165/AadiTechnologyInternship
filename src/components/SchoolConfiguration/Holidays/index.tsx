@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
-import { GetScreenPermission, getSchoolConfigurations } from "src/components/Common/Util"
+import { GetScreenPermission, encodeURL, getSchoolConfigurations } from "src/components/Common/Util"
 import CommonPageHeader from "src/components/CommonPageHeader"
 import { Column } from "src/components/DataTable"
 import { AlertContext } from 'src/contexts/AlertContext'
@@ -222,7 +222,7 @@ const Holidays = (props: Props) => {
     }, [deleteHolidaydetailsMsg])
 
     const editRow = (Holiday_Id) => {
-        navigate("../AddHoliday/" + Holiday_Id);
+        navigate("../AddHoliday/" + encodeURL(Holiday_Id));
     };
 
     const AddHoliday = () => {

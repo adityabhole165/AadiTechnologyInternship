@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Card1 from 'src/libraries/mainCard/Card1';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
+import { encodeURL } from 'src/components/Common/Util';
 function List5({
   items,
   SelectedMonth = null,
@@ -16,17 +17,17 @@ function List5({
       if (SelectedMonth === null)
         navigate(
           '/RITeSchool/' +
-          path.replace('%', encodeURIComponent('%')) +
-          linkParams
+          encodeURL(path.replace('%', encodeURIComponent('%'))) +
+          encodeURL(linkParams)
         );
       else
         navigate(
           '/RITeSchool/' +
-          path.replace('%', encodeURIComponent('%')) +
+          encodeURL(path.replace('%', encodeURIComponent('%')) )+
           '/' +
-          SelectedMonth +
+          encodeURL(SelectedMonth) +
           '/' +
-          SelectedYear
+          encodeURL(SelectedYear)
         );
     }
   };

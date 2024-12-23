@@ -19,6 +19,7 @@ import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttend
 import { RootState } from 'src/store';
 import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import { encodeURL } from '../Common/Util';
 
 const MonthwiseAttandance = () => {
   let {
@@ -107,7 +108,7 @@ const MonthwiseAttandance = () => {
   }, [MonthWiseAttendance]);
 
   const click = () => {
-    navigate('/RITeSchool/Teacher/TAttendance/' + selectClasstecahernew);
+    navigate('/RITeSchool/Teacher/TAttendance/' +  encodeURL(selectClasstecahernew));
   };
   return (
     <>

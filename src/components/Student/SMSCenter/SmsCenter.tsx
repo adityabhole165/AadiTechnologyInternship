@@ -31,7 +31,7 @@ import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Studen
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
 
-import { getDateFormattedNew } from 'src/components/Common/Util';
+import { encodeURL, getDateFormattedNew } from 'src/components/Common/Util';
 import SentsmsList from 'src/components/SentSms/SentsmsList';
 import SentsmsListAll from 'src/components/SentSms/SentsmsListAll';
 import { RootState } from 'src/store';
@@ -506,7 +506,7 @@ function SmsCenter() {
   };
 
   const clickTitle1 = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewSmsNew/' + Id
+    navigate('/RITeSchool/Teacher/ViewSmsNew/' + encodeURL(Id)
     );
   };
 

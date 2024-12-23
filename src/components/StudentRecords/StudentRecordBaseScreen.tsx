@@ -30,6 +30,7 @@ import {
 } from 'src/requests/StudentRecords/RequestStudentRecords';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordsNotes from './StudentRecordsNotes';
+import { encodeURL } from '../Common/Util';
 
 
 const StudentRecords = () => {
@@ -208,11 +209,11 @@ const StudentRecords = () => {
     setShowRiseAndShine(value);
   };
   const clickEdit = (value) => {
-    navigate('/RITeSchool/Teacher/AddStudentRecord/Add/' + SelectTeacher +
+    navigate('/RITeSchool/Teacher/AddStudentRecord/Add/' + encodeURL(SelectTeacher) +
       '/' + value);
   };
   const clickView = (value) => {
-    navigate('/RITeSchool/Teacher/AddStudentRecord/Edit/' + SelectTeacher +
+    navigate('/RITeSchool/Teacher/AddStudentRecord/Edit/' + encodeURL(SelectTeacher) +
       '/' + value);
   };
   const PageChange = (pageNumber) => {

@@ -15,8 +15,7 @@ import Card8 from 'src/libraries/mainCard/Card8';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransportDetails';
 import { RootState } from 'src/store';
-import { decodeURL } from '../Common/Util';
-
+import { encodeURL,decodeURL } from '../Common/Util';
 function TransportDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,9 +74,9 @@ function TransportDetails() {
   const Map = () => {
     navigate(
       '/RITeSchool/Student/TransportDetails/Map/' +
-      variableToPass +
+      encodeURL(variableToPass) +
       `/` +
-      alignment
+      encodeURL(alignment)
     );
   };
 

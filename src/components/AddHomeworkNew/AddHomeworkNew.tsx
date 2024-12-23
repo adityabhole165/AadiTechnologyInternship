@@ -1,29 +1,69 @@
-import Add from "@mui/icons-material/Add";
+import Add from '@mui/icons-material/Add';
 import { AlertContext } from 'src/contexts/AlertContext';
 
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography, debounce } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+  debounce
+} from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { IAllPublishUnpublishAddHomeworkBody, IDeleteHomeworkBody, IGetHomeworkDetailBody, IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, IPublishUnPublishHomeworkBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
+import {
+  IAllPublishUnpublishAddHomeworkBody,
+  IDeleteHomeworkBody,
+  IGetHomeworkDetailBody,
+  IGetSubjectListForTeacherBody,
+  IGetTeacherSubjectAndClassSubjectBody,
+  IPublishUnPublishHomeworkBody,
+  ISaveHomeworkBody
+} from 'src/interfaces/AssignHomework/IAddHomework';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import MultipleFile from 'src/libraries/File/MultipleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { CDAresetgethomeworkdetail, GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
+import {
+  CDAresetgethomeworkdetail,
+  GetHomeworkDetails,
+  GetPublishUnpublishHomework,
+  GetTeacherSubjectList,
+  HomeworkDelete,
+  HomeworkSave,
+  PublishUnpublishAllHomework,
+  PublishresetMessageNew,
+  PublishresetMessageNewAll,
+  SubjectListforTeacherDropdown,
+  resetDeleteHomework,
+  resetHomework
+} from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
-import { ResizableTextField } from "../AddSchoolNitice/ResizableDescriptionBox";
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
-import { decodeURL, formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isGreaterOrEqualDate } from '../Common/Util';
+import {
+  decodeURL,
+  formatDateAsDDMMMYYYY,
+  getCalendarDateFormatDate,
+  isGreaterOrEqualDate
+} from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-
+import { encodeURL } from '../Common/Util';
 
 const AddHomeworkNew = () => {
   let {
@@ -47,20 +87,36 @@ const AddHomeworkNew = () => {
   SelectClass = decodeURL(SelectClass);
   StandardDivision = decodeURL(StandardDivision);
 
-
-
   const navigate = useNavigate();
   const [Subject, setSubject] = useState(SubjectId);
 
   const currentDate = new Date();
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const formattedDate = currentDate.getDate().toString().padStart(2, '0') + '-' +
-    months[currentDate.getMonth()] + '-' +
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+  const formattedDate =
+    currentDate.getDate().toString().padStart(2, '0') +
+    '-' +
+    months[currentDate.getMonth()] +
+    '-' +
     currentDate.getFullYear().toString();
 
   const [Title, setTitle] = useState(SubjectName + ' : ' + formattedDate);
   // const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
-  const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
+  const [AssignedDate, setAssignedDate]: any = useState(
+    new Date().toISOString().split('T')[0]
+  );
   //const [AssignedDate1, setAssignedDate1]: any = useState(new Date().toISOString().split('T')[0]);
   const [AssignedDate1, setAssignedDate1] = useState(new Date());
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
@@ -72,7 +128,8 @@ const AddHomeworkNew = () => {
   const MaxfileSize = 3000000;
   const [fileName, setFileName] = useState('');
   const [base64URL, setbase64URL] = useState('');
-  const [openUploadMultipleDialog, setOpenUploadMultipleDialog] = useState(false);
+  const [openUploadMultipleDialog, setOpenUploadMultipleDialog] =
+    useState(false);
   const [MultipleFiles, setMultipleFiles] = useState([]);
   const [Details, setDetails] = useState('');
   const [ErrorDetails, setErrorDetails] = useState('');
@@ -119,7 +176,8 @@ const AddHomeworkNew = () => {
     { Id: 3, Name: 'Complete By Date', Value: 'CompleteByDate' }
   ];
 
-  const defaultHomeworkStatus = HomeworkStatus.find(item => item.Name === 'All')?.Value || '';
+  const defaultHomeworkStatus =
+    HomeworkStatus.find((item) => item.Name === 'All')?.Value || '';
   const [HomeworkS, setHomeworkS] = useState(defaultHomeworkStatus);
 
   const dispatch = useDispatch();
@@ -144,7 +202,6 @@ const AddHomeworkNew = () => {
     (state: RootState) => state.AddHomework.Subjectlist
   );
 
-
   const Subjectlistsforteacher: any = useSelector(
     (state: RootState) => state.AddHomework.SubjectListTeacher
   );
@@ -166,16 +223,21 @@ const AddHomeworkNew = () => {
   );
 
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
-  {
-    asSchoolId: asSchoolId,
-    aTeacherId: Number(TeacherId),
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: Number(SelectClass)
-  };
-  const debouncedFetch = useCallback(debounce((body) => {
-    dispatch(SubjectListforTeacherDropdown(body));
-  }, 500), [dispatch]);
-  const asdate = AssignedDate1 ? formatDateAsDDMMMYYYY(new Date(AssignedDate1)) : "";
+    {
+      asSchoolId: asSchoolId,
+      aTeacherId: Number(TeacherId),
+      asAcademicYearId: asAcademicYearId,
+      asStandardDivisionId: Number(SelectClass)
+    };
+  const debouncedFetch = useCallback(
+    debounce((body) => {
+      dispatch(SubjectListforTeacherDropdown(body));
+    }, 500),
+    [dispatch]
+  );
+  const asdate = AssignedDate1
+    ? formatDateAsDDMMMYYYY(new Date(AssignedDate1))
+    : '';
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -183,10 +245,12 @@ const AddHomeworkNew = () => {
     asHomeWorkStatus: HomeworkS.toString(),
     asHomeworkTitle: '',
     asAssignedDate: asdate
-  }
+  };
   const adjustToLocalTimezone = (date) => {
     const localDate = new Date(date);
-    return new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+    return new Date(
+      localDate.getTime() - localDate.getTimezoneOffset() * 60000
+    );
   };
   const HomeworkSaveBody: ISaveHomeworkBody = {
     AsId: Number(HomeworkId),
@@ -227,13 +291,12 @@ const AddHomeworkNew = () => {
 
   const handleEditClick = (Id) => {
     setHomeworkId(Id);
-    setOpen(true)
-
+    setOpen(true);
 
     const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
       asSchoolId: asSchoolId,
       asAcademicyearId: asAcademicYearId,
-      asHomeworkId: Number(Id),
+      asHomeworkId: Number(Id)
     };
     dispatch(GetHomeworkDetails(GetHomeworkDetailBody));
   };
@@ -249,15 +312,8 @@ const AddHomeworkNew = () => {
       setCompleteDate(getCalendarDateFormatDate(HomeworkDetail.CompleteByDate));
       setTitle(HomeworkDetail.Title);
       setDetails(HomeworkDetail.Details);
-
     }
   }, [HomeworkDetail]);
-
-
-
-
-
-
 
   // const ClickSaveHomework = () => {
   //   let isError = false;
@@ -328,7 +384,6 @@ const AddHomeworkNew = () => {
     // }
 
     if (!isError) {
-
       dispatch(HomeworkSave(HomeworkSaveBody));
       ResetForm1();
     }
@@ -338,17 +393,14 @@ const AddHomeworkNew = () => {
     if (SaveHomework != '') {
       dispatch(resetHomework());
       toast.success(SaveHomework);
-      setOpen(false)
+      setOpen(false);
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-
     }
   }, [SaveHomework]);
 
-
-
   const Changevalue = (value) => {
     // setitemPublish(value);
-    setSearchTittle1(value)
+    setSearchTittle1(value);
   };
 
   const ChangeFile = (value) => {
@@ -356,11 +408,8 @@ const AddHomeworkNew = () => {
     setFileName(value.Name);
   };
   const ChangeMultipleFile = (value) => {
-    console.log(value, "MultipleFile");
-
-  }
-
-
+    console.log(value, 'MultipleFile');
+  };
 
   // Function to handle change in complete by date
   // const handleCompleteByDateChange = (e) => {
@@ -391,7 +440,6 @@ const AddHomeworkNew = () => {
     }
   };
 
-
   const handleCompleteByDateChange = (selectedDate: string) => {
     // Check if selectedDate is null or undefined
     if (!selectedDate) {
@@ -412,24 +460,43 @@ const AddHomeworkNew = () => {
   };
 
   const clickTitle = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewHomework/' + Id + '/' +
-      TeacherId + '/' +
-      TeacherName + '/' +
-      ClassName + '/' +
-      SubjectName + '/' +
-      SubjectId + '/' +
-      MySubject + '/' +
-      SelectClass)
+    navigate(
+      '/RITeSchool/Teacher/ViewHomework/' +
+        encodeURL(Id) +
+        '/' +
+        encodeURL(TeacherId) +
+        '/' +
+        encodeURL(TeacherName) +
+        '/' +
+        encodeURL(ClassName) +
+        '/' +
+        encodeURL(SubjectName) +
+        '/' +
+        encodeURL(SubjectId) +
+        '/' +
+        encodeURL(MySubject) +
+        '/' +
+        encodeURL(SelectClass)
+    );
   };
   const clickView = (Id) => {
-    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + Id + '/' +
-      TeacherId + '/' +
-      TeacherName + '/' +
-      ClassName + '/' +
-      SubjectName + '/' +
-      SubjectId + '/' +
-      MySubject + '/' +
-      SelectClass
+    navigate(
+      '/RITeSchool/Teacher/HomeworkDocuments/' +
+        encodeURL(Id) +
+        '/' +
+        encodeURL(TeacherId) +
+        '/' +
+        encodeURL(TeacherName) +
+        '/' +
+        encodeURL(ClassName) +
+        '/' +
+        encodeURL(SubjectName) +
+        '/' +
+        encodeURL(SubjectId) +
+        '/' +
+        encodeURL(MySubject) +
+        '/' +
+        encodeURL(SelectClass)
     );
   };
 
@@ -447,7 +514,6 @@ const AddHomeworkNew = () => {
   // };
 
   const clickDelete = (Id) => {
-
     const DeleteHomeworkBody: IDeleteHomeworkBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
@@ -456,8 +522,7 @@ const AddHomeworkNew = () => {
     };
     showAlert({
       title: 'Please Confirm',
-      message:
-        'Are you sure you want to delete this record?  ',
+      message: 'Are you sure you want to delete this record?  ',
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
@@ -467,16 +532,10 @@ const AddHomeworkNew = () => {
       onConfirm: () => {
         dispatch(HomeworkDelete(DeleteHomeworkBody));
 
-
         closeAlert();
       }
     });
-
-
-
-
   };
-
 
   useEffect(() => {
     if (DeleteHomework != '') {
@@ -485,7 +544,6 @@ const AddHomeworkNew = () => {
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
     }
   }, [DeleteHomework]);
-
 
   const getIsPublish = (Id) => {
     let IsPublish = true;
@@ -511,9 +569,7 @@ const AddHomeworkNew = () => {
     };
 
     dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
-
-  }
-
+  };
 
   // const clickPublishUnpublish = (Id, Text3) => {
   //   let IsPublish = getIsPublish(Id);
@@ -532,8 +588,6 @@ const AddHomeworkNew = () => {
   //   }
   // };
 
-
-
   // const clickPublishUnpublish = (Id, Text3) => {
   //   let IsPublish = getIsPublish(Id);
   //   const currentDate = new Date().toISOString().split('T')[0];
@@ -541,8 +595,6 @@ const AddHomeworkNew = () => {
   //     alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
   //     return;
   //   }
-
-
 
   //   if (IsPublish) {
   //     showAlert({
@@ -565,7 +617,6 @@ const AddHomeworkNew = () => {
   //   }
   // };
 
-
   const clickPublishUnpublish = (Id, Text3) => {
     let IsPublish = getIsPublish(Id);
     const assignedDate = new Date(Text3);
@@ -573,7 +624,8 @@ const AddHomeworkNew = () => {
     if (IsPublish == true && !isGreaterOrEqualDate(assignedDate)) {
       showAlert({
         title: 'Please Confirm',
-        message: 'Homework for past assigned dates cannot be published. Please change the assigned date of the homework.',
+        message:
+          'Homework for past assigned dates cannot be published. Please change the assigned date of the homework.',
         variant: 'warning',
         confirmButtonText: 'Ok',
         cancelButtonText: 'Cancel',
@@ -606,32 +658,21 @@ const AddHomeworkNew = () => {
     }
   };
 
-
-
-
-
-
-
   const Detailschnage = (event) => {
-    setText(event.target.value)
-  }
+    setText(event.target.value);
+  };
 
   const Detailschnageall = (event) => {
-    setTextall(event.target.value)
-  }
-
+    setTextall(event.target.value);
+  };
 
   useEffect(() => {
     if (USPublishUnpublishHomework != '') {
       toast.success(USPublishUnpublishHomework);
       dispatch(PublishresetMessageNew());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-
     }
   }, [USPublishUnpublishHomework]);
-
-
-
 
   const ClickOk = () => {
     if (text !== '') {
@@ -644,16 +685,12 @@ const AddHomeworkNew = () => {
   };
 
   const getSelectHomeworkId = () => {
-    let arr = []
-    SearchTittle1.map(item => {
-      if (item.IsActive)
-        arr.push(item.Id)
-
-    })
-    return arr.toString()
-  }
-
-
+    let arr = [];
+    SearchTittle1.map((item) => {
+      if (item.IsActive) arr.push(item.Id);
+    });
+    return arr.toString();
+  };
 
   const getSubjectName = (SubjetId) => {
     let SubjectName = '';
@@ -667,33 +704,26 @@ const AddHomeworkNew = () => {
   const subjectName = getSubjectName(Subject);
   console.log(subjectName);
 
-
   const clickSubjectList = (value) => {
     setSubject(value);
     setTitle(getSubjectName(value) + ' : ' + formattedDate);
   };
 
   const getPublishErrorList = () => {
-    let arr = []
-    SearchTittle1.map(item => {
-      if (item.IsActive)
-        if (item.IsPublished == 'True')
-          arr.push(item.Text10)
-
-    })
-    return arr.toString()
-  }
+    let arr = [];
+    SearchTittle1.map((item) => {
+      if (item.IsActive) if (item.IsPublished == 'True') arr.push(item.Text10);
+    });
+    return arr.toString();
+  };
 
   const getUnpublishErrorList = () => {
-    let arr = []
-    SearchTittle1.map(item => {
-      if (item.IsActive)
-        if (item.IsPublished == 'False')
-          arr.push(item.Text10)
-
-    })
-    return arr.toString()
-  }
+    let arr = [];
+    SearchTittle1.map((item) => {
+      if (item.IsActive) if (item.IsPublished == 'False') arr.push(item.Text10);
+    });
+    return arr.toString();
+  };
 
   //   const publishAll = (Id) => {
   //     const selectedHomeworkIds = getSelectHomeworkId();
@@ -710,7 +740,7 @@ const AddHomeworkNew = () => {
   //     const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
   //     if (!confirmPublish) return;
 
-  //     const confirmSendSMS = window.confirm(`Do you want to send SMS about Homework assignment?  
+  //     const confirmSendSMS = window.confirm(`Do you want to send SMS about Homework assignment?
 
   // SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`);
   //     const isSMSSent = confirmSendSMS ? 1 : 0;
@@ -729,14 +759,16 @@ const AddHomeworkNew = () => {
   //   };
   const publishAll = (Id) => {
     const selectedHomeworkIds = getSelectHomeworkId();
-    if (selectedHomeworkIds === "") {
-      toast.error("At least one subject should be selected to publish.");
+    if (selectedHomeworkIds === '') {
+      toast.error('At least one subject should be selected to publish.');
       return;
     }
     let publishList = getPublishErrorList();
     if (publishList.length > 0) {
       const publishListString = publishList;
-      toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
+      toast.error(
+        `Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`
+      );
       return;
     }
 
@@ -768,9 +800,11 @@ const AddHomeworkNew = () => {
               asUnpublishReason: textall,
               asUpdatedById: asTeacherId,
               IsPublished: 1,
-              IsSMSSent: 1,
+              IsSMSSent: 1
             };
-            dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+            dispatch(
+              PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody)
+            );
           }
         });
       }
@@ -778,17 +812,16 @@ const AddHomeworkNew = () => {
   };
 
   const unpublishAll = () => {
-
-
-    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
-      asSchoolId: String(asSchoolId),
-      asAcademicYearId: String(asAcademicYearId),
-      asHomeWorkLogId: getSelectHomeworkId(),
-      asUnpublishReason: textall,
-      asUpdatedById: asTeacherId,
-      IsPublished: 0,
-      IsSMSSent: 0,
-    };
+    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
+      {
+        asSchoolId: String(asSchoolId),
+        asAcademicYearId: String(asAcademicYearId),
+        asHomeWorkLogId: getSelectHomeworkId(),
+        asUnpublishReason: textall,
+        asUpdatedById: asTeacherId,
+        IsPublished: 0,
+        IsSMSSent: 0
+      };
 
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
   };
@@ -803,18 +836,13 @@ const AddHomeworkNew = () => {
     }
   };
 
-
   useEffect(() => {
-
     if (AllPublishUnPublishHomeworkNew != '') {
       toast.success(AllPublishUnPublishHomeworkNew);
       dispatch(PublishresetMessageNewAll());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-
     }
   }, [AllPublishUnPublishHomeworkNew]);
-
-
 
   // const clickFileName = (value) => {
   //   if (value !== '') {
@@ -825,21 +853,30 @@ const AddHomeworkNew = () => {
   //     );
   //   }
   // };
+
   const clickTitle1 = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewHomework/' + Id + '/' +
-      TeacherId + '/' +
-      TeacherName + '/' +
-      ClassName + '/' +
-      SubjectName + '/' +
-      SubjectId + '/' +
-      MySubject + '/' +
-      SelectClass);
+    navigate(
+      '/RITeSchool/Teacher/ViewHomework/' +
+        encodeURL(Id) +
+        '/' +
+        encodeURL(TeacherId) +
+        '/' +
+        encodeURL(TeacherName) +
+        '/' +
+        encodeURL(ClassName) +
+        '/' +
+        encodeURL(SubjectName) +
+        '/' +
+        encodeURL(SubjectId) +
+        '/' +
+        encodeURL(MySubject) +
+        '/' +
+        encodeURL(SelectClass)
+    );
   };
 
   const clickHomeworkStatus = (value) => {
     setHomeworkS(value);
-
-
   };
 
   useEffect(() => {
@@ -849,7 +886,6 @@ const AddHomeworkNew = () => {
 
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-
   }, [HomeworkS, AssignedDate1, Subject]);
 
   //   useEffect(() => {
@@ -879,25 +915,24 @@ const AddHomeworkNew = () => {
   // }, [Subjectlistsforteacher])
 
   useEffect(() => {
-    const filteredTittle = Subjectlistsforteacher.filter((item) => item.SubjectId === Subject);
+    const filteredTittle = Subjectlistsforteacher.filter(
+      (item) => item.SubjectId === Subject
+    );
     setSearchTittle(filteredTittle);
   }, [Subjectlistsforteacher, Subject]);
 
   // Effect for SearchTittle1
   useEffect(() => {
-    const filteredTittle1 = Subjectlistsforteacher
-      .filter((item) => item.SubjectId !== Subject)
-      .map((item, index) => ({
-        ...item,
-        Text10: index + 1
-      }));
+    const filteredTittle1 = Subjectlistsforteacher.filter(
+      (item) => item.SubjectId !== Subject
+    ).map((item, index) => ({
+      ...item,
+      Text10: index + 1
+    }));
     setSearchTittle1(filteredTittle1);
   }, [Subjectlistsforteacher, Subject]);
 
-
   const [SearchText, setSearchText] = useState('');
-
-
 
   const changeSearchText = () => {
     const searchTextLowerCase = SearchText.toLowerCase().trim();
@@ -905,22 +940,22 @@ const AddHomeworkNew = () => {
     const filteredTittle = Subjectlistsforteacher.filter((item) => {
       const itemTitle = item.Text2 && item.Text2.toLowerCase(); // Assuming Text2 is the field for homework title
 
-      return itemTitle.includes(searchTextLowerCase) || searchTextLowerCase === '';
+      return (
+        itemTitle.includes(searchTextLowerCase) || searchTextLowerCase === ''
+      );
     });
 
     const filteredTittle1 = Subjectlistsforteacher.filter((item) => {
-
       const itemTitle = item.Text2 && item.Text2.toLowerCase(); // Assuming Text2 is the title field
 
-      return itemTitle.includes(searchTextLowerCase) || searchTextLowerCase === '';
+      return (
+        itemTitle.includes(searchTextLowerCase) || searchTextLowerCase === ''
+      );
     });
 
     setSearchTittle(filteredTittle);
     setSearchTittle1(filteredTittle1);
   };
-
-
-
 
   const handleSearchClick = () => {
     changeSearchText();
@@ -930,23 +965,21 @@ const AddHomeworkNew = () => {
     setSearchText(value);
   };
 
-
   const ClickOpenDialogbox = () => {
-    let UnpublishList = getUnpublishErrorList()
+    let UnpublishList = getUnpublishErrorList();
     if (UnpublishList.length > 0) {
       const UnpublishListString = UnpublishList;
-      toast.error(`Homework is not in published state for Sr. No. : ${UnpublishListString}. Please remove selection.`);
+      toast.error(
+        `Homework is not in published state for Sr. No. : ${UnpublishListString}. Please remove selection.`
+      );
       return;
     }
     const selectedHomeworkIds = getSelectHomeworkId();
 
-    if (selectedHomeworkIds === "") {
-      toast.error("At least one subject should be selected to unpublish.");
-
-    }
-    else {
+    if (selectedHomeworkIds === '') {
+      toast.error('At least one subject should be selected to unpublish.');
+    } else {
       setOpenPublishDialogall(true);
-
     }
   };
   const handleFileChange = (files) => {
@@ -956,29 +989,26 @@ const AddHomeworkNew = () => {
     setAssignedDate1(date); // Update AssignedDate1 with selected date object
   };
 
-
   const ClickAppropriate = (value) => {
-    setOpen(true)
+    setOpen(true);
     dispatch(CDAresetgethomeworkdetail());
-
-  }
+  };
   const handleClose = (value) => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
   const handleClose1 = (value) => {
-    setHomeworkId(0)
-    setDetails('')
-    setTitle('')
-    setCompleteDate(null)
-    setAssignedDate(new Date().toISOString().split('T')[0])
-    setMultipleFiles([])
-    setFileName('')
+    setHomeworkId(0);
+    setDetails('');
+    setTitle('');
+    setCompleteDate(null);
+    setAssignedDate(new Date().toISOString().split('T')[0]);
+    setMultipleFiles([]);
+    setFileName('');
     dispatch(CDAresetgethomeworkdetail());
-  }
+  };
 
   return (
     <>
-
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
@@ -986,7 +1016,7 @@ const AddHomeworkNew = () => {
               title: 'Assign Homework',
               path: '/RITeSchool/Teacher/AssignHomework'
             },
-            { title: 'Add Homework', path: '/RITeSchool/Teacher/AddHomework' },
+            { title: 'Add Homework', path: '/RITeSchool/Teacher/AddHomework' }
           ]}
           rightActions={
             <>
@@ -1041,9 +1071,7 @@ const AddHomeworkNew = () => {
               </Box> */}
 
               <Box>
-                <Tooltip title={
-                  'Add HomeWork'
-                }>
+                <Tooltip title={'Add HomeWork'}>
                   <IconButton
                     sx={{
                       color: 'white',
@@ -1056,13 +1084,10 @@ const AddHomeworkNew = () => {
                     <Add />
                   </IconButton>
                 </Tooltip>
-
               </Box>
-
             </>
           }
         />
-
 
         <Dialog
           open={open}
@@ -1071,12 +1096,13 @@ const AddHomeworkNew = () => {
           onClose={handleClose}
           PaperProps={{
             sx: {
-              borderRadius: "15px",
+              borderRadius: '15px'
             }
           }}
         >
           <DialogTitle sx={{ bgcolor: '#223354' }}>
-            <ClearIcon onClick={handleClose}
+            <ClearIcon
+              onClick={handleClose}
               sx={{
                 color: 'white',
                 // background:'white',
@@ -1086,59 +1112,57 @@ const AddHomeworkNew = () => {
                 right: '8px',
                 cursor: 'pointer',
                 '&:hover': {
-                  color: 'red',
+                  color: 'red'
                   //  backgroundColor: red[100]
-
                 }
-              }} />
-
+              }}
+            />
           </DialogTitle>
 
-          <DialogContent  >
+          <DialogContent>
             <Box>
-              <h1>
-                {HomeworkId == 0 ? 'Add Homework' : 'Edit Homework'}
-              </h1>
+              <h1>{HomeworkId == 0 ? 'Add Homework' : 'Edit Homework'}</h1>
 
               <Box sx={{ background: 'white', p: 1, top: '1px' }}>
                 <Grid container spacing={2}>
-                  <Grid item xs={3}>
-                    <TextField fullWidth label={'Class'} value={ClassName}
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <TextField
+                      fullWidth
+                      label={'Class'}
+                      value={ClassName}
                       sx={{ bgcolor: '#F0F0F0', width: '100%' }}
-                      inputProps={{ style: { color: 'rgb(0, 0, 0)' } }} />
+                      inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                    />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
                     <TextField
                       fullWidth
                       label={'Class Teacher'}
                       value={TeacherName}
                       sx={{ bgcolor: '#F0F0F0', width: '100%' }}
-                      inputProps={{ style: { color: 'rgb(0, 0, 0)' } }} />
+                      inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                    />
                   </Grid>
-                  <Grid item xs={3}>
-
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
                     <SearchableDropdown
                       ItemList={ClassSubject.filter((Item) => {
-                        return MySubject == 'true' ?
-                          Item.TeacherId == TeacherId :
-                          Item.TeacherId != TeacherId
+                        return MySubject == 'true'
+                          ? Item.TeacherId == TeacherId
+                          : Item.TeacherId != TeacherId;
                       })}
                       onChange={clickSubjectList}
                       defaultValue={Subject}
                       sx={{ width: '100%' }}
-                      label='Select Subject'
+                      label="Select Subject"
                     />
-
-
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
                     <TextField
                       fullWidth
                       value={Title}
                       onChange={(e) => {
                         setTitle(e.target.value);
                       }}
-
                       //error={ErrorTitle !== ''}
                       //helperText={ErrorTitle}
                       sx={{ width: '100%' }}
@@ -1151,9 +1175,7 @@ const AddHomeworkNew = () => {
                     {ErrorTitle && <ErrorMessage1 Error={ErrorTitle} />}
                   </Grid>
 
-                  <Grid item xs={3}>
-
-
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
                     {/* <TextField
               fullWidth
               label={
@@ -1175,13 +1197,14 @@ const AddHomeworkNew = () => {
                       DateValue={AssignedDate}
                       onDateChange={handleAssignedDateChange}
                       label={'Assigned Date'}
-                      size={"medium"}
-
+                      size={'medium'}
                     />
                     {/* <ErrorMessage1 Error={ErrorAssignedDate}></ErrorMessage1> */}
-                    {ErrorAssignedDate && <ErrorMessage1 Error={ErrorAssignedDate} />}
+                    {ErrorAssignedDate && (
+                      <ErrorMessage1 Error={ErrorAssignedDate} />
+                    )}
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
                     {/* <TextField
               fullWidth
               InputLabelProps={{
@@ -1204,11 +1227,12 @@ const AddHomeworkNew = () => {
                       DateValue={CompleteDate}
                       onDateChange={handleCompleteByDateChange}
                       label={'Complete By Date'}
-                      size={"medium"}
-
+                      size={'medium'}
                     />
                     {/* <ErrorMessage1 Error={ErrorCompleteDate}></ErrorMessage1> */}
-                    {ErrorCompleteDate && <ErrorMessage1 Error={ErrorCompleteDate} />}
+                    {ErrorCompleteDate && (
+                      <ErrorMessage1 Error={ErrorCompleteDate} />
+                    )}
                   </Grid>
 
                   {/* <Grid item xs={3}>
@@ -1236,7 +1260,7 @@ const AddHomeworkNew = () => {
                 isMandatory={false}
               />
             </Grid> */}
-                  <Grid item xs={3}>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
                     <MultipleFile
                       MultipleFiles={MultipleFiles}
                       ValidFileTypes={ValidFileTypes}
@@ -1246,10 +1270,8 @@ const AddHomeworkNew = () => {
                       width={'100%'}
                       height={'52px'}
                       isMandatory={false}
-
                     />
                   </Grid>
-
 
                   {/* 
           <Grid item xs={3}>
@@ -1277,36 +1299,25 @@ const AddHomeworkNew = () => {
                       onChange={(e) => {
                         setDetails(e.target.value);
                       }}
-                    // error={ErrorDetails !== ''}
-                    //  helperText={ErrorDetails}
+                      // error={ErrorDetails !== ''}
+                      //  helperText={ErrorDetails}
                     />
                     {ErrorDetails && <ErrorMessage1 Error={ErrorDetails} />}
                   </Grid>
-
                 </Grid>
-
               </Box>
             </Box>
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
-
-            <Button
-              color={'error'}
-              onClick={handleClose1}
-            >
+            <Button color={'error'} onClick={handleClose1}>
               Clear
             </Button>
 
-
-            <Button
-              color={'error'}
-              onClick={handleClose}
-            >
+            <Button color={'error'} onClick={handleClose}>
               Cancel
             </Button>
 
             <Button
-
               onClick={ClickSaveHomework}
               // color={'success'}
               // variant={'contained'}
@@ -1330,81 +1341,84 @@ const AddHomeworkNew = () => {
   </Box>
 </Modal> */}
 
-
-        <Box sx={{ background: 'white', p: 2, mt: 1 }}>
-          <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={1} pb={1}>
-            <SearchableDropdown
-              sx={{ minWidth: '250px' }}
-              ItemList={HomeworkStatus}
-              onChange={clickHomeworkStatus}
-              defaultValue={HomeworkS.toString()}
-              label={'Select Homework Status'}
-              size={"small"}
-            />
-            <Box sx={{ minWidth: '150px' }}>
-              <Datepicker
-                DateValue={AssignedDate1}
-                onDateChange={handleDateChange}
-                label={'Date'}
-                size={"small"}
+<Box sx={{ background: 'white', p: 2, mt: 1 }}>
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            justifyContent="flex-end"
+          >
+            <Grid item xs={12} sm={6} md={4} lg={2.5}>
+              <SearchableDropdown
+                sx={{ minWidth: '100%' }}
+                ItemList={HomeworkStatus}
+                onChange={clickHomeworkStatus}
+                defaultValue={HomeworkS.toString()}
+                label={'Select Homework Status'}
+                size={'small'}
               />
-            </Box>
-            {/* <TextField
-            size={"small"}
-            sx={{ with: '250px' }}
-            InputLabelProps={{
-              shrink: true
-            }}
-            label={'Date'}
-            inputProps={{ type: 'date' }}
-            value={AssignedDate1}
-            onChange={(e) => {
-              setAssignedDate1(e.target.value);
-              console.log('EventEndDate :', e.target.value);
-            }}
-          /> */}
-
-            <TextField
-              size={"small"}
-              sx={{ with: '250px' }}
-              label="Title"
-              value={SearchText}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === 'Tab') {
-                  handleSearchClick();
-                }
-              }}
-              onChange={(e) => {
-                SearchNameChange(e.target.value);
-              }}
-            />
-            <IconButton onClick={handleSearchClick} sx={{
-              background: (theme) => theme.palette.primary.main,
-              color: 'white',
-              mr: 2
-            }}>
-              <SearchTwoTone />
-            </IconButton>
-          </Stack>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={2}>
+              <Box sx={{ minWidth: '100%' }}>
+                <Datepicker
+                  DateValue={AssignedDate1}
+                  onDateChange={handleDateChange}
+                  label={'Date'}
+                  size={'small'}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={2}>
+              <TextField
+                size={'small'}
+                fullWidth
+                label="Title"
+                value={SearchText}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === 'Tab') {
+                    handleSearchClick();
+                  }
+                }}
+                onChange={(e) => {
+                  SearchNameChange(e.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg="auto">
+              <IconButton
+                onClick={handleSearchClick}
+                sx={{
+                  background: (theme) => theme.palette.primary.main,
+                  color: 'white'
+                }}
+              >
+                <SearchTwoTone />
+              </IconButton>
+            </Grid>
+          </Grid>
         </Box>
-        <Dialog open={openPublishDialog}
+
+        <Dialog
+          open={openPublishDialog}
           onClose={() => setOpenPublishDialog(false)}
           fullWidth
           maxWidth={'sm'}
           PaperProps={{
             sx: {
-              borderRadius: "15px",
+              borderRadius: '15px'
             }
-          }}>
+          }}
+        >
           <DialogTitle
             sx={{
-              backgroundColor: '#223354',
+              backgroundColor: '#223354'
               // py: 1
             }}
           >
-            <ClearIcon onClick={() => {
-              setOpenPublishDialog(false)
-            }}
+            <ClearIcon
+              onClick={() => {
+                setOpenPublishDialog(false);
+              }}
               sx={{
                 color: 'white',
                 // background:'white',
@@ -1414,14 +1428,14 @@ const AddHomeworkNew = () => {
                 right: '8px',
                 cursor: 'pointer',
                 '&:hover': {
-                  color: 'red',
+                  color: 'red'
                   //  backgroundColor: red[100]
-
                 }
-              }} />
+              }}
+            />
           </DialogTitle>
           <DialogContent dividers sx={{ px: 4 }}>
-            <Typography variant={"h4"} sx={{ mb: 1 }}>
+            <Typography variant={'h4'} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
             <ResizableTextField
@@ -1432,13 +1446,16 @@ const AddHomeworkNew = () => {
               onChange={(e) => {
                 setText(e.target.value);
               }}
-              style={{ width: '545px', }}
+              style={{ width: '545px' }}
             />
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
-            <Button onClick={() => {
-              setOpenPublishDialog(false)
-            }} color={'error'}>
+            <Button
+              onClick={() => {
+                setOpenPublishDialog(false);
+              }}
+              color={'error'}
+            >
               Cancel
             </Button>
             <Button
@@ -1459,7 +1476,7 @@ const AddHomeworkNew = () => {
         </Dialog>
 
         <Box sx={{ background: 'white', p: 1, mt: 1 }}>
-          <Typography variant={"h4"} my={1}>
+          <Typography variant={'h4'} my={1}>
             Assigned homework for selected subject :
           </Typography>
           {Subjectlistsforteacher.length > 0 && SearchTittle.length > 0 ? (
@@ -1471,18 +1488,26 @@ const AddHomeworkNew = () => {
               clickVisibilityIcon={clickView}
               clickpublish={clickPublishUnpublish}
               HeaderArray={HeaderPublish}
-            // clickAttachment={clickFileName}
+              // clickAttachment={clickFileName}
             />
-
           ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography
+              variant="body1"
+              sx={{
+                textAlign: 'center',
+                marginTop: 1,
+                backgroundColor: '#324b84',
+                padding: 1,
+                borderRadius: 2,
+                color: 'white'
+              }}
+            >
               <b>No record found.</b>
             </Typography>
           )}
 
-
           <Box my={2}>
-            <Typography variant={"h4"} my={1}>
+            <Typography variant={'h4'} my={1}>
               Homework assigned for other subjects :
             </Typography>
             {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 ? (
@@ -1494,32 +1519,43 @@ const AddHomeworkNew = () => {
                 clickTitle={clickTitle1}
               />
             ) : (
-              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <Typography
+                variant="body1"
+                sx={{
+                  textAlign: 'center',
+                  marginTop: 1,
+                  backgroundColor: '#324b84',
+                  padding: 1,
+                  borderRadius: 2,
+                  color: 'white'
+                }}
+              >
                 <b>No record found.</b>
               </Typography>
-            )
-            }
+            )}
           </Box>
         </Box>
 
-        <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)}
+        <Dialog
+          open={openPublishDialogall}
+          onClose={() => setOpenPublishDialogall(false)}
           fullWidth
           maxWidth={'sm'}
           PaperProps={{
             sx: {
-              borderRadius: "15px",
+              borderRadius: '15px'
             }
           }}
         >
           <DialogTitle
             sx={{
-              backgroundColor: (theme) => theme.palette.primary.main,
-
+              backgroundColor: (theme) => theme.palette.primary.main
             }}
           >
-            <ClearIcon onClick={() => {
-              setOpenPublishDialogall(false)
-            }}
+            <ClearIcon
+              onClick={() => {
+                setOpenPublishDialogall(false);
+              }}
               sx={{
                 color: 'white',
                 // background:'white',
@@ -1529,15 +1565,14 @@ const AddHomeworkNew = () => {
                 right: '8px',
                 cursor: 'pointer',
                 '&:hover': {
-                  color: 'red',
+                  color: 'red'
                   //  backgroundColor: red[100]
-
                 }
-              }} />
-
+              }}
+            />
           </DialogTitle>
           <DialogContent dividers sx={{ px: 4 }}>
-            <Typography variant={"h4"} sx={{ mb: 1 }}>
+            <Typography variant={'h4'} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
             <ResizableTextField
@@ -1546,17 +1581,21 @@ const AddHomeworkNew = () => {
               type="text"
               value={textall}
               onChange={Detailschnageall}
-              style={{ width: '545px', }}
+              style={{ width: '545px' }}
             />
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
-            <Button onClick={() => {
-              setOpenPublishDialogall(false)
-            }} color={'error'}>
+            <Button
+              onClick={() => {
+                setOpenPublishDialogall(false);
+              }}
+              color={'error'}
+            >
               Cancel
             </Button>
-            <Button onClick={ClickOkall}
-              // color={'success'} variant={'contained'} 
+            <Button
+              onClick={ClickOkall}
+              // color={'success'} variant={'contained'}
               sx={{
                 color: 'green',
                 //  backgroundColor: grey[500],
@@ -1570,13 +1609,18 @@ const AddHomeworkNew = () => {
           </DialogActions>
         </Dialog>
 
-
         {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
-          <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-
-
+          <Box
+            mt={2}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 2
+            }}
+          >
             <Button
-              //  style={{ backgroundColor: red[500] }} 
+              //  style={{ backgroundColor: red[500] }}
               sx={{
                 color: 'red',
                 //  backgroundColor: grey[500],
@@ -1599,15 +1643,13 @@ const AddHomeworkNew = () => {
                   backgroundColor: green[100]
                 }
               }}
-
               // style={{ backgroundColor: green[500] }}
-              onClick={publishAll}>
+              onClick={publishAll}
+            >
               Publish All
             </Button>
-
           </Box>
         )}
-
 
         {openUploadMultipleDialog && (
           <UploadMultipleDialog
@@ -1617,16 +1659,12 @@ const AddHomeworkNew = () => {
             setMultipleFiles={setMultipleFiles}
           />
         )}
-
       </Box>
-
     </>
+  );
+};
 
-  )
-}
-
-export default AddHomeworkNew
-
+export default AddHomeworkNew;
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -1638,6 +1676,5 @@ const style = {
   bgcolor: '#EAF1F5',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 2,
+  p: 2
 };
-
