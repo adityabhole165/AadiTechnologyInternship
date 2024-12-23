@@ -1,4 +1,5 @@
 // ExampleTable.tsx
+import { Visibility } from '@mui/icons-material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import {
@@ -8,13 +9,14 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Tooltip
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { useEffect } from 'react';
 
 
-const AddNotePopupList = ({ data, onEdit, onDelete }) => {
+const AddNotePopupList = ({ data, clickView, onEdit, onDelete }) => {
   useEffect(() => {
     console.log('AddNotePopupList', data);
   }, [data]);
@@ -49,7 +51,20 @@ const AddNotePopupList = ({ data, onEdit, onDelete }) => {
                 <TableCell sx={{ py: 1 }}>{row.Text1}</TableCell>
                 <TableCell sx={{ py: 1 }}>{row.Text2}</TableCell>
                 <TableCell sx={{ py: 1 }}>{row.Text3}</TableCell>
-                <TableCell sx={{ py: 1 }}>{row.Text4}</TableCell>
+                {/* <TableCell sx={{ py: 1 }}>{row.Text4}</TableCell> */}
+                <TableCell sx={{ pr: 8, textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} align='center' >
+                  <Tooltip title={"View"}>
+                    <Visibility onClick={() => clickView(row.Text4)}
+                      sx={{
+                        color: '#223354',
+                        '&:hover': {
+                          color: '#223354',
+                          bgcolor: 'grey.300',
+                          cursor: 'pointer'
+                        }
+                      }} />
+                  </Tooltip>
+                </TableCell>
                 <TableCell sx={{ py: 1 }}>
                   <IconButton color="primary"
                     onClick={() => onEdit(row.Id)}>

@@ -110,7 +110,19 @@ const ContactGroupCheckboxCard = ({ Item, onClick }) => {
                                 disableTouchListener
                                 PopperProps={{ disablePortal: true }}
                                 componentsProps={{
-                                    tooltip: { sx: { py: 0.7, width: '200px' } },
+                                    tooltip: {
+                                        sx: {
+                                        overflow: 'hidden',
+                                            whiteSpace: 'normal',
+                                            textOverflow: 'ellipsis',
+                                            maxHeight: '6.25rem',
+                                            lineHeight: '1.25rem',
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 4,
+                                            WebkitBoxOrient: 'vertical',
+                                            position: 'relative',
+                                        }
+                                    },
                                 }}
                             >
                                 <ItemSize>

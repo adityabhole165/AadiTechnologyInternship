@@ -10,6 +10,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  FormHelperText,
   Grid,
   IconButton,
   MenuItem,
@@ -66,6 +68,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   const [usingWebcam, setUsingWebcam] = useState(false);
   const webcamRef = useRef(null);
+  const schoolId = localStorage.getItem('SchoolId');
 
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
@@ -675,12 +678,16 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="motherName"
-                  label="Mother Name"
+                  label={
+                    <span>
+                      Mother Name {parseInt(schoolId) === 71 && <span style={{ color: "red" }}> *</span>}
+                    </span>
+                  }
                   variant="outlined"
                   value={personal.motherName}
                   onChange={handleInputChange}
-                  error={errors.motherName}
-                  helperText={errors.motherName ? 'This field is required' : ''}
+                  error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "motherName")}
+                  helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "motherName") ? 'Mother Name should not be blank.' : ''}
                   fullWidth
                 />
               </Grid>
@@ -692,7 +699,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                   name="mobileNumber1"
                   label={
                     <span>
-                      Mobile No. 1 <span style={{ color: 'red' }}> *</span>
+                      Mobile No. 1 {(parseInt(schoolId) === 18 || parseInt(schoolId) === 122) && <span style={{ color: "red" }}> *</span>}
                     </span>
                   }
                   variant="outlined"
@@ -748,30 +755,56 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
               <Grid item xs={12} sm={6} md={4}>
                 <TextField
                   name="mobileNumber2"
-                  label="Mobile No. 2"
+                  label={
+                    <span>
+                      Mobile No. 2 {parseInt(schoolId) === 71 && <span style={{ color: "red" }}> *</span>}
+                    </span>
+                  }
                   variant="outlined"
                   value={personal.mobileNumber2}
                   onChange={handleContactNoChange}
                   fullWidth
-                  error={personal.mobileNumber2.toString() !== '' && personal.mobileNumber2.toString().length < 10 ? true : false}
-                  helperText={
-                    personal.mobileNumber2.toString() !== '' && personal.mobileNumber2.toString().length < 10 ? 'Mobile number should be a 10 digit number.' : ''
-                  }
+                  error={!!invalidFields.find(field => field.field === "mobileNumber2")}
+                  helperText={invalidFields.find(field => field.field === "mobileNumber2") ? 'Mobile Number should not be blank.' : ''}
                 />
               </Grid>
             )}
 
             {/* Dropdown */}
             <Grid item xs={12} sm={6} md={4}>
-              <SearchableDropdown
-                sx={{ minWidth: { xs: '100%', sm: '15vw' } }}
-                ItemList={OccupationDropdown}
-                onChange={(value) => onChange('parentOccupation', value)}
-                label={'Parent Occupation'}
-                mandatory
-                defaultValue={personal.parentOccupation}
-                size="medium"
-              />
+              <FormControl error={!!invalidFields.find(field => field.field === "parentOccupation")}>
+                <SearchableDropdown
+                  sx={{
+                    minWidth: { xs: '100%', sm: '15vw' },
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': {
+                        borderColor: invalidFields.find(field => field.field === "parentOccupation")
+                          ? '#d32f2f'
+                          : 'rgba(0, 0, 0, 0.23)'
+                      }
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: invalidFields.find(field => field.field === "parentOccupation")
+                        ? '#d32f2f'
+                        : 'rgba(0, 0, 0, 0.6)'
+                    }
+                  }}
+                  ItemList={OccupationDropdown}
+                  onChange={(value) => onChange('parentOccupation', value)}
+                  label={'Parent Occupation'}
+                  mandatory
+                  defaultValue={personal.parentOccupation}
+                  size="medium"
+                //error={!!invalidFields.find((field) => field.field === "parentOccupation")}
+                // helperText={invalidFields.find((field) => field.field === "parentOccupation")
+                //   ? "Parent Occupation should not be blank."
+                //   : ""
+                // }
+                />
+                {invalidFields.find(field => field.field === "parentOccupation") && (
+                  <FormHelperText error>Parent Occupation should not be blank.</FormHelperText>
+                )}
+              </FormControl>
             </Grid>
           </Grid>
         </Grid>
@@ -780,7 +813,6 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
         <Grid item xs={12} sm={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Tooltip title={<>Upload or Capture an image file for student's photo <br />(Max Height: 151px and Max Width: 112px) <br />(Image size should not exceed 1 MB. Supported file formats are JPG, JPEG)</>} placement="top">
             <Box sx={{
-              backgroundColor: 'red',
               width: { xs: '80%', sm: '60%', md: '40%' }, height: '160px', border: '2px dashed #ccc', display: 'flex',
               alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexDirection: 'row'
             }}
@@ -841,12 +873,16 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="otherOccupation"
-                  label="Other Occupation"
+                  label={
+                    <span>
+                      Other Occupation {personal.parentOccupation === '5' && <span style={{ color: 'red' }}>*</span>}
+                    </span>
+                  }
                   variant="outlined"
                   value={personal.parentOccupation == '5' ? personal.otherOccupation : ''}
                   onChange={handleInputChange}
-                  error={!!invalidFields.find(field => field.field === "parentOccupation")}
-                  helperText={invalidFields.find(field => field.field === "parentOccupation") ? 'Parent Occupation should not be blank.' : ''}
+                  error={personal.parentOccupation === '5' && !!invalidFields.find(field => field.field === "otherOccupation")}
+                  helperText={personal.parentOccupation === '5' && invalidFields.find(field => field.field === "otherOccupation") ? 'Other Occupation is required when Parent Occupation is Other.' : ''}
                   fullWidth
                 />
               </Grid>
@@ -991,7 +1027,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                   name="placeOfBirth"
                   label={
                     <span>
-                      Place of Birth <span style={{ color: 'red' }}> *</span>
+                      Place of Birth {!(parseInt(schoolId) === 122) && <span style={{ color: "red" }}> *</span>}
                     </span>
                   }
                   variant="outlined"
@@ -1046,14 +1082,16 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   name="nationality"
-                  label="Nationality"
+                  label={
+                    <span>
+                      Nationality {parseInt(schoolId) === 71 && <span style={{ color: "red" }}> *</span>}
+                    </span>
+                  }
                   variant="outlined"
                   value={personal.nationality}
                   onChange={handleInputChange}
-                  error={errors.nationality}
-                  helperText={
-                    errors.nationality ? 'This field is required' : ''
-                  }
+                  error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "nationality")}
+                  helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "nationality") ? 'Nationality field should not be blank.' : ''}
                   fullWidth
                 />
               </Grid>
@@ -1085,7 +1123,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                 name="casteAndSubCaste"
                 label={
                   <span>
-                    Caste & Sub-Caste <span style={{ color: 'red' }}> *</span>
+                    Caste & Sub-Caste {!(parseInt(schoolId) === 122) && <span style={{ color: "red" }}> *</span>}
                   </span>
                 }
                 variant="outlined"
@@ -1102,10 +1140,16 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 name="motherTongue"
-                label="MotherTongue"
+                label={
+                  <span>
+                    Mother Tongue {parseInt(schoolId) === 71 && <span style={{ color: "red" }}> *</span>}
+                  </span>
+                }
                 variant="outlined"
                 value={personal.motherTongue}
                 onChange={handleInputChange}
+                error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "motherTongue")}
+                helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "motherTongue") ? 'Mother Tongue should not be blank.' : ''}
                 fullWidth
                 inputProps={{
                   maxLength: 50, // Restricts the input length to 50 characters

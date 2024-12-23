@@ -26,6 +26,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
+  const schoolId = localStorage.getItem('SchoolId');
 
   const { AssignedDate } = useParams();
   const [form, setForm] = useState({
@@ -551,9 +552,13 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 DateValue={family.fatherDOB}
                 onDateChange={handleDateChange('fatherDOB')}
                 size={'medium'}
-                label={"Father's DOB"}
-                error={!!invalidFields.find(field => field.field === "fatherDOB")}
-                helperText={invalidFields.find(field => field.field === "fatherDOB") ? "Father's Date of Birth should not be blank." : ''}
+                label={
+                  <span>
+                    Father's DOB {(parseInt(schoolId) === 18) && <span style={{ color: "red" }}> *</span>}
+                  </span>
+                }
+                error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "fatherDOB")}
+                helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "fatherDOB") ? "Father's Date of Birth should not be blank." : ''}
                 maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
               />
             </Grid>
@@ -762,9 +767,13 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 DateValue={family.motherDOB}
                 onDateChange={handleDateChange('motherDOB')}
                 size={'medium'}
-                label={"Mother's DOB"}
-                error={!!invalidFields.find(field => field.field === "motherDOB")}
-                helperText={invalidFields.find(field => field.field === "motherDOB") ? "Mother's Date of Birth should not be blank." : ''}
+                label={
+                  <span>
+                    Mother's DOB {parseInt(schoolId) === 18 && <span style={{ color: "red" }}> *</span>}
+                  </span>
+                }
+                error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "motherDOB")}
+                helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "motherDOB") ? "Mother's Date of Birth should not be blank." : ''}
                 maxDate={new Date()}
               />
             </Grid>
@@ -903,9 +912,13 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 DateValue={family.marriageAnniversaryDate}
                 onDateChange={handleDateChange('marriageAnniversaryDate')}
                 size={'medium'}
-                label={"Marriage Anniversary Date"}
-                error={!!invalidFields.find(field => field.field === "marriageAnniversaryDate")}
-                helperText={invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}
+                label={
+                  <span>
+                    Marriage Anniversary Date {parseInt(schoolId) === 18 && <span style={{ color: "red" }}> *</span>}
+                  </span>
+                }
+                error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "marriageAnniversaryDate")}
+                helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}
                 maxDate={new Date()}
               />
             </Grid>

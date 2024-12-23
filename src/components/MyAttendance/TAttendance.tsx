@@ -271,10 +271,10 @@ const TAttendance = () => {
         GetScreenPermission() === 'Y'
           ? 0
           : getTeacherId()
-            ? Number(getTeacherId())
-            : SelectClasstecahernew != null
-              ? Number(SelectClasstecahernew)
-              : Number(selectClasstecahernew)
+          ? Number(getTeacherId())
+          : SelectClasstecahernew != null
+          ? Number(SelectClasstecahernew)
+          : Number(selectClasstecahernew)
     };
     // dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
     debouncedFetch(ClassTeachernewBody);
@@ -408,10 +408,10 @@ const TAttendance = () => {
     }).some((obj) => obj.isActive === false)
       ? 1
       : !Itemlist.filter((obj) => {
-        return !obj.IsExamSubmitted;
-      }).some((obj) => obj.isActive === true)
-        ? 0
-        : 2;
+          return !obj.IsExamSubmitted;
+        }).some((obj) => obj.isActive === true)
+      ? 0
+      : 2;
     if (isCheckAll === 1) {
       setAllPresentOrAllAbsent('P');
     } else if (isCheckAll === 0) {
@@ -632,7 +632,7 @@ const TAttendance = () => {
   const clickNavigateSchoolAttendanceOverview = () => {
     navigate(
       '/RITeSchool/Teacher/SchoolAttendanceOverview/' +
-      getDateFormattedDash(assignedDate)
+        getDateFormattedDash(assignedDate)
     );
   };
   const ClickItemList = (value) => {
@@ -694,13 +694,21 @@ const TAttendance = () => {
               flexWrap: { xs: 'nowrap', sm: 'nowrap' }
             }}
           >
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              display="flex"
+              justifyContent={{ xs: 'flex-end', sm: 'flex-end' }}
+            >
             {/* Overview Section */}
             <Stack
               direction="row"
               gap={1}
-              alignItems="center"
+              alignItems="right"
               sx={{
-                flexWrap: { xs: 'wrap', sm: 'nowrap' }
+                flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                justifyContent: { xs: 'flex-end', sm: 'flex-start' }
               }}
             >
               <Tooltip title="School Attendance Overview">
@@ -763,7 +771,7 @@ const TAttendance = () => {
                 </Tooltip>
               </Typography>
             </Stack>
-
+            </Grid>
             {/* Right Actions Section */}
             <Stack
               direction={{ xs: 'row', sm: 'row' }}
@@ -785,7 +793,7 @@ const TAttendance = () => {
                   label={''}
                   sx={{
                     mb: { xs: '10px', sm: '0px' },
-                    minWidth: { xs: '100%', sm: '20vw' }
+                    minWidth: { xs: '25vh', sm: '18vw' }
                   }}
                   ItemList={ClassTeacherDropdownnew}
                   onChange={clickClassTechernew}
@@ -815,9 +823,9 @@ const TAttendance = () => {
                     onClick={() =>
                       navigate(
                         '/RITeSchool/Teacher/IndidualAttendance/' +
-                        selectClasstecahernew +
-                        '/' +
-                        getDateFormattedDash(assignedDate)
+                          selectClasstecahernew +
+                          '/' +
+                          getDateFormattedDash(assignedDate)
                       )
                     }
                     sx={{
@@ -837,9 +845,9 @@ const TAttendance = () => {
                     onClick={() =>
                       navigate(
                         '/RITeSchool/Teacher/MonthwiseAttendance/' +
-                        selectClasstecahernew +
-                        '/' +
-                        getDateFormattedDash(assignedDate)
+                          selectClasstecahernew +
+                          '/' +
+                          getDateFormattedDash(assignedDate)
                       )
                     }
                     sx={{
@@ -932,47 +940,47 @@ const TAttendance = () => {
                         AttendanceStatus.includes(
                           'Attendance not yet marked.'
                         ) ||
-                          AttendanceStatus.includes(
-                            'Attendance date should be within current academic year'
-                          ) ||
-                          AttendanceStatus.includes(
-                            'Term Start & End dates have not been configured'
-                          )
+                        AttendanceStatus.includes(
+                          'Attendance date should be within current academic year'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Term Start & End dates have not been configured'
+                        )
                           ? 'red'
                           : AttendanceStatus.includes(
-                            'Attendance is already marked'
-                          )
-                            ? 'green'
-                            : 'red', // Set the text color based on the content of AttendanceStatus
+                              'Attendance is already marked'
+                            )
+                          ? 'green'
+                          : 'red', // Set the text color based on the content of AttendanceStatus
                       backgroundColor:
                         AttendanceStatus.includes(
                           'Attendance not yet marked.'
                         ) ||
-                          AttendanceStatus.includes(
-                            'Attendance date should be within current academic year'
-                          ) ||
-                          AttendanceStatus.includes(
-                            'Term Start & End dates have not been configured'
-                          )
+                        AttendanceStatus.includes(
+                          'Attendance date should be within current academic year'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Term Start & End dates have not been configured'
+                        )
                           ? '#FFCCCC' // Light red background color
                           : AttendanceStatus.includes(
-                            'Attendance is already marked'
-                          )
-                            ? '#CCFFCC' // Light green background color
-                            : '#FFCCCC', // No background color for other messages
+                              'Attendance is already marked'
+                            )
+                          ? '#CCFFCC' // Light green background color
+                          : '#FFCCCC', // No background color for other messages
                       border:
                         AttendanceStatus.includes(
                           'Attendance not yet marked.'
                         ) ||
-                          AttendanceStatus.includes(
-                            'Attendance date should be within current academic year'
-                          ) ||
-                          AttendanceStatus.includes(
-                            'Term Start & End dates have not been configured'
-                          ) ||
-                          AttendanceStatus.includes(
-                            'Attendance is already marked'
-                          )
+                        AttendanceStatus.includes(
+                          'Attendance date should be within current academic year'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Term Start & End dates have not been configured'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Attendance is already marked'
+                        )
                           ? '1px solid black' // Add border for highlighted messages
                           : '1px solid black', // No border for other messages
                       padding: '5px' // Add padding for better spacing

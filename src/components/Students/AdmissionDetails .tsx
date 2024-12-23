@@ -484,19 +484,16 @@ const AdmissionDetails = ({ admission, onChange, invalidFields }) => {
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
             name="formNumber"
-            label="Form Number"
+            label={
+              <span>
+                Form Number {parseInt(schoolId) === 71 && <span style={{ color: "red" }}> *</span>}
+              </span>
+            }
             variant="outlined"
             value={admission.formNumber}
             onChange={handleInputChange}
-            error={errors.formNumber}
-            helperText={errors.formNumber ? 'This field is required' : ''}
-            sx={{
-              backgroundColor: errors.registrationNumber
-                ? 'white'
-                : admission.registrationNumber
-                  ? 'white'
-                  : 'inherit'
-            }}
+            error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "formNumber")}
+            helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "formNumber") ? 'Form Number should not be blank.' : ''}
             fullWidth
             inputProps={{
               maxLength: 15, // Restricts the input length to 50 characters
@@ -510,7 +507,7 @@ const AdmissionDetails = ({ admission, onChange, invalidFields }) => {
 
               label={
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Registration Number <span style={{ color: 'red' }}> *</span>
+                  Registration Number {(parseInt(schoolId) === 18 || parseInt(schoolId) === 122) && <span style={{ color: "red" }}> *</span>}
                   <IconButton size="small" sx={{ ml: 0.5 }}>
                     <InfoIcon fontSize="small" color="primary" />
                   </IconButton>

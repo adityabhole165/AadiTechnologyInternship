@@ -406,8 +406,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
           <FormControl component="fieldset">
             <Grid container direction="row" alignItems="center" spacing={2}>
               {USGetUserRole.map(
-                (item) => (
-                  <Grid item key={item.Id}>
+                (item, index) => (
+                  <Grid item key={index}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -547,8 +547,8 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
                 </TableRow>
               </TableHead>
               <TableBody>
-                {SearchUser.map((item) => (
-                  <TableRow key={item.UserId} >
+                {SearchUser.map((item, index) => (
+                  <TableRow key={index} >
                     <TableCell padding="checkbox" sx={{ py: 0 }}>
                       <Checkbox
                         checked={selected.includes(item.UserId)}
