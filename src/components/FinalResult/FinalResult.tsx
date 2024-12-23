@@ -55,7 +55,7 @@ import {
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
-import { decodeURL, encodeURL, GetScreenPermission } from '../Common/Util';
+import { GetScreenPermission, decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { Column } from '../DataTable';
 import FinalResultTable from './FinalResultTable';
@@ -67,8 +67,11 @@ const FinalResult = () => {
     StandardDivisionId1
   } = useParams();
 
-  // Decode in-place
-  StandardDivisionId1 = decodeURL(StandardDivisionId1);
+  useEffect(() => {
+    if (StandardDivisionId1 !== undefined) {
+      StandardDivisionId1 = decodeURL(StandardDivisionId1);
+    }
+  }, [StandardDivisionId1]);
 
 
   const [Open, setOpen] = useState(false);
