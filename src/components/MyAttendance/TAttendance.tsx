@@ -687,7 +687,7 @@ const TAttendance = () => {
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="right"
             spacing={2}
             sx={{
               mt: { xs: 0, sm: 0 },
@@ -697,7 +697,7 @@ const TAttendance = () => {
             <Grid
               item
               xs={12}
-              sm={4}
+              sm={6}
               display="flex"
               justifyContent={{ xs: 'flex-end', sm: 'flex-end' }}
             >
@@ -708,15 +708,15 @@ const TAttendance = () => {
               alignItems="right"
               sx={{
                 flexWrap: { xs: 'wrap', sm: 'nowrap' },
-                justifyContent: { xs: 'flex-end', sm: 'flex-start' }
+                justifyContent: { xs: 'flex-start', sm: 'flex-start' }
               }}
             >
               <Tooltip title="School Attendance Overview">
                 <Typography
                   color={MarksError ? grey[500] : blue[500]}
                   fontWeight="bold"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => {
+                  sx={{ cursor: 'pointer',mt: { xs: '4px', sm: '7px' }}}
+                  onClick={() => {  
                     if (!MarksError) {
                       clickNavigateSchoolAttendanceOverview();
                     }
@@ -728,6 +728,7 @@ const TAttendance = () => {
               <Typography
                 color={MarksError ? grey[500] : blue[500]}
                 fontWeight="bold"
+                sx={{alignItems: 'center', mt: { xs: '4px', sm: '7px' }}}
               >
                 -
               </Typography>

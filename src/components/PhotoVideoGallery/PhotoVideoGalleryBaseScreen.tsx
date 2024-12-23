@@ -20,7 +20,7 @@ const PhotoVideoGalleryBaseScreen = () => {
     const [selectedOption, setSelectedOption] = useState<string>('photo');
     const [view, setView] = useState<"table" | "card">("table");
     const [SelectResult, setSelectResult] = useState(0);
-
+    const [PhotoDetails, SetPhotoDetails] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState<number>(1);
     const rowsPerPageOptions = [20, 50, 100, 200];
@@ -73,7 +73,7 @@ const PhotoVideoGalleryBaseScreen = () => {
     }
     useEffect(() => {
         dispatch(CDAGetPhotoDetails(photoD1ata))
-    }, [dispatch, page, rowsPerPage, SortDirection, SortBy, startIndexNew])
+    }, [page, rowsPerPage, SortDirection, SortBy, startIndexNew])
 
 
 
@@ -109,7 +109,9 @@ const PhotoVideoGalleryBaseScreen = () => {
         setSelectedOption(event.target.value);
     };
 
-
+    useEffect(() => {
+        SetPhotoDetails(USPhotoGallery)
+    }, [USPhotoGallery]);
 
     //Video Section
     const videoData = [

@@ -6,9 +6,16 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import { decodeURL } from '../Common/Util';
 const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogBox, onClickUnpublish }) => {
   const dispatch = useDispatch();
-  const { Id } = useParams();
+  let {
+    Id
+  } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+
   const navigate = useNavigate();
 
   const [Reason, setReason] = useState('');

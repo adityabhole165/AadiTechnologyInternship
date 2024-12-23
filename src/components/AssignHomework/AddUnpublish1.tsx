@@ -5,11 +5,18 @@ import { useNavigate, useParams } from 'react-router';
 import { IPublishUnPublishHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
 import { GetPublishUnpublishHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 
 const AddUnpublish1 = ({ open, setOpen, ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Id } = useParams();
+  let {
+    Id
+  } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+
   const [Details, setDetails] = useState('');
   const [IsUnPublish, setIsUnpublish] = useState('');
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));

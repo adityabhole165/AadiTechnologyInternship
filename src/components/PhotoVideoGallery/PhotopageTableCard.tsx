@@ -56,6 +56,19 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
     const [slideShow, setSlideShow] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
+    const handleAction1 = (action: string, item: any) => {
+        if (action === "Download") {
+            downloadZipFile(item);
+        }
+    };
+
+    const downloadZipFile = (item) => {
+        // Assuming you have a URL for the ZIP file
+        const zipFileUrl = `https://example.com/path/to/yourfile-${item.galleryName}.zip`; // Modify this URL as needed
+
+        // Use window.open to download the file
+        window.open(zipFileUrl, '_blank');
+    };
 
 
     const handleAction = (action: string, item: any) => {
@@ -70,10 +83,12 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
     };
 
     const ViewPhotoFilePage = (value) => {
-        navigate('/extended-sidebar/Teacher/ViewPhotoFile');
+        navigate('/RITeSchool/Teacher/ViewPhotoFile');
     };
 
-
+    // const ClickDownload =(value)=>{
+    //     window.open()
+    // }
 
 
 
@@ -112,8 +127,8 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                                 </TableCell>
                                 <TableCell
                                     sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, cursor: "pointer", }}>
-                                    <b onClick={() => handleSortChange('ReservationDate')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                                        Last Updated Date{SortBy === 'ReservationDate' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                                    <b onClick={() => handleSortChange('Update_Date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                                        Last Updated Date{SortBy === 'Update_Date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                                     </b>
                                 </TableCell>
 
@@ -155,7 +170,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                                     <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                                         <Tooltip title={"Download"}>
                                             <IconButton
-                                                onClick={() => handleAction("Download", item)}
+                                                onClick={() => handleAction1("Download", item)}
                                                 color="primary"
                                             >
                                                 <FileDownloadOutlinedIcon />

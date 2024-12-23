@@ -7,9 +7,22 @@ import Card22 from 'src/libraries/card/card22';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { getimgs } from 'src/requests/PhotoGallery/PhotoGallery';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 
 function Photos() {
-  const { imgId, FromRoute, Month, Year } = useParams();
+  let {
+    imgId,
+    FromRoute,
+    Month,
+    Year
+  } = useParams();
+
+  // Decode in-place
+  imgId = decodeURL(imgId);
+  FromRoute = decodeURL(FromRoute);
+  Month = decodeURL(Month);
+  Year = decodeURL(Year);
+
 
   const dispatch = useDispatch();
   const img: any = useSelector((state: RootState) => state.Gallery.imgList);

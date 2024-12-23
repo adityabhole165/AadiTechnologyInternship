@@ -7,11 +7,22 @@ import { useParams } from 'react-router';
 import { useNavigate } from "react-router-dom";
 import HeaderIcons from '../AnnualPlannerNew/HeaderIcons';
 import UploadAnnualPlanner from '../AnnualPlannerNew/UploadAnnualPlanner';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     const navigate = useNavigate();
-    const { SelectedDate, StandardId, DivisionId } = useParams();
+    let {
+        SelectedDate,
+        StandardId,
+        DivisionId
+    } = useParams();
+
+    // Decode in-place
+    SelectedDate = decodeURL(SelectedDate);
+    StandardId = decodeURL(StandardId);
+    DivisionId = decodeURL(DivisionId);
+
     const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
 
     const Note: string =

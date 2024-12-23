@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSMS';
 import { Styles } from 'src/assets/style/student-style';
 import TimepickerTwofields from 'src/components/AddSchoolNitice/TimepickerTwofields';
-import { formatAMPM, getCalendarDateFormatDateNew, isFutureDateTime } from 'src/components/Common/Util';
+import { decodeURL, formatAMPM, getCalendarDateFormatDateNew, isFutureDateTime } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import AddReciepents from 'src/components/MessageCenter/AddReciepents';
 import { AlertContext } from 'src/contexts/AlertContext';
@@ -87,7 +87,13 @@ const ComposeSMSform = () => {
     const [contentError, setcontentError] = useState<any>(); // For content Error
     const [initialMessage, setinitialMessage] = useState(0);
     const [initialCount, setCharacterCount] = useState(0);
-    const { AssignedDate } = useParams();
+    let {
+        AssignedDate
+    } = useParams();
+
+    // Decode in-place
+    AssignedDate = decodeURL(AssignedDate);
+
     const [form, setForm] = useState({
         scheduleSMS: false,
         scheduledDate: null,

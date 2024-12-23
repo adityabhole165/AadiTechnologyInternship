@@ -19,11 +19,28 @@ import { RootState, useSelector } from 'src/store';
 import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
 import GoldMedal from '../../assets/img/medals/gold-medal.png';
 import SilverMedal from '../../assets/img/medals/silver-medal.png';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const SubjectMarkList = () => {
   const dispatch = useDispatch();
-  const { SubjectId, TestId, StandardDivisionId, getExamName, getTeacherName, getSubjectName } = useParams();
+  let {
+    SubjectId,
+    TestId,
+    StandardDivisionId,
+    getExamName,
+    getTeacherName,
+    getSubjectName
+  } = useParams();
+
+  // Decode in-place
+  SubjectId = decodeURL(SubjectId);
+  TestId = decodeURL(TestId);
+  StandardDivisionId = decodeURL(StandardDivisionId);
+  getExamName = decodeURL(getExamName);
+  getTeacherName = decodeURL(getTeacherName);
+  getSubjectName = decodeURL(getSubjectName);
+
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const Note: string = "Displays brief mark list with toppers for selected class-subject."

@@ -13,13 +13,20 @@ import { getSMSListt } from 'src/requests/AdminSMSCenter/SentSMS';
 import { RootState } from 'src/store';
 
 import { useParams } from 'react-router';
+import { decodeURL } from '../Common/Util';
 SMSCenter.PropTypes = {
   FreeSMS: PropTypes.string
 };
 
 function SMSCenter() {
   const dispatch = useDispatch();
-  const { FromURL } = useParams();
+  let {
+    FromURL
+  } = useParams();
+
+  // Decode in-place
+  FromURL = decodeURL(FromURL);
+
   const SentSMSData: any = useSelector(
     (state: RootState) => state.SentSMSAdmin.SentSMS
   );

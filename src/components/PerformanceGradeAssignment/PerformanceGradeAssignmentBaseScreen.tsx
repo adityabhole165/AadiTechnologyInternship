@@ -17,7 +17,15 @@ import CommonPageHeader from "../CommonPageHeader";
 const PerformanceGradeAssignmentBaseScreen = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { asYearID, statusID } = useParams();
+    let {
+        asYearID,
+        statusID
+    } = useParams();
+
+    // Decode in-place
+    asYearID = decodeURL(asYearID);
+    statusID = decodeURL(statusID);
+
     const [SelectYear, setSelectYear] = useState('0')
     const [HeaderLeave, setHeaderLeave] = useState([
         { Id: 1, Header: 'Staff Name (Designation)' },

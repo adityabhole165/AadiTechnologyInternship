@@ -35,12 +35,19 @@ import { RootState, useDispatch } from 'src/store';
 // import GoldMedal from '../../assets/img/medals/gold-medal.png';
 // import SilverMedal from '/../assets/img/medals/silver-medal.png';
 
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const FinalResultToppers = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { TeacherId } = useParams();
+  let {
+    TeacherId
+  } = useParams();
+
+  // Decode in-place
+  TeacherId = decodeURL(TeacherId);
+
 
   const [SelectClassCT, setClassCT] = useState(sessionStorage.getItem('StandardDivisionId'));
   const [SelectExamCT, setExamCT] = useState();

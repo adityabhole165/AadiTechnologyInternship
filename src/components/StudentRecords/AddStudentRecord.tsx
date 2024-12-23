@@ -11,6 +11,7 @@ import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetMarkRecordAsRead, resetGetSaveStudentRecord, resetGetSubmitStudentRecord, resetGetSubmitStudentRecordComment } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
 import AddStudentRecordList from './StudentRecordList';
@@ -20,7 +21,17 @@ const AddStudentRecord = () => {
     const [ItemList, setItemList] = useState([]);
     console.log(ItemList, "ItemList");
     const [errorItemlist, seterrorItemlist] = useState('')
-    const { Action, SchoolWiseStudentIdparam, SelectTeacher } = useParams()
+    let {
+        Action,
+        SchoolWiseStudentIdparam,
+        SelectTeacher
+    } = useParams();
+
+    // Decode in-place
+    Action = decodeURL(Action);
+    SchoolWiseStudentIdparam = decodeURL(SchoolWiseStudentIdparam);
+    SelectTeacher = decodeURL(SelectTeacher);
+
     const [ActionMode, setActionMode] = useState(Action)
     const [Open, setOpen] = useState(false);
     const [Comment, setComment] = useState('');

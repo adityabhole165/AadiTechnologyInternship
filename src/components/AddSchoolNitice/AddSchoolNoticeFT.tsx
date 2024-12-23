@@ -20,12 +20,20 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
 import { DeleteImage, GetAllClassAndDivision, getEditSchoolNoticeDetails, getSaveSchoolNoticeDetails, getSchoolNoticeIdByName, GetSelectedStandardAndDivisionCheckBoxx, GetUserRolesForSelectedNoticeId, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import { RootState } from 'src/store';
-import { extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLessThanDate } from '../Common/Util';
+import { decodeURL, extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLessThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
 const AddSchoolNoticeFT = () => {
-    const { NoticeId, selectDisplayType } = useParams();
+    let {
+        NoticeId,
+        selectDisplayType
+    } = useParams();
+
+    // Decode in-place
+    NoticeId = decodeURL(NoticeId);
+    selectDisplayType = decodeURL(selectDisplayType);
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();

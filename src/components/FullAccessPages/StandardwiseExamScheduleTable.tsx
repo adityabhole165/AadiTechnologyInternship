@@ -18,10 +18,10 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Datepicker4 from 'src/libraries/DateSelector/Datepicker4';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { decodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
 
 interface ExamEntry {
     id: number;
@@ -51,7 +51,19 @@ const minuteOptions = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45
 const periodOptions = ['AM', 'PM'];
 
 const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError }) => {
-    const { AssignedDate, StandardId, SchoolwiseStandardExamScheduleId, IsConfigured } = useParams();
+    let {
+        AssignedDate,
+        StandardId,
+        SchoolwiseStandardExamScheduleId,
+        IsConfigured
+    } = useParams();
+
+    // Decode in-place
+    AssignedDate = decodeURL(AssignedDate);
+    StandardId = decodeURL(StandardId);
+    SchoolwiseStandardExamScheduleId = decodeURL(SchoolwiseStandardExamScheduleId);
+    IsConfigured = decodeURL(IsConfigured);
+
 
     const dispatch = useDispatch();
     const timeOptions = generateTimeOptions();
@@ -297,7 +309,7 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
 
     return (
         <Box>
-  {(Loading) && <SuspenseLoader />}
+            {(Loading) && <SuspenseLoader />}
             {subErrorMsg && <span style={{ color: 'red', fontWeight: 'bolder' }}>Atleast one subject should be selected.<br /></span>}
             {TimeError.length > 0 && <span style={{ color: 'red', fontWeight: 'bolder' }}>{TimeError}</span>}
             <TableContainer component={Paper} variant="outlined">

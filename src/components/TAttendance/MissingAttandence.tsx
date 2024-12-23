@@ -13,11 +13,19 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import List16 from 'src/libraries/list/List16';
 import { getMissingAttandenceList } from 'src/requests/Student/MissingAttandenceSlice';
 import { RootState } from 'src/store';
-import { getDateFormatted } from '../Common/Util';
+import { decodeURL, getDateFormatted } from '../Common/Util';
 
 function MissingAttandence() {
   // USE PARAMS FOR PREVIOUS PAGES DATE 
-  const { assignedDate, StandardId } = useParams();
+  let {
+    assignedDate,
+    StandardId
+  } = useParams();
+
+  // Decode in-place
+  assignedDate = decodeURL(assignedDate);
+  StandardId = decodeURL(StandardId);
+
 
   // VARIABLES
   const dispatch = useDispatch();
@@ -121,7 +129,7 @@ function MissingAttandence() {
                       <List16 Class={items.Class} key={i} />
                     </>
                   )}
-                </div> );
+                </div>);
             }
           )
         )}

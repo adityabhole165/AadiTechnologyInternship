@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 
 import { Box, Fab, useTheme } from '@mui/material';
+import { decodeURL } from 'src/components/Common/Util';
 import { ShowMessage } from '../styled/ErrormessageStyled';
 
 Card26.propTypes = {
@@ -11,7 +12,15 @@ Card26.propTypes = {
 
 function Card26() {
   const theme = useTheme();
-  const { ActiveYear, InternalOrSchool } = useParams();
+  let {
+    ActiveYear,
+    InternalOrSchool
+  } = useParams();
+
+  // Decode in-place
+  ActiveYear = decodeURL(ActiveYear);
+  InternalOrSchool = decodeURL(InternalOrSchool);
+
 
   return (
     <Box sx={{ px: 2 }}>

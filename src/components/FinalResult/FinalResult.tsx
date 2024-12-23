@@ -55,7 +55,7 @@ import {
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
-import { GetScreenPermission } from '../Common/Util';
+import { GetScreenPermission, decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { Column } from '../DataTable';
 import FinalResultTable from './FinalResultTable';
@@ -63,7 +63,13 @@ const FinalResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { StandardDivisionId1 } = useParams();
+  let {
+    StandardDivisionId1
+  } = useParams();
+
+  // Decode in-place
+  StandardDivisionId1 = decodeURL(StandardDivisionId1);
+
 
   const [Open, setOpen] = useState(false);
 

@@ -15,12 +15,32 @@ import {
   deleteresetMessage
 } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const HomeworkDocuments = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Id, TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass } = useParams();
+  let {
+    Id,
+    TeacherName,
+    ClassName,
+    SubjectName,
+    SubjectId,
+    MySubject,
+    TeacherId,
+    SelectClass
+  } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+  TeacherName = decodeURL(TeacherName);
+  ClassName = decodeURL(ClassName);
+  SubjectName = decodeURL(SubjectName);
+  SubjectId = decodeURL(SubjectId);
+  MySubject = decodeURL(MySubject);
+  TeacherId = decodeURL(TeacherId);
+  SelectClass = decodeURL(SelectClass);
   // alert(Id)
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));

@@ -1,4 +1,10 @@
-import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Typography
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import TextCommaNumber from '../Text/TextCommaNumber';
@@ -29,7 +35,11 @@ function List26({
     // });
     data.forEach((obj) => {
       const joinDateParts = obj.joinDate.split(/[- :]/);
-      const joinDate = new Date(joinDateParts[2], joinDateParts[1] - 1, joinDateParts[0]);
+      const joinDate = new Date(
+        joinDateParts[2],
+        joinDateParts[1] - 1,
+        joinDateParts[0]
+      );
 
       if (!obj.isActive && joinDate <= selectedDate) {
         arr.push(obj.text1);
@@ -57,7 +67,7 @@ function List26({
     let arr = data.text.split(',');
     setData(
       Data.map((obj) =>
-        (arr.includes(obj.text1) && !obj.IsExamSubmitted)
+        arr.includes(obj.text1) && !obj.IsExamSubmitted
           ? { ...obj, isActive: false }
           : { ...obj, isActive: true }
       )
@@ -66,50 +76,62 @@ function List26({
 
   return (
     <>
-      <>
-        <Box
+      <Box mr={2}> 
+        <Grid
+          container
+          spacing={2}
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 2,
             backgroundColor: 'white',
             p: 1,
+            m:0,
             borderBottom: '1px solid gray'
           }}
         >
-          <Box sx={{ flex: 1 }}>
+          {/* Roll Number Field */}
+          <Grid item xs={12} sm={8} md={6}>
             <TextCommaNumber
               name={'Roll Number'}
               textarray={textarray}
-            //  validarray={Data.map((obj) => obj.text1)}
-            validarray={Data.map((obj) => obj.text1).filter((num) => !lateJoiners.includes(num))}
+              validarray={Data.map((obj) => obj.text1).filter(
+                (num) => !lateJoiners.includes(num)
+              )}
               changeText={changeText}
               getLabel={getLabel}
               assignedDate={assignedDate}
             />
-          </Box>
-          <Typography margin={'1px'}>
+          </Grid>
+
+          {/* Checkbox Field */}
+          <Grid
+            item
+            xs={12}
+            sm={4}
+            md={6}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start'
+            }}
+          >
             <FormControlLabel
               control={
                 <Checkbox
                   checked={sendmeassagestudent}
-                  onChange={(e) => {
-                    handleCheckboxChange(e.target.checked);
-                  }}
+                  onChange={(e) => handleCheckboxChange(e.target.checked)}
                 />
               }
               label="Send Message to Absent Student(s)"
             />
-          </Typography>
+          </Grid>
+        </Grid>
         </Box>
         <List3ColSelAll
           Itemlist={Data}
           refreshData={refreshData}
-         assignedDate={assignedDate}
-         setIsDirty={setIsDirty}
+          assignedDate={assignedDate}
+          setIsDirty={setIsDirty}
         />
-      </>
+      
     </>
   );
 }

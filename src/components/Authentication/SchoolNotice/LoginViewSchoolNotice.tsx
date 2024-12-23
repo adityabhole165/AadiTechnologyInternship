@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import school5 from 'src/assets/img/school5.jpg';
 import { Styles } from 'src/assets/style/student-style';
+import { decodeURL } from 'src/components/Common/Util';
 import Card6 from 'src/libraries/card/card6';
 import { getLoginViewSchoolNotice } from 'src/requests/LoginSchoolNotice/LoginSchoolNotice';
 import { RootState } from 'src/store';
@@ -28,7 +29,13 @@ function LoginViewSchoolNotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const userId = localStorage.getItem('UserId');
 
-  const { ID } = useParams();
+  let {
+    ID
+  } = useParams();
+
+  // Decode in-place
+  ID = decodeURL(ID);
+
   const body: IViewschoolnotice = {
     asSchoolId: asSchoolId,
     asNoticeId: `${ID}`,

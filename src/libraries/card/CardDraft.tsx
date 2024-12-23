@@ -2,6 +2,7 @@ import { Box, useTheme } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
+import { decodeURL } from 'src/components/Common/Util';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import {
   BoxWrapper,
@@ -54,7 +55,13 @@ function CardDraft({
   const ReplyallCCRecieverId = ViewSentObject.ReceiverUserIdCc;
   const IsSender = UserID === FromUserID;
   const navigate = useNavigate();
-  const { FromRoute } = useParams();
+  let {
+    FromRoute
+  } = useParams();
+
+  // Decode in-place
+  FromRoute = decodeURL(FromRoute);
+
 
   const navigateToInBox = () => {
     navigate('/RITeSchool/MessageCenter/msgCenter/Inbox');

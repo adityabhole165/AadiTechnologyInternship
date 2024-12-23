@@ -13,13 +13,26 @@ import {
     UpdateStudentTestMarks, ViewResultGA
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const GenerateAll = ({ }) => {
     const [isResultGenerated, setIsResultGenerated] = useState(false); // State to track result generation
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { asStudentId, isGenerated, IsView, stdId } = useParams();
+    let {
+        asStudentId,
+        isGenerated,
+        IsView,
+        stdId
+    } = useParams();
+
+    // Decode in-place
+    asStudentId = decodeURL(asStudentId);
+    isGenerated = decodeURL(isGenerated);
+    IsView = decodeURL(IsView);
+    stdId = decodeURL(stdId);
+
 
     const asAcadmeicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');

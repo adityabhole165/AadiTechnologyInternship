@@ -1,9 +1,18 @@
 import { useParams } from 'react-router-dom';
 import BackButton from 'src/libraries/button/BackButton';
 import Card23 from 'src/libraries/card/Card23';
+import { decodeURL } from '../Common/Util';
 
 function Videoview() {
-  const { VideoUrl, VideoID } = useParams();
+  let {
+    VideoUrl,
+    VideoID
+  } = useParams();
+
+  // Decode in-place
+  VideoUrl = decodeURL(VideoUrl);
+  VideoID = decodeURL(VideoID);
+
 
   return (
     <div>

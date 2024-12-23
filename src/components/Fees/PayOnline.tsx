@@ -4,8 +4,9 @@ import { IPayOnline } from 'src/interfaces/Student/Fees';
 import Card26 from 'src/libraries/card/card26';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 function PayOnline() {
-  const {
+  let {
     SelectedDueDate,
     feeId,
     currentYear,
@@ -15,6 +16,17 @@ function PayOnline() {
     TotalLateFee,
     advanceFeelist
   } = useParams();
+
+  // Decode in-place
+  SelectedDueDate = decodeURL(SelectedDueDate);
+  feeId = decodeURL(feeId);
+  currentYear = decodeURL(currentYear);
+  IsForCurrentyear = decodeURL(IsForCurrentyear);
+  OldYearwiseStudentId = decodeURL(OldYearwiseStudentId);
+  ApplicableFee = decodeURL(ApplicableFee);
+  TotalLateFee = decodeURL(TotalLateFee);
+  advanceFeelist = decodeURL(advanceFeelist);
+
 
   const dispatch = useDispatch();
   const paymentPageLink: any = useSelector(

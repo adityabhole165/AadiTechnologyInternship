@@ -9,7 +9,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAProgressReportDetails } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { CDAAssessmentDropdown } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
-import { getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import CurricularSubjects from '../PreprimaryProgressReport/CurricularSubjects';
 import NonXseedSubjectGrades from '../PreprimaryProgressReport/NonXseedSubjectGrades';
@@ -18,7 +18,17 @@ import StudentDetails from '../PreprimaryProgressReport/StudentDetails';
 import XseedRemarks from '../PreprimaryProgressReport/XseedRemarks';
 
 const PreprimaryProgressReportView = () => {
-    const { Assessment, YearwiseStudentId, StandardId } = useParams();
+    let {
+        Assessment,
+        YearwiseStudentId,
+        StandardId
+    } = useParams();
+
+    // Decode in-place
+    Assessment = decodeURL(Assessment);
+    YearwiseStudentId = decodeURL(YearwiseStudentId);
+    StandardId = decodeURL(StandardId);
+
     console.log(Assessment, "Assessment");
 
     const dispatch = useDispatch();
