@@ -1217,8 +1217,7 @@ function Form13() {
                     'Supports only ' +
                     ValidFileTypes2.join(', ') +
                     ' files types with total size upto ' +
-                    (MaxfileSize / 1000000).toString() +
-                    'MB.'
+                    (MaxfileSize / 1000000).toString() + ' MB.'
                   }
                 >
                   <Button
