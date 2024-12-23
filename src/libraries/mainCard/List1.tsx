@@ -17,15 +17,15 @@ function List1({
       if (SelectedMonth === null)
         navigate(
           '/RITeSchool/' +
-          encodeURL(path.replace('%', encodeURIComponent('%'))) +
+          path.replace('%', encodeURIComponent('%')) +
           encodeURL(linkParams)
         );
       else
         navigate(
           '/RITeSchool/' +
-          encodeURL( path.replace('%', encodeURIComponent('%'))) +
+          path.replace('%', encodeURIComponent('%')) +
           '/' +
-          encodeURL( SelectedMonth) +
+          encodeURL(SelectedMonth) +
           '/' +
           encodeURL(SelectedYear)
         );
