@@ -1,6 +1,6 @@
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -159,52 +159,114 @@ const AssignHomework = () => {
           { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' }
         ]}
         rightActions={<>
-          <SearchableDropdown
-            sx={{ minWidth: '25vw', bgcolor: AssignHomeworkPermission === 'N' ? '#F0F0F0' : 'inherit' }}
-            ItemList={TeacherList}
-            onChange={clickTeacherDropdown}
-            label={'Select Teacher'}
-            defaultValue={SelectTeacher?.toString()}
-            mandatory
-            size={"small"}
-            DisableClearable={AssignHomeworkPermission === 'N'}
-            disabled={AssignHomeworkPermission === 'N'}
-          />
-          <SearchableDropdown
-            sx={{ minWidth: '25vw' }}
-            ItemList={ClassList}
-            onChange={clickClass}
-            label={'Select Class:'}
-            defaultValue={SelectClass}
-            mandatory
-            size={"small"}
-          />
-          <Tooltip title={'List the class subjects for homework assignment.'}>
-            <IconButton
+       <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              // justifyContent="space-between"
+              alignItems="right"
+              
+              spacing={2}
               sx={{
-                color: 'white', backgroundColor: grey[500], '&:hover': { backgroundColor: grey[500] }
+                
+                mt: { xs: 0, sm: 0 },
+                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
               }}
             >
-              <QuestionMark />
-            </IconButton>
-          </Tooltip>
-          {SelectClass &&
-            ((asStandardDivisionId === SelectClass && AssignHomeworkPermission === 'Y') ||
-              SubjectDetailLists.some((item) => item.Text5 === "Y") && UsschoolSettings === "true")
-            && (
-              <div>
-                <Tooltip title={'Manage Daily Log'}>
-                  <IconButton
-                    onClick={onClick}
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
+                <Stack
+                  direction="row"
+                  gap={1}
+                  alignItems="left"
+                  sx={{
+                    flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                    justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                  }}
+                >
+                  <SearchableDropdown
                     sx={{
-                      color: 'white', backgroundColor: blue[500], '&:hover': { backgroundColor: blue[600] }
+                      minWidth: { xs: '42vh', sm: '20vw' },
+                      bgcolor:
+                        AssignHomeworkPermission === 'N' ? '#F0F0F0' : 'inherit'
+                    }}
+                    ItemList={TeacherList}
+                    onChange={clickTeacherDropdown}
+                    label={'Select Teacher'}
+                    defaultValue={SelectTeacher?.toString()}
+                    mandatory
+                    size={'small'}
+                    DisableClearable={AssignHomeworkPermission === 'N'}
+                    disabled={AssignHomeworkPermission === 'N'}
+                  />
+                </Stack>
+              </Grid>
+
+              <Stack
+                direction={{ xs: 'row', sm: 'row' }}
+                spacing={0}
+                alignItems="center"
+                justifyContent="flex-start"
+                sx={{
+                  width: '100%',
+                  flexWrap: { xs: 'wrap', sm: 'nowrap' }
+                }}
+              >
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: 'auto' },
+                    mb: { xs: 0, sm: 'auto' }
+                  }}
+                >
+                  <SearchableDropdown
+                    sx={{ minWidth: { xs: '42vh', sm: '20vw' },  mb: { xs: 1, sm: 'auto' } }}
+                    ItemList={ClassList}
+                    onChange={clickClass}
+                    label={'Select Class:'}
+                    defaultValue={SelectClass}
+                    mandatory
+                    size={'small'}
+                  />
+                </Box>
+
+                <Tooltip
+                  title={'List the class subjects for homework assignment.'}
+                >
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      '&:hover': { backgroundColor: grey[500] }
                     }}
                   >
-                    <AddTaskIcon />
+                    <QuestionMark />
                   </IconButton>
                 </Tooltip>
-              </div>
-            )}
+                {SelectClass &&
+                  ((asStandardDivisionId === SelectClass &&
+                    AssignHomeworkPermission === 'Y') ||
+                    (SubjectDetailLists.some((item) => item.Text5 === 'Y') &&
+                      UsschoolSettings === 'true')) && (
+                    <Box>
+                      <Tooltip title={'Manage Daily Log'}>
+                        <IconButton
+                          onClick={onClick}
+                          sx={{
+                            color: 'white',
+                            backgroundColor: blue[500],
+                            '&:hover': { backgroundColor: blue[600] }
+                          }}
+                        >
+                          <AddTaskIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  )}
+              </Stack>
+            </Stack>
         </>}
       />
       <Box sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
