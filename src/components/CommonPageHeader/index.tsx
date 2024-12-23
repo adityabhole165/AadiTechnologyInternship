@@ -17,7 +17,7 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
         <Box sx={{ pt: 5, pb: 2 }}>
             <Grid container spacing={2} alignItems="center">
                 {/* Left Section */}
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={6}>
                     <Breadcrumbs
                         aria-label="breadcrumb"
                         separator={<ChevronRightTwoTone fontSize="small" />}
@@ -86,7 +86,7 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                 </Grid>
 
                 {/* Right Section */}
-                <Grid item xs={12} sm={4} display="flex" justifyContent={{ xs: 'flex-end', sm: 'flex-end' }}>
+                <Grid item xs={12} sm={6} display="flex" justifyContent={{ xs: 'flex-end', sm: 'flex-end' }}>
                     <Stack direction="row" alignItems="right" gap={1}>
                         {rightActions}
                     </Stack>
