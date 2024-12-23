@@ -234,7 +234,7 @@ const AddReciepents = ({
         initialTecherStudent.push({ Id: '11', Name: 'PTA', isActive: false });
       }
     }
-    if (isComposeSMS) {
+    if (isComposeSMS && asSchoolId == '122') {
       initialTecherStudent.push({ Id: '3', Name: 'Student', isActive: false }); // Add "Student" only for ComposeSMS
     }
     if (isComposeSMS) {
