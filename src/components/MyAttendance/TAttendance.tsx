@@ -715,8 +715,8 @@ const TAttendance = () => {
                 <Typography
                   color={MarksError ? grey[500] : blue[500]}
                   fontWeight="bold"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => {
+                  sx={{ cursor: 'pointer',mt: { xs: '4px', sm: '7px' }}}
+                  onClick={() => {  
                     if (!MarksError) {
                       clickNavigateSchoolAttendanceOverview();
                     }
@@ -728,6 +728,7 @@ const TAttendance = () => {
               <Typography
                 color={MarksError ? grey[500] : blue[500]}
                 fontWeight="bold"
+                sx={{alignItems: 'center', mt: { xs: '4px', sm: '7px' }}}
               >
                 -
               </Typography>
