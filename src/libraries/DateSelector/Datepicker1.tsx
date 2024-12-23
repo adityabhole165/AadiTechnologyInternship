@@ -2,7 +2,7 @@
 import { DatePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
 
-const Datepicker1 = ({ DateValue, onDateChange, label, size, error, helperText, maxDate }) => {
+const Datepicker1 = ({ DateValue, onDateChange, label, size, error, helperText, maxDate, mandatory = true }) => {
     const handleDateChange = (date) => {
         // If date is null (cleared) or invalid
         if (!date || !moment(date).isValid()) {
@@ -30,7 +30,7 @@ const Datepicker1 = ({ DateValue, onDateChange, label, size, error, helperText, 
                 label={
                     label ? (
                         <>
-                            {label} {label && <span style={{ color: 'red' }}>*</span>}
+                            {label} {mandatory && <span style={{ color: 'red' }}>*</span>}
                         </>
                     ) : (
                         "Select Date"

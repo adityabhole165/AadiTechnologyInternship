@@ -1517,8 +1517,9 @@ const StudentRegistrationForm = () => {
   };
 
   const clickViewAddNoteDocs = (fileName) => {
+    console.log('fileName', fileName);
     window.open(
-      localStorage.getItem('SiteURL') + 'RITESCHOOL/DOWNLOADS/StudentAchievement/' + fileName
+      localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/StudentAchievement/' + fileName
       // \\PPSN Website\RITESCHOOL\DOWNLOADS\Performance Evaluation\MCAResult12320240906143621.pdf
       // http://web.aaditechnology.info/RITeSchool//downloads//Performance%20Evaluation//Screenshot%202024-09-05%20095824.pdf
     );

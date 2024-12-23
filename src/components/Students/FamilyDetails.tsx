@@ -305,6 +305,27 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
   //   }
   // };
 
+  const ViewFatherPhoto = () => {
+    //console.log('fileName', fileName);
+    window.open(
+      localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Parent Photos/' + family.fatherPhoto);
+  }
+  const ViewMotherPhoto = () => {
+    //console.log('fileName', fileName);
+    window.open(
+      localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Parent Photos/' + family.motherPhoto);
+  }
+  const ViewGuardianPhoto = () => {
+    //console.log('fileName', fileName);
+    window.open(
+      localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Parent Photos/' + family.localGuardianPhoto);
+  }
+  const ViewFamilyPhoto = () => {
+    //console.log('fileName', fileName);
+    window.open(
+      localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Family Photos/' + family.familyPhoto);
+  }
+
   const viewPhoto = (key) => {
     const fileName = family[key];
     const url = `${localStorage.getItem("SiteURL")}RITESCHOOL/DOWNLOADS/StudentDocuments/${fileName}`;
@@ -558,11 +579,8 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 DateValue={family.fatherDOB}
                 onDateChange={handleDateChange('fatherDOB')}
                 size={'medium'}
-                label={
-                  <span>
-                    Father's DOB {(parseInt(schoolId) === 18) && <span style={{ color: "red" }}> *</span>}
-                  </span>
-                }
+                label={"Father's DOB"}
+                mandatory={parseInt(schoolId) === 18}
                 error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "fatherDOB")}
                 helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "fatherDOB") ? "Father's Date of Birth should not be blank." : ''}
                 maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
@@ -587,7 +605,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
               <>
                 <Tooltip title={'View'}>
                   <IconButton
-                    onClick={() => viewPhoto('fatherPhoto')}
+                    onClick={ViewFatherPhoto}
                     sx={{
                       color: '#223354',
                       mt: 0.7,
@@ -773,11 +791,8 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 DateValue={family.motherDOB}
                 onDateChange={handleDateChange('motherDOB')}
                 size={'medium'}
-                label={
-                  <span>
-                    Mother's DOB {parseInt(schoolId) === 18 && <span style={{ color: "red" }}> *</span>}
-                  </span>
-                }
+                label={"Mother's DOB"}
+                mandatory={parseInt(schoolId) === 18}
                 error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "motherDOB")}
                 helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "motherDOB") ? "Mother's Date of Birth should not be blank." : ''}
                 maxDate={new Date()}
@@ -803,7 +818,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
               <>
                 <Tooltip title={'View'}>
                   <IconButton
-                    onClick={() => viewPhoto('motherPhoto')}
+                    onClick={ViewMotherPhoto}
                     sx={{
                       color: '#223354',
                       mt: 0.7,
@@ -918,11 +933,8 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 DateValue={family.marriageAnniversaryDate}
                 onDateChange={handleDateChange('marriageAnniversaryDate')}
                 size={'medium'}
-                label={
-                  <span>
-                    Marriage Anniversary Date {parseInt(schoolId) === 18 && <span style={{ color: "red" }}> *</span>}
-                  </span>
-                }
+                label={"Marriage Anniversary Date"}
+                mandatory={parseInt(schoolId) === 18}
                 error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "marriageAnniversaryDate")}
                 helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}
                 maxDate={new Date()}
@@ -947,7 +959,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
               <>
                 <Tooltip title={'View'}>
                   <IconButton
-                    onClick={() => viewPhoto('localGuardianPhoto')}
+                    onClick={ViewGuardianPhoto}
                     sx={{
                       color: '#223354',
                       mt: 0.7,
@@ -1072,7 +1084,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
           <>
             <Tooltip title={'View'}>
               <IconButton
-                onClick={() => viewPhoto('familyPhoto')}
+                onClick={ViewFamilyPhoto}
                 sx={{
                   color: '#223354',
                   mt: 0.7,

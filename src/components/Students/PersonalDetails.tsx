@@ -120,10 +120,10 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
   const MaxfileSize = 5000000;
 
-  const ChangeFile = (value) => {
-    setForm(value.name);
-    //setbase64URL2(value.Value);
-  };
+  // const ChangeFile = (value) => {
+  //   setForm(value.name);
+  //   //setbase64URL2(value.Value);
+  // };
 
   const [errors, setErrors] = useState({
     firstName: false,
@@ -313,10 +313,10 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
     const numericValue = e.target.value.replace(/\D/g, '');
     if (!isNaN(Number(numericValue)) && numericValue.length <= 10) {
       //setIContactNumber(numericValue);
-      setForm((prevForm) => ({
-        ...prevForm,
-        [e.target.name]: numericValue
-      }));
+      // setForm((prevForm) => ({
+      //   ...prevForm,
+      //   [e.target.name]: numericValue
+      // }));
       onChange(e.target.name, numericValue);
     }
   }
@@ -364,10 +364,10 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
       base64: base64Image
     });
 
-    setForm(prevForm => ({
-      ...prevForm,
-      photoFilePath: newImageName
-    }));
+    // setForm(prevForm => ({
+    //   ...prevForm,
+    //   photoFilePath: newImageName
+    // }));
     onChange('photoFilePath', newImageName);
   };
 
@@ -525,10 +525,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
     console.log('Selected file:', value.Name);            // late render
 
-    setForm((prevForm) => ({
-      ...prevForm,
-      aadharCardScanCopy: value.Name,
-    }));
+
     onChange('aadharCardScanCopy', value.Name);
     console.log('🆕1️⃣aadharCardScanCopy', personal.aadharCardScanCopy);
   };
@@ -539,11 +536,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
 
   const viewImage = () => {
-    if (form.aadharCardScanCopy) {
-      const fullImageUrl = `${url}${form.aadharCardScanCopy}`;
+    if (personal.aadharCardScanCopy) {
+      const fullImageUrl = `${url}${personal.aadharCardScanCopy}`;
       window.open(fullImageUrl, '_blank');
     }
   };
+
+
+
   // const viewImage = () => {
   //   //const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
   //   console.log('base64Image', base64Image);
@@ -562,45 +562,40 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   // };
 
 
-  //#region DataTransfer 
-  // useEffect(() => {
-  //   onTabChange(form); // Sends the initial form state to the parent when component mounts
-  // }, [form]);
-  //#endregion
 
   //#endregion
-  const validateForm = () => {
-    const newErrors = {
-      firstName: !form.firstName,
-      motherName: !form.motherName,
-      motherNumber: !form.motherNumber,
-      parentName: !form.parentName,
-      email: !form.email,
-      address: !form.address,
-      city: !form.city,
-      state: !form.state,
-      pin: !form.pin,
-      placeOfBirth: !form.placeOfBirth,
-      casteAndSubCaste: !form.casteAndSubCaste,
-      dateOfBirth: !form.dateOfBirth,
-      nationality: !form.nationality,
-      motherTongue: !form.motherTongue
-    };
-    setErrors(newErrors);
-    console.log(!Object.values(newErrors).includes(true));
-    return !Object.values(newErrors).includes(true);
-  };
+  // const validateForm = () => {
+  //   const newErrors = {
+  //     firstName: !form.firstName,
+  //     motherName: !form.motherName,
+  //     motherNumber: !form.motherNumber,
+  //     parentName: !form.parentName,
+  //     email: !form.email,
+  //     address: !form.address,
+  //     city: !form.city,
+  //     state: !form.state,
+  //     pin: !form.pin,
+  //     placeOfBirth: !form.placeOfBirth,
+  //     casteAndSubCaste: !form.casteAndSubCaste,
+  //     dateOfBirth: !form.dateOfBirth,
+  //     nationality: !form.nationality,
+  //     motherTongue: !form.motherTongue
+  //   };
+  //   setErrors(newErrors);
+  //   console.log(!Object.values(newErrors).includes(true));
+  //   return !Object.values(newErrors).includes(true);
+  // };
 
-  const handleSave = () => {
-    const isValid = validateForm();
-    // onSave(isValid);
-    setMessage(
-      isValid
-        ? 'Draft saved successfully!'
-        : 'Please fill in all required fields.'
-    );
-    setTimeout(() => setMessage(''), 2000);
-  };
+  // const handleSave = () => {
+  //   const isValid = validateForm();
+  //   // onSave(isValid);
+  //   setMessage(
+  //     isValid
+  //       ? 'Draft saved successfully!'
+  //       : 'Please fill in all required fields.'
+  //   );
+  //   setTimeout(() => setMessage(''), 2000);
+  // };
   const BloodGroupDropdown = [
     { Id: 1, Name: 'O+', Value: 'O+' },
     { Id: 2, Name: 'A+', Value: 'A+' },
