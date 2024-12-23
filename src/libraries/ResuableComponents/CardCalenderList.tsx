@@ -42,7 +42,7 @@ function CardCalenderList({
   };
   let dayCount = new Date('01' + formattedDate).getDay();
   return (
-    <Box sx={{ backgroundColor: 'white' }} pl={2.5} pr={1} py={2}>
+    <Box sx={{ backgroundColor: 'white',p:2 }} >
       <Box
         sx={{
           alignItems: 'center',
@@ -103,16 +103,16 @@ function CardCalenderList({
           ></Stack>
         </Box>
 
-        <Grid container spacing={0} sx={{ mt: 2 }}>
+        <Grid container spacing={0} sx={{ mt: 2, overflow:'auto' }}>
           {ArrayList.map((item, i) => (
             <Grid
               item
               xs={1.7}
               md={1.7}
-              sx={{ textAlign: 'center', pt: 0 }}
+              sx={{ textAlign: 'center', }}
               key={i}
             >
-              <Box sx={{}}>
+              <Box >
                 <Typography
                   sx={{
                     textTransform: 'capitalize',
@@ -127,7 +127,8 @@ function CardCalenderList({
           ))}
           <Grid
             item
-            border="1px solid #ebebeb"
+            // border="1px solid #ebebeb"
+            xs={1.5 * dayCount}
             md={1.7 * dayCount}
             sx={{ textAlign: 'center', pt: 0 }}
           ></Grid>
@@ -138,8 +139,9 @@ function CardCalenderList({
                 <Grid
                   item
                   border="1px solid lightgrey"
+                  xs={1.5}
                   md={1.7}
-                  sx={{ textAlign: 'center', pt: 0 }}
+                  sx={{ textAlign: 'center', }}
                   key={i}
                 >
                   <CardCal
