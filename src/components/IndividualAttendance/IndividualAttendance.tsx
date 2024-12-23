@@ -633,7 +633,7 @@ const IndividualAttendance = () => {
           </>
         }
       />
-      <Box sx={{ pl: 2 }}>
+      <Box>
         <CardCalenderList
           ItemList={ItemList}
           ClickItem={ClickItem}
@@ -644,7 +644,7 @@ const IndividualAttendance = () => {
           ArrayList={HeaderPublish}
         />
       </Box>
-      <br></br>
+     
       <Dialog
         onClose={() => setOpenPresent(!isOpenPresent)}
         open={isOpenPresent}
