@@ -620,7 +620,7 @@ const LessonPlanBaseScreen = () => {
               {USGetAllTeachersOfLessonPlan.length > 1 && (
                 <Box sx={{ background: 'white' }}>
                   <SearchableDropdown1
-                    sx={{ minWidth: '25vw' }}
+                    sx={{ minWidth: '20vw' }}
                     ItemList={USGetAllTeachersOfLessonPlan}
                     onChange={ClickSelectTeacher}
                     label={'Select Teacher:'}
