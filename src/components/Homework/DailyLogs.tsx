@@ -10,10 +10,19 @@ import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { getHomeworkDailyLogs } from 'src/requests/Homework/RequestHomeworkNew';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 
 function DailyLogs() {
   const dispatch = useDispatch();
-  const { DateFrommon, DateFromyear } = useParams();
+  let {
+    DateFrommon,
+    DateFromyear
+  } = useParams();
+
+  // Decode in-place
+  DateFrommon = decodeURL(DateFrommon);
+  DateFromyear = decodeURL(DateFromyear);
+
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');

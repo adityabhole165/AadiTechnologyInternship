@@ -17,10 +17,19 @@ import { IGetMonthwiseAttendanceBody } from 'src/interfaces/MonthwiseAttendance/
 import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
 import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttendance';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const MonthwiseAttandance = () => {
-  const { selectClasstecahernew, AssignedDate } = useParams();
+  let {
+    selectClasstecahernew,
+    AssignedDate
+  } = useParams();
+
+  // Decode in-place
+  selectClasstecahernew = decodeURL(selectClasstecahernew);
+  AssignedDate = decodeURL(AssignedDate);
+
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   // const StandardDivisionId = Number(

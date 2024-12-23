@@ -20,7 +20,7 @@ import { useParams } from 'react-router';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SingleFile from 'src/libraries/File/SingleFile';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
+import { decodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
 
 interface AddNotePopupProps {
   open: boolean;
@@ -41,7 +41,13 @@ const MaxfileSize = 5000000;
 
 const AddNotePopup: React.FC<AddNotePopupProps> = ({ open, onClose }) => {
   const [fileNames, setFileNames] = useState<string[]>([]);
-  const { AssignedDate } = useParams();
+  let {
+    AssignedDate
+  } = useParams();
+
+  // Decode in-place
+  AssignedDate = decodeURL(AssignedDate);
+
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const uploadedFiles = Array.from(event.target.files).map(

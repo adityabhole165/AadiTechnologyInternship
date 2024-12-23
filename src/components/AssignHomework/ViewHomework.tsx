@@ -15,13 +15,33 @@ import { IGetAllHomeworkDocumentsBody, IGetHomeworkDetailBody } from 'src/interf
 import { GetAllHomeworkDocuments } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDate } from '../Common/Util';
+import { decodeURL, getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import DatepickerLeave from '../LeaveDetails/DatepickerLeave';
 const ViewHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Id, TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass } = useParams();
+  let {
+    Id,
+    TeacherName,
+    ClassName,
+    SubjectName,
+    SubjectId,
+    MySubject,
+    TeacherId,
+    SelectClass
+  } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+  TeacherName = decodeURL(TeacherName);
+  ClassName = decodeURL(ClassName);
+  SubjectName = decodeURL(SubjectName);
+  SubjectId = decodeURL(SubjectId);
+  MySubject = decodeURL(MySubject);
+  TeacherId = decodeURL(TeacherId);
+  SelectClass = decodeURL(SelectClass);
+
   const [AssignedDate, setAssignedDate] = useState('');
   const [Title, setTitle] = useState('');
   const [HomeworkId, setHomeworkId] = useState('');

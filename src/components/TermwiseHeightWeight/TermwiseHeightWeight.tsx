@@ -17,7 +17,7 @@ import {
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import TermwiseHeightWeightList from 'src/libraries/ResuableComponents/TermwiseHeightWeightList';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
-import { getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, getSchoolConfigurations } from '../Common/Util';
 
 import Save from '@mui/icons-material/Save';
 import {
@@ -34,7 +34,13 @@ import CommonPageHeader from '../CommonPageHeader';
 const TermwiseHeightWeight = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { StandardDivisionId } = useParams();
+  let {
+    StandardDivisionId
+  } = useParams();
+
+  // Decode in-place
+  StandardDivisionId = decodeURL(StandardDivisionId);
+
 
 
   const [SelectTerm, setSelectTerm] = useState(0);

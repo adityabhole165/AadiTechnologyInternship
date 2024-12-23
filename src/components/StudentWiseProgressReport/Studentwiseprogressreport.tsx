@@ -38,7 +38,7 @@ import {
   oneDeleteStudentTest
 } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
-import { getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, getSchoolConfigurations } from '../Common/Util';
 import IsPublishstatus from './IsPublishstatus';
 
 import CommonPageHeader from '../CommonPageHeader';
@@ -67,8 +67,19 @@ const Studentwiseprogressreport = () => {
     });
     return perm;
   };
-  const { ClassTecherid, ClassId, TestId, TermId } =
-    useParams();
+  let {
+    ClassTecherid,
+    ClassId,
+    TestId,
+    TermId
+  } = useParams();
+
+  // Decode in-place
+  ClassTecherid = decodeURL(ClassTecherid);
+  ClassId = decodeURL(ClassId);
+  TestId = decodeURL(TestId);
+  TermId = decodeURL(TermId);
+
   let CanEdit = getSchoolConfigurations(74)
 
   const [SelectTeacher, setSelectTeacher] = useState(TeacherId);

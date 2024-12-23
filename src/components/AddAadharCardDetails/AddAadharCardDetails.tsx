@@ -9,6 +9,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import { AddAadharCard, SubmitAadhardetails } from 'src/requests/AddAadharCardDetails/RequestAddAadharCardDetails';
+import { decodeURL } from '../Common/Util';
 
 
 
@@ -17,7 +18,15 @@ import { AddAadharCard, SubmitAadhardetails } from 'src/requests/AddAadharCardDe
 const AddAadharCardDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { StudentFullName, AadharCardNo } = useParams();
+    let {
+        StudentFullName,
+        AadharCardNo
+    } = useParams();
+
+    // Decode in-place
+    StudentFullName = decodeURL(StudentFullName);
+    AadharCardNo = decodeURL(AadharCardNo);
+
 
 
 

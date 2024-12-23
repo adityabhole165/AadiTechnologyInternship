@@ -30,15 +30,24 @@ import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 import ListEditIcon2 from 'src/libraries/ResuableComponents/ListEditIcon2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { ClassTecherid, ClassId, TestId } =
-    useParams();
+  let {
+    ClassTecherid,
+    ClassId,
+    TestId
+  } = useParams();
+
+  // Decode in-place
+  ClassTecherid = decodeURL(ClassTecherid);
+  ClassId = decodeURL(ClassId);
+  TestId = decodeURL(TestId);
+
   let CanEdit = getSchoolConfigurations(74)
 
 

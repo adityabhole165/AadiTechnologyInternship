@@ -54,12 +54,21 @@ import { useParams } from 'react-router-dom';
 import { IGetStandardsForExamCopyBody } from 'src/interfaces/Teacher/TExamSchedule';
 import { GetStandardsForExamCopy } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 interface SelectStandardsProps {
   selectedStandards: number[];
   setSelectedStandards: React.Dispatch<React.SetStateAction<number[]>>;
 }
 const SelectStandards: React.FC<SelectStandardsProps> = ({ selectedStandards, setSelectedStandards }) => {
-  const { StandardId, TestId } = useParams();
+  let {
+    StandardId,
+    TestId
+  } = useParams();
+
+  // Decode in-place
+  StandardId = decodeURL(StandardId);
+  TestId = decodeURL(TestId);
+
   const dispatch = useDispatch();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');

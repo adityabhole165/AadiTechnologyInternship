@@ -34,14 +34,20 @@ import {
     resetSelectSchoolNotice,
 } from 'src/requests/AddSchoolNotice/ReqAddNotice';
 import { RootState, useDispatch, useSelector } from 'src/store';
-import { isBetweenDates } from '../Common/Util';
+import { decodeURL, isBetweenDates } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SchoolNoticeList from './SchoolNoticeList';
 
 const SchoolNoticeBaseScreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { selectDisplayT } = useParams();
+    let {
+        selectDisplayT
+    } = useParams();
+
+    // Decode in-place
+    selectDisplayT = decodeURL(selectDisplayT);
+
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));

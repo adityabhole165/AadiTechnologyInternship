@@ -12,10 +12,19 @@ import Card10 from 'src/libraries/mainCard/Card10';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransportDetails';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 function Map() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { PickDrop, alignment } = useParams();
+  let {
+    PickDrop,
+    alignment
+  } = useParams();
+
+  // Decode in-place
+  PickDrop = decodeURL(PickDrop);
+  alignment = decodeURL(alignment);
+
 
   // const variable = location.state?.variable;
   const StopDetails: any = useSelector(

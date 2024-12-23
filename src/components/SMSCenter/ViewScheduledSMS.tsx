@@ -7,6 +7,7 @@ import {
 import Card25 from 'src/libraries/card/Card25';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import http from 'src/requests/SchoolService/schoolServices';
+import { decodeURL } from '../Common/Util';
 
 const ViewScheduledSMS = () => {
   const ViewDetail = {
@@ -15,7 +16,15 @@ const ViewScheduledSMS = () => {
     To: 'To',
     SMS_Text: 'SMS Text'
   };
-  const { DetailsId, FromURL } = useParams();
+  let {
+    DetailsId,
+    FromURL
+  } = useParams();
+
+  // Decode in-place
+  DetailsId = decodeURL(DetailsId);
+  FromURL = decodeURL(FromURL);
+
   const [viewSms, setViewSms] = useState<GetSMSDetailsResult>();
 
   const body: GetScheduledSMSDetails = {

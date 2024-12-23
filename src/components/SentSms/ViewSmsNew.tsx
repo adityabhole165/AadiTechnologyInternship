@@ -16,6 +16,7 @@ import {
 } from 'src/interfaces/Student/SMSCenter';
 import http from 'src/requests/SchoolService/schoolServices';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 
 const FlexedTypography = styled(Typography)(({ theme }) => ({
   display: 'flex',
@@ -40,7 +41,13 @@ function ViewSmsNew() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
-  const { SmsId } = useParams();
+  let {
+    SmsId
+  } = useParams();
+
+  // Decode in-place
+  SmsId = decodeURL(SmsId);
+
   console.log(SmsId);
 
 

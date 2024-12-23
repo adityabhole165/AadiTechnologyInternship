@@ -22,6 +22,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDAGetRequisitionDetails, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
 import Requisioneditlist from './Requisioneditlist';
@@ -31,7 +32,13 @@ const AddRequisition = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { asRequisitionId } = useParams();
+    let {
+        asRequisitionId
+    } = useParams();
+
+    // Decode in-place
+    asRequisitionId = decodeURL(asRequisitionId);
+
     console.log(asRequisitionId, "asRequisitionId--");
 
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));

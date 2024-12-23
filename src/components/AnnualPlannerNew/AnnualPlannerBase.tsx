@@ -21,12 +21,22 @@ import {
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { resetEventList } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { getDateDDMMMDash } from '../Common/Util';
+import { decodeURL, getDateDDMMMDash } from '../Common/Util';
 import AnnualPlannerHeader from './AnnualPlannerHeader';
 import CalendarAnnualPlanner from './CalendarAnnualPlanner';
 
 const AnnualPlannerBase = () => {
-  const { selectedDate, standardId, divisionId } = useParams();
+  let {
+    selectedDate,
+    standardId,
+    divisionId
+  } = useParams();
+
+  // Decode in-place
+  selectedDate = decodeURL(selectedDate);
+  standardId = decodeURL(standardId);
+  divisionId = decodeURL(divisionId);
+
   const [selectedStandardId, setSelectedStandardId] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();

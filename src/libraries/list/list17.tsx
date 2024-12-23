@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
+import { decodeURL } from 'src/components/Common/Util';
 import { RootState } from "src/store";
 import { CardDetail2, ListStyle } from '../styled/CardStyle';
 
@@ -31,7 +32,11 @@ function List17({ Name, BirthDate, Designation, EmailAddress, MobileNumber, Bina
   const [checked, setChecked] = useState(true);
   const theme = useTheme();
   const classes = Styles();
-  const { assignedDate } = useParams();
+  let { assignedDate } = useParams();
+
+  // Decode in-place
+  assignedDate = decodeURL(assignedDate);
+
   const [birthDate, SetBirthDate] = useState([]);
 
 

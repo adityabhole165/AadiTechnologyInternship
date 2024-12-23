@@ -17,12 +17,29 @@ import { IConfigurationData, IExamScheduleConfigBody, IGetSubjectExamScheduleBod
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { CDAGetSubjectExamSchedule, GetCopyStandardTestMsg, GetInsertExamSchedule, GetIsSchoolConfigured, GetSumbitExamSchedule, GetUpdateExamScheduleInstructions, InsertConfigurationSchoolMaster, resetCopyStandardTestMsg, RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectStandards from './SelectStandards';
 import StandardwiseExamScheduleTable from './StandardwiseExamScheduleTable';
 
 const StandardwiseExamSchedule = () => {
-    const { StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId, IsConfigured, SchoolwiseStandardTestId } = useParams();
+    let {
+        StandardId,
+        TestId,
+        SchoolwiseStandardExamScheduleId,
+        StandardTestId,
+        IsConfigured,
+        SchoolwiseStandardTestId
+    } = useParams();
+
+    // Decode in-place
+    StandardId = decodeURL(StandardId);
+    TestId = decodeURL(TestId);
+    SchoolwiseStandardExamScheduleId = decodeURL(SchoolwiseStandardExamScheduleId);
+    StandardTestId = decodeURL(StandardTestId);
+    IsConfigured = decodeURL(IsConfigured);
+    SchoolwiseStandardTestId = decodeURL(SchoolwiseStandardTestId);
+
 
 
     const inistailSchoolwiseStandardExamScheduleId = SchoolwiseStandardExamScheduleId !== undefined ? SchoolwiseStandardExamScheduleId : 0

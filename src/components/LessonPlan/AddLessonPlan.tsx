@@ -18,7 +18,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans, resetupdatelessonplandate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
+import { GetScreenPermission, decodeURL, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanActivity from './LessonPlanActivity';
 import LessonPlanList from './LessonPlanList';
@@ -37,7 +37,19 @@ const StyledCell = styled(TableCell)(({ theme }) => ({
 }))
 
 const AddLessonPlan = () => {
-  const { UserIdParam, StartDateParam, EndDateParam, Action } = useParams()
+  let {
+    UserIdParam,
+    StartDateParam,
+    EndDateParam,
+    Action
+  } = useParams();
+
+  // Decode in-place
+  UserIdParam = decodeURL(UserIdParam);
+  StartDateParam = decodeURL(StartDateParam);
+  EndDateParam = decodeURL(EndDateParam);
+  Action = decodeURL(Action);
+
   // const StartDateParam = "01-Nov-2023", EndDateParam = "30-Nov-2023", IsNewMode = false
   const dispatch = useDispatch();
   const navigate = useNavigate();
