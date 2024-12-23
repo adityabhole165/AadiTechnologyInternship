@@ -23,6 +23,7 @@ import FactCheck from '@mui/icons-material/FactCheck';
 import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone'; // Pre Primary Progress Report
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import FolderCopyOutlinedIcon from '@mui/icons-material/FolderCopyOutlined';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone'; // message center 
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
 import ImportContactsOutlinedIcon from '@mui/icons-material/ImportContactsOutlined';
@@ -477,7 +478,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     {
       id: 'Extra Screens',
       title: 'Regenerate/Reassign Roll Nos',
-      icon: <GetAppIcon />,
+      icon: <FormatListNumberedIcon />,
       link: '/RITeSchool/Teacher/RegenarateRollNo',
       screenId: 0
     },
@@ -626,7 +627,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     {
       id: 'Extra Screens',
       title: 'Exam Schedule Full Access',
-      icon: <AutoStoriesIcon />,
+      icon: <Dataset />,
       link: '/RITeSchool/Teacher/ExamScheduleBaseScreen',
       screenId: 0
     },
@@ -675,7 +676,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     {
       id: 'Extra Screens',
       title: 'Regenerate/Reassign Roll Nos',
-      icon: <GetAppIcon />,
+      icon: <FormatListNumberedIcon />,
       link: '/RITeSchool/Teacher/RegenarateRollNo',
       screenId: 0
     },
