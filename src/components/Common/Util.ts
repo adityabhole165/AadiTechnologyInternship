@@ -727,8 +727,9 @@ import { Buffer } from 'buffer';
 
 // Encrypt Function
 // Encrypt Function
-export const encodeURL = (data) => {
+export const encodeURL = (data1) => {
   try {
+    let data = data1.toString();
     if (typeof data !== 'string') {
       throw new Error('Input must be a string');
     }
@@ -740,8 +741,9 @@ export const encodeURL = (data) => {
 }
 
 // Decrypt Function
-export const decodeURL = (data) => {
+export const decodeURL = (data1) => {
   try {
+    let data = data1.toString();
     if (typeof data !== 'string') {
       throw new Error('Input must be a string');
     }
