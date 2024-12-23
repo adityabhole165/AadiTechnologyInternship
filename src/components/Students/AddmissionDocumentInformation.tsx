@@ -244,7 +244,7 @@ const AdmissionDocumentInformation = () => {
       asInsertedById: asUserId,
       asDocumnetTypeId: 2,
       asReportingUserId: 0,// Number(ReportingUserId),
-      asSaveFeature: 'Student Documents', //UserInvestmentMethodDetails?.DocumentName,
+      asSaveFeature: 'User Documents', //UserInvestmentMethodDetails?.DocumentName,
       asFolderName: asFolderName.toString(),
       asBase64String: base64URL == '' ? null : base64URL
     }
