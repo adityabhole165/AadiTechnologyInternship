@@ -48,11 +48,21 @@ import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressRep
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState, useSelector } from 'src/store';
 import { Constants } from 'src/utils/hooks/constants/Constants';
-import { encodeURL, getSchoolConfigurations, GetScreenAccessPermissionByPageID } from '../Common/Util';
+import { getSchoolConfigurations, GetScreenAccessPermissionByPageID } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
-  const { ParamsStandardDivisionId, ParamsTestId, selectTeacher } = useParams();
+  let {
+    ParamsStandardDivisionId,
+    ParamsTestId,
+    selectTeacher
+  } = useParams();
+
+  // Decode in-place
+  ParamsStandardDivisionId = decodeURL(ParamsStandardDivisionId);
+  ParamsTestId = decodeURL(ParamsTestId);
+  selectTeacher = decodeURL(selectTeacher);
+
   const [toppersGenerated, setToppersGenerated] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();

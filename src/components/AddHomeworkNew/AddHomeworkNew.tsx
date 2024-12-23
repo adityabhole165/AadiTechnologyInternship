@@ -20,14 +20,33 @@ import { CDAresetgethomeworkdetail, GetHomeworkDetails, GetPublishUnpublishHomew
 import { RootState } from 'src/store';
 import { ResizableTextField } from "../AddSchoolNitice/ResizableDescriptionBox";
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isGreaterOrEqualDate } from '../Common/Util';
+import { decodeURL, formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isGreaterOrEqualDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
 import { encodeURL } from '../Common/Util';
 
 const AddHomeworkNew = () => {
-  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass, StandardDivision } =
-    useParams();
+  let {
+    TeacherName,
+    ClassName,
+    SubjectName,
+    SubjectId,
+    MySubject,
+    TeacherId,
+    SelectClass,
+    StandardDivision
+  } = useParams();
+
+  // Decode in-place
+  TeacherName = decodeURL(TeacherName);
+  ClassName = decodeURL(ClassName);
+  SubjectName = decodeURL(SubjectName);
+  SubjectId = decodeURL(SubjectId);
+  MySubject = decodeURL(MySubject);
+  TeacherId = decodeURL(TeacherId);
+  SelectClass = decodeURL(SelectClass);
+  StandardDivision = decodeURL(StandardDivision);
+
 
 
   const navigate = useNavigate();

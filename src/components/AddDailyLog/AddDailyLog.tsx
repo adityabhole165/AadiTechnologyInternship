@@ -45,14 +45,22 @@ import {
   Savedailylog
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
-import { formatDateAsDDMMMYYYY } from '../Common/Util';
+import { decodeURL, formatDateAsDDMMMYYYY } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 
 const AddDailyLog = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Id, ClassName } = useParams();
+  let {
+    Id,
+    ClassName
+  } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+  ClassName = decodeURL(ClassName);
+
   const [dateState, setDateState]: any = useState('');
   const [dateSearch, setDateSearch] = useState('');
   const [dateSearchError, setDateSearchError] = useState('');

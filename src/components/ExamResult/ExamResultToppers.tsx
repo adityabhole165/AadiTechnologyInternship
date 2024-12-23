@@ -48,14 +48,30 @@ import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import { RootState, useDispatch } from 'src/store';
-import { getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { StyledTableCell, StyledTableRow } from '../DataTable';
 
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly } = useParams();
+    let {
+        TeacherId,
+        StandardDivisionId,
+        TestId,
+        standardId,
+        examtopperProp,
+        IsReadOnly
+    } = useParams();
+
+    // Decode in-place
+    TeacherId = decodeURL(TeacherId);
+    StandardDivisionId = decodeURL(StandardDivisionId);
+    TestId = decodeURL(TestId);
+    standardId = decodeURL(standardId);
+    examtopperProp = decodeURL(examtopperProp);
+    IsReadOnly = decodeURL(IsReadOnly);
+
     console.log(standardId, 'sssssssstandardId');
 
 

@@ -16,11 +16,20 @@ import {
   GetQuestionDetailsList
 } from 'src/requests/Student/OnlineExam';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CardQA from './CardQA';
 
 const onlineExamDetails = () => {
   const dispatch = useDispatch();
-  const { ExamId, SubjectId } = useParams();
+  let {
+    ExamId,
+    SubjectId
+  } = useParams();
+
+  // Decode in-place
+  ExamId = decodeURL(ExamId);
+  SubjectId = decodeURL(SubjectId);
+
   const QuestionDetailsList = useSelector(
     (state: RootState) => state.OnlineExam.QuestionDetailsList
   );

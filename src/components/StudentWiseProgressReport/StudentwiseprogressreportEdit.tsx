@@ -20,13 +20,23 @@ import { TeacherXseedSubjects } from 'src/requests/PrePrimaryResult/RequestPrePr
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { CDAAssessmentDropdown } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
-import { encodeURL, SchoolScreensAccessPermission } from '../Common/Util';
+import { decodeURL,encodeURL , SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField1 } from './ResizableTextField1';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { Assessment, YearwiseStudentId, StandardId } = useParams();
+    let {
+        Assessment,
+        YearwiseStudentId,
+        StandardId
+    } = useParams();
+
+    // Decode in-place
+    Assessment = decodeURL(Assessment);
+    YearwiseStudentId = decodeURL(YearwiseStudentId);
+    StandardId = decodeURL(StandardId);
+
     const [AssessmentId, setAssessmentId]: any = useState(Assessment);
     const [headerGrade, setHeaderGrade] = useState("0");
     const [grades, setGrades] = useState({});

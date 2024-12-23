@@ -31,13 +31,19 @@ import {
   CDAUserRoles
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
+import { decodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
 //validationMessages,isValid
 const AdmissionDetails = ({ admission, onChange, invalidFields }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
-  const { AssignedDate } = useParams();
+  let {
+    AssignedDate
+  } = useParams();
+
+  // Decode in-place
+  AssignedDate = decodeURL(AssignedDate);
+
   const schoolId = localStorage.getItem('SchoolId');
 
   // const [form, setForm] = useState({

@@ -2,19 +2,27 @@ import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { IPhotoAlbum } from 'src/interfaces/Common/PhotoGallery';
+import { IPhotoAlbumBody } from 'src/interfaces/Student/dashboard';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import List1 from 'src/libraries/mainCard/List1';
 import { CDAgetPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import MonthYearselector from './MonthYearselector';
-import { IPhotoAlbumBody } from 'src/interfaces/Student/dashboard';
 function Photos() {
   const dispatch = useDispatch();
-  const { Month, Year } = useParams();
+  let {
+    Month,
+    Year
+  } = useParams();
+
+  // Decode in-place
+  Month = decodeURL(Month);
+  Year = decodeURL(Year);
+
 
   const PhotoAlbum: any = useSelector(
     (state: RootState) => state.Dashboard.PhotoAlbumList
@@ -43,7 +51,7 @@ function Photos() {
       setYear(new Date().getFullYear());
     }
     const YearBody: IYearList = {
-      asSchoolId: Number (asSchoolId),
+      asSchoolId: Number(asSchoolId),
       asUserId: Number(asUserId),
       asUserRoleId: Number(RoleId)
     };
@@ -61,11 +69,11 @@ function Photos() {
   useEffect(() => {
     if (month > 0) {
       const PhotoAlbumBody: IPhotoAlbumBody = {
-        aiSchoolId:  Number (asSchoolId),
+        aiSchoolId: Number(asSchoolId),
         aiMonth: month,
         aiYear: year,
         aiUserId: Number(asUserId),
-        iFirstLoad:isFirstLoad
+        iFirstLoad: isFirstLoad
       };
       dispatch(CDAgetPhotoAlbum(PhotoAlbumBody));
     }

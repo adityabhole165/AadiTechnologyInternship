@@ -15,8 +15,7 @@ import Card8 from 'src/libraries/mainCard/Card8';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransportDetails';
 import { RootState } from 'src/store';
-import { encodeURL } from '../Common/Util';
-
+import { encodeURL,decodeURL } from '../Common/Util';
 function TransportDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,7 +47,13 @@ function TransportDetails() {
   //   const { PickDrop } = useParams();
   //   setAlignment(PickDrop==='Drop Vehicle Tracking'? '2' :'1')
   // },[])
-  const { PickDrop } = useParams();
+  let {
+    PickDrop
+  } = useParams();
+
+  // Decode in-place
+  PickDrop = decodeURL(PickDrop);
+
   useEffect(() => {
     setAlignment(PickDrop === 'Drop Vehicle Tracking' ? '2' : '1');
   }, []);

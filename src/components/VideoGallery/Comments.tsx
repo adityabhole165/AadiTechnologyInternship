@@ -10,9 +10,18 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import List11 from 'src/libraries/list/List11';
 import { getcommentS } from 'src/requests/VideoGallery/VideoGallery';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 
 function Comments() {
-  const { VideoID, FromRoute } = useParams();
+  let {
+    VideoID,
+    FromRoute
+  } = useParams();
+
+  // Decode in-place
+  VideoID = decodeURL(VideoID);
+  FromRoute = decodeURL(FromRoute);
+
   const dispatch = useDispatch();
   const comment: any = useSelector((state: RootState) => state.Video.Comments);
   const loading = useSelector((state: RootState) => state.Video.Loading);

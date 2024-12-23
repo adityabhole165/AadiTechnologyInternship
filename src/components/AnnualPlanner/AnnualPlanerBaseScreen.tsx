@@ -34,12 +34,21 @@ import {
 import { GetFile } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import AddAnnualPlaner from './AddAnnualPlaner';
 import { encodeURL } from '../Common/Util';
 
 const AnnualPlanerBaseScreen = () => {
   const navigate = useNavigate();
-  const { DateFrommon, DateFromyear } = useParams();
+  let {
+    DateFrommon,
+    DateFromyear
+  } = useParams();
+
+  // Decode in-place
+  DateFrommon = decodeURL(DateFrommon);
+  DateFromyear = decodeURL(DateFromyear);
+
   const BackMonth = new Date(
     Number(DateFromyear),
     Number(DateFrommon)

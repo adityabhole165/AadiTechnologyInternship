@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { SchoolScreensAccessPermission } from 'src/components/Common/Util';
+import { SchoolScreensAccessPermission, decodeURL } from 'src/components/Common/Util';
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IAllPrimaryClassTeachersBody,
@@ -75,7 +75,15 @@ const ProgressRemarks = () => {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const rowsPerPageOptions = [20, 50, 100, 200];
   const { showAlert, closeAlert } = useContext(AlertContext);
-  const { StandardDivisionId, TestId } = useParams();
+  let {
+    StandardDivisionId,
+    TestId
+  } = useParams();
+
+  // Decode in-place
+  StandardDivisionId = decodeURL(StandardDivisionId);
+  TestId = decodeURL(TestId);
+
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 

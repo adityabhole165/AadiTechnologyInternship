@@ -9,6 +9,7 @@ import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { decodeURL } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import {
   GetSMSDetailsResult,
@@ -40,7 +41,13 @@ function ViewSms() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
-  const { SMS_Id } = useParams();
+  let {
+    SMS_Id
+  } = useParams();
+
+  // Decode in-place
+  SMS_Id = decodeURL(SMS_Id);
+
 
   const GetViewMessageResult = () => {
     const ViewSms_body: IViewSms = {

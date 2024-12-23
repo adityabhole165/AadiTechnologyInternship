@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router';
 import { toast } from "react-toastify";
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
+import { decodeURL, formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
@@ -18,7 +18,13 @@ import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHoli
 import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
-    const { Holiday_Id } = useParams();
+    let {
+        Holiday_Id
+    } = useParams();
+
+    // Decode in-place
+    Holiday_Id = decodeURL(Holiday_Id);
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [ItemList, setitemList] = useState([]);

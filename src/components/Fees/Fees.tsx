@@ -66,6 +66,7 @@ import {
   getallowNextYearInternalFeePaymentForStudent
 } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import PayCautionMoney from './PayCautionMoney';
 import { encodeURL } from '../Common/Util';
 
@@ -77,7 +78,15 @@ const NoMoneyDeducted =
 function Fees() {
   const theme = useTheme();
   const classes = Styles();
-  const { ActiveYear, InternalOrSchool } = useParams();
+  let {
+    ActiveYear,
+    InternalOrSchool
+  } = useParams();
+
+  // Decode in-place
+  ActiveYear = decodeURL(ActiveYear);
+  InternalOrSchool = decodeURL(InternalOrSchool);
+
   const schoolFees = 'SchoolFees';
   const internalFees = 'internalFees';
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');

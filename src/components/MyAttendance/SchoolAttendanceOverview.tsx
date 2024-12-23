@@ -17,12 +17,18 @@ import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import TableUsingArray from 'src/libraries/ResuableComponents/TableUsingArray';
 import { GetStudentAttendance } from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import { RootState } from 'src/store';
-import { encodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
+import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 
 const SchoolAttendanceOverview = () => {
-  const { AssignedDate } = useParams()
+  let {
+    AssignedDate
+  } = useParams();
+
+  // Decode in-place
+  AssignedDate = decodeURL(AssignedDate);
+
   const dispatch = useDispatch();
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));

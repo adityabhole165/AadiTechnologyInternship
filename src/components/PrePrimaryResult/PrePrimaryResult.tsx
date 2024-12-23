@@ -29,13 +29,21 @@ import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import { getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import PrePrimaryResultlist from './PrePrimaryResultlist';
 const PrePrimaryResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { TermId, StdDivId } = useParams();
+  let {
+    TermId,
+    StdDivId
+  } = useParams();
+
+  // Decode in-place
+  TermId = decodeURL(TermId);
+  StdDivId = decodeURL(StdDivId);
+
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const [SelectTeacher, setSelectTeacher] = useState('0');
@@ -208,7 +216,7 @@ const PrePrimaryResult = () => {
   const ClickItem = (SubId, SubName, IsXseedSubject) => {
     let className = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('ClassName') : teacherName?.split(':')[0];
     let StdDivIds = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('StandardDivisionId') : SelectTeacher;
-    console.log('🥱', className);
+
     let isPublishStatus = IsPublished === 'Y' ? '3P' : '2';
     const state = {
       EditStatusId: isPublishStatus,

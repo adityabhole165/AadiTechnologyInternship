@@ -56,6 +56,7 @@ import {
   getEventList
 } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import UpcomingEvent from './UpcomingEvent';
 
@@ -71,7 +72,15 @@ const VisuallyHiddenInput = styled('input')({
 
 function AnnualPlanner() {
   const navigate = useNavigate();
-  const { DateFrommon, DateFromyear } = useParams();
+  let {
+    DateFrommon,
+    DateFromyear
+  } = useParams();
+
+  // Decode in-place
+  DateFrommon = decodeURL(DateFrommon);
+  DateFromyear = decodeURL(DateFromyear);
+
 
   const currentYear = new Date().getFullYear().toString();
   const currentMonth = (new Date().getMonth() + 1).toString();

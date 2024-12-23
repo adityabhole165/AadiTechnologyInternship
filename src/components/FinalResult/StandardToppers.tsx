@@ -20,6 +20,7 @@ import {
   StandardTopperListST
 } from 'src/requests/FinalResult/RqstandardToppers';
 import { RootState, useDispatch } from 'src/store';
+import { decodeURL } from '../Common/Util';
 
 const StandardToppers = () => {
   const RadioList = [
@@ -31,7 +32,13 @@ const StandardToppers = () => {
   const HeaderList1ST = ['Roll No.', 'Student Name'];
 
   const dispatch = useDispatch();
-  const { TeacherId } = useParams();
+  let {
+    TeacherId
+  } = useParams();
+
+  // Decode in-place
+  TeacherId = decodeURL(TeacherId);
+
   const [SelectStandardST, setStandardST] = useState(TeacherId);
   const [SelectExamST, setExamST] = useState('0');
   const [SelectSubjectST, setSubjectST] = useState('0');

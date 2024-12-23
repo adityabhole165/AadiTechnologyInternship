@@ -24,7 +24,7 @@ import {
   resetManageStudentsTestMark
 } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
-import { encodeURL, formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterDate, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterDate, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 
 // import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
@@ -38,8 +38,35 @@ const SubjectExamMarks = () => {
   // const disableFutureDt = current => {
   //   return current.isBefore(today)
   // }
-  let { ClassTecher, ClassId, TeacherId,
-    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publish, getStandardId } = useParams();
+  let {
+    ClassTecher,
+    ClassId,
+    TeacherId,
+    StandardId,
+    IsMonthConfig,
+    IsReadOnly,
+    StandardDivisionId,
+    SubjectId,
+    TestId,
+    examResultProp,
+    publish,
+    getStandardId
+  } = useParams();
+
+  // Decode in-place
+  ClassTecher = decodeURL(ClassTecher);
+  ClassId = decodeURL(ClassId);
+  TeacherId = decodeURL(TeacherId);
+  StandardId = decodeURL(StandardId);
+  IsMonthConfig = decodeURL(IsMonthConfig);
+  IsReadOnly = decodeURL(IsReadOnly);
+  StandardDivisionId = decodeURL(StandardDivisionId);
+  SubjectId = decodeURL(SubjectId);
+  TestId = decodeURL(TestId);
+  examResultProp = decodeURL(examResultProp);
+  publish = decodeURL(publish);
+  getStandardId = decodeURL(getStandardId);
+
 
   // const [examResultProp, setexamResultProp] = useState(false);
 

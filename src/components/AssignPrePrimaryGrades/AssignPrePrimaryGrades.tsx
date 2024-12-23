@@ -22,13 +22,21 @@ import {
   resetSubmitUnSubmitGradeMsg
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { RootState } from 'src/store';
-import { GetIsPrePrimaryTeacher, GetScreenAccessPermissionByPageID } from '../Common/Util';
+import { decodeURL, GetIsPrePrimaryTeacher, GetScreenAccessPermissionByPageID } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { TermId, TeacherId } = useParams();
+  let {
+    TermId,
+    TeacherId
+  } = useParams();
+
+  // Decode in-place
+  TermId = decodeURL(TermId);
+  TeacherId = decodeURL(TeacherId);
+
   const { showAlert, closeAlert } = useContext(AlertContext);
   let Teacher_ID = sessionStorage.getItem("TeacherId")
   let AssignPrePrimaryGradesAccess = GetScreenAccessPermissionByPageID(162);

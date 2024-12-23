@@ -1,12 +1,23 @@
 import { Box } from '@mui/material';
 import { useState } from 'react';
 import { useParams } from 'react-router';
+import { decodeURL } from '../Common/Util';
 import EventManagementForm from './EventManagementForm';
 import EventManagementHeader from './EventManagementHeader';
 import EventManagementList from './EventManagementList';
 
 const EventManagement = () => {
-    const { SelectedDate, StandardId, DivisionId } = useParams();
+    let {
+        SelectedDate,
+        StandardId,
+        DivisionId
+    } = useParams();
+
+    // Decode in-place
+    SelectedDate = decodeURL(SelectedDate);
+    StandardId = decodeURL(StandardId);
+    DivisionId = decodeURL(DivisionId);
+
 
     const [EventId, setEventId] = useState(0);
     const [AddNewEventClicked, setAddNewEventClicked] = useState(0);

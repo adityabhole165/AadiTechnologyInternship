@@ -20,7 +20,7 @@ import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import { CDADeleteFamilyPhoto, CDADeleteFatherPhoto, CDADeleteGuardianPhoto, CDADeleteMotherPhoto, CDAresetDeletePhotoMsg, } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
+import { decodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
 
 const FamilyDetails = ({ family, onChange, invalidFields }) => {
   const location = useLocation();
@@ -28,7 +28,13 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
   const dispatch = useDispatch();
   const schoolId = localStorage.getItem('SchoolId');
 
-  const { AssignedDate } = useParams();
+  let {
+    AssignedDate
+  } = useParams();
+
+  // Decode in-place
+  AssignedDate = decodeURL(AssignedDate);
+
   const [form, setForm] = useState({
     // Father's Information
     fatherQualification: '',

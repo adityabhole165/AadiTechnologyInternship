@@ -44,13 +44,24 @@ import {
   resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { encodeURL } from '../Common/Util';
 
 const EventsManagement = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const { Id, Event_Id, Name } = useParams();
+  let {
+    Id,
+    Event_Id,
+    Name
+  } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+  Event_Id = decodeURL(Event_Id);
+  Name = decodeURL(Name);
+
 
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;

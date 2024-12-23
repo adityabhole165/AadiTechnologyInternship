@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
+import { decodeURL } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import {
   BoxWrapper,
@@ -135,7 +136,13 @@ function Card7({
       })
     );
   };
-  const { FromRoute } = useParams();
+  let {
+    FromRoute
+  } = useParams();
+
+  // Decode in-place
+  FromRoute = decodeURL(FromRoute);
+
 
   const navigateToInBox = () => {
     navigate('/RITeSchool/MessageCenter/msgCenter/Inbox');

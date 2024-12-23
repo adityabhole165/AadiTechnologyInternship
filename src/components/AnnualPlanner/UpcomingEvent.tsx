@@ -1,17 +1,16 @@
 import {
-    Box,
-    Checkbox,
-    Container,
-    FormControlLabel,
-    FormGroup,
-    Typography
+  Box,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Typography
 } from '@mui/material';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import IGetEventsInMonth, {
-    IEventList
+  IEventList
 } from 'src/interfaces/Common/AnnualPlanner';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -20,13 +19,28 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
 import List1 from 'src/libraries/mainCard/List1';
 import {
-    getEvents,
-    getFilePath
+  getEvents,
+  getFilePath
 } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 function UpcomingEvent() {
   const navigate = useNavigate();
-  const { DateFrommon, DateFromyear, Pholiday, Pevent, Pexam } = useParams();
+  let {
+    DateFrommon,
+    DateFromyear,
+    Pholiday,
+    Pevent,
+    Pexam
+  } = useParams();
+
+  // Decode in-place
+  DateFrommon = decodeURL(DateFrommon);
+  DateFromyear = decodeURL(DateFromyear);
+  Pholiday = decodeURL(Pholiday);
+  Pevent = decodeURL(Pevent);
+  Pexam = decodeURL(Pexam);
+
 
   const BackMonth = new Date(
     Number(DateFromyear),
@@ -278,7 +292,7 @@ function UpcomingEvent() {
       ) : (
         <>
           {StartDate.getTime() <= date1.getTime() &&
-          EndDate.getTime() >= date1.getTime() ? (
+            EndDate.getTime() >= date1.getTime() ? (
             <>
               <List1
                 items={eventListInMoth}

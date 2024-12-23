@@ -15,14 +15,24 @@ import { getapproveorreject, getLeaveBalance, LeaveTypeDropdown, resetapproveorr
 import { getViewLeaveDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
+import { decodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import DatepickerLeave from './DatepickerLeave';
 
 const ViewLeaveDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { LeaveDId, selectCategory, getSenderName } = useParams();
+    let {
+        LeaveDId,
+        selectCategory,
+        getSenderName
+    } = useParams();
+
+    // Decode in-place
+    LeaveDId = decodeURL(LeaveDId);
+    selectCategory = decodeURL(selectCategory);
+    getSenderName = decodeURL(getSenderName);
+
     console.log(LeaveDId, "LeaveDId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');

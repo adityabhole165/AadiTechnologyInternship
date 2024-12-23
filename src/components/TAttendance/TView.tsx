@@ -29,11 +29,21 @@ import {
   getStandardList
 } from 'src/requests/TAttendance/TAttendance';
 import { RootState } from 'src/store';
-import { getDateFormatted } from '../Common/Util';
+import { decodeURL, getDateFormatted } from '../Common/Util';
 
 const TView = () => {
-  const { assignedDate } = useParams();
-  const { StandardId } = useParams();
+  let {
+    assignedDate
+  } = useParams();
+
+  let {
+    StandardId
+  } = useParams();
+
+  // Decode in-place
+  assignedDate = decodeURL(assignedDate);
+  StandardId = decodeURL(StandardId);
+
   const classes = Styles();
   const theme = useTheme();
   let navigate = useNavigate();

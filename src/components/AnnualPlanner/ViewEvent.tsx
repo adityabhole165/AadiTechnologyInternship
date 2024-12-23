@@ -8,12 +8,13 @@ import BackButton from 'src/libraries/button/BackButton';
 import Card2 from 'src/libraries/card/card2';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import http from 'src/requests/SchoolService/schoolServices';
+import { decodeURL } from '../Common/Util';
 
 function ViewEvent() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
 
-  const {
+  let {
     Id,
     AssigMonth,
     AssigYear,
@@ -23,6 +24,17 @@ function ViewEvent() {
     event,
     exam
   } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+  AssigMonth = decodeURL(AssigMonth);
+  AssigYear = decodeURL(AssigYear);
+  DateFrommon = decodeURL(DateFrommon);
+  DateFromyear = decodeURL(DateFromyear);
+  holiday = decodeURL(holiday);
+  event = decodeURL(event);
+  exam = decodeURL(exam);
+
   const [viewEvent, setViewEvent] = useState<GetEventsDetailsResult>();
   const ViewDetail = {
     Title: 'Event Title',

@@ -6,6 +6,7 @@ import { IPublishUnPublishHomeworkBody } from 'src/interfaces/AssignHomework/IAd
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { GetPublishUnpublishHomework } from 'src/requests/AssignHomework/requestAddUnpublish';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 const AddUnpublish = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,7 +19,13 @@ const AddUnpublish = () => {
   );
   const asUpdatedById = localStorage.getItem('Id');
   const asTeacherId = sessionStorage.getItem('TeacherId');
-  const { Id } = useParams();
+  let {
+    Id
+  } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+
 
   const PublishUnpublishHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework

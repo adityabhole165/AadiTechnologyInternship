@@ -22,7 +22,7 @@ import AllStudents from 'src/requests/ProgressReport/AllStudent';
 import { DataParserAndFormatter } from 'src/requests/ProgressReport/PotoType';
 import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAGetLatestExamId, CDAGetLatestExamId1, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAGetTeachersForPrePrimaryProgressReport, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAIsXseedApplicable, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
-import { encodeURL, getSchoolConfigurations, SchoolScreensAccessPermission } from '../Common/Util';
+import { getSchoolConfigurations, SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import FinalResultTable from './FinalResultTable';
 import GradeConfigurationDetails from './GradeConfigurationDetails';
@@ -32,7 +32,17 @@ import Studentdetails from './Studentdetails';
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let { AcademicYearTopper, StudentidTopper, TeacherIdTopper } = useParams();
+  let {
+    AcademicYearTopper,
+    StudentidTopper,
+    TeacherIdTopper
+  } = useParams();
+
+  // Decode in-place
+  AcademicYearTopper = decodeURL(AcademicYearTopper);
+  StudentidTopper = decodeURL(StudentidTopper);
+  TeacherIdTopper = decodeURL(TeacherIdTopper);
+
 
 
   const location = useLocation();

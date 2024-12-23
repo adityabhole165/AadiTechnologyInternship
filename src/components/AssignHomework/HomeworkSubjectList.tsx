@@ -25,6 +25,7 @@ import {
   homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,7 +45,13 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   );
   const asUpdatedById = localStorage.getItem('Id');
   const asTeacherId = sessionStorage.getItem('TeacherId');
-  const { Id } = useParams();
+  let {
+    Id
+  } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+
   const { showAlert, closeAlert } = useContext(AlertContext);
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },

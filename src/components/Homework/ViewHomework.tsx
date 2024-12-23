@@ -8,9 +8,18 @@ import BackButton from 'src/libraries/button/BackButton';
 import Card4 from 'src/libraries/card/card4';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import http from 'src/requests/SchoolService/schoolServices';
+import { decodeURL } from '../Common/Util';
 
 function ViewHomework() {
-  const { Id, SelectedDate } = useParams();
+  let {
+    Id,
+    SelectedDate
+  } = useParams();
+
+  // Decode in-place
+  Id = decodeURL(Id);
+  SelectedDate = decodeURL(SelectedDate);
+
 
   const [viewHomework, setViewhomework] = useState<IViewHomeworkResponse>();
   const ViewDetail = {

@@ -33,13 +33,20 @@ import {
   getiscofigred,
   getunpublishedexam
 } from 'src/requests/VeiwAllResult/ReqveiwresultAll';
+import { decodeURL } from '../Common/Util';
 import ViewResultAllTable from './ViewResultAllTable';
 
 type Props = {};
 const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { StandardDivisionId } = useParams();
+  let {
+    StandardDivisionId
+  } = useParams();
+
+  // Decode in-place
+  StandardDivisionId = decodeURL(StandardDivisionId);
+
   const StandardDivisionIdse = (
     sessionStorage.getItem('StandardDivisionId')
   );

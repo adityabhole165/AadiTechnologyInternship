@@ -51,8 +51,8 @@ export interface IGetLessonPlanDetailsForReportBody {
   asStartDate: string;
   asEndDate: string;
   asUserId: Number;
-  asStandardDivisionId: Number;
-  asSubjectId: Number;
+  asStandardDivisionId: any;
+  asSubjectId: any;
 }
 export interface IGetLessonPlanDetailsForReportResult {
   SrNo: string;

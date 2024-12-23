@@ -10,7 +10,7 @@ import { useParams } from 'react-router';
 import { IGetRequisitionDetailsBody } from 'src/interfaces/Requisition/IAddRequisition';
 import { CDAGetRequisitionDetails } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
+import { decodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import Datepicker from './Datepicker';
 import Requisioneditlist from './Requisioneditlist';
@@ -20,7 +20,7 @@ const RequistionView = () => {
     const dispatch = useDispatch();
 
     const { ViewId } = useParams();
-    const ViewId1 = atob(ViewId)
+    const ViewId1 = decodeURL(ViewId)
     console.log(ViewId, "ViewId");
     const [StartDate, setStartDate]: any = useState(getCalendarDateFormatDateNew(new Date()));
 

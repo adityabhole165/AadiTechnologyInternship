@@ -6,10 +6,19 @@ import XMLParser from "react-xml-parser";
 import { IGetAllStudentsTestProgressSheetBody } from 'src/interfaces/ExamResult/IViewProgressReport';
 import { GetMarkDetailss } from 'src/requests/ExamResult/RequestViewProgressReport';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 const ViewProgressReport = () => {
     const dispatch = useDispatch();
-    const { TestId, StandardDivisionId } = useParams();
+    let {
+        TestId,
+        StandardDivisionId
+    } = useParams();
+
+    // Decode in-place
+    TestId = decodeURL(TestId);
+    StandardDivisionId = decodeURL(StandardDivisionId);
+
     console.log(StandardDivisionId, "StandardDivisionId")
     console.log("testid", TestId)
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');

@@ -22,10 +22,19 @@ import {
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
-import { encodeURL } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
-    const { SelectedDate, StandardId, DivisionId } = useParams();
+    let {
+        SelectedDate,
+        StandardId,
+        DivisionId
+    } = useParams();
+
+    // Decode in-place
+    SelectedDate = decodeURL(SelectedDate);
+    StandardId = decodeURL(StandardId);
+    DivisionId = decodeURL(DivisionId);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));

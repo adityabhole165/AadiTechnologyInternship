@@ -27,14 +27,38 @@ import { RootState, useDispatch } from 'src/store';
 import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
 import GoldMedal from '../../assets/img/medals/gold-medal.png';
 import SilverMedal from '../../assets/img/medals/silver-medal.png';
-import { getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { StyledTableCell, StyledTableRow } from '../DataTable';
 
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly, AcademicYear, LatestExamId, LatestExamId1, Studentid } = useParams();
+    let {
+        TeacherId,
+        StandardDivisionId,
+        TestId,
+        standardId,
+        examtopperProp,
+        IsReadOnly,
+        AcademicYear,
+        LatestExamId,
+        LatestExamId1,
+        Studentid
+    } = useParams();
+
+    // Decode in-place
+    TeacherId = decodeURL(TeacherId);
+    StandardDivisionId = decodeURL(StandardDivisionId);
+    TestId = decodeURL(TestId);
+    standardId = decodeURL(standardId);
+    examtopperProp = decodeURL(examtopperProp);
+    IsReadOnly = decodeURL(IsReadOnly);
+    AcademicYear = decodeURL(AcademicYear);
+    LatestExamId = decodeURL(LatestExamId);
+    LatestExamId1 = decodeURL(LatestExamId1);
+    Studentid = decodeURL(Studentid);
+
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId == undefined ? "0" : StandardDivisionId);
     const [SelectExamCT, setExamCT] = useState(TestId == undefined ? "" : TestId);
