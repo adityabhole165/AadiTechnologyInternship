@@ -4,7 +4,7 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, FormControl, FormControlLabel, Grid, IconButton, MenuItem, Radio, RadioGroup, Select, Tooltip, Typography } from '@mui/material';
+import { Box, FormControl, FormControlLabel, Grid, IconButton, MenuItem, Radio, RadioGroup, Select, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, grey, yellow } from "@mui/material/colors";
 import { useEffect, useState } from 'react';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
@@ -308,84 +308,125 @@ const RegenarateRollNo = () => {
             <CommonPageHeader
                 navLinks={[{ title: 'Regenerate/Reassign Roll Nos', path: ' ' }]}
                 rightActions={
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                        <SearchableDropdown
-                            sx={{ minWidth: '13vw' }}
-                            ItemList={dropdownData}
-                            defaultValue={selectDisplayType}
-                            onChange={clickDisplayTypeDropdown}
-                            size={'small'}
-                            label={'Standard'}
-                        />
-                        <SearchableDropdown
-                            sx={{ minWidth: '13vw' }}
-                            ItemList={divisionDropdown}
-                            defaultValue={selectDisplayLocation}
-                            onChange={clickDisplayTypeDropdown}
-                            size={'small'}
-                            label="Division"
-                        />
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        // justifyContent="space-between"
+                        alignItems="right"
+
+                        spacing={2}
+                        sx={{
+
+                            mt: { xs: 0, sm: 0 },
+                            flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                        }}
+                    >
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            <Stack
+                                direction="row"
+                                gap={1}
+                                alignItems="left"
+                                sx={{
+                                    flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                                    justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                                }}
+                            >
+                                <Box>
+                                    <SearchableDropdown
+                                        sx={{ minWidth: '13vw' }}
+                                        ItemList={dropdownData}
+                                        defaultValue={selectDisplayType}
+                                        onChange={clickDisplayTypeDropdown}
+                                        size={'small'}
+                                        label={'Standard'}
+                                    />
+                                </Box>
+                            </Stack>
+                        </Grid>
                         <Box>
-                            <Tooltip title={`If any exam result is published then updated roll number will not be displayed on the progress report on screen.`}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: yellow[600],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: yellow[700] },
-                                    }}
-                                >
-                                    <PriorityHighIcon />
-                                </IconButton>
-                            </Tooltip>
+                            <SearchableDropdown
+                                sx={{ minWidth: '13vw' }}
+                                ItemList={divisionDropdown}
+                                defaultValue={selectDisplayLocation}
+                                onChange={clickDisplayTypeDropdown}
+                                size={'small'}
+                                label="Division"
+                            />
                         </Box>
-                        <Box>
-                            <Tooltip title={`Select standard and division and regenerate / reassign the roll numbers from displayed student's list and click on save to save new roll numbers.`}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: grey[500],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: grey[600] },
-                                    }}
-                                >
-                                    <QuestionMarkIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                        <Box>
-                            <Tooltip title={'Show'}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: blue[500],
-                                        '&:hover': {
-                                            backgroundColor: blue[600]
-                                        }
-                                    }}
-                                    onClick={ClickShow}
-                                >
-                                    <VisibilityTwoToneIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                        <Box>
-                            <Tooltip title={'Change Input'}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: blue[500],
-                                        '&:hover': {
-                                            backgroundColor: blue[600]
-                                        }
-                                    }}
-                                    onClick={ClickChangeInput} // Replace with actual function if needed
-                                >
-                                    <RestartAltIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                    </Box>
+                        <Stack
+                            direction={{ xs: 'row', sm: 'row' }}
+                            spacing={1}
+                            alignItems="center"
+                            justifyContent="flex-end"
+                            sx={{
+                                width: '100%',
+                                flexWrap: { xs: 'wrap', sm: 'nowrap' }
+                            }}
+                        >
+                           
+                                <Tooltip title={`If any exam result is published then updated roll number will not be displayed on the progress report on screen.`}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: yellow[600],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: yellow[700] },
+                                        }}
+                                    >
+                                        <PriorityHighIcon />
+                                    </IconButton>
+                                </Tooltip>
+
+                                <Tooltip title={`Select standard and division and regenerate / reassign the roll numbers from displayed student's list and click on save to save new roll numbers.`}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: grey[600] },
+                                        }}
+                                    >
+                                        <QuestionMarkIcon />
+                                    </IconButton>
+                                </Tooltip>
+
+                                <Tooltip title={'Show'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={ClickShow}
+                                    >
+                                        <VisibilityTwoToneIcon />
+                                    </IconButton>
+                                </Tooltip>
+
+
+                                <Tooltip title={'Change Input'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={ClickChangeInput} // Replace with actual function if needed
+                                    >
+                                        <RestartAltIcon />
+                                    </IconButton>
+                                </Tooltip>
+                        </Stack>
+                    </Stack>
                 }
             />
             <Box>
@@ -423,7 +464,7 @@ const RegenarateRollNo = () => {
                                     value={selectedOptions[item.Id] || ''} // Default to empty if no value is selected
                                     onChange={(e) => handleSelectChange(e, item.Id)} // Handle change for each dropdown
                                     size="medium"
-                                    sx={{ flexGrow: 1, marginRight: 1, width: '77.5%' }}
+                                    sx={{ flexGrow: 1, marginRight: 1, width: { xs: '65%', sm: '30vw', lg: '77.6%' } }}
                                 >
                                     {item.options.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
