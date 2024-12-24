@@ -7,11 +7,8 @@ import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, FormControl, FormControlLabel, Grid, IconButton, MenuItem, Radio, RadioGroup, Select, Tooltip, Typography } from '@mui/material';
 import { blue, grey, yellow } from "@mui/material/colors";
 import { useEffect, useState } from 'react';
-import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
-import RegenerateRollNoList1 from './RegenerateRollNoList1';
-import RegenerateRollNoList2 from './RegenerateRollNoList2';
 
 const RegenarateRollNo = () => {
     // Hardcoded data arrays
@@ -462,7 +459,7 @@ const RegenarateRollNo = () => {
 
 
             {/* Conditionally render RegenerateRollNoList1 or RegenerateRollNoList2 based on ShowRollNo value */}
-            {isShowClicked && ShowRollNo === "true" ? (
+            {/* {isShowClicked && ShowRollNo === "true" ? (
                 <Box sx={{ background: 'white', pr: 2, pl: 2, pt: 1, pb: 2 }}>
                     {singleTotalCount > 0 ? (
                         <div style={{ flex: 1, textAlign: 'center' }}>
@@ -560,7 +557,7 @@ const RegenarateRollNo = () => {
                         <span></span>
                     )}
                 </Box>
-            )}
+            )} */}
         </Box>
     );
 }
