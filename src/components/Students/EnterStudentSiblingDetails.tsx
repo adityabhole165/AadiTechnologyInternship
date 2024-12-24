@@ -401,47 +401,45 @@ const EnterStudentSiblingDetails = () => {
             {fileNameError}
           </Typography>
         )}
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-          <Box sx={{ padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-            <Typography variant="h4">
-              Search for Sibling:
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <TextField
-                sx={{ width: '15vw' }}
-                fullWidth
-                label={
-                  <span>
-                    Search by Name / Reg. No.<span style={{ color: 'red' }}> </span>
-                  </span>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', }}>
+          <Typography variant="h4" sx={{ alignSelf: 'center' }}>
+            Search for Sibling:
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', paddingRight: '1rem' }}>
+            <TextField
+              sx={{ width: '15vw' }}
+              fullWidth
+              label={
+                <span>
+                  Search by Name / Reg. No.<span style={{ color: 'red' }}> </span>
+                </span>
+              }
+              variant="outlined"
+              size="small"
+              value={searchTerm}
+              onChange={(e) => handleSearch(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch(searchTerm);
                 }
-                variant="outlined"
-                size="small"
-                value={searchTerm}
-                onChange={(e) => handleSearch(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch(searchTerm);
+              }}
+            />
+
+            <Tooltip title="Search">
+              <IconButton
+                onClick={() => handleSearch(searchTerm)}
+                sx={{
+                  background: (theme) => theme.palette.primary.main,
+                  color: 'white',
+                  marginLeft: '0.5rem',
+                  '&:hover': {
+                    backgroundColor: (theme) => theme.palette.primary.dark
                   }
                 }}
-              />
-
-              <Tooltip title="Search">
-                <IconButton
-                  onClick={() => handleSearch(searchTerm)}
-                  sx={{
-                    background: (theme) => theme.palette.primary.main,
-                    color: 'white',
-                    marginLeft: '0.5rem',
-                    '&:hover': {
-                      backgroundColor: (theme) => theme.palette.primary.dark
-                    }
-                  }}
-                >
-                  <SearchTwoTone />
-                </IconButton>
-              </Tooltip>
-            </Box>
+              >
+                <SearchTwoTone />
+              </IconButton>
+            </Tooltip>
           </Box>
         </Box>
       </Box>
