@@ -13,102 +13,60 @@ import {
   useMediaQuery
 } from "@mui/material";
 import { green, grey, red } from "@mui/material/colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { IAllClassesAndDivisionsBody } from "src/interfaces/Common/Holidays";
+import { GetAllClassAndDivision } from "src/requests/Holiday/Holiday";
+import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
-import ClassSectionSelector from "./ClassSectionSelector";
 import FileUploadComponent from "./FileUploadComponent";
-
+import SelectListHierarchy1 from "./SelectListHierarchy1";
 const AddNewPhoto = () => {
+  const dispatch = useDispatch();
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const [selectedClasses, setSelectedClasses] = useState({});
   const [selectAll, setSelectAll] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
+  const [ItemList, setitemList] = useState([]);
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
-  // Define sections dynamically based on class
-  const getSectionsForClass = (className: string) => {
-    if (["1", "2", "3"].includes(className)) {
-      return ["A", "B", "C", "D", "E"]; // No F, G
-    } else if (["4", "5", "6", "7", "8", "9"].includes(className)) {
-      return ["A", "B", "C", "D"]; // No E, F, G
-    } else if (className === "10") {
-      return ["A", "B", "C", "D", "G"]; // No E, F
-    }
-    return ["A", "B", "C", "D", "E", "F", "G"]; // Default sections
+  const ClassesAndDivisionss = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss);
+  const ClassesAndDivisionss1 = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss1);
+
+  const USStandardDivisionName: any = useSelector((state: RootState) => state.PhotoGalllary.IStandardDivisionName);
+
+  const StandardDivisionName: IAllClassesAndDivisionsBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    associatedStandard: "",
+  }
+  useEffect(() => {
+    dispatch(GetAllClassAndDivision(StandardDivisionName))
+  }, []);
+
+  useEffect(() => {
+    setitemList(ClassesAndDivisionss);
+  }, [ClassesAndDivisionss]);
+
+  const ClickChild = (value) => {
+    setitemList(value);
   };
-
-  const classes = [
-    "Nursery",
-    "Junior KG",
-    "Senior KG",
-    ...Array.from({ length: 10 }, (_, i) => (i + 1).toString()),
-  ];
+  const isClassSelected = () => {
+    let arr = []
+    ItemList.map(item => {
+      if (item.IsActive)
+        arr.push(item.Id)
 
 
+    })
 
-  const handleSelectAll = (event) => {
-    const isChecked = event.target.checked;
-    setSelectAll(isChecked);
+    return arr.toString()
+  }
 
-    // Update all classes and sections based on Select All state
-    const updatedClasses = {};
-    classes.forEach((className) => {
-      const sections = getSectionsForClass(className);
-      updatedClasses[className] = isChecked
-        ? sections.reduce((acc, section) => {
-          acc[section] = true;
-          return acc;
-        }, {})
-        : {};
-    });
-    setSelectedClasses(updatedClasses);
-  };
+  const ClassSelected = String(isClassSelected());
 
-  const handleClassChange = (className, isChecked) => {
-    setSelectedClasses((prevState) => {
-      const updatedState = { ...prevState };
-      const sections = getSectionsForClass(className);
-      if (isChecked) {
-        // Select all sections for the class
-        updatedState[className] = sections.reduce((acc, section) => {
-          acc[section] = true;
-          return acc;
-        }, {});
-      } else {
-        // Deselect all sections for the class
-        updatedState[className] = {};
-      }
-
-      // Check if all classes and sections are selected for "Select All"
-      const allClassesSelected = classes.every((c) =>
-        getSectionsForClass(c).every((s) => updatedState[c]?.[s])
-      );
-      setSelectAll(allClassesSelected);
-
-      return updatedState;
-    });
-  };
-
-  const handleSectionChange = (className, section, isChecked) => {
-    setSelectedClasses((prevState) => {
-      const updatedClass = { ...prevState[className], [section]: isChecked };
-      const allChecked = getSectionsForClass(className).every(
-        (s) => updatedClass[s]
-      );
-
-      const updatedState = {
-        ...prevState,
-        [className]: updatedClass,
-      };
-
-      // Check if all classes and sections are selected for "Select All"
-      const allClassesSelected = classes.every((c) =>
-        getSectionsForClass(c).every((s) => updatedState[c]?.[s])
-      );
-      setSelectAll(allClassesSelected);
-
-      return updatedState;
-    });
-  };
+  console.log(ClassSelected, "ClassSelected1234");
 
   return (
     <Box px={2}>
@@ -203,13 +161,18 @@ const AddNewPhoto = () => {
         </Grid>
         <Box pt={2} >
           <Box>
-            <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} />
+            <SelectListHierarchy1
+              ItemList={ItemList}
+              ParentList={ClassesAndDivisionss1}
+              ClickChild={ClickChild}
+            ></SelectListHierarchy1>
+            {/* <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} /> */}
           </Box>
         </Box>
         <Box sx={{ backgroundColor: "lightgrey", pl: 1, mt: 2, }}>
           <FormControlLabel
             sx={{ mr: 0 }}
-            control={<Checkbox checked={selectAll} onChange={handleSelectAll} />} label={""}
+            control={<Checkbox checked={selectAll} onChange={undefined} />} label={""}
           />
           <strong>Associated Sections</strong>
 

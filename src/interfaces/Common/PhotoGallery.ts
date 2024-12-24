@@ -69,3 +69,15 @@ export interface GetPhotoAlbum {
   Id: number;
   ImageId: number;
 }
+export interface IStandardDivisionNameBody {
+  asSchool_Id: number,
+  asAcademicYearId: number,
+}
+export interface IStandardDivisionNameResult {
+  Standard_Id: string,
+  SchoolWise_Standard_Division_Id: string,
+  Original_Division_Id: string,
+  Division_Name: string,
+  Original_Standard_Id: string,
+  Standard_Name: string,
+}

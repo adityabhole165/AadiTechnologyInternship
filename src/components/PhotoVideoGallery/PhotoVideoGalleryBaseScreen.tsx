@@ -156,10 +156,10 @@ const PhotoVideoGalleryBaseScreen = () => {
         }
     };
     const AddNewPhoto = (value) => {
-        navigate('/extended-sidebar/Teacher/AddNewPhoto');
+        navigate('/RITeSchool/Teacher/AddNewPhoto');
     };
     const AddNewVideo = (value) => {
-        navigate('/extended-sidebar/Teacher/AddNewVideo');
+        navigate('/RITeSchool/Teacher/AddNewVideo');
     };
 
     function clickSearch() {
@@ -170,7 +170,7 @@ const PhotoVideoGalleryBaseScreen = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Photo/Video Gallery', path: '/extended-sidebar/Teacher/PhotoVideoGalleryBaseScreen' }
+                    { title: 'Photo/Video Gallery', path: '/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen' }
                 ]}
                 rightActions={<>
                     <TextField

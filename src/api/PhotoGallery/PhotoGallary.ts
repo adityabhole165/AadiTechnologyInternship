@@ -6,6 +6,8 @@ import {
   IGetPhotoDetailsBody,
   IGetPhotoDetailsResult,
   IPics,
+  IStandardDivisionNameBody,
+  IStandardDivisionNameResult,
   Iimg
 } from 'src/interfaces/Common/PhotoGallery';
 import {
@@ -40,6 +42,9 @@ const GetCount = (data: IGetCountBody) => {
 const DeletePhoto = (data: IDeletePhotoBody) => {
   return http.post('Teacher/DeletePhotoGallery', data);
 };
+const StandardDivisionNameAPI = (data: IStandardDivisionNameBody) => {
+  return http.post<IStandardDivisionNameResult[]>('Teacher/GetStandardDivisionName', data);
+}
 
 const PhotoGallaryApi = {
   GetAllAcademicYearsForSchool,
@@ -47,7 +52,8 @@ const PhotoGallaryApi = {
   GetimgList,
   GetPhotodetails,
   DeletePhoto,
-  GetCount
+  GetCount,
+  StandardDivisionNameAPI
 };
 
 export default PhotoGallaryApi;

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import PhotoGallaryApi from 'src/api/PhotoGallery/PhotoGallary';
-import { IPics, Iimg } from 'src/interfaces/Common/PhotoGallery';
+import { IPics, IStandardDivisionNameBody, Iimg } from 'src/interfaces/Common/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import { AppThunk } from 'src/store';
 
@@ -9,7 +9,9 @@ const GallerySlice = createSlice({
   initialState: {
     PicsList: [],
     imgList: [],
-    YearList: []
+    YearList: [],
+    IStandardDivisionName: [],
+    Loading: true
   },
   reducers: {
     getPicsList(state, action) {
@@ -20,32 +22,39 @@ const GallerySlice = createSlice({
     },
     getYearList(state, action) {
       state.YearList = action.payload;
+    },
+    RStandardDivisionName(state, action) {
+      state.Loading = false;
+      state.IStandardDivisionName = action.payload;
+    },
+    getLoading(state, action) {
+      state.Loading = true;
     }
   }
 });
 export const getpicS =
   (data: IPics): AppThunk =>
-  async (dispatch) => {
-    const response = await PhotoGallaryApi.GetPICSList(data);
-    dispatch(GallerySlice.actions.getPicsList(response.data));
-  };
+    async (dispatch) => {
+      const response = await PhotoGallaryApi.GetPICSList(data);
+      dispatch(GallerySlice.actions.getPicsList(response.data));
+    };
 
 export const getimgs =
   (data: Iimg): AppThunk =>
-  async (dispatch) => {
-    const response = await PhotoGallaryApi.GetimgList(data);
-    const responseData = response.data.GetImagesResult.map((obj) => {
-      return {
-        Id: obj.ImageId,
-        Name: obj.Description,
-        Value: localStorage.getItem('SiteURL') + '/RITeSchool/' + obj.ImagePath
-      };
-    });
+    async (dispatch) => {
+      const response = await PhotoGallaryApi.GetimgList(data);
+      const responseData = response.data.GetImagesResult.map((obj) => {
+        return {
+          Id: obj.ImageId,
+          Name: obj.Description,
+          Value: localStorage.getItem('SiteURL') + '/RITeSchool/' + obj.ImagePath
+        };
+      });
 
-    dispatch(GallerySlice.actions.getimgList(responseData));
-  };
+      dispatch(GallerySlice.actions.getimgList(responseData));
+    };
 
-  export const getYearList =
+export const getYearList =
   (data: IYearList): AppThunk =>
     async (dispatch) => {
       const response =
@@ -59,5 +68,22 @@ export const getimgs =
       });
 
       dispatch(GallerySlice.actions.getYearList(a));
+    };
+
+export const CDAStandardDivisionName =
+  (data: IStandardDivisionNameBody): AppThunk =>
+    async (dispatch) => {
+      const response = await PhotoGallaryApi.StandardDivisionNameAPI(data);
+      let GetStandardDivisionName = response.data.map((item, i) => {
+        return {
+          Standard_Id: item.Standard_Id,
+          SchoolWise_Standard_Division_Id: item.SchoolWise_Standard_Division_Id,
+          Original_Division_Id: item.Original_Division_Id,
+          Division_Name: item.Division_Name,
+          Original_Standard_Id: item.Original_Standard_Id,
+          Standard_Name: item.Standard_Name
+        }
+      });
+      dispatch(GallerySlice.actions.RStandardDivisionName(GetStandardDivisionName));
     };
 export default GallerySlice.reducer;
