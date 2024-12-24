@@ -75,7 +75,6 @@ const AdmissionDocumentInformation = () => {
   const [selectedDocumentIndex, setSelectedDocumentIndex] = useState(null);
   const [fileName, setFileName] = useState('');
   const [base64URL, setbase64URL] = useState('');
-  const [newFile, setNewFile] = useState(false);
   const [fileNameError, setFileNameError] = useState('');
   const [studentName, setStudentName] = useState(''); // State for Student Name
   const [documentName, setDocumentName] = useState(''); // State for Document Name
@@ -277,10 +276,9 @@ const AdmissionDocumentInformation = () => {
     if (USSaveInvestmentDocument != '') {
       toast.success(USSaveInvestmentDocument);
       dispatch(resetSaveInvestmentMessage());
-      setNewFile(true);
       // dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
       dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
-      //RefreshList()
+      ResetForm()
     }
   }, [USSaveInvestmentDocument]);
 
@@ -324,7 +322,6 @@ const AdmissionDocumentInformation = () => {
       //setNewFile(true);
       // dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
       dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
-      // RefreshList()
     }
   }, [USDeleteInvestmentDocument]);
 

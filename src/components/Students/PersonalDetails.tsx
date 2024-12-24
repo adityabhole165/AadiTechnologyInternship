@@ -311,13 +311,26 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
   function handleContactNoChange(e) {
     const numericValue = e.target.value.replace(/\D/g, '');
+    const { name } = e.target;
+
+    // // Check for invalid length and update error
+    // if (numericValue.length !== 10 && numericValue.length > 0) {
+    //   const errorFieldIndex = invalidFields.findIndex(field => field.field === name);
+
+    //   if (errorFieldIndex === -1) {
+    //     // Add error if not already in invalidFields
+    //     invalidFields.push({ field: name, message: 'Mobile Number must be exactly 10 digits.' });
+    //   } else {
+    //     // Update the existing error message
+    //     invalidFields[errorFieldIndex].message = 'Mobile Number must be exactly 10 digits.';
+    //   }
+    // } else {
+    //   // Remove the field from invalidFields if it becomes valid
+    //   invalidFields = invalidFields.filter(field => field.field !== name);
+    // }
+
     if (!isNaN(Number(numericValue)) && numericValue.length <= 10) {
-      //setIContactNumber(numericValue);
-      // setForm((prevForm) => ({
-      //   ...prevForm,
-      //   [e.target.name]: numericValue
-      // }));
-      onChange(e.target.name, numericValue);
+      onChange(name, numericValue);
     }
   }
 

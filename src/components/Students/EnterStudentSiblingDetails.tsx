@@ -236,14 +236,17 @@ const EnterStudentSiblingDetails = () => {
   useEffect(() => {
     if (SaveStudentSiblingDetailsMsg !== '') {
       toast.success(SaveStudentSiblingDetailsMsg);
-      dispatch(ResetSaveStudentSiblingDetailsMsg());
-      dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody))
-      setSelected([]);
-      setFileNameError('');
-      dispatch(CDASearchStudentsList(GetStudentsListBody));
+      Promise.all([
+        dispatch(ResetSaveStudentSiblingDetailsMsg()),
+        dispatch(CDAGetStudentSiblingList(GetStudentSiblingListBody)),
+        dispatch(CDASearchStudentsList(GetStudentsListBody))
+      ]).then(() => {
+        setSelected([]);
+        setFileNameError('');
+      });
     }
-  }, [SaveStudentSiblingDetailsMsg]);
-  //#region Delete
+  }, [SaveStudentSiblingDetailsMsg]);  //#region Delete
+
   const handleDelete = (StudentSiblingId) => {
     const DeleteStudentSiblingDetailsBody: IDeleteStudentSiblingDetailsBody = {
       asSchoolId: Number(schoolId),
