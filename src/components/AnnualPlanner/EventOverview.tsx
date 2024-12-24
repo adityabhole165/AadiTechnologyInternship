@@ -9,6 +9,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  Stack,
   Tooltip,
   Typography
 } from '@mui/material';
@@ -154,6 +155,35 @@ const EventOverview = (props: Props) => {
         ]}
         rightActions={
           <>
+
+<Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              // justifyContent="space-between"
+              alignItems="right"
+              
+              spacing={2}
+              sx={{
+                
+                mt: { xs: 0, sm: 0 },
+                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+              }}
+            >
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
+                <Stack
+                  direction="row"
+                  gap={1}
+                  alignItems="left"
+                  sx={{
+                    flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                    justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                  }}
+                >
             <Box>
               <Dropdown
                 size={"small"}
@@ -165,6 +195,8 @@ const EventOverview = (props: Props) => {
                 width={'100px'}
               />
             </Box>
+            </Stack>
+            </Grid>
             <Box>
               <Dropdown
                 size={"small"}
@@ -202,6 +234,7 @@ const EventOverview = (props: Props) => {
                 </IconButton>
               </Tooltip>
             </Box>
+            </Stack>
           </>
         }
       />
@@ -233,7 +266,7 @@ const EventOverview = (props: Props) => {
                   {USGetAllEvents
                     .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
                     .map((obj, index) => (
-                      <Grid item xs={3} key={index} sx={{ p: 1, height: '100%' }}>
+                      <Grid item xs={6} sm={3} key={index} sx={{ p: 1, height: '100%' }}>
                         <Box sx={{ border: `1px solid ${grey[400]}`, borderRadius: (theme) => theme.general.borderRadius }}>
                           <Typography variant={'h4'} sx={{ p: 1, background: (theme) => theme.palette.secondary.main, color: 'white' }}>{obj.DisplayDate}</Typography>
                           <Box sx={{ p: 1 }}>

@@ -42,6 +42,7 @@ function AddLecture({ Value1, ValErrorMsgList = [], ValError, Open, OnClose, onS
                 onClose={OnClose}
                 maxWidth={'xs'}
                 fullWidth
+                PaperProps={{ sx: { borderRadius: '15px' } }}
             >
                 <DialogTitle
                     sx={{

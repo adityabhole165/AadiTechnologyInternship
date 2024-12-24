@@ -18,6 +18,12 @@ const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterL
         ClickCalendarItem(getDateDDMMMDash(newDate))
     }
     return (
+        <>
+        <Box sx={{ backgroundColor: 'white' }} p={2}>
+            <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
+                    <SearchAnnualPlanner ItemList={FilterList} ClickItem={ClickFilterItem} DefaultValue={SelectedFilter} />
+                </Stack>
+        </Box>
         <Box sx={{ backgroundColor: 'white' }} p={2}>
 
             <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -46,14 +52,13 @@ const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterL
                         <ArrowForwardIosIcon />
                     </IconButton>
                 </Box>
-                <Stack direction={'row'} gap={1}>
-                    <SearchAnnualPlanner ItemList={FilterList} ClickItem={ClickFilterItem} DefaultValue={SelectedFilter} />
-                </Stack>
+                
             </Box>
             <CalendarList ItemList={DaysList} ClickItem={ClickDate}
                 DefaultValue={SelectedDate} EventType={EventType}
                 ClickEventType={ClickEventType} AnnualPlannerViewAccess={AnnualPlannerViewAccess}/>
         </Box>
+        </>
     )
 }
 
