@@ -161,10 +161,9 @@ const AssignHomework = () => {
         rightActions={<>
        <Stack
               direction={{ xs: 'column', sm: 'row' }}
-              // justifyContent="space-between"
+               justifyContent="space-between"
               alignItems="right"
-              
-              spacing={2}
+              gap={1}
               sx={{
                 
                 mt: { xs: 0, sm: 0 },
@@ -207,7 +206,7 @@ const AssignHomework = () => {
 
               <Stack
                 direction={{ xs: 'row', sm: 'row' }}
-                spacing={2}
+                gap={1}
                 alignItems="center"
                 justifyContent="flex-start"
                 sx={{
@@ -222,7 +221,7 @@ const AssignHomework = () => {
                   }}
                 >
                   <SearchableDropdown
-                    sx={{ minWidth: { xs: '42vh', sm: '20vw' },  mb: { xs: 1, sm: 'auto' } }}
+                    sx={{ minWidth: { xs: '42vh', sm: '20vw' },  mb: { xs: 0, sm: 'auto' } }}
                     ItemList={ClassList}
                     onChange={clickClass}
                     label={'Select Class:'}
