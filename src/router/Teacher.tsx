@@ -376,6 +376,9 @@ const NoticeBoardBaseScreen = Loader(
 const RegenarateRollNo = Loader(
   lazy(() => import('src/components/RegenarateRollNo/RegenarateRollNo'))
 );
+const UserManagementBasescreen = Loader(
+  lazy(() => import('src/components/UserManagment/UserManagementBasescreen'))
+);
 const StudentDetailsBaseScreen = Loader(
   lazy(() =>
     import('src/components/StudentDetails/StudentDetailsBaseScreen').then(
@@ -1004,6 +1007,10 @@ const teacherRoutes = [
   {
     path: 'RegenarateRollNo',
     element: <RegenarateRollNo />
+  },
+  {
+    path: 'UserManagementBasescreen',
+    element: <UserManagementBasescreen />
   }
 ];
 
