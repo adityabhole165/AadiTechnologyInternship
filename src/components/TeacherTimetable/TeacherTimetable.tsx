@@ -391,7 +391,7 @@ const TeacherTimetable = () => {
 
             </Stack>
             <Box sx={{ mt: 1 }}>
-              <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
+              <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'} mb={1}>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
 
@@ -420,8 +420,8 @@ const TeacherTimetable = () => {
                     <Typography>Not Configured</Typography>
                   </Box>
                 </Box>
-              </Stack> <br />
-              <TableContainer>
+              </Stack>
+              <TableContainer component={Box}>
                 <Table>
                   <TableHead>
                     <TableRow>
