@@ -94,7 +94,7 @@ const StandardwiseExamSchedule = () => {
 
     const Loading: any = useSelector((state: RootState) => state.StandardAndExamList.Loading);
 
-    const ExamScheduleId = USInsertExamSchedule.map(item => item.ExamScheduleId)
+    const ExamScheduleId = USInsertExamSchedule?.map(item => item.ExamScheduleId)
 
 
     // function getXML(value) {
@@ -131,7 +131,7 @@ const StandardwiseExamSchedule = () => {
         dispatch(RExamSchedule(RExamScheduleBody));
     }, [])
 
-    const asStandardwiseExamScheduleId = IsConfigured1 == "false" ? SchoolwiseStandardExamScheduleId : ExamScheduleId.toString()
+    const asStandardwiseExamScheduleId = IsConfigured1 == "false" ? SchoolwiseStandardExamScheduleId : ExamScheduleId?.toString()
 
     const GetSubjectExamScheduleBody: IGetSubjectExamScheduleBody = {
         asStandardId: Number(StandardId),
@@ -265,7 +265,7 @@ const StandardwiseExamSchedule = () => {
         asStandardTestId: inistailStandardTestId,
         asInsertedById: asUserId,
         asScreenId: 19,
-        asSchoolwiseStandardExamScheduleId: inistailSchoolwiseStandardExamScheduleId.toString(),
+        asSchoolwiseStandardExamScheduleId: inistailSchoolwiseStandardExamScheduleId?.toString(),
         asExamDetailsXML: xml
     }
 
@@ -298,6 +298,7 @@ const StandardwiseExamSchedule = () => {
     }
 
     const onClickSave = async () => {
+        alert('save')
         let errorResult = validateExamSchedule(tableArray)
         setTimeError('');
 
