@@ -35,7 +35,6 @@ const ClaimedBookDetailsPage = () => {
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
     const USReserveBookDetailsCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetailsCount);
     const singleTotalCount = USReserveBookDetailsCount.map(item => item.Count)
-
     const loading = useSelector((state: RootState) => state.SchoolLibrary.Loading);
     const PageChange = (pageNumber) => {
         setPage(pageNumber);
@@ -58,10 +57,9 @@ const ClaimedBookDetailsPage = () => {
         }
     };
 
-
-
     const startIndexNew = (page - 1) * rowsPerPage;
     const endIndexNew = startIndexNew + rowsPerPage;
+
     const bookReserveDetails: IGetReserveBookDetailsBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -80,9 +78,6 @@ const ClaimedBookDetailsPage = () => {
     const handleCheckboxChange = () => {
         setShowAllUsers(!showAllUsers);
     };
-
-
-
     useEffect(() => {
         SetReserveBookDetails(USReserveBookDetails);
     }, [USReserveBookDetails]);
@@ -105,16 +100,12 @@ const ClaimedBookDetailsPage = () => {
                     const text1Match = item.bookTitle.toLowerCase().includes(
                         BookTitle.toLowerCase()
                     );
-
-
                     return text1Match;
                 })
             );
         }
         dispatch(CDAGetReserveBookDetails(bookReserveDetails))
     };
-
-
     const clickSearchNew1 = () => {
         clickSearchNew()
         if (UserName === '') {
@@ -125,26 +116,24 @@ const ClaimedBookDetailsPage = () => {
                     const text1Match = item.userName.toLowerCase().includes(
                         UserName.toLowerCase()
                     );
-
-
-
                     return text1Match;
                 })
             );
         }
         dispatch(CDAGetReserveBookDetails(bookReserveDetails))
     };
-
-
-
-    const handleCancel = () => {
+    const handleClear = () => {
         setBookTitle('')
         setUserName('')
-        dispatch(CDAGetReserveBookDetails(bookReserveDetails))
-    };
-    const clickSearch = () => {
-        setUserName(''),
-            setBookTitle('')
+        const defaultBookReserveDetails: IGetReserveBookDetailsBody = {
+            ...bookReserveDetails, // Use the existing object structure
+            asBookTitle: '', // Clear book title filter
+            asUserName: '', // Clear username filter
+            asAllUserFlag: showAllUsers == true ? 1 : 0, // Reset the "Show All Users" flag
+            asStartIndex: 0, // Reset start index
+            asEndIndex: rowsPerPage, // Reset end index to default rows per page
+        };
+        dispatch(CDAGetReserveBookDetails(defaultBookReserveDetails))
     };
 
     const handleDelete = (BookId: string) => {
@@ -168,7 +157,6 @@ const ClaimedBookDetailsPage = () => {
                 dispatch(CDACancelBookReservationMsg(CancelBookReservation));
                 closeAlert();
             },
-
         });
     };
     useEffect(() => {
@@ -212,8 +200,6 @@ const ClaimedBookDetailsPage = () => {
                             onChange={(e) => {
                                 ClickValue1(e.target.value);
                             }}
-
-
                             value={BookTitle}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === 'Tab') {
@@ -245,7 +231,7 @@ const ClaimedBookDetailsPage = () => {
                                         height: '36px !important',
                                         ':hover': { backgroundColor: red[600] }
                                     }}
-                                    onClick={handleCancel}
+                                    onClick={handleClear}
                                 >
                                     <Close />
                                 </IconButton>
