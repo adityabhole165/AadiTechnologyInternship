@@ -1072,6 +1072,25 @@ const ComposeSMSform = () => {
                     }}
                 >
                     <DialogTitle sx={{ bgcolor: '#223354' }}>
+                        <Tooltip
+                            title={
+                                'Select the required template to create the SMS.'
+                            }
+                            placement="bottom-end"
+                        >
+                            <QuestionMark
+                                sx={{
+                                    color: 'white',
+                                    // background:'white',
+                                    borderRadius: '10px',
+                                    position: 'absolute',
+                                    top: '4px',
+                                    right: '35px',
+                                    cursor: 'pointer',
+                                    '&:hover': { backgroundColor: grey[600] }
+                                }}
+                            />
+                        </Tooltip>
                         <ClearIcon onClick={handleCloseDialog1}
                             sx={{
                                 color: 'white',
