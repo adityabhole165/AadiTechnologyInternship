@@ -1,6 +1,7 @@
 import GetAppIcon from '@mui/icons-material/GetApp';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Box, Grid, IconButton, Tooltip } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import React, { useState } from 'react';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
@@ -66,6 +67,18 @@ const ExportStudentMarksBaseScreen = () => {
                 <QuestionMark />
               </IconButton>
             </Tooltip> */}
+            <Tooltip title={`Export student academic year wise exams/ subject marks.`}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: grey[600] },
+                }}
+              >
+                <QuestionMarkIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title={'Export'}>
               <IconButton
                 sx={{

@@ -1,5 +1,6 @@
 import { Add as AddIcon, Save as SaveIcon, SearchTwoTone } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
     Accordion,
     AccordionDetails,
@@ -22,7 +23,7 @@ import {
     Tooltip,
     Typography,
 } from '@mui/material';
-import { blue, green } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import React, { useState } from 'react';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
@@ -194,6 +195,18 @@ const FeedbackDetailsBasescreen = () => {
                                 }}
                             >
                                 <SaveIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title={`Add/ Edit/ Delete feedbacks.`}>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: grey[500],
+                                    height: '36px !important',
+                                    ':hover': { backgroundColor: grey[600] },
+                                }}
+                            >
+                                <QuestionMarkIcon />
                             </IconButton>
                         </Tooltip>
                         {selectedFeedback === 'users' && (

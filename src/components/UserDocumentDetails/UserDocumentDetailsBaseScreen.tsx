@@ -40,7 +40,7 @@ const UserDocumentDetailsBaseScreen = () => {
         ]}
         rightActions={
           <>
-            <Tooltip title="">
+            <Tooltip title="Displays/ download documents details.">
               <IconButton
                 sx={{
                   color: 'white',
