@@ -207,7 +207,7 @@ const AssignHomework = () => {
 
               <Stack
                 direction={{ xs: 'row', sm: 'row' }}
-                spacing={0}
+                spacing={2}
                 alignItems="center"
                 justifyContent="flex-start"
                 sx={{
