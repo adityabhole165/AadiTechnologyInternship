@@ -272,7 +272,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
   const [base64URL2, setbase64URL2] = useState('');
   const [imageFileExtention, setImageFileExtention] = useState('');
 
-  const handlePhotoChange = (key, value) => {
+  const handlePhotoChange = (key, value, key2) => {
     console.log(`0️⃣Selected file for ${key}:`, value);
     const newErrors = { ...fileErrors };
 
@@ -301,6 +301,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
     newErrors[key] = '';
     onChange(key, value.Name);
     setbase64URL2(value.Value);
+    onChange(key2, value.Value);
     setImageFileExtention(value.FileExtension);
     setFileErrors(newErrors);
     // Clear error
@@ -609,7 +610,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
                 FileName={family.fatherPhoto}
-                ChangeFile={(value) => handlePhotoChange('fatherPhoto', value)}
+                ChangeFile={(value) => handlePhotoChange('fatherPhoto', value, 'fatherBinaryPhoto')}
                 FileLabel={'Father Photo'}
                 width={'100%'}
                 height={'52px'}
@@ -821,7 +822,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
                 FileName={family.motherPhoto}
-                ChangeFile={(value) => handlePhotoChange('motherPhoto', value)}
+                ChangeFile={(value) => handlePhotoChange('motherPhoto', value, 'motherBinaryPhoto')}
                 FileLabel={'Mother Photo'}
                 width={'100%'}
                 height={'52px'}
@@ -963,7 +964,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
                 FileName={family.localGuardianPhoto}
-                ChangeFile={(value) => handlePhotoChange('localGuardianPhoto', value)}
+                ChangeFile={(value) => handlePhotoChange('localGuardianPhoto', value, 'localGuardianBinaryPhoto')}
                 FileLabel={'Local Guadian Photo'}
                 width={'100%'}
                 height={'52px'}
@@ -1088,7 +1089,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
             ValidFileTypes={ValidFileTypes2}
             MaxfileSize={MaxfileSize2}
             FileName={family.familyPhoto}
-            ChangeFile={(value) => handlePhotoChange('familyPhoto', value)}
+            ChangeFile={(value) => handlePhotoChange('familyPhoto', value, 'familyBinaryPhoto')}
             FileLabel={'Family Photo'}
             width={'100%'}
             height={'52px'}

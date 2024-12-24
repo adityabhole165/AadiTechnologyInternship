@@ -225,7 +225,11 @@ const StudentRegistrationForm = () => {
       institution1: '',
       institution2: '',
       standard1: '',
-      standard2: ''
+      standard2: '',
+      fatherBinaryPhoto: null,
+      motherBinaryPhoto: null,
+      localGuardianBinaryPhoto: null,
+      familyBinaryPhoto: null
     },
     additional: {
       lastSchoolName: '',
@@ -638,7 +642,7 @@ const StudentRegistrationForm = () => {
           nameOnAadharCard: studentData?.NameOnAadharCard || '',
           aadharCardScanCopy: studentData?.AadharCard_Photo_Copy_Path || '',
           photoFilePath: studentData?.Photo_File_Path || null,
-          photoFilePathImage: studentData?.Photo_file_Path_Image || null
+          photoFilePathImage: studentData?.Photo_file_Path_Image || null  //Used only one time
         },
         family: {
           ...prevForm.family,
