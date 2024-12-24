@@ -3,6 +3,7 @@ import DraftMessageApi from 'src/api/MessageCenter/ApiDraftMessage';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import SentMessageApi from 'src/api/Student/SentMessage';
 import {
+  encodeURL,
   getDateMonthYearFormatted,
   getWithoutHTML,
   isFutureDateTime
@@ -78,7 +79,7 @@ export const getListOfMessages =
             text1: item.Subject,
             text2: item.UserName,
             text3: item.FullDate,
-            NavPath: item.DetailsId + '/Inbox',
+            NavPath: encodeURL(item.DetailsId) + '/' + encodeURL('Inbox'),
             isActive: false,
             DetailsId: item.DetailsId,
             ReceiverDetailsId: item.ReceiverDetailsId,

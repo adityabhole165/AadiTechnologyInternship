@@ -13,7 +13,7 @@ import http from 'src/requests/SchoolService/schoolServices';
 import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSetting/schoolSetting';
 import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
-import { compareStringWithoutSpace } from '../Common/Util';
+import { compareStringWithoutSpace, decodeURL } from '../Common/Util';
 
 
 function ViewSms({ }) {
@@ -33,9 +33,8 @@ function ViewSms({ }) {
   } = useParams();
 
   // Decode in-place
-  // ID = decodeURL(ID);
-  // FromRoute = decodeURL(FromRoute);
-
+  ID = decodeURL(ID);
+  FromRoute = decodeURL(FromRoute);
 
   const [viewSent, setViewSent] = useState(null);
   const { showAlert, closeAlert } = useContext(AlertContext);
