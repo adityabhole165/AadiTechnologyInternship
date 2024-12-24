@@ -1196,15 +1196,15 @@ const StudentRegistrationForm = () => {
       return; // Stop submission
     }
 
-    // First check dependencies
-    await CheckDependenciesForFees();
+    // // First check dependencies
+    // await CheckDependenciesForFees();
 
-    // Check if there's any blocking message from the dependency check
-    if (ReferenceMessages[0]?.ReferenceMsg) {
-      toast.warning(ReferenceMessages[0].ReferenceMsg);
-      setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
-      return;
-    }
+    // // Check if there's any blocking message from the dependency check
+    // if (ReferenceMessages[0]?.ReferenceMsg) {
+    //   toast.warning(ReferenceMessages[0].ReferenceMsg);
+    //   setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
+    //   return;
+    // }
 
     // Check if popup needs to open
     const shouldOpenPopup = !!StudentSiblingName; // Popup opens if sibling name exists
@@ -1246,14 +1246,14 @@ const StudentRegistrationForm = () => {
       return;
     }
     // Enable validation display
-    await CheckDependenciesForFees();
+    //await CheckDependenciesForFees();
 
     // Check if there's any blocking message from the dependency check
-    if (ReferenceMessages[0]?.ReferenceMsg) {
-      toast.warning(ReferenceMessages[0].ReferenceMsg);
-      setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
-      return;
-    }
+    // if (ReferenceMessages[0]?.ReferenceMsg) {
+    //   toast.warning(ReferenceMessages[0].ReferenceMsg);
+    //   setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
+    //   return;
+    // }
     // Proceed with API calls when the popup Save button is clicked
     try {
       console.log('Popup validation passed! Proceeding with sibling and other API calls...');
@@ -1481,6 +1481,7 @@ const StudentRegistrationForm = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setDescription(value);
+    showDescriptionAlertMsg('');
   };
 
   const handleDateChange = (name: string) => (date: Date | null) => {
@@ -1559,12 +1560,12 @@ const StudentRegistrationForm = () => {
   // }, [achievementDate]);
 
   const handleAchievemanetSave = () => {
-    if (!description) {
-      showDescriptionAlertMsg('Description should not be blank.');
-      return;
-    }
     if (!attachment) {
       showAlertMsg('Please select file.');
+      return;
+    }
+    if (!description) {
+      showDescriptionAlertMsg('Description should not be blank.');
       return;
     }
     showDescriptionAlertMsg('');

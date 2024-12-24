@@ -6,7 +6,6 @@ import AddchartIcon from '@mui/icons-material/Addchart'; //Performance Grade Ass
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined'; //Progress Report
 import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone'; //School Notices
 import AssuredWorkloadTwoToneIcon from '@mui/icons-material/AssuredWorkloadTwoTone'; //Investment Declaration
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone'; //Assign Homework
 import CakeIcon from '@mui/icons-material/Cake';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -40,6 +39,7 @@ import RuleIcon from '@mui/icons-material/Rule'; //Assign exam mark
 import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone'; //Pre-Primary Progress Report Results
 import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
 import SmsTwoToneIcon from '@mui/icons-material/SmsTwoTone'; //SMS Center 
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
 import TableChart from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
@@ -482,6 +482,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/RITeSchool/Teacher/RegenarateRollNo',
       screenId: 0
     },
+    {
+      id: 'Extra Screens',
+      title: 'User Management',
+      icon: <SupervisedUserCircleIcon />,
+      link: '/RITeSchool/Teacher/UserManagementBaseScreen',
+      screenId: 0
+    },
   ];
 
   // #endregion
@@ -678,6 +685,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Regenerate/Reassign Roll Nos',
       icon: <FormatListNumberedIcon />,
       link: '/RITeSchool/Teacher/RegenarateRollNo',
+      screenId: 0
+    },
+    {
+      id: 'Extra Screens',
+      title: 'User Management',
+      icon: <SupervisedUserCircleIcon />,
+      link: '/RITeSchool/Teacher/UserManagementBaseScreen',
       screenId: 0
     },
   ];

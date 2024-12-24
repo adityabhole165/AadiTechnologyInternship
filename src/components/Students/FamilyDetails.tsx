@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
-import SingleFile from 'src/libraries/File/SingleFile';
+import SingleFile2 from 'src/libraries/File/SingleFile2';
 import { CDADeleteFamilyPhoto, CDADeleteFatherPhoto, CDADeleteGuardianPhoto, CDADeleteMotherPhoto, CDAresetDeletePhotoMsg, } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { decodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
@@ -605,7 +605,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
 
             {/* fatherPhoto */}
             <Grid item xs={12} md={2}>
-              <SingleFile
+              <SingleFile2
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
                 FileName={family.fatherPhoto}
@@ -817,7 +817,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
 
             {/* motherPhoto */}
             <Grid item xs={12} md={2}>
-              <SingleFile
+              <SingleFile2
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
                 FileName={family.motherPhoto}
@@ -959,7 +959,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
 
             {/* localGuardianPhoto */}
             <Grid item xs={12} md={2}>
-              <SingleFile
+              <SingleFile2
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
                 FileName={family.localGuardianPhoto}
@@ -1084,7 +1084,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
 
         {/* familyPhoto */}
         <Grid item xs={12} md={2}>
-          <SingleFile
+          <SingleFile2
             ValidFileTypes={ValidFileTypes2}
             MaxfileSize={MaxfileSize2}
             FileName={family.familyPhoto}
