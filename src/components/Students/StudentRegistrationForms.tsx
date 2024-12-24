@@ -419,7 +419,7 @@ const StudentRegistrationForm = () => {
 
   const result = validateFieldsAndCalculateProgress(schoolId, form);
   //console.log('Progress:', result.progress + '%');
-  //console.log('Invalid Fields:', result.invalidFields);
+  console.log('Invalid Fields:', result.invalidFields);
 
   useEffect(() => {
     const { progress, invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
@@ -1707,7 +1707,12 @@ const StudentRegistrationForm = () => {
   const handleNavigation = () => {
     navigate('/RITeSchool/Teacher/EnterStudentSiblingDetails');
   };
+  // First, create a function to check if a tab has invalid fields
+  const hasInvalidFields = (tabName: string) => {
+    return invalidFields.some(field => field.tab === tabName);
+  };
 
+  console.log('isSubmitted', isSubmitted, invalidFields.some(field => field.tab === "admission"));
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -1830,11 +1835,11 @@ const StudentRegistrationForm = () => {
           value={currentTab}
           onChange={handleTabChange}
           variant="scrollable"
-          scrollButtons={false} // Disable the scroll arrows
+          scrollButtons={false}
           aria-label="Student Registration Tabs"
           TabIndicatorProps={{
             style: {
-              backgroundColor: invalidFields.some(field => field.tab === currentTab) ? 'red' : 'primary'
+              backgroundColor: 'primary'
             }
           }}
           sx={{
@@ -2022,6 +2027,22 @@ const StudentRegistrationForm = () => {
         >
           {/* Add Note Popup - Student Achievement/Punishment Details */}
           <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+            <Tooltip title={'Add/Edit student achievement details and click on save.'} placement="bottom-end">
+              <IconButton
+                sx={{
+                  color: 'white',
+                  // backgroundColor: grey[500],
+                  // '&:hover': {
+                  //   backgroundColor: grey[600]
+                  // },
+                  position: 'absolute',
+                  top: '-1px',
+                  right: '40px',
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
             <ClearIcon
               onClick={handleCloseDialog}
               sx={{
@@ -2151,12 +2172,18 @@ const StudentRegistrationForm = () => {
               </Typography>
             )}
             <Box py={2}>
-              <AddNotePopupList
-                data={GetStudentsAllAchievementList}
-                clickView={clickViewAddNoteDocs}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-              />
+              {GetStudentsAllAchievementList.length > 0 ? (
+                <AddNotePopupList
+                  data={GetStudentsAllAchievementList}
+                  clickView={clickViewAddNoteDocs}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              ) : (
+                <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                  No record found.
+                </Typography>
+              )}
             </Box>
           </DialogContent>
           <DialogActions sx={{ m: 2 }}>

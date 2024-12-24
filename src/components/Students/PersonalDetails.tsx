@@ -818,7 +818,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
               <FormControl error={!!invalidFields.find(field => field.field === "parentOccupation")}>
                 <SearchableDropdown
                   sx={{
-                    minWidth: { xs: '100%', sm: '15vw' },
+                    minWidth: { xs: '100%', sm: '22.9vw' },
                     '& .MuiOutlinedInput-root': {
                       '& fieldset': {
                         borderColor: invalidFields.find(field => field.field === "parentOccupation")
