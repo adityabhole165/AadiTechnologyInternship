@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckIfAttendanceMarkedBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckIfAttendanceMarkedBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, ISaveSubmittedDocumentsBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -19,6 +19,7 @@ const StudentUISlice = createSlice({
         ISStaffName: [],
         //
         ISGetStudentDocuments: [],
+        ISSaveSubmittedDocumentsMsg: '',
         //
         ISGetSingleStudentDetails: [],
         ISGetStudentAdditionalDetails: [],
@@ -48,6 +49,7 @@ const StudentUISlice = createSlice({
         ISDeleteFatherPhotoMsg: '',
         ISDeleteMotherPhotoMsg: '',
         ISDeleteGuardianPhotoMsg: '',
+        ISUpdateStudentPhotoMsg: '',
         //
         ISReferenceListDetails: [],
         ISReferenceMessages: [],
@@ -93,10 +95,17 @@ const StudentUISlice = createSlice({
             state.ISStaffName = action.payload;
             state.Loading = false;
         },
-        //
+        //Admission Documents
         RGetStudentDocuments(state, action) {
             state.ISGetStudentDocuments = action.payload;
             state.Loading = false;
+        },
+        RSaveSubmittedDocumentsMsg(state, action) {
+            state.ISSaveSubmittedDocumentsMsg = action.payload;
+            state.Loading = false;
+        },
+        ResetSaveSubmittedDocumentsMsg(state) {
+            state.ISSaveSubmittedDocumentsMsg = '';
         },
         //
         RGetSingleStudentDetails(state, action) {
@@ -205,6 +214,10 @@ const StudentUISlice = createSlice({
         },
         RDeleteGuardianPhoto(state, action) {
             state.ISDeleteGuardianPhotoMsg = action.payload;
+            state.Loading = false;
+        },
+        RUpdateStudentPhoto(state, action) {
+            state.ISUpdateStudentPhotoMsg = action.payload;
             state.Loading = false;
         },
         RReferenceListDetails(state, action) {
@@ -651,6 +664,24 @@ export const CDADeleteGuardianPhoto =
             //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
         };
 
+export const CDAUpdateStudentPhoto =
+    (data: IUpdateStudentPhotoBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.UpdateStudentPhotoApi(data);
+            dispatch(StudentUISlice.actions.RUpdateStudentPhoto(response.data));
+            if (response.status === 200) {
+                // The API call was successful
+                console.log('5️⃣Student photo updated successfully');
+                console.log('Response data:', response.data);
+            }
+            else {
+                // Handle non-200 status codes
+                console.error('❌5️⃣ API call failed with status:', response.status);
+                console.error('Error response:', response.data);
+            }
+        };
+
 export const CDACheckDependenciesForFees =
     (data: ICheckDependenciesForFeesBody): AppThunk =>
         async (dispatch) => {
@@ -696,4 +727,22 @@ export const ResetFeeDependencyErrorMsg =
             dispatch(StudentUISlice.actions.getLoading(true));
             dispatch(StudentUISlice.actions.ResetFeeDependencyErrorMsg());
         }
+
+export const CDASaveSubmittedDocumentsMsg =
+    (data: ISaveSubmittedDocumentsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.SaveSubmittedDocumentsApi(data);
+            dispatch(StudentUISlice.actions.RSaveSubmittedDocumentsMsg(response.data));
+            if (response.status === 200) {
+                // The API call was successful
+                console.log('-➖️⃣Submitted Documents saved successfully');
+                console.log('Response data:', response.data);
+            }
+            else {
+                // Handle non-200 status codes
+                console.error('❌API call failed with status:', response.status);
+                console.error('Error response:', response.data);
+            }
+        };
 export default StudentUISlice.reducer;

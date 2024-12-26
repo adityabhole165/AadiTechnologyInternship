@@ -381,12 +381,12 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
       base64: base64Image
     });
 
-    // setForm(prevForm => ({
-    //   ...prevForm,
-    //   photoFilePath: newImageName
-    // }));
     onChange('photoFilePath', newImageName);
-    console.log('onChange complete', personal.photoFilePath);
+    //console.log('1️⃣onChange complete', personal.photoFilePath);
+    //console.log('2️⃣photoFilePath', base64Image);
+    onChange('photoFilePathImage', base64Image);
+    //console.log('3️⃣photoFilePathImage', personal.photoFilePathImage);
+
   };
 
   useEffect(() => {

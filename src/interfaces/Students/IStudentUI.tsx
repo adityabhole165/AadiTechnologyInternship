@@ -599,6 +599,21 @@ export interface ICheckDependenciesForFeesResult {
         Reference: string
     }[]
 }
+//Update Student Photopath
+export interface IUpdateStudentPhotoBody {
+    asSchoolId: number
+    asStudentId: number
+    asStudentBinaryPhoto: string
+}
+export interface ISaveSubmittedDocumentsBody {
+    asSchoolId: number
+    asDocXML: string
+    asYearwiseStudentId: number
+    asInsertedById: number
+}
+
+
+
 
 
 

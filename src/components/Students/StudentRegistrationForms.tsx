@@ -39,7 +39,7 @@ import {
   IGetStudentsSiblingDetailBody, IOverwriteAllSiblingDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody
 } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
-  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentStreamwiseSubjectDetailsBody
+  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile from 'src/libraries/File/SingleFile';
@@ -53,7 +53,7 @@ import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
   CDAAddStudentAdditionalDetails, CDACheckDependenciesForFees, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
   CDAGetStudentDocuments,
-  CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
+  CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentPhoto, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
@@ -91,12 +91,13 @@ const StudentRegistrationForm = () => {
   const schoolId = localStorage.getItem('SchoolId');
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const teacherId = sessionStorage.getItem('Id');
+  const localUserId = localStorage.getItem('UserId');
   const SNS = Number(localStorage.getItem('SchoolId') == '122');
   const RoleName = localStorage.getItem('RoleName');
   //StudentDetails from Local Storage
   const studentDataString = localStorage.getItem('studentData');
   const localData = JSON.parse(studentDataString);
-  //console.log('Name:', localData);
+  //console.log('Name:', localUserId);
 
   const [currentTab, setCurrentTab] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -975,8 +976,7 @@ const StudentRegistrationForm = () => {
     asRTECategoryId: Number(form.admission?.rteCategory) || 0,
     asSecondLanguageSubjectId: form.admission?.secondlanguage || '',
     asThirdLanguageSubjectId: form.admission?.thirdlanguage || '',
-    asIsForDayBoarding:
-      form.admission?.isForDayBoarding === false ? false : true,
+    asIsForDayBoarding: form.admission?.isForDayBoarding === false ? false : true,
     asFeeCategoryDetailsId: '0', // ❌This is the cause of problem
     asRTEApplicationFormNo: form.admission?.rteApplicationForm || '',
     asAnnualIncome: 0, //Not Found on Screen
@@ -998,8 +998,8 @@ const StudentRegistrationForm = () => {
     asPreviousMarksOutOff: form.additional?.previousMarksOutOf || '',
     asPreviousYearOfPassing: form.additional?.previousYearOfPassing || '',
     asSubjectNames: form.additional?.subjectNames || '',
-    asSchoolwiseStudentId: 3556,
-    asUserid: 4463,
+    asSchoolwiseStudentId: SchoolWise_Student_Id ?? localData.SchoolWise_Student_Id,
+    asUserid: Number(localUserId),
     asReligion: form.personal?.religion || '',
     asBirthTaluka: form.personal?.birthTaluka || '',
     asBirthDistrict: form.personal?.birthDistrict || '',
@@ -1029,9 +1029,9 @@ const StudentRegistrationForm = () => {
     asAnniversaryDate: formatDOB(form.family?.marriageAnniversaryDate) || '',
     asLocalGuardianPhoto: form.family?.localGuardianPhoto || '',
     asRelativeName: form.family?.relativeFullName || '',
-    asFatherBinaryPhoto: null, //Need to work on this
-    asMotherBinaryPhoto: null,
-    asRelativeBinaryPhoto: null,
+    asFatherBinaryPhoto: form.family?.fatherBinaryPhoto || null, //Need to work on this
+    asMotherBinaryPhoto: form.family?.motherBinaryPhoto || null,
+    asRelativeBinaryPhoto: form.family?.localGuardianBinaryPhoto || null,
     asFatherWeight: form.family?.fatherWeight || 0,
     asMotherWeight: form.family?.motherWeight || 0,
     asFatherHeight: form.family?.fatherHeight || 0,
@@ -1084,6 +1084,14 @@ const StudentRegistrationForm = () => {
     asSiblingId: selectedSiblings
   }
 
+  const UpdateStudentPhotoBody: IUpdateStudentPhotoBody = {
+    asSchoolId: Number(schoolId),
+    asStudentId: SchoolWise_Student_Id ?? localData.SchoolWise_Student_Id,
+    asStudentBinaryPhoto: form.personal?.photoFilePathImage || null,
+  }
+  useEffect(() => {
+    console.log(UpdateStudentPhotoBody, '⚠️');
+  }, [form.personal?.photoFilePathImage])
   const CheckDependenciesForFeesBody: ICheckDependenciesForFeesBody = {
     asSchoolId: Number(schoolId),
     asReference_Id: 87,
@@ -1123,7 +1131,8 @@ const StudentRegistrationForm = () => {
     additionalDetailsBody,
     streamwiseSubjectDetailsBody,
     transportFeeBody,
-    overwriteSiblingDetailsBody
+    overwriteSiblingDetailsBody,
+    UpdateStudentPhotoBody
   ) => {
     try {
       // Update Student Details
@@ -1150,7 +1159,7 @@ const StudentRegistrationForm = () => {
         await dispatch(CDAOverwriteSiblingDetailsMsg(overwriteSiblingDetailsBody));
       }
 
-      // Update Streamwise Subject Details
+      // Update Streamwise Subject Details    // NEED TO MOVE FROM HERE
       if (parseInt(schoolId) === 122 && streamwiseSubjectDetailsBody) {
         console.log('Updating streamwise subject details:', streamwiseSubjectDetailsBody);
         await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(streamwiseSubjectDetailsBody));
@@ -1160,6 +1169,12 @@ const StudentRegistrationForm = () => {
       if (transportFeeBody) {
         console.log('Generating transport fee entries:', transportFeeBody);
         await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
+      }
+
+      // Update Student Photo & Base64 Image
+      if (form.personal?.photoFilePathImage && UpdateStudentPhotoBody) {
+        console.log('Updating student photo:', UpdateStudentPhotoBody);
+        await dispatch(CDAUpdateStudentPhoto(UpdateStudentPhotoBody));
       }
 
       console.log('API calls completed successfully.');
@@ -1226,7 +1241,8 @@ const StudentRegistrationForm = () => {
         AddStudentAdditionalDetailsBody,
         UpdateStudentStreamwiseSubjectDetailsBody,
         transportFeeBody,
-        OverwriteSiblingDetailsBody
+        OverwriteSiblingDetailsBody,
+        UpdateStudentPhotoBody
       );
 
       // Success message or further actions
@@ -1266,7 +1282,8 @@ const StudentRegistrationForm = () => {
         AddStudentAdditionalDetailsBody,
         UpdateStudentStreamwiseSubjectDetailsBody,
         transportFeeBody,
-        OverwriteSiblingDetailsBody // Include sibling details in this flow
+        OverwriteSiblingDetailsBody, // Include sibling details in this flow
+        UpdateStudentPhotoBody
       );
 
       console.log('✅ Form submitted successfully with all API calls completed!');
