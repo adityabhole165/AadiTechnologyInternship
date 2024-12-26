@@ -573,11 +573,12 @@ function Header() {
                   src={userprofile}
                   sx={{
                     backgroundColor: grey[500],
-                    height: 40,
+                    borderRadius:'10px',
+                    height: 52,
                     width: 40,
-                    '& img': { objectFit: 'contain' } // Ensures the full image fits within the circle
+                    '& img': { objectFit: 'cover' } // Ensures the full image fits within the circle
                   }}
-                  variant="circular"
+                  variant="square" 
                   aria-label="add"
                 />
                 <Box>
@@ -607,11 +608,12 @@ function Header() {
                   src={userprofile}
                   sx={{
                     backgroundColor: grey[500],
-                    height: 60,
-                    width: 60,
-                    '& img': { objectFit: 'contain' } // Ensures the full image fits within the circle
+                    borderRadius:'10px',
+                    height: 70,
+                    width: 50,
+                    '& img': { objectFit: 'cover' } // Ensures the full image fits within the circle
                   }}
-                  variant="circular"
+                  variant="square"
                   aria-label="add"
                 />
                 <UserBoxText>
