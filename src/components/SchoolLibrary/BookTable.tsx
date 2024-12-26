@@ -131,7 +131,7 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete,
                     >
 
                       <Tooltip title="Cancel">
-                        <CloseIcon fontSize="small" />
+                        <CloseIcon />
                       </Tooltip>
                     </IconButton>
                   }
