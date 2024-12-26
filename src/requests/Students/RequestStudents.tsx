@@ -76,6 +76,7 @@ export const CDAGetStudentsList =
                     Text13: item.SchoolWise_Student_Id,
                     Text14: item.StandardDivision,
                     Text15: item.Joining_Date,
+                    Text16: item.User_Id,
                 })
             })
             dispatch(StudentsSlice.actions.RGetStudentsList(responseData));

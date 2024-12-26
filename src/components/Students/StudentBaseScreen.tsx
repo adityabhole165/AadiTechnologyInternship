@@ -60,6 +60,7 @@ const StudentBaseScreen = () => {
     const StdDivList = useSelector((state: RootState) => state.Students.ISRGetStdDivForTeacher);
     const StudentsList = useSelector((state: RootState) => state.Students.ISGetStudentsList);
     const Loading = useSelector((state: RootState) => state.Students.Loading);
+    console.log('StudentsList', StudentsList);
 
     useEffect(() => {
         if (StdDivList.length > 1) {
@@ -199,7 +200,8 @@ const StudentBaseScreen = () => {
             StandardDivision_Id: item.Text14,
             Enrolment_Number: item.Text3,
             NewMode: 'N',
-            Joining_Date: item.Text15
+            Joining_Date: item.Text15,
+            User_Id: item.Text16
         };
 
         // Store in localStorage
@@ -219,7 +221,8 @@ const StudentBaseScreen = () => {
                 StandardDivision_Id: item.Text14,
                 Enrolment_Number: item.Text3,
                 NewMode: 'N',
-                Joining_Date: item.Text15
+                Joining_Date: item.Text15,
+                User_Id: item.Text16
             }
         });
     };

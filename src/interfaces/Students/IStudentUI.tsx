@@ -491,7 +491,11 @@ export interface IUpdateStudentBody {
     asDivision_Id: number
     asReligion: string
     asYearWise_Student_Id: number
-    asParentUserId: number
+    asParentUserId: number,
+    asStudentEmailAddress: string
+    asUserId: number
+    IsDeleteFee: boolean
+    adtOldJoiningDate: string
 }
 
 export interface IUpdateStudentResult {
