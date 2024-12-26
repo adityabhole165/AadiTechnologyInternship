@@ -419,7 +419,7 @@ const GenerateAll = ({ }) => {
         if (StudentDetailsUS?.length > 0) {
             const message = StudentDetailsUS.map((item, index) => (
                 <b key={index}>
-                    Progress Report is not available for the student : {item.Roll_No} - {item.Student_Name}.
+                    Progress Report is not available for the student : {item.Text2} - {item.Text1}.
                 </b>
             ));
             setProgressReportMessage(message);
