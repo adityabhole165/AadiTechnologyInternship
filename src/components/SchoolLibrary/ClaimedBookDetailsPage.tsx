@@ -25,22 +25,23 @@ const ClaimedBookDetailsPage = () => {
     const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [SortBy, setSortBy] = useState('Book_Title');
 
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState<number>(1);
 
     const [ReserveBookDetails, SetReserveBookDetails] = useState([]);
-    const rowsPerPageOptions = [10, 20, 50, 100, 200];
+    const rowsPerPageOptions = [20, 50, 100, 200];
 
     const UsCancelBookReservationMsg: any = useSelector((state: RootState) => state.SchoolLibrary.ICancelBookReservationMsg);
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
     const USReserveBookDetailsCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetailsCount);
     const singleTotalCount = USReserveBookDetailsCount.map(item => item.Count)
+
     const loading = useSelector((state: RootState) => state.SchoolLibrary.Loading);
     const PageChange = (pageNumber) => {
         setPage(pageNumber);
     };
     const ChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value, 20));
         setPage(1);
     };
 
@@ -148,7 +149,7 @@ const ClaimedBookDetailsPage = () => {
             title: 'Please Confirm',
             message: 'Are you sure you want to cancel the book claim?',
             variant: 'warning',
-            confirmButtonText: 'Ok',
+            confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
             onCancel: () => {
                 closeAlert();
@@ -304,7 +305,7 @@ const ClaimedBookDetailsPage = () => {
                             SortBy={SortBy}
                             SortDirection={SortDirection}
                         />
-                        {endRecord > 9 ? (
+                        {endRecord > 19 ? (
                             <ButtonGroupComponent
                                 rowsPerPage={rowsPerPage}
                                 ChangeRowsPerPage={ChangeRowsPerPage}

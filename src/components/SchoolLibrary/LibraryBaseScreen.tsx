@@ -1,7 +1,7 @@
 import { QuestionMark } from '@mui/icons-material';
+import BookIcon from '@mui/icons-material/Book';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
-import { BookLockIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -163,7 +163,7 @@ const LibraryBaseScreen = () => {
 
         if (USReserveBookCountPerPerson.length > 0) {
             if (USReserveBookCountPerPerson[0].Count === "999") {
-                setErrorMsg("Could not claim the same book.");
+                setErrorMsg("Could not claim same book.");
                 isValid = false;
             }
             if (USReserveBookCountPerPerson[0].Count === "4") {
@@ -290,7 +290,7 @@ const LibraryBaseScreen = () => {
                                     navigate('/RITeSchool/Teacher/ClaimedBookDetailsPage' + '/')
                                 }
                             >
-                                <BookLockIcon />
+                                <BookIcon />
                             </IconButton>
                         </Tooltip>
                     </>

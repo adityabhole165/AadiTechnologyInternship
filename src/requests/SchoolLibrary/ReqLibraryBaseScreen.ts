@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiLibraryBaseScreen from "src/api/SchoolLibrary/APILibraryBaseScreen";
-import { getDateFormatFeedback, getDateFormatted } from "src/components/Common/Util";
+import { getDateFormatted } from "src/components/Common/Util";
 import { IBookclaimedBody, ICancelBookReservationBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetReserveBooksCountperpersonBody, ITotalBooksCountsBody } from "src/interfaces/SchoolLibrary/ILibraryBaseScreen";
 import { AppThunk } from "src/store";
 
@@ -175,7 +175,8 @@ export const CDAGetReserveBookDetails =
 
                     BookId: item.BookId,
                     bookTitle: item.Book_Title,
-                    date: item.ReservationDate,
+                    date: getDateFormatted(item.ReservationDate),
+                    //lastUpdated: getDateMonthYearFormatted(item.Update_Date)
                     class: item.Class,
                     userName: item.Name,
                     designation: item.Designation,
@@ -260,7 +261,7 @@ export const CDAGetAllBooksDetails =
 
                 };
             });
-            console.log(AllBooks, '>>>>>>');
+
             dispatch(SchoolLibraryslice.actions.RGetAllBooksDetailss(AllBooks));
             dispatch(SchoolLibraryslice.actions.RGetBookTotalCount(TotalBookCount));
             dispatch(SchoolLibraryslice.actions.RGetTotalBookID(TotalBookId));
