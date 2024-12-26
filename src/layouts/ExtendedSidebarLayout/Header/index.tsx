@@ -40,6 +40,9 @@ import { Styles } from 'src/assets/style/student-style';
 import { getYearFirstDateFormatted, logoURL } from 'src/components/Common/Util';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 import { ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
+import InfoIcon from '@mui/icons-material/Info';
+import SettingsIcon from '@mui/icons-material/Settings';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import {
   IAuthenticateUser,
   IAuthenticateUserResult,
@@ -699,6 +702,100 @@ function Header() {
                       </UserBoxLabel>
                     }
                   />
+                  
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    handleClose();
+                  }}
+                  to={'/RITeSchool/common/changePassword'}
+                  component={NavLink}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: (theme) =>
+                        alpha(theme.palette.primary.main, 0.3)
+                    }
+                  }}
+                >
+                  <InfoIcon
+                    sx={{
+                      height: 25,
+                      width: 25,
+                      color: 'black',
+                      fontWeight: 'bold',
+                      mr: 2
+                    }}
+                  />
+                  <ListItemText
+                    primary={
+                      <UserBoxLabel sx={{ fontWeight: 'bold' }}>
+                       Support
+                      </UserBoxLabel>
+                    }
+                  />
+                  
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    handleClose();
+                  }}
+                  to={'/RITeSchool/common/changePassword'}
+                  component={NavLink}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: (theme) =>
+                        alpha(theme.palette.primary.main, 0.3)
+                    }
+                  }}
+                >
+                  <SettingsIcon
+                    sx={{
+                      height: 25,
+                      width: 25,
+                      color: 'black',
+                      fontWeight: 'bold',
+                      mr: 2
+                    }}
+                  />
+                  <ListItemText
+                    primary={
+                      <UserBoxLabel sx={{ fontWeight: 'bold' }}>
+                       Settings
+                      </UserBoxLabel>
+                    }
+                  />
+                  
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    handleClose();
+                  }}
+                  to={'/RITeSchool/common/changePassword'}
+                  component={NavLink}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: (theme) =>
+                        alpha(theme.palette.primary.main, 0.3)
+                    }
+                  }}
+                >
+                  <NotificationsIcon
+                    sx={{
+                      height: 25,
+                      width: 25,
+                      color: 'black',
+                      fontWeight: 'bold',
+                      mr: 2
+                    }}
+                  />
+                  <ListItemText
+                    primary={
+                      <UserBoxLabel sx={{ fontWeight: 'bold' }}>
+                       Notifications
+                      </UserBoxLabel>
+                    }
+                  />
+                  
                 </ListItem>
                 {siblingList?.length == 0 ? (
                   <></>
@@ -852,7 +949,7 @@ function Header() {
                       }}
                     />
                     <UserBoxLabel sx={{ fontWeight: 'bold' }}>
-                      Exit
+                      Logout
                     </UserBoxLabel>
                   </Button>
                 </Box>
