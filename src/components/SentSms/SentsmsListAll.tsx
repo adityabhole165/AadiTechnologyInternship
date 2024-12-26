@@ -58,7 +58,7 @@ function SentsmsListAll({ isPrincipal, ItemList, HeaderArray, ClickHeader, click
     return (
         <>
             <TableContainer component={Box} >
-                <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
+                <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflowY: 'hidden' }}>
                     <TableHead>
                         <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                             <TableCell padding="checkbox">

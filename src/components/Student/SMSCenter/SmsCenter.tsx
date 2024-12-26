@@ -1070,7 +1070,7 @@ function SmsCenter() {
             </Hidden>
           </Grid>
 
-          <Grid item sx={{ minWidth: '90%', p: 2, background: 'white', borderRadius: '10px' }}>
+          <Grid item sx={{ minWidth: '90%', maxWidth: activeTab === 'AllSendItem' ? '90%' : 'auto', p: 2, background: 'white', borderRadius: '10px' }}>
 
             {activeTab == 'Scheduled SMS' &&
               <Grid container spacing={2} pb={2}>
@@ -1131,17 +1131,10 @@ function SmsCenter() {
 
               <Box>
                 {(Loading) && <SuspenseLoader />}
-
-
-
-
-
-
-
-                {SmsListNew.length > 0 && <Box mb={1} sx={{ background: 'white' }}>
+                {SmsListNew.length > 0 && <Box mb={0} sx={{ background: 'white' }}>
                   {
                     SmsListNew.length > 0 ? (
-                      <div style={{ flex: 1, textAlign: 'center' }}>
+                      <Box style={{ flex: 1, textAlign: 'center' }}>
                         <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                           <Box component="span" fontWeight="fontWeightBold">
                             {startRecordNew} to {endRecordNew}
@@ -1152,14 +1145,14 @@ function SmsCenter() {
                           </Box>{' '}
                           {totalRowsNew === 1 ? 'record' : 'records'}
                         </Typography>
-                      </div>
+                      </Box>
 
                     ) : (
                       <span></span>
 
                     )
                   }
-
+                    <Box>
                   <SentsmsListAll
                     HeaderArray={headerArray1}
                     ItemList={SmsListNew}
@@ -1168,8 +1161,7 @@ function SmsCenter() {
                     clickchange={Changevalue}
                     clickTitle={clickTitle1}
                     isPrincipal={isPrincipal}
-                  />
-
+                  /></Box>
                   {
                     endRecordNew > 19 ? (
                       <ButtonGroupComponent
@@ -1185,12 +1177,7 @@ function SmsCenter() {
 
                     )
                   }
-
-
-
                 </Box>
-
-
                 }
 
                 {
@@ -1211,12 +1198,6 @@ function SmsCenter() {
                       <span></span>
                     )
                 }
-
-
-
-
-
-
               </Box>
             )}
 
