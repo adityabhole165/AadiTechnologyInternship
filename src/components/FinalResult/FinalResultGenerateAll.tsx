@@ -414,7 +414,17 @@ const GenerateAll = ({ }) => {
     // const handleVisibilityClick = () => {
     //     setShowProgressReport(!showProgressReport); // Toggle visibility
     // }
-
+    const [progressReportMessage, setProgressReportMessage] = useState(null);
+    useEffect(() => {
+        if (StudentDetailsUS?.length > 0) {
+            const message = StudentDetailsUS.map((item, index) => (
+                <b key={index}>
+                    Progress Report is not available for the student : {item.Roll_No} - {item.Student_Name}.
+                </b>
+            ));
+            setProgressReportMessage(message);
+        }
+    }, [StudentDetailsUS]);
     const getStudentGrade = () => {
         let returnVal = true
         TestMarksDetails.map((item) => {
