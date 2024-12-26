@@ -571,6 +571,12 @@ export interface IDeletePhotosBody {
     asStudentId: number,
     asUpdatedById: number
 }
+//Delete Aadhar Card Details - StudentEdit Page
+export interface IDeleteAadharCardPhotoCopyBody {
+    asUserId: number
+    asSchoolId: number
+    asUpdatedById: number
+}
 //
 export interface ICheckDependenciesForFeesBody {
     asSchoolId: number
