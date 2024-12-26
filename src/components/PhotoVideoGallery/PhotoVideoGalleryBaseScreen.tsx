@@ -4,7 +4,7 @@ import { Box, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Toolti
 import { blue, grey } from '@mui/material/colors';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeletePhotoBody, IGetCountBody, IGetPhotoDetailsBody } from 'src/interfaces/Common/PhotoGallery';
@@ -17,6 +17,25 @@ import VideoPageTableCard from './VideoPageTableCard';
 
 const PhotoVideoGalleryBaseScreen = () => {
     const dispatch = useDispatch();
+    // let { galleryName } = useParams();
+
+    // useEffect(() => {
+    //     if (galleryName !== undefined)
+    //         // galleryName = decodeURL(galleryName)
+    //         console.log(galleryName, "1234567")
+
+
+    // }, [galleryName])
+    let { RowID } = useParams();
+
+    useEffect(() => {
+        if (RowID !== undefined)
+            // galleryName = decodeURL(galleryName)
+            console.log(RowID, "1234567")
+
+
+    }, [RowID])
+
 
     const [selectedOption, setSelectedOption] = useState<string>('photo');
     const [view, setView] = useState<"table" | "card">("table");
@@ -80,14 +99,13 @@ const PhotoVideoGalleryBaseScreen = () => {
 
 
     const handleDelete = (GalleryName) => {
-        console.log(GalleryName, "Gallery1234")
+
 
         const DeletePhotoGallery: IDeletePhotoBody = {
             asGalleryName: GalleryName,
             asSchoolId: asSchoolId
 
         }
-
 
         showAlert({
             title: 'Please Confirm',
@@ -106,6 +124,9 @@ const PhotoVideoGalleryBaseScreen = () => {
             }
         });
     }
+
+
+
     useEffect(() => {
         if (USDeletePhoto != "") {
             toast.success(USDeletePhoto);
@@ -303,6 +324,8 @@ const PhotoVideoGalleryBaseScreen = () => {
                             handleSortChange={handleSortChange}
                             SortBy={SortBy}
                             SortDirection={SortDirection}
+
+
                         />
 
                         {/* Add ButtonGroupComponent */}

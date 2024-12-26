@@ -32,18 +32,19 @@ import { red } from "@mui/material/colors";
 import React, { useState } from "react";
 import { useNavigate } from 'react-router';
 import SlideshowPhotoGallery from "./SlideshowPhotoGallery";
-
 // Define props for PhotoPage
 interface PhotopageTableCardProps {
     handleDelete,
     handleSortChange,
     SortBy,
-    SortDirection
+    SortDirection,
+
     data: Array<{
         galleryName: string;
         className: string;
         lastUpdated: string;
         IsDelete;
+
 
     }>;
     view: "table" | "card";
@@ -56,19 +57,13 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
     const [slideShow, setSlideShow] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
-    const handleAction1 = (action: string, item: any) => {
-        if (action === "Download") {
-            downloadZipFile(item);
-        }
-    };
 
-    const downloadZipFile = (item) => {
-        // Assuming you have a URL for the ZIP file
-        const zipFileUrl = `https://example.com/path/to/yourfile-${item.galleryName}.zip`; // Modify this URL as needed
 
-        // Use window.open to download the file
-        window.open(zipFileUrl, '_blank');
-    };
+
+    const handleEdit = (action: string, item: any) => {
+        // navigate('/RITeSchool/Teacher/AddNewPhoto/' + (item.galleryName));
+        navigate('/RITeSchool/Teacher/AddNewPhoto/' + (item.RowID));
+    }
 
 
     const handleAction = (action: string, item: any) => {
@@ -85,12 +80,6 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
     const ViewPhotoFilePage = (value) => {
         navigate('/RITeSchool/Teacher/ViewPhotoFile');
     };
-
-    // const ClickDownload =(value)=>{
-    //     window.open()
-    // }
-
-
 
     return (
         <>
@@ -111,7 +100,10 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                                         py: 1.5,
                                         cursor: "pointer",
                                     }}>
-                                    Gallery Name
+
+                                    <b onClick={() => handleSortChange('Gallery_Name')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                                        Gallery Name{SortBy === 'Gallery_Name' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                                    </b>
 
                                 </TableCell>
                                 <TableCell
@@ -122,7 +114,10 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                                         py: 1.5,
                                         cursor: "pointer",
                                     }}>
-                                    Class Name
+
+                                    <b onClick={() => handleSortChange('Classes')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                                        Class Name{SortBy === 'Classes' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                                    </b>
 
                                 </TableCell>
                                 <TableCell
@@ -133,11 +128,11 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                                 </TableCell>
 
 
-                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>View</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Slide Show</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Download</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Edit</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}>Delete</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}><b>View</b></TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}><b>Slide Show</b></TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}><b>Download</b></TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}><b>Edit</b></TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', color: 'white', py: 1.5, textAlign: 'center', }}><b>Delete</b></TableCell>
                             </TableRow>
 
                         </TableHead>
@@ -170,7 +165,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                                     <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                                         <Tooltip title={"Download"}>
                                             <IconButton
-                                                onClick={() => handleAction1("Download", item)}
+                                                onClick={() => handleAction("Download", item)}
                                                 color="primary"
                                             >
                                                 <FileDownloadOutlinedIcon />
@@ -180,7 +175,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                                     <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
                                         <Tooltip title={"Edit"}>
                                             <IconButton
-                                                onClick={() => handleAction("Edit", item)}
+                                                onClick={() => handleEdit("Edit", item)}
                                                 color="primary"
                                             >
                                                 <EditIcon />

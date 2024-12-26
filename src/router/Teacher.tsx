@@ -953,6 +953,11 @@ const teacherRoutes = [
     element: <AddNewPhoto />
   },
   {
+    // path: 'AddNewPhoto/:galleryName',
+    path: 'AddNewPhoto/:RowID',
+    element: <AddNewPhoto />
+  },
+  {
     path: 'AddNewVideo',
     element: <AddNewVideo />
   },
