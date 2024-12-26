@@ -6,9 +6,10 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
 import { Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { AlertContext } from 'src/contexts/AlertContext';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
@@ -123,6 +124,7 @@ const UserManagementBasescreen = () => {
     const [searchUserName, setSearchUserName] = useState('');
     const [selectStandard, setSelectStandard] = useState('all');
     const [selectDivision, setSelectDivision] = useState('all');
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const [selectedUserName, setSelectedUserName] = useState(''); // Store the selected username for change password
     const [openChangePassword, setOpenChangePassword] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(20);
@@ -193,13 +195,46 @@ const UserManagementBasescreen = () => {
         setSelectedUserName(username); // Store the username of the selected user
         setOpenChangePassword(true); // Open the Change Password Popup
     };
+    const ClickSave = () => {
+        showAlert({
+            title: 'Please Confirm',
+            message: 'To Send SMS, please activate user and SMS facility.',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                ClickSave()
+                closeAlert();
+            }
+        });
 
+    };
+    const ClickSave2 = () => {
+        showAlert({
+            title: 'Please Confirm',
+            message: 'Are you sure you want to add this user to the SMS & Message Center address book?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                ClickSave()
+                closeAlert();
+            }
+        });
+
+    };
     const handleTextsmsClick = (userId) => {
-        // Logic for handling Text SMS click
+        ClickSave();
     };
 
     const handleEmailReadClick = (userId) => {
-        // Logic for handling Email Read click
+        ClickSave2();
     };
 
     return (
