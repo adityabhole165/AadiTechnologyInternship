@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
+import ActivateDeactivateUserPopup from './ActivateDeactivateUserPopup';
+import ChangePasswordPopup from './ChangePasswordPopup';
 import UserManagementTable from './UserManagementTable';
 
 const UserManagementBasescreen = () => {
@@ -121,12 +123,15 @@ const UserManagementBasescreen = () => {
     const [searchUserName, setSearchUserName] = useState('');
     const [selectStandard, setSelectStandard] = useState('all');
     const [selectDivision, setSelectDivision] = useState('all');
+    const [selectedUserName, setSelectedUserName] = useState(''); // Store the selected username for change password
+    const [openChangePassword, setOpenChangePassword] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const rowsPerPageOptions = [20, 50, 100, 200];
     const [page, setPage] = useState(1);
     const [sortExpression, setSortExpression] = useState('RollNo desc');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc'); // Initial sorting direction (ascending)
     const [sortedData, setSortedData] = useState(dummyDataList2);
+    const [Open, setOpen] = useState(false);
     const totalCount = dummyDataList2.length;
     const filteredList = dummyDataList2.filter((item) => item.totalCount !== undefined);
 
@@ -179,6 +184,22 @@ const UserManagementBasescreen = () => {
         const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
         const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'UserName desc';
         setSortExpression(newSortExpression);
+    };
+    const handleActivateDeactivateClick = (userId) => {
+        setOpen(true);
+    };
+
+    const handleKeyClick = (userId, username) => {
+        setSelectedUserName(username); // Store the username of the selected user
+        setOpenChangePassword(true); // Open the Change Password Popup
+    };
+
+    const handleTextsmsClick = (userId) => {
+        // Logic for handling Text SMS click
+    };
+
+    const handleEmailReadClick = (userId) => {
+        // Logic for handling Email Read click
     };
 
     return (
@@ -434,6 +455,10 @@ const UserManagementBasescreen = () => {
                                 HeaderArray={HeaderList1}
                                 ItemList={dummyDataList2}
                                 ClickHeader={handleHeaderClickk}
+                                handleKeyClick={handleKeyClick}
+                                handleEmailReadClick={handleEmailReadClick}
+                                handleActivateDeactivateClick={handleActivateDeactivateClick}
+                                handleTextsmsClick={handleTextsmsClick}
                             />
                         ) : (
                             <Box sx={{ backgroundColor: '#D2FDFC' }}>
@@ -467,7 +492,26 @@ const UserManagementBasescreen = () => {
                         )}
                     </Box>
                 )}
-
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
+                    {Open && (
+                        <ActivateDeactivateUserPopup
+                            open={Open}
+                            setOpen={setOpen}
+                            UserName={undefined}
+                            clickActivateDeactivate={undefined}
+                        />
+                    )}
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                    {openChangePassword && (
+                        <ChangePasswordPopup
+                            open={openChangePassword}
+                            setOpen={setOpenChangePassword}
+                            UserName={selectedUserName}
+                            clickSavePassword={undefined}
+                        />
+                    )}
+                </Box>
             </Box>
         </>
     );

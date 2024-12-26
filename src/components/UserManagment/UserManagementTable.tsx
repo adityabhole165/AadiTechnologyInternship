@@ -6,9 +6,9 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import TextsmsIcon from '@mui/icons-material/Textsms';
 import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 
-function UserManagementList({ ItemList, HeaderArray, ClickHeader }) {
+function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailReadClick, handleActivateDeactivateClick, handleKeyClick, handleTextsmsClick }) {
 
     const clickHeader = (id) => {
         const updatedHeaderArray = HeaderArray.map((item) => {
@@ -85,37 +85,71 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader }) {
                                         <TableCell sx={{ textAlign: 'center', py: 1 }}>{item.MobileNumber}</TableCell>
                                         <TableCell sx={{ textAlign: 'left', py: 1 }}>{item.UserName}</TableCell>
                                         <TableCell sx={{ textAlign: 'center', py: 1 }}>
-                                            {item.ActivateDeactivate === 'Active' ? (
-                                                <LockOpenIcon
-                                                    sx={{ color: 'green', cursor: 'pointer' }}
-                                                />
-                                            ) : (
-                                                <LockIcon
-                                                    sx={{ color: 'red', cursor: 'pointer' }}
-                                                />
-                                            )}
+                                            <Tooltip title={item.ActivateDeactivate === 'Active' ? "Deactivate" : "Activate"}>
+                                                <IconButton
+                                                    onClick={() => handleActivateDeactivateClick(item.Id)}
+                                                    sx={{
+                                                        color: item.ActivateDeactivate === 'Active' ? 'green' : 'red',
+                                                        '&:hover': {
+                                                            color: item.ActivateDeactivate === 'Active' ? 'darkgreen' : 'darkred',
+                                                            cursor: 'pointer',
+                                                        }
+                                                    }}
+                                                >
+                                                    {item.ActivateDeactivate === 'Active' ? <LockOpenIcon /> : <LockIcon />}
+                                                </IconButton>
+                                            </Tooltip>
                                         </TableCell>
+
                                         <TableCell sx={{ textAlign: 'center', py: 1 }}>
-                                            <KeyIcon
-                                                sx={{ color: '#a9a9a9', cursor: 'pointer' }}
-                                            />
+                                            <IconButton
+                                                onClick={() => handleKeyClick(item.Id)}
+                                                sx={{
+                                                    color: '#a9a9a9',
+                                                    '&:hover': {
+                                                        color: '#808080',
+                                                        cursor: 'pointer',
+                                                    }
+                                                }}
+                                            >
+                                                <KeyIcon />
+                                            </IconButton>
                                         </TableCell>
+
                                         <TableCell sx={{ textAlign: 'center', py: 1 }}>
-                                            <TextsmsIcon
-                                                sx={{ color: '#3cb371', cursor: 'pointer' }}
-                                            />
+                                            <Tooltip title="Send Login SMS">
+                                                <IconButton
+                                                    onClick={() => handleTextsmsClick(item.Id)}
+                                                    sx={{
+                                                        color: '#3cb371',
+                                                        '&:hover': {
+                                                            color: '#2e8b57',
+                                                            cursor: 'pointer',
+                                                        }
+                                                    }}
+                                                >
+                                                    <TextsmsIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         </TableCell>
+
                                         <TableCell sx={{ textAlign: 'center', py: 1 }}>
-                                            {item.ActivateDeactivate === 'Active' ? (
-                                                <MarkEmailReadIcon
-                                                    sx={{ color: 'green', cursor: 'pointer' }}
-                                                />
-                                            ) : (
-                                                <UnsubscribeIcon
-                                                    sx={{ color: 'red', cursor: 'pointer' }}
-                                                />
-                                            )}
+                                            <Tooltip title={item.ActivateDeactivate === 'Active' ? "Remove from SMS/Message List" : "Add to SMS/Message List"}>
+                                                <IconButton
+                                                    onClick={() => handleEmailReadClick(item.Id)}
+                                                    sx={{
+                                                        color: item.ActivateDeactivate === 'Active' ? 'green' : 'red',
+                                                        '&:hover': {
+                                                            color: item.ActivateDeactivate === 'Active' ? 'darkgreen' : 'darkred',
+                                                            cursor: 'pointer',
+                                                        }
+                                                    }}
+                                                >
+                                                    {item.ActivateDeactivate === 'Active' ? <MarkEmailReadIcon /> : <UnsubscribeIcon />}
+                                                </IconButton>
+                                            </Tooltip>
                                         </TableCell>
+
                                     </TableRow>
                                 ))}
                             </TableBody>
