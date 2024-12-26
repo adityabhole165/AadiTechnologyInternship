@@ -1,7 +1,7 @@
 
 import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
   IconButton,
@@ -79,7 +79,9 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete,
                   Date{SortBy === 'ReservationDate' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
                 </b>
               </TableCell>
-              <TableCell sx={{ color: 'white', py: 1.5, textAlign: 'center' }}>Cancel</TableCell>
+              <TableCell sx={{ color: 'white', py: 1.5, textAlign: 'center' }}>
+                <b>Cancel</b>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -128,8 +130,8 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete,
                       }}
                     >
 
-                      <Tooltip title="Delete">
-                        <DeleteForeverIcon />
+                      <Tooltip title="Cancel">
+                        <CloseIcon fontSize="small" />
                       </Tooltip>
                     </IconButton>
                   }
