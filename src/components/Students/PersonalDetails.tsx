@@ -29,11 +29,11 @@ import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Webcam from 'react-webcam';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IRemoveStudentPhotoBody } from 'src/interfaces/Students/IStudentUI';
+import { IDeleteAadharCardPhotoCopyBody, IRemoveStudentPhotoBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDADeleteStudentPhoto, CDAresetDeletePhotoMsg } from 'src/requests/Students/RequestStudentUI';
+import { CDADeleteAadharCardDetailsMsg, CDADeleteStudentPhoto, CDAresetDeletePhotoMsg, ResetDeleteAadharCardDetailsMsg } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
@@ -72,6 +72,10 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
+  //StudentDetails from Local Storage
+  const studentDataString = localStorage.getItem('studentData');
+  const localData = JSON.parse(studentDataString);
+
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState(false)
 
@@ -165,7 +169,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   //const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
 
   const DeleteStudentPhotoMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteStudentPhotoMsg);
-
+  const DeleteAadharCardDetailsMsg = useSelector((state: RootState) => state.StudentUI.ISDeleteAadharCardDetailsMsg);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const compareAgeTillDate = UsGetSchoolSettings?.GetSchoolSettingsResult?.CompareAgeTillDate || '';
   // const GetStudentRecordDataResult: IMasterDatastudentBody = {
@@ -609,7 +613,38 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   //   //window.open(base64Image, '_blank');
   // };
 
+  const DeleteAadharCardPhoto = () => {
+    const DeleteAadharCardPhotoCopyBody: IDeleteAadharCardPhotoCopyBody = {
+      asSchoolId: Number(schoolId),
+      asUserId: SchoolWise_Student_Id ?? localData.SchoolWise_Student_Id,
+      asUpdatedById: Number(localStorage.getItem('UserId'))
+    };
+    if (personal.aadharCardScanCopy) {
+      console.log('👎', personal.aadharCardScanCopy);
+      showAlert({
+        title: 'Please Confirm',
+        message: 'Are you sure you want to delete aadhar card photo?',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          dispatch(CDADeleteAadharCardDetailsMsg(DeleteAadharCardPhotoCopyBody));
+          closeAlert();
+        },
+      });
+    }
+  };
 
+  useEffect(() => {
+    if (DeleteAadharCardDetailsMsg !== '') {
+      toast.success(DeleteAadharCardDetailsMsg);
+      onChange('aadharCardScanCopy', '');                // delete photo
+      dispatch(ResetDeleteAadharCardDetailsMsg());
+    }
+  }, [DeleteAadharCardDetailsMsg]);
 
   //#endregion
   // const validateForm = () => {
@@ -1298,7 +1333,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                 </Tooltip>
                 <Tooltip title={'Delete'}>
                   <IconButton
-                    onClick={() => ''}
+                    onClick={DeleteAadharCardPhoto}
                     sx={{
                       color: '#223354',
                       mt: 0.7,

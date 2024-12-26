@@ -1,4 +1,4 @@
-import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckDependenciesForFeesResult, ICheckIfAttendanceMarkedBody, ICheckIfAttendanceMarkedResult, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetFeeAreaNamesBody, IGetFeeAreaNamesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IIsAnyExamPublishedBody, IIsAnyExamPublishedResult, IIsOnLeaveBody, IIsOnLeaveResult, IMasterDatastudentBody, IMasterDataStudentResult, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IRetriveStudentStreamwiseSubjectResult, ISaveSubmittedDocumentsBody, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentResult, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckDependenciesForFeesResult, ICheckIfAttendanceMarkedBody, ICheckIfAttendanceMarkedResult, IDeleteAadharCardPhotoCopyBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllGroupsOfStreamResult, IGetAllStreamsBody, IGetAllStreamsResult, IGetAllUserRolesBody, IGetAllUserRolesResult, IGetFeeAreaNamesBody, IGetFeeAreaNamesResult, IGetSingleStudentDetailsBody, IGetSingleStudentDetailsResult, IGetStreamwiseSubjectDetailsBody, IGetStreamwiseSubjectDetailsResult, IGetStudentAdditionalDetailsBody, IGetStudentAdditionalDetailsResult, IIsAnyExamPublishedBody, IIsAnyExamPublishedResult, IIsOnLeaveBody, IIsOnLeaveResult, IMasterDatastudentBody, IMasterDataStudentResult, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, IRetriveStudentStreamwiseSubjectResult, ISaveSubmittedDocumentsBody, IStaffNameBody, IStaffNameResult, IStandrdwiseStudentsDocumentBody, IStandrdwiseStudentsDocumentResult, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentResult, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSingleStudentDetailsApi = (data: IGetSingleStudentDetailsBody) => {
@@ -94,7 +94,11 @@ const DeleteMotherPhotoApi = (data: IDeletePhotosBody) => {
 const DeleteGuardianPhotoApi = (data: IDeletePhotosBody) => {
     return http.post<string>('Teacher/DeleteGuardianPhoto', data);
 };
-//6 Update student photo
+//6
+const DeleteAadharCardPhotoCopyApi = (data: IDeleteAadharCardPhotoCopyBody) => {
+    return http.post<string>('Teacher/DeleteAadharCardPhotoCopy', data);
+};
+//Update student photo
 const UpdateStudentPhotoApi = (data: IUpdateStudentPhotoBody) => {
     return http.post<string>('Teacher/UpdateStudentPhoto', data);
 };
@@ -120,7 +124,8 @@ const GetStudentUIAPI = {
     CheckIfAttendanceMarkedApi,
     GetFeeAreaNamesApi,
     RemoveStudentPhotoApi,
-    DeleteFamilyPhotoApi, DeleteFatherPhotoApi, DeleteMotherPhotoApi, DeleteGuardianPhotoApi, UpdateStudentPhotoApi,
+    DeleteFamilyPhotoApi, DeleteFatherPhotoApi, DeleteMotherPhotoApi, DeleteGuardianPhotoApi, DeleteAadharCardPhotoCopyApi,
+    UpdateStudentPhotoApi,
     CheckDependenciesForFeesApi,
 
 };

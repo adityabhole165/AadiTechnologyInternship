@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckIfAttendanceMarkedBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, ISaveSubmittedDocumentsBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckIfAttendanceMarkedBody, IDeleteAadharCardPhotoCopyBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, ISaveSubmittedDocumentsBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -49,6 +49,7 @@ const StudentUISlice = createSlice({
         ISDeleteFatherPhotoMsg: '',
         ISDeleteMotherPhotoMsg: '',
         ISDeleteGuardianPhotoMsg: '',
+        ISDeleteAadharCardDetailsMsg: "",
         ISUpdateStudentPhotoMsg: '',
         //
         ISReferenceListDetails: [],
@@ -215,6 +216,14 @@ const StudentUISlice = createSlice({
         RDeleteGuardianPhoto(state, action) {
             state.ISDeleteGuardianPhotoMsg = action.payload;
             state.Loading = false;
+        },
+        RDeleteAadharCardDetailsMsg(state, action) {
+            state.ISDeleteAadharCardDetailsMsg = action.payload
+            state.Loading = false;
+        },
+        ResetDeleteAadharCardDetailsMsg(state) {
+            state.Loading = false;
+            state.ISDeleteAadharCardDetailsMsg = '';
         },
         RUpdateStudentPhoto(state, action) {
             state.ISUpdateStudentPhotoMsg = action.payload;
@@ -663,6 +672,18 @@ export const CDADeleteGuardianPhoto =
             dispatch(StudentUISlice.actions.RDeleteGuardianPhoto(response.data));
             //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
         };
+//
+export const CDADeleteAadharCardDetailsMsg =
+    (data: IDeleteAadharCardPhotoCopyBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.DeleteAadharCardPhotoCopyApi(data);
+            dispatch(StudentUISlice.actions.RDeleteAadharCardDetailsMsg(response.data));
+            //console.log('Response data CDACheckIfAttendanceMarked:', response.data);
+        };
+export const ResetDeleteAadharCardDetailsMsg = (): AppThunk => async (dispatch) => {
+    dispatch(StudentUISlice.actions.ResetDeleteAadharCardDetailsMsg());
+};
 
 export const CDAUpdateStudentPhoto =
     (data: IUpdateStudentPhotoBody): AppThunk =>

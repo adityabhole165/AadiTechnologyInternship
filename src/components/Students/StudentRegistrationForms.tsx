@@ -83,7 +83,8 @@ const StudentRegistrationForm = () => {
     SchoolWise_Student_Id,
     StandardDivision_Id,
     Enrolment_Number,
-    Joining_Date
+    Joining_Date,
+    User_Id,
   } = location.state || {};
   //console.log('⛑️LOcation StudentRegistrationForm', location.state);
 
@@ -97,7 +98,8 @@ const StudentRegistrationForm = () => {
   //StudentDetails from Local Storage
   const studentDataString = localStorage.getItem('studentData');
   const localData = JSON.parse(studentDataString);
-  //console.log('Name:', localUserId);
+  //console.log('localUserId:', localData, localData.User_Id ?? User_Id);
+  const StudentUser_Id = localData.User_Id ?? User_Id;
 
   const [currentTab, setCurrentTab] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -523,7 +525,7 @@ const StudentRegistrationForm = () => {
     moment(form.admission?.joiningDate, 'DD-MM-YYYY').format('DD-MM-YYYY') : '';
   //console.log(typeof form.admission.applicableRules, form.admission.applicableRules, '🎈',
   //typeof hidRuleId, hidRuleId, '🎈', hidOldJoiningDate, '🎈', currentJoiningDate);
-
+  console.log(typeof hidOldJoiningDate, '🎈', hidOldJoiningDate, '🎈', currentJoiningDate,);
   const hidOldJoiningDateMonth = hidOldJoiningDate ?
     moment(hidOldJoiningDate, 'DD-MM-YYYY').format('MMM') : 'LOL'; // e.g., "Sep"
   const currentJoiningDateMonth = currentJoiningDate ?
@@ -984,7 +986,11 @@ const StudentRegistrationForm = () => {
     asDivision_Id: DivisionId ?? localData.DivisionId, // Missing
     asReligion: form.personal?.religion || '',
     asYearWise_Student_Id: YearWise_Student_Id,
-    asParentUserId: 0
+    asParentUserId: 0,
+    asStudentEmailAddress: form.personal?.email || '',
+    asUserId: StudentUser_Id,
+    IsDeleteFee: false,
+    adtOldJoiningDate: formatDOB(hidOldJoiningDate)
   };
 
   const AddStudentAdditionalDetailsBody: IAddStudentAdditionalDetailsBody = {
@@ -1090,8 +1096,8 @@ const StudentRegistrationForm = () => {
     asStudentBinaryPhoto: form.personal?.photoFilePathImage || null,
   }
   useEffect(() => {
-    console.log(UpdateStudentPhotoBody, '⚠️');
-  }, [form.personal?.photoFilePathImage])
+    console.log(UpdateStudentBody, '⚠️');
+  }, [UpdateStudentBody])
   const CheckDependenciesForFeesBody: ICheckDependenciesForFeesBody = {
     asSchoolId: Number(schoolId),
     asReference_Id: 87,

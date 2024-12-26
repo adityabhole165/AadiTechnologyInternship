@@ -491,7 +491,11 @@ export interface IUpdateStudentBody {
     asDivision_Id: number
     asReligion: string
     asYearWise_Student_Id: number
-    asParentUserId: number
+    asParentUserId: number,
+    asStudentEmailAddress: string
+    asUserId: number
+    IsDeleteFee: boolean
+    adtOldJoiningDate: string
 }
 
 export interface IUpdateStudentResult {
@@ -569,6 +573,12 @@ export interface IRemoveStudentPhotoBody {
 export interface IDeletePhotosBody {
     asSchoolId: number,
     asStudentId: number,
+    asUpdatedById: number
+}
+//Delete Aadhar Card Details - StudentEdit Page
+export interface IDeleteAadharCardPhotoCopyBody {
+    asUserId: number
+    asSchoolId: number
     asUpdatedById: number
 }
 //
