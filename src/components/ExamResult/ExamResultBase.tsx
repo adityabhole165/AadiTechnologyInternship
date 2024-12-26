@@ -507,19 +507,19 @@ const ExamResultBase = () => {
 
     // const isPublish = publish === ClassPassFailDetailsForButton.IsPublish;
     navigate('/RITeSchool/Teacher/SubjectExamMarks/' +
-       encodeURL('0') + '/' +
-       encodeURL(StandardDivisionId )+ '/' +
-       encodeURL(getSubjectId(value.Index)) + '/' +
-       encodeURL('0') + '/' +
-       encodeURL(TestId) + '/' +
-       encodeURL(getTeacherId() )+ '/' +
-       encodeURL('0/') +
+      encodeURL('0') + '/' +
+      encodeURL(StandardDivisionId) + '/' +
+      encodeURL(getSubjectId(value.Index)) + '/' +
+      encodeURL('0') + '/' +
+      encodeURL(TestId) + '/' +
+      encodeURL(getTeacherId()) + '/' +
+      encodeURL('0') + '/' +
       // getStandardId() + '/' +
-       encodeURL('true') + '/' +
-       encodeURL('false') + '/' +
-       encodeURL('true') + '/' +
-       encodeURL( ((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false")) + '/' +
-       encodeURL( getStandardId())
+      encodeURL('true') + '/' +
+      encodeURL('false') + '/' +
+      encodeURL('true') + '/' +
+      encodeURL(((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false")) + '/' +
+      encodeURL(getStandardId())
 
     );
   };
@@ -539,7 +539,7 @@ const ExamResultBase = () => {
       '/' +
       encodeURL(getTeacherName()) +
       '/' +
-      encodeURL( value.Id.SubjectName) + '/' +encodeURL( value.Id.SubjectId)
+      encodeURL(value.Id.SubjectName) + '/' + encodeURL(value.Id.SubjectId)
     );
   }
   const handleCheckboxChange = (value) => {

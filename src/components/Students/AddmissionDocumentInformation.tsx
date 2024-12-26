@@ -47,7 +47,7 @@ import { AlertContext } from 'src/contexts/AlertContext';
 import { IStandrdwiseStudentsDocumentBody } from 'src/interfaces/Students/IStudentUI';
 
 
-const AdmissionDocumentInformation = () => {
+const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -88,12 +88,12 @@ const AdmissionDocumentInformation = () => {
   //#region DocBase
   const [selectAllApplicable, setSelectAllApplicable] = useState(false);
   const [selectAllSubmitted, setSelectAllSubmitted] = useState(false);
-  const [localDocuments, setLocalDocuments] = useState([]);
-  console.log('localDocuments', localDocuments);
+  const [localDocuments, setLocalDocuments] = useState(admissionDocumentList);
+  //console.log('1️⃣localDocuments', localDocuments);
 
 
   const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
-  console.log('GetStudentDocumentsList', GetStudentDocumentsList);
+  //console.log('GetStudentDocumentsList', GetStudentDocumentsList);
 
   const GetStudentDocuments: IStandrdwiseStudentsDocumentBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -107,14 +107,14 @@ const AdmissionDocumentInformation = () => {
   // }, []);
 
   useEffect(() => {
-    if (GetStudentDocumentsList?.length > 0) {
-      setLocalDocuments(GetStudentDocumentsList.map(doc => ({
+    if (admissionDocumentList?.length > 0) {
+      setLocalDocuments(admissionDocumentList.map(doc => ({
         ...doc,
         IsApplicable: doc.IsApplicable === "True" || doc.IsApplicable === "1",
         IsSubmitted: doc.IsSubmitted === "True" || doc.IsSubmitted === "1",
       })));
     }
-  }, [GetStudentDocumentsList]);
+  }, [admissionDocumentList]);
   // const handleCheckboxChange = (index, field) => {
   //   const updatedDocuments = [...GetStudentDocumentsList];
   //   updatedDocuments[index][field] = !updatedDocuments[index][field];
@@ -180,6 +180,13 @@ const AdmissionDocumentInformation = () => {
     });
   }
 
+  useEffect(() => {
+    //console.log('1️⃣localDocuments', localDocuments);
+    if (onChange) {
+      onChange(localDocuments);
+    }
+  }, [localDocuments]);
+
   //#endregion
 
   //#region DocPop
@@ -195,7 +202,7 @@ const AdmissionDocumentInformation = () => {
   //console.log('User_Id', User_Id);
   const UserInvestmentMethodDetails: any = useSelector((state: RootState) => state.PerformanceGradeAssignment.ISUserInvestmentMethodDetails);
   const GetAllDocumentsList: any = useSelector((state: RootState) => state.PerformanceGradeAssignment.ISGetAllDocumentsList);
-  console.log('UserInvestmentMethodDetails', UserInvestmentMethodDetails);
+  //console.log('UserInvestmentMethodDetails', UserInvestmentMethodDetails);
   //console.log('GetAllDocumentsList', GetAllDocumentsList);
 
   const USDeleteInvestmentDocument: any = useSelector((state: RootState) => state.AddInvestmentDetailsDoc.ISDeleteInvestmentDocument);
@@ -362,10 +369,12 @@ const AdmissionDocumentInformation = () => {
   const handleOpenDialog = (index) => {
     setSelectedDocumentIndex(index);
     setStudentName(Name ?? localData.Name); // Replace with actual student name logic
-    setDocumentName(GetStudentDocumentsList[index].Name);
-    setDocumentId(GetStudentDocumentsList[index].StandardwiseDocumentId);
+    setDocumentName(admissionDocumentList[index].Name);
+    setDocumentId(admissionDocumentList[index].StandardwiseDocumentId);
     setOpen(true);
+    //console.log('1️⃣admissionDocumentList', admissionDocumentList, '🎈', admissionDocumentList[index].Name, admissionDocumentList[index].StandardwiseDocumentId);
   };
+
 
   const handleCloseDialog = () => {
     setOpen(false);

@@ -17,7 +17,7 @@ import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import TableUsingArray from 'src/libraries/ResuableComponents/TableUsingArray';
 import { GetStudentAttendance } from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
+import { decodeURL, encodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 

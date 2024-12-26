@@ -9,6 +9,7 @@ import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { decodeURL } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import {
   GetSMSDetailsResult,
@@ -45,7 +46,7 @@ function ViewSms() {
   } = useParams();
 
   // Decode in-place
-  // SMS_Id = decodeURL(SMS_Id);
+  SMS_Id = decodeURL(SMS_Id);
 
 
   const GetViewMessageResult = () => {

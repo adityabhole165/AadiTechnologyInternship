@@ -13,6 +13,7 @@ import {
   Box,
   ClickAwayListener,
   Grow,
+  Hidden,
   IconButton,
   ListItemButton,
   Menu,
@@ -21,7 +22,9 @@ import {
   Paper,
   Popper,
   Stack,
-  Tooltip
+  Theme,
+  Tooltip,
+  useMediaQuery
 } from '@mui/material';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,6 +50,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
   const [menuStructure, setMenuStructure] = useState<MenuItem[]>([]);
   const [anchorEl, setAnchorEl] = useState<{ [key: number]: HTMLElement | null }>({});
   const navigate = useNavigate();
+  const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   useEffect(() => {
     if (GetNavbarmenu.length > 0) {
@@ -366,6 +370,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
             >
               {menuStructure.length > 0 && <ArrowForwardIosIcon sx={{ color: 'white' }} />}
             </IconButton>
+            <Hidden smDown>
             <Tooltip
               title={`Displays dashboard for users. Lists available features of the application.`}
             >
@@ -451,6 +456,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                 <LogoutTwoToneIcon />
               </IconButton>
             </Tooltip>
+            </Hidden>
           </Stack>
         </Stack>
       </AppBar>

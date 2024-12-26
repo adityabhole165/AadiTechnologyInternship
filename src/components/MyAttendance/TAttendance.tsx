@@ -52,7 +52,7 @@ import {
 import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
 import AbsentStudentP from '../Attendance/AbsentStudentP';
-import { encodeURL, getDateFormatted, getDateFormattedDash } from '../Common/Util';
+import { decodeURL, encodeURL, getDateFormatted, getDateFormattedDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AttendanceSummary from './AttendanceSummary';
 
@@ -83,7 +83,13 @@ const TAttendance = () => {
   // const { AssignedDate, StandardId } = useParams();
   // console.log("AssignedDate", AssignedDate)
   // console.log("StandardId", StandardId)
-  const { SelectClasstecahernew, AssignedDate } = useParams();
+  let { SelectClasstecahernew, AssignedDate } = useParams();
+  useEffect(() => {
+    if (SelectClasstecahernew && AssignedDate) {
+      SelectClasstecahernew = decodeURL(SelectClasstecahernew);
+      AssignedDate = decodeURL(AssignedDate);
+    }
+  }, [SelectClasstecahernew, AssignedDate])
   const StandardDivisionIdse = sessionStorage.getItem('StandardDivisionId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
