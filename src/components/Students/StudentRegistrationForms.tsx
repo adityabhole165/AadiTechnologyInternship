@@ -269,6 +269,9 @@ const StudentRegistrationForm = () => {
       competitiveExams: '',
     }
   });
+  //object to store latest AdmissionDocuments List
+  const [submittedDocumentList, setSubmittedDocumentList] = useState([]);
+
   const [feeDependencyError, setFeeDependencyError] = useState('');
   //Siblings States
   const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
@@ -426,7 +429,7 @@ const StudentRegistrationForm = () => {
 
   const result = validateFieldsAndCalculateProgress(schoolId, form);
   //console.log('Progress:', result.progress + '%');
-  console.log('Invalid Fields:', result.invalidFields);
+  //console.log('Invalid Fields:', result.invalidFields);
 
   useEffect(() => {
     const { progress, invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
@@ -525,7 +528,7 @@ const StudentRegistrationForm = () => {
     moment(form.admission?.joiningDate, 'DD-MM-YYYY').format('DD-MM-YYYY') : '';
   //console.log(typeof form.admission.applicableRules, form.admission.applicableRules, '🎈',
   //typeof hidRuleId, hidRuleId, '🎈', hidOldJoiningDate, '🎈', currentJoiningDate);
-  console.log(typeof hidOldJoiningDate, '🎈', hidOldJoiningDate, '🎈', currentJoiningDate,);
+  //console.log(typeof hidOldJoiningDate, '🎈', hidOldJoiningDate, '🎈', currentJoiningDate,);
   const hidOldJoiningDateMonth = hidOldJoiningDate ?
     moment(hidOldJoiningDate, 'DD-MM-YYYY').format('MMM') : 'LOL'; // e.g., "Sep"
   const currentJoiningDateMonth = currentJoiningDate ?
@@ -538,6 +541,8 @@ const StudentRegistrationForm = () => {
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
   //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
+  ///=>AdmissionDocument Uplpoad Document List
+  const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
 
   const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
   //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
@@ -985,7 +990,7 @@ const StudentRegistrationForm = () => {
     asStandard_Id: standardId ?? localData.standardId, // Missing
     asDivision_Id: DivisionId ?? localData.DivisionId, // Missing
     asReligion: form.personal?.religion || '',
-    asYearWise_Student_Id: YearWise_Student_Id,
+    asYearWise_Student_Id: YearWise_Student_Id ?? localData.YearWise_Student_Id,
     asParentUserId: 0,
     asStudentEmailAddress: form.personal?.email || '',
     asUserId: StudentUser_Id,
@@ -1096,8 +1101,9 @@ const StudentRegistrationForm = () => {
     asStudentBinaryPhoto: form.personal?.photoFilePathImage || null,
   }
   useEffect(() => {
-    console.log(UpdateStudentBody, '⚠️');
-  }, [UpdateStudentBody])
+    console.log('📃', submittedDocumentList,);
+  }, [submittedDocumentList])
+
   const CheckDependenciesForFeesBody: ICheckDependenciesForFeesBody = {
     asSchoolId: Number(schoolId),
     asReference_Id: 87,
@@ -1375,6 +1381,9 @@ const StudentRegistrationForm = () => {
     }));
   };
 
+  const handleAdmissionDocumentChange = (List) => {
+    setSubmittedDocumentList(List)
+  }
   // Updating a property in family
   const handleFamilyChange = (name: string, value: any) => {
     setForm((prevForm) => ({
@@ -1739,7 +1748,7 @@ const StudentRegistrationForm = () => {
     return invalidFields.some(field => field.tab === tabName);
   };
 
-  console.log('isSubmitted', isSubmitted, invalidFields.some(field => field.tab === "admission"));
+  //console.log('isSubmitted', isSubmitted, invalidFields.some(field => field.tab === "admission"));
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -1961,7 +1970,9 @@ const StudentRegistrationForm = () => {
         {currentTab === 2 && (
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <AddmissionDocumentInformation />
+              <AddmissionDocumentInformation
+                admissionDocumentList={GetStudentDocumentsList}
+                onChange={handleAdmissionDocumentChange} />
             </Grid>
           </Grid>
         )}
