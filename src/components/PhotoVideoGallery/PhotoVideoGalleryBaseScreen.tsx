@@ -5,10 +5,11 @@ import { blue, grey } from '@mui/material/colors';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeletePhotoBody, IGetCountBody, IGetPhotoDetailsBody } from 'src/interfaces/Common/PhotoGallery';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { CDADeletePhoto, CDAGetCount, CDAGetPhotoDetails } from 'src/requests/Reqphoto/ReqPhoto';
+import { CDADeletePhoto, CDAGetCount, CDAGetPhotoDetails, resetDeletePhoto } from 'src/requests/Reqphoto/ReqPhoto';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import PhotopageTableCard from './PhotopageTableCard';
@@ -64,6 +65,7 @@ const PhotoVideoGalleryBaseScreen = () => {
     }, []);
 
     const startIndexNew = (page - 1) * rowsPerPage;
+
     const photoD1ata: IGetPhotoDetailsBody = {
         asSchoolId: asSchoolId,
         asSortExp: "ORDER BY " + SortBy + " " + SortDirection,
@@ -90,7 +92,7 @@ const PhotoVideoGalleryBaseScreen = () => {
         showAlert({
             title: 'Please Confirm',
             message:
-                'Are you sure you want to delete this requisition?  ',
+                'Are you sure you want to delete this photo gallery?',
             variant: 'warning',
             confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
@@ -104,6 +106,13 @@ const PhotoVideoGalleryBaseScreen = () => {
             }
         });
     }
+    useEffect(() => {
+        if (USDeletePhoto != "") {
+            toast.success(USDeletePhoto);
+            dispatch(resetDeletePhoto());
+            dispatch(CDAGetPhotoDetails(photoD1ata));
+        }
+    }, [USDeletePhoto])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value);
@@ -162,9 +171,7 @@ const PhotoVideoGalleryBaseScreen = () => {
         navigate('/RITeSchool/Teacher/AddNewVideo');
     };
 
-    function clickSearch() {
-        throw new Error('Function not implemented.');
-    }
+
 
     return (
         <Box sx={{ px: 2 }}>
@@ -184,12 +191,12 @@ const PhotoVideoGalleryBaseScreen = () => {
 
                         }} onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
-                                clickSearch();
+
                             }
                         }}></TextField>
                     <Tooltip title={'Search'}>
                         <IconButton
-                            onClick={clickSearch}
+
                             sx={{
                                 background: (theme) => theme.palette.primary.main,
                                 color: 'white',
@@ -197,6 +204,7 @@ const PhotoVideoGalleryBaseScreen = () => {
                                     backgroundColor: (theme) => theme.palette.primary.dark
                                 }
                             }}
+
                         >
                             <SearchTwoTone />
                         </IconButton>
