@@ -33,7 +33,7 @@ import {
 import { RootState } from 'src/store';
 import { decodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
 //validationMessages,isValid
-const AdmissionDetails = ({ admission, onChange, invalidFields }) => {
+const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFields }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision } = location.state || {};
@@ -524,9 +524,12 @@ const AdmissionDetails = ({ admission, onChange, invalidFields }) => {
               value={admission.registrationNumber}
               defaultValue={admission.registrationNumber}
               onChange={handleInputChange}
-              error={!!invalidFields.find(field => field.field === "registrationNumber") || admission.registrationNumber === '0'}
-              helperText={invalidFields.find(field => field.field === "registrationNumber") ? 'Registration Number should not be blank.'
-                : admission.registrationNumber === '0'
+              error={!!invalidFields.find(field => field.field === "registrationNumber") ||
+                !!unacceptableFields.find(field => field.field === "registrationNumber")
+              }
+              helperText={invalidFields.find(field => field.field === "registrationNumber") ?
+                'Registration Number should not be blank.' :
+                unacceptableFields.find(field => field.field === "registrationNumber")
                   ? 'Registration number should not be zero.'
                   : ''}
               sx={{ cursor: 'pointer' }}

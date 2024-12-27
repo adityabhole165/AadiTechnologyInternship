@@ -78,9 +78,9 @@ const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
   //console.log('documentId', documentId);
 
   //#region DocBase
-  const [selectAllApplicable, setSelectAllApplicable] = useState(false);
-  const [selectAllSubmitted, setSelectAllSubmitted] = useState(false);
-  //const [localDocuments, setLocalDocuments] = useState([]);
+  // const [selectAllApplicable, setSelectAllApplicable] = useState(false);
+  // const [selectAllSubmitted, setSelectAllSubmitted] = useState(false);
+  // //const [localDocuments, setLocalDocuments] = useState([]);
 
 
   const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
@@ -92,21 +92,6 @@ const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
     asStudentId: SchoolWise_Student_Id ?? localData?.SchoolWise_Student_Id,
     asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
   };
-
-  // useEffect(() => {
-  //   dispatch(CDAGetStudentDocuments(GetStudentDocuments));
-  // }, []);
-
-  // useEffect(() => {
-  //   if (admissionDocumentList?.length > 0 && localDocuments.length === 0) {
-  //     setLocalDocuments(admissionDocumentList.map(doc => ({
-  //       ...doc,
-  //       IsApplicable: doc.IsApplicable === "True" || doc.IsApplicable === "1",
-  //       IsSubmitted: doc.IsSubmitted === "True" || doc.IsSubmitted === "1",
-  //     })));
-  //     console.log('2️⃣admissionDocumentList', admissionDocumentList);
-  //   }
-  // }, [admissionDocumentList]);
 
   useEffect(() => {
     console.log('⏩⏩admissionDocumentList Form Parent', admissionDocumentList);
@@ -172,67 +157,6 @@ const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
     })
     onChange(newlist)
   }
-  // useEffect(() => {
-  //   // Check if all IsApplicable checkboxes are selected, and update selectAllApplicable accordingly
-  //   setSelectAllApplicable(localDocuments.every(doc => doc.IsApplicable));
-  //   setSelectAllSubmitted(localDocuments.every(doc => doc.IsSubmitted));
-  // }, [localDocuments]);
-
-
-  // const handleSelectAllApplicable = (event) => {
-  //   const isChecked = event.target.checked;
-  //   setSelectAllApplicable(isChecked);
-
-
-  //   const updatedDocs = localDocuments.map(doc => ({
-  //     ...doc,
-  //     IsApplicable: isChecked
-  //   }));
-  //   setLocalDocuments(updatedDocs);
-  //   onChange(updatedDocs); // Send updated state to parent
-  //   console.log('isChecked', isChecked);
-  //   console.log('updatedDocs', updatedDocs);
-  // };
-
-  // const handleSelectAllSubmitted = (event) => {
-  //   const isChecked = event.target.checked;
-  //   setSelectAllSubmitted(isChecked);
-
-
-  //   const updatedDocs = localDocuments.map(doc => ({
-  //     ...doc,
-  //     IsSubmitted: isChecked
-  //   }));
-  //   setLocalDocuments(updatedDocs);
-  //   onChange(updatedDocs); // Send updated state to parent
-  // };
-
-  // const handleCheckboxChange = (documentId, field) => {
-  //   // Update local state
-  //   setLocalDocuments(prevDocs => {
-  //     const updatedDocs = prevDocs.map(doc => {
-  //       if (doc.StandardwiseDocumentId === documentId) {
-  //         //const newValue = !doc[field];
-  //         return {
-  //           ...doc,
-  //           [field]: !doc[field]
-  //         };
-  //       }
-  //       return doc;
-  //     });
-
-  //     // Update select all states based on all documents
-  //     if (field === 'IsApplicable') {
-  //       setSelectAllApplicable(updatedDocs.every(doc => doc.IsApplicable));
-  //     } else if (field === 'IsSubmitted') {
-  //       setSelectAllSubmitted(updatedDocs.every(doc => doc.IsSubmitted));
-  //     }
-
-  //     onChange(updatedDocs); // Send updated state to parent
-  //     return updatedDocs;
-  //   });
-  // }
-
 
   //#endregion
 
@@ -416,8 +340,8 @@ const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
   const handleOpenDialog = (index) => {
     setSelectedDocumentIndex(index);
     setStudentName(Name ?? localData.Name); // Replace with actual student name logic
-    setDocumentName(admissionDocumentList[index].Name);
-    setDocumentId(admissionDocumentList[index].StandardwiseDocumentId);
+    setDocumentName(GetStudentDocumentsList[index].Name);
+    setDocumentId(GetStudentDocumentsList[index].StandardwiseDocumentId);
     setOpen(true);
     //console.log('1️⃣admissionDocumentList', admissionDocumentList, '🎈', admissionDocumentList[index].Name, admissionDocumentList[index].StandardwiseDocumentId);
   };

@@ -39,7 +39,7 @@ import {
   IGetStudentsSiblingDetailBody, IOverwriteAllSiblingDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody
 } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
-  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
+  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ISaveSubmittedDocumentsBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile from 'src/libraries/File/SingleFile';
@@ -53,7 +53,9 @@ import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
   CDAAddStudentAdditionalDetails, CDACheckDependenciesForFees, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
   CDAGetStudentDocuments,
-  CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentPhoto, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
+  CDARetriveStudentStreamwiseSubject,
+  CDASaveSubmittedDocumentsMsg,
+  CDAUpdateStudent, CDAUpdateStudentPhoto, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
@@ -69,6 +71,10 @@ import CheckboxList from './SiblingDetailsCheckBoxList';
 import StudentProfileHeader from './StudentProfileHeader';
 import StudentSubjectDetails from './StudentSubjectDetails';
 
+interface FieldValidationError {
+  tab: string;
+  field: string;
+}
 
 const StudentRegistrationForm = () => {
   //const { BackN_Student_Ids } = useParams();
@@ -270,7 +276,7 @@ const StudentRegistrationForm = () => {
     }
   });
   //object to store latest AdmissionDocuments List
-  const [submittedDocumentList, setSubmittedDocumentList] = useState([]);
+  const [documentList, setDocumentList] = useState([]);
 
   const [feeDependencyError, setFeeDependencyError] = useState('');
   //Siblings States
@@ -286,10 +292,12 @@ const StudentRegistrationForm = () => {
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
 
   // Centralized Required Fields Configuration
+  const [fieldValidationErrors, setFieldValidationErrors] = useState<FieldValidationError[]>([]);
 
   const [progress, setProgress] = useState(0);
   const [invalidFields, setInvalidFields] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [unacceptableFields, setUnacceptableFields] = useState([]);
 
   const schoolRequiredFields = {
     18: {
@@ -427,19 +435,65 @@ const StudentRegistrationForm = () => {
     };
   };
 
-  const result = validateFieldsAndCalculateProgress(schoolId, form);
-  //console.log('Progress:', result.progress + '%');
-  //console.log('Invalid Fields:', result.invalidFields);
 
   useEffect(() => {
     const { progress, invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
+    const FieldValidation = validateSpecificFields(form);
     setProgress(Number(progress));
     if (isSubmitted) {
       setInvalidFields(invalidFields);
     }
+    setUnacceptableFields(FieldValidation);
   }, [schoolId, form, isSubmitted]);
 
+  const validateSpecificFields = (form) => {
+    const specificFieldValidations = [];
 
+    // Admission Tab Validations
+    if (form.admission) {
+      if (form.admission.registrationNumber === '0') {
+        specificFieldValidations.push({ tab: 'admission', field: 'registrationNumber' });
+      }
+    }
+
+    // Personal Tab Validations
+    if (form.personal) {
+      // Mobile Number 1
+      if (form.personal.mobileNumber1 && form.personal.mobileNumber1.length !== 10) {
+        specificFieldValidations.push({ tab: 'personal', field: 'mobileNumber1' });
+      }
+
+      // Mobile Number 2
+      if (form.personal.mobileNumber2 && form.personal.mobileNumber2.length !== 10) {
+        specificFieldValidations.push({ tab: 'personal', field: 'mobileNumber2' });
+      }
+
+      // Aadhar Card Number
+      if (form.personal.aadharCardNumber && form.personal.aadharCardNumber.length !== 12) {
+        specificFieldValidations.push({ tab: 'personal', field: 'aadharCardNumber' });
+      }
+
+      // Aadhar Card Scan Copy Error
+      if (form.personal.aadharCardScanCopy === 'ErrorMsg') {
+        specificFieldValidations.push({ tab: 'personal', field: 'aadharCardScanCopy' });
+      }
+    }
+
+    // Family Tab Validations
+    // if (form.family) {
+    //   if (form.family.fatherPhoto === 'ErrorMsg') {
+    //     specificFieldValidations.push({ tab: 'family', field: 'fatherPhoto' });
+    //   }
+    // }
+
+    return specificFieldValidations;
+  };
+
+  const result = validateFieldsAndCalculateProgress(schoolId, form);
+  //console.log('Progress:', result.progress + '%');
+  const result1 = validateSpecificFields(form);
+  console.log('Invalid Fields:', result.invalidFields);
+  console.log('Specific Invalid Fields:', result1);
 
   //#region Tabs
   const totalTabs = parseInt(schoolId) === 122 ? 6 : 5;
@@ -543,6 +597,7 @@ const StudentRegistrationForm = () => {
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
   ///=>AdmissionDocument Uplpoad Document List
   const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
+  //console.log('GetStudentDocumentsList', GetStudentDocumentsList);
 
   const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
   //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
@@ -756,9 +811,18 @@ const StudentRegistrationForm = () => {
     }
   }, [GetStudentStreamwiseSubjectDetails]);
 
+  //=>Addmission Documents BaseList
+  useEffect(() => {
+    if (GetStudentDocumentsList && GetStudentDocumentsList.length > 0) {
+      setDocumentList(GetStudentDocumentsList);
+      console.log('🆕', '123');
+    }
+  }, [GetStudentDocumentsList])
+
   useEffect(() => {
     console.log('Nested Form🆕', form);
-  }, [form]);
+    console.log('0️⃣Admission Documents🆕', documentList);
+  }, [form, documentList]);
   //#endregion
 
   //#region Read APIs.
@@ -834,8 +898,8 @@ const StudentRegistrationForm = () => {
   useEffect(() => {
     if (schoolId && parseInt(schoolId) === 122) {
       const RetriveStudentStreamwiseSubjectBody = {
-        asSchoolId: 122, // Number(schoolId),
-        asAcademicYearId: 10, // Number(academicYearId),
+        asSchoolId: Number(localStorage.getItem('localSchoolId')), // Number(schoolId),
+        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')), // Number(academicYearId),
         asStudentId: localData.SchoolWise_Student_Id// SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
       };
       dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));
@@ -1100,10 +1164,6 @@ const StudentRegistrationForm = () => {
     asStudentId: SchoolWise_Student_Id ?? localData.SchoolWise_Student_Id,
     asStudentBinaryPhoto: form.personal?.photoFilePathImage || null,
   }
-  useEffect(() => {
-    console.log('📃', submittedDocumentList,);
-  }, [submittedDocumentList])
-
   const CheckDependenciesForFeesBody: ICheckDependenciesForFeesBody = {
     asSchoolId: Number(schoolId),
     asReference_Id: 87,
@@ -1206,14 +1266,18 @@ const StudentRegistrationForm = () => {
     //   return;
     // }
 
-    // Validate the form and calculate invalid fields
+    // Get specific field validations
+    const specificFieldValidations = validateSpecificFields(form);
+
+    // Get required field validations
     const { invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
 
-    if (invalidFields.length > 0) {
-      console.log('Validation errors found:', invalidFields);
+    if (invalidFields.length > 0 || specificFieldValidations.length > 0) {
+      console.log('Validation errors found:', invalidFields, specificFieldValidations);
       // Switch to the tab with the first invalid field
+      const firstInvalidFieldTab = invalidFields[0] || specificFieldValidations[0];
+
       setCurrentTab(() => {
-        const firstInvalidTab = invalidFields[0].tab;
         const tabIndexMapping = {
           admission: 0,
           personal: 1,
@@ -1222,8 +1286,9 @@ const StudentRegistrationForm = () => {
           additional: 4,
           stream: 5
         };
-        return tabIndexMapping[firstInvalidTab] || 0;
+        return tabIndexMapping[firstInvalidFieldTab.tab] || 0;
       });
+      console.log('❎❎❎ Submission Stopped');
       return; // Stop submission
     }
 
@@ -1351,6 +1416,7 @@ const StudentRegistrationForm = () => {
       };
       console.log('UpdateStudentTrackingDetailsBody:', UpdateStudentTrackingDetailsBody);
       dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
+      SaveSubmittedDocuments()
     }
     dispatch(ResetUpdateStudentMsg());
 
@@ -1358,6 +1424,49 @@ const StudentRegistrationForm = () => {
       dispatch(ResetFeeDependencyErrorMsg());
     }
   }, [TrackingId, currentJoiningDate, form.admission.applicableRules, form.admission.joiningDate]);
+
+  // Save changes
+  const createDocumentXML = (documentList) => {
+    const xmlHeader = `<?xml version="1.0" encoding="UTF-8"?>`;
+    const xmlNamespace = `xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'`;
+
+    const documentNodes = documentList.map(doc => `
+      <StudentDocument>
+        <StudentDocumentId>${doc.Id}</StudentDocumentId>
+        <StandardwiseDocumentId>${doc.StandardwiseDocumentId}</StandardwiseDocumentId>
+        <SchoolwiseStudentId>${doc.SchoolwiseStudentId}</SchoolwiseStudentId>
+        <IsSubmitted>${doc.IsSubmitted}</IsSubmitted>
+        <IsApplicable>${doc.IsApplicable}</IsApplicable>
+        <DocumentCount>${doc.DocumentCount}</DocumentCount>
+        <IsSubmissionMandatory>${doc.IsSubmissionMandatory === "1" ? true : false}</IsSubmissionMandatory>
+      </StudentDocument>
+    `).join('');
+
+    const finalXML = `<ArrayOfStudentDocument ${xmlNamespace}>${documentNodes}</ArrayOfStudentDocument>`;
+    //console.log(finalXML);
+    return finalXML;
+  };
+
+  // Usage in save handler
+  const SaveSubmittedDocuments = () => {
+    const xmlData = createDocumentXML(documentList);
+    // Now you can use xmlData in your API call
+    const SaveSubmittedDocumentsBody: ISaveSubmittedDocumentsBody = {
+      asSchoolId: Number(schoolId),
+      asDocXML: xmlData,
+      asYearwiseStudentId: YearWise_Student_Id ?? localData.YearWise_Student_Id,
+      asInsertedById: Number(teacherId),
+    }
+
+    if (documentList.length !== 0) {
+      dispatch(CDASaveSubmittedDocumentsMsg(SaveSubmittedDocumentsBody));
+      return;
+    }
+    console.log(SaveSubmittedDocumentsBody);
+    console.log(xmlData);
+  };
+
+  //useEffect(() => { SaveSubmittedDocuments() }, [documentList])
 
   //#region EventHandlers
   const handleAdmissionChange = (name: string, value: any) => {
@@ -1381,9 +1490,14 @@ const StudentRegistrationForm = () => {
     }));
   };
 
-  const handleAdmissionDocumentChange = (List) => {
-    setSubmittedDocumentList(List)
-  }
+  // Handle updates from the AdmissionDocuments child component
+  const handleDocumentChange = (updatedList) => {
+    console.log("📃1️⃣Updated Document List from Child:", updatedList); // Log the updated list
+    setDocumentList(updatedList);
+  };
+
+
+
   // Updating a property in family
   const handleFamilyChange = (name: string, value: any) => {
     setForm((prevForm) => ({
@@ -1416,6 +1530,8 @@ const StudentRegistrationForm = () => {
       }
     }));
   };
+
+
   ///#endregion
 
   // const handleUpdate = () => {
@@ -1949,6 +2065,7 @@ const StudentRegistrationForm = () => {
                 // validationMessages={showValidation ? fieldValidationMessages.admission : {}}
                 // isValid={!showValidation || tabValidationStatus.admission}
                 invalidFields={invalidFields.filter(field => field.tab === 'admission')}
+                unacceptableFields={unacceptableFields.filter(field => field.tab === 'admission')}
               />
             </Grid>
           </Grid>
@@ -1962,6 +2079,7 @@ const StudentRegistrationForm = () => {
                 // validationMessages={showValidation ? fieldValidationMessages.personal : {}}
                 // isValid={!showValidation || tabValidationStatus.personal}
                 invalidFields={invalidFields.filter(field => field.tab === 'personal')}
+                unacceptableFields={unacceptableFields.filter(field => field.tab === 'personal')}
               />
             </Grid>
           </Grid>
@@ -1971,8 +2089,9 @@ const StudentRegistrationForm = () => {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <AddmissionDocumentInformation
-                admissionDocumentList={GetStudentDocumentsList}
-                onChange={handleAdmissionDocumentChange} />
+                admissionDocumentList={documentList}
+                onChange={handleDocumentChange}
+              />
             </Grid>
           </Grid>
         )}
@@ -2112,6 +2231,7 @@ const StudentRegistrationForm = () => {
                   InputProps={{
                     readOnly: true,
                   }}
+                  disabled={true}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -2122,6 +2242,7 @@ const StudentRegistrationForm = () => {
                   //onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
+                  disabled={true}
                 />
               </Grid>
               <Grid item xs={6}>
