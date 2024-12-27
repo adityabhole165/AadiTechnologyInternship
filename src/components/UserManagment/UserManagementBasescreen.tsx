@@ -83,7 +83,7 @@ const UserManagementBasescreen = () => {
         { Id: 1, Header: 'Name', SortOrder: null },
         { Id: 2, Header: 'Mobile Number', SortOrder: null },
         { Id: 3, Header: 'Username', SortOrder: null },
-        { Id: 4, Header: 'Status', SortOrder: null },
+        { Id: 4, Header: 'Activate/Deactivate', SortOrder: null },
         { Id: 5, Header: 'Change Password', SortOrder: null },
         { Id: 6, Header: 'Send Login SMS	', SortOrder: null },
         { Id: 7, Header: 'Activate/Deactivate SMS/Message', SortOrder: null },
