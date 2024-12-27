@@ -394,7 +394,7 @@ const IndividualAttendance = () => {
           <>
             <Stack
               direction={{ xs: 'row', sm: 'row' }}
-              spacing={1}
+              gap={1}
               alignItems="center"
               justifyContent="flex-end"
               sx={{
@@ -404,9 +404,9 @@ const IndividualAttendance = () => {
             >
               <Stack
                 direction={{ xs: 'row', sm: 'row' }}
-                spacing={1}
+                gap={1}
                 alignItems="center"
-                justifyContent="flex-end"
+                justifyContent="flex-start"
                 sx={{
                   width: '100%',
                   flexWrap: { xs: 'wrap', sm: 'nowrap' }
@@ -416,11 +416,11 @@ const IndividualAttendance = () => {
                   sx={{
 
                     width: { xs: '100%', sm: 'auto' },
-                    mb: { xs: 1, sm: 'auto' }
+                   
                   }}
                 >
                   <SearchableDropdown
-                    sx={{ minWidth: '350px', mb: { xs: '10px', sm: '0px' }, }}
+                    sx={{ minWidth: '350px'}}
                     ItemList={StudentList}
                     onChange={clickStudent}
                     defaultValue={StudentId}

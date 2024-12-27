@@ -693,7 +693,7 @@ const TAttendance = () => {
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             justifyContent="space-between"
-            alignItems="right"
+            alignItems="left"
             spacing={2}
             sx={{
               mt: { xs: 0, sm: 0 },
@@ -705,13 +705,13 @@ const TAttendance = () => {
               xs={12}
               sm={6}
               display="flex"
-              justifyContent={{ xs: 'flex-end', sm: 'flex-end' }}
+              justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
             >
               {/* Overview Section */}
               <Stack
                 direction="row"
                 gap={1}
-                alignItems="right"
+                alignItems="left"
                 sx={{
                   flexWrap: { xs: 'wrap', sm: 'nowrap' },
                   justifyContent: { xs: 'flex-start', sm: 'flex-start' }
@@ -784,7 +784,7 @@ const TAttendance = () => {
               direction={{ xs: 'row', sm: 'row' }}
               spacing={1}
               alignItems="center"
-              justifyContent="flex-end"
+              justifyContent="flex-start"
               sx={{
                 width: '100%',
                 flexWrap: { xs: 'wrap', sm: 'nowrap' }
