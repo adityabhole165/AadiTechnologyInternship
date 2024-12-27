@@ -356,16 +356,16 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                             </Box>
                         </Box>
                     </Box>
-                    <Box sx={{ width: '100%', my: 4, borderTop: '1px dotted black' }} />
+                    <Box sx={{ width: '100%', my: 4, borderTop: '2px dotted black', borderSpacing: '60px' }} />
                 </>
                 :
                 <>
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <Typography variant="body1" fontWeight="bold" sx={{ backgroundColor: '#324b84', color: 'white', padding: '8px 16px', mt: 4 }}>
-                            Result not generated for this student : {stdFinalResult?.listStudentDetail[0]?.Roll_No} - {stdFinalResult?.listStudentDetail[0]?.Student_Name}
-                        </Typography>
-                    </Box>
-                    <Box sx={{ width: '100%', my: 4, borderTop: '1px dotted black' }} />
+                    {/* <Box sx={{ display: 'flex', justifyContent: 'center' }}> */}
+                    <Typography variant="body1" fontWeight="bold" sx={{ backgroundColor: '#324b84', color: 'white', padding: '8px 16px', mt: 4, textAlign: 'center' }}>
+                        Result not generated for this student : {stdFinalResult?.listStudentDetail[0]?.Roll_No} - {stdFinalResult?.listStudentDetail[0]?.Student_Name}
+                    </Typography>
+                    {/* </Box> */}
+                    <Box sx={{ width: '100%', my: 4, borderTop: '2px dotted black', borderSpacing: '60px' }} />
                 </>
             }
         </>
