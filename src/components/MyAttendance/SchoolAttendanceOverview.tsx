@@ -117,7 +117,6 @@ const SchoolAttendanceOverview = () => {
                 sx={{
                   background: 'white',
                   width: { xs: '100%', sm: 'auto' },
-                  mb: { xs: 1, sm: 'auto' }
                 }}>
                 {/* <TextField
                 value={SelectDate}
@@ -179,7 +178,7 @@ const SchoolAttendanceOverview = () => {
           {ISWeekendStatusList}
         </Typography>
       ) : (
-        <Box sx={{ backgroundColor: 'white', p: 2, mb: { xs: 2, md: 0 } }}>
+        <Box sx={{ backgroundColor: 'white', p: 2,  }}>
           <Grid container spacing={2}>
             <Grid item xs={12}  >
               <TableUsingArray
@@ -189,7 +188,7 @@ const SchoolAttendanceOverview = () => {
             </Grid>
             <div className=""></div>
           </Grid>
-          <br></br>
+         
         </Box>
       )}
 

@@ -52,7 +52,12 @@ import {
 import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
 import AbsentStudentP from '../Attendance/AbsentStudentP';
-import { decodeURL, encodeURL, getDateFormatted, getDateFormattedDash } from '../Common/Util';
+import {
+  decodeURL,
+  encodeURL,
+  getDateFormatted,
+  getDateFormattedDash
+} from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AttendanceSummary from './AttendanceSummary';
 
@@ -89,7 +94,7 @@ const TAttendance = () => {
       SelectClasstecahernew = decodeURL(SelectClasstecahernew);
       AssignedDate = decodeURL(AssignedDate);
     }
-  }, [SelectClasstecahernew, AssignedDate])
+  }, [SelectClasstecahernew, AssignedDate]);
   const StandardDivisionIdse = sessionStorage.getItem('StandardDivisionId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -277,10 +282,10 @@ const TAttendance = () => {
         GetScreenPermission() === 'Y'
           ? 0
           : getTeacherId()
-            ? Number(getTeacherId())
-            : SelectClasstecahernew != null
-              ? Number(SelectClasstecahernew)
-              : Number(selectClasstecahernew)
+          ? Number(getTeacherId())
+          : SelectClasstecahernew != null
+          ? Number(SelectClasstecahernew)
+          : Number(selectClasstecahernew)
     };
     // dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
     debouncedFetch(ClassTeachernewBody);
@@ -414,10 +419,10 @@ const TAttendance = () => {
     }).some((obj) => obj.isActive === false)
       ? 1
       : !Itemlist.filter((obj) => {
-        return !obj.IsExamSubmitted;
-      }).some((obj) => obj.isActive === true)
-        ? 0
-        : 2;
+          return !obj.IsExamSubmitted;
+        }).some((obj) => obj.isActive === true)
+      ? 0
+      : 2;
     if (isCheckAll === 1) {
       setAllPresentOrAllAbsent('P');
     } else if (isCheckAll === 0) {
@@ -632,13 +637,14 @@ const TAttendance = () => {
 
   const clickNav = (value) => {
     navigate(
-      `/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + encodeURL(value)
+      `/${location.pathname.split('/')[1]}/Teacher/TAttendance/` +
+        encodeURL(value)
     );
   };
   const clickNavigateSchoolAttendanceOverview = () => {
     navigate(
       '/RITeSchool/Teacher/SchoolAttendanceOverview/' +
-      encodeURL(getDateFormattedDash(assignedDate))
+        encodeURL(getDateFormattedDash(assignedDate))
     );
   };
   const ClickItemList = (value) => {
@@ -694,12 +700,78 @@ const TAttendance = () => {
             direction={{ xs: 'column', sm: 'row' }}
             justifyContent="space-between"
             alignItems="left"
-            spacing={2}
-            sx={{
-              mt: { xs: 0, sm: 0 },
-              flexWrap: { xs: 'nowrap', sm: 'nowrap' }
-            }}
+            gap={1}
+            sx={{ flexWrap: { xs: 'nowrap', sm: 'nowrap' } }}
           >
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              gap={1}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+            >
+              <Tooltip title="School Attendance Overview">
+                <Typography
+                  color={MarksError ? grey[500] : blue[500]}
+                  fontWeight="bold"
+                  sx={{ cursor: 'pointer', mt: { xs: '4px', sm: '7px' } }}
+                  onClick={() => {
+                    if (!MarksError) {
+                      clickNavigateSchoolAttendanceOverview();
+                    }
+                  }}
+                >
+                  Overview
+                </Typography>
+              </Tooltip>
+              <Typography
+                color={MarksError ? grey[500] : blue[500]}
+                fontWeight="bold"
+                sx={{ alignItems: 'center', mt: { xs: '4px', sm: '7px' } }}
+              >
+                -
+              </Typography>
+              <Typography
+                color={MarksError ? grey[500] : blue[500]}
+                sx={{
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}
+                fontWeight="bold"
+                onClick={() => {
+                  if (!MarksError) {
+                    clickNavigateSchoolAttendanceOverview();
+                  }
+                }}
+              >
+                <Tooltip title="Present Students / Total Students">
+                  <Box>{SummaryCountforAttendance?.TotalStudents}</Box>
+                </Tooltip>
+              </Typography>
+              <Box sx={{ height: '25px', border: '1px solid grey' }} />
+              <Typography
+                color={MarksError ? grey[500] : blue[500]}
+                sx={{
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}
+                fontWeight="bold"
+                onClick={() => {
+                  if (!MarksError) {
+                    clickNavigateSchoolAttendanceOverview();
+                  }
+                }}
+              >
+                <Tooltip title="Attendance marked Divisions / Total Divisions">
+                  <Box>{SummaryCountforAttendance?.TotalDivisions}</Box>
+                </Tooltip>
+              </Typography>
+            </Grid>
             <Grid
               item
               xs={12}
@@ -707,109 +779,28 @@ const TAttendance = () => {
               display="flex"
               justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
             >
-              {/* Overview Section */}
-              <Stack
-                direction="row"
-                gap={1}
-                alignItems="left"
+              <SearchableDropdown
+                label={''}
                 sx={{
-                  flexWrap: { xs: 'wrap', sm: 'nowrap' },
-                  justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                  mb: { xs: '10px', sm: '0px' },
+                  minWidth: { xs: '40vh', sm: '18vw' }
                 }}
-              >
-                <Tooltip title="School Attendance Overview">
-                  <Typography
-                    color={MarksError ? grey[500] : blue[500]}
-                    fontWeight="bold"
-                    sx={{ cursor: 'pointer', mt: { xs: '4px', sm: '7px' } }}
-                    onClick={() => {
-                      if (!MarksError) {
-                        clickNavigateSchoolAttendanceOverview();
-                      }
-                    }}
-                  >
-                    Overview
-                  </Typography>
-                </Tooltip>
-                <Typography
-                  color={MarksError ? grey[500] : blue[500]}
-                  fontWeight="bold"
-                  sx={{ alignItems: 'center', mt: { xs: '4px', sm: '7px' } }}
-                >
-                  -
-                </Typography>
-                <Typography
-                  color={MarksError ? grey[500] : blue[500]}
-                  sx={{
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1
-                  }}
-                  fontWeight="bold"
-                  onClick={() => {
-                    if (!MarksError) {
-                      clickNavigateSchoolAttendanceOverview();
-                    }
-                  }}
-                >
-                  <Tooltip title="Present Students / Total Students">
-                    <Box>{SummaryCountforAttendance?.TotalStudents}</Box>
-                  </Tooltip>
-                </Typography>
-                <Box sx={{ height: '25px', border: '1px solid grey' }} />
-                <Typography
-                  color={MarksError ? grey[500] : blue[500]}
-                  sx={{
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1
-                  }}
-                  fontWeight="bold"
-                  onClick={() => {
-                    if (!MarksError) {
-                      clickNavigateSchoolAttendanceOverview();
-                    }
-                  }}
-                >
-                  <Tooltip title="Attendance marked Divisions / Total Divisions">
-                    <Box>{SummaryCountforAttendance?.TotalDivisions}</Box>
-                  </Tooltip>
-                </Typography>
-              </Stack>
+                ItemList={ClassTeacherDropdownnew}
+                onChange={clickClassTechernew}
+                defaultValue={selectClasstecahernew}
+                size="small"
+                DisableClearable={GetScreenPermission() === 'N'}
+                disabled={GetScreenPermission() === 'N'}
+              />
             </Grid>
-            {/* Right Actions Section */}
-            <Stack
-              direction={{ xs: 'row', sm: 'row' }}
-              spacing={1}
-              alignItems="center"
-              justifyContent="flex-start"
-              sx={{
-                width: '100%',
-                flexWrap: { xs: 'wrap', sm: 'nowrap' }
-              }}
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              gap={1}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
             >
-              <Box
-                sx={{
-                  width: { xs: '100%', sm: 'auto' },
-                  mb: { xs: 1, sm: 'auto' }
-                }}
-              >
-                <SearchableDropdown
-                  label={''}
-                  sx={{
-                    mb: { xs: '10px', sm: '0px' },
-                    minWidth: { xs: '25vh', sm: '18vw' }
-                  }}
-                  ItemList={ClassTeacherDropdownnew}
-                  onChange={clickClassTechernew}
-                  defaultValue={selectClasstecahernew}
-                  size="small"
-                  DisableClearable={GetScreenPermission() === 'N'}
-                  disabled={GetScreenPermission() === 'N'}
-                />
-              </Box>
               <Tooltip title="Mark attendance of each student from your class for the selected date.">
                 <span>
                   <IconButton
@@ -830,9 +821,9 @@ const TAttendance = () => {
                     onClick={() =>
                       navigate(
                         '/RITeSchool/Teacher/IndidualAttendance/' +
-                        encodeURL(selectClasstecahernew) +
-                        '/' +
-                        encodeURL(getDateFormattedDash(assignedDate))
+                          encodeURL(selectClasstecahernew) +
+                          '/' +
+                          encodeURL(getDateFormattedDash(assignedDate))
                       )
                     }
                     sx={{
@@ -852,9 +843,9 @@ const TAttendance = () => {
                     onClick={() =>
                       navigate(
                         '/RITeSchool/Teacher/MonthwiseAttendance/' +
-                        encodeURL(selectClasstecahernew) +
-                        '/' +
-                        encodeURL(getDateFormattedDash(assignedDate))
+                          encodeURL(selectClasstecahernew) +
+                          '/' +
+                          encodeURL(getDateFormattedDash(assignedDate))
                       )
                     }
                     sx={{
@@ -899,7 +890,7 @@ const TAttendance = () => {
                   </IconButton>
                 </span>
               </Tooltip>
-            </Stack>
+            </Grid>
           </Stack>
         }
       />
@@ -947,47 +938,47 @@ const TAttendance = () => {
                         AttendanceStatus.includes(
                           'Attendance not yet marked.'
                         ) ||
-                          AttendanceStatus.includes(
-                            'Attendance date should be within current academic year'
-                          ) ||
-                          AttendanceStatus.includes(
-                            'Term Start & End dates have not been configured'
-                          )
+                        AttendanceStatus.includes(
+                          'Attendance date should be within current academic year'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Term Start & End dates have not been configured'
+                        )
                           ? 'red'
                           : AttendanceStatus.includes(
-                            'Attendance is already marked'
-                          )
-                            ? 'green'
-                            : 'red', // Set the text color based on the content of AttendanceStatus
+                              'Attendance is already marked'
+                            )
+                          ? 'green'
+                          : 'red', // Set the text color based on the content of AttendanceStatus
                       backgroundColor:
                         AttendanceStatus.includes(
                           'Attendance not yet marked.'
                         ) ||
-                          AttendanceStatus.includes(
-                            'Attendance date should be within current academic year'
-                          ) ||
-                          AttendanceStatus.includes(
-                            'Term Start & End dates have not been configured'
-                          )
+                        AttendanceStatus.includes(
+                          'Attendance date should be within current academic year'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Term Start & End dates have not been configured'
+                        )
                           ? '#FFCCCC' // Light red background color
                           : AttendanceStatus.includes(
-                            'Attendance is already marked'
-                          )
-                            ? '#CCFFCC' // Light green background color
-                            : '#FFCCCC', // No background color for other messages
+                              'Attendance is already marked'
+                            )
+                          ? '#CCFFCC' // Light green background color
+                          : '#FFCCCC', // No background color for other messages
                       border:
                         AttendanceStatus.includes(
                           'Attendance not yet marked.'
                         ) ||
-                          AttendanceStatus.includes(
-                            'Attendance date should be within current academic year'
-                          ) ||
-                          AttendanceStatus.includes(
-                            'Term Start & End dates have not been configured'
-                          ) ||
-                          AttendanceStatus.includes(
-                            'Attendance is already marked'
-                          )
+                        AttendanceStatus.includes(
+                          'Attendance date should be within current academic year'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Term Start & End dates have not been configured'
+                        ) ||
+                        AttendanceStatus.includes(
+                          'Attendance is already marked'
+                        )
                           ? '1px solid black' // Add border for highlighted messages
                           : '1px solid black', // No border for other messages
                       padding: '5px' // Add padding for better spacing
