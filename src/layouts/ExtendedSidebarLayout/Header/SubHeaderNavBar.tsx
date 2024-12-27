@@ -237,7 +237,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
     try {
       localStorage.removeItem('auth');
       sessionStorage.clear();
-      navigate('/');
+      navigate('/Sessionlogout');
     } catch (err) {
       console.error(err);
     }

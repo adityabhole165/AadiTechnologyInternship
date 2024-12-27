@@ -29,7 +29,7 @@ function Form() {
   const logout = () => {
     localStorage.removeItem('auth');
     sessionStorage.clear();
-    navigate('/');
+    navigate('/Sessionlogout');
   };
 
   const getHomepage = () => {
