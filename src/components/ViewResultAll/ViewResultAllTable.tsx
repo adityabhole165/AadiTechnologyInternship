@@ -281,14 +281,14 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                                     }
                                                     return null;
                                                 })}
-                                                {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
                                                     if (index === 0) {
                                                         return (
                                                             <TableCell
                                                                 key={index}
-                                                                sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                                sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
                                                             >
-                                                                {resultData.Result || '-'}
+                                                                {resultData.Result.trim() ? resultData.Result.trim() : '-'}
                                                             </TableCell>
                                                         );
                                                     }
@@ -335,14 +335,14 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                                         return null;
                                                     })}
 
-                                                    {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                    {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
                                                         if (index === 0) {
                                                             return (
                                                                 <TableCell
                                                                     key={index}
-                                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
                                                                 >
-                                                                    {resultData.Result || '-'}
+                                                                    {resultData.Result.trim() ? resultData.Result.trim() : '-'}
                                                                 </TableCell>
                                                             );
                                                         }
