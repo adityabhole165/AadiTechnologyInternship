@@ -10,6 +10,7 @@ import { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { AlertContext } from 'src/contexts/AlertContext';
+import Legend from 'src/libraries/Legend/Legend';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
@@ -236,6 +237,57 @@ const UserManagementBasescreen = () => {
     const handleEmailReadClick = (userId) => {
         ClickSave2();
     };
+    const LegendArray = [
+        {
+            id: 1,
+            Name: 'Activate',
+            Value: <LockOpenTwoToneIcon
+                style={{
+                    color: 'green',
+                    fontSize: 25,
+                    position: 'relative',
+                    top: '-2px',
+                }}
+            />
+        },
+        {
+            id: 2,
+            Name: 'Deactivate',
+            Value: <LockIcon
+                style={{
+                    color: 'green',
+                    fontSize: 25,
+                    position: 'relative',
+                    top: '-2px',
+                }}
+            />
+        },
+        {
+            id: 3,
+            Name: 'Available for SMS/Message',
+            Value: <MarkEmailReadIcon
+                style={{
+                    color: 'green',
+                    fontSize: 25,
+                    position: 'relative',
+                    top: '-2px',
+                }}
+            />
+        },
+        {
+            id: 3,
+            Name: 'Not available for SMS/Message',
+            Value: <UnsubscribeIcon
+                style={{
+                    color: '#ff6347',
+                    fontSize: 25,
+                    position: 'relative',
+                    top: '-2px',
+                }}
+            />
+        },
+
+    ]
 
     return (
         <>
@@ -268,7 +320,8 @@ const UserManagementBasescreen = () => {
                 />
 
                 <Box sx={{ background: 'white', p: 1, mb: 2 }}>
-                    <Box
+                    <Legend LegendArray={LegendArray} />
+                    {/* <Box
                         sx={{
                             display: 'flex',
                             flexDirection: { xs: 'column', sm: 'row' }, // Stack items on smaller screens
@@ -366,7 +419,7 @@ const UserManagementBasescreen = () => {
                                 <Typography>Not available for SMS/Message</Typography>
                             </Box>
                         </Box>
-                    </Box>
+                    </Box> */}
                 </Box>
 
                 <Box sx={{ background: 'white', p: 2, mb: 2 }}>
