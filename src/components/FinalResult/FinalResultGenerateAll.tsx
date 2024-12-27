@@ -490,7 +490,22 @@ const GenerateAll = ({ }) => {
                         </Box>                    </>
                 }
             />
-            {StudentDetailsUS && (
+            {EntireDataList?.ErrorMessage !== '' && (
+                <Typography
+                    variant="body1"
+                    sx={{
+                        textAlign: 'center',
+                        marginTop: 4,
+                        backgroundColor: '#324b84',
+                        padding: 1,
+                        borderRadius: 2,
+                        color: 'white',
+                    }}
+                >
+                    <b> {EntireDataList?.ErrorMessage}</b>
+                </Typography>
+            )}
+            {StudentDetailsUS?.length > 0 && (
 
                 //  {showProgressReport && ( -
                 <div >
