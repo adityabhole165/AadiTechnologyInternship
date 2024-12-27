@@ -47,6 +47,10 @@ const NoPage = Loader(
 const AppRating = Loader(
   lazy(() => import('src/components/AppRating/AppRating'))
 )
+
+const Sessionlogout = Loader(
+  lazy(() => import('src/components/Authentication/Login/Sessionlogout'))
+);
 const AuthenticationRoute = [
   {
     path: '/',
@@ -93,7 +97,13 @@ const AuthenticationRoute = [
   {
     path: 'TermAndCondition',
     element: <TermAndCondition />
-  }
+  },
+
+  {
+    path: 'Sessionlogout',
+    element: <Sessionlogout />
+  },
+
 ];
 
 export default AuthenticationRoute;

@@ -1,19 +1,35 @@
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography
+} from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import {
-  IClassDropDownBody, IClassTeacherDropdownBody, IGetTeacherSubjectDetailsBody,
-  ISchoolsettingBody, ITeacherDropdownBody
+  IClassDropDownBody,
+  IClassTeacherDropdownBody,
+  IGetTeacherSubjectDetailsBody,
+  ISchoolsettingBody,
+  ITeacherDropdownBody
 } from 'src/interfaces/AssignHomework/IAssignHomework';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
-  ClassName, FullTeacherName, GetschoolSettings, ReqschoolSettings,
-  SubjectDetails, TeacherNameList, resetClassName, resetSubjectDetails
+  ClassName,
+  FullTeacherName,
+  GetschoolSettings,
+  ReqschoolSettings,
+  SubjectDetails,
+  TeacherNameList,
+  resetClassName,
+  resetSubjectDetails
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
@@ -25,29 +41,47 @@ const AssignHomework = () => {
 
   const HeaderOfTable = [
     { Id: 1, Header: 'Class', width: 200 },
-    { Id: 2, Header: 'Subject', },
+    { Id: 2, Header: 'Subject' },
     { Id: 3, Header: 'Assign', width: 400, align: 'center' }
   ];
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const asShowHomeworkToClassTeacher = Number(sessionStorage.getItem('ShowHomeworkToClassTeacher'));
-  const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-  const AssignHomeworkPermission = GetScreenPermission('Assign Homework')
+  const asShowHomeworkToClassTeacher = Number(
+    sessionStorage.getItem('ShowHomeworkToClassTeacher')
+  );
+  const asStandardDivisionId = Number(
+    sessionStorage.getItem('StandardDivisionId')
+  );
+  const AssignHomeworkPermission = GetScreenPermission('Assign Homework');
 
   const [SelectClass, setSelectClass] = useState(null);
-  const [SelectTeacher, setSelectTeacher] = useState(AssignHomeworkPermission !== 'Y' ? TeacherId : null);
+  const [SelectTeacher, setSelectTeacher] = useState(
+    AssignHomeworkPermission !== 'Y' ? TeacherId : null
+  );
 
-  const TeacherList = useSelector((state: RootState) => state.TeacherNameList.TeacherList);
-  const ClassList = useSelector((State: RootState) => State.TeacherNameList.ClassList);
-  const SubjectDetailLists = useSelector((State: RootState) => State.TeacherNameList.SubjectList);
-  const SubjectDetailLists1 = useSelector((State: RootState) => State.TeacherNameList.SubjectList1);
-  const UsschoolSettings = useSelector((state: RootState) => state.TeacherNameList.IsGetSchoolSettings);
-  const schoolSettingsForSubjectlist = useSelector((state: RootState) => state.TeacherNameList.ISGetSchoolSettingsSubjectL);
+  const TeacherList = useSelector(
+    (state: RootState) => state.TeacherNameList.TeacherList
+  );
+  const ClassList = useSelector(
+    (State: RootState) => State.TeacherNameList.ClassList
+  );
+  const SubjectDetailLists = useSelector(
+    (State: RootState) => State.TeacherNameList.SubjectList
+  );
+  const SubjectDetailLists1 = useSelector(
+    (State: RootState) => State.TeacherNameList.SubjectList1
+  );
+  const UsschoolSettings = useSelector(
+    (state: RootState) => state.TeacherNameList.IsGetSchoolSettings
+  );
+  const schoolSettingsForSubjectlist = useSelector(
+    (state: RootState) => state.TeacherNameList.ISGetSchoolSettingsSubjectL
+  );
 
   useEffect(() => {
     const SchoolsettingBody: ISchoolsettingBody = {
-      asSchoolId: Number(asSchoolId),
+      asSchoolId: Number(asSchoolId)
     };
     const GetTeacher: ITeacherDropdownBody = {
       asSchoolId: asSchoolId,
@@ -75,7 +109,7 @@ const AssignHomework = () => {
   useEffect(() => {
     if (SelectTeacher == null) {
       dispatch(resetClassName());
-      setSelectClass(null)
+      setSelectClass(null);
     } else {
       const GetClassD: IClassDropDownBody = {
         asSchoolId: asSchoolId,
@@ -95,7 +129,7 @@ const AssignHomework = () => {
 
   //subjectList
   useEffect(() => {
-    if ((SelectClass == null) || SelectTeacher == null) {
+    if (SelectClass == null || SelectTeacher == null) {
       dispatch(resetSubjectDetails());
     } else {
       const TeacherSubject: IGetTeacherSubjectDetailsBody = {
@@ -136,19 +170,27 @@ const AssignHomework = () => {
   const clickItem1 = (value, MySubject) => {
     navigate(
       '/RITeSchool/Teacher/AddHomeworkNew/' +
-      encodeURL(SelectTeacher) + '/' +
-      encodeURL(getClassTeacherName()) + '/' +
-      encodeURL(value.StandardDivision) + '/' +
-      encodeURL(value.SubjectName) + '/' +
-      encodeURL(value.SubjectId )+ '/' +
-      encodeURL(MySubject) + '/' +
-      encodeURL(SelectClass)
+        encodeURL(SelectTeacher) +
+        '/' +
+        encodeURL(getClassTeacherName()) +
+        '/' +
+        encodeURL(value.StandardDivision) +
+        '/' +
+        encodeURL(value.SubjectName) +
+        '/' +
+        encodeURL(value.SubjectId) +
+        '/' +
+        encodeURL(MySubject) +
+        '/' +
+        encodeURL(SelectClass)
     );
   };
   const onClick = () => {
-    navigate('/RITeSchool/Teacher/AddDailyLog/' +
-      encodeURL(SelectClass) + '/' +
-      encodeURL(getClassName())
+    navigate(
+      '/RITeSchool/Teacher/AddDailyLog/' +
+        encodeURL(SelectClass) +
+        '/' +
+        encodeURL(getClassName())
     );
   };
 
@@ -156,16 +198,19 @@ const AssignHomework = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' }
+          {
+            title: 'Assign Homework',
+            path: '/RITeSchool/Teacher/AssignHomework'
+          }
         ]}
-        rightActions={<>
-       <Stack
+        rightActions={
+          <>
+            <Stack
               direction={{ xs: 'column', sm: 'row' }}
-               justifyContent="space-between"
+              justifyContent="space-between"
               alignItems="right"
               gap={1}
               sx={{
-                
                 mt: { xs: 0, sm: 0 },
                 flexWrap: { xs: 'nowrap', sm: 'nowrap' }
               }}
@@ -173,64 +218,51 @@ const AssignHomework = () => {
               <Grid
                 item
                 xs={12}
-                sm={6}
                 display="flex"
                 justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
               >
-                <Stack
-                  direction="row"
-                  gap={1}
-                  alignItems="left"
+                <SearchableDropdown
                   sx={{
-                    flexWrap: { xs: 'wrap', sm: 'nowrap' },
-                    justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                    minWidth: { xs: '35vh', sm: '20vw' },
+                    bgcolor:
+                      AssignHomeworkPermission === 'N' ? '#F0F0F0' : 'inherit'
                   }}
-                >
-                  <SearchableDropdown
-                    sx={{
-                      minWidth: { xs: '42vh', sm: '20vw' },
-                      bgcolor:
-                        AssignHomeworkPermission === 'N' ? '#F0F0F0' : 'inherit'
-                    }}
-                    ItemList={TeacherList}
-                    onChange={clickTeacherDropdown}
-                    label={'Select Teacher'}
-                    defaultValue={SelectTeacher?.toString()}
-                    mandatory
-                    size={'small'}
-                    DisableClearable={AssignHomeworkPermission === 'N'}
-                    disabled={AssignHomeworkPermission === 'N'}
-                  />
-                </Stack>
+                  ItemList={TeacherList}
+                  onChange={clickTeacherDropdown}
+                  label={'Select Teacher'}
+                  defaultValue={SelectTeacher?.toString()}
+                  mandatory
+                  size={'small'}
+                  DisableClearable={AssignHomeworkPermission === 'N'}
+                  disabled={AssignHomeworkPermission === 'N'}
+                />
               </Grid>
 
-              <Stack
-                direction={{ xs: 'row', sm: 'row' }}
-                gap={1}
-                alignItems="center"
-                justifyContent="flex-start"
-                sx={{
-                  width: '100%',
-                  flexWrap: { xs: 'wrap', sm: 'nowrap' }
-                }}
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
               >
-                <Box
+                <SearchableDropdown
                   sx={{
-                    width: { xs: '100%', sm: 'auto' },
+                    minWidth: { xs: '42vh', sm: '20vw' },
                     mb: { xs: 0, sm: 'auto' }
                   }}
-                >
-                  <SearchableDropdown
-                    sx={{ minWidth: { xs: '42vh', sm: '20vw' },  mb: { xs: 0, sm: 'auto' } }}
-                    ItemList={ClassList}
-                    onChange={clickClass}
-                    label={'Select Class:'}
-                    defaultValue={SelectClass}
-                    mandatory
-                    size={'small'}
-                  />
-                </Box>
-
+                  ItemList={ClassList}
+                  onChange={clickClass}
+                  label={'Select Class:'}
+                  defaultValue={SelectClass}
+                  mandatory
+                  size={'small'}
+                />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
                 <Tooltip
                   title={'List the class subjects for homework assignment.'}
                 >
@@ -264,13 +296,24 @@ const AssignHomework = () => {
                       </Tooltip>
                     </Box>
                   )}
-              </Stack>
+              </Grid>
             </Stack>
-        </>}
+          </>
+        }
       />
-      <Box sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
+      <Box
+        sx={{
+          p: 2,
+          background: 'white',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
         <Box>
-          <Typography variant={'h4'} mb={1}> My Subjects </Typography>
+          <Typography variant={'h4'} mb={1}>
+            {' '}
+            My Subjects{' '}
+          </Typography>
           {SubjectDetailLists.length > 0 ? (
             <Assignhomeworklist
               ItemList={SubjectDetailLists}
@@ -279,19 +322,28 @@ const AssignHomework = () => {
               MySubject={true}
             />
           ) : (
-            <Typography variant="body1"
+            <Typography
+              variant="body1"
               sx={{
-                textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1,
-                borderRadius: 2, color: 'white'
-              }}>
+                textAlign: 'center',
+                marginTop: 1,
+                backgroundColor: '#324b84',
+                padding: 1,
+                borderRadius: 2,
+                color: 'white'
+              }}
+            >
               <b>No record found.</b>
             </Typography>
           )}
         </Box>
 
-        {schoolSettingsForSubjectlist == "True" && (
+        {schoolSettingsForSubjectlist == 'True' && (
           <Box mt={2}>
-            <Typography variant={'h4'} mb={1}> My Class Subjects </Typography>
+            <Typography variant={'h4'} mb={1}>
+              {' '}
+              My Class Subjects{' '}
+            </Typography>
             {SubjectDetailLists1.length > 0 ? (
               <Assignhomeworklist
                 ItemList={SubjectDetailLists1}
@@ -300,11 +352,17 @@ const AssignHomework = () => {
                 MySubject={false}
               />
             ) : (
-              <Typography variant="body1"
+              <Typography
+                variant="body1"
                 sx={{
-                  textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1,
-                  borderRadius: 2, color: 'white'
-                }}>
+                  textAlign: 'center',
+                  marginTop: 1,
+                  backgroundColor: '#324b84',
+                  padding: 1,
+                  borderRadius: 2,
+                  color: 'white'
+                }}
+              >
                 <b>No record found.</b>
               </Typography>
             )}

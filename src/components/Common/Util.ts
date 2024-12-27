@@ -888,3 +888,21 @@ export const getDateFormattedNew = (dateStr) => {
 
   return `${Day} ${Month} ${Year} ${formattedHours}:${formattedMinutes} ${period}`;
 };
+
+
+export const isAllowedURL = (screenId: string) => {
+  let flag = false;
+
+  const AllowedScreenList = sessionStorage.getItem('AllowedScreens');
+  // let AllowedScreenList = ['2671', '313']
+
+
+  if (AllowedScreenList) {
+    const parsedList = JSON.parse(AllowedScreenList);
+    if (Array.isArray(parsedList) && parsedList.find((item) => item.Screen_Id === screenId)) {
+      flag = true;
+    }
+  }
+
+  return flag;
+}

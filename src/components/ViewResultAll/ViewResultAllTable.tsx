@@ -281,14 +281,14 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                                     }
                                                     return null;
                                                 })}
-                                                {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
                                                     if (index === 0) {
                                                         return (
                                                             <TableCell
                                                                 key={index}
-                                                                sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                                sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
                                                             >
-                                                                {resultData.Result || '-'}
+                                                                {resultData.Result.trim() ? resultData.Result.trim() : '-'}
                                                             </TableCell>
                                                         );
                                                     }
@@ -335,14 +335,14 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                                         return null;
                                                     })}
 
-                                                    {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
+                                                    {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
                                                         if (index === 0) {
                                                             return (
                                                                 <TableCell
                                                                     key={index}
-                                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
                                                                 >
-                                                                    {resultData.Result || '-'}
+                                                                    {resultData.Result.trim() ? resultData.Result.trim() : '-'}
                                                                 </TableCell>
                                                             );
                                                         }
@@ -356,16 +356,16 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                             </Box>
                         </Box>
                     </Box>
-                    <Box sx={{ width: '100%', my: 4, borderTop: '1px dotted black' }} />
+                    <Box sx={{ width: '100%', my: 4, borderTop: '2px dotted black', borderSpacing: '60px' }} />
                 </>
                 :
                 <>
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <Typography variant="body1" fontWeight="bold" sx={{ backgroundColor: '#324b84', color: 'white', padding: '8px 16px', mt: 4 }}>
-                            Result not generated for this student : {stdFinalResult?.listStudentDetail[0]?.Roll_No} - {stdFinalResult?.listStudentDetail[0]?.Student_Name}
-                        </Typography>
-                    </Box>
-                    <Box sx={{ width: '100%', my: 4, borderTop: '1px dotted black' }} />
+                    {/* <Box sx={{ display: 'flex', justifyContent: 'center' }}> */}
+                    <Typography variant="body1" fontWeight="bold" sx={{ backgroundColor: '#324b84', color: 'white', padding: '8px 16px', mt: 4, textAlign: 'center' }}>
+                        Result not generated for this student : {stdFinalResult?.listStudentDetail[0]?.Roll_No} - {stdFinalResult?.listStudentDetail[0]?.Student_Name}
+                    </Typography>
+                    {/* </Box> */}
+                    <Box sx={{ width: '100%', my: 4, borderTop: '2px dotted black', borderSpacing: '60px' }} />
                 </>
             }
         </>

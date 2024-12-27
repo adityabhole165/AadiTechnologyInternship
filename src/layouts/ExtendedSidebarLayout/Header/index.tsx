@@ -178,9 +178,10 @@ function Header() {
   };
   const handleCloseApp = async (): Promise<void> => {
     try {
-      handleClose();
-      handleClickOpen();
-      App.exitApp();
+      // handleClose();
+      // handleClickOpen();
+      // App.exitApp();
+      navigate('/Sessionlogout');
     } catch (err) {
       console.error(err);
     }

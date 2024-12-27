@@ -78,7 +78,7 @@ const AlertDialog = ({
               {variant === 'error' && (
                 <ErrorTwoToneIcon
                   sx={{
-                    fontSize: '68px',
+                    fontSize: 'clamp(46px, 5vw, 68px)',
                     color: (theme) => theme.palette.error.main
                   }}
                 />
@@ -86,7 +86,7 @@ const AlertDialog = ({
               {variant === 'warning' && (
                 <CheckIcon
                   sx={{
-                    fontSize: '68px',
+                    fontSize: 'clamp(46px, 7vw, 68px)',
                     color: (theme) => theme.palette.success.main
                   }}
                 />
@@ -94,7 +94,7 @@ const AlertDialog = ({
               {variant === 'info' && (
                 <InfoTwoToneIcon
                   sx={{
-                    fontSize: '68px',
+                    fontSize: 'clamp(46px, 7vw, 68px)',
                     color: (theme) => theme.palette.info.main
                   }}
                 />
@@ -102,7 +102,7 @@ const AlertDialog = ({
               {variant === 'success' && (
                 <CheckCircleTwoTone
                   sx={{
-                    fontSize: '68px',
+                    fontSize: 'clamp(46px, 7vw, 68px)',
                     color: (theme) => theme.palette.success.main
                   }}
                 />

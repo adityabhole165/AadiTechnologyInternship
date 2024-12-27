@@ -45,4 +45,11 @@ export const Constants = {
         ParentTeacherAssociation: 99,
         ExAdmin: 10
     },
+    // ScreenId Constants
+    ScreenId: {
+        AadharCard: 267,
+        LeaveDetails: 303,
+        StudentwiseProgressReport: 179,
+        AssignPrePrimarySubjectGrades: 162,
+    }
 }

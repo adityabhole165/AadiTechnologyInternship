@@ -471,29 +471,33 @@ const RegenarateRollNo = () => {
                                         </MenuItem>
                                     ))}
                                 </Select>
-                                <IconButton
-                                    onClick={handleAscendClick}
-                                    sx={{
-                                        border: (theme) => `1px solid ${theme.palette.divider}`,
-                                        height: '36px !important',
-                                        mr: 1,
-                                        backgroundColor: isClicked && isAscending ? blue[400] : 'transparent',
-                                        color: isClicked && isAscending ? 'white' : 'inherit',
-                                    }}
-                                >
-                                    <ArrowUpwardIcon />
-                                </IconButton>
-                                <IconButton
-                                    onClick={handleDescendClick}
-                                    sx={{
-                                        border: (theme) => `1px solid ${theme.palette.divider}`,
-                                        height: '36px !important',
-                                        backgroundColor: isClicked && !isAscending ? blue[400] : 'transparent',
-                                        color: isClicked && !isAscending ? 'white' : 'inherit',
-                                    }}
-                                >
-                                    <ArrowDownwardIcon />
-                                </IconButton>
+                                <Tooltip title="Ascending">
+                                    <IconButton
+                                        onClick={handleAscendClick}
+                                        sx={{
+                                            border: (theme) => `1px solid ${theme.palette.divider}`,
+                                            height: '36px !important',
+                                            mr: 1,
+                                            backgroundColor: isClicked && isAscending ? blue[400] : 'transparent',
+                                            color: isClicked && isAscending ? 'white' : 'inherit',
+                                        }}
+                                    >
+                                        <ArrowUpwardIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Descending">
+                                    <IconButton
+                                        onClick={handleDescendClick}
+                                        sx={{
+                                            border: (theme) => `1px solid ${theme.palette.divider}`,
+                                            height: '36px !important',
+                                            backgroundColor: isClicked && !isAscending ? blue[400] : 'transparent',
+                                            color: isClicked && !isAscending ? 'white' : 'inherit',
+                                        }}
+                                    >
+                                        <ArrowDownwardIcon />
+                                    </IconButton>
+                                </Tooltip>
                             </Grid>
                         ))}
                     </Grid>

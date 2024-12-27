@@ -10,7 +10,8 @@ export interface IGetPhotoDetailsBody {
   asSortExp: string,
   asStartIndex: number,
   asPageSize: number,
-  asAcademicYearId: number
+  asAcademicYearId: number,
+  asGalleryNameFilter: string
 }
 
 export interface IGetPhotoDetailsResult {
