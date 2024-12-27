@@ -19,6 +19,7 @@ const PrivateRoute = () => {
             // Set a new timeout for 2 minutes
             timeoutId = setTimeout(() => {
                 localStorage.removeItem("auth"); // Remove auth token
+                sessionStorage.clear();
                 setAuthStatus(false); // Update the state
             }, 30 * 1000); // 2 minutes
         };
