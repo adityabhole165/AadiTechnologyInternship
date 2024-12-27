@@ -43,6 +43,7 @@ const PhotoVideoGalleryBaseScreen = () => {
     const [PhotoDetails, SetPhotoDetails] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState<number>(1);
+    const [SearchPhotoGallery, setSearchPhotoGallery] = useState('');
     const rowsPerPageOptions = [20, 50, 100, 200];
     const { showAlert, closeAlert } = useContext(AlertContext);
     const navigate = useNavigate();
@@ -90,7 +91,8 @@ const PhotoVideoGalleryBaseScreen = () => {
         asSortExp: "ORDER BY " + SortBy + " " + SortDirection,
         asStartIndex: startIndexNew,
         asPageSize: page * rowsPerPage,
-        asAcademicYearId: asAcademicYearId
+        asAcademicYearId: asAcademicYearId,
+        asGalleryNameFilter: SearchPhotoGallery
     }
     useEffect(() => {
         dispatch(CDAGetPhotoDetails(photoD1ata))
@@ -191,6 +193,14 @@ const PhotoVideoGalleryBaseScreen = () => {
     const AddNewVideo = (value) => {
         navigate('/RITeSchool/Teacher/AddNewVideo');
     };
+    const handleSearchGalleryName = (Value) => {
+        setSearchPhotoGallery(Value);
+    }
+    const clickSearch = () => {
+
+        dispatch(CDAGetPhotoDetails(photoD1ata))
+    }
+
 
 
 
@@ -205,19 +215,22 @@ const PhotoVideoGalleryBaseScreen = () => {
                         sx={{ width: '15vw' }}
                         fullWidth
                         label="Photo/Video Gallery"
-                        value={undefined}
+                        value={SearchPhotoGallery}
                         variant={'outlined'}
                         size={"small"}
                         onChange={(e) => {
-
-                        }} onKeyDown={(e) => {
+                            handleSearchGalleryName(e.target.value);
+                        }}
+                        onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
-
+                                clickSearch();
                             }
-                        }}></TextField>
+                        }}
+                    />
+
                     <Tooltip title={'Search'}>
                         <IconButton
-
+                            onClick={clickSearch}
                             sx={{
                                 background: (theme) => theme.palette.primary.main,
                                 color: 'white',
