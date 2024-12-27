@@ -93,6 +93,7 @@ const PhotoVideoGalleryBaseScreen = () => {
         asPageSize: page * rowsPerPage,
         asAcademicYearId: asAcademicYearId,
         asGalleryNameFilter: SearchPhotoGallery
+
     }
     useEffect(() => {
         dispatch(CDAGetPhotoDetails(photoD1ata))
