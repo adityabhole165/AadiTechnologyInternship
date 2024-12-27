@@ -51,5 +51,6 @@ export const Constants = {
         LeaveDetails: 303,
         StudentwiseProgressReport: 179,
         AssignPrePrimarySubjectGrades: 162,
+        PerfGradeAssign: 213,
     }
 }

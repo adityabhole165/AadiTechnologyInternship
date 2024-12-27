@@ -422,11 +422,11 @@ const teacherRoutes = [
   },
   {
     path: 'AssignPrePrimarySubjectGrades/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId/:selectTeacher',
-    element: <AssignPrePrimarySubjectGrades />
+    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimarySubjectGrades} />  // <AssignPrePrimarySubjectGrades />
   },
   {
     path: 'AssignPrePrimarySubjectGrades/:SubjectID/:Termid/:classid',
-    element: <AssignPrePrimarySubjectGrades />
+    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimarySubjectGrades} />  // <AssignPrePrimarySubjectGrades />
   },
   {
     path: 'PerfEvalViewReport',
@@ -891,11 +891,11 @@ const teacherRoutes = [
   },
   {
     path: 'PerformanceGradeAssignmentBaseScreen',
-    element: <PerformanceGradeAssignmentBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.PerfGradeAssign}`} component={PerformanceGradeAssignmentBaseScreen} />  //<PerformanceGradeAssignmentBaseScreen />
   },
   {
     path: 'PerformanceGradeAssignmentBaseScreen/:asYearID/:statusID',
-    element: <PerformanceGradeAssignmentBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.PerfGradeAssign}`} component={PerformanceGradeAssignmentBaseScreen} />  // <PerformanceGradeAssignmentBaseScreen />
   },
   {
     path: 'PerformanceEvaluation',
@@ -913,7 +913,6 @@ const teacherRoutes = [
     path: 'ProgressReportNew',
     element: <ProgressReportNew />
   },
-
   {
     path: 'PreprimaryProgressReportView/:Assessment/:YearwiseStudentId/:StandardId',
     element: <PreprimaryProgressReportView />

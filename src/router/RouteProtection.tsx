@@ -34,11 +34,9 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({
     fallbackPath = '/RITeSchool/landing/landing'
 }) => {
     const location = useLocation();
-
     if (!hasScreenAccess(screenId)) {
-        toast.error('You do not have access to this page.');
+        toast.error('Access Restricted. Your account does not have the required permissions to access this page.');
         return <Navigate to={fallbackPath} state={{ from: location }} replace />;
     }
-
     return <Component />;
 };
