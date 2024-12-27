@@ -84,12 +84,16 @@ const StudentProfileHeader = () => {
     return (
         <Grid container spacing={2} sx={{ padding: '1px' }}>
             {/* Left Side - Student Photo, Name, Class */}
-
-            <Grid item xs={12} sm={8} container alignItems="center">
+            <Grid item xs={12} md={8} container alignItems="center" sx={{ flexDirection: { xs: 'column', sm: 'row' }, textAlign: { xs: 'center', sm: 'left' } }}>
                 <Avatar
                     src={profilePhoto?.src || "/path/to/default-image.jpg"}// Replace with actual photo URL
                     alt={profilePhoto?.name || "Student photo"}
-                    sx={{ width: 80, height: 80, marginRight: '16px' }}
+                    sx={{
+                        width: { xs: 100, sm: 80 },
+                        height: { xs: 100, sm: 80 },
+                        marginRight: { xs: 0, sm: '16px' },
+                        marginBottom: { xs: '16px', sm: 0 }
+                    }}
                 />
                 <div>
                     <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{Name}</Typography>
@@ -100,7 +104,7 @@ const StudentProfileHeader = () => {
             </Grid>
 
             {/* Right Side - Confirmation and Update Info */}
-            <Grid item xs={6} sm={4} container direction="column" justifyContent="flex-start" alignItems="flex-start">
+            <Grid item xs={12} md={4} container direction="column" justifyContent="flex-start" alignItems={{ xs: 'center', sm: 'flex-start' }} sx={{ mt: { xs: 2, md: 0 } }}>
                 {showConfirmedByName ? (
                     <>
                         {/* {ConfirmedByText && (
@@ -114,16 +118,22 @@ const StudentProfileHeader = () => {
                             </Typography>
                         )} */}
                         {ConfirmedByText && formatTextWithBoldFirstTwo(ConfirmedByText)}
-
                         {UpdatedByText && formatTextWithBoldFirstTwo(UpdatedByText)}
-
                         {AdmissionStandard && (
-                            <Typography variant="body1" sx={{ textAlign: 'left' }}>
+                            <Typography variant="body1" sx={{
+                                textAlign: { xs: 'center', sm: 'left' },
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                width: '100%'
+                            }}>
                                 <b>Admitted In:</b> {AdmissionStandard}
                             </Typography>
                         )}
                         {ResidenceName && (
-                            <Typography variant="body1" sx={{ textAlign: 'left' }}>
+                            <Typography variant="body1" sx={{
+                                textAlign: { xs: 'center', sm: 'left' },
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                width: '100%'
+                            }}>
                                 <b>Residence Type:</b> {ResidenceName}
                             </Typography>
                         )}
@@ -138,8 +148,7 @@ const StudentProfileHeader = () => {
                     UpdatedByText && formatTextWithBoldFirstTwo(UpdatedByText)
                 )}
             </Grid>
-        </Grid>
-    );
+        </Grid>);
 };
 
 export default StudentProfileHeader;

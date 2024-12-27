@@ -914,7 +914,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                 type="file"
                 ref={fileInputRef}
                 onChange={handleImageChange}
-                style={{ margin: '12px' }}
+                style={{ margin: '12px', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis' }}
               />
             </Grid>
             <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -944,7 +944,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
             </Grid>
           </Grid>
           {errorMessage && (
-            <p style={{ color: 'red', marginTop: '8px' }}>{errorMessage}</p> // Error message display
+            <p style={{ color: 'red', marginTop: '8px' }}>{errorMessage}</p>
           )}
         </Grid>
 
