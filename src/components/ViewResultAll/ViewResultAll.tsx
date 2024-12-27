@@ -45,7 +45,10 @@ const ViewResultAll = (props: Props) => {
   } = useParams();
 
   // Decode in-place
-  StandardDivisionId = decodeURL(StandardDivisionId);
+  useEffect(() => {
+    if (StandardDivisionId !== undefined)
+      StandardDivisionId = decodeURL(StandardDivisionId);
+  }, [StandardDivisionId])
 
   const StandardDivisionIdse = (
     sessionStorage.getItem('StandardDivisionId')
