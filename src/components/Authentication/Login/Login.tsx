@@ -20,7 +20,7 @@ import TextField from '@mui/material/TextField';
 import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import LoginApi from 'src/api/Authentication/Login';
 import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
@@ -54,6 +54,7 @@ import { RootState } from 'src/store';
 
 function SelectSchool() {
   // Test
+  const { SchoolId, UserId, Password } = useParams();
 
   const styleroot = Styles();
   const classes = Styles();
@@ -64,8 +65,12 @@ function SelectSchool() {
   const SchoolName = localStorage.getItem('SchoolName');
   const [img_src, setimg_src] = useState('');
 
-  const schoolId = localStorage.getItem('localSchoolId');
-  const values = { username: '', password: '', showPassword: false };
+  const schoolId = SchoolId == undefined ? localStorage.getItem('localSchoolId') : SchoolId;
+  const values = {
+    username: UserId == undefined ? '' : UserId,
+    password: Password == undefined ? '' : Password,
+    showPassword: false
+  };
 
   let schoolSettingAPIBody: ISchoolSettings = null;
 
@@ -122,7 +127,7 @@ function SelectSchool() {
 
   useEffect(() => {
     if (value !== undefined && value !== null) {
-      console.log(value, 'value');
+
       window.sessionStorage.setItem('authenticateuser', JSON.stringify(value));
       sessionStorage.setItem('SchoolId', value.SchoolId);
       localStorage.setItem('localSchoolId', value.SchoolId);
@@ -133,8 +138,16 @@ function SelectSchool() {
       setimg_src(
         logoURL + value.TermsSchoolName?.split(' ').join('%20') + '_logo.png'
       );
+      if (UserId != undefined && Password != undefined) {
+        loginform()
+      }
     }
   }, [value]);
+  useEffect(() => {
+    if (schoolListData.length > 0 && SchoolId != undefined) {
+      setValue(schoolListData.filter((item) => item.SchoolId == SchoolId)[0]);
+    }
+  }, [schoolListData])
 
   const errorOccur = (value) => {
     toast.error(value, { toastId: 'error1' });
@@ -277,8 +290,8 @@ function SelectSchool() {
 
   const formik = useFormik({
     initialValues: {
-      userName: '',
-      password: ''
+      userName: UserId == undefined ? '' : UserId,
+      password: Password == undefined ? '' : Password,
     },
 
     onSubmit: (values) => {
@@ -478,128 +491,130 @@ function SelectSchool() {
           </DialogActions>
         </Dialog>
       )}
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        // justifyContent="center"
-        style={{ minHeight: '100vh' }}
-        columns={{ xs: 12, md: 12 }}
-      >
-        <Grid item xs={12} sx={{ mt: '30px' }}>
-          <img src={img_src} width="100%" style={{ maxHeight: 200 }} />
-        </Grid>
-        <Grid item xs={12} sx={{ px: 2 }}>
-          <Typography variant={'h4'} sx={{ textAlign: 'center' }}>
-            {SchoolName}
-          </Typography>
-        </Grid>
-        <Box sx={{ maxWidth: '90%' }}>
-          <form onSubmit={formik.handleSubmit} noValidate autoComplete="off">
-            <Grid item xs={12}>
-              <FormControl fullWidth sx={{ mr: 1 }} variant="standard">
-                <UsernameStyle htmlFor="username">User Name</UsernameStyle>
-                <InputStyle
-                  id="username"
-                  color="secondary"
-                  name="userName"
-                  value={formik.values.userName}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.userName && formik.errors.userName ? (
-                  <div className={classes.error}>{formik.errors.userName}</div>
-                ) : null}
-              </FormControl>
-
-              <FormControl fullWidth sx={{ mr: 1, mt: 1 }} variant="standard">
-                <UsernameStyle htmlFor="standard-adornment-password">
-                  Password
-                </UsernameStyle>
-                <InputStyle
-                  color="secondary"
-                  id="standard-adornment-password"
-                  type={formValues.showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {formValues.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-              {formik.touched.password && formik.errors.password ? (
-                <div className={classes.error}>{formik.errors.password}</div>
-              ) : null}
-
-              <Grid sx={{ pt: 1, pb: 3 }}>
-                <ButtonPrimary
-                  color="primary"
-                  type="submit"
-                  onChange={formik.handleChange}
-                >
-                  Login
-                </ButtonPrimary>
-                <CardDetail11 onClick={forgotPassword} style={{ cursor: 'pointer' }}>
-                  {' '}
-                  Forgot Password{' '}
-                </CardDetail11>
-              </Grid>
-            </Grid>
-          </form>
-        </Box>
-
-        <Grid>
-          <CardDetail10 onClick={changeschool} sx={{ cursor: 'pointer' }}>
-            Change School For Login
-          </CardDetail10>
-        </Grid>
-        <Grid>
-          <CardDetail10 onClick={schoolNotice} sx={{ cursor: 'pointer' }}>School Notices</CardDetail10>
-        </Grid>
-        <br />
-
-        <Grid item xs={12} textAlign="center">
-          <CardDetail10>
-            <a href="https://www.riteschool.in/privacy-policy">
-              Privacy Policy
-            </a>
-          </CardDetail10>
-        </Grid>
-        <br />
-        <Divider sx={{ background: '#5b5258', mx: '30px' }} />
-        <Grid container textAlign="center">
-          <Grid item xs={12}>
-            <a
-              href="https://www.regulusit.net"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={regulas} />
-            </a>
+      {SchoolId == undefined &&
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          // justifyContent="center"
+          style={{ minHeight: '100vh' }}
+          columns={{ xs: 12, md: 12 }}
+        >
+          <Grid item xs={12} sx={{ mt: '30px' }}>
+            <img src={img_src} width="100%" style={{ maxHeight: 200 }} />
           </Grid>
-          <Grid item xs={12}>
-            <Typography fontSize={12} sx={{ pb: '8px' }}>
-              Copyright © {new Date().getFullYear()} RegulusIT.net. All rights
-              reserved.
+          <Grid item xs={12} sx={{ px: 2 }}>
+            <Typography variant={'h4'} sx={{ textAlign: 'center' }}>
+              {SchoolName}
             </Typography>
           </Grid>
+          <Box sx={{ maxWidth: '90%' }}>
+            <form onSubmit={formik.handleSubmit} noValidate autoComplete="off">
+              <Grid item xs={12}>
+                <FormControl fullWidth sx={{ mr: 1 }} variant="standard">
+                  <UsernameStyle htmlFor="username">User Name</UsernameStyle>
+                  <InputStyle
+                    id="username"
+                    color="secondary"
+                    name="userName"
+                    value={formik.values.userName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.userName && formik.errors.userName ? (
+                    <div className={classes.error}>{formik.errors.userName}</div>
+                  ) : null}
+                </FormControl>
+
+                <FormControl fullWidth sx={{ mr: 1, mt: 1 }} variant="standard">
+                  <UsernameStyle htmlFor="standard-adornment-password">
+                    Password
+                  </UsernameStyle>
+                  <InputStyle
+                    color="secondary"
+                    id="standard-adornment-password"
+                    type={formValues.showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {formValues.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+                {formik.touched.password && formik.errors.password ? (
+                  <div className={classes.error}>{formik.errors.password}</div>
+                ) : null}
+
+                <Grid sx={{ pt: 1, pb: 3 }}>
+                  <ButtonPrimary
+                    color="primary"
+                    type="submit"
+                    onChange={formik.handleChange}
+                  >
+                    Login
+                  </ButtonPrimary>
+                  <CardDetail11 onClick={forgotPassword} style={{ cursor: 'pointer' }}>
+                    {' '}
+                    Forgot Password{' '}
+                  </CardDetail11>
+                </Grid>
+              </Grid>
+            </form>
+          </Box>
+
+          <Grid>
+            <CardDetail10 onClick={changeschool} sx={{ cursor: 'pointer' }}>
+              Change School For Login
+            </CardDetail10>
+          </Grid>
+          <Grid>
+            <CardDetail10 onClick={schoolNotice} sx={{ cursor: 'pointer' }}>School Notices</CardDetail10>
+          </Grid>
+          <br />
+
+          <Grid item xs={12} textAlign="center">
+            <CardDetail10>
+              <a href="https://www.riteschool.in/privacy-policy">
+                Privacy Policy
+              </a>
+            </CardDetail10>
+          </Grid>
+          <br />
+          <Divider sx={{ background: '#5b5258', mx: '30px' }} />
+          <Grid container textAlign="center">
+            <Grid item xs={12}>
+              <a
+                href="https://www.regulusit.net"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={regulas} />
+              </a>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography fontSize={12} sx={{ pb: '8px' }}>
+                Copyright © {new Date().getFullYear()} RegulusIT.net. All rights
+                reserved.
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
+      }
     </Grid>
   );
 }

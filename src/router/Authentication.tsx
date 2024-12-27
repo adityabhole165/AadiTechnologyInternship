@@ -77,6 +77,10 @@ const AuthenticationRoute = [
     element: <SchoolList />
   },
   {
+    path: 'schoolList/:SchoolId/:UserId/:Password',
+    element: <SchoolList />
+  },
+  {
     path: 'schoolNotice',
     element: <Schoolnotice />
   },
