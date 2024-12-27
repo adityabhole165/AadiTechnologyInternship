@@ -24,7 +24,7 @@ function Sessionlogout() {
             > 
                 <Grid item xs={12} sx={{ px: 2, mt:10}}>
                     <Typography variant={'h3'} sx={{ textAlign: 'center',   }}>
-                        Your session has timed out. Please Login again.
+                        Your session has expired. Please log in again to continue.
                     </Typography>
                 </Grid>
                 <Grid sx={{ pt: 1, pb: 3 }}>
