@@ -6,6 +6,8 @@ import LeaveDetailsBaseScreen from 'src/components/LeaveDetails/LeaveDetailsBase
 import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubjectMarks/TransferOptionalSubjectMarks';
 
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { Constants } from 'src/utils/hooks/constants/Constants';
+import { ProtectedRoute } from './RouteProtection';
 
 const Loader = (Component) => (props) =>
 (
@@ -13,6 +15,7 @@ const Loader = (Component) => (props) =>
     <Component {...props} />
   </Suspense>
 );
+const Landing = Loader(lazy(() => import('src/components/Dashboard/index')));
 
 // const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
 const PerformanceGradeAssignmentBaseScreen = Loader(
@@ -386,7 +389,7 @@ const StudentDetailsBaseScreen = Loader(
     )
   )
 );
-
+const ScreenID = Constants.ScreenId;
 const teacherRoutes = [
   {
     path: 'WebDashBoard',
@@ -395,7 +398,7 @@ const teacherRoutes = [
 
   {
     path: 'LeaveDetails',
-    element: <LeaveDetailsBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.LeaveDetails}`} component={LeaveDetailsBaseScreen} />
   },
   {
     path: 'StudentRegistrationForms',
@@ -411,11 +414,11 @@ const teacherRoutes = [
   },
   {
     path: 'AddLeaveDetails/:LeaveDId/:ParamsUserId',
-    element: <AddLeaveDetails />
+    element: <ProtectedRoute screenId={`${ScreenID.LeaveDetails}`} component={AddLeaveDetails} />  // <AddLeaveDetails />
   },
   {
     path: 'AssignPrePrimarySubjectGrades',
-    element: <AssignPrePrimarySubjectGrades />
+    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimarySubjectGrades} />  //  <AssignPrePrimarySubjectGrades />
   },
   {
     path: 'AssignPrePrimarySubjectGrades/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId/:selectTeacher',
@@ -432,7 +435,7 @@ const teacherRoutes = [
 
   {
     path: 'AddLeaveDetails',
-    element: <AddLeaveDetails />
+    element: <ProtectedRoute screenId={`${ScreenID.LeaveDetails}`} component={AddLeaveDetails} /> // <AddLeaveDetails />
   },
   {
     path: 'Students',
@@ -783,7 +786,7 @@ const teacherRoutes = [
   },
   {
     path: 'AadharCard',
-    element: <AadharCard />
+    element: <ProtectedRoute screenId={`${ScreenID.AadharCard}`} component={AadharCard} />,
   },
   {
     path: 'WeeklyTimetable',
@@ -840,7 +843,7 @@ const teacherRoutes = [
   },
   {
     path: 'Studentwiseprogressreport',
-    element: <Studentwiseprogressreport />
+    element: <ProtectedRoute screenId={`${ScreenID.StudentwiseProgressReport}`} component={Studentwiseprogressreport} />  // <Studentwiseprogressreport />
   },
   {
     path: 'Studentwiseprogressreport/:TermId',

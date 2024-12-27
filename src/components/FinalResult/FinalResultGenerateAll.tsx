@@ -45,6 +45,7 @@ const GenerateAll = ({ }) => {
     const TestMarksDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getTestMarksGA);
     const SubjectDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetails);
     const MarkDetailsList = useSelector((state: RootState) => state.FinalResultGenerateAll.MarkDetailsList);
+    const showRankColumn = useSelector((state: RootState) => state.FinalResultGenerateAll.showRankColumn);
     const HeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.HeaderArray);
     const SubHeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.SubHeaderArray);
     const ShortenTestDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getShortenTestDetails);
@@ -594,7 +595,7 @@ const GenerateAll = ({ }) => {
                                                                         <b>Result</b>
                                                                     </Typography>
                                                                 </TableCell>}
-                                                            {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                            {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' && showRankColumn &&
                                                                 <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
                                                                     <Typography color="black" textAlign={'center'} px={0}>
                                                                         <b>Rank</b>
@@ -682,7 +683,7 @@ const GenerateAll = ({ }) => {
                                                                     <b>Result</b>
                                                                 </Typography>
                                                             </TableCell>}
-                                                        {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                        {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' && showRankColumn &&
                                                             <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
                                                                 <Typography color="black" textAlign={'center'} px={0}>
                                                                     <b>Rank</b>
@@ -732,7 +733,7 @@ const GenerateAll = ({ }) => {
                                                         </TableCell>
                                                         {testItem.MarksArr.map((MarkItem) => (
                                                             <TableCell sx={{ py: 1, alignItems: 'center', fontWeight: i === marksListArray.length - 1 ? 'bold' : 'normal', textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`, minWidth: '150px', width: '150px' }}>
-                                                                <span style={{ fontWeight: MarkItem?.IsGrades === 'Y' || i === marksListArray.length - 1 ? 'bold' : 'normal', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                                <span style={{ fontWeight: MarkItem?.IsGrades === 'Y' || i === marksListArray.length - 1 ? 'bold' : 'normal', display: 'flex', justifyContent: 'center', alignItems: 'center', color: MarkItem?.isResult ? MarkItem?.cellColor : 'inherit' }}>
                                                                     {
                                                                         !MarkItem
                                                                             ? '-'

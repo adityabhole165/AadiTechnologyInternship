@@ -31,6 +31,7 @@ const FinalResultGenerateAllSlice = createSlice({
         SubHeaderArray: [],
         EntireDataList: [],
         ISEntireStudentFinalResult: [],
+        showRankColumn: false,
         Loading: true
     },
 
@@ -38,6 +39,9 @@ const FinalResultGenerateAllSlice = createSlice({
         StudentDetails(state, action) {
             state.Loading = false;
             state.getStudentDetails = action.payload;
+        },
+        showRankColumn(state, action) {
+            state.showRankColumn = action.payload;
         },
         ShowData(state, action) {
             state.Loading = false;
@@ -257,6 +261,9 @@ export const StudentDetailsGA =
                 }
                 return result[0]?.SchoolWise_Student_Test_Marks_Id ?? '';
             }
+            let rankArray = response.data.ListSchoolWiseTestNameDetail;
+            let hasNonDefaultRank = rankArray.some(item => item.rank !== '999');
+            dispatch(FinalResultGenerateAllSlice.actions.showRankColumn(hasNonDefaultRank));
             response.data.listTestDetails
                 .map((Test, TestIndex) => {
                     let columns = []
@@ -523,6 +530,7 @@ export const StudentDetailsGA =
                             }
 
                         })
+
                         if (true) {
                             response.data.ListSchoolWiseTestNameDetail.map((Item) => {
                                 let testTypeLength = response.data.ListTestTypeIdDetails.length;
@@ -532,6 +540,7 @@ export const StudentDetailsGA =
                                         (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
                                     );
                                     if (response.data.listStudentsDetails[0]?.IsFailCriteriaNotApplicable === 'N' && data1.toLowerCase() === 'true') {
+                                        let studentResult = Item.Result.trim().toLowerCase();
                                         columns.push({
                                             MarksScored: Item.Result.trim(),
                                             TotalMarks: "-",
@@ -540,10 +549,13 @@ export const StudentDetailsGA =
                                             Result: Item.Result.trim(),
                                             Rank: Item.rank,
                                             isEdit: false,
-                                            isCoCurricular: 'False'
+                                            isCoCurricular: 'False',
+                                            isResult: true,
+                                            cellColor: studentResult === 'fail' ? 'red' : studentResult === 'pass' ? 'green' : 'inherit',
                                         })
                                     }
-                                    if (totalCount !== '0' && data1.toLowerCase() === 'true') {
+                                    if (totalCount !== '0' && data1.toLowerCase() === 'true' && hasNonDefaultRank) {
+                                        let studentRank = !Item.rank.trim().includes('999') || Item.FailCount !== '';
                                         columns.push({
                                             MarksScored: Item.rank.trim().includes('999') || Item.FailCount === '' ? '-' : Item.rank.trim(),
                                             TotalMarks: "-",
@@ -552,7 +564,9 @@ export const StudentDetailsGA =
                                             Result: Item.Result.trim(),
                                             Rank: Item.rank,
                                             isEdit: false,
-                                            isCoCurricular: 'False'
+                                            isResult: true,
+                                            isCoCurricular: 'False',
+                                            cellColor: studentRank ? 'green' : 'inherit'
                                         })
                                     }
                                 }
@@ -592,7 +606,7 @@ export const StudentDetailsGA =
                                     isCoCurricular: 'False'
                                 })
                             }
-                            if (totalCount !== '0' && data1.toLowerCase() === 'true') {
+                            if (totalCount !== '0' && data1.toLowerCase() === 'true' && hasNonDefaultRank) {
                                 columns.push({
                                     MarksScored: `-`,
                                     TotalMarks: "-",
