@@ -15,25 +15,18 @@ function Sessionlogout() {
             <Grid
                 container
                 spacing={0}
+               
                 direction="column"
                 alignItems="center"
                 // justifyContent="center"
                 style={{ minHeight: '100vh' }}
                 columns={{ xs: 12, md: 12 }}
-            >
-
-                <br />
-                <br />
-                <br />
-                <br />
-                
-                <Grid item xs={12} sx={{ px: 2 }}>
-                    <Typography variant={'h4'} sx={{ textAlign: 'center' }}>
+            > 
+                <Grid item xs={12} sx={{ px: 2, mt:10}}>
+                    <Typography variant={'h3'} sx={{ textAlign: 'center',   }}>
                         Your session has timed out. Please Login again.
                     </Typography>
                 </Grid>
-               
-
                 <Grid sx={{ pt: 1, pb: 3 }}>
                     <a
                         href="http://web.aaditechnology.com/Login.aspx"
@@ -41,16 +34,12 @@ function Sessionlogout() {
                         rel="noreferrer"
 
                     >
-
-
                         <ButtonPrimary
                             color="primary"
                             type="submit"
-
                         >
                             Close
                         </ButtonPrimary>
-
                     </a>
 
 
