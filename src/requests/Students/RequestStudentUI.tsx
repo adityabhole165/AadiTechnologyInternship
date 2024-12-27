@@ -482,14 +482,14 @@ export const CDAGetStudentDocuments =
                     Value: item.StudentDocumentId,
                     StandardwiseDocumentId: item.StandardwiseDocumentId,
                     SchoolwiseStudentId: item.SchoolwiseStudentId,
-                    IsSubmitted: item.IsSubmitted,
-                    IsApplicable: item.IsApplicable,
+                    IsSubmitted: item.IsSubmitted === 'True' || item.IsSubmitted === '1' ? true : false,
+                    IsApplicable: item.IsApplicable === 'True' || item.IsApplicable === '1' ? true : false,
                     DocumentCount: item.DocumentCount,
                     IsSubmissionMandatory: item.IsSubmissionMandatory
                 })
             })
             dispatch(StudentUISlice.actions.RGetStudentDocuments(responseData));
-            //console.log(responseData, "responseData");
+            //console.log(responseData, "StandrdwiseStudentsDocumentApi");
         };
 
 export const CDAGetSingleStudentDetails =
