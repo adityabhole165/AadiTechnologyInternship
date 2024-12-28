@@ -432,7 +432,7 @@ const AddHoliday = ({ }) => {
                     } */}
                     <Grid container spacing={2}>
 
-                        <Grid item xs={6} md={4}>
+                        <Grid item xs={12} md={4}>
                             <Datepicker
                                 DateValue={StartDate}
                                 onDateChange={onSelectStartDate}
@@ -446,7 +446,7 @@ const AddHoliday = ({ }) => {
 
                         </Grid>
 
-                        <Grid item xs={6} md={4}>
+                        <Grid item xs={12} md={4}>
                             <Datepicker
                                 DateValue={EndDate}
                                 onDateChange={onSelectEndDate}
@@ -462,7 +462,7 @@ const AddHoliday = ({ }) => {
 
                         </Grid>
 
-                        <Grid item xs={6} md={4}>
+                        <Grid item xs={12} md={4}>
                             <TextField
                                 label="Total Days"
                                 value={TotalDays}
@@ -474,7 +474,7 @@ const AddHoliday = ({ }) => {
                         </Grid>
 
 
-                        <Grid xs={6} md={6} item>
+                        <Grid xs={12} md={6} item>
                             <TextField
                                 label={
                                     <span>
@@ -501,7 +501,7 @@ const AddHoliday = ({ }) => {
                             <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
                             <ErrorMessage1 Error={errorHolidayTitle1}></ErrorMessage1>
                         </Grid>
-                        <Grid xs={6} md={6} item>
+                        <Grid xs={12} md={6} item>
                             <TextField
                                 label={
                                     <span>
@@ -521,7 +521,7 @@ const AddHoliday = ({ }) => {
                             </TextField>
                         </Grid>
 
-                        <Grid item xs={12} md={12} mt={4}>
+                        <Grid item xs={12} md={12}>
                             <Typography variant="h6">
                                 Associated Classes <span style={{ color: 'red' }}>*</span>
                             </Typography>
