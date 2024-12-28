@@ -107,6 +107,7 @@ const ProgressReportNew = () => {
 
   const [selectTeacher, SetselectTeacher] = useState(CanEdit == 'N' ? TeacherIdsession : '');
 
+console.log(TeacherIdsession, "TeacherIdsession",selectTeacher, CanEdit);
 
 
   const USlistTestDetailsArr: any = useSelector(
@@ -542,7 +543,7 @@ const ProgressReportNew = () => {
     const GetViewResultBody: IViewBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(AcademicYear),
-      asStudentId: Number(GetOldStudentDetails.StudentId),
+      asStudentsIds:(GetOldStudentDetails.StudentId),
       asWithGrace: 0,
     };
     dispatch(ViewResultGA(GetViewResultBody));
@@ -683,17 +684,17 @@ const ProgressReportNew = () => {
   //     console.log(StudentidTopper,"StudentidTopper");
 
 
-  useEffect(() => {
-    if (USGetClassTeachers.length > 0) {
-      if (state?.Newvalue) {
-        SetselectTeacher(state.TeacherID); // Set the value from state
-      } else if (CanEdit === 'Y') {
-        SetselectTeacher(USGetClassTeachers[0].Value); // Set the first teacher if CanEdit is 'Y'
-      } else if (TeacherIdTopper !== undefined) {
-        SetselectTeacher(TeacherIdTopper)
-      }
-    }
-  }, [USGetClassTeachers, state?.Newvalue, state?.TeacherID, CanEdit]);
+  // useEffect(() => {
+  //   if (USGetClassTeachers.length == 0) {
+  //     if (state?.Newvalue) {
+  //       SetselectTeacher(state.TeacherID); // Set the value from state
+  //     } else if (CanEdit === 'Y') {
+  //       SetselectTeacher(USGetClassTeachers[0].Value); // Set the first teacher if CanEdit is 'Y'
+  //     } else if (TeacherIdTopper !== undefined) {
+  //       SetselectTeacher(TeacherIdTopper)
+  //     }
+  //   }
+  // }, [USGetClassTeachers, state?.Newvalue, state?.TeacherID, CanEdit]);
 
 
 
