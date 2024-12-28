@@ -2,7 +2,7 @@ import AddTwoTone from '@mui/icons-material/AddTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,8 +29,8 @@ import {
   resetMessageDeleteRequisitionn
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
-import CommonPageHeader from '../CommonPageHeader';
 import { encodeURL } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
@@ -322,93 +322,134 @@ const StatusRequisition = () => {
         navLinks={[
           { title: 'Requisition', path: '/RITeSchool/Teacher/Requisition' }
         ]}
-        rightActions={<>
-          <SearchableDropdown
-            sx={{ minWidth: '15vw' }}
-            ItemList={Requision}
-            onChange={GetRequisitionStatusDropdown}
-            label={'Status'}
-            defaultValue={SelectResult.toString()}
-            mandatory
-            size={"small"}
-          />
-          <TextField
-            sx={{ width: '15vw' }}
-            fullWidth
-            label="Item Code/ Requisition"
-            value={regNoOrName}
-            variant={'outlined'}
-            size={"small"}
-            onChange={(e) => {
-              handleRegNoOrNameChange(e.target.value);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === 'Tab') {
-                clickSearch();
-              }
-            }}
-          />
+        rightActions={
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            alignItems="right"
 
-          <IconButton
-            onClick={clickSearch}
+            spacing={2}
             sx={{
-              background: (theme) => theme.palette.primary.main,
-              color: 'white',
-              '&:hover': {
-                backgroundColor: (theme) => theme.palette.primary.dark
-              }
+
+              mt: { xs: 0, sm: 0 },
+              flexWrap: { xs: 'nowrap', sm: 'nowrap' }
             }}
           >
-            <SearchTwoTone />
-          </IconButton>
-
-
-          <Tooltip title={'Reset'}>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': {
-                  backgroundColor: blue[600]
-                }
-              }}
-              onClick={clickReset} >
-              <RestartAltIcon />
-            </IconButton>
-          </Tooltip>
-          <Box>
-            <Tooltip title={'Here you can see list of existing requisition according to status.'}>
-              <IconButton
+            <Grid
+              item
+              xs={12}
+              sm={8}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <Stack
+                direction="row"
+                gap={1}
+                alignItems="left"
                 sx={{
+                  flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                  justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                }}
+              >
+                <Box>
+                  <SearchableDropdown
+                    sx={{ minWidth: { xs: '40vw', sm: '15vw' } }}
+                    ItemList={Requision}
+                    onChange={GetRequisitionStatusDropdown}
+                    label={'Status'}
+                    defaultValue={SelectResult.toString()}
+                    mandatory
+                    size={"small"}
+                  />
+                </Box>
+              </Stack>
+            </Grid>
+            <Box>
+              <TextField
+                sx={{ minWidth: { xs: '40vw', sm: '15vw' } }}
+                fullWidth
+                label="Item Code/ Requisition"
+                value={regNoOrName}
+                variant={'outlined'}
+                size={"small"}
+                onChange={(e) => {
+                  handleRegNoOrNameChange(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === 'Tab') {
+                    clickSearch();
+                  }
+                }}
+              /></Box>
+            <Stack
+              direction={{ xs: 'row', sm: 'row' }}
+              spacing={1}
+              alignItems="center"
+              justifyContent="flex-end"
+              sx={{
+                width: '100%',
+                flexWrap: { xs: 'wrap', sm: 'nowrap' }
+              }}
+            >
+              <IconButton
+                onClick={clickSearch}
+                sx={{
+                  background: (theme) => theme.palette.primary.main,
                   color: 'white',
-                  backgroundColor: grey[500],
                   '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: (theme) => theme.palette.primary.dark
                   }
                 }}
               >
-                <QuestionMark />
+                <SearchTwoTone />
               </IconButton>
-            </Tooltip>
-          </Box>
-          <Tooltip title={'Add Requisition'}>
-            <IconButton
-              onClick={AddRequisition}
-              sx={{
-                color: 'white',
-                backgroundColor: green[500],
-                height: '36px !important',
-                ':hover': { backgroundColor: green[600] },
-
-              }}
-            >
-              <AddTwoTone />
-            </IconButton>
-          </Tooltip>
 
 
+              <Tooltip title={'Reset'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}
+                  onClick={clickReset} >
+                  <RestartAltIcon />
+                </IconButton>
+              </Tooltip>
+              <Box>
+                <Tooltip title={'Here you can see list of existing requisition according to status.'}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      '&:hover': {
+                        backgroundColor: grey[600]
+                      }
+                    }}
+                  >
+                    <QuestionMark />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Tooltip title={'Add Requisition'}>
+                <IconButton
+                  onClick={AddRequisition}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] },
 
-        </>}
+                  }}
+                >
+                  <AddTwoTone />
+                </IconButton>
+              </Tooltip>
+
+
+            </Stack>
+          </Stack>}
       />
 
 

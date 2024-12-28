@@ -82,3 +82,13 @@ export interface IStandardDivisionNameResult {
   Original_Standard_Id: string,
   Standard_Name: string,
 }
+export interface IManagePhotoGalleryBody {
+  asSchool_Id: number,
+  asOrg_Gallery_Name: string,
+  asGallery_Name: string,
+  asGallery_DetailsXML: string,
+  asInserted_By_id: number,
+  asAssociatedSection: string
+  asClassesIds: string,
+  Gallery_ID: number
+}
