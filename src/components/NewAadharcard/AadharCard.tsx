@@ -49,7 +49,7 @@ const AadharCard = () => {
   const UpdateTeacherAadharDetailsUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISUpdateTeacherAadharDetails);
   const DeleteAadharCardPhotoCopyUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISDeleteAadharCardPhotoCopy);
   const GetUserDetailsForAadharCardNoUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISGetUserDetailsForAadharCardNo);
-  console.log(GetUserDetailsForAadharCardNoUS, "GetUserDetailsForAadharCardNoUS");
+  //console.log(GetUserDetailsForAadharCardNoUS, "GetUserDetailsForAadharCardNoUS");
 
   const UpdateTeacherAadharDetailsBody: IUpdateTeacherAadharDetailsBody = {
     asUserId: Number(UserId),

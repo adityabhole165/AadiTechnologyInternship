@@ -38,14 +38,14 @@ const AddNewPhoto = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [GalleryNameError, setGalleryNameError] = useState('');
 
-  console.log(ItemList, "ItemList");
+  //console.log(ItemList, "ItemList");
 
 
   const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
   const MaxfileSize2 = 3000000;
   const [base64URL2, setbase64URL2] = useState('');
   const [ImageFile, setImageFile] = useState('');
-  console.log(base64URL2, "base64URL2123");
+  //console.log(base64URL2, "base64URL2123");
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -148,7 +148,7 @@ const AddNewPhoto = () => {
     setitemList(value);
   };
 
-  console.log(ClassSelected, "ClassSelected1234");
+  //console.log(ClassSelected, "ClassSelected1234");
 
   const ChangeFile2 = (value) => {
     setImageFile(value.Name);

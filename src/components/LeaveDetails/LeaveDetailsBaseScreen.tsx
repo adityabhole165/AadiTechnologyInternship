@@ -277,7 +277,7 @@ const LeaveDetailsBaseScreen = () => {
         setPage(1); // Reset to the first page when changing rows per page
     };
     const ViewLeave = (Id, value) => {
-        console.log(Id, "value");
+        //console.log(Id, "value");
 
         navigate("../ViewLeaveDetails" + "/" + encodeURL(Id) + "/" + encodeURL(asUserId) + "/" + encodeURL(selectCategory) + "/" + encodeURL(value))
     };

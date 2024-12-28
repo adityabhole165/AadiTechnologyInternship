@@ -61,7 +61,7 @@ const ProgressReportNew = () => {
 
   const initialStudentId = state?.newstudntid ?? StudentidTopper ?? 0;
   const initialcademicYearId = state?.AcademicYear ?? AcademicYearTopper ?? asAcademicYearId;
-  console.log(initialStudentId, initialcademicYearId, "oo");
+  //console.log(initialStudentId, initialcademicYearId, "oo");
 
   const initialcademicYearId1 = state && state.AcademicYear !== undefined ? state.AcademicYear : AcademicYearTopper ? AcademicYearTopper : asAcademicYearId;
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
@@ -74,7 +74,7 @@ const ProgressReportNew = () => {
   const Newvalue = state && state.Newvalue !== undefined ? state.Newvalue : false;
   const [open, setOpen] = useState(Newvalue);
   const [open1, setOpen1] = useState(false);
-  console.log("--", StudentId, AcademicYear);
+  //console.log("--", StudentId, AcademicYear);
 
   const [AllowProgressReportDownloadAtStudentLogin, setAllowProgressReportDownloadAtStudentLogin] = useState("")
   const [ShowProgressReportGraphOnMobileApp, setShowProgressReportGraphOnMobileApp] = useState("")
@@ -107,7 +107,7 @@ const ProgressReportNew = () => {
 
   const [selectTeacher, SetselectTeacher] = useState(CanEdit == 'N' ? TeacherIdsession : '');
 
-console.log(TeacherIdsession, "TeacherIdsession",selectTeacher, CanEdit);
+  //console.log(TeacherIdsession, "TeacherIdsession",selectTeacher, CanEdit);
 
 
   const USlistTestDetailsArr: any = useSelector(
@@ -543,7 +543,7 @@ console.log(TeacherIdsession, "TeacherIdsession",selectTeacher, CanEdit);
     const GetViewResultBody: IViewBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(AcademicYear),
-      asStudentsIds:(GetOldStudentDetails.StudentId),
+      asStudentsIds: (GetOldStudentDetails.StudentId),
       asWithGrace: 0,
     };
     dispatch(ViewResultGA(GetViewResultBody));

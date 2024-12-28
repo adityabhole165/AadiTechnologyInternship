@@ -24,9 +24,9 @@ const FileUploadComponent: React.FC = () => {
     const [comment, setComment] = useState("");
     const [fileList, setFileList] = useState<{ fileNames: string[]; comment: string }[]>([]);
 
-    console.log(files, "files👌👌👌");
-    console.log(fileList, "fileList1234😒😒")
-    console.log(comment, "comment@@@🤞🤞");
+    //console.log(files, "files👌👌👌");
+    //console.log(fileList, "fileList1234😒😒")
+    //console.log(comment, "comment@@@🤞🤞");
 
 
     const ValidFileTypes = [".bmp", ".jpg", ".jpeg", ".png"];

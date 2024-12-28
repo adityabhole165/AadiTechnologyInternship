@@ -62,7 +62,7 @@ const StudentBaseScreen = () => {
     const StdDivList = useSelector((state: RootState) => state.Students.ISRGetStdDivForTeacher);
     const StudentsList = useSelector((state: RootState) => state.Students.ISGetStudentsList);
     const Loading = useSelector((state: RootState) => state.Students.Loading);
-    console.log('StudentsList', StudentsList);
+    //console.log('StudentsList', StudentsList);
 
     useEffect(() => {
         if (StdDivList.length > 1) {
@@ -190,7 +190,7 @@ const StudentBaseScreen = () => {
     //separate function to handle edit click
     const handleEditClick = (item: any) => {
         // Console log the data
-        console.log("🎈Selected Student Data:", item);
+        //console.log("🎈Selected Student Data:", item);
 
         // Store in local variables
         const StudentData = {

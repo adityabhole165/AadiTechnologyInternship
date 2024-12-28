@@ -744,6 +744,7 @@ export const encodeURL = (data1) => {
 // Decrypt Function
 export const decodeURL = (data1) => {
   try {
+    if (data1 === null || data1 === undefined) return undefined
     let data = data1.toString();
     if (typeof data !== 'string') {
       throw new Error('Input must be a string');
