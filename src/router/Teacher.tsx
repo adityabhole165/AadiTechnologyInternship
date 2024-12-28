@@ -443,7 +443,7 @@ const teacherRoutes = [
   },
   {
     path: 'ViewLeaveDetails/:LeaveDId/:ParamsUserId/:selectCategory/:getSenderName',
-    element: <ViewLeaveDetails />
+    element: <ProtectedRoute screenId={`${ScreenID.LeaveDetails}`} component={ViewLeaveDetails} /> // <ViewLeaveDetails />
   },
   {
     path: 'GenerateAll',
@@ -463,13 +463,12 @@ const teacherRoutes = [
   },
   {
     path: 'InvestmentDeclaration',
-    element: <InvestmentDeclaration />
+    element: <ProtectedRoute screenId={`${ScreenID.InvestmentDeclaration}`} component={InvestmentDeclaration} />  // <InvestmentDeclaration />
   },
   {
     path: 'InvestmentDetailsDocument',
-    element: <InvestmentDetailsDocument />
+    element: <ProtectedRoute screenId={`${ScreenID.InvestmentDeclaration}`} component={InvestmentDetailsDocument} />  // <InvestmentDetailsDocument />
   },
-
   {
     path: 'AddUnpublish1/:Id',
     element: <AddUnpublish1 />
@@ -521,7 +520,7 @@ const teacherRoutes = [
   },
   {
     path: 'AddAnnualPlaner',
-    element: <AddAnnualPlaner />
+    element: <ProtectedRoute screenId={`${ScreenID.AnnualPlanner}`} component={AddAnnualPlaner} /> // <AddAnnualPlaner />
   },
   {
     path: 'MonthwiseAttendance/:selectClasstecahernew/:AssignedDate',
@@ -576,7 +575,7 @@ const teacherRoutes = [
 
   {
     path: 'AnnualPlanerBaseScreen',
-    element: <AnnualPlanerBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.AnnualPlanner}`} component={AnnualPlanerBaseScreen} /> // <AnnualPlanerBaseScreen />
   },
 
   {
@@ -612,25 +611,24 @@ const teacherRoutes = [
 
   {
     path: 'AssignPrePrimaryGrades',
-    element: <AssignPrePrimaryGrades />
+    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimaryGrades} /> //  <AssignPrePrimaryGrades />
   },
   {
     path: 'PersonalAddressBook',
     element: <PersonalAddressBook />
   },
-
   {
     path: 'AssignPrePrimaryGrades/:TermId/:TeacherId',
-    element: <AssignPrePrimaryGrades />
+    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimaryGrades} /> //  <AssignPrePrimaryGrades />
   },
 
   {
     path: 'ProgressRemarks/:TestId/:StandardDivisionId',
-    element: <ProgressRemarks />
+    element: <ProtectedRoute screenId={`${ScreenID.ProgressRemark}`} component={ProgressRemarks} />  //  <ProgressRemarks />
   },
   {
     path: 'ProgressRemarks',
-    element: <ProgressRemarks />
+    element: <ProtectedRoute screenId={`${ScreenID.ProgressRemark}`} component={ProgressRemarks} />  //  <ProgressRemarks />
   },
 
   {
@@ -652,19 +650,19 @@ const teacherRoutes = [
   },
   {
     path: 'StudentRecords',
-    element: <StudentRecords />
+    element: <ProtectedRoute screenId={`${ScreenID.StudentRecord}`} component={StudentRecords} /> // <StudentRecords />
   },
   {
     path: 'AddStudentRecord/',
-    element: <AddStudentRecord />
+    element: <ProtectedRoute screenId={`${ScreenID.StudentRecord}`} component={AddStudentRecord} /> // <AddStudentRecord />
   },
   {
     path: 'AddStudentRecord/:StudentRecordComment',
-    element: <StudentRecordComment />
+    element: <ProtectedRoute screenId={`${ScreenID.StudentRecord}`} component={StudentRecordComment} /> // <StudentRecordComment />
   },
   {
     path: 'AddStudentRecord/:Action/:SelectTeacher/:SchoolWiseStudentIdparam',
-    element: <AddStudentRecord />
+    element: <ProtectedRoute screenId={`${ScreenID.StudentRecord}`} component={AddStudentRecord} /> // <AddStudentRecord />
   },
   {
     path: 'AddDailyLog/:Id/:ClassName',
@@ -741,23 +739,23 @@ const teacherRoutes = [
   },
   {
     path: 'AddLessonPlan/:Action',
-    element: <AddLessonPlan />
+    element: <ProtectedRoute screenId={`${ScreenID.LessonPlan}`} component={AddLessonPlan} />  // <AddLessonPlan />
   },
   {
     path: 'AddLessonPlan/:Action/:UserIdParam/:StartDateParam/:EndDateParam',
-    element: <AddLessonPlan />
+    element: <ProtectedRoute screenId={`${ScreenID.LessonPlan}`} component={AddLessonPlan} />  // <AddLessonPlan />
   },
   {
     path: 'LessonPlanBaseScreen',
-    element: <LessonPlanBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.LessonPlan}`} component={LessonPlanBaseScreen} />  // <LessonPlanBaseScreen />
   },
   {
     path: 'PrePrimaryResult',
-    element: <PrePrimaryResult />
+    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryResult}`} component={PrePrimaryResult} /> //  <PrePrimaryResult />
   },
   {
     path: 'PrePrimaryResult/:TermId/:StdDivId',
-    element: <PrePrimaryResult />
+    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryResult}`} component={PrePrimaryResult} /> // <PrePrimaryResult />
   },
   // {
   //   path: 'UnpublishPrePrimaryResult/:AssessmentName/:TeacherName',
@@ -847,7 +845,7 @@ const teacherRoutes = [
   },
   {
     path: 'Studentwiseprogressreport/:TermId',
-    element: <Studentwiseprogressreport />
+    element: <ProtectedRoute screenId={`${ScreenID.StudentwiseProgressReport}`} component={Studentwiseprogressreport} />  // <Studentwiseprogressreport />
   },
   {
     path: 'AllNoticeList',
@@ -879,15 +877,15 @@ const teacherRoutes = [
   },
   {
     path: 'PreprimaryProgressReport',
-    element: <PreprimaryProgressReport />
+    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryProgressReport}`} component={PreprimaryProgressReport} /> //  <PreprimaryProgressReport />
   },
   {
     path: 'PreprimaryProgressReport1',
-    element: <PreprimaryProgressReport1 />
+    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryProgressReport}`} component={PreprimaryProgressReport1} /> // <PreprimaryProgressReport1 />
   },
   {
     path: 'StudentwiseprogressreportEdit/:Assessment/:YearwiseStudentId/:StandardId',
-    element: <StudentwiseprogressreportEdit />
+    element: <ProtectedRoute screenId={`${ScreenID.StudentwiseProgressReport}`} component={StudentwiseprogressreportEdit} />  // <StudentwiseprogressreportEdit />
   },
   {
     path: 'PerformanceGradeAssignmentBaseScreen',
@@ -915,7 +913,7 @@ const teacherRoutes = [
   },
   {
     path: 'PreprimaryProgressReportView/:Assessment/:YearwiseStudentId/:StandardId',
-    element: <PreprimaryProgressReportView />
+    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryProgressReport}`} component={PreprimaryProgressReportView} /> //  <PreprimaryProgressReportView />
   },
   {
     path: 'ViewSmsNew/:SmsId',
@@ -973,11 +971,11 @@ const teacherRoutes = [
   },
   {
     path: 'BlockProgressReportBaseScreen',
-    element: <BlockProgressReportBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.BlockProgressReport}`} component={BlockProgressReportBaseScreen} /> // <BlockProgressReportBaseScreen />
   },
   {
     path: 'FeedbackDetailsBasescreen',
-    element: <FeedbackDetailsBasescreen />
+    element: <ProtectedRoute screenId={`${ScreenID.FeedbackDetails}`} component={FeedbackDetailsBasescreen} /> // <FeedbackDetailsBasescreen />
   },
   {
     path: 'StudentDetailsBaseScreen',
@@ -1001,15 +999,15 @@ const teacherRoutes = [
   },
   {
     path: 'ExportStudentMarksBaseScreen',
-    element: <ExportStudentMarksBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.ExportStdMarks}`} component={ExportStudentMarksBaseScreen} /> // <ExportStudentMarksBaseScreen />
   },
   {
     path: 'UserDocumentDetailsBaseScreen',
-    element: <UserDocumentDetailsBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.UserDocumentDetails}`} component={UserDocumentDetailsBaseScreen} /> // <UserDocumentDetailsBaseScreen />
   },
   {
     path: 'NoticeBoardBaseScreen',
-    element: <NoticeBoardBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.NoticeBoard}`} component={NoticeBoardBaseScreen} /> // <NoticeBoardBaseScreen />
   },
   {
     path: 'RegenarateRollNo',
@@ -1017,7 +1015,7 @@ const teacherRoutes = [
   },
   {
     path: 'UserManagementBasescreen',
-    element: <UserManagementBasescreen />
+    element: <ProtectedRoute screenId={`${ScreenID.UserManagement}`} component={UserManagementBasescreen} /> // <UserManagementBasescreen />
   }
 ];
 
