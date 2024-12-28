@@ -8,8 +8,10 @@ import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeletePhotoBody, IGetCountBody, IGetPhotoDetailsBody } from 'src/interfaces/Common/PhotoGallery';
+import { ICountVideoBody, IdeleteVideoBody, IGetVideoGalleryBody } from 'src/interfaces/VideoGalleryInterface/IVideoGallery';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { CDADeletePhoto, CDAGetCount, CDAGetPhotoDetails, resetDeletePhoto } from 'src/requests/Reqphoto/ReqPhoto';
+import { CDADeletevideo, CDAGetCountVideo, CDAresetDeleteVideo, CDAVideoDetails } from 'src/requests/RVideoGallery/ReqVideo';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import PhotopageTableCard from './PhotopageTableCard';
@@ -17,20 +19,11 @@ import VideoPageTableCard from './VideoPageTableCard';
 
 const PhotoVideoGalleryBaseScreen = () => {
     const dispatch = useDispatch();
-    // let { galleryName } = useParams();
-
-    // useEffect(() => {
-    //     if (galleryName !== undefined)
-    //         // galleryName = decodeURL(galleryName)
-    //         console.log(galleryName, "1234567")
-
-
-    // }, [galleryName])
     let { RowID } = useParams();
 
     useEffect(() => {
         if (RowID !== undefined)
-            // galleryName = decodeURL(galleryName)
+
             console.log(RowID, "1234567")
 
 
@@ -42,26 +35,35 @@ const PhotoVideoGalleryBaseScreen = () => {
     const [SelectResult, setSelectResult] = useState(0);
     const [PhotoDetails, SetPhotoDetails] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(20);
+    const [rowsPerPage1, setRowsPerPage1] = useState(20);
     const [page, setPage] = useState<number>(1);
     const [SearchPhotoGallery, setSearchPhotoGallery] = useState('');
     const rowsPerPageOptions = [20, 50, 100, 200];
+    const rowsPerPageOptions1 = [20, 50, 100, 200];
     const { showAlert, closeAlert } = useContext(AlertContext);
     const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+
     const asUserId = Number(localStorage.getItem('UserId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
 
+
     const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
-    const [SortBy, setSortBy] = useState('Update_Date');
+    const [SortDirection1, setSortDirection1] = useState<'asc' | 'desc'>('asc');
 
+    const [SortBy, setSortBy] = useState('Update_Date');
+    const [SortBy1, setSortBy1] = useState('Update_Date');
 
 
     const USPhotoGallery: any = useSelector((state: RootState) => state.Photo.ISGetPhotoDetils)
     const USDeletePhoto = useSelector((state: RootState) => state.Photo.ISDeletePhoto);
     const UScount = useSelector((state: RootState) => state.Photo.ISCount);
 
+    const USVideoGallery: any = useSelector((state: RootState) => state.VideoNew.ISGetVideoDetails)
+    const USDeletVideo = useSelector((state: RootState) => state.VideoNew.ISDeleteVideo)
+    const USVideoCount = useSelector((state: RootState) => state.VideoNew.ISCuntVideo)
 
     const singleTotalCountNew: number = useMemo(() => {
         if (!Array.isArray(UScount)) {
@@ -76,6 +78,23 @@ const PhotoVideoGalleryBaseScreen = () => {
         }, 0);
     }, [UScount]);
 
+
+
+    const singleTotalVideoCount: number = useMemo(() => {
+        if (!Array.isArray(USVideoCount)) {
+            return 0;
+        }
+        return USVideoCount.reduce((acc: number, item: any) => {
+            const count = Number(item.TotalCount);
+            if (isNaN(count)) {
+                return acc;
+            }
+            return acc + count;
+        }, 0);
+    }, [USVideoCount]);
+
+
+
     const GetCountList: IGetCountBody = {
         asSchoolId: asSchoolId,
     }
@@ -84,7 +103,19 @@ const PhotoVideoGalleryBaseScreen = () => {
         dispatch(CDAGetCount(GetCountList))
     }, []);
 
+    const GetVideoCount: ICountVideoBody = {
+        asSchoolId: asSchoolId,
+        asCnt: 0
+    }
+    useEffect(() => {
+        dispatch(CDAGetCountVideo(GetVideoCount))
+    }, []);
+
+
+
     const startIndexNew = (page - 1) * rowsPerPage;
+
+    const startIndexNew1 = (page - 1) * rowsPerPage1;
 
     const photoD1ata: IGetPhotoDetailsBody = {
         asSchoolId: asSchoolId,
@@ -98,6 +129,51 @@ const PhotoVideoGalleryBaseScreen = () => {
         dispatch(CDAGetPhotoDetails(photoD1ata))
     }, [page, rowsPerPage, SortDirection, SortBy, startIndexNew])
 
+    const VideoData1: IGetVideoGalleryBody = {
+        asSchoolId: asSchoolId,
+        asSortExp: "ORDER BY " + SortBy1 + " " + SortDirection1,
+        asStartIndex: startIndexNew1,
+        asPageSize: page * rowsPerPage1,
+        asIsFromExternalWebsite: 0
+
+    }
+    useEffect(() => {
+        dispatch(CDAVideoDetails(VideoData1))
+    }, [page, rowsPerPage1, startIndexNew1, SortDirection1, SortBy1])
+
+
+    const handleDelete1 = (Video_Id: number) => {
+        const DeleteVideoGalley: IdeleteVideoBody = {
+            asSchoolId: asSchoolId,
+            asVideoId: Video_Id,
+            asSubjectId: 0,
+            asUpdatedById: 4463
+        }
+        showAlert({
+            title: 'Please Confirm',
+            message:
+                'Are you sure you want to delete this video?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(CDADeletevideo(DeleteVideoGalley));
+
+                closeAlert();
+            }
+        });
+    }
+
+    useEffect(() => {
+        if (USDeletVideo != "") {
+            toast.success(USDeletVideo);
+            dispatch(CDAresetDeleteVideo());
+            dispatch(CDAVideoDetails(VideoData1));
+        }
+    }, [USDeletVideo])
 
 
     const handleDelete = (GalleryName) => {
@@ -146,16 +222,11 @@ const PhotoVideoGalleryBaseScreen = () => {
     }, [USPhotoGallery]);
 
     //Video Section
-    const videoData = [
-        { videoName: "Video Test1111", lastUpdated: "26 Aug 2024" },
-        { videoName: "Gokulashtami", lastUpdated: "26 Aug 2024" },
-        { videoName: "Mock Parliament (Primary Section)", lastUpdated: "25 Feb 2021" },
-        { videoName: "EumInd Song", lastUpdated: "12 Jul 2016" },
-    ];
 
-    const handleView = (videoName: string) => {
-        alert(`View clicked for ${videoName}`);
-    };
+
+    // const handleView = (videoName: string) => {
+    //     alert(`View clicked for ${videoName}`);
+    // };
 
     const handleEdit = (videoName: string) => {
         alert(`Edit clicked for ${videoName}`);
@@ -170,13 +241,26 @@ const PhotoVideoGalleryBaseScreen = () => {
     const endRecord = Math.min(page * rowsPerPage, singleTotalCountNew);
     const pagecount = Math.ceil(singleTotalCountNew / rowsPerPage);
 
+    const startRecord1 = (page - 1) * rowsPerPage1 + 1;
+    const endRecord1 = Math.min(page * rowsPerPage1, singleTotalVideoCount);
+    const pagecount1 = Math.ceil(singleTotalVideoCount / rowsPerPage1);
+
     const ChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 20));
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1);
+    };
+
+    const ChangeRowsPerPage1 = (event) => {
+        setRowsPerPage1(parseInt(event.target.value, 10));
         setPage(1);
     };
 
     const PageChange = (pageNumber) => {
         setPage(pageNumber);
+    };
+
+    const PageChange1 = (pageNumber1) => {
+        setPage(pageNumber1);
     };
 
     const handleSortChange = (column: string) => {
@@ -187,6 +271,19 @@ const PhotoVideoGalleryBaseScreen = () => {
             setSortDirection('asc');
         }
     };
+
+    const handleSortChange1 = (column: string) => {
+        if (SortBy1 === column) {
+            setSortDirection1(SortDirection1 === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy1(column);
+            setSortDirection1('asc');
+        }
+    };
+
+
+
+
     const AddNewPhoto = (value) => {
         navigate('/RITeSchool/Teacher/AddNewPhoto');
     };
@@ -363,16 +460,16 @@ const PhotoVideoGalleryBaseScreen = () => {
                         </Typography> */}
 
                         {/* Record Format */}
-                        {videoData.length > 0 ? (
+                        {singleTotalVideoCount > 0 ? (
                             <Typography variant="subtitle1" sx={{ margin: '2px 0', textAlign: 'center' }}>
                                 <Box component="span" fontWeight="fontWeightBold">
-                                    {startRecord} to {endRecord}
+                                    {startRecord1} to {endRecord1}
                                 </Box>
                                 {' '}out of{' '}
                                 <Box component="span" fontWeight="fontWeightBold">
-                                    {/* {videoData.length} */}
+                                    {singleTotalVideoCount}
                                 </Box>{' '}
-                                {videoData.length === 1 ? 'record' : 'records'}
+                                {singleTotalVideoCount === 1 ? 'record' : 'records'}
                             </Typography>
                         ) : (
                             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -382,22 +479,32 @@ const PhotoVideoGalleryBaseScreen = () => {
 
                         {/* Render the VideoPage */}
                         <VideoPageTableCard
-                            data={videoData}
-                            onView={handleView}
-                            onEdit={handleEdit}
-                            onDelete={handleDelete}
+
+                            data={USVideoGallery}
+                            // handleDelete1={handleDelete1}
+                            // view: {'table'}
+                            view={'table'}
+                            handleSortChange1={handleSortChange1}
+                            SortBy1={SortBy1}
+                            SortDirection1={SortDirection1}
+                            // onView={handleView}
+                            // onEdit={handleEdit}
+                            onDelete={handleDelete1}
                         />
 
                         {/* Add ButtonGroupComponent */}
-                        {/* {videoData.length > 19 && (
+                        {endRecord1 > 19 ? (
                             <ButtonGroupComponent
-                                rowsPerPage={rowsPerPage}
-                                ChangeRowsPerPage={ChangeRowsPerPage}
-                                rowsPerPageOptions={rowsPerPageOptions}
-                                PageChange={PageChange}
-                                pagecount={pagecount}
+                                rowsPerPage={rowsPerPage1}
+                                ChangeRowsPerPage={ChangeRowsPerPage1}
+                                rowsPerPageOptions={rowsPerPageOptions1}
+                                PageChange={PageChange1}
+                                pagecount={pagecount1}
                             />
-                        )} */}
+                        ) : (
+                            <span></span>
+
+                        )}
                     </Box>
                 )}
             </Box>
@@ -407,4 +514,4 @@ const PhotoVideoGalleryBaseScreen = () => {
 
 
 
-export default PhotoVideoGalleryBaseScreen
+export default PhotoVideoGalleryBaseScreen;

@@ -142,7 +142,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                                     <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>{item.galleryName}</TableCell>
                                     <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>{item.className}</TableCell>
                                     <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>{item.lastUpdated}</TableCell>
-                                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>
+                                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center' }}>
                                         <Tooltip title={"View"}>
                                             <IconButton
                                                 onClick={ViewPhotoFilePage}

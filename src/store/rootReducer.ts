@@ -121,6 +121,7 @@ import Notificationslice from '../requests/Notification/Notification';
 import PerformanceGradeAssignmentslice from '../requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
+import VideoSlice from '../requests/RVideoGallery/ReqVideo';
 import PhotoSlice from '../requests/Reqphoto/ReqPhoto';
 import SchoolLibraryslice from '../requests/SchoolLibrary/ReqLibraryBaseScreen';
 import SchoolNoticePopupslice from '../requests/SchoolNoticePopup/RequestSchoolNoticePopup';
@@ -273,7 +274,8 @@ const rootReducer = combineReducers({
   GetStandardwiseMinMaxDOB: GetStandardwiseMinMaxDOBslice,
   ContactGroup: ContactGroupSlice,
   StudentUI: StudentUISlice,
-  Photo: PhotoSlice
+  Photo: PhotoSlice,
+  VideoNew: VideoSlice
 
 });
 

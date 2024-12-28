@@ -965,6 +965,10 @@ const teacherRoutes = [
     element: <AddNewVideo />
   },
   {
+    path: 'AddNewVideo/:RowID',
+    element: <AddNewVideo />
+  },
+  {
     path: 'ViewPhotoFile',
     element: <ViewPhotoFile />
   },

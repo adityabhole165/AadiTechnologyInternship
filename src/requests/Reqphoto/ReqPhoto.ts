@@ -20,6 +20,7 @@ const PhotoSlice = createSlice({
             state.ISGetPhotoDetils = action.payload
         },
         RCountPhotoList(state, action) {
+
             state.ISCount = action.payload;
         },
         RDeletePhoto(state, action) {
@@ -45,7 +46,8 @@ export const CDAGetPhotoDetails =
                     RowID: item.RowID,
                     TotalRows: item.TotalRows,
                     galleryName: item.Gallery_Name,
-                    className: item.Classes,
+                    className: item.Classes ? item.Classes : "-",
+                    // className: item.Classes,
                     lastUpdated: getDateMonthYearFormatted(item.Update_Date)
 
 
