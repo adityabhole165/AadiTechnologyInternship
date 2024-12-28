@@ -61,7 +61,6 @@ import {
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AdditionalDetails from './AdditionalDetails';
 import AddmissionDocumentInformation from './AddmissionDocumentInformation';
@@ -80,6 +79,7 @@ interface FieldValidationError {
 
 const StudentRegistrationForm = () => {
   //const { BackN_Student_Ids } = useParams();
+  const ValidFileTypes = ["JPG", "JPEG", "PNG", "BMP", "PDF"];
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -293,7 +293,7 @@ const StudentRegistrationForm = () => {
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
-
+  const ShowDayBoardingOptionOnStudentsScreen = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowDayBoardingOptionOnStudentsScreen || false;
   // Centralized Required Fields Configuration
   const [fieldValidationErrors, setFieldValidationErrors] = useState<FieldValidationError[]>([]);
 
@@ -530,26 +530,25 @@ const StudentRegistrationForm = () => {
     }
   }, [schoolId]);
 
-  // Track the validation status for each tab
-  const [status, setStatus] = useState({
-    admissionDetails: null,
-    personalDetails: null,
-    admissionDocuments: null,
-    familyDetails: null,
-    additionalDetails: null,
-    streamDetails: null
-  });
+  // // Track the validation status for each tab and field                       //<= ❎UnUsed
+  // const [status, setStatus] = useState({
+  //   admissionDetails: null,
+  //   personalDetails: null,
+  //   admissionDocuments: null,
+  //   familyDetails: null,
+  //   additionalDetails: null,
+  //   streamDetails: null
+  // });
 
 
-  const ValidFileTypes = ["JPG", "JPEG", "PNG", "BMP", "PDF"];
-  const MaxfileSize = 1000000;
-  const [SelectDate, SetSelectDate] = useState(
-    AssignedDate == undefined
-      ? new Date().toISOString().split('T')[0]
-      : getCalendarDateFormatDateNew(AssignedDate)
-  );
+  // const MaxfileSize = 1000000;                                               //<= ❎UnUsed
+  // const [SelectDate, SetSelectDate] = useState(
+  //   AssignedDate == undefined
+  //     ? new Date().toISOString().split('T')[0]
+  //     : getCalendarDateFormatDateNew(AssignedDate)
+  // );
 
-  useEffect(() => {         //Redux Store 
+  useEffect(() => {         //Redux Store                                       //<= ❎UnUsed
     if (location.state) {
       const NavigationValues = {
         Name,
@@ -564,20 +563,27 @@ const StudentRegistrationForm = () => {
       dispatch((CDANavigationValues(NavigationValues)))
     }
   }, [Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id, Enrolment_Number, Joining_Date])
+  // const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);      //<= ❎UnUsed
+  // const RYearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
+  // const RSchoolWise_Student_Id = NavigationValues?.SchoolWise_Student_Id;
+  // const RDivisionId = NavigationValues?.DivisionId;
+  // const RStandardId = NavigationValues?.standardId;
 
 
   //#region UseSelectors
-  const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
-  const RYearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
-  const RSchoolWise_Student_Id = NavigationValues?.SchoolWise_Student_Id;
-  const RDivisionId = NavigationValues?.DivisionId;
-  const RStandardId = NavigationValues?.standardId;
-  // useEffect(() => {
-  //   console.log('2️⃣Redux Data:', NavigationValues);
-  // }, [NavigationValues]);
-
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   //console.log('1️⃣USGetSingleStudentDetails', USGetSingleStudentDetails);
+  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
+  //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
+  const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
+  ///=>AdmissionDocument Uplpoad Document List
+  const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
+  //console.log('GetStudentDocumentsList', GetStudentDocumentsList);
+  const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
+  //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
+  const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
+  //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
+
   //#region hiddenfields
   const oStudentDetails = USGetSingleStudentDetails[0]
   const StudentSiblingName = oStudentDetails?.SiblingStudentName || '';
@@ -598,17 +604,10 @@ const StudentRegistrationForm = () => {
   const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
   //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
   //console.log('⏮️ReferenceMessages', ReferenceMessages);
-  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
-  //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
-  const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
-  ///=>AdmissionDocument Uplpoad Document List
-  const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
-  //console.log('GetStudentDocumentsList', GetStudentDocumentsList);
 
-  const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
-  //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
-  const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
-  //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
+
+
+
 
   // useEffect(() => {
   //   let sMsg = '';
@@ -1140,8 +1139,8 @@ const StudentRegistrationForm = () => {
 
   const UpdateStudentStreamwiseSubjectDetailsBody: IUpdateStudentStreamwiseSubjectDetailsBody =
   {
-    asSchoolId: 122,
-    asStudentId: 4584,
+    asSchoolId: Number(schoolId),
+    asStudentId: Number(SchoolWise_Student_Id ?? localData.SchoolWise_Student_Id),
     asStreamId: Number(form.streamwiseSubject?.streamId) || 0,
     GroupId: Number(form.streamwiseSubject?.groupId) || 0,
     CompulsorySubject: form.streamwiseSubject?.compulsorySubjects || '',
@@ -1291,16 +1290,16 @@ const StudentRegistrationForm = () => {
       return; // Stop submission
     }
 
-    // // First check dependencies
-    // const dependencyResult = await CheckDependenciesForFees();
-    // setIsDeleteFee(dependencyResult.bFlag);
-    // console.log('⚠️', dependencyResult);
-    // // Check if there's any blocking message from the dependency check
-    // if (ReferenceMessages[0]?.ReferenceMsg) {
-    //   //toast.warning(ReferenceMessages[0].ReferenceMsg);
-    //   setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
-    //   return;
-    // }
+    // First check dependencies
+    const dependencyResult = await CheckDependenciesForFees();
+    setIsDeleteFee(dependencyResult.bFlag);
+    console.log('⚠️', dependencyResult);
+    // Check if there's any blocking message from the dependency check
+    if (ReferenceMessages[0]?.ReferenceMsg) {
+      //toast.warning(ReferenceMessages[0].ReferenceMsg);
+      setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
+      return;
+    }
 
     // Check if popup needs to open
     const shouldOpenPopup = !!StudentSiblingName; // Popup opens if sibling name exists

@@ -406,11 +406,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
       const fileExtension = file.name.split('.').pop().toUpperCase();
       if (!ValidFileTypes1.includes(fileExtension)) {
         setErrorMessage('Please select valid file type.');
+        onChange('photoFilePath', '');
         return;
       }
       // File size validation
       if (file.size > MaxfileSize1) {
         setErrorMessage('File size exceeds 1 MB. Please upload a smaller file.');
+        onChange('photoFilePath', '');
+        fileInputRef.current.value = '';
         return;
       }
 

@@ -84,7 +84,7 @@ const StudentProfileHeader = () => {
     return (
         <Grid container spacing={2} sx={{ padding: '1px' }}>
             {/* Left Side - Student Photo, Name, Class */}
-            <Grid item xs={12} md={8} container alignItems="center" sx={{ flexDirection: { xs: 'column', sm: 'row' }, textAlign: { xs: 'center', sm: 'left' } }}>
+            <Grid item xs={12} md={7} container alignItems="center" sx={{ flexDirection: { xs: 'column', sm: 'row' }, textAlign: { xs: 'center', sm: 'left' } }}>
                 <Avatar
                     src={profilePhoto?.src || "/path/to/default-image.jpg"}// Replace with actual photo URL
                     alt={profilePhoto?.name || "Student photo"}
@@ -104,7 +104,8 @@ const StudentProfileHeader = () => {
             </Grid>
 
             {/* Right Side - Confirmation and Update Info */}
-            <Grid item xs={12} md={4} container direction="column" justifyContent="flex-start" alignItems={{ xs: 'center', sm: 'flex-start' }} sx={{ mt: { xs: 2, md: 0 } }}>
+            <Grid item xs={12} md={5} container direction="column" justifyContent="flex-start"
+                alignItems={{ xs: 'center', sm: 'flex-start' }} sx={{ mt: { xs: 2, md: 0 } }}>
                 {showConfirmedByName ? (
                     <>
                         {/* {ConfirmedByText && (
