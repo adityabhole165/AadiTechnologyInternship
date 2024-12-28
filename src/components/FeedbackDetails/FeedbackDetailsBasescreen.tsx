@@ -1,11 +1,7 @@
 import { Add as AddIcon, Save as SaveIcon, SearchTwoTone } from '@mui/icons-material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
     Box,
     Button,
     Dialog,
@@ -16,14 +12,14 @@ import {
     FormControlLabel,
     Grid,
     IconButton,
-    Paper,
     Radio,
     RadioGroup,
+    Stack,
     TextField,
     Tooltip,
-    Typography,
+    Typography
 } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { blue, green, grey, yellow } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import React, { useState } from 'react';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
@@ -152,80 +148,121 @@ const FeedbackDetailsBasescreen = () => {
             <CommonPageHeader
                 navLinks={[{ title: 'Feedback Details', path: '/RITeSchool/Teacher/FeedbackDetailsBasescreen' }]}
                 rightActions={
-                    <>
-                        {selectedFeedback === 'users' && (
-                            <>
-                                <TextField
-                                    sx={{ width: '15vw' }}
-                                    fullWidth
-                                    label="User Name"
-                                    variant="outlined"
-                                    size="small"
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' || e.key === 'Tab') {
-                                            clickSearch();
-                                        }
-                                    }}
-                                />
-                                <Tooltip title="Search">
-                                    <IconButton
-                                        onClick={clickSearch}
-                                        sx={{
-                                            background: (theme) => theme.palette.primary.main,
-                                            color: 'white',
-                                            marginLeft: '0.5rem',
-                                            '&:hover': {
-                                                backgroundColor: (theme) => theme.palette.primary.dark,
-                                            },
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        justifyContent="space-between"
+                        alignItems="right"
+                        gap={1}
+                        sx={{
+                            mt: { xs: 0, sm: 0 },
+                            flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                        }}
+                    >
+                        <Grid
+                            item
+                            xs={12}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            {selectedFeedback === 'users' && (
+                                <>
+                                    <TextField
+                                        sx={{ minWidth: { xs: '40vw', sm: '15vw' } }}
+                                        fullWidth
+                                        label="User Name"
+                                        variant="outlined"
+                                        size="small"
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === 'Tab') {
+                                                clickSearch();
+                                            }
                                         }}
-                                    >
-                                        <SearchTwoTone />
-                                    </IconButton>
-                                </Tooltip>
-                            </>
-                        )}
-                        <Tooltip title="Save">
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: green[500],
-                                    '&:hover': {
-                                        backgroundColor: green[600],
-                                    },
-                                }}
-                            >
-                                <SaveIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={`Add/ Edit/ Delete feedbacks.`}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: grey[600] },
-                                }}
-                            >
-                                <QuestionMarkIcon />
-                            </IconButton>
-                        </Tooltip>
-                        {selectedFeedback === 'users' && (
-                            <Tooltip title="Add new feedback">
+                                    />
+
+
+                                </>
+                            )}</Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            gap={1}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            <Tooltip title="Search">
                                 <IconButton
-                                    onClick={handleAddNewFeedbackClick}
+                                    onClick={clickSearch}
                                     sx={{
+                                        background: (theme) => theme.palette.primary.main,
                                         color: 'white',
-                                        backgroundColor: blue[500],
                                         '&:hover': {
-                                            backgroundColor: blue[600],
+                                            backgroundColor: (theme) => theme.palette.primary.dark,
                                         },
                                     }}
                                 >
-                                    <AddIcon />
+                                    <SearchTwoTone />
                                 </IconButton>
                             </Tooltip>
-                        )}
-                    </>
+                            <Tooltip
+                                title={
+                                    "Selected feedback will be displayed to user at login page in 'Appreciations' OR 'Testimonials' menu."
+                                }
+                            >
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: yellow[700],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: yellow[800] },
+                                    }}
+                                >
+                                    <PriorityHighIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Save">
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: green[500],
+                                        '&:hover': {
+                                            backgroundColor: green[600],
+                                        },
+                                    }}
+                                >
+                                    <SaveIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title={`Add/ Edit/ Delete feedbacks.`}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: grey[600] },
+                                    }}
+                                >
+                                    <QuestionMarkIcon />
+                                </IconButton>
+                            </Tooltip>
+                            {selectedFeedback === 'users' && (
+                                <Tooltip title="Add new feedback">
+                                    <IconButton
+                                        onClick={handleAddNewFeedbackClick}
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600],
+                                            },
+                                        }}
+                                    >
+                                        <AddIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+
+                        </Grid>
+                    </Stack>
                 }
             />
             <Box sx={{ backgroundColor: 'white', py: 0.5, pl: 2, mb: 1 }}>
@@ -239,23 +276,6 @@ const FeedbackDetailsBasescreen = () => {
             <Box sx={{ backgroundColor: 'white', p: 2, mb: 1 }}>
                 {selectedFeedback === 'users' ? (
                     <>
-                        <Paper>
-                            <Accordion defaultExpanded>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1-content"
-                                    id="panel1-header"
-                                >
-                                    <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails sx={{ gap: 0.1, display: 'flex', flexDirection: 'column' }}>
-                                    <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}>
-                                        "Selected feedback will be displayed to user at login page in 'Appreciations' OR 'Testimonials' menu."
-                                    </Alert>
-                                </AccordionDetails>
-                            </Accordion>
-                        </Paper>
-
                         {dummyData.length > 0 ? (
                             <Typography variant="subtitle1" sx={{ mt: 2, mb: 1, textAlign: 'center' }}>
                                 <Box component="span" fontWeight="fontWeightBold">
