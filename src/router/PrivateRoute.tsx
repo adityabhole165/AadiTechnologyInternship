@@ -20,7 +20,7 @@ const PrivateRoute = () => {
                 localStorage.removeItem("auth");
                 sessionStorage.clear();
                 setAuthStatus(false);
-            }, 60 * 1000); // Timeout after 5 minutes of inactivity
+            }, SessionTimeout * 1000); // Timeout after 5 minutes of inactivity
         };
 
         const activityEvents = ["mousemove", "keydown", "click"];
