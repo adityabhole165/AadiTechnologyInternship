@@ -18,7 +18,7 @@ function EditIconList({
   clicksubmit,
   clickUnSubmit,
 }) {
-  console.log(ItemList, 'ItemList');
+  //console.log(ItemList, 'ItemList');
   const cellStyle = {
     padding: '0.2em 1.5em', // Adjust these values to reduce the height
   };

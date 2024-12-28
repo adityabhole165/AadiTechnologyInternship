@@ -26,14 +26,14 @@ function SubjectList({
     onChange(value);
   };
   const changeText = (value) => {
-    console.log(value);
+    //console.log(value);
     ItemList = ItemList.map((item) => {
       return item.Id === value.Id ? { ...item, Text4: value.Value } : item;
     });
     onChange(ItemList);
   };
   const handleChange = (value) => {
-    console.log(value);
+    //console.log(value);
     ItemList = ItemList.map((item) => {
       return item.Id === value.Id
         ? {

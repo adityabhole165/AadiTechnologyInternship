@@ -270,7 +270,7 @@ const AddDailyLog = () => {
 
   let d = '';
   useEffect(() => {
-    console.log(GetHomeworkDailyLogs, 'GetStudentDetail');
+    //console.log(GetHomeworkDailyLogs, 'GetStudentDetail');
     if (GetHomeworkDailyLogs.length > 0) {
       let da = GetHomeworkDailyLogs[0].Date.split(' ')[0];
       let dateFormat =
@@ -390,7 +390,7 @@ const AddDailyLog = () => {
 
   const onSelectDate = (value) => {
     // Ensure value is properly formatted and reflects the selected date
-    console.log('Selected date:', value);
+    //console.log('Selected date:', value);
     setDateSearch(value); // Update dateSearch with selected date
   };
 
@@ -431,7 +431,7 @@ const AddDailyLog = () => {
         isError = true;
       } else {
         setDateError('');
-        console.log('Saving data...', dateState);
+        //console.log('Saving data...', dateState);
       }
 
     }

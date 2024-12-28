@@ -2,7 +2,7 @@ import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import SaveIcon from '@mui/icons-material/Save';
 import SquareIcon from '@mui/icons-material/Square';
-import { Box, Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,7 +36,7 @@ const EnterStudentSiblingDetails = () => {
   const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
   const YearWise_Student_Id = localData.YearWise_Student_Id ?? NavigationValues?.YearWise_Student_Id;
 
-  console.log('0️⃣NavigationValues EnterStudentSiblingDetails', NavigationValues, YearWise_Student_Id);
+  //console.log('0️⃣NavigationValues EnterStudentSiblingDetails', NavigationValues, YearWise_Student_Id);
 
   //StudentName
   const StudentDetailsForSibling = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentDetailsForSibling);
@@ -137,7 +137,7 @@ const EnterStudentSiblingDetails = () => {
   };
 
   useEffect(() => {
-    console.log('selected', selected);
+    //console.log('selected', selected);
   }, [selected]);
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
@@ -202,7 +202,7 @@ const EnterStudentSiblingDetails = () => {
   //#region Save
   const handleSave = () => {
     let isError = false;
-    console.log('Selected IDs:', selected);
+    //console.log('Selected IDs:', selected);
     const currentDate = new Date().toLocaleDateString('en-CA'); // Format date as YYYY-MM-DD
 
     // XML generation
@@ -226,7 +226,7 @@ const EnterStudentSiblingDetails = () => {
     } else {
       setFileNameError('');
     }
-    console.log('Save Payload:', ISaveStudentSiblingDetailsBody);
+    //console.log('Save Payload:', ISaveStudentSiblingDetailsBody);
     if (!isError) {
       // Call the save API here, passing selectedIds as payload
       dispatch(CDASaveStudentSiblingDetailsMsg(ISaveStudentSiblingDetailsBody))
@@ -444,41 +444,39 @@ const EnterStudentSiblingDetails = () => {
         </Box>
       </Box>
       {isSearchPerformed &&
-        <Box sx={{ backgroundColor: 'white', padding: '1rem' }}>
-          {SearchStudentsList.length > 0 ? (
+        <>
+          {SearchStudentsList.length > 0 ?
             <>
-              {/* <StudentTable StudentsList={SearchStudentsList} onSelectionChange={handleSelectionChange} /> */}
-              {count > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
-                <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                  <Box component="span" fontWeight="fontWeightBold">
-                    {startRecord} to {endRecord}
-                  </Box>
-                  {' '}out of{' '}
-                  <Box component="span" fontWeight="fontWeightBold">
-                    {count}
-                  </Box>{' '}
-                  {count === 1 ? 'record' : 'records'}
-                </Typography>
-              </div> : <span> </span>}
-              <TableContainer component={Paper}>
-                <Table aria-label="simple table"
-                  sx={{
-                    border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-                  }}>
-                  <TableHead>
-                    <TableRow sx={{
-                      background: (theme) => theme.palette.secondary.main,
-                      color: (theme) => theme.palette.common.white,
-                    }}>
-                      <TableCell sx={{ color: "white", py: 1 }}>
-                        <Checkbox
-                          size='small'
-                          indeterminate={selected.length > 0 && selected.length < SearchStudentsList.length}
-                          checked={SearchStudentsList.length > 0 && selected.length === SearchStudentsList.length}
-                          onChange={handleSelectAllClick}
-                        />
-                      </TableCell>
-                      {/* <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+              <Box sx={{ background: 'white', padding: '1rem' }}>
+                {/* <StudentTable StudentsList={SearchStudentsList} onSelectionChange={handleSelectionChange} /> */}
+                {count > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+                  <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                    <Box component="span" fontWeight="fontWeightBold">
+                      {startRecord} to {endRecord}
+                    </Box>
+                    {' '}out of{' '}
+                    <Box component="span" fontWeight="fontWeightBold">
+                      {count}
+                    </Box>{' '}
+                    {count === 1 ? 'record' : 'records'}
+                  </Typography>
+                </div> : <span> </span>}
+                <TableContainer component={Box} >
+                  <Table aria-label="simple table" sx={{ border: (theme) => `2px solid ${theme.palette.grey[300]}`, }}>
+                    <TableHead>
+                      <TableRow sx={{
+                        background: (theme) => theme.palette.secondary.main,
+                        color: (theme) => theme.palette.common.white,
+                      }}>
+                        <TableCell sx={{ color: "white", py: 1 }}>
+                          <Checkbox
+                            size='small'
+                            indeterminate={selected.length > 0 && selected.length < SearchStudentsList.length}
+                            checked={SearchStudentsList.length > 0 && selected.length === SearchStudentsList.length}
+                            onChange={handleSelectAllClick}
+                          />
+                        </TableCell>
+                        {/* <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
                     <SortableHeader column="RegNo" label="Registration Number" />
                   </TableCell>
                   <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
@@ -487,48 +485,52 @@ const EnterStudentSiblingDetails = () => {
                   <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
                     <SortableHeader column="ClassName" label="Class" />
                   </TableCell> */}
-                      <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
-                      <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
-                      <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {SearchStudentsList.map((student) => (
-                      <TableRow key={student.YearwiseStudentId}
-                        selected={isSelected(student.YearwiseStudentId)}>
-                        <TableCell sx={{ py: 0.5 }}>
-                          <Checkbox
-                            size='small'
-                            checked={isSelected(student.YearwiseStudentId)}
-                            onChange={() => handleCheckboxClick(student.YearwiseStudentId)}
-                          />
-                        </TableCell>
-                        <TableCell sx={{ py: 0.5 }}>{student.RegNo}</TableCell>
-                        <TableCell sx={{ py: 0.5 }}>{student.StudentName}</TableCell>
-                        <TableCell sx={{ py: 0.5 }}>{student.ClassName}</TableCell>
+                        <TableCell sx={{ color: "white", py: 1 }}>Reg. No.</TableCell>
+                        <TableCell sx={{ color: "white", py: 1 }}>Student Name</TableCell>
+                        <TableCell sx={{ color: "white", py: 1 }}>Class</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                {endRecord > 19 && (
-                  <ButtonGroupComponent
-                    rowsPerPage={rowsPerPage}
-                    ChangeRowsPerPage={ChangeRowsPerPage}
-                    rowsPerPageOptions={rowsPerPageOptions}
-                    PageChange={PageChange}
-                    pagecount={pagecount}
-                  />
-                )}
-              </TableContainer>
-            </>
-          ) : (
-            // <Paper sx={{ padding: 2, textAlign: 'center', backgroundColor: '#D2FDFC' }}>
-            <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-              No record found.
-            </Typography>
-            // </Paper>
-          )}
-        </Box>
+                    </TableHead>
+                    <TableBody>
+                      {SearchStudentsList.map((student) => (
+                        <TableRow key={student.YearwiseStudentId}
+                          selected={isSelected(student.YearwiseStudentId)}>
+                          <TableCell sx={{ py: 0.5 }}>
+                            <Checkbox
+                              size='small'
+                              checked={isSelected(student.YearwiseStudentId)}
+                              onChange={() => handleCheckboxClick(student.YearwiseStudentId)}
+                            />
+                          </TableCell>
+                          <TableCell sx={{ py: 0.5 }}>{student.RegNo}</TableCell>
+                          <TableCell sx={{ py: 0.5 }}>{student.StudentName}</TableCell>
+                          <TableCell sx={{ py: 0.5 }}>{student.ClassName}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                  {endRecord > 19 ? (
+                    <ButtonGroupComponent
+                      rowsPerPage={rowsPerPage}
+                      ChangeRowsPerPage={ChangeRowsPerPage}
+                      rowsPerPageOptions={rowsPerPageOptions}
+                      PageChange={PageChange}
+                      pagecount={pagecount}
+                    />
+                  ) : (
+                    <span></span>
+                  )}
+                </TableContainer>
+              </Box>
+            </> :
+            <Box sx={{ backgroundColor: '#D2FDFC' }}>
+              {/* <Paper sx={{ padding: 2, textAlign: 'center', backgroundColor: '#D2FDFC' }}> */}
+              <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                No record found.
+              </Typography>
+              {/* </Paper> */}
+            </Box>
+          }
+        </>
       }
     </Box>
   );

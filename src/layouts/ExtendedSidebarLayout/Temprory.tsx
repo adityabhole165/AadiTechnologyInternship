@@ -1174,9 +1174,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       }
     } else if (link) {
       // window.location.href = link; // Redirect to the specified link
-      console.log(link);
+      //console.log(link);
       if (link?.split(':')[0].includes('http')) {
-        console.log(link);
+        //console.log(link);
         window.open(link, '_blank');
       } else {
         navigate(link);

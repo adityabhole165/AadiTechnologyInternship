@@ -166,7 +166,7 @@ export const getListOfMessages =
             };
           });
         }
-        console.log(response.data?.UnreadMessagesCount.UnreadMessageTotalCount, 'data-----');
+        //console.log(response.data?.UnreadMessagesCount.UnreadMessageTotalCount, 'data-----');
         let UnreadMessage = response.data.UnreadMessagesCount;
         dispatch(InboxMessageSlice.actions.TrashMarkReadMessage(UnreadMessage));
         dispatch(InboxMessageSlice.actions.getTotalCountLabel(response.data.TotalCountLabel));

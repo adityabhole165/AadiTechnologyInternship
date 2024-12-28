@@ -38,14 +38,14 @@ const Support1 = () => {
     const MaxfileSize = 200000000;
     const { showAlert, closeAlert } = useContext(AlertContext);
     const UserDetail = useSelector((state: RootState) => state.Support.getUserDetails);
-    console.log(UserDetail, 'bbbbbbb')
+    //console.log(UserDetail, 'bbbbbbb')
     const SubmitSupport = useSelector((state: RootState) => state.Support.SaveSupport);
 
 
     useEffect(() => {
         if (UserDetail) {
             setEmailId(UserDetail)
-            console.log(emailId, UserDetail, 'bbbbbbb')
+            //console.log(emailId, UserDetail, 'bbbbbbb')
         }
     }, [UserDetail]);
 

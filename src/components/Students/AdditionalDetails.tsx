@@ -48,7 +48,7 @@ const AdditionalDetails = ({ additional, onChange }) => {
   });
 
   useEffect(() => {
-    console.log('4️⃣additional data from Parent', additional);
+    //console.log('4️⃣additional data from Parent', additional);
   }, [additional]);
   //#region API CALL
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);

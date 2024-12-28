@@ -24,7 +24,7 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
         if (stdFinalResult) {
             dataFormatter(stdFinalResult);
         }
-        console.log('deltas', stdFinalResult);
+        //console.log('deltas', stdFinalResult);
     }, [stdFinalResult]);
     // --
     useEffect(() => {
@@ -36,8 +36,8 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
 
     // print > IsTotalConsiderForProgressReport showOnlyGrades
     useEffect(() => {
-        console.log('IsTotalConsiderForProgressReport', IsTotalConsiderForProgressReport);
-        console.log('showOnlyGrades', showOnlyGrades);
+        //console.log('IsTotalConsiderForProgressReport', IsTotalConsiderForProgressReport);
+        //console.log('showOnlyGrades', showOnlyGrades);
     }, [IsTotalConsiderForProgressReport, showOnlyGrades]);
 
     // Data Formatter Function which takes Every mapped object of parent Comp. mapped Arr. and formats

@@ -33,7 +33,7 @@ function HomeworkNew() {
   const GetHomeworkDates = useSelector(
     (state: RootState) => state.HomeworkNew.GetHomeworkDates
   );
-  console.log('GetHomeworkDates', GetHomeworkDates);
+  //console.log('GetHomeworkDates', GetHomeworkDates);
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');

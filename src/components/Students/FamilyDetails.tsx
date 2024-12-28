@@ -273,12 +273,12 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
   const [imageFileExtention, setImageFileExtention] = useState('');
 
   const handlePhotoChange = (key, value, key2) => {
-    console.log(`0️⃣Selected file for ${key}:`, value);
+    //console.log(`0️⃣Selected file for ${key}:`, value);
     const newErrors = { ...fileErrors };
 
     if (!ValidFileTypes2.includes(value.FileExtension.toUpperCase())) {
       //('Invalid file format. Supported formats are JPEG, PNG, BMP.');
-      newErrors[key] = value.ErrorMsg;
+      newErrors[key] = value.ErrorMsg ? 'Please select valid file type.' : '';
       setFileErrors(newErrors);
       onChange(key, value.Name); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
@@ -319,7 +319,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
   // };
 
   const ViewFatherPhoto = () => {
-    console.log('fileName', family.fatherPhoto);
+    //console.log('fileName', family.fatherPhoto);
     if (family.fatherPhoto !== '') {
       window.open(
         localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Parent Photos/' + family.fatherPhoto);
@@ -336,7 +336,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
       localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Parent Photos/' + family.localGuardianPhoto);
   }
   const ViewFamilyPhoto = () => {
-    console.log('fileName', family.familyPhoto);
+    //console.log('fileName', family.familyPhoto);
     if (family.familyPhoto !== '') {
       window.open(
         localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/Family Photos/' + family.familyPhoto);
@@ -349,12 +349,12 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
     const base64Image = `data:image/${imageFileExtention};base64,${base64URL2}`;
 
     if (fileName) {
-      console.log(`Viewing ${key}:`, fileName);
-      console.log(`Viewing ${key}:`, base64Image);
-      console.log(`Viewing ${key}:`, url);
+      //console.log(`Viewing ${key}:`, fileName);
+      //console.log(`Viewing ${key}:`, base64Image);
+      //console.log(`Viewing ${key}:`, url);
       window.open(url, '_blank'); // Opens the URL in a new tab
     } else {
-      console.log(`No photo available for ${key}`);
+      //console.log(`No photo available for ${key}`);
     }
   };
 
@@ -394,7 +394,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
     };
 
     if (fileName) {
-      console.log(`👎 Deleting ${key}:`, fileName);
+      //console.log(`👎 Deleting ${key}:`, fileName);
       showAlert({
         title: 'Please Confirm',
         message: alertMessage,

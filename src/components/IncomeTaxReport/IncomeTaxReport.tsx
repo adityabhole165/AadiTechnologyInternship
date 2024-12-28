@@ -89,7 +89,7 @@ function IncomeTaxReport() {
   useEffect(() => {
     dispatch(getAllAcademicYears(body1));
   }, []);
-  console.log('acadamicYear', acadamicYear);
+  //console.log('acadamicYear', acadamicYear);
 
   useEffect(() => {
     if (acadamicYear == '0') {

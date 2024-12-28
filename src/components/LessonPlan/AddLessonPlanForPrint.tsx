@@ -102,7 +102,7 @@ const AddLessonPlanPrint = ({ valueProp }) => {
     const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
     const GetEnableButtonList: any = useSelector((state: RootState) => state.addlessonplan.GetEnableButtonList);
     const LessonPlanPhrasesList: any = useSelector((state: RootState) => state.addlessonplan.GetLessonPlanPhrasesList);
-    console.log(LessonPlanPhrasesList, "LessonPlanPhrasesList");
+    //console.log(LessonPlanPhrasesList, "LessonPlanPhrasesList");
 
     const Loading = useSelector((state: RootState) => state.addlessonplan.Loading);
 
@@ -290,8 +290,8 @@ const AddLessonPlanPrint = ({ valueProp }) => {
     }
     const IsFormValid = () => {
         let returnVal = true;
-        console.log(new Date(StartDate), "====", new Date(EndDate));
-        console.log(isGreaterThanDate(StartDate, EndDate));
+        //console.log(new Date(StartDate), "====", new Date(EndDate));
+        //console.log(isGreaterThanDate(StartDate, EndDate));
 
         if (isGreaterThanDate(StartDate, EndDate)) {
 
@@ -633,7 +633,7 @@ const AddLessonPlanPrint = ({ valueProp }) => {
             <span onClick={handleClick} style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}>{fileName}</span>
         );
     };
-    console.log(LessonPlanPhrasesList.join(', ').text1, "******LessonPlanPhrasesList");
+    //console.log(LessonPlanPhrasesList.join(', ').text1, "******LessonPlanPhrasesList");
 
     const [wordsentence, setwordsentence] = useState('')
     const [searchQuery, setSearchQuery] = useState('');

@@ -53,7 +53,7 @@ const SubjectMarkList = () => {
 
   const TestMarkListNew: any = useSelector(
     (state: RootState) => state.SubjectMarkList.listTestMarkNew);
-  console.log(TestMarkList, "abcd");
+  //console.log(TestMarkList, "abcd");
   const HeaderList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.HeaderList);
   // console.log(HeaderList, "HeaderList");
@@ -96,7 +96,7 @@ const SubjectMarkList = () => {
   //   dispatch(gettestmarklist(GetStudentsForSubjectMarkMouseOver));
   // }, []);
   useEffect(() => {
-    console.log(GetTestMarkBody, "GetTestMarkBody");
+    //console.log(GetTestMarkBody, "GetTestMarkBody");
 
     dispatch(gettestmarklist(GetTestMarkBody));
   }, []);
@@ -138,7 +138,7 @@ const SubjectMarkList = () => {
       </>
     }])
 
-  console.log(Columns, "value");
+  //console.log(Columns, "value");
 
   useEffect(() => {
     if (HeaderListTestMark.length > 0) {

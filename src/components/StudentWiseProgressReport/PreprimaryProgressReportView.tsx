@@ -29,7 +29,7 @@ const PreprimaryProgressReportView = () => {
     YearwiseStudentId = decodeURL(YearwiseStudentId);
     StandardId = decodeURL(StandardId);
 
-    console.log(Assessment, "Assessment");
+    //console.log(Assessment, "Assessment");
 
     const dispatch = useDispatch();
     const [ClassTeacher, setClassTeacher]: any = useState('-1');

@@ -137,7 +137,7 @@ const AllNoticeList = () => {
   ];
 
   const handleDropDownChange = (value: string) => {
-    console.log('Selected Value:', value);
+    //console.log('Selected Value:', value);
     setSelectedValue(value);
   };
   // Searchable DropDown Content
@@ -154,15 +154,15 @@ const AllNoticeList = () => {
   const USGetStandardDivisionsForSelectedNoticeId: any = useSelector((state: RootState) => state.GetStandardDivisionsForSelectedNoticeId.ISGetStandardDivisionsForSelectedNoticeId);
   // console.log(USGetAllNoticeList,"USGetAllNoticeList");
 
-  console.log('UpdeteSelecteSchoolNotice...............', UpdeteSelecteSchoolNotice);
-  console.log('DeleteSchoolNotice...............', USDeleteSchoolNotice);
-  console.log('USGetUserRolesForSelectedNoticeId...............', USGetUserRolesForSelectedNoticeId);
-  console.log('USGetStandardDivisionsForSelectedNoticeId...............', USGetStandardDivisionsForSelectedNoticeId);
+  //console.log('UpdeteSelecteSchoolNotice...............', UpdeteSelecteSchoolNotice);
+  //console.log('DeleteSchoolNotice...............', USDeleteSchoolNotice);
+  //console.log('USGetUserRolesForSelectedNoticeId...............', USGetUserRolesForSelectedNoticeId);
+  //console.log('USGetStandardDivisionsForSelectedNoticeId...............', USGetStandardDivisionsForSelectedNoticeId);
 
   useEffect(() => {
     if (USGetUserRolesForSelectedNoticeId) {
       setUserRole(USGetUserRolesForSelectedNoticeId)
-      console.log("USGetUserRolesForSelectedNoticeId\\\\\\\\\\\\\\\\\\\\", USGetUserRolesForSelectedNoticeId);
+      //console.log("USGetUserRolesForSelectedNoticeId\\\\\\\\\\\\\\\\\\\\", USGetUserRolesForSelectedNoticeId);
 
     }
   }, [USGetUserRolesForSelectedNoticeId])
@@ -260,7 +260,7 @@ const AllNoticeList = () => {
 
   const saveAndResetSelection = () => {
     // Your save logic here
-    console.log('Saving data...');
+    //console.log('Saving data...');
     // ...
 
     // After saving, clear the selection

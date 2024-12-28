@@ -514,7 +514,7 @@ const ComposeSMSform = () => {
             })
             // Need To Add condition over here | Note 🔔   windows + .
         } else if (e.RecipientName.length === 0) {
-            console.log(RecipientsObject, 'checkthis');
+            //console.log(RecipientsObject, 'checkthis');
 
             showAlert({
                 title: 'Please Confirm',

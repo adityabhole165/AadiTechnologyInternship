@@ -56,7 +56,7 @@ function Card7({
   // useEffect(()=>{
   if (Object.keys(Attachments).length == 0) {
     AttachmentArray.push('null');
-    console.log(AttachmentArray, 'if Attachments');
+    //console.log(AttachmentArray, 'if Attachments');
   } else {
     for (const property in attachment) {
       let AttachmentFile: any = {
@@ -64,7 +64,7 @@ function Card7({
         FilePath: file_path + `${property}`
       };
       AttachmentArray.push(property);
-      console.log(AttachmentFile, 'else Attachments');
+      //console.log(AttachmentFile, 'else Attachments');
       attachmentObj.push(AttachmentFile);
     }
   }

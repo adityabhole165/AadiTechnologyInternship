@@ -7,6 +7,7 @@ const SelectListHierarchy1 = ({ ItemList, ParentList, ClickChild }) => {
             return Item.Id === value ? { ...Item, IsActive: !Item.IsActive } : Item;
         });
         ClickChild(arr);
+        //false;
     };
     const ClickParentCheckbox = (value) => {
         let arr = [];
@@ -48,7 +49,17 @@ const SelectListHierarchy1 = ({ ItemList, ParentList, ClickChild }) => {
             }
         });
         return IsChecked;
+
     };
+    // const handleparentSelectAll = (event) => {
+    //     const checked = event.target.checked;
+    //     setSelectAll(checked);
+    //     if (checked) {
+    //       setSelected(USGetUserName.map((item) => item.UserId));
+    //     } else {
+    //       setSelected([]);
+    //     }
+    //   };
 
     return (
         <>
@@ -59,6 +70,11 @@ const SelectListHierarchy1 = ({ ItemList, ParentList, ClickChild }) => {
                         CheckParentAll(e.target.checked);
                     }}
                 />
+                {/* <Checkbox
+                    checked={undefined}
+                    onChange={handleparentSelectAll}
+
+                /> */}
                 <strong>Applicable to all staff members and selected Classes </strong>
             </Box>
             <Stack direction={'row'} gap={0.7} flexWrap={'wrap'}>
@@ -72,6 +88,11 @@ const SelectListHierarchy1 = ({ ItemList, ParentList, ClickChild }) => {
                                         ClickParentCheckbox(ParentItem.Id);
                                     }}
                                 ></Checkbox>
+                                {/* <Checkbox
+                                    checked={undefined}
+                                    onChange={handleChildParentSelectAll}
+
+                                /> */}
                                 {ParentItem.Name}
                             </Box>
                             {ItemList.filter((obj) => {
@@ -85,6 +106,11 @@ const SelectListHierarchy1 = ({ ItemList, ParentList, ClickChild }) => {
                                                 ClickChildCheckbox(item.Id);
                                             }}
                                         ></Checkbox>
+                                        {/* <Checkbox
+                                            checked={undefined}
+                                            onChange={handleChildSelectAll}
+
+                                        /> */}
                                         {item.Name}
                                     </Box>
                                 );

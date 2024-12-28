@@ -70,7 +70,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
         return text;
     };
     const clickOpen = (Value) => {
-        console.log(Value, "value");
+        //console.log(Value, "value");
         (Value)
         setOpenDetailDialog(true);
         handleLinkClick1(Value);
@@ -132,8 +132,8 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                 {/* <ActiveSchoolNotice clickOpen={clickOpen} /> */}
                 <DialogContent
                     sx={{
-                        maxHeight: SchoolNoticePopupDashBoard.length > 5 ? '36vh' : 'auto',  
-                        overflowY: SchoolNoticePopupDashBoard.length > 5 ? 'auto' : 'hidden' 
+                        maxHeight: SchoolNoticePopupDashBoard.length > 5 ? '36vh' : 'auto',
+                        overflowY: SchoolNoticePopupDashBoard.length > 5 ? 'auto' : 'hidden'
                     }}
                 >
                     <ActiveSchoolNotice clickOpen={clickOpen} />

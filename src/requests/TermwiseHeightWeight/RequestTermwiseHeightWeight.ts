@@ -58,7 +58,7 @@ export const getTeacherNameList =
         });
       });
       dispatch(TermwiseHeightWeightSlice.actions.TeacherNameList(abc));
-       console.log(Response, "abc")
+      //console.log(Response, "abc")
     };
 
 export const getTermList =
@@ -93,7 +93,7 @@ export const getstudentdetails =
         };
       });
       dispatch(TermwiseHeightWeightSlice.actions.studentdetails(responseData));
-      console.log(Response, responseData)
+      //console.log(Response, responseData)
     };
 
 export const getupdatestudentlist =

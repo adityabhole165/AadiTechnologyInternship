@@ -209,7 +209,7 @@ const PerEvalViewReport = () => {
                 return acc;
             }, {});
             setInitialStaffPerfEval(initialEvalRowValues);
-            console.log(`-->`, initialEvalRowValues);
+            //console.log(`-->`, initialEvalRowValues);
         }
     }, [listOriginalSkillIdDetails, listTecherTitleDetails, listParameterIdDetails]);
 
@@ -789,7 +789,7 @@ const PerEvalViewReport = () => {
                 open={uploadDoc} handleClose={(newFile) => {
                     setUploadDoc(false);
                     if (newFile) {
-                        console.log('NewFile ->', newFile)
+                        //console.log('NewFile ->', newFile)
                         dispatch(CDAGetDetailsForAttachment(PerformanceEvaluationDetailsBody));
                     }
                     setHoveredRow(null);

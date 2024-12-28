@@ -19,8 +19,8 @@ const ViewProgressReport = () => {
     TestId = decodeURL(TestId);
     StandardDivisionId = decodeURL(StandardDivisionId);
 
-    console.log(StandardDivisionId, "StandardDivisionId")
-    console.log("testid", TestId)
+    //console.log(StandardDivisionId, "StandardDivisionId")
+    //console.log("testid", TestId)
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
     // const [StandardDivisionId, setStandardDivisionId] = useState(
@@ -30,11 +30,11 @@ const ViewProgressReport = () => {
     const ListMarksDetails: any = useSelector(
         (state: RootState) => state.ViewProgressReport.ListMarksDetiles
     );
-    console.log("ListMarksDetails", ListMarksDetails)
+    //console.log("ListMarksDetails", ListMarksDetails)
     const DisplayStatusDetails: any = useSelector(
         (state: RootState) => state.ViewProgressReport.ListStatusDetiles
     );
-    console.log("DisplayStatusDetails", DisplayStatusDetails)
+    //console.log("DisplayStatusDetails", DisplayStatusDetails)
     useEffect(() => {
         const GetAllStudentsTest: IGetAllStudentsTestProgressSheetBody =
         {
@@ -49,11 +49,11 @@ const ViewProgressReport = () => {
         dispatch(GetMarkDetailss(GetAllStudentsTest));
 
     }, [TestId, StandardDivisionId]);
-    console.log(ListMarksDetails[0])
+    //console.log(ListMarksDetails[0])
     if (ListMarksDetails.length > 0) {
-        console.log(ListMarksDetails[0]);
+        //console.log(ListMarksDetails[0]);
     }
-    console.log("Length of ListMarksDetails:", ListMarksDetails.length);
+    //console.log("Length of ListMarksDetails:", ListMarksDetails.length);
 
     const getStudentName = (data) => {
         var StudentName = new XMLParser().parseFromString(data);
@@ -84,30 +84,30 @@ const ViewProgressReport = () => {
     const getSubjectName = (data) => {
         var SubjectName = new XMLParser().parseFromString(data);
         return SubjectName.children[0].children[1].value
-        console.log(SubjectName.children[0].children[1].value);
+        //console.log(SubjectName.children[0].children[1].value);
     }
     const getGradeName = (data) => {
         var GradeName = new XMLParser().parseFromString(data);
         return GradeName.children[0].children[1].value
-        console.log(GradeName.children[0].children[1].value);
+        //console.log(GradeName.children[0].children[1].value);
     }
     //Science
     const getSubjectgroupTotal = (data) => {
         var SubjectgroupTotal = new XMLParser().parseFromString(data);
         return SubjectgroupTotal.children[0].children[2].value
-        console.log(SubjectgroupTotal.children[0].children[1].value);
+        //console.log(SubjectgroupTotal.children[0].children[1].value);
     }
     //Practical,Theory 
     const getSubjectTestType = (data) => {
         var SubjectTestType = new XMLParser().parseFromString(data);
         return SubjectTestType.children[0].children[9].value
-        console.log(SubjectTestType.children[0].children[1].value);
+        //console.log(SubjectTestType.children[0].children[1].value);
     }
     //Marks
     const getMarks = (data) => {
         var Mark = new XMLParser().parseFromString(data);
         return Mark.children[0].children[7].value
-        console.log(Mark.children[0].children[1].value);
+        //console.log(Mark.children[0].children[1].value);
     }
     return (
         <Box sx={{ px: 2 }}>

@@ -421,7 +421,7 @@ export const CDAGetConfiguredMaxRemarkLength =
   (data: IGetConfiguredMaxRemarkLengthBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.GetConfiguredMaxRemarkLength(data);
-      console.log(response, "response---");
+      //console.log(response, "response---");
 
       dispatch(ProgressRemarkSlice.actions.RGetConfiguredMaxRemarkLength(response.data));
     };

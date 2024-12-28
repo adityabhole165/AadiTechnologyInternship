@@ -22,7 +22,7 @@ const AllStdResult = ({ dataList, index, isTotalConsider, isConfigured, isExamUn
 
     const GetsingleStudentResultVA = (dataValue) => {
         const response = dataValue;
-        console.log(response, "response 🚩");
+        //console.log(response, "response 🚩");
 
         // console.log(response, "respons");
 
@@ -101,14 +101,14 @@ const AllStdResult = ({ dataList, index, isTotalConsider, isConfigured, isExamUn
         setStudentListAll(StudentListAll);
         totalconsidration = subject?.filter((item) => item.Total_Consideration === "N");
         showOnlyGrades = StudentListAll?.some((item) => item.ShowOnlyGrades.trim() === 'true');
-        console.log(PerCentDetails, 'PerCentDetails');
-        console.log(Total, 'Total');
-        console.log(Grades, 'Grades');
-        console.log(subject, 'subject');
-        console.log(MarkList, 'MarkList');
-        console.log(StudentListAll, 'StudentListAll');
-        console.log(totalconsidration, 'totalconsidration');
-        console.log(showOnlyGrades, 'showOnlyGrades');
+        //console.log(PerCentDetails, 'PerCentDetails');
+        //console.log(Total, 'Total');
+        //console.log(Grades, 'Grades');
+        //console.log(subject, 'subject');
+        //console.log(MarkList, 'MarkList');
+        //console.log(StudentListAll, 'StudentListAll');
+        //console.log(totalconsidration, 'totalconsidration');
+        //console.log(showOnlyGrades, 'showOnlyGrades');
         setOpen(true);
 
 

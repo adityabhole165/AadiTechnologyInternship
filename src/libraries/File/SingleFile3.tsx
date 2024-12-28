@@ -57,7 +57,7 @@ const SingleFile = ({
                     ErrorMsg: ""
                 });
             } else {
-                console.log(isValid, "isValid");
+                //console.log(isValid, "isValid");
 
                 setFileError(isValid);
                 errorMessage = ''

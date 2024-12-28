@@ -250,7 +250,7 @@ const TransferOptionalSubjectMarks = () => {
     setdefaultSubjects(activeSubjects);
   }, [USOptionalSubjectsForMarksTransfer]);
 
-  console.log(defaultSubjects, 'defaultSubjects---');
+  //console.log(defaultSubjects, 'defaultSubjects---');
 
   const SubjectSelection = (subjectId) => {
     setIsDirty(true);

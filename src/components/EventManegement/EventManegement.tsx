@@ -44,9 +44,8 @@ import {
   resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { encodeURL } from '../Common/Util';
 
 const EventsManagement = () => {
   const dispatch = useDispatch();
@@ -159,7 +158,7 @@ const EventsManagement = () => {
   }, []);
   useEffect(() => {
     if (EventDetaill !== null) {
-      console.log(' after edit:', EventDetaill);
+      //console.log(' after edit:', EventDetaill);
       // setHomeworkId(EventDetaill.Id.toString);
       setEventTitle(EventDetaill.EventTitle);
       // setBirthDate(getCalendarFormat(EventDetaill.BirthDate))
@@ -320,7 +319,7 @@ const EventsManagement = () => {
   };
 
   const clickEventEdit = (Id) => {
-    Navigate('/RITeSchool/Teacher/EventManegement/' + '/' +  encodeURL(Id));
+    Navigate('/RITeSchool/Teacher/EventManegement/' + '/' + encodeURL(Id));
   };
 
   // const clickeventDelete = (Id) => {

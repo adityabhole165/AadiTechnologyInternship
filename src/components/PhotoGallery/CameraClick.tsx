@@ -59,7 +59,7 @@ const CameraClick = () => {
     } catch (error) {
       console.error('Failed to browse image');
     } finally {
-      console.log('Handled');
+      //console.log('Handled');
     }
   };
 

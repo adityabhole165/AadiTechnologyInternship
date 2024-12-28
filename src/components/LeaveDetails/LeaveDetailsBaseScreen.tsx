@@ -5,7 +5,9 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
     Box,
+    Grid,
     IconButton,
+    Stack,
     Tooltip,
     Typography
 } from '@mui/material';
@@ -275,7 +277,7 @@ const LeaveDetailsBaseScreen = () => {
         setPage(1); // Reset to the first page when changing rows per page
     };
     const ViewLeave = (Id, value) => {
-        console.log(Id, "value");
+        //console.log(Id, "value");
 
         navigate("../ViewLeaveDetails" + "/" + encodeURL(Id) + "/" + encodeURL(asUserId) + "/" + encodeURL(selectCategory) + "/" + encodeURL(value))
     };
@@ -340,60 +342,120 @@ const LeaveDetailsBaseScreen = () => {
                     }
                 ]}
                 rightActions={
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                        <SearchableDropdown
-                            sx={{ minWidth: '20vw' }}
-                            ItemList={GetAcademicYear.slice(0, 4)}
-                            defaultValue={selectAcademicYear}
-                            onChange={clickAcademicYearDropdown}
-                            size={"small"}
-                            label='Academic Year'
-                        />
-                        <SearchableDropdown
-                            sx={{ minWidth: '20vw' }}
-                            ItemList={GetCategoryDropdownList.slice(0, 3)}
-                            defaultValue={selectCategory}
-                            mandatory
-                            onChange={clickCategoryDropdown}
-                            size={"small"}
-                            label={'Category '}
-                        />
-                        <SearchableDropdown
-                            sx={{ minWidth: '20vw' }}
-                            ItemList={GetStatusDropdown}
-                            defaultValue={selectStatus}
-                            onChange={clickStatusDropdown}
-                            size={"small"}
-                            label='Status'
-                        />
-                        <Tooltip title={`Use this page to manage your leave.`}>
-                            <IconButton
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        alignItems="right"
+
+                        spacing={2}
+                        sx={{
+
+                            mt: { xs: 0, sm: 0 },
+                            flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                        }}
+                    >
+                        <Grid
+                            item
+                            xs={12}
+                            sm={8}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            <Stack
+                                direction="row"
+                                gap={1}
+                                alignItems="left"
                                 sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: grey[600]
-                                    }
+                                    flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                                    justifyContent: { xs: 'flex-start', sm: 'flex-start' }
                                 }}
                             >
-                                <QuestionMarkIcon />
-                            </IconButton>
-                        </Tooltip>
-                        {selectCategory == '1' ? (
-                            <Tooltip title="Add New Leave">
-                                <IconButton sx={{
-                                    bgcolor: green[500],
-                                    color: 'white',
-                                    '&:hover': {
-                                        bgcolor: green[600]
-                                    }
-                                }}
-                                    onClick={() => AddLeave()}>
-                                    <Add />
+                                <Box>
+                                    <SearchableDropdown
+                                        sx={{ minWidth: { xs: '40vw', sm: '20vw' } }}
+                                        ItemList={GetAcademicYear.slice(0, 4)}
+                                        defaultValue={selectAcademicYear}
+                                        onChange={clickAcademicYearDropdown}
+                                        size={"small"}
+                                        label='Academic Year'
+                                    /></Box>
+                            </Stack>
+                        </Grid>
+                        <Stack
+                            direction={{ xs: 'row', sm: 'row' }}
+                            spacing={1}
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            sx={{
+                                width: '100%',
+                                flexWrap: { xs: 'wrap', sm: 'nowrap' }
+                            }}
+                        >
+                            <SearchableDropdown
+                                sx={{ minWidth: { xs: '40vw', sm: '20vw' } }}
+                                ItemList={GetCategoryDropdownList.slice(0, 3)}
+                                defaultValue={selectCategory}
+                                mandatory
+                                onChange={clickCategoryDropdown}
+                                size={"small"}
+                                label={'Category '}
+                            /></Stack>
+                        <Stack
+                            direction={{ xs: 'row', sm: 'row' }}
+                            spacing={1}
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            sx={{
+                                width: '100%',
+                                flexWrap: { xs: 'wrap', sm: 'nowrap' }
+                            }}
+                        >
+                            <SearchableDropdown
+                                sx={{ minWidth: { xs: '40vw', sm: '20vw' } }}
+                                ItemList={GetStatusDropdown}
+                                defaultValue={selectStatus}
+                                onChange={clickStatusDropdown}
+                                size={"small"}
+                                label='Status'
+                            /></Stack>
+                        <Stack
+                            direction={{ xs: 'row', sm: 'row' }}
+                            spacing={1}
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            sx={{
+                                width: '100%',
+                                flexWrap: { xs: 'wrap', sm: 'nowrap' }
+                            }}
+                        >
+                            <Tooltip title={`Use this page to manage your leave.`}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        '&:hover': {
+                                            backgroundColor: grey[600]
+                                        }
+                                    }}
+                                >
+                                    <QuestionMarkIcon />
                                 </IconButton>
                             </Tooltip>
-                        ) : null}
-                    </Box>
+                            {selectCategory == '1' ? (
+                                <Tooltip title="Add New Leave">
+                                    <IconButton sx={{
+                                        bgcolor: green[500],
+                                        color: 'white',
+                                        '&:hover': {
+                                            bgcolor: green[600]
+                                        }
+                                    }}
+                                        onClick={() => AddLeave()}>
+                                        <Add />
+                                    </IconButton>
+                                </Tooltip>
+                            ) : null}
+                        </Stack>
+                    </Stack>
                 }
             />
             {Loading &&

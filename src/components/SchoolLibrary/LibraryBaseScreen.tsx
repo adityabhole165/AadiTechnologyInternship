@@ -159,7 +159,7 @@ const LibraryBaseScreen = () => {
 
     useEffect(() => {
         let isValid = true;
-        console.log("USReserveBookCountPerPerson", USReserveBookCountPerPerson);
+        //console.log("USReserveBookCountPerPerson", USReserveBookCountPerPerson);
 
         if (USReserveBookCountPerPerson.length > 0) {
             if (USReserveBookCountPerPerson[0].Count === "999") {
@@ -185,7 +185,7 @@ const LibraryBaseScreen = () => {
         }
         //dispatch(CDAClearCDAReserveBooksperpersonCount());
     }, [USReserveBookCountPerPerson])
-    console.log(USReserveBookCountPerPerson, "USReserveBookCountPerPerson111")
+    //console.log(USReserveBookCountPerPerson, "USReserveBookCountPerPerson111")
     useEffect(() => {
         // If `USBookCliamMsg` is not empty, show a success toast
         if (USBookCliamMsg !== "") {

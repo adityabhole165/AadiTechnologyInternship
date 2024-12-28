@@ -122,7 +122,7 @@ const GenerateAll = ({ }) => {
     // Edit Table Cell Data 
     const [marksListArray, setMarksListArray] = useState([]);
     useEffect(() => {
-        console.log('MarkDetailsList', MarkDetailsList);
+        //console.log('MarkDetailsList', MarkDetailsList);
 
     }, [MarkDetailsList]);
     useEffect(() => {
@@ -200,7 +200,7 @@ const GenerateAll = ({ }) => {
         });
         //console.log('following is markedscored', MarksScored);
         setTimeout(() => {
-            console.log('marksListArray', marksListArray);
+            //console.log('marksListArray', marksListArray);
         }, 1000);
     }
     function onBlurUpdateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
@@ -294,18 +294,27 @@ const GenerateAll = ({ }) => {
     function parentSubColSpan(parentSubId) {
         let colSpan = 1;
         let filteredArr = dataList.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === parentSubId);
+        let extendedColumn = dataList?.ListSubjectidDetails.filter(item => item.Subject_Id === filteredArr[0]?.Subject_Id);
+        //console.log("extendedColumn", extendedColumn);
         if (IsTotalConsiderForProgressReport.toLowerCase() === "true") {
             if (dataList.ListTestTypeIdDetails?.length === 1) {
                 colSpan = (filteredArr.length) + (dataList.ListTestTypeIdDetails?.length + 1);  // 3 + ( 1 + 1 ) 
                 return colSpan;
             } else {
-                colSpan = (filteredArr.length + 1) * (dataList.ListTestTypeIdDetails?.length + 1);  // 3 + 1 * ( 1 + 1 ) 
+                colSpan = (filteredArr.length + 1) * (extendedColumn?.length + 1);  // 3 + 1 * ( 1 + 1 ) 
                 return colSpan;
             }
         } else if (IsTotalConsiderForProgressReport.toLowerCase() === "false") {
-            colSpan = (filteredArr.length + 1) * dataList.ListTestTypeIdDetails?.length;
+            colSpan = (filteredArr.length + 1) * extendedColumn?.length;
             return colSpan;
         }
+    }
+    function findTestTypeForParentSubjects(parentSubId) {
+        let filteredArr = dataList.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === parentSubId);
+        let result = dataList?.ListSubjectidDetails.filter(item => item.Subject_Id === filteredArr[0]?.Subject_Id);
+        //console.log("result", result);
+        //console.log("filteredArr", filteredArr);
+        return result;
     }
     function findRow1() {
         let ParentSubArr = [];
@@ -325,16 +334,30 @@ const GenerateAll = ({ }) => {
             }
             // No need for return since map is only used for iteration
         });
+        //console.log('Row', ans)
         return ans;
     }
     function findRow2() {
-        return dataList.listSubjectsDetails?.map((item) => {
+        let result = dataList.listSubjectsDetails?.map((item) => {
             if (item.Parent_Subject_Id === '0') { // Handle undefined or empty Parent_Subject_Id
                 return { ...item, Subject_Name: '', rowSpan: 1, colSpan: getColSpan(item.Subject_Id) };//3 };
             } else {
                 return { ...item, rowSpan: 1, colSpan: getColSpan(item.Subject_Id) };//3 };
             }
         });
+        //console.log('Row res', result)
+        result.push({
+            "ID_Num": "54",
+            "Subject_Name": "",
+            "Subject_Id": "2365",
+            "Parent_Subject_Id": "0",
+            "Total_Consideration": "Y",
+            "Is_CoCurricularActivity": "False",
+            "Sort_Order": "7",
+            "rowSpan": 1,
+            "colSpan": 3
+        })
+        return result;
     }
     // #endregion
     const GetStudentPrrogressReportBody: IGetStudentPrrogressReportBody = {
@@ -456,6 +479,18 @@ const GenerateAll = ({ }) => {
             result = <span style={{ color: `${remarkList[0]?.ForeColor}`, fontWeight: 'bold' }}>{remarkList[0]?.DisplayName}</span>;
         }
         return result;
+    }
+    function findLastchildOfParentSubject(SubjectIndex) {
+        let SubjectArray: any = dataList?.listSubjectsDetails;
+        let parentSubjectId = SubjectArray[SubjectIndex].Parent_Subject_Id;
+        // let isLastChild = SubjectArray[SubjectArray.length - 1]?.Parent_Subject_Id;
+        if (SubjectArray[SubjectArray.length - 1]?.Parent_Subject_Id === parentSubjectId) {
+            return true;
+        } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === '0') {
+            return true;
+        } else {
+            return false;
+        }
     }
     const [temp, setTemp] = useState('8');
     return (
@@ -620,10 +655,11 @@ const GenerateAll = ({ }) => {
                                                         <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                                                             {findRow2()?.map((item, index) => (
                                                                 <>
+                                                                    {/* SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && (SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === '0' || SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === undefined) && */}
                                                                     {index > 0 && findRow2()[index - 1].Parent_Subject_Id !== "0" && item.Parent_Subject_Id === '0' && (
                                                                         <>
                                                                             {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
-                                                                            {dataList?.ListTestTypeIdDetails?.map((item1, i) => {
+                                                                            {findTestTypeForParentSubjects(findRow2()[index - 1]?.Parent_Subject_Id)?.map((item1, i) => {
                                                                                 return (
                                                                                     <TableCell key={i} rowSpan={2} sx={{ minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography textAlign={'center'} mr={0} sx={{ color: '#38548A', fontWeight: '800' }}>Total {item1?.ShortenTestType_Name}</Typography></TableCell>
                                                                                 )

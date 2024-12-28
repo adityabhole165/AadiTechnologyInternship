@@ -233,7 +233,7 @@ export const GetAddOrEditLessonPlanDetails =
         response.data.GetTeacherName.length > 0 ? response.data.GetTeacherName[0] : null
       ));
       dispatch(AddLessonPlanSlice.actions.getLessonPlanPhrasesList(response.data.GetLessonPlanPhrasesList));
-      console.log(response.data.GetLessonPlanPhrasesList, "------------");
+      //console.log(response.data.GetLessonPlanPhrasesList, "------------");
 
     };
 export const SaveLessonPlan =

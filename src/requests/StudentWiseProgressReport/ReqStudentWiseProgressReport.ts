@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentwiseReportApi from 'src/api/StudentWiseProgressReport/StudentWiseProgressReport';
 import {
+    GetClassTeacherXseedSubjectsBody,
     IDeleteAllStudentTestMarksBody,
     IGetAllPrimaryClassTeachersBody,
     IGetAssessmentDropdownBody,
     IGetPagedStudentsForMarkAssignmentBody,
     IGetPublishStatusBody,
     IPublishUnpublishXseedResultBody,
-    IoneDeleteStudentTestMarksBody,
-    GetClassTeacherXseedSubjectsBody
+    IoneDeleteStudentTestMarksBody
 } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
 import { AppThunk } from 'src/store';
 const Studentwiseprogressslice = createSlice({
@@ -19,12 +19,12 @@ const Studentwiseprogressslice = createSlice({
         PrimaryClassTeacher: [],
         ISAssessmentDropdown: [],
         StudentsAssignment: [],
-        ISClassTeacherXseedSubjects:[],
+        ISClassTeacherXseedSubjects: [],
         StudentsAssignmentGrade: [],
         oneDeleteStudent: "",
         DeleteAllStudent: "",
         ISAllStudentRecordCount: "",
-        ISGetAllRecordSubmitted:[],
+        ISGetAllRecordSubmitted: [],
         PublishStatus: [],
         PublishUnpublishXseed: "",
         Loading: true
@@ -78,8 +78,8 @@ const Studentwiseprogressslice = createSlice({
         },
         GetAllRecordSubmitted(state, action) {
             state.ISGetAllRecordSubmitted = action.payload;
-          },
-      
+        },
+
     }
 });
 
@@ -97,7 +97,7 @@ export const GetPrimaryTeacher =
                 };
             });
             dispatch(Studentwiseprogressslice.actions.PrimaryTeacher(TeacherList));
-            console.log(TeacherList, 'TeacherList');
+            //console.log(TeacherList, 'TeacherList');
         };
 
 export const CDAAssessmentDropdown =
@@ -112,7 +112,7 @@ export const CDAAssessmentDropdown =
                 };
             });
             dispatch(Studentwiseprogressslice.actions.AssessmentDrop(Assessment));
-            console.log(Assessment, 'Assessment');
+            //console.log(Assessment, 'Assessment');
         };
 
 
@@ -129,12 +129,12 @@ export const PageStudentsAssignment =
                     StudentName: item.StudentName,
                     EditStatus: item.EditStatus,
                     ShowDeleteButton: item.ShowDeleteButton,
-                    ShowProgressReport:item.ShowProgressReport,
+                    ShowProgressReport: item.ShowProgressReport,
                     StandardId: item.Standard_Division_Id,
 
                 };
             });
-            console.log(StudentsAssignment, "StudentsAssignment");
+            //console.log(StudentsAssignment, "StudentsAssignment");
 
 
 
@@ -150,7 +150,7 @@ export const oneDeleteStudentTest =
     (data: IoneDeleteStudentTestMarksBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentwiseReportApi.oneDeleteStudentTestMark(data);
-            console.log(response.data, "response.data  ");
+            //console.log(response.data, "response.data  ");
             dispatch(Studentwiseprogressslice.actions.oneDelete(response.data));
         };
 
@@ -180,7 +180,7 @@ export const PublishUnpublishXseed =
         };
 
 
-        export const CDAClassTeacherXseedSubjects =
+export const CDAClassTeacherXseedSubjects =
     (data: GetClassTeacherXseedSubjectsBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentwiseReportApi.GetClassTeacherXseedSubjects(data);
@@ -191,7 +191,7 @@ export const PublishUnpublishXseed =
                     IsPublished: item.IsPublished,
                 };
             });
-            
+
             dispatch(Studentwiseprogressslice.actions.RClassTeacherXseedSubjects(listpublishstatusDetails));
         };
 

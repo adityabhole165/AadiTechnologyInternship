@@ -76,7 +76,7 @@ export const ClassdropdownListCT =
         };
       });
       dispatch(ExamResultToppersSlice.actions.classListCT(abc));
-      console.log(abc, 'abc');
+      //console.log(abc, 'abc');
     };
 export const ClassExamListCT =
   (data: IGetexamDropdownBodyCT): AppThunk =>
@@ -161,7 +161,7 @@ export const ClassTopperListCT =
         });
         responseData.push(child);
       });
-      console.log(responseData, 'Subjects');
+      //console.log(responseData, 'Subjects');
 
       dispatch(
         ExamResultToppersSlice.actions.SubjectToppersListCT(responseData)
@@ -205,7 +205,7 @@ export const StandardSubjectListST =
   (data: IGetSubjectDropdownBodyST): AppThunk =>
     async (dispatch) => {
       const response = await ExamResultToppersApi.ClassSubjectDropdownST(data);
-      console.log(response, "pppppppppssssssssss");
+      //console.log(response, "pppppppppssssssssss");
       let abc = [{ Id: '0', Name: 'All', Value: '0' }];
       response.data.map((item, i) => {
         abc.push({
@@ -215,7 +215,7 @@ export const StandardSubjectListST =
         });
       });
       dispatch(ExamResultToppersSlice.actions.SubjectListST(abc));
-      console.log(abc, "ssssssssss");
+      //console.log(abc, "ssssssssss");
 
     };
 
@@ -283,7 +283,7 @@ export const StandardTopperListST =
         });
         responseData.push(child);
       });
-      console.log(responseData, 'Subjects');
+      //console.log(responseData, 'Subjects');
 
       dispatch(ExamResultToppersSlice.actions.SubjectToppersListST(responseData));
     };

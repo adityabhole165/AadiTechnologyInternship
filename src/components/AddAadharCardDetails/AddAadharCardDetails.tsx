@@ -39,12 +39,12 @@ const AddAadharCardDetails = () => {
     const AddAadharCarddetails = useSelector(
         (state: any) => state.AddAadharCardDetails.ISAddAadharCardDetails
     );
-    console.log(AddAadharCarddetails, 'SubmitAadharCarddetails');
+    //console.log(AddAadharCarddetails, 'SubmitAadharCarddetails');
 
     const SubmitAadharCarddetails = useSelector(
         (state: any) => state.AddAadharCardDetails.ISSubmitAadharCardDetailsS
     );
-    console.log(SubmitAadharCarddetails, 'SubmitAadharCarddetails');
+    //console.log(SubmitAadharCarddetails, 'SubmitAadharCarddetails');
 
 
 

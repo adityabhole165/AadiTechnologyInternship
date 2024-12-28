@@ -408,7 +408,7 @@ const SubjectExamMarks = () => {
   ]
   const [MarksError, setMarksError] = useState('')
 
-  console.log(getStandardId, "getStandardId");
+  //console.log(getStandardId, "getStandardId");
 
 
   // useEffect(() => {

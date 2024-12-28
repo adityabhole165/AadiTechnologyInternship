@@ -10,6 +10,7 @@ import {
     IconButton,
     Radio,
     RadioGroup,
+    Stack,
     Tooltip,
     Typography,
 } from '@mui/material';
@@ -34,10 +35,9 @@ import {
     resetSelectSchoolNotice,
 } from 'src/requests/AddSchoolNotice/ReqAddNotice';
 import { RootState, useDispatch, useSelector } from 'src/store';
-import { decodeURL, isBetweenDates } from '../Common/Util';
+import { decodeURL, encodeURL, isBetweenDates } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SchoolNoticeList from './SchoolNoticeList';
-import { encodeURL } from '../Common/Util';
 const SchoolNoticeBaseScreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -303,94 +303,135 @@ const SchoolNoticeBaseScreen = () => {
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
-                navLinks={[{ title: 'School Notices', path: ' ' },
-
-                ]}
+                navLinks={[{ title: 'School Notices', path: ' ' }]}
                 rightActions={
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                        <SearchableDropdown
-                            sx={{ minWidth: '13vw' }}
-                            ItemList={DisplayType}
-                            defaultValue={selectDisplayType}
-                            onChange={clickDisplayTypeDropdown}
-                            size={'small'}
-                            label={' Display Type'}
-                        />
-                        <SearchableDropdown
-                            sx={{ minWidth: '13vw' }}
-                            ItemList={DisplayLocation}
-                            defaultValue={selectDisplayLocation}
-                            onChange={clickDisplayLocationDropdown}
-                            size={'small'}
-                            label='Display Location'
-                        />
-                        <Box>
-                            <Tooltip
-                                title={`Select the notices from the list to be displayed on School web site under School Notices.`}
-                            >
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: yellow[600],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: yellow[700] },
-                                    }}
-                                >
-                                    <PriorityHighIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        alignItems="right"
+                        spacing={1}
+                        sx={{
+                            mt: { xs: 0, sm: 0 },
+                            flexWrap: { xs: 'nowrap', sm: 'nowrap' },
+                        }}
+                    >
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            {/* <Stack
+                                direction="row"
+                                gap={1}
+                                alignItems="left"
+                                sx={{
+                                    flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                                    justifyContent: { xs: 'flex-start', sm: 'flex-start' },
+                                }}
+                            > */}
 
-                        <Box>
-                            <Tooltip title={`Displays all uploaded school notices.`}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: grey[500],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: grey[600] },
-                                    }}
+                            <SearchableDropdown
+                                sx={{ minWidth: { xs: '40vw', sm: '13vw' } }}
+                                ItemList={DisplayType}
+                                defaultValue={selectDisplayType}
+                                onChange={clickDisplayTypeDropdown}
+                                size={'small'}
+                                label={' Display Type'}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            <SearchableDropdown
+                                sx={{ minWidth: { xs: '40vw', sm: '13vw' } }}
+                                ItemList={DisplayLocation}
+                                defaultValue={selectDisplayLocation}
+                                onChange={clickDisplayLocationDropdown}
+                                size={'small'}
+                                label="Display Location"
+                            /></Grid>
+
+                        <Grid
+                            item
+                            xs={12}
+                            gap={1}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            <Box>
+                                <Tooltip
+                                    title={`Select the notices from the list to be displayed on School web site under School Notices.`}
                                 >
-                                    <QuestionMarkIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                        <Box>
-                            <Tooltip title={`Save`}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: green[500],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: green[600] },
-                                    }}
-                                    onClick={clickSave}
-                                >
-                                    <SaveIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                        <Box>
-                            <Tooltip title={'Add New Notice'}>
-                                <IconButton
-                                    onClick={() =>
-                                        navigate('/RITeSchool/Teacher/AddSchoolNoticeFT' + '/' + encodeURL(selectDisplayType))
-                                    }
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: green[500],
-                                        '&:hover': {
-                                            backgroundColor: green[600],
-                                        },
-                                    }}
-                                >
-                                    <AddTwoTone />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                    </Box>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: yellow[600],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: yellow[700] },
+                                        }}
+                                    >
+                                        <PriorityHighIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+
+                            <Box>
+                                <Tooltip title={`Displays all uploaded school notices.`}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: grey[600] },
+                                        }}
+                                    >
+                                        <QuestionMarkIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                            <Box>
+                                <Tooltip title={`Save`}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: green[600] },
+                                        }}
+                                        onClick={clickSave}
+                                    >
+                                        <SaveIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                            <Box>
+                                <Tooltip title={'Add New Notice'}>
+                                    <IconButton
+                                        onClick={() =>
+                                            navigate('/RITeSchool/Teacher/AddSchoolNoticeFT' + '/' + encodeURL(selectDisplayType))
+                                        }
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600],
+                                            },
+                                        }}
+                                    >
+                                        <AddTwoTone />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                        </Grid>
+                    </Stack>
                 }
             />
+
             {Loading && <SuspenseLoader />}
 
             <Grid sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>

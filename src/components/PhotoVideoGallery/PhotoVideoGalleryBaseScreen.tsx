@@ -23,7 +23,7 @@ const PhotoVideoGalleryBaseScreen = () => {
 
     useEffect(() => {
         if (RowID !== undefined)
-
+            // galleryName = decodeURL(galleryName)
             console.log(RowID, "1234567")
 
 
@@ -124,6 +124,7 @@ const PhotoVideoGalleryBaseScreen = () => {
         asPageSize: page * rowsPerPage,
         asAcademicYearId: asAcademicYearId,
         asGalleryNameFilter: SearchPhotoGallery
+
     }
     useEffect(() => {
         dispatch(CDAGetPhotoDetails(photoD1ata))

@@ -55,7 +55,7 @@ export const MissingAttenDateAleart =
         async (dispatch) => {
 
             const response = await Missingattendance.MissingDateList(data);
-          //  console.log(response.data, "respon");
+            //  console.log(response.data, "respon");
 
             let MissingDate = response.data.MissingAttendanceDatesList.map((item, i) => {
                 return {
@@ -66,6 +66,6 @@ export const MissingAttenDateAleart =
             });
 
             dispatch(MissingattendanceAleartSlice.actions.MissingAttenaceDate(MissingDate));
-            console.log(MissingDate, 'StudentListnamealll');
+            //console.log(MissingDate, 'StudentListnamealll');
         };
 export default MissingattendanceAleartSlice.reducer;

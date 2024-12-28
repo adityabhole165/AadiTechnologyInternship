@@ -26,7 +26,6 @@ import {
   getTransportCommitteeForStudent
 } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
-import NewRelease from '../Authentication/NewRelease/NewRelease';
 import BdayPopUp from '../Birthdays/BdayPopUp';
 import { isBetweenDate } from '../Common/Util';
 import SchoolNoticeBoard from '../SchoolNoticeBoard/SchoolNoticeBoard';
@@ -502,7 +501,7 @@ function Dashboard() {
   };
   return (
     <>
-      <NewRelease />
+      {/* <NewRelease /> */}
       {showBday && <BdayPopUp />}
       <SchoolNoticeBoard />
       <Card2

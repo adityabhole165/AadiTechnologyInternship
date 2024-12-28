@@ -105,7 +105,7 @@ const TeacherTimetable = () => {
     dispatch(GetTeacherTimeTableResult(TeacherTimetableBody))
     dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
     dispatch(CDAGetTeacherSubjectMaxLecDetailsForWeekDays(IGetTeacherSubjectMaxLecForWeekDay))
-    console.log(TimeTableList)
+    //console.log(TimeTableList)
   }, [])
 
   // Following Functions are to Check whether the current ` TEACHER ` Time-Table Cell has any External Lec. (i.e, MPT, Assembly, Stayback, Weekly Test)
@@ -190,7 +190,7 @@ const TeacherTimetable = () => {
         asConsiderStayback: "Y",
         asConsiderWeeklyTest: "Y"
       }
-      console.log("teacher count ", LectureCountsForTeachers)
+      //console.log("teacher count ", LectureCountsForTeachers)
       dispatch(GetLectureCountsForTeachers(GetLectureCountsForTeachersBody))
     }
 

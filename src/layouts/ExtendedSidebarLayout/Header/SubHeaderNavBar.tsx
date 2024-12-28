@@ -60,11 +60,11 @@ function SubHeaderNavBar({ toggleDrawer }) {
   }, [GetNavbarmenu]);
   useEffect(() => {
     if (GetNavbarMenuDetails.length > 0) {
-      console.log(`🎉`, GetNavbarMenuDetails)
+      //console.log(`🎉`, GetNavbarMenuDetails)
     }
   }, [GetNavbarMenuDetails])
   const handleItemClick = (item) => {
-    console.log('Clicked item:', item);
+    //console.log('Clicked item:', item);
     navigate('/RITeSchool/landing/NavContent');
     dispatch(getMenuDescription({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
     dispatch(getChildMenuId({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
@@ -147,7 +147,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           // onMouseEnter={(e) => handleMenuClick(e, item.MenuId)}
           // onMouseEnter={(e) => { }}
           onClick={(e) => {
-            console.log('----->>>>', item);
+            //console.log('----->>>>', item);
             // handleMenuClick(e, item.MenuId)
             // actionPage(item)
             navigate('/RITeSchool/landing/NavContent');
@@ -371,91 +371,91 @@ function SubHeaderNavBar({ toggleDrawer }) {
               {menuStructure.length > 0 && <ArrowForwardIosIcon sx={{ color: 'white' }} />}
             </IconButton>
             <Hidden smDown>
-            <Tooltip
-              title={`Displays dashboard for users. Lists available features of the application.`}
-            >
-              <IconButton
-                sx={{
-                  color: 'white',
-                  background: (theme) => alpha(theme.palette.common.white, 0.2)
-                }}
+              <Tooltip
+                title={`Displays dashboard for users. Lists available features of the application.`}
               >
-                <QuestionMarkIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={'Support'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  background: (theme) => alpha(theme.palette.common.white, 0.2)
-                }}
-                ref={supportMenuRef}
-                onClick={handleToggle}
-              >
-                <InfoTwoToneIcon />
-              </IconButton>
-            </Tooltip>
-
-            {/* Support Menu Popup */}
-            <Popper
-              open={openSupportMenu}
-              anchorEl={supportMenuRef.current}
-              role={undefined}
-              placement="bottom-start"
-              transition
-              disablePortal
-            >
-              {({ TransitionProps, placement }) => (
-                <Grow
-                  {...TransitionProps}
-                  style={{
-                    transformOrigin:
-                      placement === 'bottom-start' ? 'left top' : 'left bottom'
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    background: (theme) => alpha(theme.palette.common.white, 0.2)
                   }}
                 >
-                  <Paper>
-                    <ClickAwayListener onClickAway={handleClose}>
-                      <MenuList
-                        onMouseLeave={handleClose}
-                        id="composition-menu"
-                        aria-labelledby="composition-button"
-                      >
-                        <MenuItem onClick={handleMenuItemClick(handleEmail)}>Email</MenuItem>
-                        <MenuItem onClick={handleMenuItemClick(handleSupport)}>Support</MenuItem>
-                        <MenuItem onClick={handleMenuItemClick(handleuserguide)}>User Guide</MenuItem>
-                        <MenuItem onClick={handleMenuItemClick(handleKnowledgebase)}>
-                          Knowledge Base
-                        </MenuItem>
-                      </MenuList>
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-            {/* Support Menu Popup End */}
-            <SettingsDropdown />
-            <Tooltip title={'Notifications'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  background: (theme) => alpha(theme.palette.common.white, 0.2)
-                }}
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={'Support'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    background: (theme) => alpha(theme.palette.common.white, 0.2)
+                  }}
+                  ref={supportMenuRef}
+                  onClick={handleToggle}
+                >
+                  <InfoTwoToneIcon />
+                </IconButton>
+              </Tooltip>
+
+              {/* Support Menu Popup */}
+              <Popper
+                open={openSupportMenu}
+                anchorEl={supportMenuRef.current}
+                role={undefined}
+                placement="bottom-start"
+                transition
+                disablePortal
               >
-                <NotificationsTwoToneIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={'Logout'}>
-              <IconButton
-                sx={{
-                  marginRight: '10px',
-                  color: 'white',
-                  background: (theme) => alpha(theme.palette.common.white, 0.2)
-                }}
-                onClick={handleLogout}
-              >
-                <LogoutTwoToneIcon />
-              </IconButton>
-            </Tooltip>
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === 'bottom-start' ? 'left top' : 'left bottom'
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList
+                          onMouseLeave={handleClose}
+                          id="composition-menu"
+                          aria-labelledby="composition-button"
+                        >
+                          <MenuItem onClick={handleMenuItemClick(handleEmail)}>Email</MenuItem>
+                          <MenuItem onClick={handleMenuItemClick(handleSupport)}>Support</MenuItem>
+                          <MenuItem onClick={handleMenuItemClick(handleuserguide)}>User Guide</MenuItem>
+                          <MenuItem onClick={handleMenuItemClick(handleKnowledgebase)}>
+                            Knowledge Base
+                          </MenuItem>
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+              {/* Support Menu Popup End */}
+              <SettingsDropdown />
+              <Tooltip title={'Notifications'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    background: (theme) => alpha(theme.palette.common.white, 0.2)
+                  }}
+                >
+                  <NotificationsTwoToneIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={'Logout'}>
+                <IconButton
+                  sx={{
+                    marginRight: '10px',
+                    color: 'white',
+                    background: (theme) => alpha(theme.palette.common.white, 0.2)
+                  }}
+                  onClick={handleLogout}
+                >
+                  <LogoutTwoToneIcon />
+                </IconButton>
+              </Tooltip>
             </Hidden>
           </Stack>
         </Stack>

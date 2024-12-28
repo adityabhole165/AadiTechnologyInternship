@@ -21,10 +21,9 @@ import {
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { resetEventList } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { decodeURL, getDateDDMMMDash } from '../Common/Util';
+import { decodeURL, encodeURL, getDateDDMMMDash } from '../Common/Util';
 import AnnualPlannerHeader from './AnnualPlannerHeader';
 import CalendarAnnualPlanner from './CalendarAnnualPlanner';
-import { encodeURL } from '../Common/Util';
 const AnnualPlannerBase = () => {
   let {
     selectedDate,
@@ -44,7 +43,7 @@ const AnnualPlannerBase = () => {
   const USStandardList: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectStandardList
   );
-  console.log(USStandardList, "USStandardList")
+  //console.log(USStandardList, "USStandardList")
   const USStandardDivision: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectDivisionList
   );
@@ -60,7 +59,7 @@ const AnnualPlannerBase = () => {
   const GetTeacherDetail: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.listTeacherDetail
   );
-  console.log("GetTeacherDetail", GetTeacherDetail)
+  //console.log("GetTeacherDetail", GetTeacherDetail)
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -167,12 +166,12 @@ const AnnualPlannerBase = () => {
     if (USStandardList.length > 0) {
       if (standardId == undefined) {
         if (IsClassTeacher === "N") {
-          console.log("Setting standardId to 0 because IsClassTeacher is 'N'");
+          //console.log("Setting standardId to 0 because IsClassTeacher is 'N'");
           setValue(USStandardList[0].Value, 'Standard'); // Set standardId to USStandardList[0].Value
           callGetDivisionList(USStandardList[0].Value);  // Call function with USStandardList[0].Value
         } else if (GetTeacherDetail && GetTeacherDetail.length > 0) {
           const standardId = findMatchingId(GetTeacherDetail[0].Standard_Id);
-          console.log("Setting standardId based on GetTeacherDetail:", standardId);
+          //console.log("Setting standardId based on GetTeacherDetail:", standardId);
           setValue(standardId === undefined ? USStandardList[0].Value : standardId, 'Standard');
           callGetDivisionList(standardId === undefined ? USStandardList[0].Value : standardId);
         }
@@ -268,7 +267,7 @@ const AnnualPlannerBase = () => {
       setSelectedDate(value);
       setValue(value, 'MonthYear');
       dispatch(resetEventList())
-      navigate('/RITeSchool/Common/EventManagementForm/' +  encodeURL(value.replaceAll('/', '-')) + '/' +  encodeURL(DefaultValue.Standard) + '/' +  encodeURL(DefaultValue.StandardDivision))
+      navigate('/RITeSchool/Common/EventManagementForm/' + encodeURL(value.replaceAll('/', '-')) + '/' + encodeURL(DefaultValue.Standard) + '/' + encodeURL(DefaultValue.StandardDivision))
     }
   };
   const ClickFilterItem = (value) => {

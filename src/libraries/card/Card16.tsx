@@ -170,7 +170,7 @@ function Card16({ FeesList, Note, Heading, currentYear, IsForCurrentyear }) {
     }
     return url;
   };
-  console.log('getURL-', getURL());
+  //console.log('getURL-', getURL());
   return (
     <div>
       {GetFeeDetails.IsRTEstudent ? (
@@ -266,7 +266,7 @@ function Card16({ FeesList, Note, Heading, currentYear, IsForCurrentyear }) {
                 <Grid container>
                   <Grid item xs={1}>
                     {(item.AmountPayable != '0' && item.RowNumber == '1') ||
-                    FeesList[i].ShowOptionButtonForAllEntry ? (
+                      FeesList[i].ShowOptionButtonForAllEntry ? (
                       <Checkbox
                         sx={{ ml: '-5px' }}
                         disabled={disabledStateCheckBox}
@@ -274,29 +274,29 @@ function Card16({ FeesList, Note, Heading, currentYear, IsForCurrentyear }) {
                         value={
                           // Payable Fees
                           i < FeesList.length - 1 &&
-                          FeesList[i].PaymentGroup ==
+                            FeesList[i].PaymentGroup ==
                             FeesList[i + 1].PaymentGroup
                             ? parseInt(FeesList[i].AmountPayable) +
-                              parseInt(FeesList[i + 1].AmountPayable) +
-                              ':' +
-                              FeesList[i].PaymentGroup
+                            parseInt(FeesList[i + 1].AmountPayable) +
+                            ':' +
+                            FeesList[i].PaymentGroup
                             : i < FeesList.length - 1 &&
                               FeesList[i].PaymentGroup !==
-                                FeesList[i + 1].PaymentGroup
-                            ? parseInt(FeesList[i].AmountPayable) +
+                              FeesList[i + 1].PaymentGroup
+                              ? parseInt(FeesList[i].AmountPayable) +
                               parseInt(FeesList[i].LateFeeAmount) +
                               ':' +
                               FeesList[i].PaymentGroup
-                            : i == FeesList.length - 1
-                            ? parseInt(
-                                FeesList[FeesList.length - 1].AmountPayable
-                              ) +
-                              (FeesList[i].ShowOptionButtonForAllEntry
-                                ? parseInt(FeesList[i].LateFeeAmount)
-                                : 0) +
-                              ':' +
-                              FeesList[FeesList.length - 1].PaymentGroup
-                            : null
+                              : i == FeesList.length - 1
+                                ? parseInt(
+                                  FeesList[FeesList.length - 1].AmountPayable
+                                ) +
+                                (FeesList[i].ShowOptionButtonForAllEntry
+                                  ? parseInt(FeesList[i].LateFeeAmount)
+                                  : 0) +
+                                ':' +
+                                FeesList[FeesList.length - 1].PaymentGroup
+                                : null
                         }
                         checked={FeesCheckBoxBoolean}
                         className="check serial"
@@ -346,9 +346,8 @@ function Card16({ FeesList, Note, Heading, currentYear, IsForCurrentyear }) {
             <>
               {!GetFeeDetails.IsCautionMoneyPaid ? (
                 <RouterLink
-                  to={`/${
-                    location.pathname.split('/')[1]
-                  }/Student/Fees_cautionmoney`}
+                  to={`/${location.pathname.split('/')[1]
+                    }/Student/Fees_cautionmoney`}
                   style={{ textDecoration: 'none' }}
                 >
                   <ButtonPrimary color="secondary">

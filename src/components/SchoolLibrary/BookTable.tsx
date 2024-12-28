@@ -86,7 +86,12 @@ const BookTable: React.FC<BookTableProps> = ({ data, showAllUsers, handleDelete,
           </TableHead>
           <TableBody>
             {safeData.map((book, index) => (
-              <TableRow key={index}>
+              <TableRow key={index} sx={{
+                height: '10px',
+                '& .MuiTableCell-root': {
+                  padding: '2px',
+                },
+              }}>
                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>
                   {book.bookTitle}
                 </TableCell>

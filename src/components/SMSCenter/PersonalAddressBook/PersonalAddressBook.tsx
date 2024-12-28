@@ -256,10 +256,10 @@ const PersonalAddressBook = () => {
             "asUserId": userId,
             "asGroupId": item?.PersonalAddressBookGroupId
         }
-        console.log('❌❌❌', item);
+        //console.log('❌❌❌', item);
 
         setGroupId(item.PersonalAddressBookGroupId)
-        console.log('🤞🤞🤞', GroupId);
+        //console.log('🤞🤞🤞', GroupId);
 
         setShowAddGroupContact(true);
         setGroupName(item.Name)
@@ -370,7 +370,7 @@ const PersonalAddressBook = () => {
             "asUserId": userId
         }
         dispatch(CDAGetCheckIfPersonalAddressGroupAlreadyExists(apiBody, apiBody1, apiBody2, formGroupType));
-        console.log('✨✌️👌', apiBody, apiBody1, apiBody2, formType);
+        //console.log('✨✌️👌', apiBody, apiBody1, apiBody2, formType);
 
     }
     function handleDelete(item: any) {
@@ -396,7 +396,7 @@ const PersonalAddressBook = () => {
 
     }
     function handleGroupDelete(item: any) {
-        console.log('👌', item);
+        //console.log('👌', item);
 
         const apiBodyForDelete: IDeletePersonalAddressBookGroupBody = {
             "asSchoolId": schoolId,
@@ -473,7 +473,7 @@ const PersonalAddressBook = () => {
                 navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList } });
             }
 
-            console.log(activeNoList);
+            //console.log(activeNoList);
         } catch (error) {
             console.error('Error fetching mobile numbers:', error);
         }

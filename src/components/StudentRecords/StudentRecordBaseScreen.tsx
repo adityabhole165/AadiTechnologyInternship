@@ -28,9 +28,9 @@ import {
   GetAllStudentStatuss,
   GetTeachersList
 } from 'src/requests/StudentRecords/RequestStudentRecords';
+import { encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordsNotes from './StudentRecordsNotes';
-import { encodeURL } from '../Common/Util';
 
 
 const StudentRecords = () => {
@@ -72,7 +72,7 @@ const StudentRecords = () => {
   const GetAssociatedTeacherUS = useSelector(
     (state: RootState) => state.StudentRecords.GetAssociatedTeacher);
 
-  console.log(GetTeachers, 'GetTeachers');
+  //console.log(GetTeachers, 'GetTeachers');
   const GetStatusStudents: any = useSelector(
     (state: RootState) => state.StudentRecords.StudentStatus
   );
@@ -123,7 +123,7 @@ const StudentRecords = () => {
     })
     return returnVal
   }
-  console.log(getstandardDiviId(), "getstandardDiviId()");
+  //console.log(getstandardDiviId(), "getstandardDiviId()");
   const getSchoolWiseStudentId = (value) => {
     let getSchoolWiseStudentId = false
     GetStatusStudents.map((Item) => {

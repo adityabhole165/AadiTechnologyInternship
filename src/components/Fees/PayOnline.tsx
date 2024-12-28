@@ -106,7 +106,7 @@ function PayOnline() {
     }
     return returnString;
   };
-  console.log('getQueryString', getQueryString());
+  //console.log('getQueryString', getQueryString());
   const body: IPayOnline = {
     asSchoolId: schoolId,
     asUserLogin: userLoginId,

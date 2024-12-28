@@ -173,7 +173,7 @@ function EditProfile() {
     };
     dispatch(getSubmitStudentPhoto(SubmitBody));
   };
-  console.log('DisableSubmit', DisableSubmit);
+  //console.log('DisableSubmit', DisableSubmit);
 
   return (
     <Box sx={{ px: 2 }}>

@@ -122,7 +122,7 @@ export const AcademicYearDropdown =
             const response = await LeaveDetailsAPI.GetAcademicYearDropdown(data);
             let abc = [{ Id: '0', Name: 'Select', Value: '0', IsCurrentYear: 'N' }];
             response.data
-               // .filter(item => Number(item.Academic_Year_ID) >= 53)
+                // .filter(item => Number(item.Academic_Year_ID) >= 53)
                 .map((item, i) => {
                     abc.push({
                         Id: item.Academic_Year_ID,
@@ -131,7 +131,7 @@ export const AcademicYearDropdown =
                         IsCurrentYear: item.Is_Current_Year,
                     });
                 });
-                console.log(abc,'academic year')
+            //console.log(abc,'academic year')
             dispatch(LeaveDetailsslice.actions.getAcademicYear(abc));
 
         };

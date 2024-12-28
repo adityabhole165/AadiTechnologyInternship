@@ -174,7 +174,7 @@ export const getAllAcademicYears =
       });
 
       dispatch(SchoolSettingSlice.actions.GetAllAcademicYear(GetAllAcademicYears));
-      console.log("abc", response)
+      //console.log("abc", response)
     };
 
 // GetAllowedPagesForUserApi

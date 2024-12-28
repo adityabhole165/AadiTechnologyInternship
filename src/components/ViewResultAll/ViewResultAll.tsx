@@ -82,7 +82,7 @@ const ViewResultAll = (props: Props) => {
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
   useEffect(() => {
     // EntireStudentFinalResult
-    console.log('EntireStudentFinalResult', EntireStudentFinalResult);
+    //console.log('EntireStudentFinalResult', EntireStudentFinalResult);
   }, [EntireStudentFinalResult])
   const GetClassTeachers = useSelector(
     (state: RootState) => state.FinalResult.ClassTeachers
@@ -101,7 +101,7 @@ const ViewResultAll = (props: Props) => {
       setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
   }, [UsGetSchoolSettings]);
   useEffect(() => {
-    console.log('USStudentListDropDown', USStudentListDropDown);
+    //console.log('USStudentListDropDown', USStudentListDropDown);
 
   }, [USStudentListDropDown])
 
@@ -261,9 +261,9 @@ const ViewResultAll = (props: Props) => {
         }));
       let finalFormat: any = parsedData?.map(item => DataParserAndFormatter(item));
       setParsedDataList(finalFormat);
-      console.log('⭐ AllStudentsProgressSheet => List No 1', USStudentResultList);
-      console.log('⭐ parsedData => List No 2', parsedData);
-      console.log('⭐ FinallList => List No 3', finalFormat);
+      //console.log('⭐ AllStudentsProgressSheet => List No 1', USStudentResultList);
+      //console.log('⭐ parsedData => List No 2', parsedData);
+      //console.log('⭐ FinallList => List No 3', finalFormat);
 
     }
   }, [USStudentResultList])

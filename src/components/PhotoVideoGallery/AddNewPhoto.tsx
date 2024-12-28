@@ -15,8 +15,13 @@ import {
 import { green, grey, red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from "react-toastify";
 import { IAllClassesAndDivisionsBody } from "src/interfaces/Common/Holidays";
+import { IGetPhotoDetailsBody, IManagePhotoGalleryBody } from "src/interfaces/Common/PhotoGallery";
+import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import { GetAllClassAndDivision } from "src/requests/Holiday/Holiday";
+import { CDAManagePhotoGalleryMsg, resetManagePhotoGalleryMsg } from "src/requests/PhotoGallery/PhotoGallery";
+import { CDAGetPhotoDetails } from "src/requests/Reqphoto/ReqPhoto";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 import FileUploadComponent from "./FileUploadComponent";
@@ -25,14 +30,31 @@ const AddNewPhoto = () => {
   const dispatch = useDispatch();
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const [selectedClasses, setSelectedClasses] = useState({});
-  const [selectAll, setSelectAll] = useState(false);
+  // const [selectAll, setSelectAll] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
   const [ItemList, setitemList] = useState([]);
+  const [GalleryName, setGalleryName] = useState('');
+  const [selected, setSelected] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [GalleryNameError, setGalleryNameError] = useState('');
+
+  //console.log(ItemList, "ItemList");
+
+
+  const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
+  const MaxfileSize2 = 3000000;
+  const [base64URL2, setbase64URL2] = useState('');
+  const [ImageFile, setImageFile] = useState('');
+  //console.log(base64URL2, "base64URL2123");
+
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const asUserId = Number(localStorage.getItem('UserId'));
 
   const ClassesAndDivisionss = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss);
   const ClassesAndDivisionss1 = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss1);
+  const USManagePhotoGallery: any = useSelector((state: RootState) => state.PhotoGalllary.IManagePhotoGalleryMsg);
+  const USPhotoGallery: any = useSelector((state: RootState) => state.Photo.ISGetPhotoDetils)
 
   const USStandardDivisionName: any = useSelector((state: RootState) => state.PhotoGalllary.IStandardDivisionName);
 
@@ -45,6 +67,79 @@ const AddNewPhoto = () => {
     dispatch(GetAllClassAndDivision(StandardDivisionName))
   }, []);
 
+  const PhotoDetailsBody: IGetPhotoDetailsBody = {
+    asSchoolId: asSchoolId,
+    asSortExp: "",
+    asStartIndex: 0,
+    asPageSize: 20,
+    asAcademicYearId: asAcademicYearId,
+    asGalleryNameFilter: "",
+  }
+
+  const isClassSelected = () => {
+    let arr = []
+    ItemList.map(item => {
+      if (item.IsActive)
+        arr.push(item.Id)
+    })
+    return arr.toString()
+  }
+  const ClassSelected = String(isClassSelected());
+  const ClickSave = async () => {
+    let isValid = true;
+    if (!GalleryName.trim()) {
+      setGalleryNameError('Gallery name should not be blank.');
+      isValid = false;
+    }
+    const SavephotoGallery: IManagePhotoGalleryBody = {
+      asSchool_Id: asSchoolId,
+      asOrg_Gallery_Name: "",
+      asGallery_Name: GalleryName,
+      asGallery_DetailsXML: "",
+      asInserted_By_id: asUserId,
+      asAssociatedSection: "1,2,3",
+      asClassesIds: ClassSelected,
+      Gallery_ID: 0
+    }
+    dispatch(CDAManagePhotoGalleryMsg(SavephotoGallery))
+    //setGalleryNameError('');
+  }
+  useEffect(() => {
+    if (USManagePhotoGallery !== "") {
+      toast.success(USManagePhotoGallery);
+      dispatch(resetManagePhotoGalleryMsg());
+      dispatch(CDAGetPhotoDetails(PhotoDetailsBody));
+    }
+  }, [GalleryName, ClassSelected]);
+
+
+  // function getXML() {
+  //  // <PhotoGallery>
+  //             <PhotoGallery
+  //               imagePath="Images/Gallery/Screenshot (2)10436.png"
+  //               imageSrNo="1"
+  //               comment=""
+  //             />
+  //              </PhotoGallery>
+  // }
+
+
+  // function getXML() {
+  //   let asUpdateSelectXML = "<PhotoGallery>";
+  //   let SrNo=0;
+  //   asUpdateSelectXML +=
+
+  //   selectedd.forEach(item => {
+
+  //     asUpdateSelectXML += "<PhotoGallery Image_Path=\"+item.ImagePath+"Image_SrNo=\"+1+"
+  //                                           Comment=\"+item.comment+" />" 
+
+  //   });
+  //   asUpdateSelectXML += "</PhotoGallery>";
+  //   return asUpdateSelectXML;
+  // }
+
+
   useEffect(() => {
     setitemList(ClassesAndDivisionss);
   }, [ClassesAndDivisionss]);
@@ -52,21 +147,18 @@ const AddNewPhoto = () => {
   const ClickChild = (value) => {
     setitemList(value);
   };
-  const isClassSelected = () => {
-    let arr = []
-    ItemList.map(item => {
-      if (item.IsActive)
-        arr.push(item.Id)
 
+  //console.log(ClassSelected, "ClassSelected1234");
 
-    })
+  const ChangeFile2 = (value) => {
+    setImageFile(value.Name);
+    setbase64URL2(value.Value);
+  };
 
-    return arr.toString()
-  }
+  const ClickGalleryName = (value) => {
+    setGalleryName(value);
+  };
 
-  const ClassSelected = String(isClassSelected());
-
-  console.log(ClassSelected, "ClassSelected1234");
 
   return (
     <Box px={2}>
@@ -109,6 +201,7 @@ const AddNewPhoto = () => {
                         backgroundColor: green[600],
                       },
                     }}
+
                   // onClick={handleUpdate}
                   // disabled={!formData.url || !formData.title}
                   >
@@ -126,6 +219,7 @@ const AddNewPhoto = () => {
                       backgroundColor: green[600],
                     },
                   }}
+                  onClick={ClickSave}
                 // onClick={handleAdd}
                 // disabled={!formData.url || !formData.title}
                 >
@@ -149,7 +243,14 @@ const AddNewPhoto = () => {
                 </span>
               }
               variant="outlined"
+              onChange={(e) => {
+                ClickGalleryName(e.target.value);
+              }}
+              value={GalleryName}
             />
+            <Box>
+              <ErrorMessage1 Error={GalleryNameError}></ErrorMessage1>
+            </Box>
           </Grid>
 
           <Grid item xs={12} sm={6}>
@@ -158,6 +259,7 @@ const AddNewPhoto = () => {
         </Grid>
         <Grid xs={12} sm={6}>
           <FileUploadComponent />
+
         </Grid>
         <Box pt={2} >
           <Box>
@@ -166,7 +268,6 @@ const AddNewPhoto = () => {
               ParentList={ClassesAndDivisionss1}
               ClickChild={ClickChild}
             ></SelectListHierarchy1>
-            {/* <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} /> */}
           </Box>
         </Box>
         <Box sx={{ backgroundColor: "lightgrey", pl: 1, mt: 2, }}>
@@ -207,7 +308,7 @@ const AddNewPhoto = () => {
               Cancel
             </Button>
             <Button
-              // onClick={ClickSave1}
+              onClick={ClickSave}
               sx={{
                 // backgroundColor: green[100],
                 color: 'green',

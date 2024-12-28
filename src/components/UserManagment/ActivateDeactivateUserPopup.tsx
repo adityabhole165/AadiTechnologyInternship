@@ -1,6 +1,5 @@
-import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, TextField, Tooltip, Typography } from '@mui/material';
-import { grey, red } from '@mui/material/colors';
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
+import { red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -150,6 +149,17 @@ const ActivateDeactivateUserPopup = ({ open, setOpen, UserName, clickActivateDea
                 </Grid>
             </DialogContent>
             <DialogActions sx={{ py: 1, px: 3 }}>
+                <Button
+                    onClick={handleClose}
+                    color={'error'}
+                    sx={{
+                        '&:hover': {
+                            backgroundColor: red[100],
+                        }
+                    }}
+                >
+                    Cancel
+                </Button>
                 <Button onClick={() => { ClickOk() }} color={'error'} sx={{
                     '&:hover': {
                         backgroundColor: red[100]

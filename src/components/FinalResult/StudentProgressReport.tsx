@@ -12,8 +12,8 @@ function StudentProgressReport() {
     asUserId = decodeURL(asUserId);
     asStudentId = decodeURL(asStudentId);
 
-    console.log(asUserId, "asUserId");
-    console.log(asStudentId, "asStudentId")
+    //console.log(asUserId, "asUserId");
+    //console.log(asStudentId, "asStudentId")
     return (
         <div>
             Student Progress

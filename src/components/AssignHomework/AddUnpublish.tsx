@@ -30,7 +30,7 @@ const AddUnpublish = () => {
   const PublishUnpublishHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework
   );
-  console.log(PublishUnpublishHomework, 'ddddd....');
+  //console.log(PublishUnpublishHomework, 'ddddd....');
 
   const ClickBack = () => {
     navigate('/RITeSchool/Teacher/AddHomework');

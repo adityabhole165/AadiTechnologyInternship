@@ -38,7 +38,7 @@ import {
   oneDeleteStudentTest
 } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
-import { decodeURL,encodeURL , getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, encodeURL, getSchoolConfigurations } from '../Common/Util';
 import IsPublishstatus from './IsPublishstatus';
 
 import CommonPageHeader from '../CommonPageHeader';
@@ -146,7 +146,7 @@ const Studentwiseprogressreport = () => {
 
   const PrimaryTeacher = useSelector((state: RootState) => state.Studentwiseprogress.PrimaryClassTeacher);
 
-  console.log(PrimaryTeacher, "PrimaryTeacher");
+  //console.log(PrimaryTeacher, "PrimaryTeacher");
 
   const USAssessmentDrop = useSelector((state: RootState) => state.Studentwiseprogress.ISAssessmentDropdown);
   const StudentAssignment = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignment);
@@ -414,7 +414,7 @@ const Studentwiseprogressreport = () => {
   const ClicEdit = (YearwiseStudentId, StandardId) => {
 
     navigate('/RITeSchool/Teacher/StudentwiseprogressreportEdit/' +
-      encodeURL(Assessment )+ '/' +
+      encodeURL(Assessment) + '/' +
       encodeURL(YearwiseStudentId) + '/' +
       encodeURL(StandardId)
 

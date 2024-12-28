@@ -65,7 +65,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 //   </div>
 // )
 
-const PersonalDetails = ({ personal, onChange, invalidFields }) => {
+const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields }) => {
   const [usingWebcam, setUsingWebcam] = useState(false);
   const webcamRef = useRef(null);
   const schoolId = localStorage.getItem('SchoolId');
@@ -374,7 +374,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   };
 
   const processImage = (imageData, prefix) => {
-    console.log('prefix', prefix);
+    //console.log('prefix', prefix);
     const base64Image = imageData.split(',')[1];
     const newImageName = generateImageName(prefix);
     setImageName(newImageName);
@@ -393,29 +393,32 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
   };
 
-  useEffect(() => {
-    console.log('uploadedImage', uploadedImage);
-  }, [uploadedImage]);
+  // useEffect(() => {
+  //   console.log('uploadedImage', uploadedImage);
+  // }, [uploadedImage]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log('🎈file', file);
+      //console.log('🎈file', file);
       setErrorMessage('');
       // File type validation
       const fileExtension = file.name.split('.').pop().toUpperCase();
       if (!ValidFileTypes1.includes(fileExtension)) {
-        setErrorMessage('File type should be .jpg or .jpeg.');
+        setErrorMessage('Please select valid file type.');
+        onChange('photoFilePath', '');
         return;
       }
       // File size validation
       if (file.size > MaxfileSize1) {
         setErrorMessage('File size exceeds 1 MB. Please upload a smaller file.');
+        onChange('photoFilePath', '');
+        fileInputRef.current.value = '';
         return;
       }
 
       const reader = new FileReader();
-      console.log('file', reader);
+      //console.log('file', reader);
       // const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       // const fileName = `${form.firstName}_Selected_${timestamp}.png`;
       // reader.readAsDataURL(file);
@@ -423,8 +426,8 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
         //setForm((prevForm) => ({ ...prevForm, photo: fileName }));
         setCapturedImage(reader.result); // Store image temporarily until uploaded
         processImage(reader.result, 'Selected');              ////🆕newesst Logic
-        console.log('0️⃣reader.result', reader.result);
-        console.log('0️⃣SelectedImage', capturedImage);
+        //console.log('0️⃣reader.result', reader.result);
+        //console.log('0️⃣SelectedImage', capturedImage);
         // const dateTime = new Date().toISOString();
         // const base64Image = capturedImage.split(',')[1];
         // const imageName = `${form.firstName}_WebCam_${dateTime}.png`;
@@ -450,7 +453,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
     setIsWebcamActive(true);
     //setFileNameError('');
-    console.log('capturedImage 0️⃣', capturedImage);
+    //console.log('capturedImage 0️⃣', capturedImage);
   };
 
 
@@ -471,7 +474,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   // };
 
   const ClickUpload = () => {
-    console.log('Captured Image after clicked Upload 1️⃣', capturedImage);
+    //console.log('Captured Image after clicked Upload 1️⃣', capturedImage);
     setErrorMessage('');
     if (capturedImage) {
       processImage(capturedImage, 'WebCam');
@@ -515,7 +518,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
       asStudentId: SchoolWise_Student_Id
     };
     if (personal.photoFilePath) {
-      console.log('👎', personal.photoFilePath);
+      //console.log('👎', personal.photoFilePath);
       showAlert({
         title: 'Please Confirm',
         message: 'Are you sure you want to delete Student Photo?',
@@ -551,7 +554,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
   const [imageFileExtention, setImageFileExtention] = useState('');
 
   const ChangeFile2 = (value) => {
-    console.log('🆕ChangeFile2', value);
+    //console.log('🆕ChangeFile2', value);
     // Calculate file size from Base64 string
     const base64Length = value.Value.length - (value.Value.indexOf(',') + 1); // Exclude metadata
     const padding = (value.Value.endsWith('==') ? 2 : value.Value.endsWith('=') ? 1 : 0);
@@ -559,8 +562,9 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
 
     if (!ValidFileTypes2.includes(value.FileExtension.toUpperCase())) {
       //('Invalid file format. Supported formats are'PDF', 'JPG', 'PNG', 'BMP', 'JPEG'');
-      showAlertMsg(value.ErrorMsg);
-      onChange('aadharCardScanCopy', value.Name); // Clear file name
+      showAlertMsg(value.ErrorMsg ? "Please select valid file type." : '');
+      onChange('aadharCardScanCopy', ''); // Clear file name
+      //onChange('aadharCardScanCopy', 'ErrorMsg'); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
       return;
     }
@@ -577,9 +581,9 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
     onChange('aadharCardScanCopy', value.Name);
     setbase64URL2(value.Value);
     setImageFileExtention(value.FileExtension);
-    console.log('1️⃣', personal.aadharCardScanCopy);
-    console.log('2️⃣', base64URL2);
-    console.log('3️⃣', imageFileExtention);
+    //console.log('1️⃣', personal.aadharCardScanCopy);
+    //console.log('2️⃣', base64URL2);
+    //console.log('3️⃣', imageFileExtention);
   };
 
   //let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/Student Documents/"
@@ -620,7 +624,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
       asUpdatedById: Number(localStorage.getItem('UserId'))
     };
     if (personal.aadharCardScanCopy) {
-      console.log('👎', personal.aadharCardScanCopy);
+      //console.log('👎', personal.aadharCardScanCopy);
       showAlert({
         title: 'Please Confirm',
         message: 'Are you sure you want to delete aadhar card photo?',
@@ -783,8 +787,15 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                   variant="outlined"
                   value={personal.mobileNumber1}
                   onChange={handleContactNoChange}
-                  error={!!invalidFields.find(field => field.field === "mobileNumber1")}
-                  helperText={invalidFields.find(field => field.field === "mobileNumber1") ? 'Mobile Number should not be blank.' : ''}
+                  error={(parseInt(schoolId) === 18 || parseInt(schoolId) === 122) && !!invalidFields.find(field => field.field === "mobileNumber1") ||
+                    !!unacceptableFields.find(field => field.field === "mobileNumber1")}
+                  helperText={
+                    invalidFields.find(field => field.field === "mobileNumber1")
+                      ? 'Mobile Number should not be blank.'
+                      : unacceptableFields.find(field => field.field === "mobileNumber1")
+                        ? 'Mobile number must be 10 digits'
+                        : ''
+                  }
                   fullWidth
                   inputProps={{
                     maxLength: 10,
@@ -800,8 +811,8 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                   variant="outlined"
                   value={personal.email}
                   onChange={handleInputChange}
-                  error={errors.email}
-                  helperText={errors.email ? 'This field is required' : ''}
+                  error={!!unacceptableFields.find(field => field.field === "email")}
+                  helperText={unacceptableFields.find(field => field.field === "email") ? 'Please select a valid email address.' : ''}
                   fullWidth
                 />
               </Grid>
@@ -842,9 +853,15 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                   value={personal.mobileNumber2}
                   onChange={handleContactNoChange}
                   fullWidth
-                  error={!!invalidFields.find(field => field.field === "mobileNumber2")}
-                  helperText={invalidFields.find(field => field.field === "mobileNumber2") ? 'Mobile Number should not be blank.' : ''}
-                />
+                  error={(parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "mobileNumber2")) ||
+                    !!unacceptableFields.find(field => field.field === "mobileNumber2")}
+                  helperText={
+                    invalidFields.find(field => field.field === "mobileNumber2")
+                      ? 'Mobile Number should not be blank.'
+                      : unacceptableFields.find(field => field.field === "mobileNumber2")
+                        ? 'Mobile number must be 10 digits'
+                        : ''
+                  } />
               </Grid>
             )}
 
@@ -914,7 +931,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                 type="file"
                 ref={fileInputRef}
                 onChange={handleImageChange}
-                style={{ margin: '12px' }}
+                style={{ margin: '12px', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis' }}
               />
             </Grid>
             <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -944,7 +961,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
             </Grid>
           </Grid>
           {errorMessage && (
-            <p style={{ color: 'red', marginTop: '8px' }}>{errorMessage}</p> // Error message display
+            <p style={{ color: 'red', marginTop: '8px' }}>{errorMessage}</p>
           )}
         </Grid>
 
@@ -1284,6 +1301,8 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                   const input = e.target as HTMLInputElement;
                   input.value = input.value.replace(/\D/g, '').slice(0, 12);
                 }}
+                error={!!unacceptableFields.find(field => field.field === "aadharCardNumber")}
+                helperText={unacceptableFields.find(field => field.field === "aadharCardNumber") ? 'Aadhar Card Number should have 12 digits.' : ''}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -1312,6 +1331,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields }) => {
                 height={"52px"}
                 isMandatory={false}
                 errorMessage={alertmsg}
+              //errorMessage={unacceptableFields.find(field => field.field === "aadharCardScanCopy") ? 'Please select valid file type.' : ''}
               />
             </Grid>
             <Grid item xs={1} md={1}>

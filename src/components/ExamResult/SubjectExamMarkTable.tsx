@@ -184,7 +184,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
         })
       }
     })
-    console.log(StudentsForMarksAssignment, "setAllValuesforGrade", value, "value, Index", Index);
+    //console.log(StudentsForMarksAssignment, "setAllValuesforGrade", value, "value, Index", Index);
 
     onChangeExamGrade(StudentsForMarksAssignment)
   }
@@ -235,10 +235,10 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
           <Table sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
             <TableHead >
               <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                <TableCell sx={{ color: 'white', fontWeight: "bold", py:1,}}>
+                <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1, }}>
                   {ExamMarksHeader.Text1}
                 </TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: "bold" , py:1, }}>
+                <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1, }}>
                   {ExamMarksHeader.Text2}
                 </TableCell>
                 {/* <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
@@ -267,7 +267,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
               {StudentsForMarksAssignment?.length > 0 &&
                 StudentsForMarksAssignment.map((Item, i) => {
                   return (<TableRow key={i}>
-                    <TableCell sx={{ py: 1}}>{Item.Text1}</TableCell>
+                    <TableCell sx={{ py: 1 }}>{Item.Text1}</TableCell>
                     <TableCell sx={{ py: 1 }}>{Item.Text2}</TableCell>
 
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
@@ -284,7 +284,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                     />
                     {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&
-                      <TableCell sx={{py: 1}}>
+                      <TableCell sx={{ py: 1 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <TextField sx={{
                             width: '80px',

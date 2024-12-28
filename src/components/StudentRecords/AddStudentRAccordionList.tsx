@@ -37,7 +37,7 @@ const AddStudentRAccordionList = ({ exampleLessonDetails, onTextChange, Action, 
     }
 
     const onSubChangeValue = (StdId, DivisionId, Id, Value) => {
-        console.log(StdId, "StdId", DivisionId, "DivisionId", Id, "Id", Value, "Value", exampleLessonDetails);
+        //console.log(StdId, "StdId", DivisionId, "DivisionId", Id, "Id", Value, "Value", exampleLessonDetails);
 
         exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
             return {
@@ -58,7 +58,7 @@ const AddStudentRAccordionList = ({ exampleLessonDetails, onTextChange, Action, 
                 })
             }
         })
-        console.log(exampleLessonDetails);
+        //console.log(exampleLessonDetails);
 
         onTextChange(exampleLessonDetails)
     }

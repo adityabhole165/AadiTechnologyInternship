@@ -51,7 +51,7 @@ function ViewSms({ }) {
   const GetDraftMessage = useSelector(
     (state: RootState) => state.DraftMessages.DraftMessage
   );
-  console.log('GetDraftMessage', GetDraftMessage);
+  //console.log('GetDraftMessage', GetDraftMessage);
 
   const DraftMessageBody: IGetDraftMessageBody = {
     aiSchoolId: asSchoolId,
@@ -76,7 +76,7 @@ function ViewSms({ }) {
       .post('MessageCenter/GetMessage', ViewSent_body)
       .then((resp) => resp.data.GetMessagesResult)
       .then((data) => {
-        console.log(data, 'data');
+        //console.log(data, 'data');
         setViewSent(data);
       });
   };

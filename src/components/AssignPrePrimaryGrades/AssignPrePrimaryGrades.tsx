@@ -62,7 +62,7 @@ const AssignPrePrimaryGrades = () => {
   }, []);
   useEffect(() => {
     if (TermId !== '' && TeacherId !== '') {
-      console.log(TermId, TeacherId)
+      //console.log(TermId, TeacherId)
     }
   }, [TeacherId, TermId])
   useEffect(() => {
@@ -110,7 +110,7 @@ const AssignPrePrimaryGrades = () => {
   };
 
   const ClickSubmit = (value, StandardDivisionID, pending) => {
-    console.log(pending)
+    //console.log(pending)
 
     const SubmitExamMarksStatusBody: IGetSubmitUnsubmitExamMarksStatusBody = {
       asStandard_Division_Id: Number(StandardDivisionID),
@@ -170,7 +170,7 @@ const AssignPrePrimaryGrades = () => {
       asSchoolId: Number(asSchoolId),
       asInserted_By_id: Number(selectTeacher)
     };
-    console.log("Submit and unsubmit body-->>>>>>>>", SubmitExamMarksStatusBody)
+    //console.log("Submit and unsubmit body-->>>>>>>>", SubmitExamMarksStatusBody)
     showAlert({
       title: 'Please Confirm',
       message: value.asIsSubmitted !== 'N' ?
@@ -286,7 +286,7 @@ const AssignPrePrimaryGrades = () => {
   };
 
   let a = GetIsPrePrimaryTeacher()
-  console.log("IsPrePrimary >>>>", a)
+  //console.log("IsPrePrimary >>>>", a)
   return (
     <>
       <Box sx={{ px: 2 }}>

@@ -34,11 +34,10 @@ import {
 } from 'src/requests/AssignHomework/requestAddHomework';
 import { GetHomeworkDetailss } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AddUnpublish1 from './AddUnpublish1';
 import UploadMultipleDialog from './UploadMultipleDialog';
-import { encodeURL } from '../Common/Util';
 const AddHomework = () => {
   let {
     ClassId,
@@ -312,7 +311,7 @@ const AddHomework = () => {
     SubjectList.map((item) => {
       if (item.IsActive) selectedValue = selectedValue + ',' + item.Id;
     });
-    console.log(selectedValue, 'selectedValue');
+    //console.log(selectedValue, 'selectedValue');
     return selectedValue;
   };
   const ResetForm = () => {

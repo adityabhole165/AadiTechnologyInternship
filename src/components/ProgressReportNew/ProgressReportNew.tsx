@@ -61,7 +61,7 @@ const ProgressReportNew = () => {
 
   const initialStudentId = state?.newstudntid ?? StudentidTopper ?? 0;
   const initialcademicYearId = state?.AcademicYear ?? AcademicYearTopper ?? asAcademicYearId;
-  console.log(initialStudentId, initialcademicYearId, "oo");
+  //console.log(initialStudentId, initialcademicYearId, "oo");
 
   const initialcademicYearId1 = state && state.AcademicYear !== undefined ? state.AcademicYear : AcademicYearTopper ? AcademicYearTopper : asAcademicYearId;
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
@@ -74,7 +74,7 @@ const ProgressReportNew = () => {
   const Newvalue = state && state.Newvalue !== undefined ? state.Newvalue : false;
   const [open, setOpen] = useState(Newvalue);
   const [open1, setOpen1] = useState(false);
-  console.log("--", StudentId, AcademicYear);
+  //console.log("--", StudentId, AcademicYear);
 
   const [AllowProgressReportDownloadAtStudentLogin, setAllowProgressReportDownloadAtStudentLogin] = useState("")
   const [ShowProgressReportGraphOnMobileApp, setShowProgressReportGraphOnMobileApp] = useState("")
@@ -107,6 +107,7 @@ const ProgressReportNew = () => {
 
   const [selectTeacher, SetselectTeacher] = useState(CanEdit == 'N' ? TeacherIdsession : '');
 
+  //console.log(TeacherIdsession, "TeacherIdsession",selectTeacher, CanEdit);
 
 
   const USlistTestDetailsArr: any = useSelector(
@@ -542,7 +543,7 @@ const ProgressReportNew = () => {
     const GetViewResultBody: IViewBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(AcademicYear),
-      asStudentId: Number(GetOldStudentDetails.StudentId),
+      asStudentsIds: (GetOldStudentDetails.StudentId),
       asWithGrace: 0,
     };
     dispatch(ViewResultGA(GetViewResultBody));
@@ -683,17 +684,17 @@ const ProgressReportNew = () => {
   //     console.log(StudentidTopper,"StudentidTopper");
 
 
-  useEffect(() => {
-    if (USGetClassTeachers.length > 0) {
-      if (state?.Newvalue) {
-        SetselectTeacher(state.TeacherID); // Set the value from state
-      } else if (CanEdit === 'Y') {
-        SetselectTeacher(USGetClassTeachers[0].Value); // Set the first teacher if CanEdit is 'Y'
-      } else if (TeacherIdTopper !== undefined) {
-        SetselectTeacher(TeacherIdTopper)
-      }
-    }
-  }, [USGetClassTeachers, state?.Newvalue, state?.TeacherID, CanEdit]);
+  // useEffect(() => {
+  //   if (USGetClassTeachers.length == 0) {
+  //     if (state?.Newvalue) {
+  //       SetselectTeacher(state.TeacherID); // Set the value from state
+  //     } else if (CanEdit === 'Y') {
+  //       SetselectTeacher(USGetClassTeachers[0].Value); // Set the first teacher if CanEdit is 'Y'
+  //     } else if (TeacherIdTopper !== undefined) {
+  //       SetselectTeacher(TeacherIdTopper)
+  //     }
+  //   }
+  // }, [USGetClassTeachers, state?.Newvalue, state?.TeacherID, CanEdit]);
 
 
 

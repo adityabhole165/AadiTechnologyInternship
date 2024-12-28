@@ -1,7 +1,6 @@
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey, red, yellow } from '@mui/material/colors';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip, Typography } from '@mui/material';
+import { green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 
@@ -141,13 +140,24 @@ const ChangePasswordPopup = ({ open, setOpen, UserName, clickSavePassword }) => 
                 </Grid>
 
                 {/* Password Requirements Text (Former Tooltip Message) */}
-                <Typography variant="body2" sx={{ mt: 2}}>
+                <Typography variant="body2" sx={{ mt: 2 }}>
                     Capitalization matters! Min 6 characters, Max 15 characters. The password should be a combination of at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.
                 </Typography>
             </DialogContent>
 
             <DialogActions sx={{ py: 1, px: 3 }}>
                 {/* Save Button */}
+                <Button
+                    onClick={handleClose}
+                    color={'error'}
+                    sx={{
+                        '&:hover': {
+                            backgroundColor: red[100],
+                        }
+                    }}
+                >
+                    Cancel
+                </Button>
                 <Button
                     onClick={handleSavePassword}
                     color={'primary'}
@@ -163,17 +173,7 @@ const ChangePasswordPopup = ({ open, setOpen, UserName, clickSavePassword }) => 
                 </Button>
 
                 {/* Cancel Button */}
-                <Button
-                    onClick={handleClose}
-                    color={'error'}
-                    sx={{
-                        '&:hover': {
-                            backgroundColor: red[100],
-                        }
-                    }}
-                >
-                    Cancel
-                </Button>
+
             </DialogActions>
         </Dialog>
     );

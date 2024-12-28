@@ -1,5 +1,5 @@
 import StarIcon from '@mui/icons-material/Star';
-import { Box, Container, Rating } from '@mui/material';
+import { Box, Rating } from '@mui/material';
 import { useState } from 'react';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 const Feedback = () => {
@@ -11,8 +11,8 @@ const Feedback = () => {
   };
 
   const handleSubmit = () => {
-    console.log('Rating:', rating);
-    console.log('Comment:', comment);
+    //console.log('Rating:', rating);
+    //console.log('Comment:', comment);
     setRating(null);
     setComment('');
 

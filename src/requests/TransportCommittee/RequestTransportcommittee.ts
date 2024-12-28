@@ -27,13 +27,13 @@ const SliceTransportcommittee = createSlice({
 
 export const getTransportCommittee =
   (data: IGetTransportCommitteeDetailsBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(SliceTransportcommittee.actions.getLoading(true));
-    const response = await ApiTransportCommittee.GetTransportCommittee(data);
-    dispatch(
-      SliceTransportcommittee.actions.getTransportCommittee(response.data)
-    );
-    console.log('response', response.data);
-  };
+    async (dispatch) => {
+      dispatch(SliceTransportcommittee.actions.getLoading(true));
+      const response = await ApiTransportCommittee.GetTransportCommittee(data);
+      dispatch(
+        SliceTransportcommittee.actions.getTransportCommittee(response.data)
+      );
+      //console.log('response', response.data);
+    };
 
 export default SliceTransportcommittee.reducer;

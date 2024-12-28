@@ -78,7 +78,7 @@ export const getSmsCount =
   (data: ISmsCountBody): AppThunk =>
     async (dispatch) => {
       const response = await SmsCenterApi.GetSmsCountDetails(data);
-      console.log(response.data, 'Data')
+      //console.log(response.data, 'Data')
       dispatch(SmsCenterSlice.actions.getSmsCount(response.data));
     };
 

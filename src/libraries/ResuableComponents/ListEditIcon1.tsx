@@ -25,7 +25,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const UsschoolSettings = useSelector((state: RootState) => state.AssignExamMarkSlice.IsGetSchoolSettings);
   const UsschoolSettingPartialSubmit = useSelector((state: RootState) => state.AssignExamMarkSlice.IsschoolsettingPartialSubmit);
-  console.log(UsschoolSettingPartialSubmit, "UsschoolSettingPartialSubmit");
+  //console.log(UsschoolSettingPartialSubmit, "UsschoolSettingPartialSubmit");
 
 
   const SchoolsettingBody: ISchoolsettingBody = {

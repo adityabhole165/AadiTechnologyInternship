@@ -114,13 +114,13 @@ export const AddLessonPlan = () => {
     const ClassListDropdown = useSelector(
         (state: RootState) => state.addlessonplan.ClassName
     );
-    console.log('ClassListDropdown', ClassListDropdown);
+    //console.log('ClassListDropdown', ClassListDropdown);
 
     const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
-    console.log("AddOrEditLessonPlanDetails", AddOrEditLessonPlanDetails);
+    //console.log("AddOrEditLessonPlanDetails", AddOrEditLessonPlanDetails);
 
     const SaveLessonPlan = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
-    console.log("SaveLessonPlan", SaveLessonPlan);
+    //console.log("SaveLessonPlan", SaveLessonPlan);
 
 
     useEffect(() => {

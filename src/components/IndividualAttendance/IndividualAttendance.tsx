@@ -36,13 +36,12 @@ import {
   resetMessage
 } from 'src/requests/Attendance/requestIndividualAttendance';
 import { RootState } from 'src/store';
-import { getAttendanceLegend } from '../Common/Util';
+import { decodeURL, encodeURL, getAttendanceLegend } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { encodeURL ,decodeURL} from '../Common/Util';
 const IndividualAttendance = () => {
   let { selectClasstecahernew, AssignedDate } = useParams();
   AssignedDate = decodeURL(AssignedDate);
- selectClasstecahernew = decodeURL(selectClasstecahernew);
+  selectClasstecahernew = decodeURL(selectClasstecahernew);
 
 
 
@@ -87,7 +86,7 @@ const IndividualAttendance = () => {
   const [FormattedDate, setFormattedDate] = useState<string | undefined>(
     getDateFormatted(date)
   );
-  console.log(FormattedDate, 'FormattedDate'); // State for formatted date
+  //console.log(FormattedDate, 'FormattedDate'); // State for formatted date
   const formattedDate = ` ${date.toLocaleString('default', {
     month: 'short'
   })} ${date.getFullYear()}`;
@@ -249,9 +248,9 @@ const IndividualAttendance = () => {
       newDate.setFullYear(newDate.getFullYear());
     }
     const formattedPreviousDate = getDateFormatted(newDate);
-    console.log('Previous Month Date:', newDate);
-    console.log('Previous Month:', newDate.getMonth() + 1);
-    console.log('Previous Year:', newDate.getFullYear());
+    //console.log('Previous Month Date:', newDate);
+    //console.log('Previous Month:', newDate.getMonth() + 1);
+    //console.log('Previous Year:', newDate.getFullYear());
     setDate(newDate);
     setMonth(`${newDate.getMonth() + 1}`);
     setYear(newDate.getFullYear());
@@ -266,9 +265,9 @@ const IndividualAttendance = () => {
       newDate.setFullYear(newDate.getFullYear());
     }
     const formattedNextDate = getDateFormatted(newDate);
-    console.log('Next Month Date:', newDate);
-    console.log('Next Month:', newDate.getMonth() + 1);
-    console.log('Next Year:', newDate.getFullYear());
+    //console.log('Next Month Date:', newDate);
+    //console.log('Next Month:', newDate.getMonth() + 1);
+    //console.log('Next Year:', newDate.getFullYear());
     setDate(newDate);
     setMonth(`${newDate.getMonth() + 1}`);
     setYear(newDate.getFullYear());
@@ -416,11 +415,11 @@ const IndividualAttendance = () => {
                   sx={{
 
                     width: { xs: '100%', sm: 'auto' },
-                   
+
                   }}
                 >
                   <SearchableDropdown
-                    sx={{ minWidth: '350px'}}
+                    sx={{ minWidth: '350px' }}
                     ItemList={StudentList}
                     onChange={clickStudent}
                     defaultValue={StudentId}
@@ -649,7 +648,7 @@ const IndividualAttendance = () => {
           ArrayList={HeaderPublish}
         />
       </Box>
-     
+
       <Dialog
         onClose={() => setOpenPresent(!isOpenPresent)}
         open={isOpenPresent}

@@ -65,7 +65,7 @@ const BookTable: React.FC<BookTableProps> = ({ data, clickcliam, DefaultValue, h
   const USGetAllBooksDetailss: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetailss);
 
   // console.log(SortDirection, "👌👌");
-  console.log(sortHeader, "HeaderArray", HeaderArray.slice(0, 9));
+  //console.log(sortHeader, "HeaderArray", HeaderArray.slice(0, 9));
 
   return (
     <>
@@ -128,7 +128,7 @@ const BookTable: React.FC<BookTableProps> = ({ data, clickcliam, DefaultValue, h
                 <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", textAlign: 'center', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{row.Available_Books}</TableCell>
                 <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", textAlign: 'center', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{row.Total_Books}</TableCell>
 
-                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red",paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
+                <TableCell sx={{ color: row.IsForIssue == "1" ? "" : "red", paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
                   {row.Available_Books === '0' ? (
                     <Link href="#" onClick={() => clickcliam(row.Book_Id)}>Claim</Link>
                   ) : (" ")}

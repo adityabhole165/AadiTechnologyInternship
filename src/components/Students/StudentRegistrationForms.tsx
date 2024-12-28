@@ -39,7 +39,7 @@ import {
   IGetStudentsSiblingDetailBody, IOverwriteAllSiblingDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody
 } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
-  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
+  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ISaveSubmittedDocumentsBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile from 'src/libraries/File/SingleFile';
@@ -51,13 +51,16 @@ import {
 } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
-  CDAAddStudentAdditionalDetails, CDACheckDependenciesForFees, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
+  CDAAddStudentAdditionalDetails,
+  CDACheckDependenciesForFees,
+  CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
   CDAGetStudentDocuments,
-  CDARetriveStudentStreamwiseSubject, CDAUpdateStudent, CDAUpdateStudentPhoto, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
+  CDARetriveStudentStreamwiseSubject,
+  CDASaveSubmittedDocumentsMsg,
+  CDAUpdateStudent, CDAUpdateStudentPhoto, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AdditionalDetails from './AdditionalDetails';
 import AddmissionDocumentInformation from './AddmissionDocumentInformation';
@@ -69,9 +72,14 @@ import CheckboxList from './SiblingDetailsCheckBoxList';
 import StudentProfileHeader from './StudentProfileHeader';
 import StudentSubjectDetails from './StudentSubjectDetails';
 
+interface FieldValidationError {
+  tab: string;
+  field: string;
+}
 
 const StudentRegistrationForm = () => {
   //const { BackN_Student_Ids } = useParams();
+  const ValidFileTypes = ["JPG", "JPEG", "PNG", "BMP", "PDF"];
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -270,9 +278,10 @@ const StudentRegistrationForm = () => {
     }
   });
   //object to store latest AdmissionDocuments List
-  const [submittedDocumentList, setSubmittedDocumentList] = useState([]);
+  const [documentList, setDocumentList] = useState([]);
 
   const [feeDependencyError, setFeeDependencyError] = useState('');
+  const [isDeleteFee, setIsDeleteFee] = useState(false);
   //Siblings States
   const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
   const [selectedSiblings, setSelectedSiblings] = useState('');
@@ -284,12 +293,14 @@ const StudentRegistrationForm = () => {
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
-
+  const ShowDayBoardingOptionOnStudentsScreen = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowDayBoardingOptionOnStudentsScreen || false;
   // Centralized Required Fields Configuration
+  const [fieldValidationErrors, setFieldValidationErrors] = useState<FieldValidationError[]>([]);
 
   const [progress, setProgress] = useState(0);
   const [invalidFields, setInvalidFields] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [unacceptableFields, setUnacceptableFields] = useState([]);
 
   const schoolRequiredFields = {
     18: {
@@ -427,19 +438,68 @@ const StudentRegistrationForm = () => {
     };
   };
 
-  const result = validateFieldsAndCalculateProgress(schoolId, form);
-  //console.log('Progress:', result.progress + '%');
-  //console.log('Invalid Fields:', result.invalidFields);
 
   useEffect(() => {
     const { progress, invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
+    const FieldValidation = validateSpecificFields(form);
     setProgress(Number(progress));
     if (isSubmitted) {
       setInvalidFields(invalidFields);
     }
+    setUnacceptableFields(FieldValidation);
   }, [schoolId, form, isSubmitted]);
 
+  const validateSpecificFields = (form) => {
+    const specificFieldValidations = [];
+    // Email validation regex pattern
+    const emailPattern = /^(?!.*\.\.)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    // Admission Tab Validations
+    if (form.admission) {
+      if (form.admission.registrationNumber === '0') {
+        specificFieldValidations.push({ tab: 'admission', field: 'registrationNumber' });
+      }
+    }
 
+    // Personal Tab Validations
+    if (form.personal) {
+      // Mobile Number 1
+      if (form.personal.mobileNumber1 && form.personal.mobileNumber1.length !== 10) {
+        specificFieldValidations.push({ tab: 'personal', field: 'mobileNumber1' });
+      }
+      // Email validation
+      if (form.personal.email && !emailPattern.test(form.personal.email)) {
+        specificFieldValidations.push({ tab: 'personal', field: 'email' });
+      }
+      // Mobile Number 2
+      if (form.personal.mobileNumber2 && form.personal.mobileNumber2.length !== 10) {
+        specificFieldValidations.push({ tab: 'personal', field: 'mobileNumber2' });
+      }
+      // Aadhar Card Number
+      if (form.personal.aadharCardNumber && form.personal.aadharCardNumber.length !== 12) {
+        specificFieldValidations.push({ tab: 'personal', field: 'aadharCardNumber' });
+      }
+
+      // // Aadhar Card Scan Copy Error
+      // if (form.personal.aadharCardScanCopy === 'ErrorMsg') {
+      //   specificFieldValidations.push({ tab: 'personal', field: 'aadharCardScanCopy' });
+      // }
+    }
+
+    // Family Tab Validations
+    // if (form.family) {
+    //   if (form.family.fatherPhoto === 'ErrorMsg') {
+    //     specificFieldValidations.push({ tab: 'family', field: 'fatherPhoto' });
+    //   }
+    // }
+
+    return specificFieldValidations;
+  };
+
+  const result = validateFieldsAndCalculateProgress(schoolId, form);
+  //console.log('Progress:', result.progress + '%');
+  const result1 = validateSpecificFields(form);
+  //console.log('Invalid Fields:', result.invalidFields);
+  //console.log('Specific Invalid Fields:', result1);
 
   //#region Tabs
   const totalTabs = parseInt(schoolId) === 122 ? 6 : 5;
@@ -470,26 +530,25 @@ const StudentRegistrationForm = () => {
     }
   }, [schoolId]);
 
-  // Track the validation status for each tab
-  const [status, setStatus] = useState({
-    admissionDetails: null,
-    personalDetails: null,
-    admissionDocuments: null,
-    familyDetails: null,
-    additionalDetails: null,
-    streamDetails: null
-  });
+  // // Track the validation status for each tab and field                       //<= ❎UnUsed
+  // const [status, setStatus] = useState({
+  //   admissionDetails: null,
+  //   personalDetails: null,
+  //   admissionDocuments: null,
+  //   familyDetails: null,
+  //   additionalDetails: null,
+  //   streamDetails: null
+  // });
 
 
-  const ValidFileTypes = ["JPG", "JPEG", "PNG", "BMP", "PDF"];
-  const MaxfileSize = 1000000;
-  const [SelectDate, SetSelectDate] = useState(
-    AssignedDate == undefined
-      ? new Date().toISOString().split('T')[0]
-      : getCalendarDateFormatDateNew(AssignedDate)
-  );
+  // const MaxfileSize = 1000000;                                               //<= ❎UnUsed
+  // const [SelectDate, SetSelectDate] = useState(
+  //   AssignedDate == undefined
+  //     ? new Date().toISOString().split('T')[0]
+  //     : getCalendarDateFormatDateNew(AssignedDate)
+  // );
 
-  useEffect(() => {         //Redux Store 
+  useEffect(() => {         //Redux Store                                       //<= ❎UnUsed
     if (location.state) {
       const NavigationValues = {
         Name,
@@ -504,20 +563,27 @@ const StudentRegistrationForm = () => {
       dispatch((CDANavigationValues(NavigationValues)))
     }
   }, [Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id, Enrolment_Number, Joining_Date])
+  // const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);      //<= ❎UnUsed
+  // const RYearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
+  // const RSchoolWise_Student_Id = NavigationValues?.SchoolWise_Student_Id;
+  // const RDivisionId = NavigationValues?.DivisionId;
+  // const RStandardId = NavigationValues?.standardId;
 
 
   //#region UseSelectors
-  const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
-  const RYearWise_Student_Id = NavigationValues?.YearWise_Student_Id;
-  const RSchoolWise_Student_Id = NavigationValues?.SchoolWise_Student_Id;
-  const RDivisionId = NavigationValues?.DivisionId;
-  const RStandardId = NavigationValues?.standardId;
-  // useEffect(() => {
-  //   console.log('2️⃣Redux Data:', NavigationValues);
-  // }, [NavigationValues]);
-
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   //console.log('1️⃣USGetSingleStudentDetails', USGetSingleStudentDetails);
+  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
+  //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
+  const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
+  ///=>AdmissionDocument Uplpoad Document List
+  const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
+  //console.log('GetStudentDocumentsList', GetStudentDocumentsList);
+  const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
+  //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
+  const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
+  //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
+
   //#region hiddenfields
   const oStudentDetails = USGetSingleStudentDetails[0]
   const StudentSiblingName = oStudentDetails?.SiblingStudentName || '';
@@ -538,16 +604,10 @@ const StudentRegistrationForm = () => {
   const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
   //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
   //console.log('⏮️ReferenceMessages', ReferenceMessages);
-  const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
-  //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
-  const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
-  ///=>AdmissionDocument Uplpoad Document List
-  const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
 
-  const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
-  //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
-  const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
-  //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
+
+
+
 
   // useEffect(() => {
   //   let sMsg = '';
@@ -739,7 +799,7 @@ const StudentRegistrationForm = () => {
   useEffect(() => {
     if (GetStudentStreamwiseSubjectDetails && GetStudentStreamwiseSubjectDetails.length > 0) {
       const StreamwiseSubject = GetStudentStreamwiseSubjectDetails[0];
-      console.log('4️⃣StreamwiseSubject', StreamwiseSubject);
+      //console.log('4️⃣StreamwiseSubject', StreamwiseSubject);
 
       setForm((prevForm) => ({
         ...prevForm,
@@ -756,9 +816,18 @@ const StudentRegistrationForm = () => {
     }
   }, [GetStudentStreamwiseSubjectDetails]);
 
+  //=>Addmission Documents BaseList
   useEffect(() => {
-    console.log('Nested Form🆕', form);
-  }, [form]);
+    if (GetStudentDocumentsList && GetStudentDocumentsList.length > 0) {
+      setDocumentList(GetStudentDocumentsList);
+      //console.log('🆕', '123');
+    }
+  }, [GetStudentDocumentsList])
+
+  useEffect(() => {
+    //console.log('Nested Form🆕', form);
+    //console.log('0️⃣Admission Documents🆕', documentList);
+  }, [form, documentList]);
   //#endregion
 
   //#region Read APIs.
@@ -834,8 +903,8 @@ const StudentRegistrationForm = () => {
   useEffect(() => {
     if (schoolId && parseInt(schoolId) === 122) {
       const RetriveStudentStreamwiseSubjectBody = {
-        asSchoolId: 122, // Number(schoolId),
-        asAcademicYearId: 10, // Number(academicYearId),
+        asSchoolId: Number(localStorage.getItem('localSchoolId')), // Number(schoolId),
+        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')), // Number(academicYearId),
         asStudentId: localData.SchoolWise_Student_Id// SchoolWise_Student_Id ?? RSchoolWise_Student_Id,
       };
       dispatch(CDARetriveStudentStreamwiseSubject(RetriveStudentStreamwiseSubjectBody));
@@ -994,7 +1063,7 @@ const StudentRegistrationForm = () => {
     asParentUserId: 0,
     asStudentEmailAddress: form.personal?.email || '',
     asUserId: StudentUser_Id,
-    IsDeleteFee: false,
+    IsDeleteFee: isDeleteFee ?? false,
     adtOldJoiningDate: formatDOB(hidOldJoiningDate)
   };
 
@@ -1070,8 +1139,8 @@ const StudentRegistrationForm = () => {
 
   const UpdateStudentStreamwiseSubjectDetailsBody: IUpdateStudentStreamwiseSubjectDetailsBody =
   {
-    asSchoolId: 122,
-    asStudentId: 4584,
+    asSchoolId: Number(schoolId),
+    asStudentId: Number(SchoolWise_Student_Id ?? localData.SchoolWise_Student_Id),
     asStreamId: Number(form.streamwiseSubject?.streamId) || 0,
     GroupId: Number(form.streamwiseSubject?.groupId) || 0,
     CompulsorySubject: form.streamwiseSubject?.compulsorySubjects || '',
@@ -1100,10 +1169,6 @@ const StudentRegistrationForm = () => {
     asStudentId: SchoolWise_Student_Id ?? localData.SchoolWise_Student_Id,
     asStudentBinaryPhoto: form.personal?.photoFilePathImage || null,
   }
-  useEffect(() => {
-    console.log('📃', submittedDocumentList,);
-  }, [submittedDocumentList])
-
   const CheckDependenciesForFeesBody: ICheckDependenciesForFeesBody = {
     asSchoolId: Number(schoolId),
     asReference_Id: 87,
@@ -1119,19 +1184,19 @@ const StudentRegistrationForm = () => {
     const dateChanged = hidOldJoiningDate !== currentJoiningDate
     const monthChanged = hidOldJoiningDateMonth !== currentJoiningDateMonth
 
-    console.log(ruleChanged, '⚠️', dateChanged, '⚠️', monthChanged);
+    //console.log(ruleChanged, '⚠️', dateChanged, '⚠️', monthChanged);
 
     if (ruleChanged || dateChanged) {  // ⭐FeeCategory condions remained
       bFlag = true;
 
-      if ((RoleName !== 'SuperAdmin' && monthChanged)) {
+      if ((RoleName !== 'SuperAdmin' && dateChanged && monthChanged)) {
         await dispatch(CDACheckDependenciesForFees(CheckDependenciesForFeesBody));
 
-        console.log(RoleName, "⚠️Executing CheckDependenciesForFees API", CheckDependenciesForFeesBody);
+        //console.log(RoleName, "⚠️Executing CheckDependenciesForFees API", CheckDependenciesForFeesBody);
       }
       else { bFlag = false }
     }
-    //console.log('⭐', sMsg, '⭐', bFlag);
+    //console.log('⭐', bFlag);
     return { bFlag };
 
   }
@@ -1148,12 +1213,12 @@ const StudentRegistrationForm = () => {
   ) => {
     try {
       // Update Student Details
-      console.log('Sending update with data:', updateStudentBody);
+      //console.log('Sending update with data:', updateStudentBody);
       await dispatch(CDAUpdateStudent(updateStudentBody));
 
       // Add Additional Student Details
       if (IsAdditionalFieldsApplicable) {
-        console.log('Sending additional details:', additionalDetailsBody);
+        //console.log('Sending additional details:', additionalDetailsBody);
         await dispatch(CDAAddStudentAdditionalDetails(additionalDetailsBody));
         // Transport Fee Logic
         // if (parseInt(schoolId) === 122) {
@@ -1166,30 +1231,30 @@ const StudentRegistrationForm = () => {
       }
 
       if (overwriteSiblingDetails === 0) {
-        console.log('overwriteSiblingDetails:', overwriteSiblingDetails);
-        console.log('Sending overwriteSiblingDetails details:', overwriteSiblingDetailsBody);
+        //console.log('overwriteSiblingDetails:', overwriteSiblingDetails);
+        //console.log('Sending overwriteSiblingDetails details:', overwriteSiblingDetailsBody);
         await dispatch(CDAOverwriteSiblingDetailsMsg(overwriteSiblingDetailsBody));
       }
 
       // Update Streamwise Subject Details    // NEED TO MOVE FROM HERE
       if (parseInt(schoolId) === 122 && streamwiseSubjectDetailsBody) {
-        console.log('Updating streamwise subject details:', streamwiseSubjectDetailsBody);
+        //console.log('Updating streamwise subject details:', streamwiseSubjectDetailsBody);
         await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(streamwiseSubjectDetailsBody));
       }
 
       // Generate Transport Fee Entries
       if (transportFeeBody) {
-        console.log('Generating transport fee entries:', transportFeeBody);
+        //console.log('Generating transport fee entries:', transportFeeBody);
         await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
       }
 
       // Update Student Photo & Base64 Image
       if (form.personal?.photoFilePathImage && UpdateStudentPhotoBody) {
-        console.log('Updating student photo:', UpdateStudentPhotoBody);
+        //console.log('Updating student photo:', UpdateStudentPhotoBody);
         await dispatch(CDAUpdateStudentPhoto(UpdateStudentPhotoBody));
       }
 
-      console.log('API calls completed successfully.');
+      //console.log('API calls completed successfully.');
     } catch (error) {
       console.error('Error during API calls:', error);
     }
@@ -1198,22 +1263,19 @@ const StudentRegistrationForm = () => {
   const handleFormSubmission = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
     setIsSubmitted(true); // Enable validation display
-    // Validate the form
-    //const isFormValid = handleValidation();
-    // const isFormValid = Object.values(tabValidationStatus).every(status => status === true);
-    // if (!isFormValid) {
-    //   console.log('😶 Form submission halted due to validation errors.');
-    //   return;
-    // }
 
-    // Validate the form and calculate invalid fields
+    // Get specific field validations
+    //const specificFieldValidations = validateSpecificFields(form);
+
+    // Get required field validations
     const { invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
 
-    if (invalidFields.length > 0) {
-      console.log('Validation errors found:', invalidFields);
+    if (invalidFields.length > 0) {                               //|| specificFieldValidations.length > 0
+      //console.log('Validation errors found:', invalidFields);
       // Switch to the tab with the first invalid field
+      const firstInvalidFieldTab = invalidFields[0];             //|| specificFieldValidations[0]
+
       setCurrentTab(() => {
-        const firstInvalidTab = invalidFields[0].tab;
         const tabIndexMapping = {
           admission: 0,
           personal: 1,
@@ -1222,20 +1284,22 @@ const StudentRegistrationForm = () => {
           additional: 4,
           stream: 5
         };
-        return tabIndexMapping[firstInvalidTab] || 0;
+        return tabIndexMapping[firstInvalidFieldTab.tab] || 0;
       });
+      //console.log('❎❎❎ Submission Stopped');
       return; // Stop submission
     }
 
-    // // First check dependencies
-    // await CheckDependenciesForFees();
-
-    // // Check if there's any blocking message from the dependency check
-    // if (ReferenceMessages[0]?.ReferenceMsg) {
-    //   toast.warning(ReferenceMessages[0].ReferenceMsg);
-    //   setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
-    //   return;
-    // }
+    // First check dependencies
+    const dependencyResult = await CheckDependenciesForFees();
+    setIsDeleteFee(dependencyResult.bFlag);
+    console.log('⚠️', dependencyResult);
+    // Check if there's any blocking message from the dependency check
+    if (ReferenceMessages[0]?.ReferenceMsg) {
+      //toast.warning(ReferenceMessages[0].ReferenceMsg);
+      setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
+      return;
+    }
 
     // Check if popup needs to open
     const shouldOpenPopup = !!StudentSiblingName; // Popup opens if sibling name exists
@@ -1246,7 +1310,7 @@ const StudentRegistrationForm = () => {
 
     // Validation passed, proceed with API calls
     try {
-      console.log('Validation passed! Proceeding with API calls...');
+      //console.log('Validation passed! Proceeding with API calls...');
 
       await executeApiCalls(
         UpdateStudentBody,
@@ -1267,7 +1331,9 @@ const StudentRegistrationForm = () => {
       console.error('🚨 Error during form submission or API calls:', error);
     }
   };
-
+  useEffect(() => {
+    //console.log('🎈🎈🎈🎈isDeleteFee:', isDeleteFee);
+  }, [isDeleteFee])
   //#region SiblingPopSave
   const handleSiblingPopSave = async () => {
     setIsSubmitted(true);
@@ -1277,18 +1343,10 @@ const StudentRegistrationForm = () => {
       console.warn('🚨 Sibling update halted due to missing selections.');
       return;
     }
-    // Enable validation display
-    //await CheckDependenciesForFees();
 
-    // Check if there's any blocking message from the dependency check
-    // if (ReferenceMessages[0]?.ReferenceMsg) {
-    //   toast.warning(ReferenceMessages[0].ReferenceMsg);
-    //   setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
-    //   return;
-    // }
     // Proceed with API calls when the popup Save button is clicked
     try {
-      console.log('Popup validation passed! Proceeding with sibling and other API calls...');
+      //console.log('Popup validation passed! Proceeding with sibling and other API calls...');
       await executeApiCalls(
         UpdateStudentBody,
         AddStudentAdditionalDetailsBody,
@@ -1298,7 +1356,7 @@ const StudentRegistrationForm = () => {
         UpdateStudentPhotoBody
       );
 
-      console.log('✅ Form submitted successfully with all API calls completed!');
+      //console.log('✅ Form submitted successfully with all API calls completed!');
     } catch (error) {
       console.error('🚨 Error during form submission or API calls:', error);
     }
@@ -1349,8 +1407,9 @@ const StudentRegistrationForm = () => {
         asID: TrackingId, // Accessing here
         asAcademicYearId: Number(academicYearId)
       };
-      console.log('UpdateStudentTrackingDetailsBody:', UpdateStudentTrackingDetailsBody);
+      //console.log('UpdateStudentTrackingDetailsBody:', UpdateStudentTrackingDetailsBody);
       dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
+      SaveSubmittedDocuments()
     }
     dispatch(ResetUpdateStudentMsg());
 
@@ -1358,6 +1417,49 @@ const StudentRegistrationForm = () => {
       dispatch(ResetFeeDependencyErrorMsg());
     }
   }, [TrackingId, currentJoiningDate, form.admission.applicableRules, form.admission.joiningDate]);
+
+  // Save changes
+  const createDocumentXML = (documentList) => {
+    const xmlHeader = `<?xml version="1.0" encoding="UTF-8"?>`;
+    const xmlNamespace = `xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'`;
+
+    const documentNodes = documentList.map(doc => `
+      <StudentDocument>
+        <StudentDocumentId>${doc.Id}</StudentDocumentId>
+        <StandardwiseDocumentId>${doc.StandardwiseDocumentId}</StandardwiseDocumentId>
+        <SchoolwiseStudentId>${doc.SchoolwiseStudentId}</SchoolwiseStudentId>
+        <IsSubmitted>${doc.IsSubmitted}</IsSubmitted>
+        <IsApplicable>${doc.IsApplicable}</IsApplicable>
+        <DocumentCount>${doc.DocumentCount}</DocumentCount>
+        <IsSubmissionMandatory>${doc.IsSubmissionMandatory === "1" ? true : false}</IsSubmissionMandatory>
+      </StudentDocument>
+    `).join('');
+
+    const finalXML = `<ArrayOfStudentDocument ${xmlNamespace}>${documentNodes}</ArrayOfStudentDocument>`;
+    //console.log(finalXML);
+    return finalXML;
+  };
+
+  // Usage in save handler
+  const SaveSubmittedDocuments = () => {
+    const xmlData = createDocumentXML(documentList);
+    // Now you can use xmlData in your API call
+    const SaveSubmittedDocumentsBody: ISaveSubmittedDocumentsBody = {
+      asSchoolId: Number(schoolId),
+      asDocXML: xmlData,
+      asYearwiseStudentId: YearWise_Student_Id ?? localData.YearWise_Student_Id,
+      asInsertedById: Number(teacherId),
+    }
+
+    if (documentList.length !== 0) {
+      dispatch(CDASaveSubmittedDocumentsMsg(SaveSubmittedDocumentsBody));
+      return;
+    }
+    //console.log(SaveSubmittedDocumentsBody);
+    //console.log(xmlData);
+  };
+
+  //useEffect(() => { SaveSubmittedDocuments() }, [documentList])
 
   //#region EventHandlers
   const handleAdmissionChange = (name: string, value: any) => {
@@ -1381,9 +1483,14 @@ const StudentRegistrationForm = () => {
     }));
   };
 
-  const handleAdmissionDocumentChange = (List) => {
-    setSubmittedDocumentList(List)
-  }
+  // Handle updates from the AdmissionDocuments child component
+  const handleDocumentChange = (updatedList) => {
+    //console.log("📃1️⃣Updated Document List from Child:", updatedList); // Log the updated list
+    setDocumentList(updatedList);
+  };
+
+
+
   // Updating a property in family
   const handleFamilyChange = (name: string, value: any) => {
     setForm((prevForm) => ({
@@ -1416,6 +1523,8 @@ const StudentRegistrationForm = () => {
       }
     }));
   };
+
+
   ///#endregion
 
   // const handleUpdate = () => {
@@ -1527,14 +1636,14 @@ const StudentRegistrationForm = () => {
   };
   //fileSize <= MaxAchievementfileSize
   const handleFileUpload = (file) => {
-    console.log('File being uploaded:', file);
+    //console.log('File being uploaded:', file);
     const fileSize = file.size || file.Value.length * 0.75; // Estimate size if necessary
-    console.log('File size:', fileSize);
+    //console.log('File size:', fileSize);
 
 
     //setAttachment(file.Name);
     if (file && !ValidFileTypes.includes(file.FileExtension.toUpperCase())) {
-      showAlertMsg(file.ErrorMsg);
+      showAlertMsg(file.ErrorMsg ? 'Please select valid file type.' : '');
       setAttachment(''); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
       return;
@@ -1554,7 +1663,7 @@ const StudentRegistrationForm = () => {
   };
 
   const clickViewAddNoteDocs = (fileName) => {
-    console.log('fileName', fileName);
+    //console.log('fileName', fileName);
     window.open(
       localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/StudentAchievement/' + fileName
       // \\PPSN Website\RITESCHOOL\DOWNLOADS\Performance Evaluation\MCAResult12320240906143621.pdf
@@ -1563,7 +1672,7 @@ const StudentRegistrationForm = () => {
     // RITESchool_PPS_API\PPSN Website\RITESCHOOL\DOWNLOADS\Performance Evaluation
   }
   const handleEdit = (Id: number) => {
-    console.log(`Edit row ${Id}`);
+    //console.log(`Edit row ${Id}`);
     showAlertMsg('');
     setAchievementId(Id);
     const GetStudentAchievementDetailsBody: IGetStudentAchievementDetailsBody =
@@ -1605,14 +1714,14 @@ const StudentRegistrationForm = () => {
       return;
     }
     showDescriptionAlertMsg('');
-    console.log('➖4️⃣CDA SAVECLICK', SaveStudentAchievementDetailsBody);
+    //console.log('➖4️⃣CDA SAVECLICK', SaveStudentAchievementDetailsBody);
     dispatch(CDASaveStudentAchievementDetailsMsg(SaveStudentAchievementDetailsBody));
   };
 
   useEffect(() => {
     if (SaveStudentAchievementDetailsMsg !== '') {
       toast.success(SaveStudentAchievementDetailsMsg);
-      console.log('SaveStudentAchievementDetailsMsg', SaveStudentAchievementDetailsMsg);
+      //console.log('SaveStudentAchievementDetailsMsg', SaveStudentAchievementDetailsMsg);
       //setForm((prevForm) => ({ ...prevForm, familyPhoto: '', }));              // delete photo
       dispatch(CDAResetSaveStudentAchievementDetailsMsg());
       resetFields();
@@ -1635,7 +1744,7 @@ const StudentRegistrationForm = () => {
   };
 
   const handleDelete = (Id: number) => {
-    console.log(`Delete row ${Id}`);
+    //console.log(`Delete row ${Id}`);
     const DeleteStudentAchievementDetailsBody: IDeleteStudentAchievementDetailsBody =
     {
       asSchoolId: Number(schoolId),
@@ -1696,16 +1805,16 @@ const StudentRegistrationForm = () => {
       asSchoolId: Number(localStorage.getItem('localSchoolId'))
     };
     dispatch(CDAGetStudentsSiblingDetail(GetStudentsSiblingDetailBody));
-    console.log('overwriteSiblingDetails', overwriteSiblingDetails);
+    //console.log('overwriteSiblingDetails', overwriteSiblingDetails);
   };
 
   const handleCheckboxListChange = (updatedItems) => {
-    console.log("⏮️CommonFields Selected feilds from CheckboxList child:", updatedItems);
+    //console.log("⏮️CommonFields Selected feilds from CheckboxList child:", updatedItems);
     const selectedIds = updatedItems
       .filter(item => item.checked)
       .map(item => item.CommonFieldId)
       .join(', ');
-    console.log("⏮️selectedIds:", selectedIds);
+    //console.log("⏮️selectedIds:", selectedIds);
 
     setSelectedSiblings(selectedIds);
     // Process or update global state based on `updatedItems`
@@ -1949,6 +2058,7 @@ const StudentRegistrationForm = () => {
                 // validationMessages={showValidation ? fieldValidationMessages.admission : {}}
                 // isValid={!showValidation || tabValidationStatus.admission}
                 invalidFields={invalidFields.filter(field => field.tab === 'admission')}
+                unacceptableFields={unacceptableFields.filter(field => field.tab === 'admission')}
               />
             </Grid>
           </Grid>
@@ -1962,6 +2072,7 @@ const StudentRegistrationForm = () => {
                 // validationMessages={showValidation ? fieldValidationMessages.personal : {}}
                 // isValid={!showValidation || tabValidationStatus.personal}
                 invalidFields={invalidFields.filter(field => field.tab === 'personal')}
+                unacceptableFields={unacceptableFields.filter(field => field.tab === 'personal')}
               />
             </Grid>
           </Grid>
@@ -1971,8 +2082,9 @@ const StudentRegistrationForm = () => {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <AddmissionDocumentInformation
-                admissionDocumentList={GetStudentDocumentsList}
-                onChange={handleAdmissionDocumentChange} />
+                admissionDocumentList={documentList}
+                onChange={handleDocumentChange}
+              />
             </Grid>
           </Grid>
         )}
@@ -2112,6 +2224,7 @@ const StudentRegistrationForm = () => {
                   InputProps={{
                     readOnly: true,
                   }}
+                  disabled={true}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -2122,6 +2235,7 @@ const StudentRegistrationForm = () => {
                   //onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
+                  disabled={true}
                 />
               </Grid>
               <Grid item xs={6}>

@@ -14,7 +14,7 @@ const GetSaveDraftMessage = (data: ISaveDraftMessageBody) => {
 };
 
 const GetAllDraftMessage = (data: IGetAllDraftMessageBody) => {
-  console.log(data, 'dataDraft');
+  //console.log(data, 'dataDraft');
   return http.post<IGetAllDraftResult>(
     'Messagecenter/GetAllDraftMessageDetails',
     data

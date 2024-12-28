@@ -21,7 +21,7 @@ const RequistionView = () => {
 
     const { ViewId } = useParams();
     const ViewId1 = decodeURL(ViewId)
-    console.log(ViewId, "ViewId");
+    //console.log(ViewId, "ViewId");
     const [StartDate, setStartDate]: any = useState(getCalendarDateFormatDateNew(new Date()));
 
     const calculateFutureDate = (start, daysToAdd) => {
@@ -167,7 +167,7 @@ const RequistionView = () => {
                     </Grid>
                     <br></br>
                     <Grid container spacing={2}>
-                        <Grid item xs={2}>
+                        <Grid item xs={6} sm={2} md={2} lg={2}>
                             <Datepicker
                                 DateValue={StartDate}
                                 onDateChange={''}

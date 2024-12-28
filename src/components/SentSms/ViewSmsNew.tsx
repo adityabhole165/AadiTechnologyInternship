@@ -48,7 +48,7 @@ function ViewSmsNew() {
   // Decode in-place
   SmsId = decodeURL(SmsId);
 
-  console.log(SmsId);
+  //console.log(SmsId);
 
 
   const GetViewMessageResult = () => {
@@ -63,7 +63,7 @@ function ViewSmsNew() {
         setViewSms(data);
       });
   };
-  console.log(viewSms, 'ViewDetail')
+  //console.log(viewSms, 'ViewDetail')
   useEffect(() => {
     GetViewMessageResult();
   }, []);

@@ -18,7 +18,7 @@ import { useEffect } from 'react';
 
 const AddNotePopupList = ({ data, clickView, onEdit, onDelete }) => {
   useEffect(() => {
-    console.log('AddNotePopupList', data);
+    //console.log('AddNotePopupList', data);
   }, [data]);
   return (
     <div>

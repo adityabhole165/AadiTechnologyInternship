@@ -185,8 +185,8 @@ export const CDAGenerateTransportFeeEntries =
             dispatch(GetStandardwiseMinMaxDOBslice.actions.GetGenerateTransportFeeEntries(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('4️⃣CDAGenerateTransportFeeEntries');
-                console.log('Response data:', response.data);
+                //console.log('4️⃣CDAGenerateTransportFeeEntries');
+                //console.log('Response data:', response.data);
             }
         };
 

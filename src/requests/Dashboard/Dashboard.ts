@@ -277,7 +277,7 @@ export const CDAgetWeeklyAttendance =
       dispatch(Dashboardlice.actions.RGetDayDates(GetDayDates));
 
 
-      console.log(WeeklyAttendanceDetailsdata, "WeeklyAttendanceDetailsdata");
+      //console.log(WeeklyAttendanceDetailsdata, "WeeklyAttendanceDetailsdata");
 
     };
 

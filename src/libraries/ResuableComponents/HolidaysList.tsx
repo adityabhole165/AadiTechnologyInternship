@@ -269,7 +269,7 @@ function HolidaysList({
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
 
-  console.log(formattedDate);  // Output: 29-May-2024
+  //console.log(formattedDate);  // Output: 29-May-2024
 
   return (
     <div >

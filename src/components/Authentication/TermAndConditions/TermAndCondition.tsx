@@ -16,7 +16,7 @@ function TermAndCondition() {
 
   const ClickRadio = (value) => {
     setRadioBtn(value);
-    console.log(value);
+    //console.log(value);
   };
   const ChangePassword = () => {
     navigate('/changePassword');

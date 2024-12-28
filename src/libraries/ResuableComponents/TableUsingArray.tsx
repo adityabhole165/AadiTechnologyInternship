@@ -63,7 +63,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 function TableUsingArray({ ItemList, HeaderArray }) {
-  console.log('ItemList', ItemList);
+  //console.log('ItemList', ItemList);
 
   return (
     <Box sx={{ width: '100%', overflow: 'hidden' }}>

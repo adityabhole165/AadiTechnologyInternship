@@ -9,6 +9,7 @@ import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import {
     Box,
     IconButton,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -24,6 +25,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router';
 import { IGetStandardDivisionOfTeacherBody, IGetStudentsListBody } from "src/interfaces/Students/IStudents";
+import Legend from "src/libraries/Legend/Legend";
 import ButtonGroupComponent from "src/libraries/ResuableComponents/ButtonGroupComponent";
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
 import { CDAGetStandardDivisionOfTeacher, CDAGetStudentsList } from "src/requests/Students/RequestStudents";
@@ -60,7 +62,7 @@ const StudentBaseScreen = () => {
     const StdDivList = useSelector((state: RootState) => state.Students.ISRGetStdDivForTeacher);
     const StudentsList = useSelector((state: RootState) => state.Students.ISGetStudentsList);
     const Loading = useSelector((state: RootState) => state.Students.Loading);
-    console.log('StudentsList', StudentsList);
+    //console.log('StudentsList', StudentsList);
 
     useEffect(() => {
         if (StdDivList.length > 1) {
@@ -188,7 +190,7 @@ const StudentBaseScreen = () => {
     //separate function to handle edit click
     const handleEditClick = (item: any) => {
         // Console log the data
-        console.log("🎈Selected Student Data:", item);
+        //console.log("🎈Selected Student Data:", item);
 
         // Store in local variables
         const StudentData = {
@@ -228,6 +230,26 @@ const StudentBaseScreen = () => {
     };
 
 
+    const LegendArray = [
+
+        {
+            id: 1,
+            Name: 'Deactivated User',
+            Value: <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                <Square style={{ color: '#e2e8f0', fontSize: 25, position: 'relative', top: '-2px' }} />
+
+            </Box>
+
+        },
+        {
+            id: 2,
+            Name: 'Long Leave',
+            Value: <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                <Square style={{ color: '#dbeafe', fontSize: 25, position: 'relative', top: '-2px' }} />
+
+            </Box>
+        }
+    ]
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -239,43 +261,41 @@ const StudentBaseScreen = () => {
                 ]}
                 rightActions={
                     <>
-                        {StdDivList.length === 1 ?
-                            <TextField size="small" label="Class" value={StdDivList[0]?.Name} inputProps={{ readOnly: true, }} />
-                            :
-                            <SearchableDropdown1 size={"small"} ItemList={StdDivList}
-                                sx={{ minWidth: '12vw' }}
-                                defaultValue={selectedClass} label={'Class'}
-                                onChange={(value: any) => { handleClassChange(value) }} />
-                        }
-                        <Box>
-                            <Tooltip title={`Student's list from your class. Click on "Edit" button to change details of individual student.`}>
-                                <IconButton sx={{
-                                    bgcolor: 'grey.500',
-                                    color: 'white',
-                                    '&:hover': {
-                                        bgcolor: 'grey.600'
-                                    }
-                                }}>
-                                    <QuestionMark />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
+                        <Stack
+                            direction="row"
+                            gap={1}
+                            alignItems="right"
+                            sx={{
+                                flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                                justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                            }}
+                        >
+                            {StdDivList.length === 1 ?
+                                <TextField size="small" label="Class" value={StdDivList[0]?.Name} inputProps={{ readOnly: true, }} />
+                                :
+                                <SearchableDropdown1 size={"small"} ItemList={StdDivList}
+                                    sx={{ minWidth: '12vw' }}
+                                    defaultValue={selectedClass} label={'Class'}
+                                    onChange={(value: any) => { handleClassChange(value) }} />
+                            }
+                            <Box>
+                                <Tooltip title={`Student's list from your class. Click on "Edit" button to change details of individual student.`}>
+                                    <IconButton sx={{
+                                        bgcolor: 'grey.500',
+                                        color: 'white',
+                                        '&:hover': {
+                                            bgcolor: 'grey.600'
+                                        }
+                                    }}>
+                                        <QuestionMark />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                        </Stack>
                     </>
                 } />
-            <Box sx={{ background: 'white', p: 1, mb: .5 }}>
-                <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                    <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
-                    <Box sx={{ display: 'flex', gap: '20px' }}>
-                        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                            <Square style={{ color: '#e2e8f0', fontSize: 25, position: 'relative', top: '-2px' }} />
-                            <Typography>Deactivated User</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                            <Square style={{ color: '#dbeafe', fontSize: 25, position: 'relative', top: '-2px' }} />
-                            <Typography>Long Leave</Typography>
-                        </Box>
-                    </Box>
-                </Box>
+            <Box sx={{ background: 'white', p: 1, mb: 2 }}>
+                <Legend LegendArray={LegendArray} />
             </Box>
             {selectedClass !== '0' &&
                 <>

@@ -4,8 +4,6 @@ import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
   Box,
-  Card,
-  CardContent,
   Checkbox,
   IconButton,
   Paper,
@@ -17,8 +15,7 @@ import {
   TableRow,
   TableSortLabel,
   Tooltip,
-  Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useTheme } from "@mui/material/styles";
@@ -74,7 +71,7 @@ const FeedbackFromUsersTable: React.FC<FeedbackFromUsersTableProps> = ({ data: i
 
   return (
     <Box>
-      {isMobile ? (
+      {/* {isMobile ? (
         <Box>
           <Checkbox
             checked={selected.length === data.length && data.length > 0}
@@ -116,111 +113,111 @@ const FeedbackFromUsersTable: React.FC<FeedbackFromUsersTableProps> = ({ data: i
             </Card>
           ))}
         </Box>
-      ) : (
-        <TableContainer component={Paper}>
-          <Table
-            aria-label="simple table"
-            sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
-          >
-            <TableHead>
-              <TableRow
-                sx={{
-                  background: (theme) => theme.palette.secondary.main,
-                  color: (theme) => theme.palette.common.white,
-                }}
-              >
+      ) : ( */}
+      <TableContainer component={Paper}>
+        <Table
+          aria-label="simple table"
+          sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
+        >
+          <TableHead>
+            <TableRow
+              sx={{
+                background: (theme) => theme.palette.secondary.main,
+                color: (theme) => theme.palette.common.white,
+              }}
+            >
+              <TableCell padding="checkbox">
+                <Checkbox
+                  checked={selected.length === data.length && data.length > 0}
+                  indeterminate={selected.length > 0 && selected.length < data.length}
+                  onChange={handleSelectAll}
+                />
+              </TableCell>
+              <TableCell sx={{ color: "white", py: 1.5 }}>
+                <TableSortLabel
+                  active={sortConfig?.key === "date"}
+                  direction={sortConfig?.key === "date" ? sortConfig.direction : "asc"}
+                  onClick={() => handleSort("date")}
+                  IconComponent={() =>
+                    sortConfig?.key === "date" &&
+                    (sortConfig.direction === "asc" ? (
+                      <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
+                    ) : (
+                      <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
+                    ))
+                  }
+                  sx={{
+                    "&.Mui-active": {
+                      color: "white",
+                    },
+                    "&.MuiTableSortLabel-root:hover": {
+                      color: "white",
+                    },
+                  }}
+                >
+                  <strong>Date</strong>
+                </TableSortLabel>
+              </TableCell>
+              <TableCell sx={{ color: "white", py: 1.5 }}>
+                <TableSortLabel
+                  active={sortConfig?.key === "userName"}
+                  direction={sortConfig?.key === "userName" ? sortConfig.direction : "asc"}
+                  onClick={() => handleSort("userName")}
+                  IconComponent={() =>
+                    sortConfig?.key === "userName" &&
+                    (sortConfig.direction === "asc" ? (
+                      <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
+                    ) : (
+                      <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
+                    ))
+                  }
+                  sx={{
+                    "&.Mui-active": {
+                      color: "white",
+                    },
+                    "&.MuiTableSortLabel-root:hover": {
+                      color: "white",
+                    },
+                  }}
+                >
+                  <strong>User Name</strong>
+                </TableSortLabel>
+              </TableCell>
+              <TableCell sx={{ color: "white", py: 1.5 }}>
+                <strong>Email</strong>
+              </TableCell>
+              <TableCell sx={{ color: "white", py: 1.5, width: "50%" }}>
+                <strong>Comments</strong>
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center", py: 1.5 }}>
+                <strong>Edit</strong>
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center", py: 1.5 }}>
+                <strong>Delete</strong>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((row) => (
+              <TableRow key={row.id}>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selected.length === data.length && data.length > 0}
-                    indeterminate={selected.length > 0 && selected.length < data.length}
-                    onChange={handleSelectAll}
+                    checked={selected.includes(row.id)}
+                    onChange={() => handleSelect(row.id)}
                   />
                 </TableCell>
-                <TableCell sx={{ color: "white", py: 1.5 }}>
-                  <TableSortLabel
-                    active={sortConfig?.key === "date"}
-                    direction={sortConfig?.key === "date" ? sortConfig.direction : "asc"}
-                    onClick={() => handleSort("date")}
-                    IconComponent={() =>
-                      sortConfig?.key === "date" &&
-                      (sortConfig.direction === "asc" ? (
-                        <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                      ) : (
-                        <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                      ))
-                    }
-                    sx={{
-                      "&.Mui-active": {
-                        color: "white",
-                      },
-                      "&.MuiTableSortLabel-root:hover": {
-                        color: "white",
-                      },
-                    }}
-                  >
-                    <strong>Date</strong>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell sx={{ color: "white", py: 1.5 }}>
-                  <TableSortLabel
-                    active={sortConfig?.key === "userName"}
-                    direction={sortConfig?.key === "userName" ? sortConfig.direction : "asc"}
-                    onClick={() => handleSort("userName")}
-                    IconComponent={() =>
-                      sortConfig?.key === "userName" &&
-                      (sortConfig.direction === "asc" ? (
-                        <ArrowCircleUpIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                      ) : (
-                        <ArrowCircleDownIcon sx={{ ml: 1, color: "white", fontSize: "20px" }} />
-                      ))
-                    }
-                    sx={{
-                      "&.Mui-active": {
-                        color: "white",
-                      },
-                      "&.MuiTableSortLabel-root:hover": {
-                        color: "white",
-                      },
-                    }}
-                  >
-                    <strong>User Name</strong>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell sx={{ color: "white", py: 1.5 }}>
-                  <strong>Email</strong>
-                </TableCell>
-                <TableCell sx={{ color: "white", py: 1.5, width: "50%" }}>
-                  <strong>Comments</strong>
-                </TableCell>
-                <TableCell sx={{ color: "white", textAlign: "center", py: 1.5 }}>
-                  <strong>Edit</strong>
-                </TableCell>
-                <TableCell sx={{ color: "white", textAlign: "center", py: 1.5 }}>
-                  <strong>Delete</strong>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selected.includes(row.id)}
-                      onChange={() => handleSelect(row.id)}
-                    />
-                  </TableCell>
-                  <TableCell sx={{ py: 0.5 }}>{row.date}</TableCell>
-                  <TableCell sx={{ py: 0.5 }}>{row.userName}</TableCell>
-                  <TableCell sx={{ py: 0.5 }}>{row.email}</TableCell>
-                  <TableCell sx={{ py: 0.5 }}>{row.comments}</TableCell>
-                  <TableCell sx={{ textAlign: "center", py: 0.5 }}>
+                <TableCell sx={{ py: 0.5 }}>{row.date}</TableCell>
+                <TableCell sx={{ py: 0.5 }}>{row.userName}</TableCell>
+                <TableCell sx={{ py: 0.5 }}>{row.email}</TableCell>
+                <TableCell sx={{ py: 0.5, minWidth: { xs: '400px', sm: 'auto' } }}>{row.comments}</TableCell>
+                <TableCell sx={{ textAlign: "center", py: 0.5 }}>
                   <Tooltip title={'Edit'} >
                     <IconButton color="primary">
                       <Edit />
                     </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell sx={{ textAlign: "center", py: 0.5 }}>
+                  </Tooltip>
+                </TableCell>
+                <TableCell sx={{ textAlign: "center", py: 0.5 }}>
                   <Tooltip title={'Delete'} >
                     <IconButton
                       sx={{
@@ -233,14 +230,13 @@ const FeedbackFromUsersTable: React.FC<FeedbackFromUsersTableProps> = ({ data: i
                     >
                       <DeleteForeverIcon />
                     </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 };

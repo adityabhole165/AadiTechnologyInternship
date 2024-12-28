@@ -27,7 +27,7 @@ const BlockProgressReportBaseScreen = () => {
 
     const handleDropdownChange = (value: string) => {
         setSelectedValue(value);
-        console.log('Selected Value:', value);
+        //console.log('Selected Value:', value);
     };
 
     const dropdownItems = [

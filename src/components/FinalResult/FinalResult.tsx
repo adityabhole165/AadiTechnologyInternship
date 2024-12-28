@@ -285,7 +285,7 @@ const FinalResult = () => {
   const BlockExamPublish = UsGetSchoolSettings?.GetSchoolSettingsResult?.BlockExamPublish || '';
   const ShowTopppers = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowTopppers || '';
 
-  console.log(BlockExamPublish, "-Test-", ShowTopppers);
+  //console.log(BlockExamPublish, "-Test-", ShowTopppers);
 
 
   const PublishResult = useSelector(
@@ -565,7 +565,7 @@ const FinalResult = () => {
 
 
 
-  console.log(GetResultGenerated, "-t-", GetAtleastOneResultGenerated.AllowPublish);
+  //console.log(GetResultGenerated, "-t-", GetAtleastOneResultGenerated.AllowPublish);
 
 
   const Toppers = (value) => {

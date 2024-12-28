@@ -642,6 +642,7 @@ export const logoURL =
   'https://riteschoolmobileservicehttps.riteschool.com/images/';
 export const androidCurrentAppVersion = '2.1.1';
 export const appleCurrentAppVersion = '2.0.6';
+export const SessionTimeout = 300; //   in 1 minutes
 export const deviceType =
   typeof window.localStorage.getItem('deviceType') != undefined &&
     window.localStorage.getItem('deviceType') == 'ios'
@@ -743,6 +744,7 @@ export const encodeURL = (data1) => {
 // Decrypt Function
 export const decodeURL = (data1) => {
   try {
+    if (data1 === null || data1 === undefined) return undefined
     let data = data1.toString();
     if (typeof data !== 'string') {
       throw new Error('Input must be a string');
@@ -885,6 +887,7 @@ export const getDateFormattedNew = (dateStr) => {
 
   const formattedHours = hours % 12 || 12; // Convert to 12-hour format
   const formattedMinutes = minutes.toString().padStart(2, '0'); // Ensure two digits for minutes
+
 
   return `${Day} ${Month} ${Year} ${formattedHours}:${formattedMinutes} ${period}`;
 };

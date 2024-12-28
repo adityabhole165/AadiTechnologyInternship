@@ -254,7 +254,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             setErrorEventDescription('Description should not be blank.');
             isError = true;
         } else setErrorEventDescription('')
-        console.log('EventStartDate:', EventStartDate);
+        //console.log('EventStartDate:', EventStartDate);
         if (EventStartDate === '' || EventStartDate === null) {
             setErrorEventStartDate('Start date should not be blank.');
             isError = true;

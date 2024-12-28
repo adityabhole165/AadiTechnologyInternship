@@ -26,7 +26,7 @@ const UploadMultipleDialog = ({
             reader.onload = () => {
                 // Do whatever you want with the file contents
                 const binaryStr = reader.result
-                console.log(binaryStr)
+                //console.log(binaryStr)
             }
             reader.readAsArrayBuffer(file)
 
@@ -38,7 +38,7 @@ const UploadMultipleDialog = ({
     ])
 
     const handleConfirm = () => {
-        console.log("Confirmed files:", MultipleFiles)
+        //console.log("Confirmed files:", MultipleFiles)
         setOpen(false);
     };
 

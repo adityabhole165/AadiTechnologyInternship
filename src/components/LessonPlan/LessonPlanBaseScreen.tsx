@@ -57,7 +57,7 @@ const LessonPlanBaseScreen = () => {
   const TeacherName = sessionStorage.getItem('StudentName');
 
   let CanEdit = getSchoolConfigurations(233)
-  console.log(CanEdit, "CanEdit");
+  //console.log(CanEdit, "CanEdit");
 
   const { showAlert, closeAlert } = useContext(AlertContext);
   const LessonPlanList1: any = useSelector(
@@ -357,11 +357,11 @@ const LessonPlanBaseScreen = () => {
 
 
   const clickView = (Id, Remarks: any, sStartDate, sEndDate, sUserId) => {
-    console.log('View clicked with Id:', Id);
-    console.log('Remarks:', Remarks);
-    console.log('StartDate:', sStartDate);
-    console.log('EndDate:', sEndDate);
-    console.log('UserId:', sUserId);
+    //console.log('View clicked with Id:', Id);
+    //console.log('Remarks:', Remarks);
+    //console.log('StartDate:', sStartDate);
+    //console.log('EndDate:', sEndDate);
+    //console.log('UserId:', sUserId);
 
     setOpenViewRemarkDialog(true);
     let formattedRemarks: RemarkItem[] = [];
@@ -375,7 +375,7 @@ const LessonPlanBaseScreen = () => {
     setViewRemarks(formattedRemarks);
     //  setViewRemarks(Remarks);
     if (sUserId == asUserId && LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
-      console.log('Condition met: Updating read suggestion');
+      //console.log('Condition met: Updating read suggestion');
       const UpdateReadSuggestionBody: IUpdateReadSuggestionBody = {
         asSchoolId: asSchoolId,
         asAcadmicYearId: asAcademicYearId,
@@ -412,7 +412,7 @@ const LessonPlanBaseScreen = () => {
 
 
   const ClickSelectTeacher = (item) => {
-    console.log('teacher name', item);
+    //console.log('teacher name', item);
 
     setselectClasstecahernew(item.Value);
     setTeacherName1(item.Name);
@@ -426,17 +426,17 @@ const LessonPlanBaseScreen = () => {
       startDate: value.StartDate,
       endDate: value.EndDate
     };
-    console.log('whats this', obj);
+    //console.log('whats this', obj);
 
     navigate('/RITeSchool/Teacher/AddLessonPlan/Edit/' +
-      encodeURL( value.UserId) + '/' +
-      encodeURL(value.StartDate.replaceAll(' ', '-') )+ '/' +
+      encodeURL(value.UserId) + '/' +
+      encodeURL(value.StartDate.replaceAll(' ', '-')) + '/' +
       encodeURL(value.EndDate.replaceAll(' ', '-')));
   };
   const Clicknav = (value) => {
     navigate('/RITeSchool/Teacher/AddLessonPlan/View/' +
       encodeURL(value.UserId) + '/' +
-      encodeURL(value.StartDate.replaceAll(' ', '-') )+ '/' +
+      encodeURL(value.StartDate.replaceAll(' ', '-')) + '/' +
       encodeURL(value.EndDate.replaceAll(' ', '-'))
     );
   };

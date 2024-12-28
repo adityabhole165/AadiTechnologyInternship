@@ -20,7 +20,7 @@ import { TeacherXseedSubjects } from 'src/requests/PrePrimaryResult/RequestPrePr
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { CDAAssessmentDropdown } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
-import { decodeURL,encodeURL , SchoolScreensAccessPermission } from '../Common/Util';
+import { decodeURL, encodeURL, SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField1 } from './ResizableTextField1';
 const StudentwiseprogressreportEdit = () => {
@@ -74,7 +74,7 @@ const StudentwiseprogressreportEdit = () => {
 
     const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
     const USFillStudentsLearningOutcomeObservations: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomeObservations);
-    console.log(USFillStudentsLearningOutcomeObservations, "USFillStudentsLearningOutcomeObservations");
+    //console.log(USFillStudentsLearningOutcomeObservations, "USFillStudentsLearningOutcomeObservations");
 
     const USlistpublishstatusDetails = useSelector(
         (state: RootState) => state.PrePrimaryResult.ISlistpublishstatusDetails

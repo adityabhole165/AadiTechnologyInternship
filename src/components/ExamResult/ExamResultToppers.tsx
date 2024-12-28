@@ -72,7 +72,7 @@ const ExamResultToppers = () => {
     examtopperProp = decodeURL(examtopperProp);
     IsReadOnly = decodeURL(IsReadOnly);
 
-    console.log(standardId, 'sssssssstandardId');
+    //console.log(standardId, 'sssssssstandardId');
 
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId);
@@ -202,12 +202,12 @@ const ExamResultToppers = () => {
     const GetSubjectToppersListCT = useSelector(
         (state: RootState) => state.ExamResultToppers.SubjectToppersCT
     );
-    console.log(GetSubjectToppersListCT, 'aaaaaaaaaaaaaa')
+    //console.log(GetSubjectToppersListCT, 'aaaaaaaaaaaaaa')
 
     const GetStandarddropdownST = useSelector(
         (state: RootState) => state.ExamResultToppers.StandardDropdownST
     );
-    console.log(GetStandarddropdownST, "GetStandarddropdownST");
+    //console.log(GetStandarddropdownST, "GetStandarddropdownST");
 
     const GetExamdropdownST = useSelector(
         (state: RootState) => state.ExamResultToppers.ExamDropdownListST
@@ -215,7 +215,7 @@ const ExamResultToppers = () => {
     const GetSubjectdropdownST = useSelector(
         (state: RootState) => state.ExamResultToppers.SubjectDropdownListST
     );
-    console.log(GetSubjectdropdownST, 'GetSubjectdropdownSTttttt');
+    //console.log(GetSubjectdropdownST, 'GetSubjectdropdownSTttttt');
 
     const GetStandardToppersListST = useSelector(
         (state: RootState) => state.ExamResultToppers.StandardTopperST
@@ -227,7 +227,7 @@ const ExamResultToppers = () => {
     const [StandardToppersListST, setStandardToppersListST] = useState([])
     const [ClassToppersListCT, setClassToppersListCT] = useState([])
     const [SubjectToppersListST, setSubjectToppersListST] = useState([])
-    console.log("ClassToppersListCT", ClassToppersListCT);
+    //console.log("ClassToppersListCT", ClassToppersListCT);
     //
     useEffect(() => {
         setSubjectToppersListCT(GetSubjectToppersListCT)
@@ -437,7 +437,7 @@ const ExamResultToppers = () => {
         if (selectedExam) {
             setSelectedExamName(selectedExam.Name);
         }
-        console.log(SelectExamCT, 'SelectExamCT');
+        //console.log(SelectExamCT, 'SelectExamCT');
 
     };
     // useEffect(() => {

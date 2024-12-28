@@ -40,13 +40,13 @@ function PayCautionMoney({
     };
     dispatch(GetCautionMoneyReceipt(CautionMoneyReciptBody));
   };
-  console.log('CautionMoneyReceipt', CautionMoneyReceipt);
+  //console.log('CautionMoneyReceipt', CautionMoneyReceipt);
 
   useEffect(() => {
     if (CautionMoneyReceipt !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
-          CautionMoneyReceipt.replace(/\\/g, '/')
+        CautionMoneyReceipt.replace(/\\/g, '/')
       );
       dispatch(resetCatutionMoney());
     }

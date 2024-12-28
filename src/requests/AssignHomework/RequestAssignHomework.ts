@@ -107,7 +107,7 @@ export const SubjectDetails = (data: IGetTeacherSubjectDetailsBody): AppThunk =>
     StandardDivisionId: item.Standard_Division_Id
 
   }));
-  console.log(trueValues, "-trueValues-", response.data);
+  //console.log(trueValues, "-trueValues-", response.data);
 
   const falseValues = response.data.filter((item) => item.MySubject === "False").map((item) => ({
     Id: item.Subject_Id,
@@ -125,7 +125,7 @@ export const SubjectDetails = (data: IGetTeacherSubjectDetailsBody): AppThunk =>
 };
 export const resetSubjectDetails =
   (): AppThunk => async (dispatch) => {
-    console.log("resetSubjectDetails");
+    //console.log("resetSubjectDetails");
 
     dispatch(AssignHomeworkSlice.actions.resetSubjectDetails());
     dispatch(AssignHomeworkSlice.actions.resetSubjectDetails1());

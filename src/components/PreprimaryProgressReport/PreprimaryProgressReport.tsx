@@ -126,7 +126,7 @@ const PreprimaryProgressReport = () => {
 
 
 
-    console.log(ClassTeacher, "ClassTeacher", StudentId, "StudentId", AssessmentId, "AssessmentId");
+    //console.log(ClassTeacher, "ClassTeacher", StudentId, "StudentId", AssessmentId, "AssessmentId");
 
     const countDuplicates = (arr) => {
         const counts = {};

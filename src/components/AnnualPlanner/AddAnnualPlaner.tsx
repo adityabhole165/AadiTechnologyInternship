@@ -24,12 +24,12 @@ const AddAnnualPlaner = () => {
   const AddAnnualPlanner: any = useSelector(
     (state: RootState) => state.AddPlanner.AddAnnual
   );
-  console.log(AddAnnualPlanner, 'AddAnnualPlanner');
+  //console.log(AddAnnualPlanner, 'AddAnnualPlanner');
 
   const FileDetails: any = useSelector(
     (state: RootState) => state.AddPlanner.getfile
   );
-  console.log(FileDetails, 'FileDetails');
+  //console.log(FileDetails, 'FileDetails');
 
   // const DeleteFileDetails = useSelector((state: RootState) => state.AddPlanner.deletefile);
   // console.log(DeleteFileDetails, "DeleteFileDetails")
@@ -86,7 +86,7 @@ const AddAnnualPlaner = () => {
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
-    console.log('filevalue', value);
+    //console.log('filevalue', value);
   };
   const clickFileName = () => {
     if (FileDetails !== '') {

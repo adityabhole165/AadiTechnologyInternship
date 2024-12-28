@@ -29,7 +29,7 @@ const AddLeaveDetails = () => {
     // Decode in-place
     LeaveDId = decodeURL(LeaveDId);
 
-    console.log(LeaveDId, "LeaveDId");
+    //console.log(LeaveDId, "LeaveDId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const aUserId = Number(localStorage.getItem('UserId'));
@@ -71,7 +71,7 @@ const AddLeaveDetails = () => {
         (state: RootState) => state.AddLeaveDetails.StartDateEndDateValidations);
     const USApproveorRejectLeaveDetails = useSelector(
         (state: RootState) => state.AddLeaveDetails.ApproveorReject);
-    console.log(USApproveorRejectLeaveDetails, "USApproveorRejectLeaveDetails");
+    //console.log(USApproveorRejectLeaveDetails, "USApproveorRejectLeaveDetails");
 
     useEffect(() => {
         if (GetLeaveTypeDropdown) {

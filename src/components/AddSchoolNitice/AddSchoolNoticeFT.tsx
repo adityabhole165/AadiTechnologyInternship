@@ -663,7 +663,7 @@ const AddSchoolNoticeFT = () => {
                 <Box sx={{ p: 2, background: 'white' }}>
                     <Grid container spacing={2}>
                         {radioBtn === '1' ? (
-                            <Grid item xs={4} md={6}>
+                            <Grid item xs={12} sm={3} md={6} lg={6}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -689,7 +689,7 @@ const AddSchoolNoticeFT = () => {
 
                             </Grid>
                         ) : (
-                            <Grid item xs={4} md={6}>
+                            <Grid item xs={12} sm={3} md={6} lg={6}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -711,7 +711,7 @@ const AddSchoolNoticeFT = () => {
                                 <ErrorMessage1 Error={NoticeNameError1}></ErrorMessage1>
                             </Grid>
                         )}
-                        <Grid item xs={4} md={3}>
+                        <Grid item xs={12} sm={2} md={3} lg={3}>
                             <SearchableDropdown
                                 sx={{ minWidth: '20vw' }}
                                 ItemList={DisplayLocation}
@@ -721,7 +721,7 @@ const AddSchoolNoticeFT = () => {
                                 label='Display Location'
                             />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={12} sm={2} md={3} lg={3}>
                             <TextField
                                 fullWidth
                                 label={
@@ -741,7 +741,7 @@ const AddSchoolNoticeFT = () => {
                             />
                             <ErrorMessage1 Error={SortOrderError}></ErrorMessage1>
                         </Grid>
-                        <Grid item xs={4} md={3} >
+                        <Grid item xs={12} sm={2} md={3} lg={3} >
                             <Datepicker2
                                 DateValue={StartDate}
                                 onDateChange={onSelectStartDate}
@@ -751,11 +751,11 @@ const AddSchoolNoticeFT = () => {
                             <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
                             <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
                         </Grid>
-                        <Grid item xs={6} md={3}>
+                        <Grid item xs={12} md={3}>
                             <TimepickerTwofields Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
 
                         </Grid>
-                        <Grid item xs={6} md={3}>
+                        <Grid item xs={12} md={3}>
                             <Datepicker2
                                 DateValue={EndDate}
                                 onDateChange={onSelectEndDate}
@@ -771,49 +771,46 @@ const AddSchoolNoticeFT = () => {
                         </Grid>
 
                         {radioBtn === '1' && (
-
-                            <Grid item xs={12} md={3}>
-                                <Grid sx={{ display: 'flex' }}>
-                                    <Grid >
-                                        <SingleFile2
-                                            ValidFileTypes={ValidFileTypes}
-                                            MaxfileSize={MaxfileSize}
-                                            ChangeFile={ChangeFile}
-                                            errorMessage={''}
-                                            FileName={NoticeFile}
-                                            FileLabel={'Select File'}
-                                            width={'262px'}
-                                            height={"52px"}
-                                            isMandatory
-                                        />
-                                        {NoticeFileError && (
-                                            <ErrorMessage1 Error={NoticeFileError} />
-                                        )}
-                                    </Grid>
-                                    <Grid item xs={1} md={1} ml={1}>
-
-                                        <Tooltip title={"View"}>
-                                            <IconButton
-                                                onClick={viewNotice}
-                                                sx={{
-                                                    color: '#223354',
-                                                    mt: 0.7,
-                                                    '&:hover': {
-                                                        color: '#223354',
-                                                        cursor: 'pointer'
-                                                    }
-                                                }}
-                                            >
-                                                <Visibility />
-                                            </IconButton>
-                                        </Tooltip>
-
-                                    </Grid>
+                            <>
+                                <Grid item xs={10} md={2}>
+                                    <SingleFile2
+                                        ValidFileTypes={ValidFileTypes}
+                                        MaxfileSize={MaxfileSize}
+                                        ChangeFile={ChangeFile}
+                                        errorMessage={''}
+                                        FileName={NoticeFile}
+                                        FileLabel={'Select File'}
+                                        width={'100%'}
+                                        height={"52px"}
+                                        isMandatory
+                                    />
+                                    {NoticeFileError && (
+                                        <ErrorMessage1 Error={NoticeFileError} />
+                                    )}
                                 </Grid>
-                            </Grid>
+                                <Grid item xs={1} md={1}>
+
+                                    <Tooltip title={"View"}>
+                                        <IconButton
+                                            onClick={viewNotice}
+                                            sx={{
+                                                color: '#223354',
+                                                mt: 0.7,
+                                                '&:hover': {
+                                                    color: '#223354',
+                                                    cursor: 'pointer'
+                                                }
+                                            }}
+                                        >
+                                            <Visibility />
+                                        </IconButton>
+                                    </Tooltip>
+
+                                </Grid>
+                            </>
                         )}
 
-                        <Grid item xs={12} md={2.1} >
+                        <Grid item xs={8} sm={2} md={1.8} lg={2}>
                             <SingleFile2
                                 ValidFileTypes={ValidFileTypes2}
                                 MaxfileSize={MaxfileSize2}
@@ -826,7 +823,7 @@ const AddSchoolNoticeFT = () => {
                                 isMandatory={false}
                             />
                         </Grid>
-                        <Grid item xs={1} md={1}>
+                        <Grid item xs={4} md={1.2} lg={1}>
                             <>
                                 <Tooltip title={"View"}>
                                     <IconButton
@@ -843,7 +840,8 @@ const AddSchoolNoticeFT = () => {
                                     >
                                         <Visibility />
                                     </IconButton>
-                                </Tooltip> &nbsp;
+                                </Tooltip>
+
                                 <Tooltip title={"Delete"}>
                                     <IconButton
                                         onClick={() => deleteImage(Number(NoticeId))}
@@ -879,51 +877,109 @@ const AddSchoolNoticeFT = () => {
                                 }}
                             />
                         </Grid>
-                        <Grid container  >
-                            <Grid item xs={12} md={2} mt={2} ml={2}>
-                                <Typography variant="h4" p={1}>
-                                    Applicable to : <span style={{ color: 'red' }}>*</span>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={12} md={2} mt={2} ml={2}>
+                                <Typography variant="h5" p={1}>
+                                    Applicable to: <span style={{ color: 'red' }}>*</span>
                                 </Typography>
 
-                                <FormGroup >
-                                    <Box ml={1} gap={2} sx={{ display: 'flex' }}>
-                                        <Box bgcolor={'lightgrey'} px={1} width={'200px'}>
+                                <FormGroup>
+                                    <Box
+                                        ml={1}
+                                        gap={2}
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+                                            alignItems: { xs: 'flex-start', md: 'center' },
+                                        }}
+                                    >
+                                        <Box
+                                            bgcolor="lightgrey"
+                                            px={1}
+                                            width={{ xs: '100%', sm: '100%', md: '200px' }}
+                                        >
                                             <FormControlLabel
-                                                control={<Checkbox checked={selectAll} onChange={handleSelectAll} disabled={selectDisplayLocation === 'H'} />}
-                                                label={<Typography variant="h5">Select All</Typography>}
+                                                control={
+                                                    <Checkbox
+                                                        checked={selectAll}
+                                                        onChange={handleSelectAll}
+                                                        disabled={selectDisplayLocation === 'H'}
+                                                    />
+                                                }
+                                                label={<Typography variant="h6">Select All</Typography>}
                                             />
                                         </Box>
-                                        <Box>
+                                        <Box width={{ xs: '100%', sm: '100%', md: 'auto' }}>
                                             <FormControlLabel
-                                                control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="admin" />}
+                                                control={
+                                                    <Checkbox
+                                                        checked={applicableTo.admin}
+                                                        onChange={handleCheckboxChange}
+                                                        disabled={selectDisplayLocation === 'H'}
+                                                        name="admin"
+                                                    />
+                                                }
                                                 label="Admin"
-                                            /></Box>
-                                        <Box>
+                                            />
+                                        </Box>
+                                        <Box width={{ xs: '100%', sm: '100%', md: 'auto' }}>
                                             <FormControlLabel
-                                                control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="teacher" />}
+                                                control={
+                                                    <Checkbox
+                                                        checked={applicableTo.teacher}
+                                                        onChange={handleCheckboxChange}
+                                                        disabled={selectDisplayLocation === 'H'}
+                                                        name="teacher"
+                                                    />
+                                                }
                                                 label="Teacher"
-                                            /></Box>
-                                        <Box>
+                                            />
+                                        </Box>
+                                        <Box width={{ xs: '100%', sm: '100%', md: 'auto' }}>
                                             <FormControlLabel
-                                                control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="student" />}
+                                                control={
+                                                    <Checkbox
+                                                        checked={applicableTo.student}
+                                                        onChange={handleCheckboxChange}
+                                                        disabled={selectDisplayLocation === 'H'}
+                                                        name="student"
+                                                    />
+                                                }
                                                 label="Student"
-                                            /></Box>
-                                        <Box width={'125px'}>
+                                            />
+                                        </Box>
+                                        <Box width={{ xs: '100%', sm: '100%', md: '125px' }}>
                                             <FormControlLabel
-                                                control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="adminStaff" />}
+                                                control={
+                                                    <Checkbox
+                                                        checked={applicableTo.adminStaff}
+                                                        onChange={handleCheckboxChange}
+                                                        disabled={selectDisplayLocation === 'H'}
+                                                        name="adminStaff"
+                                                    />
+                                                }
                                                 label="Admin Staff"
-                                            /></Box>
-                                        <Box width={'200px'}>
+                                            />
+                                        </Box>
+                                        <Box width={{ xs: '100%', sm: '100%', md: '200px' }}>
                                             <FormControlLabel
-                                                control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="otherStaff" />}
+                                                control={
+                                                    <Checkbox
+                                                        checked={applicableTo.otherStaff}
+                                                        onChange={handleCheckboxChange}
+                                                        disabled={selectDisplayLocation === 'H'}
+                                                        name="otherStaff"
+                                                    />
+                                                }
                                                 label="Other Staff"
-                                            /></Box>
+                                            />
+                                        </Box>
                                     </Box>
                                     <ErrorMessage1 Error={ErrorUserRole} />
-
                                 </FormGroup>
                             </Grid>
                         </Grid>
+
                         <Grid container pl={3} mt={2}>
                             {applicableTo.student && (
                                 <Grid item xs={12} md={12} mt={1}>
