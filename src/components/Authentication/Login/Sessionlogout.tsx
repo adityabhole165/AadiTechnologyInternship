@@ -1,25 +1,43 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
 import { Divider, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import { useLocation } from "react-router-dom";
 import regulas from "src/assets/img/Shool_Logo/regulas.jpg";
-import { ButtonPrimary } from "src/libraries/styled/ButtonStyle";
 
 const Sessionlogout = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const reason = searchParams.get("reason");
 
-    const message =
-        reason === "session_expired"
-            ? "Your session has expired. Please log in again to continue."
-            : "You have successfully logged out.";
+    const message = reason === "session_expired"
+        ? (
+            <>
+                Your session has expired. Please{" "}
+                <a
+                    href="http://web.aaditechnology.com/RITeSchool/Common/ControlPanel.aspx"
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ color: "#007bff", textDecoration: "none" }}
+                >
+                    click here
+                </a>{" "}
+                to reconnect to the portal.
+            </>
+        )
+        : (
+            <>
+                You have successfully logged out. Please{" "}
+                <a
+                    href="http://web.aaditechnology.com/RITeSchool/Common/ControlPanel.aspx"
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ color: "#007bff", textDecoration: "none" }}
+                >
+                    click here
+                </a>{" "}
+                to reconnect to the portal.
+            </>
+        );
 
-
-            // const TabClose = () => {
-            //     window.close();
-
-            // }
 
     return (
         <Grid>
@@ -31,21 +49,11 @@ const Sessionlogout = () => {
                 style={{ minHeight: "100vh" }}
                 columns={{ xs: 12, md: 12 }}
             >
-                <Grid item xs={12} sx={{ px: 2, mt:26, mb:2 }}>
-                    <Typography variant={"h3"} sx={{ textAlign: "center" }}>
+                <Grid item xs={12} sx={{ px: 2, mt: 26, mb: 2 }}>
+                    <Typography variant="h3" sx={{ textAlign: "center" }}>
                         {message}
                     </Typography>
                 </Grid>
-
-                {/* <Grid sx={{ pt: 1, pb: 3 }}>
-                    
-                        <ButtonPrimary color="primary" type="submit"
-                        onClick={TabClose}
-                        >
-                            Close
-                        </ButtonPrimary>
-                    
-                </Grid> */}
 
                 <Divider sx={{ background: "#5b5258", mx: "30px" }} />
                 <Grid container textAlign="center">
