@@ -12,7 +12,7 @@ import { default as QuestionMark, default as QuestionMarkIcon } from '@mui/icons
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SmsIcon from '@mui/icons-material/Sms';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
-import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Link, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { useContext, useEffect, useState } from 'react';
@@ -619,67 +619,100 @@ function SmsCenter() {
 
             {activeTab == 'Received SMS' &&
               <>
-
-                <TextField
-                  sx={{ width: '15vw' }}
-                  fullWidth
-                  label="To / From / SMS Text"
-                  value={NameSubject}
-                  variant={'outlined'}
-                  size={"small"}
-                  onChange={(e) => {
-                    handleRegNoOrNameChange(e.target.value);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === 'Tab') {
-                      clickSearch();
-                    }
-                  }}
-                />
-                <IconButton
-                  onClick={clickSearch}
+                <Stack
+                  direction={{ xs: 'column', sm: 'row' }}
+                  justifyContent="space-between"
+                  alignItems="right"
+                  gap={1}
                   sx={{
-                    background: (theme) => theme.palette.primary.main,
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: (theme) => theme.palette.primary.dark
-                    }
+                    mt: { xs: 0, sm: 0 },
+                    flexWrap: { xs: 'nowrap', sm: 'nowrap' }
                   }}
                 >
-                  <SearchTwoTone />
-                </IconButton>
-                <Box>
-                  <Tooltip
-                    title={
-                      'School SMS will be sent to below listed number(s). To add/update the number, please send the information to admin staff via message center.'
-                    }
+                  <Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                   >
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: yellow[700],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: yellow[800] },
+                    <TextField
+                      sx={{ width: '15vw' }}
+                      fullWidth
+                      label="To / From / SMS Text"
+                      value={NameSubject}
+                      variant={'outlined'}
+                      size={"small"}
+                      onChange={(e) => {
+                        handleRegNoOrNameChange(e.target.value);
                       }}
-                    >
-                      <PriorityHighIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Box>
-                  <Tooltip title={`Displays recived sms/ send sms/ scheduled sms/all send sms list.`}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: grey[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: grey[600] },
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === 'Tab') {
+                          clickSearch();
+                        }
                       }}
-                    >
-                      <QuestionMarkIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                  ><Stack
+                    direction="row"
+                    gap={1}
+                    alignItems="right"
+                    sx={{
+                      flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                      justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                    }}
+                  >
+                      <IconButton
+                        onClick={clickSearch}
+                        sx={{
+                          background: (theme) => theme.palette.primary.main,
+                          color: 'white',
+                          '&:hover': {
+                            backgroundColor: (theme) => theme.palette.primary.dark
+                          }
+                        }}
+                      >
+                        <SearchTwoTone />
+                      </IconButton>
+                      <Box>
+                        <Tooltip
+                          title={
+                            'School SMS will be sent to below listed number(s). To add/update the number, please send the information to admin staff via message center.'
+                          }
+                        >
+                          <IconButton
+                            sx={{
+                              color: 'white',
+                              backgroundColor: yellow[700],
+                              height: '36px !important',
+                              ':hover': { backgroundColor: yellow[800] },
+                            }}
+                          >
+                            <PriorityHighIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                      <Box>
+                        <Tooltip title={`Displays recived sms/ send sms/ scheduled sms/all send sms list.`}>
+                          <IconButton
+                            sx={{
+                              color: 'white',
+                              backgroundColor: grey[500],
+                              height: '36px !important',
+                              ':hover': { backgroundColor: grey[600] },
+                            }}
+                          >
+                            <QuestionMarkIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </Stack>
+                  </Grid>
+                </Stack>
               </>
 
             }
@@ -687,131 +720,163 @@ function SmsCenter() {
 
             {activeTab == 'Send Item' && (
               <>
-
-                <TextField
-                  sx={{ width: '15vw' }}
-                  fullWidth
-                  label="Name / Reg. No. / User Name :"
-                  value={SmsName}
-                  variant={'outlined'}
-                  size={"small"}
-                  inputProps={{ maxLength: 50 }}
-                  onChange={(e) => {
-                    ClickValue(e.target.value);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === 'Tab') {
-                      clickSearchNew();
-                    }
-                  }}
-                />
-
-                <TextField
-                  sx={{ width: '15vw' }}
-                  fullWidth
-                  label="Content :"
-                  value={SmsName1}
-                  variant={'outlined'}
-                  size={"small"}
-                  inputProps={{ maxLength: 100 }}
-                  onChange={(e) => {
-                    ClickValue1(e.target.value);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === 'Tab') {
-                      clickSearchNew();
-                    }
-                  }}
-                />
-
-                <IconButton
-                  onClick={clickSearchNew}
+                <Stack
+                  direction={{ xs: 'column', sm: 'row' }}
+                  justifyContent="space-between"
+                  alignItems="right"
+                  gap={1}
                   sx={{
-                    background: (theme) => theme.palette.primary.main,
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: (theme) => theme.palette.primary.dark
-                    }
+                    mt: { xs: 0, sm: 0 },
+                    flexWrap: { xs: 'nowrap', sm: 'nowrap' }
                   }}
                 >
-                  <SearchTwoTone />
-                </IconButton>
-
-
-                {SmsListNew.length > 0 && <Box>
-                  <Tooltip title={"Delete"}>
-                    <IconButton
-                      onClick={clickdelete}
-
-                      sx={{
-                        color: 'white',
-                        backgroundColor: red[500],
-                        '&:hover': {
-                          // color: red[300],
-                          backgroundColor: red[600]
+                  <Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                  >
+                    <TextField
+                      sx={{ width: '15vw' }}
+                      fullWidth
+                      label="Name / Reg. No. / User Name :"
+                      value={SmsName}
+                      variant={'outlined'}
+                      size={"small"}
+                      inputProps={{ maxLength: 50 }}
+                      onChange={(e) => {
+                        ClickValue(e.target.value);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === 'Tab') {
+                          clickSearchNew();
                         }
                       }}
-
-
-
-                    >
-                      <DeleteForeverIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>}
-
-
-                <Box>
-                  <Tooltip title={'Export'}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: blue[500],
-                        '&:hover': {
-                          backgroundColor: blue[600]
+                    />
+                  </Grid><Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                  >
+                    <TextField
+                      sx={{ width: '15vw' }}
+                      fullWidth
+                      label="Content :"
+                      value={SmsName1}
+                      variant={'outlined'}
+                      size={"small"}
+                      inputProps={{ maxLength: 100 }}
+                      onChange={(e) => {
+                        ClickValue1(e.target.value);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === 'Tab') {
+                          clickSearchNew();
                         }
                       }}
-                      onClick={Exportremark}  >
-                      <Download />
-                    </IconButton>
-                  </Tooltip>
-
-                </Box>
-                <Tooltip title={'New Sms'}>
-                  <IconButton
-                    onClick={NewSms}
+                    />
+                  </Grid><Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                  ><Stack
+                    direction="row"
+                    gap={1}
+                    alignItems="right"
                     sx={{
-                      color: 'white',
-                      backgroundColor: green[500],
-                      height: '36px !important',
-                      ':hover': { backgroundColor: green[600] },
-
+                      flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                      justifyContent: { xs: 'flex-start', sm: 'flex-start' }
                     }}
                   >
-                    <AddTwoTone />
-                  </IconButton>
-                </Tooltip>
+                      <IconButton
+                        onClick={clickSearchNew}
+                        sx={{
+                          background: (theme) => theme.palette.primary.main,
+                          color: 'white',
+                          '&:hover': {
+                            backgroundColor: (theme) => theme.palette.primary.dark
+                          }
+                        }}
+                      >
+                        <SearchTwoTone />
+                      </IconButton>
 
 
-                <Box>
-                  <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: grey[500],
-                        '&:hover': {
-                          backgroundColor: grey[600]
-                        }
-                      }}
-                    >
-                      <QuestionMark />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
+                      {SmsListNew.length > 0 && <Box>
+                        <Tooltip title={"Delete"}>
+                          <IconButton
+                            onClick={clickdelete}
+
+                            sx={{
+                              color: 'white',
+                              backgroundColor: red[500],
+                              '&:hover': {
+                                // color: red[300],
+                                backgroundColor: red[600]
+                              }
+                            }}
 
 
 
+                          >
+                            <DeleteForeverIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>}
 
+
+                      <Box>
+                        <Tooltip title={'Export'}>
+                          <IconButton
+                            sx={{
+                              color: 'white',
+                              backgroundColor: blue[500],
+                              '&:hover': {
+                                backgroundColor: blue[600]
+                              }
+                            }}
+                            onClick={Exportremark}  >
+                            <Download />
+                          </IconButton>
+                        </Tooltip>
+
+                      </Box>
+                      <Tooltip title={'New Sms'}>
+                        <IconButton
+                          onClick={NewSms}
+                          sx={{
+                            color: 'white',
+                            backgroundColor: green[500],
+                            height: '36px !important',
+                            ':hover': { backgroundColor: green[600] },
+
+                          }}
+                        >
+                          <AddTwoTone />
+                        </IconButton>
+                      </Tooltip>
+
+
+                      <Box>
+                        <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
+                          <IconButton
+                            sx={{
+                              color: 'white',
+                              backgroundColor: grey[500],
+                              '&:hover': {
+                                backgroundColor: grey[600]
+                              }
+                            }}
+                          >
+                            <QuestionMark />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </Stack>
+                  </Grid>
+                </Stack>
               </>
             )}
 
@@ -1152,16 +1217,16 @@ function SmsCenter() {
 
                     )
                   }
-                    <Box>
-                  <SentsmsListAll
-                    HeaderArray={headerArray1}
-                    ItemList={SmsListNew}
-                    ClickHeader={handleHeaderClick1}
-                    clickEdit={handleClickEdit}
-                    clickchange={Changevalue}
-                    clickTitle={clickTitle1}
-                    isPrincipal={isPrincipal}
-                  /></Box>
+                  <Box>
+                    <SentsmsListAll
+                      HeaderArray={headerArray1}
+                      ItemList={SmsListNew}
+                      ClickHeader={handleHeaderClick1}
+                      clickEdit={handleClickEdit}
+                      clickchange={Changevalue}
+                      clickTitle={clickTitle1}
+                      isPrincipal={isPrincipal}
+                    /></Box>
                   {
                     endRecordNew > 19 ? (
                       <ButtonGroupComponent
@@ -1305,7 +1370,6 @@ function SmsCenter() {
 
                     )
                   }
-
                   <SentsmsList
                     HeaderArray={headerArray}
                     ItemList={SmsListNew}
