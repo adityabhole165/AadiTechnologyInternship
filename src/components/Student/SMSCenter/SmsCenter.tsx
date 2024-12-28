@@ -12,7 +12,7 @@ import { default as QuestionMark, default as QuestionMarkIcon } from '@mui/icons
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SmsIcon from '@mui/icons-material/Sms';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
-import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Link, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { useContext, useEffect, useState } from 'react';
@@ -1272,7 +1272,7 @@ function SmsCenter() {
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress />
                   </Box>
-                ) : PagedSMS.length > 0 ? (
+                ) : PagedSMS.length > 0 ? (<TableContainer component={Box} >
                   <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                     <TableHead>
                       <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
@@ -1305,7 +1305,7 @@ function SmsCenter() {
                       ))}
                     </TableBody>
                   </Table>
-                ) : (
+                </TableContainer>) : (
                   <Typography
                     variant="body1"
                     sx={{
