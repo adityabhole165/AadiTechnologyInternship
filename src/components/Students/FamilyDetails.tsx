@@ -278,7 +278,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
 
     if (!ValidFileTypes2.includes(value.FileExtension.toUpperCase())) {
       //('Invalid file format. Supported formats are JPEG, PNG, BMP.');
-      newErrors[key] = value.ErrorMsg;
+      newErrors[key] = value.ErrorMsg ? 'Please select valid file type.' : '';
       setFileErrors(newErrors);
       onChange(key, value.Name); // Clear file name
       setbase64URL2(''); // Clear Base64 URL

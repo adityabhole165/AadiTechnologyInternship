@@ -405,7 +405,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
       // File type validation
       const fileExtension = file.name.split('.').pop().toUpperCase();
       if (!ValidFileTypes1.includes(fileExtension)) {
-        setErrorMessage('File type should be .jpg or .jpeg.');
+        setErrorMessage('Please select valid file type.');
         return;
       }
       // File size validation
@@ -559,7 +559,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
 
     if (!ValidFileTypes2.includes(value.FileExtension.toUpperCase())) {
       //('Invalid file format. Supported formats are'PDF', 'JPG', 'PNG', 'BMP', 'JPEG'');
-      showAlertMsg(value.ErrorMsg);
+      showAlertMsg(value.ErrorMsg ? "Please select valid file type." : '');
       onChange('aadharCardScanCopy', ''); // Clear file name
       //onChange('aadharCardScanCopy', 'ErrorMsg'); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
@@ -784,7 +784,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.mobileNumber1}
                   onChange={handleContactNoChange}
-                  error={((parseInt(schoolId) === 18 || parseInt(schoolId) === 122) && !!invalidFields.find(field => field.field === "mobileNumber2")) ||
+                  error={(parseInt(schoolId) === 18 || parseInt(schoolId) === 122) && !!invalidFields.find(field => field.field === "mobileNumber1") ||
                     !!unacceptableFields.find(field => field.field === "mobileNumber1")}
                   helperText={
                     invalidFields.find(field => field.field === "mobileNumber1")
@@ -808,8 +808,8 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.email}
                   onChange={handleInputChange}
-                  error={errors.email}
-                  helperText={errors.email ? 'This field is required' : ''}
+                  error={!!unacceptableFields.find(field => field.field === "email")}
+                  helperText={unacceptableFields.find(field => field.field === "email") ? 'Please select a valid email address.' : ''}
                   fullWidth
                 />
               </Grid>

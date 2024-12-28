@@ -451,7 +451,8 @@ const StudentRegistrationForm = () => {
 
   const validateSpecificFields = (form) => {
     const specificFieldValidations = [];
-
+    // Email validation regex pattern
+    const emailPattern = /^(?!.*\.\.)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     // Admission Tab Validations
     if (form.admission) {
       if (form.admission.registrationNumber === '0') {
@@ -465,21 +466,23 @@ const StudentRegistrationForm = () => {
       if (form.personal.mobileNumber1 && form.personal.mobileNumber1.length !== 10) {
         specificFieldValidations.push({ tab: 'personal', field: 'mobileNumber1' });
       }
-
+      // Email validation
+      if (form.personal.email && !emailPattern.test(form.personal.email)) {
+        specificFieldValidations.push({ tab: 'personal', field: 'email' });
+      }
       // Mobile Number 2
       if (form.personal.mobileNumber2 && form.personal.mobileNumber2.length !== 10) {
         specificFieldValidations.push({ tab: 'personal', field: 'mobileNumber2' });
       }
-
       // Aadhar Card Number
       if (form.personal.aadharCardNumber && form.personal.aadharCardNumber.length !== 12) {
         specificFieldValidations.push({ tab: 'personal', field: 'aadharCardNumber' });
       }
 
-      // Aadhar Card Scan Copy Error
-      if (form.personal.aadharCardScanCopy === 'ErrorMsg') {
-        specificFieldValidations.push({ tab: 'personal', field: 'aadharCardScanCopy' });
-      }
+      // // Aadhar Card Scan Copy Error
+      // if (form.personal.aadharCardScanCopy === 'ErrorMsg') {
+      //   specificFieldValidations.push({ tab: 'personal', field: 'aadharCardScanCopy' });
+      // }
     }
 
     // Family Tab Validations
@@ -1263,15 +1266,15 @@ const StudentRegistrationForm = () => {
     setIsSubmitted(true); // Enable validation display
 
     // Get specific field validations
-    const specificFieldValidations = validateSpecificFields(form);
+    //const specificFieldValidations = validateSpecificFields(form);
 
     // Get required field validations
     const { invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
 
-    if (invalidFields.length > 0 || specificFieldValidations.length > 0) {
-      console.log('Validation errors found:', invalidFields, specificFieldValidations);
+    if (invalidFields.length > 0) {                               //|| specificFieldValidations.length > 0
+      console.log('Validation errors found:', invalidFields);
       // Switch to the tab with the first invalid field
-      const firstInvalidFieldTab = invalidFields[0] || specificFieldValidations[0];
+      const firstInvalidFieldTab = invalidFields[0];             //|| specificFieldValidations[0]
 
       setCurrentTab(() => {
         const tabIndexMapping = {
@@ -1641,7 +1644,7 @@ const StudentRegistrationForm = () => {
 
     //setAttachment(file.Name);
     if (file && !ValidFileTypes.includes(file.FileExtension.toUpperCase())) {
-      showAlertMsg(file.ErrorMsg);
+      showAlertMsg(file.ErrorMsg ? 'Please select valid file type.' : '');
       setAttachment(''); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
       return;
