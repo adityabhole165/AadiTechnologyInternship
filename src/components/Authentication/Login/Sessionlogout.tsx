@@ -27,7 +27,7 @@ const Sessionlogout = () => {
             <>
                 You have successfully logged out. Please{" "}
                 <a
-                    href="http://web.aaditechnology.com/"
+                    href="http://web.aaditechnology.com/RITeSchool/Common/ControlPanel.aspx"
                     target="_blank"
                     rel="noreferrer"
                     style={{ color: "#007bff", textDecoration: "none" }}
