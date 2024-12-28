@@ -2,7 +2,6 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
     Box,
     Button,
-    Chip,
     Grid,
     Stack,
     Table,
@@ -12,15 +11,21 @@ import {
     TableRow,
     TextField,
     Tooltip,
-    Typography,
+    Typography
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import React, { useState } from "react";
 
 const FileUploadComponent: React.FC = () => {
+
     const [files, setFiles] = useState<File[]>([]);
     const [comment, setComment] = useState("");
     const [fileList, setFileList] = useState<{ fileNames: string[]; comment: string }[]>([]);
+
+    console.log(files, "files👌👌👌");
+    console.log(fileList, "fileList1234😒😒")
+    console.log(comment, "comment@@@🤞🤞");
+
 
     const ValidFileTypes = [".bmp", ".jpg", ".jpeg", ".png"];
     const MaxfileSize = 10 * 1000000; // 10 MB in bytes
@@ -55,16 +60,16 @@ const FileUploadComponent: React.FC = () => {
     };
     const handleDeleteFile = (entryIndex: number, fileIndex: number) => {
         setFileList((prevList) =>
-          prevList.map((entry, idx) =>
-            idx === entryIndex
-              ? {
-                  ...entry,
-                  fileNames: entry.fileNames.filter((_, fIdx) => fIdx !== fileIndex),
-                }
-              : entry
-          ).filter((entry) => entry.fileNames.length > 0) // Remove entry if all files are deleted
+            prevList.map((entry, idx) =>
+                idx === entryIndex
+                    ? {
+                        ...entry,
+                        fileNames: entry.fileNames.filter((_, fIdx) => fIdx !== fileIndex),
+                    }
+                    : entry
+            ).filter((entry) => entry.fileNames.length > 0) // Remove entry if all files are deleted
         );
-      };
+    };
     return (
         <Box pt={2}>
             <Grid container spacing={2}>
@@ -162,16 +167,16 @@ const FileUploadComponent: React.FC = () => {
                             {fileList.map((entry, index) => (
                                 <TableRow key={index}>
                                     <TableCell>  <Stack direction="row" spacing={1} flexWrap="wrap">
-                                        {entry.fileNames.map((fileName, idx) => (
-                                            <Chip
-                                                key={idx}
-                                                label={fileName}
-                                                variant="outlined"
-                                                color="primary"
-                                                onDelete={() => handleDeleteFile(index, idx)}
-                                                sx={{ margin: 0.5 }}
-                                            />
-                                        ))}
+                                        {/* {entry.fileNames.map((fileName, idx) => (
+                                            // <Chip
+                                            //     key={idx}
+                                            //     label={fileName}
+                                            //     variant="outlined"
+                                            //     color="primary"
+                                            //     onDelete={() => handleDeleteFile(index, idx)}
+                                            //     sx={{ margin: 0.5 }}
+                                            // />
+                                        ))} */}
                                     </Stack></TableCell>
                                     <TableCell>{entry.comment}</TableCell>
                                 </TableRow>

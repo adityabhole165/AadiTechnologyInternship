@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import PhotoGallaryApi from 'src/api/PhotoGallery/PhotoGallary';
-import { IPics, IStandardDivisionNameBody, Iimg } from 'src/interfaces/Common/PhotoGallery';
+import { IManagePhotoGalleryBody, IPics, IStandardDivisionNameBody, Iimg } from 'src/interfaces/Common/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import { AppThunk } from 'src/store';
 
@@ -11,6 +11,7 @@ const GallerySlice = createSlice({
     imgList: [],
     YearList: [],
     IStandardDivisionName: [],
+    IManagePhotoGalleryMsg: '',
     Loading: true
   },
   reducers: {
@@ -27,6 +28,15 @@ const GallerySlice = createSlice({
       state.Loading = false;
       state.IStandardDivisionName = action.payload;
     },
+    RManagePhotoGalleryMsg(state, action) {
+      state.Loading = false;
+      state.IManagePhotoGalleryMsg = action.payload;
+    },
+    resetManagePhotoGalleryMsg(state) {
+      state.Loading = false;
+      state.IManagePhotoGalleryMsg = '';
+    },
+
     getLoading(state, action) {
       state.Loading = true;
     }
@@ -86,4 +96,15 @@ export const CDAStandardDivisionName =
       });
       dispatch(GallerySlice.actions.RStandardDivisionName(GetStandardDivisionName));
     };
+
+
+export const CDAManagePhotoGalleryMsg = (data: IManagePhotoGalleryBody): AppThunk => async (dispatch) => {
+  dispatch(GallerySlice.actions.getLoading(true));
+  const response = await PhotoGallaryApi.ManagePhotoGalleryApi(data);
+  dispatch(GallerySlice.actions.RManagePhotoGalleryMsg(response.data));
+};
+
+export const resetManagePhotoGalleryMsg = (): AppThunk => async (dispatch) => {
+  dispatch(GallerySlice.actions.resetManagePhotoGalleryMsg());
+};
 export default GallerySlice.reducer;
