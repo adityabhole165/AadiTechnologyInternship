@@ -39,7 +39,7 @@ import {
   IGetStudentsSiblingDetailBody, IOverwriteAllSiblingDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody
 } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
-  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ISaveSubmittedDocumentsBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
+  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IDeleteDayBoardingFeesBody, ISaveSubmittedDocumentsBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile from 'src/libraries/File/SingleFile';
@@ -53,6 +53,7 @@ import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
   CDAAddStudentAdditionalDetails,
   CDACheckDependenciesForFees,
+  CDADeleteDayBoardingFeesMsg,
   CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
   CDAGetStudentDocuments,
   CDARetriveStudentStreamwiseSubject,
@@ -72,10 +73,6 @@ import CheckboxList from './SiblingDetailsCheckBoxList';
 import StudentProfileHeader from './StudentProfileHeader';
 import StudentSubjectDetails from './StudentSubjectDetails';
 
-interface FieldValidationError {
-  tab: string;
-  field: string;
-}
 
 const StudentRegistrationForm = () => {
   //const { BackN_Student_Ids } = useParams();
@@ -100,7 +97,7 @@ const StudentRegistrationForm = () => {
   const schoolId = localStorage.getItem('SchoolId');
   const academicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const teacherId = sessionStorage.getItem('Id');
-  const localUserId = localStorage.getItem('UserId');
+  const localUserId = localStorage.getItem('UserId');                     //Environmental User
   const SNS = Number(localStorage.getItem('SchoolId') == '122');
   const RoleName = localStorage.getItem('RoleName');
   //StudentDetails from Local Storage
@@ -277,25 +274,22 @@ const StudentRegistrationForm = () => {
       competitiveExams: '',
     }
   });
-  //object to store latest AdmissionDocuments List
-  const [documentList, setDocumentList] = useState([]);
 
   const [feeDependencyError, setFeeDependencyError] = useState('');
   const [isDeleteFee, setIsDeleteFee] = useState(false);
+  const [hidOldIsForDayBoarding, setHidOldIsForDayBoarding] = useState('');
+  //object to store latest AdmissionDocuments List
+  const [documentList, setDocumentList] = useState([]);
   //Siblings States
   const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
   const [selectedSiblings, setSelectedSiblings] = useState('');
-  //console.log('✅ selectedSiblings', selectedSiblings)
   const [resetTrigger, setResetTrigger] = useState(false);
 
-  //console.log('admission date from child to parent', form.admission.admissionDate);
-  //#endregion
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
   const ShowDayBoardingOptionOnStudentsScreen = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowDayBoardingOptionOnStudentsScreen || false;
   // Centralized Required Fields Configuration
-  const [fieldValidationErrors, setFieldValidationErrors] = useState<FieldValidationError[]>([]);
 
   const [progress, setProgress] = useState(0);
   const [invalidFields, setInvalidFields] = useState([]);
@@ -583,6 +577,9 @@ const StudentRegistrationForm = () => {
   //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
   const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
   //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
+  const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
+  //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
+  //console.log('⏮️ReferenceMessages', ReferenceMessages);
 
   //#region hiddenfields
   const oStudentDetails = USGetSingleStudentDetails[0]
@@ -601,12 +598,14 @@ const StudentRegistrationForm = () => {
     moment(currentJoiningDate, 'DD-MM-YYYY').format('MMM') : 'LOL';
   //console.log(hidOldJoiningDateMonth, '🎈🎈', currentJoiningDateMonth);
 
-  const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
-  //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
-  //console.log('⏮️ReferenceMessages', ReferenceMessages);
 
+  useEffect(() => {
+    if (ShowDayBoardingOptionOnStudentsScreen) {
+      setHidOldIsForDayBoarding(oStudentDetails.IsForDayBoarding);
+    }
+  }, [UsGetSchoolSettings, ShowDayBoardingOptionOnStudentsScreen]);
 
-
+  console.log(oStudentDetails.IsForDayBoarding, (form.admission?.isForDayBoarding === true ? 'True' : 'False'));
 
 
   // useEffect(() => {
@@ -1067,6 +1066,13 @@ const StudentRegistrationForm = () => {
     adtOldJoiningDate: formatDOB(hidOldJoiningDate)
   };
 
+  const DeleteDayBoardingFeesBody: IDeleteDayBoardingFeesBody = {
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asSchoolWise_Student_Id: SchoolWise_Student_Id ?? localData.SchoolWise_Student_Id,
+    asUpdatedById: Number(localUserId),
+  }
+
   const AddStudentAdditionalDetailsBody: IAddStudentAdditionalDetailsBody = {
     asSchoolId: Number(localStorage.getItem('localSchoolId')),
     asAdmissionAcadmicYear: form.additional?.admissionAcademicYear || '',
@@ -1205,6 +1211,7 @@ const StudentRegistrationForm = () => {
 
   const executeApiCalls = async (
     updateStudentBody,
+    DeleteDayBoardingFeesBody,
     additionalDetailsBody,
     streamwiseSubjectDetailsBody,
     transportFeeBody,
@@ -1213,8 +1220,13 @@ const StudentRegistrationForm = () => {
   ) => {
     try {
       // Update Student Details
-      //console.log('Sending update with data:', updateStudentBody);
+      console.log('1️⃣Update Student', updateStudentBody);
       await dispatch(CDAUpdateStudent(updateStudentBody));
+
+      console.log('2️⃣ Handle Day Boarding Fees', ShowDayBoardingOptionOnStudentsScreen);
+      if (ShowDayBoardingOptionOnStudentsScreen && hidOldIsForDayBoarding !== (form.admission?.isForDayBoarding === true ? 'True' : 'False')) {
+        await dispatch(CDADeleteDayBoardingFeesMsg(DeleteDayBoardingFeesBody));
+      }
 
       // Add Additional Student Details
       if (IsAdditionalFieldsApplicable) {
@@ -1314,6 +1326,7 @@ const StudentRegistrationForm = () => {
 
       await executeApiCalls(
         UpdateStudentBody,
+        DeleteDayBoardingFeesBody,
         AddStudentAdditionalDetailsBody,
         UpdateStudentStreamwiseSubjectDetailsBody,
         transportFeeBody,
@@ -1349,6 +1362,7 @@ const StudentRegistrationForm = () => {
       //console.log('Popup validation passed! Proceeding with sibling and other API calls...');
       await executeApiCalls(
         UpdateStudentBody,
+        DeleteDayBoardingFeesBody,
         AddStudentAdditionalDetailsBody,
         UpdateStudentStreamwiseSubjectDetailsBody,
         transportFeeBody,
