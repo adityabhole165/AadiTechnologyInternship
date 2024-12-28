@@ -31,7 +31,7 @@ const Sessionlogout = () => {
                 style={{ minHeight: "100vh" }}
                 columns={{ xs: 12, md: 12 }}
             >
-                <Grid item xs={12} sx={{ px: 2, mt: 10 }}>
+                <Grid item xs={12} sx={{ px: 2, mt:26, mb:2 }}>
                     <Typography variant={"h3"} sx={{ textAlign: "center" }}>
                         {message}
                     </Typography>
