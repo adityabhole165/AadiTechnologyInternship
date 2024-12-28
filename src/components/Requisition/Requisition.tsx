@@ -384,7 +384,7 @@ const StatusRequisition = () => {
               direction={{ xs: 'row', sm: 'row' }}
               spacing={1}
               alignItems="center"
-              justifyContent="flex-end"
+              justifyContent="flex-start"
               sx={{
                 width: '100%',
                 flexWrap: { xs: 'wrap', sm: 'nowrap' }
@@ -432,21 +432,22 @@ const StatusRequisition = () => {
                   </IconButton>
                 </Tooltip>
               </Box>
-              <Tooltip title={'Add Requisition'}>
-                <IconButton
-                  onClick={AddRequisition}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: green[600] },
+              <Box>
+                <Tooltip title={'Add Requisition'}>
+                  <IconButton
+                    onClick={AddRequisition}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: green[600] },
 
-                  }}
-                >
-                  <AddTwoTone />
-                </IconButton>
-              </Tooltip>
-
+                    }}
+                  >
+                    <AddTwoTone />
+                  </IconButton>
+                </Tooltip>
+              </Box>
 
             </Stack>
           </Stack>}

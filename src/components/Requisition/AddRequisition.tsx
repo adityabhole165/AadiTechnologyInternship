@@ -724,7 +724,7 @@ const AddRequisition = () => {
                             sm={6}
                             gap={1}
                             display="flex"
-                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
                         >
                             <IconButton
                                 onClick={clickSearch}
@@ -744,22 +744,21 @@ const AddRequisition = () => {
                                 <SearchTwoTone />
                             </IconButton>
 
-                            <Box>
-                                <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: grey[500],
-                                            height: '36px !important',
-                                            ':hover': { backgroundColor: grey[600] }
-                                        }}
-                                    >
-                                        <QuestionMarkIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            </Box>
+                            <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        mr: -1,
+                                        // height: '36px !important',
+                                        ':hover': { backgroundColor: grey[600] }
+                                    }}
+                                >
+                                    <QuestionMarkIcon />
+                                </IconButton>
+                            </Tooltip>
                             <Tooltip title={'Reset'}>
-                                {Itemlist.length > 0 ?
+                                {Itemlist.length > 0 && (
 
                                     <IconButton
                                         onClick={ClickRestItemLIst}
@@ -774,25 +773,24 @@ const AddRequisition = () => {
                                         <RestartAltIcon />
 
                                     </IconButton>
-                                    : <span> </span>}
+                                )}
                             </Tooltip>
-
-                            {AddItemlistNew.length > 0 ? <Tooltip title={'Save'}>
+                            {AddItemlistNew.length > 0 && (<Tooltip title={'Save'}>
                                 <IconButton
                                     onClick={clicksave}
                                     sx={{
                                         color: 'white',
                                         backgroundColor: green[500],
-                                        height: '36px !important',
+                                       // height: '36px !important',
                                         ':hover': { backgroundColor: green[600] },
 
                                     }}
                                 >
                                     <Save />
                                 </IconButton>
-                            </Tooltip> : <span> </span>}
+                            </Tooltip>)}
 
-                            {AddItemlistNew.length > 0 ? <Tooltip title={'Send Requisition'}>
+                            {AddItemlistNew.length > 0 && (<Tooltip title={'Send Requisition'}>
                                 <IconButton
                                     onClick={clickSend}
                                     sx={{
@@ -805,7 +803,7 @@ const AddRequisition = () => {
                                 >
                                     <SendIcon />
                                 </IconButton>
-                            </Tooltip> : <span> </span>}
+                            </Tooltip>)}
                         </Grid>
                     </Stack>
                 }
