@@ -495,7 +495,7 @@ function Form13() {
     },
     validate: (values) => {
       const errors: any = {};
-      console.log('>>>>>>', scheduleDate);
+      //console.log('>>>>>>', scheduleDate);
 
       //
       // let valid = false;
@@ -648,7 +648,7 @@ function Form13() {
 
 
   const clickTime = (timeValue) => {
-    console.log(timeValue);
+    //console.log(timeValue);
     if (scheduleDate !== '') {
       checkScheduleValidation(scheduleDate + ' ' + timeValue);
     }
@@ -663,10 +663,10 @@ function Form13() {
     const dateValue1 = getDateFormat1(dateValue);
     setScheduleDate((prevState) => {
       const dateValue1 = getDateFormat1(dateValue);
-      console.log('New scheduleDate:', dateValue1);
+      //console.log('New scheduleDate:', dateValue1);
       return dateValue1;
     });
-    console.log(scheduleDate);
+    //console.log(scheduleDate);
 
     if (scheduleDate !== '') {
       setRequestScheduleMsg('');
@@ -836,7 +836,7 @@ function Form13() {
       })
       // Need To Add condition over here | Note 🔔   windows + .
     } else if (e.RecipientName.length === 0) {
-      console.log(RecipientsObject, 'checkthis');
+      //console.log(RecipientsObject, 'checkthis');
 
       showAlert({
         title: 'Please Confirm',

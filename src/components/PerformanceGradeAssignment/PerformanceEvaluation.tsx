@@ -96,7 +96,7 @@ const PerformanceEvaluation = () => {
         dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody))
         dispatch(CDAGetDetailsForAttachment(PerformanceEvaluationDetailsBody))
         if (listSchoolOrgNameDetails.length > 0) {
-            console.log(listSchoolOrgNameDetails)
+            //console.log(listSchoolOrgNameDetails)
         }
     }, [dispatch, userId, asYear]);
     function viewReport() {
@@ -109,7 +109,7 @@ const PerformanceEvaluation = () => {
 
     useEffect(() => {
         if (listUserNameDetails.length > 0) {
-            console.log(`😎`, listUserNameDetails)
+            //console.log(`😎`, listUserNameDetails)
         }
     }, [listUserNameDetails])
 
@@ -127,9 +127,9 @@ const PerformanceEvaluation = () => {
     }
     function dynamicHeader(id) {
         let headerName = '';
-        console.log('⭐⭐', listParameterIdDetails, id)
+        //console.log('⭐⭐', listParameterIdDetails, id)
         let filteredArray = listParameterIdDetails.filter((item) => item.Text2 === id);
-        console.log('⭐⭐', filteredArray)
+        //console.log('⭐⭐', filteredArray)
         filteredArray = filteredArray[0];
         if (filteredArray?.Text3 === '0' && filteredArray?.Text4 === '') {
             headerName = 'Grade';
@@ -273,9 +273,9 @@ const PerformanceEvaluation = () => {
                 const matchedItems2 = listTecherTitleDetails.filter(item2 => item2.Text4 === item1.Text1);
                 matchedItems2.forEach(matchedItem2 => {
                     const matchedItems3 = listParameterIdDetails.filter(item3 => item3.Text2 === matchedItem2.Text1);
-                    console.log(matchedItems3.length, 'this was length and items is', matchedItems3)
+                    //console.log(matchedItems3.length, 'this was length and items is', matchedItems3)
                     if (matchedItems3.length === 0) {
-                        console.log('currently in zero lenght loop')
+                        //console.log('currently in zero lenght loop')
                         if (item1.Text8 === "True") {
                             listIsFinalApproverDetails.forEach(item7 => {
                                 const key = `${item1.Text1}-${matchedItem2.Text1}-0-${item7.Text3}-${item1.Text7}`;
@@ -287,7 +287,7 @@ const PerformanceEvaluation = () => {
                                     reportingUserId: item7.Text3
                                 })
                                 acc[key] = value;
-                                console.log('True key and value is', key, value)
+                                //console.log('True key and value is', key, value)
                             })
                         }
                         if (item1.Text8 === "False") {
@@ -300,7 +300,7 @@ const PerformanceEvaluation = () => {
                                 reportingUserId: userId
                             })
                             acc[key] = value;
-                            console.log('False key and value is', key, value)
+                            //console.log('False key and value is', key, value)
                         }
                     }
                     matchedItems3.forEach(matchedItem3 => {
@@ -313,14 +313,14 @@ const PerformanceEvaluation = () => {
                             observation: matchedItem3.Text4,
                             reportingUserId: matchedItem3.Text5
                         });
-                        console.log('⛳current Key', key, 'and value is', value, 'question is', item1.Text2)
+                        //console.log('⛳current Key', key, 'and value is', value, 'question is', item1.Text2)
                         acc[key] = value;
                     });
                 });
                 return acc;
             }, {});
             setInitialStaffPerfEval(initialEvalRowValues);
-            console.log(`-->`, initialEvalRowValues);
+            //console.log(`-->`, initialEvalRowValues);
         }
     }, [listOriginalSkillIdDetails, listTecherTitleDetails, listParameterIdDetails, listIsFinalApproverDetails, userId]);
     // #endregion
@@ -335,7 +335,7 @@ const PerformanceEvaluation = () => {
     };
 
     const updateStaffPerfEvalGrade = (key, gradeId, parameterId, reportingUserId) => {
-        console.log('🎃', initialStaffPerfEval);
+        //console.log('🎃', initialStaffPerfEval);
         const updatedFields = {
             gradeId: gradeId
         }
@@ -430,7 +430,7 @@ const PerformanceEvaluation = () => {
     }
 
     function validateObs() {
-        console.log(`🏠`, initialStaffPerfEval)
+        //console.log(`🏠`, initialStaffPerfEval)
         for (let key in initialStaffPerfEval) {
             const item = JSON.parse(initialStaffPerfEval[key]);
 
@@ -503,7 +503,7 @@ const PerformanceEvaluation = () => {
         return flag;
     }
     const savePerfEval = (buttonType) => {
-        console.log('🎃 ✅', initialStaffPerfEval);
+        //console.log('🎃 ✅', initialStaffPerfEval);
         let flag = false;
         setObsError('');
         setGradeError('');
@@ -511,7 +511,7 @@ const PerformanceEvaluation = () => {
         setClassError(false);
         const { isValidGrade, errorMessage } = validateGrades(initialStaffPerfEval);
         let data = generatePerformanceXml(initialStaffPerfEval);
-        console.log(data);
+        //console.log(data);
         let selfUser = isSelfUser();
         const SaveStaffPerformanceEvalDetailBody: ISaveStaffPerformanceEvalDetailsBody = {
             asSchoolId: Number(schoolId),
@@ -1447,7 +1447,7 @@ const PerformanceEvaluation = () => {
                 open={uploadDoc} handleClose={(newFile) => {
                     setUploadDoc(false);
                     if (newFile) {
-                        console.log('NewFile ->', newFile)
+                        //console.log('NewFile ->', newFile)
                         dispatch(CDAGetDetailsForAttachment(PerformanceEvaluationDetailsBody));
                     }
                     setHoveredRow(null);

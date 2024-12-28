@@ -39,7 +39,7 @@ const SelectListChild = ({ ISGetStandardDivisionsForSelectedNoticeId }) => {
     }
 
     let newData = useMemo(() => itemListData, []);
-    console.log({ newData })
+    //console.log({ newData })
 
     const dispatch = useDispatch();
 
@@ -64,7 +64,7 @@ const SelectListChild = ({ ISGetStandardDivisionsForSelectedNoticeId }) => {
         SetItemList(newData)
         forceUpdate(n => !n);
 
-        console.log("updatedArr 58", updatedArr);
+        //console.log("updatedArr 58", updatedArr);
     };
 
     const applyCheckedToAllArray = (arr, isActive = false) => {
@@ -75,7 +75,7 @@ const SelectListChild = ({ ISGetStandardDivisionsForSelectedNoticeId }) => {
     }
 
     const selecIndividualCheckedAll = (obj) => {
-        console.log("isAssociateActive 58", obj);
+        //console.log("isAssociateActive 58", obj);
         // divisionIDs.push()
 
         SetDivisionIDsd(oldArray => [obj.Division_Id, ...oldArray]);
@@ -85,12 +85,12 @@ const SelectListChild = ({ ISGetStandardDivisionsForSelectedNoticeId }) => {
             newData[individualCheckedObj].arr = applyCheckedToAllArray(newData[individualCheckedObj].arr, newData[individualCheckedObj].isActive);
         }
         SetItemList(newData);
-        console.log("isAssociateActive 58", itemList);
+        //console.log("isAssociateActive 58", itemList);
         forceUpdate(n => !n);
     }
 
     const selecNestedIndividualCheckedAll = (obj, div) => {
-        console.log("isAssociateActive 58", obj, div);
+        //console.log("isAssociateActive 58", obj, div);
         // divisionIDs.push(div.Division_Id)
         SetDivisionIDsd(oldArray => [div.Division_Id, ...oldArray]);
 
@@ -101,7 +101,7 @@ const SelectListChild = ({ ISGetStandardDivisionsForSelectedNoticeId }) => {
         }
         SetItemList(newData);
         forceUpdate(n => !n);
-        console.log("divisionIDs", divisionIDs);
+        //console.log("divisionIDs", divisionIDs);
     }
 
 

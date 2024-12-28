@@ -79,7 +79,7 @@ const StatusRequisition = () => {
     (state: RootState) => state.SliceRequisition.RequisitionListCount
 
   );
-  console.log(CountGetPagedRequisition.TotalCount / rowsPerPage, "CountGetPagedRequisition----");
+  //console.log(CountGetPagedRequisition.TotalCount / rowsPerPage, "CountGetPagedRequisition----");
 
 
 

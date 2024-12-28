@@ -36,7 +36,7 @@ const ExamScheduleBasescreen = () => {
     }, [])
 
     const ClickSchedule = (Value) => {
-        console.log(Value, "ClickSchedule");
+        //console.log(Value, "ClickSchedule");
 
         if (Value.IsConfigured == true) {
             navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + encodeURL(Value.StandardId) + '/' + encodeURL(Value.TestId) + '/' + encodeURL(Value.SchoolwiseStandardExamScheduleId) + '/' + encodeURL(Value.StandardTestId) + '/' + encodeURL('true'), { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });

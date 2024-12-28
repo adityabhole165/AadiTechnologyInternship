@@ -61,7 +61,7 @@ function ViewSms() {
         setViewSms(data);
       });
   };
-  console.log(viewSms, 'ViewDetail')
+  //console.log(viewSms, 'ViewDetail')
   useEffect(() => {
     GetViewMessageResult();
   }, []);

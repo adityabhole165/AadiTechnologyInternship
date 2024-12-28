@@ -122,7 +122,7 @@ const GetAllFeeTypesForChallanImport = (
 };
 
 const GetAllPayableforChallan = (data: IGetAllPayableforChallanBody) => {
-  console.log(data, 'GetAllPayableforChallan');
+  //console.log(data, 'GetAllPayableforChallan');
   return http.post<IGetPayableforChallanResult>(
     'Student/GetAllPayableforChallan',
     data

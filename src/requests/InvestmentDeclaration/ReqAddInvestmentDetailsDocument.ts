@@ -46,14 +46,14 @@ export const getCheckPublishUnpublishDocument = (data: ICheckPublishUnpublishDoc
     async (dispatch) => {
         const response = await AddInvestmentDetailsDocumentApi.CheckPublishUnpublishDocumentapi(data)
         dispatch(AddInvestmentDetailsDocumentSlice.actions.RCheckPublishUnpublishDocument(response.data));
-        console.log(response, "response");
+        //console.log(response, "response");
 
 
     };
 export const getUserInvestmentMethodDetails = (data: IGetUserInvestmentMethodDetailsBody): AppThunk =>
     async (dispatch) => {
         const response = await AddInvestmentDetailsDocumentApi.GetUserInvestmentMethodDetailsapi(data)
-        console.log(response, "----");
+        //console.log(response, "----");
         dispatch(AddInvestmentDetailsDocumentSlice.actions.RGetUserInvestmentMethodDetails(response.data));
     };
 export const getSaveInvestmentDocument = (data: ISaveInvestmentDocumentBody): AppThunk =>

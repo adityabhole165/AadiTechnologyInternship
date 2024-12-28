@@ -26,7 +26,7 @@ import LoginApi from 'src/api/Authentication/Login';
 import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
 import regulas from 'src/assets/img/Shool_Logo/regulas.jpg';
 import { Styles } from 'src/assets/style/student-style';
-import { formatDateAsDDMMMYYYY, getYearFirstDateFormatted, logoURL } from 'src/components/Common/Util';
+import { getYearFirstDateFormatted, logoURL } from 'src/components/Common/Util';
 import {
   IAuthenticateUser,
   IAuthenticateUserResult
@@ -189,7 +189,7 @@ function SelectSchool() {
         'CasteAndSubCaste',
         studentDetails.CasteAndSubCaste
       );
-      console.log(formatDateAsDDMMMYYYY(studentDetails.EndDate), "formatDateAsDDMMMYYYY(studentDetails.EndDate)");
+      //console.log(formatDateAsDDMMMYYYY(studentDetails.EndDate), "formatDateAsDDMMMYYYY(studentDetails.EndDate)");
 
       sessionStorage.setItem('UDISENumber', studentDetails.UDISENumber);
       sessionStorage.setItem('BirthPlace', studentDetails.BirthPlace);

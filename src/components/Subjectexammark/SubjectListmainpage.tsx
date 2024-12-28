@@ -78,7 +78,7 @@ const SubjectListmainpage = () => {
 
   const Changevalue = (value) => {
     setitemPublish(value);
-    console.log(value, 'value--');
+    //console.log(value, 'value--');
     value.map((item) => {
       return item.IsActive ? (value = value + item.Id + ',') : '';
     });
@@ -95,19 +95,19 @@ const SubjectListmainpage = () => {
 
   const changetextHeader4 = (value, list) => {
     settextHeader4(value);
-    console.log(list, 'list=');
+    //console.log(list, 'list=');
     setitemPublish(list);
   };
 
   const changetextHeader5 = (value, list) => {
     settextHeader5(value);
-    console.log(list, 'list=');
+    //console.log(list, 'list=');
     setitemPublish(list);
   };
 
   const changetextHeader6 = (value, list) => {
     settextHeader6(value);
-    console.log(list, 'list=');
+    //console.log(list, 'list=');
     setitemPublish(list);
   };
   return (

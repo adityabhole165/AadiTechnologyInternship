@@ -92,7 +92,7 @@ export const getattendance =
       HeaderArray.push({ Id: 14, scope: 'row', Header: 'Total Days' })
       HeaderArray.push({ Id: 15, Header: '%' })
 
-      console.log(HeaderArray, "HeaderArray", a);
+      //console.log(HeaderArray, "HeaderArray", a);
 
       dispatch(MonthwiseAttendanceSlice.actions.getmonthwiseattendance(a));
       dispatch(MonthwiseAttendanceSlice.actions.getHeaderArray(HeaderArray));

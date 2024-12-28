@@ -30,7 +30,7 @@ const AddUnpublish1 = ({ open, setOpen, ClickCloseDialogbox, clickPublishUnpubli
   const AllPublishUnPublishHomework = useSelector(
     (state: RootState) => state.AddHomework.PublishUnPublishHomework
   );
-  console.log(AllPublishUnPublishHomework, 'AllPublishUnPublishHomework....');
+  //console.log(AllPublishUnPublishHomework, 'AllPublishUnPublishHomework....');
 
   // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
   //   {

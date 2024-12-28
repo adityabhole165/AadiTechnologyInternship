@@ -42,7 +42,7 @@ function AddPersonalContactGroup({ clearForm, isExistsError, formType, tooltipTe
         return addressBookGroupList.some(item => item.IsActive === true);
     }
     const handleSubmit = () => {
-        console.log('🚩', ItemList2);
+        //console.log('🚩', ItemList2);
 
         const isName = Boolean(Value1);
         const isGroupPhoneListChecked = isAnyActive(ItemList2);

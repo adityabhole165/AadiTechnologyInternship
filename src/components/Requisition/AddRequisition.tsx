@@ -39,7 +39,7 @@ const AddRequisition = () => {
     // Decode in-place
     asRequisitionId = decodeURL(asRequisitionId);
 
-    console.log(asRequisitionId, "asRequisitionId--");
+    //console.log(asRequisitionId, "asRequisitionId--");
 
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -78,7 +78,7 @@ const AddRequisition = () => {
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
     const RequisitionID = UsSlistGetRequisitionName?.length > 0 ? UsSlistGetRequisitionName.map(req => req.RequisitionID) : 0;
-    console.log(RequisitionID, "RequisitionID");
+    //console.log(RequisitionID, "RequisitionID");
 
     const USGetNewRequisitionValidateItemQuantity: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetNewRequisitionValidateItemQuantity);
     const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
@@ -96,7 +96,7 @@ const AddRequisition = () => {
 
     const imageUrls: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage.ImageUrls);
 
-    console.log(imageUrls, "imageUrls");
+    //console.log(imageUrls, "imageUrls");
 
 
 
@@ -781,7 +781,7 @@ const AddRequisition = () => {
                                     sx={{
                                         color: 'white',
                                         backgroundColor: green[500],
-                                       // height: '36px !important',
+                                        // height: '36px !important',
                                         ':hover': { backgroundColor: green[600] },
 
                                     }}

@@ -189,7 +189,7 @@ const MessageList = () => {
 
   const clickSortExp = (value) => {
     setSortExp(value)
-    console.log(value, "clickSortExp");
+    //console.log(value, "clickSortExp");
 
   }
   const clickSortDirection = (value) => {

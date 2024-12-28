@@ -5,7 +5,7 @@ import MultiColumnList from 'src/libraries/list/MultiColumnList';
 const AttendanceCalendar = ({ DefaultDate, ClickDate }) => {
   const [ItemList, setItemList] = useState([]);
   useEffect(() => {
-    console.log('Call Dispatch', DefaultDate);
+    //console.log('Call Dispatch', DefaultDate);
     setItemList([{ DefaultDate: DefaultDate }]);
   }, [DefaultDate]);
   return (

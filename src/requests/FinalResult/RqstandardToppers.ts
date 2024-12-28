@@ -51,7 +51,7 @@ export const StandardDropdownListST =
         };
       });
       dispatch(StandardToppersSlice.actions.StandardListST(getStandard));
-      console.log(getStandard, 'Standards');
+      //console.log(getStandard, 'Standards');
     };
 
 export const StandardExamListST =
@@ -66,7 +66,7 @@ export const StandardExamListST =
         };
       });
       dispatch(StandardToppersSlice.actions.ExamListST(getStandardExam));
-      console.log(getStandardExam, 'Standards');
+      //console.log(getStandardExam, 'Standards');
     };
 
 export const StandardSubjectListST =
@@ -88,7 +88,7 @@ export const StandardTopperListST =
   (data: IGetStandardToppersListBOdyST): AppThunk =>
     async (dispatch) => {
       const response = await StandardToppersApiST.StandardToppersListST(data);
-      console.log(response, 'responseeeeee');
+      //console.log(response, 'responseeeeee');
 
       let abc = response.data.GetTopperList.map((item, i) => {
         return {
@@ -142,10 +142,10 @@ export const StandardTopperListST =
         });
         responseData.push(child);
       });
-      console.log(responseData, 'Subjects');
+      //console.log(responseData, 'Subjects');
 
       dispatch(StandardToppersSlice.actions.SubjectToppersListST(responseData));
-      console.log(responseData, 'responseData');
+      //console.log(responseData, 'responseData');
     };
 
 

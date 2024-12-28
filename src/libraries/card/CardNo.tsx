@@ -1,6 +1,6 @@
 import { Card, Typography } from '@mui/material';
 function CardNo({ item, clickItem }) {
-  console.log(item, 'Calender');
+  //console.log(item, 'Calender');
   const onClick = () => {
     item = {
       ...item,
@@ -9,7 +9,7 @@ function CardNo({ item, clickItem }) {
     clickItem(item);
   };
 
-  console.log(item.Name);
+  //console.log(item.Name);
   return (
     <div>
       <Card>

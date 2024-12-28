@@ -51,7 +51,7 @@ export const ClassdropdownListCT =
         };
       });
       dispatch(FinalResultToppersSlice.actions.classListCT(abc));
-      console.log(abc, 'abc');
+      //console.log(abc, 'abc');
     };
 
 export const ClassExamListCT =
@@ -137,12 +137,12 @@ export const ClassTopperListCT =
         });
         responseData.push(child);
       });
-      console.log(responseData, 'Subjects');
+      //console.log(responseData, 'Subjects');
 
       dispatch(
         FinalResultToppersSlice.actions.SubjectToppersListCT(responseData)
       );
-      console.log(responseData, 'ResponseClassToppers');
+      //console.log(responseData, 'ResponseClassToppers');
 
     };
 

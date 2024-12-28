@@ -12,7 +12,6 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  Stack,
   TextField,
   Tooltip,
   Typography,
@@ -57,13 +56,13 @@ import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import {
   decodeURL,
+  encodeURL,
   formatDateAsDDMMMYYYY,
   getCalendarDateFormatDate,
   isGreaterOrEqualDate
 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-import { encodeURL } from '../Common/Util';
 
 const AddHomeworkNew = () => {
   let {
@@ -223,12 +222,12 @@ const AddHomeworkNew = () => {
   );
 
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
-    {
-      asSchoolId: asSchoolId,
-      aTeacherId: Number(TeacherId),
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivisionId: Number(SelectClass)
-    };
+  {
+    asSchoolId: asSchoolId,
+    aTeacherId: Number(TeacherId),
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: Number(SelectClass)
+  };
   const debouncedFetch = useCallback(
     debounce((body) => {
       dispatch(SubjectListforTeacherDropdown(body));
@@ -408,7 +407,7 @@ const AddHomeworkNew = () => {
     setFileName(value.Name);
   };
   const ChangeMultipleFile = (value) => {
-    console.log(value, 'MultipleFile');
+    //console.log(value, 'MultipleFile');
   };
 
   // Function to handle change in complete by date
@@ -462,41 +461,41 @@ const AddHomeworkNew = () => {
   const clickTitle = (Id) => {
     navigate(
       '/RITeSchool/Teacher/ViewHomework/' +
-        encodeURL(Id) +
-        '/' +
-        encodeURL(TeacherId) +
-        '/' +
-        encodeURL(TeacherName) +
-        '/' +
-        encodeURL(ClassName) +
-        '/' +
-        encodeURL(SubjectName) +
-        '/' +
-        encodeURL(SubjectId) +
-        '/' +
-        encodeURL(MySubject) +
-        '/' +
-        encodeURL(SelectClass)
+      encodeURL(Id) +
+      '/' +
+      encodeURL(TeacherId) +
+      '/' +
+      encodeURL(TeacherName) +
+      '/' +
+      encodeURL(ClassName) +
+      '/' +
+      encodeURL(SubjectName) +
+      '/' +
+      encodeURL(SubjectId) +
+      '/' +
+      encodeURL(MySubject) +
+      '/' +
+      encodeURL(SelectClass)
     );
   };
   const clickView = (Id) => {
     navigate(
       '/RITeSchool/Teacher/HomeworkDocuments/' +
-        encodeURL(Id) +
-        '/' +
-        encodeURL(TeacherId) +
-        '/' +
-        encodeURL(TeacherName) +
-        '/' +
-        encodeURL(ClassName) +
-        '/' +
-        encodeURL(SubjectName) +
-        '/' +
-        encodeURL(SubjectId) +
-        '/' +
-        encodeURL(MySubject) +
-        '/' +
-        encodeURL(SelectClass)
+      encodeURL(Id) +
+      '/' +
+      encodeURL(TeacherId) +
+      '/' +
+      encodeURL(TeacherName) +
+      '/' +
+      encodeURL(ClassName) +
+      '/' +
+      encodeURL(SubjectName) +
+      '/' +
+      encodeURL(SubjectId) +
+      '/' +
+      encodeURL(MySubject) +
+      '/' +
+      encodeURL(SelectClass)
     );
   };
 
@@ -702,7 +701,7 @@ const AddHomeworkNew = () => {
   };
 
   const subjectName = getSubjectName(Subject);
-  console.log(subjectName);
+  //console.log(subjectName);
 
   const clickSubjectList = (value) => {
     setSubject(value);
@@ -813,15 +812,15 @@ const AddHomeworkNew = () => {
 
   const unpublishAll = () => {
     const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
-      {
-        asSchoolId: String(asSchoolId),
-        asAcademicYearId: String(asAcademicYearId),
-        asHomeWorkLogId: getSelectHomeworkId(),
-        asUnpublishReason: textall,
-        asUpdatedById: asTeacherId,
-        IsPublished: 0,
-        IsSMSSent: 0
-      };
+    {
+      asSchoolId: String(asSchoolId),
+      asAcademicYearId: String(asAcademicYearId),
+      asHomeWorkLogId: getSelectHomeworkId(),
+      asUnpublishReason: textall,
+      asUpdatedById: asTeacherId,
+      IsPublished: 0,
+      IsSMSSent: 0
+    };
 
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
   };
@@ -857,21 +856,21 @@ const AddHomeworkNew = () => {
   const clickTitle1 = (Id) => {
     navigate(
       '/RITeSchool/Teacher/ViewHomework/' +
-        encodeURL(Id) +
-        '/' +
-        encodeURL(TeacherId) +
-        '/' +
-        encodeURL(TeacherName) +
-        '/' +
-        encodeURL(ClassName) +
-        '/' +
-        encodeURL(SubjectName) +
-        '/' +
-        encodeURL(SubjectId) +
-        '/' +
-        encodeURL(MySubject) +
-        '/' +
-        encodeURL(SelectClass)
+      encodeURL(Id) +
+      '/' +
+      encodeURL(TeacherId) +
+      '/' +
+      encodeURL(TeacherName) +
+      '/' +
+      encodeURL(ClassName) +
+      '/' +
+      encodeURL(SubjectName) +
+      '/' +
+      encodeURL(SubjectId) +
+      '/' +
+      encodeURL(MySubject) +
+      '/' +
+      encodeURL(SelectClass)
     );
   };
 
@@ -1299,8 +1298,8 @@ const AddHomeworkNew = () => {
                       onChange={(e) => {
                         setDetails(e.target.value);
                       }}
-                      // error={ErrorDetails !== ''}
-                      //  helperText={ErrorDetails}
+                    // error={ErrorDetails !== ''}
+                    //  helperText={ErrorDetails}
                     />
                     {ErrorDetails && <ErrorMessage1 Error={ErrorDetails} />}
                   </Grid>
@@ -1341,7 +1340,7 @@ const AddHomeworkNew = () => {
   </Box>
 </Modal> */}
 
-<Box sx={{ background: 'white', p: 2, mt: 1 }}>
+        <Box sx={{ background: 'white', p: 2, mt: 1 }}>
           <Grid
             container
             spacing={2}
@@ -1488,7 +1487,7 @@ const AddHomeworkNew = () => {
               clickVisibilityIcon={clickView}
               clickpublish={clickPublishUnpublish}
               HeaderArray={HeaderPublish}
-              // clickAttachment={clickFileName}
+            // clickAttachment={clickFileName}
             />
           ) : (
             <Typography

@@ -87,7 +87,7 @@ const TermwiseHeightWeight = () => {
   const GetScreenPermission = () => {
     let perm = 'N';
     let UserId = 0;
-    console.log(ScreensAccessPermission, "ScreensAccessPermission");
+    //console.log(ScreensAccessPermission, "ScreensAccessPermission");
     let ExamResultsAccess, TermwiseHeightWeightAccess = ""
 
     if (ScreensAccessPermission) {
@@ -179,7 +179,7 @@ const TermwiseHeightWeight = () => {
   const [WeightXML, setWeightXML] = useState('');
 
   const getXML = () => {
-    console.log(Itemlist, '----');
+    //console.log(Itemlist, '----');
     let sXML =
       "<ArrayOfStudentInfoForHeightWeight xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>";
     Itemlist.map((Item) => {
@@ -199,7 +199,7 @@ const TermwiseHeightWeight = () => {
     });
     sXML = sXML + '</ArrayOfStudentInfoForHeightWeight>';
 
-    console.log('XMLLLLLLLL', sXML);
+    //console.log('XMLLLLLLLL', sXML);
     return sXML;
   };
 

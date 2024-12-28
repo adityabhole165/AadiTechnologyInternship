@@ -68,7 +68,7 @@ const InvestmentDeclaration = () => {
   const isSubmittedArray = USISlistInvestmentEmpDetails.map(
     (item) => item.IsSubmitted
   );
-  console.log(isSubmittedArray, 'isSubmittedArray');
+  //console.log(isSubmittedArray, 'isSubmittedArray');
 
   const [regimeId, setRegimeId] = useState('0');
 
@@ -246,7 +246,7 @@ const InvestmentDeclaration = () => {
   const [investmentData, setinvestmentData] = useState(null);
   const [Documentname, setDocumentName] = useState('');
   const ClickAppropriate = (value) => {
-    console.log(value, 'ClickAppropriate');
+    //console.log(value, 'ClickAppropriate');
 
     setinvestmentData(value.Id);
     setDocumentName(value.Name);

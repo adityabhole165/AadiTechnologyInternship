@@ -104,7 +104,7 @@ const AddSchoolNotice1: React.FC = () => {
         });
         setIsRoleError(false);
     };
-    console.log("Set Application Values", applicableTo);
+    //console.log("Set Application Values", applicableTo);
     const ClickRadio = (value) => {
         setRadioBtn(value);
     };
@@ -176,10 +176,10 @@ const AddSchoolNotice1: React.FC = () => {
     };
     const USSaveUpdateSchoolNotice: any = useSelector((state: RootState) => state.SaveUpdateSchoolNotice.ISSaveUpdateSchoolNotice);
     const USEditUpdateSchoolNotice: any = useSelector((state: RootState) => state.EditSchoolNoticeDetails.ISEditSchoolNoticeDetails);
-    console.log("USSaveUpdateSchoolNotice======> ", USSaveUpdateSchoolNotice);
-    console.log("USEditUpdateSchoolNotice======> ", USEditUpdateSchoolNotice);
+    //console.log("USSaveUpdateSchoolNotice======> ", USSaveUpdateSchoolNotice);
+    //console.log("USEditUpdateSchoolNotice======> ", USEditUpdateSchoolNotice);
     // API Calling
-    console.log("Formik....", formik);
+    //console.log("Formik....", formik);
     const SaveUpdateSchoolNotice: ISaveUpdateSchoolNoticeBody = {
         "asUserRoleIds": "1,2,3",
         "asClassIds": "1298,1315,1319,1320,1322,1330,1306",

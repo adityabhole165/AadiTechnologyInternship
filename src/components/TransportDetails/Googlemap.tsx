@@ -300,10 +300,10 @@ const Googlemap = () => {
   const [count1, setCount1] = useState(0);
   const [latLonG1, setlatLonG1] = useState(latLong[count1]);
 
-  console.log(latLonG);
-  console.log(count);
-  console.log(latLonG1);
-  console.log(count1);
+  //console.log(latLonG);
+  //console.log(count);
+  //console.log(latLonG1);
+  //console.log(count1);
   useEffect(() => {
     // console.log(latLonG)
     //Implementing the setInterval method

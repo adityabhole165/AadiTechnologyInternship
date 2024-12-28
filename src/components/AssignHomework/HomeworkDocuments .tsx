@@ -58,7 +58,7 @@ const HomeworkDocuments = () => {
   const DeleteHomeworkDocument = useSelector(
     (state: RootState) => state.Homeworkdocument.DeleteHomeworkDocument
   );
-  console.log(DeleteHomeworkDocument, 'DeleteHomeworkDocument....');
+  //console.log(DeleteHomeworkDocument, 'DeleteHomeworkDocument....');
 
   const IGetAllHomeworkDocuments: IGetAllHomeworkDocumentsBody = {
     asSchoolId: asSchoolId,

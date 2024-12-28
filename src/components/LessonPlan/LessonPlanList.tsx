@@ -39,7 +39,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
     }
 
     const onSubChangeValue = (StdId, DivisionId, Id, Value) => {
-        console.log(StdId, "StdId", DivisionId, "DivisionId", Id, "Id", Value, "Value", exampleLessonDetails);
+        //console.log(StdId, "StdId", DivisionId, "DivisionId", Id, "Id", Value, "Value", exampleLessonDetails);
 
         exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
             return {
@@ -60,7 +60,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                 })
             }
         })
-        console.log(exampleLessonDetails);
+        //console.log(exampleLessonDetails);
 
         onTextChange(exampleLessonDetails)
     }

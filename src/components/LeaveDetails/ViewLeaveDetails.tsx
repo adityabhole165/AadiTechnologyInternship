@@ -33,7 +33,7 @@ const ViewLeaveDetails = () => {
     selectCategory = decodeURL(selectCategory);
     getSenderName = decodeURL(getSenderName);
 
-    console.log(LeaveDId, "LeaveDId");
+    //console.log(LeaveDId, "LeaveDId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const aUserId = Number(localStorage.getItem('UserId'));
@@ -73,7 +73,7 @@ const ViewLeaveDetails = () => {
         (state: RootState) => state.AddLeaveDetails.StartDateEndDateValidations);
     const USApproveorRejectLeaveDetails = useSelector(
         (state: RootState) => state.AddLeaveDetails.ApproveorReject);
-    console.log(USApproveorRejectLeaveDetails, "USApproveorRejectLeaveDetails");
+    //console.log(USApproveorRejectLeaveDetails, "USApproveorRejectLeaveDetails");
 
     const Note2 = [
         ' If leave start date or end date is across the month, then the system will update leave for only the days that are in the upcoming salary publish month.'
@@ -242,7 +242,7 @@ const ViewLeaveDetails = () => {
         }
         return returnVal;
     };
-    console.log(getApproveRRBtnShow(), "getApproveBtn");
+    //console.log(getApproveRRBtnShow(), "getApproveBtn");
     const getLeaveId = () => {
         let returnVal = false;
         if (GetViewLeave.length > 0 && GetViewLeave[0].LeaveId != null && GetViewLeave[0].LeaveId != 0) {
@@ -251,7 +251,7 @@ const ViewLeaveDetails = () => {
         return returnVal;
     };
 
-    console.log(getLeaveId(), "getLeaveId");
+    //console.log(getLeaveId(), "getLeaveId");
 
     const getTooltipTitle = () => {
         if (GetViewLeave.length > 0 && GetViewLeave[0].IsFinalApprover === "True") {
@@ -260,7 +260,7 @@ const ViewLeaveDetails = () => {
             return 'Approve';
         }
     };
-    console.log("--------", GetViewLeave.length > 0 && GetViewLeave[0].IsFinalApprover === "True");
+    //console.log("--------", GetViewLeave.length > 0 && GetViewLeave[0].IsFinalApprover === "True");
 
     // console.log(getTooltipTitle(), "getTooltipTitle", GetViewLeave.length > 0 && GetViewLeave[0].IsFinalApprover === "True");
 

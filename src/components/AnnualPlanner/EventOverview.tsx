@@ -67,7 +67,7 @@ const EventOverview = (props: Props) => {
   );
 
 
-  console.log(AssociatedStandardsEV);
+  //console.log(AssociatedStandardsEV);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -156,14 +156,14 @@ const EventOverview = (props: Props) => {
         rightActions={
           <>
 
-<Stack
+            <Stack
               direction={{ xs: 'column', sm: 'row' }}
               // justifyContent="space-between"
               alignItems="right"
-              
+
               spacing={2}
               sx={{
-                
+
                 mt: { xs: 0, sm: 0 },
                 flexWrap: { xs: 'nowrap', sm: 'nowrap' }
               }}
@@ -184,56 +184,56 @@ const EventOverview = (props: Props) => {
                     justifyContent: { xs: 'flex-start', sm: 'flex-start' }
                   }}
                 >
-            <Box>
-              <Dropdown
-                size={"small"}
-                variant={"outlined"}
-                Array={AssociatedStandardsEV}
-                handleChange={clickStandardDropdown}
-                defaultValue={selectStandard}
-                label={'Standard'}
-                width={'100px'}
-              />
-            </Box>
-            </Stack>
-            </Grid>
-            <Box>
-              <Dropdown
-                size={"small"}
-                variant={"outlined"}
-                Array={UsGetAllMonthsDropDown}
-                handleChange={clicMonthDropdown}
-                defaultValue={selectMonth}
-                label={'Month(s)'}
-                width={'100px'}
-              />
-            </Box>
-            <Box>
-              <Dropdown
-                size={"small"}
-                variant={"outlined"}
-                Array={AllAcademicYearsForSchool}
-                handleChange={clicYearDropdown}
-                defaultValue={selectYear}
-                label={'Academic Year'}
-                width={'150px'}
-              />
-            </Box>
-            <Box>
-              <Tooltip title={' Displays all the events of the school.'}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    '&:hover': {
-                      backgroundColor: grey[600]
-                    }
-                  }}
-                >
-                  <QuestionMarkIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
+                  <Box>
+                    <Dropdown
+                      size={"small"}
+                      variant={"outlined"}
+                      Array={AssociatedStandardsEV}
+                      handleChange={clickStandardDropdown}
+                      defaultValue={selectStandard}
+                      label={'Standard'}
+                      width={'100px'}
+                    />
+                  </Box>
+                </Stack>
+              </Grid>
+              <Box>
+                <Dropdown
+                  size={"small"}
+                  variant={"outlined"}
+                  Array={UsGetAllMonthsDropDown}
+                  handleChange={clicMonthDropdown}
+                  defaultValue={selectMonth}
+                  label={'Month(s)'}
+                  width={'100px'}
+                />
+              </Box>
+              <Box>
+                <Dropdown
+                  size={"small"}
+                  variant={"outlined"}
+                  Array={AllAcademicYearsForSchool}
+                  handleChange={clicYearDropdown}
+                  defaultValue={selectYear}
+                  label={'Academic Year'}
+                  width={'150px'}
+                />
+              </Box>
+              <Box>
+                <Tooltip title={' Displays all the events of the school.'}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      '&:hover': {
+                        backgroundColor: grey[600]
+                      }
+                    }}
+                  >
+                    <QuestionMarkIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Stack>
           </>
         }

@@ -36,7 +36,7 @@ const EnterStudentSiblingDetails = () => {
   const NavigationValues = useSelector((state: RootState) => state.Students.NavigationValues);
   const YearWise_Student_Id = localData.YearWise_Student_Id ?? NavigationValues?.YearWise_Student_Id;
 
-  console.log('0️⃣NavigationValues EnterStudentSiblingDetails', NavigationValues, YearWise_Student_Id);
+  //console.log('0️⃣NavigationValues EnterStudentSiblingDetails', NavigationValues, YearWise_Student_Id);
 
   //StudentName
   const StudentDetailsForSibling = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.ISGetStudentDetailsForSibling);
@@ -137,7 +137,7 @@ const EnterStudentSiblingDetails = () => {
   };
 
   useEffect(() => {
-    console.log('selected', selected);
+    //console.log('selected', selected);
   }, [selected]);
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
@@ -202,7 +202,7 @@ const EnterStudentSiblingDetails = () => {
   //#region Save
   const handleSave = () => {
     let isError = false;
-    console.log('Selected IDs:', selected);
+    //console.log('Selected IDs:', selected);
     const currentDate = new Date().toLocaleDateString('en-CA'); // Format date as YYYY-MM-DD
 
     // XML generation
@@ -226,7 +226,7 @@ const EnterStudentSiblingDetails = () => {
     } else {
       setFileNameError('');
     }
-    console.log('Save Payload:', ISaveStudentSiblingDetailsBody);
+    //console.log('Save Payload:', ISaveStudentSiblingDetailsBody);
     if (!isError) {
       // Call the save API here, passing selectedIds as payload
       dispatch(CDASaveStudentSiblingDetailsMsg(ISaveStudentSiblingDetailsBody))

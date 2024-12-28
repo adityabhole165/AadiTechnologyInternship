@@ -145,7 +145,7 @@ export const GetsingleStudentResultVA =
     (data: IGetsingleStudentBody): AppThunk =>
         async (dispatch) => {
             const response = await VeiwResultAll.GetsingleStudentResult(data);
-            console.log(response.data, "respons");
+            //console.log(response.data, "respons");
 
             let StudentListAll = response.data[0].listStudentDetail.map((item, i) => {
                 return {

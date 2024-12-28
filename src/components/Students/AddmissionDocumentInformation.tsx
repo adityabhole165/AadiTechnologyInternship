@@ -94,24 +94,24 @@ const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
   };
 
   useEffect(() => {
-    console.log('⏩⏩admissionDocumentList Form Parent', admissionDocumentList);
+    //console.log('⏩⏩admissionDocumentList Form Parent', admissionDocumentList);
     //onChange(localDocuments); // Send initial state to parent
   }, [admissionDocumentList]);
 
   //IsApplicable
   function clickRows1(Value: any) {
-    console.log('clickRows1 Value', Value);
+    //console.log('clickRows1 Value', Value);
     let returnValue = admissionDocumentList.map((item: any) => {
       return (
         { ...item, IsApplicable: item.StandardwiseDocumentId === Value ? !item.IsApplicable : item.IsApplicable }
       )
     })
-    console.log('⏮️⏮️admissionDocumentList TO Parent', returnValue);
+    //console.log('⏮️⏮️admissionDocumentList TO Parent', returnValue);
     onChange(returnValue)
   }
   //IsSubmitted
   function clickRows2(Value: any) {
-    console.log('clickRows2 Value', Value);
+    //console.log('clickRows2 Value', Value);
     let returnValue = admissionDocumentList.map((item: any) => {
       return (
         { ...item, IsSubmitted: item.StandardwiseDocumentId === Value ? !item.IsSubmitted : item.IsSubmitted }
@@ -234,7 +234,7 @@ const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
     // } else {
     //     setValidFile('');
     // }
-    console.log('SaveInvestmentDocumentBody', SaveInvestmentDocumentBody);
+    //console.log('SaveInvestmentDocumentBody', SaveInvestmentDocumentBody);
 
     if (!fileName || fileName === '') {
       setFileNameError('Please select file to upload.');
@@ -311,7 +311,7 @@ const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
 
   //endregion
   const ChangeFile = (value) => {
-    console.log('value', value);
+    //console.log('value', value);
     if (!ValidFileTypes.includes(value.FileExtension.toUpperCase())) {
       //setFileNameError('Invalid file format. Supported formats are BMP, DOC, DOCX, JPG, JPEG, PDF, XLS, XLSX.');
       setFileNameError(value.ErrorMsg ? "Please select valid file type." : '');

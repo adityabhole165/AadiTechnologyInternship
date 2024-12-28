@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -8,6 +7,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import React, { useState } from 'react';
 
 interface AddNewFeedbackProps {
   softwareNote: string;
@@ -31,15 +31,15 @@ const AddNewFeedback: React.FC<AddNewFeedbackProps> = ({ softwareNote }) => {
 
   const handleCheckboxChange =
     (group: string, field: string) =>
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setFormData((prevState) => ({
-        ...prevState,
-        [group]: {
-          ...prevState[group],
-          [field]: event.target.checked,
-        },
-      }));
-    };
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevState) => ({
+          ...prevState,
+          [group]: {
+            ...prevState[group],
+            [field]: event.target.checked,
+          },
+        }));
+      };
 
   const handleTextChange =
     (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +50,7 @@ const AddNewFeedback: React.FC<AddNewFeedbackProps> = ({ softwareNote }) => {
     };
 
   const handleSubmit = () => {
-    console.log('Form Data:', formData);
+    //console.log('Form Data:', formData);
     alert('Feedback submitted successfully!');
   };
 

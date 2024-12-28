@@ -52,7 +52,7 @@ const StudentRecords = () => {
   const GetTeachers = useSelector(
     (state: RootState) => state.StudentRecords.ClassTeachers
   );
-  console.log(GetTeachers, 'GetTeachers');
+  //console.log(GetTeachers, 'GetTeachers');
   const GetStatusStudents: any = useSelector(
     (state: RootState) => state.StudentRecords.StudentStatus
   );
@@ -117,7 +117,7 @@ const StudentRecords = () => {
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
   };
-  console.log(regNoOrName, 'regNoOrName----');
+  //console.log(regNoOrName, 'regNoOrName----');
   const clickSearch = (value) => {
     setShowRiseAndShine(value);
     setSelectTeacher(value);

@@ -46,7 +46,7 @@ export const getUserDetailss =
   (data: IGetUserDetailsBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiSupport.GetUserDetailApi(data);
-      console.log(response.data.TeacherDetails.Email_Address,response.data, 'AAAAAA')
+      //console.log(response.data.TeacherDetails.Email_Address,response.data, 'AAAAAA')
       dispatch(SliceSupport.actions.GetUserDetails(response.data.TeacherDetails.Email_Address));
     };
 

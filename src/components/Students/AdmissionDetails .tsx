@@ -287,7 +287,7 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
     } else {
       fieldValue = value;
     }
-    console.log('🎯', e.target)
+    //console.log('🎯', e.target)
     // setForm((prevForm) => {
     //   const updatedForm = { ...prevForm, [name]: fieldValue };
     //   onTabChange(updatedForm); // Notify parent of updated data

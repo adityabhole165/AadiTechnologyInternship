@@ -128,7 +128,7 @@ function AnnualPlanner() {
   const AddAnnualPlanner: any = useSelector(
     (state: RootState) => state.AddPlanner.AddAnnual
   );
-  console.log(AddAnnualPlanner, 'AddAnnualPlanner');
+  //console.log(AddAnnualPlanner, 'AddAnnualPlanner');
 
   const FileDetails: any = useSelector(
     (state: RootState) => state.AddPlanner.getfile
@@ -236,7 +236,7 @@ function AnnualPlanner() {
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
-    console.log('filevalue', value);
+    //console.log('filevalue', value);
   };
   const clickFileName = () => {
     if (FileDetails !== '') {

@@ -13,9 +13,9 @@ import InvestmentDocumentList from './InvestmentDocumentList';
 
 
 const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleClose, RefreshList }) => {
-    console.log(Id, "wow");
-    console.log(UserName, "UserName");
-    console.log(DocumentName, "DocumentName");
+    //console.log(Id, "wow");
+    //console.log(UserName, "UserName");
+    //console.log(DocumentName, "DocumentName");
 
 
     const [ID, setID] = useState('')
@@ -63,7 +63,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     );
 
 
-    console.log(USCheckPublishUnpublishDocument, "USCheckPublishUnpublishDocument");
+    //console.log(USCheckPublishUnpublishDocument, "USCheckPublishUnpublishDocument");
 
     const GetCheckPublishUnpublishDocumentBody: ICheckPublishUnpublishDocumentBody = {
         asSchoolId: asSchoolId,
@@ -145,7 +145,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     const ChangeFile = (value) => {
         setFileName(value.Name);
         setbase64URL(value.Value);
-        console.log(value, "setFileNameError");
+        //console.log(value, "setFileNameError");
 
         setFileNameError(value.ErrorMsg);
 

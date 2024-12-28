@@ -21,7 +21,7 @@ const RequistionView = () => {
 
     const { ViewId } = useParams();
     const ViewId1 = decodeURL(ViewId)
-    console.log(ViewId, "ViewId");
+    //console.log(ViewId, "ViewId");
     const [StartDate, setStartDate]: any = useState(getCalendarDateFormatDateNew(new Date()));
 
     const calculateFutureDate = (start, daysToAdd) => {

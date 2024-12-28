@@ -22,7 +22,7 @@ function BooksDetails({ GetBookList }) {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  console.log(aiFlag, 'aiFlag');
+  //console.log(aiFlag, 'aiFlag');
   useEffect(() => {
     if (ReserveBook !== '') {
       if (aiFlag === 0) {
@@ -40,7 +40,7 @@ function BooksDetails({ GetBookList }) {
   }, [ReserveBook]);
 
   const ClickReserve = (value) => {
-    console.log(value.aiFlag, 'flag');
+    //console.log(value.aiFlag, 'flag');
     setAiFlag(value.aiFlag);
     const ReserveBookbody: IReserveBook = {
       aiSchoolId: localStorage.getItem('localSchoolId'),

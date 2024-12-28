@@ -57,7 +57,7 @@ const SingleFile = ({
           ErrorMsg: ""
         });
       } else {
-        console.log(isValid, "isValid");
+        //console.log(isValid, "isValid");
 
         setFileError(isValid);
         errorMessage = ''
@@ -164,7 +164,7 @@ const SingleFile = ({
         )}
       </Grid>
       {errorMessage && (
-        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left', pt:2 }}>
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left', pt: 2 }}>
 
           <Typography >
             {errorMessage && <Errormessage Error={errorMessage} />}

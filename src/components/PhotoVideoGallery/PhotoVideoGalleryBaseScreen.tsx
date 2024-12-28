@@ -29,11 +29,10 @@ const PhotoVideoGalleryBaseScreen = () => {
     let { RowID } = useParams();
 
     useEffect(() => {
-        if (RowID !== undefined)
+        if (RowID !== undefined) {
             // galleryName = decodeURL(galleryName)
-            console.log(RowID, "1234567")
-
-
+            //console.log(RowID, "1234567")
+        }
     }, [RowID])
 
 

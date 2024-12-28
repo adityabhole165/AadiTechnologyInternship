@@ -68,7 +68,7 @@ function SearchForm({ clickFilter, clickCloseIcon }) {
     setLanguage(value);
   };
   const clickStandard = (value) => {
-    console.log('value', value);
+    //console.log('value', value);
     setStandard(value);
     // Standard=value;
   };

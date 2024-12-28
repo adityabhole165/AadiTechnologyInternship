@@ -33,7 +33,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState({});
   useEffect(() => {
-    console.log('5️⃣streamwiseSubject data from Parent', streamwiseSubject);
+    //console.log('5️⃣streamwiseSubject data from Parent', streamwiseSubject);
   }, [streamwiseSubject]);
 
   //#region API Calls
@@ -48,7 +48,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   //console.log('1️⃣FillFirstOptionalSubjects:', FillFirstOptionalSubjects);
   // console.log('2️⃣FillSecondOptionalSubjectArts:', FillSecondOptionalSubjectArts);
   const FillCompitativeExams = useSelector((state: RootState) => state.StudentUI.ISFillCompitativeExams);
-  console.log('3️⃣FillCompitativeExams:', FillCompitativeExams);
+  //console.log('3️⃣FillCompitativeExams:', FillCompitativeExams);
 
 
   // const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
@@ -167,7 +167,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
       newErrors['optionalSubject2'] = true;
     }
     setErrors(newErrors);
-    console.log(!Object.values(newErrors).includes(true));
+    //console.log(!Object.values(newErrors).includes(true));
     return !Object.values(newErrors).includes(true);
   };
 

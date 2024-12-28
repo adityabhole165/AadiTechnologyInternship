@@ -517,8 +517,8 @@ export const CDAUpdateStudent =
             dispatch(StudentUISlice.actions.RUpdateStudent(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('1️⃣Student information updated successfully');
-                console.log('Response data:', response.data);
+                //console.log('1️⃣Student information updated successfully');
+                //console.log('Response data:', response.data);
 
                 // Add success toast/notification
                 //toast.success('Student information updated successfully');
@@ -545,8 +545,8 @@ export const CDAAddStudentAdditionalDetails =
             dispatch(StudentUISlice.actions.RAddStudentAdditionalDetails(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('2️⃣Additional Student information updated successfully');
-                console.log('Response data:', response.data);
+                //console.log('2️⃣Additional Student information updated successfully');
+                //console.log('Response data:', response.data);
             }
         };
 
@@ -565,8 +565,8 @@ export const CDAUpdateStudentStreamwiseSubjectDetails =
             dispatch(StudentUISlice.actions.RUpdateStudentStreamwiseSubjectDetails(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('3️⃣Stream Tab Student subject updated successfully');
-                console.log('Response data:', response.data);
+                //console.log('3️⃣Stream Tab Student subject updated successfully');
+                //console.log('Response data:', response.data);
             }
         };
 
@@ -693,8 +693,8 @@ export const CDAUpdateStudentPhoto =
             dispatch(StudentUISlice.actions.RUpdateStudentPhoto(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('5️⃣Student photo updated successfully');
-                console.log('Response data:', response.data);
+                //console.log('5️⃣Student photo updated successfully');
+                //console.log('Response data:', response.data);
             }
             else {
                 // Handle non-200 status codes
@@ -757,8 +757,8 @@ export const CDASaveSubmittedDocumentsMsg =
             dispatch(StudentUISlice.actions.RSaveSubmittedDocumentsMsg(response.data));
             if (response.status === 200) {
                 // The API call was successful
-                console.log('-➖️⃣Submitted Documents saved successfully');
-                console.log('Response data:', response.data);
+                //console.log('-➖️⃣Submitted Documents saved successfully');
+                //console.log('Response data:', response.data);
             }
             else {
                 // Handle non-200 status codes

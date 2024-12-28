@@ -58,7 +58,7 @@ function SmsCenter() {
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
   const NewSmsList = useSelector((state: RootState) => state.SmsCenter.NewSmsList);
   const SmsCount: any = useSelector((state: RootState) => state.SmsCenter.SmsCountDetails);
-  console.log(SmsCount, 'SmsCount');
+  //console.log(SmsCount, 'SmsCount');
   const loading = useSelector((state: RootState) => state.SmsCenter.Loading);
   const MobileNumber = useSelector((state: RootState) => state.SmsCenter.MobileNumber);
   const [page, setPage] = useState(1);
@@ -150,7 +150,7 @@ function SmsCenter() {
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
-  console.log(endRecord, "endRecord");
+  //console.log(endRecord, "endRecord");
 
 
 
@@ -244,7 +244,7 @@ function SmsCenter() {
   const [sortExpression, setSortExpression] = useState('ORDER BY Insert_Date DESC ');
   const [sortExpression1, setSortExpression1] = useState('ORDER BY Insert_Date DESC ');
   const isPrincipal = DesignationName == 'Principal' && activeTab == 'AllSendItem';
-  console.log(isPrincipal, "isPrincipal");
+  //console.log(isPrincipal, "isPrincipal");
 
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },

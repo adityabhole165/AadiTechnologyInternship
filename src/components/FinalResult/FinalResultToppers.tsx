@@ -64,7 +64,7 @@ const FinalResultToppers = () => {
   const [StandardToppersListST, setStandardToppersListST] = useState([])
   const [ClassToppersListCT, setClassToppersListCT] = useState([])
   const [SubjectToppersListST, setSubjectToppersListST] = useState([])
-  console.log("ClassToppersListCT", ClassToppersListCT);
+  //console.log("ClassToppersListCT", ClassToppersListCT);
 
   const RadioListCT = [
     { Value: '1', Name: 'Class Toppers' },
@@ -147,7 +147,7 @@ const FinalResultToppers = () => {
   const GetStandardToppersListST = useSelector(
     (state: RootState) => state.StandardToppers.StandardTopperST
   );
-  console.log(GetStandardToppersListST, 'GetStandardToppersListST');
+  //console.log(GetStandardToppersListST, 'GetStandardToppersListST');
   const GetSubjectToppersListST = useSelector(
     (state: RootState) => state.StandardToppers.StandardSubjectToppersST
   );

@@ -7,7 +7,7 @@ const NavMenuPage = () => {
     const location = useLocation();
     const { item } = location.state || {};
     useEffect(() => {
-        console.log(`====>>>`, item)
+        //console.log(`====>>>`, item)
     }, [item])
 
     return (

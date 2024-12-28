@@ -80,7 +80,7 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
             })
             return returnVal
         }
-        console.log("getGroupMaxAmount", getGroupMaxAmount('46'));
+        //console.log("getGroupMaxAmount", getGroupMaxAmount('46'));
 
         let listInvestmentDetails = response.data.listInvestmentDetails
             .filter((obj) => { return obj.SectionId })

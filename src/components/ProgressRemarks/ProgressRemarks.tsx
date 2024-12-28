@@ -65,7 +65,7 @@ const ProgressRemarks = () => {
   const [StudentId, setStudentId] = useState([]);
   const [Remark, setRemark] = useState('')
   const [remarkTemplates, setRemarkTemplates] = useState([]);
-  console.log(remarkTemplates, "remarkTemplates");
+  //console.log(remarkTemplates, "remarkTemplates");
   const [termName, setTermName] = useState('');
 
   const toggleScreens = () => { setShowScreenOne(!showScreenOne); };
@@ -104,7 +104,7 @@ const ProgressRemarks = () => {
 
   let CanEdit = getSchoolConfigurations(266)
 
-  console.log(CanEdit, "CanEdit");
+  //console.log(CanEdit, "CanEdit");
 
   // const determineInitialState = () => {
   //   return GetScreenPermission() === 'Y' ? '0' : sessionStorage.getItem('StandardDivisionId') || '';
@@ -202,7 +202,7 @@ const ProgressRemarks = () => {
 
 
   useEffect(() => {
-    console.log(StudentswiseRemarkDetails, StudentswiseRemarkDetails1, StudentswiseRemarkDetails2, "StudentswiseRemarkDetails 🔥🔥🔥");
+    //console.log(StudentswiseRemarkDetails, StudentswiseRemarkDetails1, StudentswiseRemarkDetails2, "StudentswiseRemarkDetails 🔥🔥🔥");
 
   }, [StudentswiseRemarkDetails, StudentswiseRemarkDetails1, StudentswiseRemarkDetails2]);
 
@@ -325,10 +325,10 @@ const ProgressRemarks = () => {
     dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody))
   }, [selectTeacher, SelectTerm, StudentList, USClassTeachers, USGetTestwiseTerm]) // flag 🚩
   useEffect(() => {
-    console.log('this was caught', StudentswiseRemarkDetails1);
+    //console.log('this was caught', StudentswiseRemarkDetails1);
 
     if (Object.keys(StudentswiseRemarkDetails1).length > 0) {
-      console.log(StudentswiseRemarkDetails1, "checkitout");
+      //console.log(StudentswiseRemarkDetails1, "checkitout");
       setStudentswiseRemarkDetails1State(StudentswiseRemarkDetails1);
     }
   }, [StudentswiseRemarkDetails1])
@@ -460,7 +460,7 @@ const ProgressRemarks = () => {
     )
   };
   const ExportButton = () => {
-    console.log('whats happening .. IDK');
+    //console.log('whats happening .. IDK');
 
     exportToExcel();
   };
@@ -666,7 +666,7 @@ const ProgressRemarks = () => {
 
 
   const clickSelectTerm = (item) => {
-    console.log(item, '🎯🎯🎯🎯');
+    //console.log(item, '🎯🎯🎯🎯');
 
     if (SelectTerm != '') {
       const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?";
@@ -747,7 +747,7 @@ const ProgressRemarks = () => {
       },
       onConfirm: () => {
         ExportButton();
-        console.log('even IDK');
+        //console.log('even IDK');
 
         closeAlert();
       }

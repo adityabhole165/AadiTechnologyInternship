@@ -21,7 +21,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const { Id } = useParams();
-    console.log(CommentId, "CommentId");
+    //console.log(CommentId, "CommentId");
 
     const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -52,7 +52,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
     const Editcomment = useSelector(
         (state: RootState) => state.AddStudentRecords.getstudentrecordcomment
     );
-    console.log(Editcomment, "Editcomment");
+    //console.log(Editcomment, "Editcomment");
     const listCommentDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listCommentDetails
     );

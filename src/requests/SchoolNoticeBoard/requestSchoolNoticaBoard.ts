@@ -50,7 +50,7 @@ export const getAllActiveNotices =
     async (dispatch) => {
       dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
       const response = await SchoolNoticeApi.GetAllActiveNotices(data);
-      console.log(response.data, "Activenotices")
+      //console.log(response.data, "Activenotices")
       dispatch(SliceSchoolNoticeBoard.actions.getAllActiveNotices(response.data));
     };
 

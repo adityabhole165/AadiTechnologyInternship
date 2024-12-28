@@ -19,7 +19,7 @@ const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [ItemList, setItemList] = useState([]);
-    console.log(ItemList, "ItemList");
+    //console.log(ItemList, "ItemList");
     const [errorItemlist, seterrorItemlist] = useState('')
     let {
         Action,
@@ -49,7 +49,7 @@ const AddStudentRecord = () => {
     const listCommentDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listCommentDetails
     );
-    console.log(listCommentDetailsUS, "listCommentDetailsUS");
+    //console.log(listCommentDetailsUS, "listCommentDetailsUS");
 
     const QueAnsList = useSelector(
         (state: RootState) => state.AddStudentRecords.QueAnsList
@@ -213,7 +213,7 @@ const AddStudentRecord = () => {
                 }
             });
         });
-        console.log(IsAns, "IsAns");
+        //console.log(IsAns, "IsAns");
         if (!IsAns) {
             seterrorItemlist("Please enter details for at least one field.");
             returnVal = false;

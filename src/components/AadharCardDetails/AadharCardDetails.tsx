@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Grow, Typography } from '@mui/material';
+import { Box, Grid, Grow, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -11,9 +11,9 @@ import Icon5 from 'src/libraries/icon/icon5';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import {
-    getUserAadharCardDetails,
-    getsaveUserAadharCardDetails,
-    resetMessage
+  getUserAadharCardDetails,
+  getsaveUserAadharCardDetails,
+  resetMessage
 } from 'src/requests/AadharCardDetails/RequestAadharCard';
 import { RootState } from 'src/store';
 import { CheckFileValidationAdhar } from '../Common/Util';
@@ -202,7 +202,7 @@ function AadharCardDetails() {
       }
     }
   };
-  console.log('mother', mother);
+  //console.log('mother', mother);
 
   return (
     <Box sx={{ px: 2 }}>
@@ -298,7 +298,7 @@ function AadharCardDetails() {
           </Grid>
           <Box sx={{ my: '10px', textAlign: 'center' }}>
             {GetUserAadharCardDetails.AadharCardFileName ===
-            '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
+              '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
               <img
                 style={{ height: '150px', width: '150px' }}
                 src={'/imges/Adhar.png'}

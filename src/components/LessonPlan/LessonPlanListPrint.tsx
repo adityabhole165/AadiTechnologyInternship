@@ -1,6 +1,6 @@
 import { Accordion, AccordionDetails, Box, Grid, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, alpha, styled } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { RootState } from 'src/store';
@@ -8,6 +8,10 @@ import { formatDateTo12Hour } from '../Common/Util';
 const LessonPlanListPrint = ({ exampleLessonDetails, Action = 'View', IsEditingAllowed = false, printRef, TeacherName,
     startDate, endDate
 }) => {
+    useEffect(() => {
+        //console.log('here we go again ⚠️', exampleLessonDetails);
+
+    }, [exampleLessonDetails])
     const ApprovalData: any = useSelector((state: RootState) => state.addlessonplan.ApprovalData);
     const { showAlert, closeAlert } = useContext(AlertContext);
     const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
@@ -44,7 +48,7 @@ const LessonPlanListPrint = ({ exampleLessonDetails, Action = 'View', IsEditingA
     }
 
     const onSubChangeValue = (StdId, DivisionId, Id, Value) => {
-        console.log(StdId, "StdId", DivisionId, "DivisionId", Id, "Id", Value, "Value", exampleLessonDetails);
+        //console.log(StdId, "StdId", DivisionId, "DivisionId", Id, "Id", Value, "Value", exampleLessonDetails);
 
         exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
             return {
@@ -65,7 +69,7 @@ const LessonPlanListPrint = ({ exampleLessonDetails, Action = 'View', IsEditingA
                 })
             }
         })
-        console.log(exampleLessonDetails);
+        //console.log(exampleLessonDetails);
 
         // onTextChange(exampleLessonDetails)
     }
@@ -181,11 +185,6 @@ const LessonPlanListPrint = ({ exampleLessonDetails, Action = 'View', IsEditingA
             <div
                 style={{
                     background: 'white', position: 'relative', minHeight: '100vh',
-                    userSelect: 'text',  // Makes text selectable
-                    WebkitUserSelect: 'text',  // For webkit browsers
-                    MozUserSelect: 'text',  // For Firefox
-                    msUserSelect: 'text',  // For Internet Explorer/Edge
-                    // Ensure content can break across pages
                     pageBreakInside: 'avoid'
                 }}
                 ref={printRef}>

@@ -374,7 +374,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
   };
 
   const processImage = (imageData, prefix) => {
-    console.log('prefix', prefix);
+    //console.log('prefix', prefix);
     const base64Image = imageData.split(',')[1];
     const newImageName = generateImageName(prefix);
     setImageName(newImageName);
@@ -400,7 +400,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log('🎈file', file);
+      //console.log('🎈file', file);
       setErrorMessage('');
       // File type validation
       const fileExtension = file.name.split('.').pop().toUpperCase();
@@ -415,7 +415,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
       }
 
       const reader = new FileReader();
-      console.log('file', reader);
+      //console.log('file', reader);
       // const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       // const fileName = `${form.firstName}_Selected_${timestamp}.png`;
       // reader.readAsDataURL(file);
@@ -423,8 +423,8 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
         //setForm((prevForm) => ({ ...prevForm, photo: fileName }));
         setCapturedImage(reader.result); // Store image temporarily until uploaded
         processImage(reader.result, 'Selected');              ////🆕newesst Logic
-        console.log('0️⃣reader.result', reader.result);
-        console.log('0️⃣SelectedImage', capturedImage);
+        //console.log('0️⃣reader.result', reader.result);
+        //console.log('0️⃣SelectedImage', capturedImage);
         // const dateTime = new Date().toISOString();
         // const base64Image = capturedImage.split(',')[1];
         // const imageName = `${form.firstName}_WebCam_${dateTime}.png`;
@@ -450,7 +450,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
 
     setIsWebcamActive(true);
     //setFileNameError('');
-    console.log('capturedImage 0️⃣', capturedImage);
+    //console.log('capturedImage 0️⃣', capturedImage);
   };
 
 
@@ -471,7 +471,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
   // };
 
   const ClickUpload = () => {
-    console.log('Captured Image after clicked Upload 1️⃣', capturedImage);
+    //console.log('Captured Image after clicked Upload 1️⃣', capturedImage);
     setErrorMessage('');
     if (capturedImage) {
       processImage(capturedImage, 'WebCam');
@@ -515,7 +515,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
       asStudentId: SchoolWise_Student_Id
     };
     if (personal.photoFilePath) {
-      console.log('👎', personal.photoFilePath);
+      //console.log('👎', personal.photoFilePath);
       showAlert({
         title: 'Please Confirm',
         message: 'Are you sure you want to delete Student Photo?',
@@ -551,7 +551,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
   const [imageFileExtention, setImageFileExtention] = useState('');
 
   const ChangeFile2 = (value) => {
-    console.log('🆕ChangeFile2', value);
+    //console.log('🆕ChangeFile2', value);
     // Calculate file size from Base64 string
     const base64Length = value.Value.length - (value.Value.indexOf(',') + 1); // Exclude metadata
     const padding = (value.Value.endsWith('==') ? 2 : value.Value.endsWith('=') ? 1 : 0);
@@ -578,9 +578,9 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
     onChange('aadharCardScanCopy', value.Name);
     setbase64URL2(value.Value);
     setImageFileExtention(value.FileExtension);
-    console.log('1️⃣', personal.aadharCardScanCopy);
-    console.log('2️⃣', base64URL2);
-    console.log('3️⃣', imageFileExtention);
+    //console.log('1️⃣', personal.aadharCardScanCopy);
+    //console.log('2️⃣', base64URL2);
+    //console.log('3️⃣', imageFileExtention);
   };
 
   //let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/Student Documents/"
@@ -621,7 +621,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
       asUpdatedById: Number(localStorage.getItem('UserId'))
     };
     if (personal.aadharCardScanCopy) {
-      console.log('👎', personal.aadharCardScanCopy);
+      //console.log('👎', personal.aadharCardScanCopy);
       showAlert({
         title: 'Please Confirm',
         message: 'Are you sure you want to delete aadhar card photo?',

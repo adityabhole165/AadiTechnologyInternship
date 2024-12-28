@@ -15,10 +15,9 @@ import { IGetAllHomeworkDocumentsBody, IGetHomeworkDetailBody } from 'src/interf
 import { GetAllHomeworkDocuments } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
 import { RootState } from 'src/store';
-import { decodeURL, getCalendarDateFormatDate } from '../Common/Util';
+import { decodeURL, encodeURL, getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import DatepickerLeave from '../LeaveDetails/DatepickerLeave';
-import { encodeURL } from '../Common/Util';
 const ViewHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -79,7 +78,7 @@ const ViewHomework = () => {
   }, [Id]);
 
   useEffect(() => {
-    console.log(' after View:', HomeworkDetail);
+    //console.log(' after View:', HomeworkDetail);
     if (HomeworkDetail && HomeworkDetail.length > 0) {
       setHomeworkId(HomeworkDetail.Id);
       setAttechment(HomeworkDetail[0].AttachmentPath);
@@ -112,7 +111,7 @@ const ViewHomework = () => {
       '/' +
       encodeURL(SubjectName) +
       '/' +
-      encodeURL(SubjectId )+
+      encodeURL(SubjectId) +
       '/' +
       encodeURL(MySubject) +
       '/' +

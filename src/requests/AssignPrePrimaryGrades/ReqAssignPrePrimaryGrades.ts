@@ -144,7 +144,7 @@ export const CDAGetNonXseedStudentsObs =
           Text5: item.YearwiseStudentId
         };
       })
-      console.log(response, 'NonXseedObservation >> ');
+      //console.log(response, 'NonXseedObservation >> ');
 
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RGetNonXseedStudentsObs(NonXseedStudentsObs)
@@ -203,7 +203,7 @@ export const GetStudentsForStdDevMasters =
           Text6: item.StartDate
         };
       })
-      console.log(GradesList)
+      //console.log(GradesList)
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RGetListGradesDetails(GradesList)
       );
@@ -253,7 +253,7 @@ export const CDAGetTeacherDropdown =
         const match = str.match(regex);
         return match ? match[2] : null;
       }
-      console.log(response, "pppppppppssssssssss");
+      //console.log(response, "pppppppppssssssssss");
       let listGradesDetails = response.data.map((item, i) => {
         return {
           Id: item.Teacher_Id.toString(),
@@ -261,7 +261,7 @@ export const CDAGetTeacherDropdown =
           Value: item.Teacher_Id.toString()
         };
       });
-      console.log("These are teacher dropdown list ----", listGradesDetails);
+      //console.log("These are teacher dropdown list ----", listGradesDetails);
       listGradesDetails.unshift({ Id: "0", Name: 'Select', Value: '0' });
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RGetTeacherDropdown(listGradesDetails)
@@ -345,7 +345,7 @@ export const CDAGetStudentsForNonXseedSubjects =
       const response = await ApiAssignPrePrimaryGrades.GetStudentsForNonXseedSubjects(
         data
       );
-      console.log(response, 'response----------students');
+      //console.log(response, 'response----------students');
       let StudentsForNonXseedSubjects = response.data.map((item, i) => {
         return {
           Id: item.Roll_No,
@@ -371,7 +371,7 @@ export const CDASubmitExamMarksStatus =
       const response = await ApiAssignPrePrimaryGrades.SubmitExamMarksStatus(
         data
       );
-      console.log(response, 'response----------');
+      //console.log(response, 'response----------');
 
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RSubmitExamMarksStatus(response.data)
@@ -423,7 +423,7 @@ export const CDAGetSubmitUnsubmitExamMarksStatus =
       const response = await ApiAssignPrePrimaryGrades.GetSubmitUnsubmitExamMarksStatus(
         data
       );
-      console.log(response, 'response----------');
+      //console.log(response, 'response----------');
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RGetSubmitUnsubmitExamMarksStatusMsg(response.data)
       );

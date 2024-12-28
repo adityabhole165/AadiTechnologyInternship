@@ -122,7 +122,7 @@ const GenerateAll = ({ }) => {
     // Edit Table Cell Data 
     const [marksListArray, setMarksListArray] = useState([]);
     useEffect(() => {
-        console.log('MarkDetailsList', MarkDetailsList);
+        //console.log('MarkDetailsList', MarkDetailsList);
 
     }, [MarkDetailsList]);
     useEffect(() => {
@@ -200,7 +200,7 @@ const GenerateAll = ({ }) => {
         });
         //console.log('following is markedscored', MarksScored);
         setTimeout(() => {
-            console.log('marksListArray', marksListArray);
+            //console.log('marksListArray', marksListArray);
         }, 1000);
     }
     function onBlurUpdateMarksListArray(testId, testMarksId, subMarksId, MarksScored, testTypeId) {
@@ -295,7 +295,7 @@ const GenerateAll = ({ }) => {
         let colSpan = 1;
         let filteredArr = dataList.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === parentSubId);
         let extendedColumn = dataList?.ListSubjectidDetails.filter(item => item.Subject_Id === filteredArr[0]?.Subject_Id);
-        console.log("extendedColumn", extendedColumn);
+        //console.log("extendedColumn", extendedColumn);
         if (IsTotalConsiderForProgressReport.toLowerCase() === "true") {
             if (dataList.ListTestTypeIdDetails?.length === 1) {
                 colSpan = (filteredArr.length) + (dataList.ListTestTypeIdDetails?.length + 1);  // 3 + ( 1 + 1 ) 
@@ -312,8 +312,8 @@ const GenerateAll = ({ }) => {
     function findTestTypeForParentSubjects(parentSubId) {
         let filteredArr = dataList.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === parentSubId);
         let result = dataList?.ListSubjectidDetails.filter(item => item.Subject_Id === filteredArr[0]?.Subject_Id);
-        console.log("result", result);
-        console.log("filteredArr", filteredArr);
+        //console.log("result", result);
+        //console.log("filteredArr", filteredArr);
         return result;
     }
     function findRow1() {
@@ -334,7 +334,7 @@ const GenerateAll = ({ }) => {
             }
             // No need for return since map is only used for iteration
         });
-        console.log('Row', ans)
+        //console.log('Row', ans)
         return ans;
     }
     function findRow2() {
@@ -345,7 +345,7 @@ const GenerateAll = ({ }) => {
                 return { ...item, rowSpan: 1, colSpan: getColSpan(item.Subject_Id) };//3 };
             }
         });
-        console.log('Row res', result)
+        //console.log('Row res', result)
         result.push({
             "ID_Num": "54",
             "Subject_Name": "",

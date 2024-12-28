@@ -95,7 +95,7 @@ const PrePrimaryResult = () => {
 
   const EditStatus = GetTeacherXseedSubjects.map((item) => item.EditStatus)
   const allY = EditStatus.every((status) => status === "Y");
-  console.log(EditStatus, "GetTeacherXseedSubjects", allY);
+  //console.log(EditStatus, "GetTeacherXseedSubjects", allY);
 
   const USlistpublishstatusDetails = useSelector(
     (state: RootState) => state.PrePrimaryResult.ISlistpublishstatusDetails
@@ -103,7 +103,7 @@ const PrePrimaryResult = () => {
   const IsPublished = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].IsPublished : "";
   const PublishStatus = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].PublishStatus : "";
   const StandardDivisionId = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].StandardDivisionId : "";
-  console.log(IsPublished, "--", PublishStatus);
+  //console.log(IsPublished, "--", PublishStatus);
 
 
   const UnPublisheed = useSelector(
@@ -268,7 +268,7 @@ const PrePrimaryResult = () => {
     return className;
   };
 
-  console.log(selectedTeachers, "selectedTeachers", SelectTeacher, "__", PrePrimaryClassTeacher);
+  //console.log(selectedTeachers, "selectedTeachers", SelectTeacher, "__", PrePrimaryClassTeacher);
 
   const ClickOk = () => {
     if (Reason === '') {

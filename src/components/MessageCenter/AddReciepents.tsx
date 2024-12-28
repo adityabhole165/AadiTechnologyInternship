@@ -51,7 +51,7 @@ const AddReciepents = ({
   getGroupRadio1
 }) => {
   let PageName = 'MessageCenter';
-  console.log("PageName", location.pathname);
+  //console.log("PageName", location.pathname);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -73,7 +73,7 @@ const AddReciepents = ({
   const [studentlist, setStudentlist] = useState('');
 
   const [leftStudentlist, setLeftStudentlist] = useState('');
-  console.log("leftStudentlist", leftStudentlist);
+  //console.log("leftStudentlist", leftStudentlist);
   const [selectedLeftStudentClass, setSelectedLeftStudentClass] = useState("0");
   const [teacherStudent, setTecherStudent] = useState([]);
   const [techerStudent1, setTeacherStudent1] = useState('');
@@ -110,7 +110,7 @@ const AddReciepents = ({
   const getClass: any = useSelector(
     (state: RootState) => state.getuser1.getClass
   );
-  console.log(getClass, "studentlist", studentlist);
+  //console.log(getClass, "studentlist", studentlist);
   const getstudentlist: any = useSelector(
     (state: RootState) => state.getuser1.getStudent
   );

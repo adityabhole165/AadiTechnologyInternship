@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { encodeURL } from '../Common/Util';
 import {
   IDeleteHomeworkBody,
   IGetAllHomeworkDocumentsBody,
@@ -25,7 +24,7 @@ import {
   homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -244,7 +243,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
 
 
   const clickView = (Id) => {
-    navigate('/RITeSchool/Teacher/HomeworkDocuments/' +  encodeURL(Id));
+    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + encodeURL(Id));
   };
 
   const clickFileName = (value) => {
@@ -257,7 +256,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
     }
   };
   const clickTitle = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewHomework/' +  encodeURL(Id));
+    navigate('/RITeSchool/Teacher/ViewHomework/' + encodeURL(Id));
   };
 
   const filteredSubjects = Subjectlistsforteacher.filter(subject => subject.id === selectedSubjectId);
@@ -284,7 +283,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
           value={AssignedDate}
           onChange={(e) => {
             setAssignedDate(e.target.value);
-            console.log('EventEndDate :', e.target.value);
+            //console.log('EventEndDate :', e.target.value);
           }}
 
         />
