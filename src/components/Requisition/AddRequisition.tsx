@@ -6,7 +6,7 @@ import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
@@ -648,94 +648,124 @@ const AddRequisition = () => {
                 ]}
 
                 rightActions={
-                    <>
-                        <SearchableDropdown
-                            sx={{ minWidth: '250px' }}
-                            ItemList={USGetItemCategory}
-                            onChange={ItemCategoryDropdown}
-                            label={'Category'}
-                            defaultValue={ItemCategory}
-                            disabled={Itemlist.length > 0}
-                            size={"small"}
-                        />
-
-                        <TextField
-                            sx={{ width: '15vw' }}
-                            fullWidth
-                            label={
-                                <span>
-                                    Item Code/Name<span style={{ color: 'red' }}>*</span>
-                                </span>
-                            }
-                            value={regNoOrName}
-                            variant={'outlined'}
-                            size={"small"}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === 'Tab') {
-                                    clickSearch();
-                                }
-                            }}
-                            disabled={Itemlist.length > 0}
-                            onChange={(e) => handleRegNoOrNameChange(e.target.value)}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            onClick={handleClear}
-                                            edge="end"
-                                            disabled={Itemlist.length > 0}
-                                        >
-                                            <ClearIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-
-                        />
-
-                        <IconButton
-                            onClick={clickSearch}
-
-                            disabled={Itemlist.length > 0}
-                            sx={{
-                                background: (theme) => theme.palette.primary.main,
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: (theme) => theme.palette.primary.dark,
-                                },
-                                '&.Mui-disabled': {
-                                    color: (theme) => theme.palette.action.disabled,
-                                },
-                            }}
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        justifyContent="space-between"
+                        alignItems="right"
+                        gap={1}
+                        sx={{
+                            mt: { xs: 0, sm: 0 },
+                            flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                        }}
+                    >
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                         >
-                            <SearchTwoTone />
-                        </IconButton>
 
+                            <SearchableDropdown
+                                sx={{ minWidth: '250px' }}
+                                ItemList={USGetItemCategory}
+                                onChange={ItemCategoryDropdown}
+                                label={'Category'}
+                                defaultValue={ItemCategory}
+                                disabled={Itemlist.length > 0}
+                                size={"small"}
+                            />
 
-                        <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            <TextField
+                                sx={{ minWidth: { xs: '40vw', sm: '15vw' } }}
+                                fullWidth
+                                label={
+                                    <span>
+                                        Item Code/Name<span style={{ color: 'red' }}>*</span>
+                                    </span>
+                                }
+                                value={regNoOrName}
+                                variant={'outlined'}
+                                size={"small"}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === 'Tab') {
+                                        clickSearch();
+                                    }
+                                }}
+                                disabled={Itemlist.length > 0}
+                                onChange={(e) => handleRegNoOrNameChange(e.target.value)}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                onClick={handleClear}
+                                                edge="end"
+                                                disabled={Itemlist.length > 0}
+                                            >
+                                                <ClearIcon />
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            gap={1}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
                             <IconButton
+                                onClick={clickSearch}
+
+                                disabled={Itemlist.length > 0}
                                 sx={{
+                                    background: (theme) => theme.palette.primary.main,
                                     color: 'white',
-                                    backgroundColor: grey[500],
-                                    mr: -1,
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: grey[600] }
+                                    '&:hover': {
+                                        backgroundColor: (theme) => theme.palette.primary.dark,
+                                    },
+                                    '&.Mui-disabled': {
+                                        color: (theme) => theme.palette.action.disabled,
+                                    },
                                 }}
                             >
-                                <QuestionMarkIcon />
+                                <SearchTwoTone />
                             </IconButton>
-                        </Tooltip>
 
-                        <Tooltip title={'Reset'}>
-                            {Itemlist.length > 0 ?
-                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Box>
+                                <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: grey[600] }
+                                        }}
+                                    >
+                                        <QuestionMarkIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                            <Tooltip title={'Reset'}>
+                                {Itemlist.length > 0 ?
 
                                     <IconButton
                                         onClick={ClickRestItemLIst}
                                         sx={{
                                             color: 'white',
                                             backgroundColor: blue[500],
-                                            ml: 1,
                                             '&:hover': {
                                                 backgroundColor: blue[600]
                                             }
@@ -744,64 +774,65 @@ const AddRequisition = () => {
                                         <RestartAltIcon />
 
                                     </IconButton>
-                                </Box> : <span> </span>}
-                        </Tooltip>
+                                    : <span> </span>}
+                            </Tooltip>
 
-                        {AddItemlistNew.length > 0 ? <Tooltip title={'Save'}>
-                            <IconButton
-                                onClick={clicksave}
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: green[500],
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: green[600] },
+                            {AddItemlistNew.length > 0 ? <Tooltip title={'Save'}>
+                                <IconButton
+                                    onClick={clicksave}
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: green[500],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: green[600] },
 
-                                }}
-                            >
-                                <Save />
-                            </IconButton>
-                        </Tooltip> : <span> </span>}
+                                    }}
+                                >
+                                    <Save />
+                                </IconButton>
+                            </Tooltip> : <span> </span>}
 
-                        {AddItemlistNew.length > 0 ? <Tooltip title={'Send Requisition'}>
-                            <IconButton
-                                onClick={clickSend}
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600]
-                                    }
-                                }}
-                            >
-                                <SendIcon />
-                            </IconButton>
-                        </Tooltip> : <span> </span>}
-
-
-
-                    </>
+                            {AddItemlistNew.length > 0 ? <Tooltip title={'Send Requisition'}>
+                                <IconButton
+                                    onClick={clickSend}
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: blue[500],
+                                        '&:hover': {
+                                            backgroundColor: blue[600]
+                                        }
+                                    }}
+                                >
+                                    <SendIcon />
+                                </IconButton>
+                            </Tooltip> : <span> </span>}
+                        </Grid>
+                    </Stack>
                 }
             />
 
-
             <Box display="flex" alignItems="center">
-
-                <TextField
-                    sx={{
-                        width: '14vw',
-                        '& .MuiInputBase-root': {
-                            height: '35px',
-                            color: 'black',
-                        },
-                        '& .MuiInputLabel-root': {
-                            top: '-6px',
-                            color: 'black',
-                        },
-                    }}
-                    label="Is General Requisition ? :"
-                    disabled
-                />
-
+                <Grid
+                    item
+                    xs={12}
+                    sm={3}
+                >
+                    <TextField
+                        sx={{
+                            minWidth: { xs: '40vw', sm: '15vw' },
+                            '& .MuiInputBase-root': {
+                                height: '35px',
+                                color: 'black',
+                            },
+                            '& .MuiInputLabel-root': {
+                                top: '-6px',
+                                color: 'black',
+                            },
+                        }}
+                        label="Is General Requisition ? :"
+                        disabled
+                    />
+                </Grid>
                 {USCanCreateGenralRequisition == "Y" || assignIs_General == true ? <Checkbox
                     checked={isChecked}
                     onChange={handleCheckboxChange}
