@@ -388,7 +388,7 @@ const ViewLeaveDetails = () => {
             </Paper>
             <Box sx={{ p: 2, background: 'white' }}>
                 <Grid container spacing={2}>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                         <TextField
                             fullWidth
                             InputLabelProps={{ shrink: true }}
