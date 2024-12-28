@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from "react-toastify";
 import { IAllClassesAndDivisionsBody } from "src/interfaces/Common/Holidays";
 import { IGetPhotoDetailsBody, IManagePhotoGalleryBody } from "src/interfaces/Common/PhotoGallery";
+import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import { GetAllClassAndDivision } from "src/requests/Holiday/Holiday";
 import { CDAManagePhotoGalleryMsg, resetManagePhotoGalleryMsg } from "src/requests/PhotoGallery/PhotoGallery";
 import { CDAGetPhotoDetails } from "src/requests/Reqphoto/ReqPhoto";
@@ -35,6 +36,7 @@ const AddNewPhoto = () => {
   const [GalleryName, setGalleryName] = useState('');
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [GalleryNameError, setGalleryNameError] = useState('');
 
   console.log(ItemList, "ItemList");
 
@@ -84,8 +86,13 @@ const AddNewPhoto = () => {
   }
   const ClassSelected = String(isClassSelected());
   const ClickSave = async () => {
+    let isValid = true;
+    if (!GalleryName.trim()) {
+      setGalleryNameError('Gallery name should not be blank.');
+      isValid = false;
+    }
     const SavephotoGallery: IManagePhotoGalleryBody = {
-      asSchool_Id: 122,
+      asSchool_Id: asSchoolId,
       asOrg_Gallery_Name: "",
       asGallery_Name: GalleryName,
       asGallery_DetailsXML: "",
@@ -95,8 +102,8 @@ const AddNewPhoto = () => {
       Gallery_ID: 0
     }
     dispatch(CDAManagePhotoGalleryMsg(SavephotoGallery))
+    //setGalleryNameError('');
   }
-
   useEffect(() => {
     if (USManagePhotoGallery !== "") {
       toast.success(USManagePhotoGallery);
@@ -241,6 +248,9 @@ const AddNewPhoto = () => {
               }}
               value={GalleryName}
             />
+            <Box>
+              <ErrorMessage1 Error={GalleryNameError}></ErrorMessage1>
+            </Box>
           </Grid>
 
           <Grid item xs={12} sm={6}>

@@ -1,8 +1,10 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
     Box,
     Button,
     Grid,
+    IconButton,
     Stack,
     Table,
     TableBody,
@@ -13,7 +15,7 @@ import {
     Tooltip,
     Typography
 } from "@mui/material";
-import { blue } from "@mui/material/colors";
+import { blue, red } from "@mui/material/colors";
 import React, { useState } from "react";
 
 const FileUploadComponent: React.FC = () => {
@@ -161,24 +163,32 @@ const FileUploadComponent: React.FC = () => {
                                 <TableCell>
                                     <Typography color="primary"><strong>Comment</strong></Typography>
                                 </TableCell>
+                                <TableCell>
+                                    <Typography color="primary"><strong>Delete</strong></Typography>
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {fileList.map((entry, index) => (
                                 <TableRow key={index}>
-                                    <TableCell>  <Stack direction="row" spacing={1} flexWrap="wrap">
-                                        {/* {entry.fileNames.map((fileName, idx) => (
-                                            // <Chip
-                                            //     key={idx}
-                                            //     label={fileName}
-                                            //     variant="outlined"
-                                            //     color="primary"
-                                            //     onDelete={() => handleDeleteFile(index, idx)}
-                                            //     sx={{ margin: 0.5 }}
-                                            // />
-                                        ))} */}
-                                    </Stack></TableCell>
+                                    <TableCell>  <Stack direction="row" spacing={1} flexWrap="wrap">{entry.fileNames}</Stack></TableCell>
                                     <TableCell>{entry.comment}</TableCell>
+                                    <TableCell>
+                                        <IconButton
+                                            // onClick={() => handleDelete(user.UserId)}
+                                            sx={{
+                                                color: '#38548A	',
+                                                '&:hover': {
+                                                    color: 'red',
+                                                    backgroundColor: red[100]
+                                                }
+                                            }}
+                                        >
+                                            <Tooltip title="Delete" >
+                                                <DeleteForeverIcon />
+                                            </Tooltip>
+                                        </IconButton>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

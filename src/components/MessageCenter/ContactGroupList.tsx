@@ -388,6 +388,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
               }}
             />
 
+
           </Grid>
         </Grid>
         <Grid sx={{ marginTop: 1 }} >
