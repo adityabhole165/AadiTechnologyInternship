@@ -341,7 +341,7 @@ const AadharCard = () => {
                   label="Name"
                   InputLabelProps={{ shrink: true }}
                   sx={{
-                    width: '50%',
+                    width: { xs: '100%', sm: '50%' },
                     '& .MuiInputBase-input': {
                       height: '50px',
                       padding: '10px',
@@ -369,7 +369,7 @@ const AadharCard = () => {
                   onChange={(e) => changeAdhar(e.target.value)}
                   //helperText={ErrorNamePerAadharCard}
                   sx={{
-                    width: '50%',
+                    width: { xs: '100%', sm: '50%' },
                     '& .MuiInputBase-input': {
                       height: '50px',
                       padding: '10px',
@@ -396,7 +396,7 @@ const AadharCard = () => {
                   // error={Boolean(ErrorNamePerAadharCard)}
                   //  helperText={ErrorNamePerAadharCard}
                   sx={{
-                    width: '50%',
+                    width: { xs: '100%', sm: '50%' },
                     '& .MuiInputBase-input': {
                       height: '50px',
                       padding: '10px',
@@ -410,7 +410,7 @@ const AadharCard = () => {
                 <Tooltip title="Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.">
                   <Button
                     sx={{
-                      width: '50%', height: '65px',
+                      width: { xs: '100%', sm: '50%' }, height: '65px',
                       gap: 1,
                       position: 'relative',
                       border: (theme) => `1px dashed ${theme.palette.primary.main}`,
@@ -471,22 +471,20 @@ const AadharCard = () => {
                   style={{ width: '100%', height: 'auto', marginBottom: '10px' }}
                 />
               ) : (
-                <div
-                  style={{
-                    width: '504px',
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: '100%' },
                     height: '330px',
-                    // width: '323px',  // 3.37 inches * 100 (assuming 100 pixels per inch)
-                    // height: '204px', // 2.13 inches * 100
                     border: '1px dashed grey',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginBottom: '10px',
-                    maxWidth: '30vw'
+                    //maxWidth: '30vw',
                   }}
                 >
                   <Typography color="textSecondary">No file selected</Typography>
-                </div>
+                </Box>
               )}
 
 
