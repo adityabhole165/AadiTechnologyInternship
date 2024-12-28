@@ -46,20 +46,25 @@ export const getChildMenuId =
       dispatch(SliceNavbarMenu.actions.getChildMenuId(data.aiMenuId));
     };
 
+/**
+ * Fetches navbar menu details from session storage or API.
+ * If data exists in session storage, uses cached data.
+ * Otherwise calls API, stores response in session storage and returns sorted menu items by priority.
+ * @param data Menu details request body
+ */
 export const getNavbarMenuDetails =
   (data: IGetMenuDetailsBody): AppThunk =>
     async (dispatch) => {
       dispatch(SliceNavbarMenu.actions.getLoading(true));
-      let responseData = []
-      // if (!data.IsRefresh) {
-      //   let NavbarMenuTemp = localStorage.getItem("NavbarMenu")
-      //   responseData = (NavbarMenuTemp == undefined || NavbarMenuTemp == null) ?
-      //     [] : JSON.parse(NavbarMenuTemp)
-      // }
-      if (responseData != null && responseData.length == 0) {
-        const response = await ApiGetMenuDetails.GetMenuDetailsApi(data)
-        responseData = response.data.MenuDetails
-        // localStorage.setItem("NavbarMenu", JSON.stringify(responseData))
+      let responseData = [];
+
+      const sessionData = sessionStorage.getItem("NavbarMenu");
+      if (sessionData) {
+        responseData = JSON.parse(sessionData);
+      } else {
+        const response = await ApiGetMenuDetails.GetMenuDetailsApi(data);
+        responseData = response.data.MenuDetails;
+        sessionStorage.setItem("NavbarMenu", JSON.stringify(responseData));
       }
       dispatch(SliceNavbarMenu.actions.getNavbarMenuDetails(responseData.sort((a, b) => a.Priority - b.Priority)));
     };
