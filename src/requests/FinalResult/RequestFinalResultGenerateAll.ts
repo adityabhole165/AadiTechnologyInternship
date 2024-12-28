@@ -261,6 +261,23 @@ export const StudentDetailsGA =
                 }
                 return result[0]?.SchoolWise_Student_Test_Marks_Id ?? '';
             }
+            function findLastchildOfParentSubject(SubjectIndex) {
+
+                let SubjectArray: any = response.data.listSubjectsDetails;
+                let parentSubjectId = SubjectArray[SubjectIndex].Parent_Subject_Id;
+                // let isLastChild = SubjectArray[SubjectArray.length - 1]?.Parent_Subject_Id;
+                if (parentSubjectId === '0') {
+                    return false;
+                }
+                if (parentSubjectId !== '0') {
+                    if (SubjectArray[SubjectArray.length - 1]?.Parent_Subject_Id === parentSubjectId)
+                        return true;
+                } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === '0') {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
             let rankArray = response.data.ListSchoolWiseTestNameDetail;
             let hasNonDefaultRank = rankArray.some(item => item.rank !== '999');
             dispatch(FinalResultGenerateAllSlice.actions.showRankColumn(hasNonDefaultRank));
@@ -268,7 +285,7 @@ export const StudentDetailsGA =
                 .map((Test, TestIndex) => {
                     let columns = []
                     // list2 = []
-                    let SubjectArray = response.data.listSubjectsDetails;
+                    let SubjectArray: any = response.data.listSubjectsDetails;
                     response.data.listSubjectsDetails.map((Subject, SubjectIndex) => {
                         HeaderCount = 0
                         // list3 = []
@@ -372,25 +389,25 @@ export const StudentDetailsGA =
                                         isCoCurricular: 'False'
                                     };
                                 };
-
                                 // Usage
                                 totalMarks = calculateTotalMarks(data, Subject, cell);
-
                             }
 
                             if (TestTypeIndex == TestTypeCount - 1 && data1.toLowerCase() == "true" && subIdDetailsLength(Subject.Subject_Id) > 1) {
                                 columns.push(totalMarks);
                             }
 
-                            if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && SubjectArray[SubjectIndex + 1].Parent_Subject_Id === '0' && TestTypeIndex === arrTemp.length - 1) {
+                            if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && (SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === '0' || SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === undefined) && TestTypeIndex === arrTemp.length - 1) {
                                 // response.data.ListTestTypeIdDetails.map((list1, i1) => {
                                 // response.data.Listtestid2Details.map((list2, i2) => {
                                 // if (list2.Test_Id !== '-1') {
                                 // if (list2.Test_Id === Test.Test_Id && list2.TestType_Id === list1.TestType_Id && list2.Parent_Subject_Id === SubjectArray[SubjectIndex].Parent_Subject_Id) {
-                                response.data.ListTestTypeIdDetails.map((itemArr) => {
+                                let filteredArr = response?.data?.listSubjectsDetails.filter((item) => item.Parent_Subject_Id === SubjectArray[SubjectIndex].Parent_Subject_Id);
+                                let extendedColumn = response?.data?.ListSubjectidDetails.filter(item => item.Subject_Id === filteredArr[0]?.Subject_Id);
+                                extendedColumn.map((itemArr) => {
                                     const marksScored = findCellValue1(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id)
                                     columns.push({
-                                        MarksScored: marksScored,
+                                        MarksScored: `${marksScored}`,
                                         TotalMarks: findCellValue(response.data.Listtestid2Details, SubjectArray[SubjectIndex].Parent_Subject_Id, itemArr.TestType_Id, Test.Test_Id),
                                         IsAbsent: "N",
                                         IsEdit: false,

@@ -17,9 +17,9 @@ function AddRequisitionlist({
   };
 
   return (
-    <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
-      <Table aria-label="simple table">
-        <TableHead>
+    <TableContainer component={Box}>
+      <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
+        <TableHead sx={{ overflow: 'auto' }}>
           <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
             {HeaderArray.map((headerItem, i) => (
               <TableCell
@@ -80,30 +80,30 @@ function AddRequisitionlist({
               </TableCell>
 
 
-            
-              <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'left' }} align="left">
-              <Tooltip title="Delete">  
 
-                <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)}
-                  // sx={{
-                  //   cursor: 'pointer',
-                  //   '&:hover': { backgroundColor: 'lightgrey' }
-                  // }} 
-                  sx={{
-                    ml: 1,
-                    // color: '#223354',
-                    color: item.ItemStatus === "Denied" ? red[500] : '#223354',
-                    //  backgroundColor: grey[500],
-                    '&:hover': {
-                      color: 'red',
-                      backgroundColor: red[100]
-                    }
-                  }}
-                />
-                  </Tooltip>
+              <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'left' }} align="left">
+                <Tooltip title="Delete">
+
+                  <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)}
+                    // sx={{
+                    //   cursor: 'pointer',
+                    //   '&:hover': { backgroundColor: 'lightgrey' }
+                    // }} 
+                    sx={{
+                      ml: 1,
+                      // color: '#223354',
+                      color: item.ItemStatus === "Denied" ? red[500] : '#223354',
+                      //  backgroundColor: grey[500],
+                      '&:hover': {
+                        color: 'red',
+                        backgroundColor: red[100]
+                      }
+                    }}
+                  />
+                </Tooltip>
               </TableCell>
-            
-              
+
+
 
 
             </TableRow>

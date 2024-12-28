@@ -52,5 +52,18 @@ export const Constants = {
         StudentwiseProgressReport: 179,
         AssignPrePrimarySubjectGrades: 162,
         PerfGradeAssign: 213,
+        LessonPlan: 233,
+        ProgressRemark: 266,
+        InvestmentDeclaration: 240,
+        PrePrimaryProgressReport: 164,
+        PrePrimaryResult: 163,
+        UserDocumentDetails: 307,
+        AnnualPlanner: 62,
+        ExportStdMarks: 315,
+        BlockProgressReport: 200,
+        FeedbackDetails: 185,
+        NoticeBoard: 68,
+        StudentRecord: 271,
+        UserManagement: 76,
     }
 }
