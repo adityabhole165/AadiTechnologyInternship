@@ -51,7 +51,9 @@ import {
 } from 'src/requests/StudentDetails/RequestStudentDetails';
 import { CDANavigationValues } from 'src/requests/Students/RequestStudents';
 import {
-  CDAAddStudentAdditionalDetails, CDACheckDependenciesForFees, CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
+  CDAAddStudentAdditionalDetails,
+  CDACheckDependenciesForFees,
+  CDAFeeAreaNames, CDAGetMasterData, CDAGetSingleStudentDetails, CDAGetStudentAdditionalDetails,
   CDAGetStudentDocuments,
   CDARetriveStudentStreamwiseSubject,
   CDASaveSubmittedDocumentsMsg,
@@ -279,6 +281,7 @@ const StudentRegistrationForm = () => {
   const [documentList, setDocumentList] = useState([]);
 
   const [feeDependencyError, setFeeDependencyError] = useState('');
+  const [isDeleteFee, setIsDeleteFee] = useState(false);
   //Siblings States
   const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
   const [selectedSiblings, setSelectedSiblings] = useState('');
@@ -1058,7 +1061,7 @@ const StudentRegistrationForm = () => {
     asParentUserId: 0,
     asStudentEmailAddress: form.personal?.email || '',
     asUserId: StudentUser_Id,
-    IsDeleteFee: false,
+    IsDeleteFee: isDeleteFee ?? false,
     adtOldJoiningDate: formatDOB(hidOldJoiningDate)
   };
 
@@ -1184,14 +1187,14 @@ const StudentRegistrationForm = () => {
     if (ruleChanged || dateChanged) {  // ⭐FeeCategory condions remained
       bFlag = true;
 
-      if ((RoleName !== 'SuperAdmin' && monthChanged)) {
+      if ((RoleName !== 'SuperAdmin' && dateChanged && monthChanged)) {
         await dispatch(CDACheckDependenciesForFees(CheckDependenciesForFeesBody));
 
         console.log(RoleName, "⚠️Executing CheckDependenciesForFees API", CheckDependenciesForFeesBody);
       }
       else { bFlag = false }
     }
-    //console.log('⭐', sMsg, '⭐', bFlag);
+    console.log('⭐', bFlag);
     return { bFlag };
 
   }
@@ -1258,13 +1261,6 @@ const StudentRegistrationForm = () => {
   const handleFormSubmission = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
     setIsSubmitted(true); // Enable validation display
-    // Validate the form
-    //const isFormValid = handleValidation();
-    // const isFormValid = Object.values(tabValidationStatus).every(status => status === true);
-    // if (!isFormValid) {
-    //   console.log('😶 Form submission halted due to validation errors.');
-    //   return;
-    // }
 
     // Get specific field validations
     const specificFieldValidations = validateSpecificFields(form);
@@ -1293,11 +1289,12 @@ const StudentRegistrationForm = () => {
     }
 
     // // First check dependencies
-    // await CheckDependenciesForFees();
-
+    // const dependencyResult = await CheckDependenciesForFees();
+    // setIsDeleteFee(dependencyResult.bFlag);
+    // console.log('⚠️', dependencyResult);
     // // Check if there's any blocking message from the dependency check
     // if (ReferenceMessages[0]?.ReferenceMsg) {
-    //   toast.warning(ReferenceMessages[0].ReferenceMsg);
+    //   //toast.warning(ReferenceMessages[0].ReferenceMsg);
     //   setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
     //   return;
     // }
@@ -1332,7 +1329,9 @@ const StudentRegistrationForm = () => {
       console.error('🚨 Error during form submission or API calls:', error);
     }
   };
-
+  useEffect(() => {
+    console.log('🎈🎈🎈🎈isDeleteFee:', isDeleteFee);
+  }, [isDeleteFee])
   //#region SiblingPopSave
   const handleSiblingPopSave = async () => {
     setIsSubmitted(true);
@@ -1342,15 +1341,7 @@ const StudentRegistrationForm = () => {
       console.warn('🚨 Sibling update halted due to missing selections.');
       return;
     }
-    // Enable validation display
-    //await CheckDependenciesForFees();
 
-    // Check if there's any blocking message from the dependency check
-    // if (ReferenceMessages[0]?.ReferenceMsg) {
-    //   toast.warning(ReferenceMessages[0].ReferenceMsg);
-    //   setFeeDependencyError(ReferenceMessages[0]?.ReferenceMsg);
-    //   return;
-    // }
     // Proceed with API calls when the popup Save button is clicked
     try {
       console.log('Popup validation passed! Proceeding with sibling and other API calls...');
