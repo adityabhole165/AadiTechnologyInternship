@@ -1,6 +1,6 @@
 import { Box, Checkbox, Stack } from '@mui/material';
 
-const SelectListHierarchy1 = ({ ItemList, ParentList, ClickChild, handleparentSelectAll, handleChildParentSelectAll, handleChildSelectAll }) => {
+const SelectListHierarchy1 = ({ ItemList, ParentList, ClickChild }) => {
     const ClickChildCheckbox = (value) => {
         let arr = [];
         arr = ItemList.map((Item) => {

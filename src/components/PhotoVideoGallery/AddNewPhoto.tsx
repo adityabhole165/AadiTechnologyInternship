@@ -15,10 +15,12 @@ import {
 import { green, grey, red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from "react-toastify";
 import { IAllClassesAndDivisionsBody } from "src/interfaces/Common/Holidays";
-import { IManagePhotoGalleryBody } from "src/interfaces/Common/PhotoGallery";
+import { IGetPhotoDetailsBody, IManagePhotoGalleryBody } from "src/interfaces/Common/PhotoGallery";
 import { GetAllClassAndDivision } from "src/requests/Holiday/Holiday";
-import { CDAManagePhotoGalleryMsg } from "src/requests/PhotoGallery/PhotoGallery";
+import { CDAManagePhotoGalleryMsg, resetManagePhotoGalleryMsg } from "src/requests/PhotoGallery/PhotoGallery";
+import { CDAGetPhotoDetails } from "src/requests/Reqphoto/ReqPhoto";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 import FileUploadComponent from "./FileUploadComponent";
@@ -34,7 +36,7 @@ const AddNewPhoto = () => {
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
-  console.log(GalleryName, "GalleryName12");
+  console.log(ItemList, "ItemList");
 
 
   const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
@@ -45,10 +47,12 @@ const AddNewPhoto = () => {
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const asUserId = Number(localStorage.getItem('UserId'));
 
   const ClassesAndDivisionss = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss);
   const ClassesAndDivisionss1 = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss1);
   const USManagePhotoGallery: any = useSelector((state: RootState) => state.PhotoGalllary.IManagePhotoGalleryMsg);
+  const USPhotoGallery: any = useSelector((state: RootState) => state.Photo.ISGetPhotoDetils)
 
   const USStandardDivisionName: any = useSelector((state: RootState) => state.PhotoGalllary.IStandardDivisionName);
 
@@ -61,20 +65,46 @@ const AddNewPhoto = () => {
     dispatch(GetAllClassAndDivision(StandardDivisionName))
   }, []);
 
-
-  const SavephotoGallery: IManagePhotoGalleryBody = {
-    asSchool_Id: 122,
-    asOrg_Gallery_Name: "",
-    asGallery_Name: GalleryName,
-    asGallery_DetailsXML: "",
-    asInserted_By_id: 0,
-    asAssociatedSection: "",
-    asClassesIds: "",
-    Gallery_ID: 0
+  const PhotoDetailsBody: IGetPhotoDetailsBody = {
+    asSchoolId: asSchoolId,
+    asSortExp: "",
+    asStartIndex: 0,
+    asPageSize: 20,
+    asAcademicYearId: asAcademicYearId,
+    asGalleryNameFilter: "",
   }
-  useEffect(() => {
+
+  const isClassSelected = () => {
+    let arr = []
+    ItemList.map(item => {
+      if (item.IsActive)
+        arr.push(item.Id)
+    })
+    return arr.toString()
+  }
+  const ClassSelected = String(isClassSelected());
+  const ClickSave = async () => {
+    const SavephotoGallery: IManagePhotoGalleryBody = {
+      asSchool_Id: 122,
+      asOrg_Gallery_Name: "",
+      asGallery_Name: GalleryName,
+      asGallery_DetailsXML: "",
+      asInserted_By_id: asUserId,
+      asAssociatedSection: "1,2,3",
+      asClassesIds: ClassSelected,
+      Gallery_ID: 0
+    }
     dispatch(CDAManagePhotoGalleryMsg(SavephotoGallery))
-  }, []);
+  }
+
+  useEffect(() => {
+    if (USManagePhotoGallery !== "") {
+      toast.success(USManagePhotoGallery);
+      dispatch(resetManagePhotoGalleryMsg());
+      dispatch(CDAGetPhotoDetails(PhotoDetailsBody));
+    }
+  }, [GalleryName, ClassSelected]);
+
 
   // function getXML() {
   //  // <PhotoGallery>
@@ -110,19 +140,6 @@ const AddNewPhoto = () => {
   const ClickChild = (value) => {
     setitemList(value);
   };
-  const isClassSelected = () => {
-    let arr = []
-    ItemList.map(item => {
-      if (item.IsActive)
-        arr.push(item.Id)
-
-
-    })
-
-    return arr.toString()
-  }
-
-  const ClassSelected = String(isClassSelected());
 
   console.log(ClassSelected, "ClassSelected1234");
 
@@ -177,6 +194,7 @@ const AddNewPhoto = () => {
                         backgroundColor: green[600],
                       },
                     }}
+
                   // onClick={handleUpdate}
                   // disabled={!formData.url || !formData.title}
                   >
@@ -194,6 +212,7 @@ const AddNewPhoto = () => {
                       backgroundColor: green[600],
                     },
                   }}
+                  onClick={ClickSave}
                 // onClick={handleAdd}
                 // disabled={!formData.url || !formData.title}
                 >
@@ -230,17 +249,7 @@ const AddNewPhoto = () => {
         </Grid>
         <Grid xs={12} sm={6}>
           <FileUploadComponent />
-          {/* <SingleFile2
-            ValidFileTypes={ValidFileTypes2}
-            MaxfileSize={MaxfileSize2}
-            ChangeFile={ChangeFile2}
-            errorMessage={''}
-            FileName={ImageFile}
-            FileLabel={'Select Image'}
-            width={'100%'}
-            height={"52px"}
-            isMandatory={false}
-          /> */}
+
         </Grid>
         <Box pt={2} >
           <Box>
@@ -248,11 +257,7 @@ const AddNewPhoto = () => {
               ItemList={ItemList}
               ParentList={ClassesAndDivisionss1}
               ClickChild={ClickChild}
-              handleparentSelectAll={undefined}
-              handleChildParentSelectAll={undefined}
-              handleChildSelectAll={undefined}
             ></SelectListHierarchy1>
-            {/* <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} /> */}
           </Box>
         </Box>
         <Box sx={{ backgroundColor: "lightgrey", pl: 1, mt: 2, }}>
@@ -293,7 +298,7 @@ const AddNewPhoto = () => {
               Cancel
             </Button>
             <Button
-              // onClick={ClickSave1}
+              onClick={ClickSave}
               sx={{
                 // backgroundColor: green[100],
                 color: 'green',
