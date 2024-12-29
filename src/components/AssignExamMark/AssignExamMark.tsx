@@ -1,4 +1,10 @@
-import { Box, Divider, IconButton, Tooltip, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import EditOff from '@mui/icons-material/EditOff';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
+import { Box, Divider, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,7 +15,6 @@ import {
   ISubjectTeachersForAssignExamMarksBody,
   ISubmitTestMarksToClassTeacherBody
 } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
-
 import {
   CDASubjectTeachersForAssignExamMarks,
   GetAssignExamMarkList,
@@ -26,13 +31,12 @@ import { grey } from '@mui/material/colors';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
+import Legend from 'src/libraries/Legend/Legend';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 import ListEditIcon2 from 'src/libraries/ResuableComponents/ListEditIcon2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { decodeURL, getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, encodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { encodeURL } from '../Common/Util';
 const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -292,17 +296,75 @@ const AssignExamMark = () => {
       encodeURL(selectClass) + '/' +
       encodeURL(ClassWiseExam) + '/' +
       encodeURL(aTeacherId.toString()) + '/' +
-      encodeURL(value.StandardId)+ '/' +
+      encodeURL(value.StandardId) + '/' +
       encodeURL(value.IsMonthConfig) + '/' +
-      encodeURL( !(value.IsSubmitted == "N") )+ '/' +
+      encodeURL(!(value.IsSubmitted == "N")) + '/' +
       encodeURL(false) + '/' +
       encodeURL('true') + '/' +
-      encodeURL(getStandardId()) 
+      encodeURL(getStandardId())
     )
       ;
 
 
   };
+
+  const LegendArray = [
+    {
+      id: 1,
+      Name: 'No student in class / Subject not applicable to student',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <FaceRetouchingOffIcon style={{ color: '#34a4eb', fontSize: 'large', position: 'relative', top: '-2px' }} />
+        </Box>
+      )
+    },
+    {
+      id: 2,
+      Name: 'Marks entry not started',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <EditOff style={{ color: '#f44336', fontSize: 'large', position: 'relative', top: '-2px' }} />
+        </Box>
+      )
+    },
+    {
+      id: 3,
+      Name: 'Marks entry partially done',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <DesignServicesIcon style={{ color: '#ff9800', fontSize: 'large', position: 'relative', top: '-2px' }} />
+        </Box>
+      )
+    },
+    {
+      id: 4,
+      Name: 'Submit exam marks to the class teacher',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <EventAvailableIcon style={{ color: '#25e67b', fontSize: 'large', position: 'relative', top: '-2px' }} />
+        </Box>
+      )
+    },
+    {
+      id: 5,
+      Name: 'Unsubmit Exam Marks',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <EventBusyIcon style={{ color: '#0f0f0f', fontSize: 'large', position: 'relative', top: '-2px' }} />
+        </Box>
+      )
+    },
+    {
+      id: 6,
+      Name: 'Marks entry completed',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <CheckIcon style={{ color: '#07bc0c', fontSize: 'large', position: 'relative', top: '-2px' }} />
+        </Box>
+      )
+    }
+  ];
+
 
   return (
     <Box sx={{ px: 2 }}>
@@ -311,84 +373,98 @@ const AssignExamMark = () => {
           { title: 'Assign Exam Marks', path: '/RITeSchool/Teacher/AssignExamMark' }
         ]}
         rightActions={<>
-          {
-            CanEdit == 'Y' ? <Box>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems="left"
+            gap={1}
+            sx={{
+              mt: { xs: 0, sm: 0 },
+              flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+            }}
+          >
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              {
+                CanEdit == 'Y' ? <Box>
+                  <SearchableDropdown
+                    sx={{ width: { xs: '40vw', sm: '25vw' } }}
+                    ItemList={USSubjectTeachersForAssignExamMarks}
+                    onChange={clickClassTeacher}
+                    label={'Select Subject Teacher'}
+                    defaultValue={ClassTecher?.toString()}
+                    mandatory
+                    size={"small"}
+                  />
+                </Box> :
+                  <span> </span>
+              }
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
               <SearchableDropdown
-                sx={{ minWidth: '300px' }}
-                ItemList={USSubjectTeachersForAssignExamMarks}
-                onChange={clickClassTeacher}
-                label={'Select Subject Teacher'}
-                defaultValue={ClassTecher?.toString()}
+                sx={{ width: { xs: '40vw', sm: '15vw' } }}
+                ItemList={ClassDropdown}
+                onChange={onClickClass}
+                label={'Select Class'}
+                defaultValue={selectClass}
                 mandatory
                 size={"small"}
               />
-            </Box> :
-              <span> </span>
-          }
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown
+                sx={{ width: { xs: '70vw', sm: '25vw',md: '20vw' } }}
+                ItemList={ClassWiseExamDropdown}
+                onChange={clickClassWiseExam}
+                label={'Select Exam'}
+                defaultValue={ClassWiseExam}
+                mandatory
+                size={"small"}
+              />
 
-          <Box>
-            <SearchableDropdown
-              sx={{ minWidth: '300px' }}
-              ItemList={ClassDropdown}
-              onChange={onClickClass}
-              label={'Select Class'}
-              defaultValue={selectClass}
-              mandatory
-              size={"small"}
-            />
-          </Box>
-          <Box>
-
-            <SearchableDropdown
-              sx={{ minWidth: '300px' }}
-              ItemList={ClassWiseExamDropdown}
-              onChange={clickClassWiseExam}
-              label={'Select Exam'}
-              defaultValue={ClassWiseExam}
-              mandatory
-              size={"small"}
-            />
-
-          </Box>
-
-          <Box>
-            <Tooltip title={`View all subjects assigned with the current status of marks given to students.
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <Tooltip title={`View all subjects assigned with the current status of marks given to students.
             Once marks for all the students are allotted you have to submit these marks to the class teacher by clicking on "submit" button.
             Pre-primary teachers to add and submit progress report entries of his/her class.`}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <QuestionMark />
-              </IconButton>
-            </Tooltip>
-          </Box>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          </Stack>
         </>}
       />
       {/* <AssignExamMarkNew ItemList={ExamMarksStatusForClass} /> */}
-      <Box sx={{ background: 'white', p: 1 }}>
-        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'white', }}>
-          <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
-          <Box sx={{ display: 'flex', gap: '20px' }}>
-            <DotLegends
-              color="secondary"
-              text={
-                'No student in class / Subject not applicable to student'
-              }
-              text1={'Marks entry not started'}
-              text2={'Marks entry partially done'}
-              text3={'Submit exam marks to the class teacher'}
-              text4={'Unsubmit Exam Marks'}
-              text5={'Marks entry completed	'}
-            />
-          </Box>
-        </Box>
+      <Box sx={{ background: 'white', p: 1, mb: 2 }}>
+        <Legend LegendArray={LegendArray} />
       </Box>
-      <br></br>
       <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ?
