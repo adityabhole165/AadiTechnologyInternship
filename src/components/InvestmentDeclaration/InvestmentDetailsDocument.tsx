@@ -239,7 +239,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                     <Typography variant="h2" sx={{ pt: 2, pl: 1 }}>Documents</Typography>
                     <Box sx={{ background: 'white', top: '1px', alignItems: 'center', pl: 1, pr: 2, pt: 2 }}>
                         <Grid container spacing={2} >
-                            <Grid item xs={4}>
+                            <Grid item xs={12} sm={4} md={4} lg={4}  >
                                 <TextField
                                     fullWidth
                                     label={<>
@@ -254,7 +254,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={12} sm={4} md={4} lg={4}>
                                 <TextField
                                     fullWidth
                                     label={<>
@@ -269,8 +269,8 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={4}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.7, width: 'calc(100% + 1px)', position: 'relative' }}>
+                            <Grid item xs={12} sm={4} md={4} lg={4}>
+                                <Box sx={{ display: 'flex', alignItems: 'center',  width: 'calc(100% + 1px)', position: 'relative' }}>
                                     <SingleFile
                                         ValidFileTypes={ValidFileTypes}
                                         MaxfileSize={MaxfileSize}
