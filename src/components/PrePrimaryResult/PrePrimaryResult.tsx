@@ -526,10 +526,10 @@ const PrePrimaryResult = () => {
         <DialogContent>
 
           <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
-            <h1>
+            <h2>
               Enter Reason For Unpublish
-            </h1>
-            <Grid container spacing={0} alignItems="center">
+            </h2>
+            <Grid container spacing={2} alignItems="center">
               <Grid item xs={12} sm={6}>
                 <Tooltip title={getClassName()} >
                   <TextField fullWidth label={'Assessment'}
