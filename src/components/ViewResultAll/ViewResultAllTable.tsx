@@ -1,7 +1,7 @@
 import { Box, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressReport, ToppersCount }: any) => {
+const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressReport, ToppersCount, isAllStdSelect }: any) => {
     const [ViewProgress, setViewProgress] = useState<any>([]);
     const [SubjectDetailsView, setSubjectDetailsView] = useState<any>([]);
     const [MarkDetailsView, setMarkDetailsView] = useState<any>([]);
@@ -356,7 +356,7 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                             </Box>
                         </Box>
                     </Box>
-                    <Box sx={{ width: '100%', my: 4, borderTop: '2px dotted black', borderSpacing: '60px' }} />
+                    {isAllStdSelect && <Box sx={{ width: '100%', my: 4, borderTop: '2px dotted black', borderSpacing: '60px' }} />}
                 </>
                 :
                 <>
@@ -365,7 +365,7 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                         Result not generated for this student : {stdFinalResult?.listStudentDetail[0]?.Roll_No} - {stdFinalResult?.listStudentDetail[0]?.Student_Name}
                     </Typography>
                     {/* </Box> */}
-                    <Box sx={{ width: '100%', my: 4, borderTop: '2px dotted black', borderSpacing: '60px' }} />
+                    {isAllStdSelect && <Box sx={{ width: '100%', my: 4, borderTop: '2px dotted black', borderSpacing: '60px' }} />}
                 </>
             }
         </>

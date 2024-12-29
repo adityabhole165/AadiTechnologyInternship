@@ -525,7 +525,7 @@ const ViewResultAll = (props: Props) => {
                   <>
                     <ViewResultAllTable stdFinalResult={studentResult} key={key}
                       IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
-                      ToppersCount={ToppersCount}
+                      ToppersCount={ToppersCount} isAllStdSelect={studentList === '0' ? true : false}
                     />
                   </>
                 )
