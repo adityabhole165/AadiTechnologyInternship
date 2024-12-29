@@ -1,6 +1,6 @@
 import { QuestionMark } from "@mui/icons-material";
 import Save from "@mui/icons-material/Save";
-import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
 import { green, grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -244,67 +244,104 @@ const AssignProgressReportSubject = () => {
                         }
                     ]}
                     rightActions={
-                        // <Stack direction={"row"} alignItems={"center"} sx={{ gap: 2 }}>
-                        <>
-                            <TextField
-                                fullWidth
-                                label={'Class'}
-                                value={ClassName}
-                                sx={{ bgcolor: '#F0F0F0' }}
-                                size="small"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                            />
-                            <TextField
-                                fullWidth
-                                label={'Assessment'}
-                                value={Assesment}
-                                sx={{ bgcolor: '#F0F0F0' }}
-                                size="small"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                            />
-                            <TextField
-                                fullWidth
-                                label={'Subject Name'}
-                                value={SubjectName}
-                                sx={{ bgcolor: '#F0F0F0' }}
-                                size="small"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                            />
-                            {(EditStatusId !== '3' && EditStatusId !== '3P') &&
-                                <Tooltip title={'Save'}>
-                                    <IconButton
-                                        onClick={SaveNonXseedGrades}
-                                        sx={{
-                                            background: green[500],
-                                            color: 'white',
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }}
-                                    >
-                                        <Save />
-                                    </IconButton>
-                                </Tooltip>
-                            }
 
-                            <Tooltip title={`Assign grades to each student in the class for selected subject and click on " Save".`}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: grey[500],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: grey[600] }
-                                    }}
+                        <>
+                            <Stack
+                                direction={{ xs: 'column', sm: 'row' }}
+                                justifyContent="space-between"
+                                alignItems="left"
+                                gap={1}
+                                sx={{
+                                    mt: { xs: 0, sm: 0 },
+                                    flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                                }}
+                            >
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                                 >
-                                    <QuestionMark />
-                                </IconButton>
-                            </Tooltip>
+                                    <TextField
+                                        fullWidth
+                                        label={'Class'}
+                                        value={ClassName}
+                                        sx={{ bgcolor: '#F0F0F0', width: { xs: '40vw', sm: '12vw' } }}
+                                        size="small"
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    /></Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    <TextField
+                                        fullWidth
+                                        label={'Assessment'}
+                                        value={Assesment}
+                                        sx={{ bgcolor: '#F0F0F0', width: { xs: '40vw', sm: '12vw' } }}
+                                        size="small"
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    /></Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    <TextField
+                                        fullWidth
+                                        label={'Subject Name'}
+                                        value={SubjectName}
+                                        sx={{ bgcolor: '#F0F0F0', width: { xs: '40vw', sm: '12vw' } }}
+                                        size="small"
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    /></Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    gap={1}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    {(EditStatusId !== '3' && EditStatusId !== '3P') &&
+                                        <Tooltip title={'Save'}>
+                                            <IconButton
+                                                onClick={SaveNonXseedGrades}
+                                                sx={{
+                                                    background: green[500],
+                                                    color: 'white',
+                                                    '&:hover': {
+                                                        backgroundColor: green[600]
+                                                    }
+                                                }}
+                                            >
+                                                <Save />
+                                            </IconButton>
+                                        </Tooltip>
+                                    }
+
+                                    <Tooltip title={`Assign grades to each student in the class for selected subject and click on " Save".`}>
+                                        <IconButton
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: grey[500],
+                                                height: '36px !important',
+                                                ':hover': { backgroundColor: grey[600] }
+                                            }}
+                                        >
+                                            <QuestionMark />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Grid>
+                            </Stack>
                         </>
 
                     }

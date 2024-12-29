@@ -11,6 +11,7 @@ import {
   Grid,
   IconButton,
   Paper,
+  Stack,
   TextField,
   Tooltip,
   Typography,
@@ -468,79 +469,109 @@ const TransferOptionalSubjectMarks = () => {
           ]}
           rightActions={
             <>
-              <SearchableDropdown
-                sx={{ width: '25vw' }}
-                ItemList={USClassTeacherList}
-                onChange={ClickSelctTecher}
-                label={'Select Teacher'}
-                defaultValue={selectClasstecaher}
-                mandatory
-                size={'small'}
-              />
-              <TextField
-                sx={{ wdth: '25vw' }}
-                fullWidth
-                label="Student Name / Reg.No. "
-                value={SearchText}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === 'Tab') {
-                    changeSearchText();
-                  }
-                }}
-                variant={'outlined'}
-                size={'small'}
-                onChange={(e) => {
-                  SearchNameChange(e.target.value);
-                }}
-              />
-              <IconButton
-                onClick={changeSearchText}
-                disabled={selectClasstecaher === '0'}
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems="left"
+                gap={1}
                 sx={{
-                  background: (theme) => theme.palette.primary.main,
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: (theme) => theme.palette.primary.dark
-                  }
+                  mt: { xs: 0, sm: 0 },
+                  flexWrap: { xs: 'nowrap', sm: 'nowrap' }
                 }}
               >
-                <SearchTwoTone />
-              </IconButton>
-              <Box>
-                <Tooltip
-                  title={
-                    "Transfer student's marks from one optional subject to another optional subject"
-                  }
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+                  <SearchableDropdown
+                    sx={{ width: { xs: '70vw', sm: '20vw' } }}
+                    ItemList={USClassTeacherList}
+                    onChange={ClickSelctTecher}
+                    label={'Select Teacher'}
+                    defaultValue={selectClasstecaher}
+                    mandatory
+                    size={'small'}
+                  /></Grid>
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+                  <TextField
+                    sx={{ width: { xs: '70vw', sm: '15vw' }}}
+                    fullWidth
+                    label="Student Name / Reg.No. "
+                    value={SearchText}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === 'Tab') {
+                        changeSearchText();
+                      }
+                    }}
+                    variant={'outlined'}
+                    size={'small'}
+                    onChange={(e) => {
+                      SearchNameChange(e.target.value);
+                    }}
+                  /></Grid>
+                <Grid
+                  item
+                  xs={12}
+                  gap={1}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
                 >
                   <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: grey[500],
-                      height: '36px !important',
-                      ':hover': { backgroundColor: grey[600] }
-                    }}
-                  >
-                    <QuestionMarkIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-              {StudentsList.length > 0 && (
-                <Tooltip title={'Transfer'}>
-                  <IconButton
-                    onClick={clickTransfer}
+                    onClick={changeSearchText}
                     disabled={selectClasstecaher === '0'}
                     sx={{
-                      background: green[500],
+                      background: (theme) => theme.palette.primary.main,
                       color: 'white',
                       '&:hover': {
-                        backgroundColor: green[600]
+                        backgroundColor: (theme) => theme.palette.primary.dark
                       }
                     }}
                   >
-                    <Save />
+                    <SearchTwoTone />
                   </IconButton>
-                </Tooltip>
-              )}
+                  <Box>
+                    <Tooltip
+                      title={
+                        "Transfer student's marks from one optional subject to another optional subject"
+                      }
+                    >
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: grey[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: grey[600] }
+                        }}
+                      >
+                        <QuestionMarkIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                  {StudentsList.length > 0 && (
+                    <Tooltip title={'Transfer'}>
+                      <IconButton
+                        onClick={clickTransfer}
+                        disabled={selectClasstecaher === '0'}
+                        sx={{
+                          background: green[500],
+                          color: 'white',
+                          '&:hover': {
+                            backgroundColor: green[600]
+                          }
+                        }}
+                      >
+                        <Save />
+                      </IconButton>
+                    </Tooltip>
+                  )}</Grid>
+              </Stack>
             </>
           }
         />

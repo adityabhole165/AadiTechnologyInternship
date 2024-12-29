@@ -1,7 +1,7 @@
 import PrintIcon from '@mui/icons-material/Print';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, Grid, IconButton, Stack, Tooltip } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useRef, useState } from 'react';
@@ -411,83 +411,109 @@ const ViewResultAll = (props: Props) => {
           },
         ]}
         rightActions={<>
-          <Box>
-            <SearchableDropdown
-              sx={{
-                minWidth: '20vw'
-                , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
-              }}
-              ItemList={GetClassTeachers}
-              onChange={clickSelectClass}
-              defaultValue={selectTeacher}
-              size="small"
-              label="Class Teacher"
-              DisableClearable={GetScreenPermission() === 'N'}
-              mandatory
-              disabled={GetClassTeachers.length === 2}
-            />
-          </Box>
-
-          <Box>
-            <SearchableDropdown
-              ItemList={USStudentListDropDown}
-              onChange={clickStudentList}
-              defaultValue={studentList}
-              label="Student Name "
-              size="small"
-              sx={{ width: '20vw' }}
-            />
-          </Box>
-
-          <Box>
-            <Tooltip title={'View result of all / selected student .'}>
-              <IconButton
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems="left"
+            gap={1}
+            sx={{
+              mt: { xs: 0, sm: 0 },
+              flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+            }}
+          >
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown
                 sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
+                  width: { xs: '60vw', sm: '18vw' }
+                  , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
                 }}
-              >
-                <QuestionMark />
-              </IconButton>
-            </Tooltip>
-          </Box>
+                ItemList={GetClassTeachers}
+                onChange={clickSelectClass}
+                defaultValue={selectTeacher}
+                size="small"
+                label="Class Teacher"
+                DisableClearable={GetScreenPermission() === 'N'}
+                mandatory
+                disabled={GetClassTeachers.length === 2}
+              />
+            </Grid>
 
-          <Box>
-            <Tooltip title={'Show'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: blue[500],
-                  '&:hover': {
-                    backgroundColor: blue[600]
-                  }
-                }}
-                onClick={ClickShow}>
-                <VisibilityTwoToneIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip title={'Print'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: isShowClicked ? blue[500] : blue[200], // Disabled state color
-                  '&:hover': {
-                    backgroundColor: isShowClicked ? blue[600] : blue[200] // Prevent hover effect when disabled
-                  }
-                }}
-                onClick={clickPrint}
-                disabled={!isShowClicked} // Disable based on state
-              >
-                <PrintIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </>}
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown
+                ItemList={USStudentListDropDown}
+                onChange={clickStudentList}
+                defaultValue={studentList}
+                label="Student Name "
+                size="small"
+                sx={{ width: { xs: '60vw', sm: '20vw' } }}
+              />
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              gap={1}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <Tooltip title={'View result of all / selected student .'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title={'Show'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}
+                  onClick={ClickShow}>
+                  <VisibilityTwoToneIcon />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title={'Print'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: isShowClicked ? blue[500] : blue[200], // Disabled state color
+                    '&:hover': {
+                      backgroundColor: isShowClicked ? blue[600] : blue[200] // Prevent hover effect when disabled
+                    }
+                  }}
+                  onClick={clickPrint}
+                  disabled={!isShowClicked} // Disable based on state
+                >
+                  <PrintIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          </Stack>
+        </>
+        }
       />
 
       <Box sx={{ mt: 1, background: 'white' }} ref={printRef}>

@@ -4,7 +4,7 @@ import ManageAccounts from '@mui/icons-material/ManageAccounts';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Unpublished from '@mui/icons-material/Unpublished';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import { Box, Button, Checkbox, FormControlLabel, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -773,197 +773,188 @@ const ExamResultBase = () => {
           { title: 'Exam Results', path: '/RITeSchool/Teacher/ExamResultBase' }
         ]}
         rightActions={<>
-
-          <SearchableDropdown1
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems="left"
+            gap={1}
             sx={{
-              minWidth: '20vw'
-              , bgcolor: CanEdit == 'N' && ClassTeachers.length == 2 ? '#F0F0F0' : 'inherit'
+              mt: { xs: 0, sm: 0 },
+              flexWrap: { xs: 'nowrap', sm: 'nowrap' }
             }}
-            ItemList={asSchoolId == '18'
-              ? ClassTeachers.filter((teacher: any) => teacher.Is_PrePrimary == "N")
-              : ClassTeachers}
-            onChange={clickTeacher}
-            label={'Select Class Teacher'}
-            // defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
-            defaultValue={StandardDivisionId}
-            mandatory
-            size={"small"}
-            DisableClearable={CanEdit == 'N' && ClassTeachers.length == 2}
-            disabled={CanEdit == 'N' && ClassTeachers.length == 2}
-
-          />
-
-
-          <SearchableDropdown1
-            sx={{ minWidth: '20vw' }}
-            ItemList={ClasswiseExams}
-            onChange={clickExam}
-            label={'Select Exam'}
-            // defaultValue={TestId} // Convert number to string
-            defaultValue={ParamsTestId != null ? ParamsTestId.toString() : TestId}
-            mandatory
-            size={"small"}
-          />
-          <Tooltip title={HelpNote}>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[600]
-                }
-              }}
+          >
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
             >
-              <QuestionMark />
-            </IconButton>
-          </Tooltip>
+              <SearchableDropdown1
+                sx={{
+                  width: { xs: '70vw', sm: '20vw' }
+                  , bgcolor: CanEdit == 'N' && ClassTeachers.length == 2 ? '#F0F0F0' : 'inherit'
+                }}
+                ItemList={asSchoolId == '18'
+                  ? ClassTeachers.filter((teacher: any) => teacher.Is_PrePrimary == "N")
+                  : ClassTeachers}
+                onChange={clickTeacher}
+                label={'Select Class Teacher'}
+                // defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
+                defaultValue={StandardDivisionId}
+                mandatory
+                size={"small"}
+                DisableClearable={CanEdit == 'N' && ClassTeachers.length == 2}
+                disabled={CanEdit == 'N' && ClassTeachers.length == 2}
 
-          {/*
-         <Tooltip title={"View Progress Report"}>
-            <span>
-              <IconButton sx={{
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': {
-                  backgroundColor: blue[600]
-                }
-              }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+              /></Grid>
 
-              }>
-                
-                <FactCheck />
-              </IconButton>
-            </span>
-          </Tooltip>       
-                
-                */}
-
-
-
-
-          {
-            ShowTopppers == true ?
-              <Tooltip title={"Generate Toppers"}>
-                <span>
-                  <IconButton
-                    onClick={GenerateTopper}
-                    sx={{
-                      color: 'white',
-                      backgroundColor: blue[500],
-                      '&:hover': {
-                        backgroundColor: blue[600]
-                      }
-                    }}
-                    // onClick={GenerateTopper}
-                    disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
-                      (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
-                      ClassPassFailDetailsForButton?.ToppersGenerated}
-                  >
-                    {/* disabled={(!examResultProp || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated) */}
-                    {/* GENERATE TOPPERS */}
-                    <ManageAccounts />
-                  </IconButton>
-                </span>
-              </Tooltip> : <span></span>
-          }
-
-
-          {/* {!ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish && */}
-
-
-
-
-          {/* } */}
-          {
-            UserDetail.CanPublishUnpublishExam == true ?
-              <div>
-                <Tooltip title={"Publish All"} >
-                  <span>
-                    <IconButton sx={{
-                      color: 'white',
-                      backgroundColor: blue[500],
-                      '&:hover': {
-                        backgroundColor: blue[500]
-                      }
-                    }}
-                      //  onClick={() => clickPublishUnpublish(true)} 
-                      onClick={handlePublishClick}
-                      disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
-
-                      }>
-                      {/* PUBLISH ALL */}
-                      <CheckCircle />
-                    </IconButton>
-                  </span>
-                </Tooltip>
-
-
-
-
-
-                <Tooltip title={"Unpublish All"}>
-                  <span>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: red[500],
-                        '&:hover': {
-                          backgroundColor: red[500]
-                        }
-                      }}
-                      onClick={ClickOpenDialogbox}
-                      disabled={
-
-                        (USgetIsTermExamPublished ||
-                          USgetIsFinalResultPublished) ||
-                        (ClassPassFailDetailsForButton && (
-                          ClassPassFailDetailsForTest?.length === 0 ||  // No test details
-                          !ClassPassFailDetailsForButton.IsPublish ||  // Not published
-                          (!getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) // Not submitted and not published
-                        ))
-
-                      }
-
-
-                    >
-                      <Unpublished />
-                    </IconButton>
-                  </span>
-                </Tooltip>
-
-
-
-              </div> : <span></span>
-
-          }
-
-
-          {ShowTopppers == true ?
-            <Tooltip title={"Toppers"} >
-              <span>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown1
+                sx={{  width: { xs: '70vw', sm: '20vw' } }}
+                ItemList={ClasswiseExams}
+                onChange={clickExam}
+                label={'Select Exam'}
+                // defaultValue={TestId} // Convert number to string
+                defaultValue={ParamsTestId != null ? ParamsTestId.toString() : TestId}
+                mandatory
+                size={"small"}
+              /></Grid>
+            <Grid
+              item
+              xs={12}
+              gap={1}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+            >
+              <Tooltip title={HelpNote}>
                 <IconButton
-                  onClick={Toppers}
                   sx={{
                     color: 'white',
-                    backgroundColor: blue[500],
+                    backgroundColor: grey[500],
                     '&:hover': {
-                      backgroundColor: blue[600]
+                      backgroundColor: grey[600]
                     }
                   }}
-                  disabled={
-                    (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
-                    (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
-                    !ClassPassFailDetailsForButton?.ToppersGenerated}
-
                 >
-                  <WorkspacePremiumIcon />
+                  <QuestionMark />
                 </IconButton>
-              </span>
-            </Tooltip>
-            : <span ></span>
-          }
+              </Tooltip>
+
+              {
+                ShowTopppers == true && (
+                  <Tooltip title={"Generate Toppers"}>
+                    <span>
+                      <IconButton
+                        onClick={GenerateTopper}
+                        sx={{
+                          color: 'white',
+                          backgroundColor: blue[500],
+                          '&:hover': {
+                            backgroundColor: blue[600]
+                          }
+                        }}
+                        // onClick={GenerateTopper}
+                        disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
+                          (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
+                          ClassPassFailDetailsForButton?.ToppersGenerated}
+                      >
+                        <ManageAccounts />
+                      </IconButton>
+                    </span>
+                  </Tooltip>)
+              }
+
+              {
+                UserDetail.CanPublishUnpublishExam == true && (
+                  <>
+                    <Tooltip title={"Publish All"} >
+                     <span>
+                        <IconButton sx={{
+                          color: 'white',
+                          backgroundColor: blue[500],
+                          '&:hover': {
+                            backgroundColor: blue[500]
+                          }
+                        }}
+                          //  onClick={() => clickPublishUnpublish(true)} 
+                          onClick={handlePublishClick}
+                          disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+
+                          }>
+                          {/* PUBLISH ALL */}
+                          <CheckCircle />
+                        </IconButton>
+                        </span>
+                    </Tooltip>
+
+                    <Tooltip title={"Unpublish All"}>
+                    <span>
+                        <IconButton
+                          sx={{
+                            color: 'white',
+                            backgroundColor: red[500],
+                            '&:hover': {
+                              backgroundColor: red[500]
+                            }
+                          }}
+                          onClick={ClickOpenDialogbox}
+                          disabled={
+
+                            (USgetIsTermExamPublished ||
+                              USgetIsFinalResultPublished) ||
+                            (ClassPassFailDetailsForButton && (
+                              ClassPassFailDetailsForTest?.length === 0 ||  // No test details
+                              !ClassPassFailDetailsForButton.IsPublish ||  // Not published
+                              (!getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) // Not submitted and not published
+                            ))
+
+                          }
 
 
+                        >
+                          <Unpublished />
+                        </IconButton>
+                        </span>
+                    </Tooltip>
+
+
+
+                  </>)
+
+              }
+
+
+              {ShowTopppers == true && (
+                <Tooltip title={"Toppers"} >
+                  <span>
+                    <IconButton
+                      onClick={Toppers}
+                      sx={{
+                        color: 'white',
+                        backgroundColor: blue[500],
+                        '&:hover': {
+                          backgroundColor: blue[600]
+                        }
+                      }}
+                      disabled={
+                        (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
+                        (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
+                        !ClassPassFailDetailsForButton?.ToppersGenerated}
+
+                    >
+                      <WorkspacePremiumIcon />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              )
+              }
+            </Grid>
+          </Stack>
         </>}
       />
       {MsgLoading &&

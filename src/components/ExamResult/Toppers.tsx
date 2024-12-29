@@ -531,92 +531,150 @@ const ExamResultToppers = () => {
                 // }
 
                 rightActions={<>
-                    {radioBtn === '1' ? (
-                        <Box sx={{ display: 'flex', gap: '8px' }}>
-                            {CanEdit == 'Y' && (
-                                <SearchableDropdown
-                                    sx={{ pl: 0, minWidth: '10vw' }}
-                                    ItemList={GetClassdropdownCT}
-                                    onChange={clickClassDropdownCT}
-                                    defaultValue={SelectClassCT}
-                                    size={"small"}
-                                    label='Select Class'
-                                />
-                            )}
-                            <SearchableDropdown
-                                sx={{ pl: 0, minWidth: '20vw' }}
-                                ItemList={GetExamdropdownCT}
-                                onChange={clickExamDropdownCT}
-                                defaultValue={SelectExamCT}
-                                size={"small"}
-                                label='Select Exam'
-                            />
-                            <SearchableDropdown
-                                sx={{ pl: 0, minWidth: '20vw' }}
-                                ItemList={GetSubjectdropdownCT}
-                                onChange={clickSubjectDropdownCT}
-                                defaultValue={SelectSubjectCT}
-                                size={"small"}
-                                label='Subject'
-                            />
-                        </Box>
-                    ) : (
-                        <Box sx={{ display: 'flex', gap: '8px' }}>
-                            {CanEdit == 'Y' && (
-                                <SearchableDropdown
-                                    label='Select Standard'
-                                    sx={{ pl: 0, minWidth: '10vw' }}
-                                    ItemList={GetStandarddropdownST}
-                                    onChange={clickStandardDropdownST}
-                                    defaultValue={SelectStandardST}
-                                    size={"small"}
-                                />
-                            )}
-                            {CanEdit == 'Y' && (
-                                <SearchableDropdown
-                                    ItemList={GetExamdropdownST}
-                                    sx={{ pl: 0, minWidth: '20vw' }}
-                                    onChange={clickExamDropdownST}
-                                    defaultValue={SelectExamST}
-                                    label={'Select Exam'}
-                                    size={"small"}
-                                />
-                            )}
-                            {CanEdit == 'N' && (
-                                <SearchableDropdown
-                                    ItemList={GetExamdropdownCT}
-                                    sx={{ pl: 0, minWidth: '20vw' }}
-                                    onChange={clickExamDropdownST}
-                                    defaultValue={SelectExamST}
-                                    label={'Select Exam'}
-                                    size={"small"}
-                                />
-                            )}
-                            <SearchableDropdown
-                                ItemList={GetSubjectdropdownST}
-                                sx={{ pl: 0, minWidth: '20vw' }}
-                                onChange={clickSubjectDropdownST}
-                                defaultValue={SelectSubjectST}
-                                label={'Subject'}
-                                size={"small"}
-                            />
-                        </Box>
-                    )}
-                    <Tooltip title={Note}>
-                        <IconButton
-
-                            sx={{
-                                color: 'white',
-                                backgroundColor: grey[500],
-                                '&:hover': {
-                                    backgroundColor: grey[500]
-                                }
-                            }}
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        justifyContent="space-between"
+                        alignItems="left"
+                        gap={1}
+                        sx={{
+                            mt: { xs: 0, sm: 0 },
+                            flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                        }}
+                    >
+                        {radioBtn === '1' ? (
+                            <>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    {CanEdit == 'Y' && (
+                                        <SearchableDropdown
+                                            sx={{ width: { xs: '40vw', sm: '10vw' } }}
+                                            ItemList={GetClassdropdownCT}
+                                            onChange={clickClassDropdownCT}
+                                            defaultValue={SelectClassCT}
+                                            size={"small"}
+                                            label='Select Class'
+                                        />
+                                    )} </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    <SearchableDropdown
+                                        sx={{ width: { xs: '60vw', sm: '20vw' } }}
+                                        ItemList={GetExamdropdownCT}
+                                        onChange={clickExamDropdownCT}
+                                        defaultValue={SelectExamCT}
+                                        size={"small"}
+                                        label='Select Exam'
+                                    /></Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    <SearchableDropdown
+                                        sx={{ width: { xs: '60vw', sm: '15vw' } }}
+                                        ItemList={GetSubjectdropdownCT}
+                                        onChange={clickSubjectDropdownCT}
+                                        defaultValue={SelectSubjectCT}
+                                        size={"small"}
+                                        label='Subject'
+                                    /></Grid>
+                            </>
+                        ) : (
+                            <>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    {CanEdit == 'Y' && (
+                                        <SearchableDropdown
+                                            label='Select Standard'
+                                            sx={{ width: { xs: '40vw', sm: '10vw' } }}
+                                            ItemList={GetStandarddropdownST}
+                                            onChange={clickStandardDropdownST}
+                                            defaultValue={SelectStandardST}
+                                            size={"small"}
+                                        />
+                                    )}</Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    {CanEdit == 'Y' && (
+                                        <SearchableDropdown
+                                            ItemList={GetExamdropdownST}
+                                            sx={{ width: { xs: '60vw', sm: '20vw' } }}
+                                            onChange={clickExamDropdownST}
+                                            defaultValue={SelectExamST}
+                                            label={'Select Exam'}
+                                            size={"small"}
+                                        />
+                                    )}</Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    {CanEdit == 'N' && (
+                                        <SearchableDropdown
+                                            ItemList={GetExamdropdownCT}
+                                            sx={{ width: { xs: '60vw', sm: '15vw' } }}
+                                            onChange={clickExamDropdownST}
+                                            defaultValue={SelectExamST}
+                                            label={'Select Exam'}
+                                            size={"small"}
+                                        />
+                                    )}</Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    display="flex"
+                                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                                >
+                                    <SearchableDropdown
+                                        ItemList={GetSubjectdropdownST}
+                                        sx={{ width: { xs: '40vw', sm: '15vw' } }}
+                                        onChange={clickSubjectDropdownST}
+                                        defaultValue={SelectSubjectST}
+                                        label={'Subject'}
+                                        size={"small"}
+                                    /></Grid>
+                            </>
+                        )}
+                        <Grid
+                            item
+                            xs={12}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                         >
-                            <QuestionMark />
-                        </IconButton>
-                    </Tooltip>
+                            <Tooltip title={Note}>
+                                <IconButton
 
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        '&:hover': {
+                                            backgroundColor: grey[500]
+                                        }
+                                    }}
+                                >
+                                    <QuestionMark />
+                                </IconButton>
+                            </Tooltip></Grid>
+                    </Stack>
                 </>}
             />
             <Box sx={{ px: 2, pt: 1, background: 'white', paddingBottom: 4 }}>

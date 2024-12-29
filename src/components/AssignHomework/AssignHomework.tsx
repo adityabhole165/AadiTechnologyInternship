@@ -32,9 +32,8 @@ import {
   resetSubjectDetails
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
-import { GetScreenPermission } from '../Common/Util';
+import { GetScreenPermission, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { encodeURL } from '../Common/Util';
 const AssignHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -170,27 +169,27 @@ const AssignHomework = () => {
   const clickItem1 = (value, MySubject) => {
     navigate(
       '/RITeSchool/Teacher/AddHomeworkNew/' +
-        encodeURL(SelectTeacher) +
-        '/' +
-        encodeURL(getClassTeacherName()) +
-        '/' +
-        encodeURL(value.StandardDivision) +
-        '/' +
-        encodeURL(value.SubjectName) +
-        '/' +
-        encodeURL(value.SubjectId) +
-        '/' +
-        encodeURL(MySubject) +
-        '/' +
-        encodeURL(SelectClass)
+      encodeURL(SelectTeacher) +
+      '/' +
+      encodeURL(getClassTeacherName()) +
+      '/' +
+      encodeURL(value.StandardDivision) +
+      '/' +
+      encodeURL(value.SubjectName) +
+      '/' +
+      encodeURL(value.SubjectId) +
+      '/' +
+      encodeURL(MySubject) +
+      '/' +
+      encodeURL(SelectClass)
     );
   };
   const onClick = () => {
     navigate(
       '/RITeSchool/Teacher/AddDailyLog/' +
-        encodeURL(SelectClass) +
-        '/' +
-        encodeURL(getClassName())
+      encodeURL(SelectClass) +
+      '/' +
+      encodeURL(getClassName())
     );
   };
 
@@ -222,17 +221,17 @@ const AssignHomework = () => {
                 justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
               >
                 <SearchableDropdown
+                  ItemList={TeacherList}
+                  onChange={clickTeacherDropdown}
+                  defaultValue={SelectTeacher?.toString()}
+                  label={'Select Teacher'}
                   sx={{
-                    minWidth: { xs: '35vh', sm: '20vw' },
+                    width: { xs: '40vw', sm: '20vw' },
                     bgcolor:
                       AssignHomeworkPermission === 'N' ? '#F0F0F0' : 'inherit'
                   }}
-                  ItemList={TeacherList}
-                  onChange={clickTeacherDropdown}
-                  label={'Select Teacher'}
-                  defaultValue={SelectTeacher?.toString()}
-                  mandatory
                   size={'small'}
+                  mandatory
                   DisableClearable={AssignHomeworkPermission === 'N'}
                   disabled={AssignHomeworkPermission === 'N'}
                 />
@@ -241,27 +240,29 @@ const AssignHomework = () => {
               <Grid
                 item
                 xs={12}
+                gap={1}
                 display="flex"
                 justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
               >
                 <SearchableDropdown
-                  sx={{
-                    minWidth: { xs: '42vh', sm: '20vw' },
-                    mb: { xs: 0, sm: 'auto' }
-                  }}
                   ItemList={ClassList}
                   onChange={clickClass}
-                  label={'Select Class:'}
                   defaultValue={SelectClass}
-                  mandatory
+                  label={'Select Class:'}
+                  sx={{ width: { xs: '40vw', sm: '20vw' } }}
                   size={'small'}
+                  mandatory
                 />
+
               </Grid>
+
               <Grid
                 item
                 xs={12}
+                sm={6}
+                gap={1}
                 display="flex"
-                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
               >
                 <Tooltip
                   title={'List the class subjects for homework assignment.'}
@@ -297,6 +298,7 @@ const AssignHomework = () => {
                     </Box>
                   )}
               </Grid>
+
             </Stack>
           </>
         }

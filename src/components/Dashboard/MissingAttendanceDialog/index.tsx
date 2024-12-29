@@ -1,4 +1,3 @@
-import CloseTwoTone from "@mui/icons-material/CloseTwoTone";
 import {
     Accordion,
     AccordionDetails,
@@ -25,11 +24,11 @@ import {
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
 import { RootState } from 'src/store';
 
+import { ClearIcon } from "@mui/x-date-pickers";
 import {
     MissingAttenDateAleart,
     MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
-import { ClearIcon } from "@mui/x-date-pickers";
 
 type Props = {
     open: boolean;
@@ -136,41 +135,41 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
             maxWidth="sm"
             PaperProps={{
                 sx: {
-                  borderRadius: "15px",
+                    borderRadius: "15px",
                 }
-              }}
-        > 
-            <DialogTitle sx={{  bgcolor: '#223354'}}>
-            <ClearIcon onClick={handleClose}
-              sx={{
-                color: 'white',
-                // background:'white',
-                borderRadius: '7px',
-                position: 'absolute',
-                top: '5px',
-                right: '8px',
-                cursor: 'pointer',
-                '&:hover': {
-                  color: 'red',
-                  //  backgroundColor: red[100]
+            }}
+        >
+            <DialogTitle sx={{ bgcolor: '#223354' }}>
+                <ClearIcon onClick={handleClose}
+                    sx={{
+                        color: 'white',
+                        // background:'white',
+                        borderRadius: '7px',
+                        position: 'absolute',
+                        top: '5px',
+                        right: '8px',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            color: 'red',
+                            //  backgroundColor: red[100]
 
-                }
-              }} />
+                        }
+                    }} />
 
             </DialogTitle>
-            <Typography variant="h3" sx={{pt:2,pl:2}}>               
-                 Missing Attendance Alert(s)
+            <Typography variant="h3" sx={{ pt: 2, pl: 2 }}>
+                Missing Attendance Alert(s)
             </Typography>
             <DialogContent >
                 <Alert variant="filled" color="info" icon={<></>} sx={{ boxShadow: 'none' }}>
                     This is the class-wise missing attendance list till Yesterday. Click on the day count link under Missing Days to view missing attendance dates.
                 </Alert>
                 <Box mt={2} sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` , width: '100%', textAlign: 'center'}}>
+                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}`, width: '100%', textAlign: 'center' }}>
                         <TableHead>
-                        <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                            <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                 {missingAttendanceColumns.map((column, index) => (
-                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize' , color:'white'}} >
+                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize', color: 'white' }} >
                                         <b>{column.label}</b>
                                     </TableCell>
                                 ))}

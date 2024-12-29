@@ -1,5 +1,5 @@
 import { QuestionMark } from "@mui/icons-material";
-import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -148,32 +148,60 @@ const PerformanceGradeAssignmentBaseScreen = () => {
                 ]}
                 rightActions={
                     <>
-                        <Box sx={{ background: 'white' }}>
-                            <SearchableDropdown
-                                sx={{ minWidth: '15vw' }}
-                                ItemList={GetAllYearsUS}
-                                onChange={clickYearDropdown}
-                                label={'Year'}
-                                defaultValue={SelectYear}
-                                size={"small"}
-                            />
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Tooltip title={"Displays user who report to the logged in user."}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: grey[500],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: grey[600] },
-                                        marginRight: '-4px',
-                                        // marginLeft: '8px', 
-                                    }}
-                                >
-                                    <QuestionMark />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
+                        <Stack
+                            direction={{ xs: 'column', sm: 'row' }}
+                            justifyContent="space-between"
+                            alignItems="right"
+                            gap={1}
+                            sx={{
+                                mt: { xs: 0, sm: 0 },
+                                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                            }}
+                        >
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                <Box sx={{ background: 'white' }}>
+                                    <SearchableDropdown
+
+                                        ItemList={GetAllYearsUS}
+                                        onChange={clickYearDropdown}
+                                        defaultValue={SelectYear}
+                                        label={'Year'}
+                                        sx={{ width: { xs: '40vw', sm: '20vw' } }}
+                                        size={"small"}
+                                    />
+                                </Box>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                gap={1}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                            >
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <Tooltip title={"Displays user who report to the logged in user."}>
+                                        <IconButton
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: grey[500],
+                                                height: '36px !important',
+                                                ':hover': { backgroundColor: grey[600] },
+                                                marginRight: '-4px',
+                                                // marginLeft: '8px', 
+                                            }}
+                                        >
+                                            <QuestionMark />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                            </Grid>
+                        </Stack>
                     </>}
             />
             <Grid sx={{ backgroundColor: 'white', mb: 1, p: 1 }}>

@@ -170,87 +170,128 @@ const AssignPrePrimarySubjectGrades = () => {
                 ]}
                 rightActions={
                     <>
-                        <TextField
-                            label={'Class'}
-                            value={ClassName}
-                            sx={{ bgcolor: '#F0F0F0', minWidth: '10vw' }}
-                            size="small"
-                            InputProps={{
-                                readOnly: true,
+                        <Stack
+                            direction={{ xs: 'column', sm: 'row' }}
+                            justifyContent="space-between"
+                            alignItems="right"
+                            gap={1}
+                            sx={{
+                                mt: { xs: 0, sm: 0 },
+                                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
                             }}
+                        >
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                            >
+                                <TextField
+                                    label={'Class'}
+                                    value={ClassName}
+                                    sx={{ bgcolor: '#F0F0F0', width: { xs: '40vw', sm: '12vw' } }}
+                                    size="small"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
 
-                        />
-                        <TextField
-                            label={'Assessment'}
-                            value={Assesment}
-                            sx={{ bgcolor: '#F0F0F0', minWidth: '10vw' }}
-                            size="small"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <TextField
-                            label={'Subject Name'}
-                            value={SubjectName}
-                            sx={{ bgcolor: '#F0F0F0', minWidth: '10vw' }}
-                            size="small"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        {(EditStatusId !== '3' && EditStatusId !== '3P') && student !== '0' && subjectSection !== '0' &&
-                            <Tooltip title={'Save'}>
-                                <IconButton
-                                    onClick={saveLearningOutcomes}
-                                    sx={{
-                                        background: green[500],
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                            >
+                                <TextField
+                                    label={'Assessment'}
+                                    value={Assesment}
+                                    sx={{ bgcolor: '#F0F0F0', width: { xs: '40vw', sm: '12vw' } }}
+                                    size="small"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                            >
+                                <TextField
+                                    label={'Subject Name'}
+                                    value={SubjectName}
+                                    sx={{ bgcolor: '#F0F0F0', width: { xs: '40vw', sm: '12vw' } }}
+                                    size="small"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                gap={1}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end ' }}
+                            >
+                                {(EditStatusId !== '3' && EditStatusId !== '3P') && student !== '0' && subjectSection !== '0' &&
+                                    <Tooltip title={'Save'}>
+                                        <IconButton
+                                            onClick={saveLearningOutcomes}
+                                            sx={{
+                                                background: green[500],
+                                                color: 'white',
+                                                '&:hover': {
+                                                    backgroundColor: green[600]
+                                                }
+                                            }}
+                                        >
+                                            <Save />
+                                        </IconButton>
+                                    </Tooltip>
+                                }
+
+                                <Tooltip title={`Assign grades to each student in the class for the selected subject section and click on "Save".
+                                Once grades are submitted to class-teacher you can modify it from xseed results.`}>
+                                    <IconButton sx={{
+                                        bgcolor: 'grey.500',
                                         color: 'white',
                                         '&:hover': {
-                                            backgroundColor: green[600]
+                                            bgcolor: 'grey.600'
                                         }
-                                    }}
-                                >
-                                    <Save />
-                                </IconButton>
-                            </Tooltip>
-                        }
-                        <Box>
-                            <Tooltip title={`Assign grades to each student in the class for the selected subject section and click on "Save".
-                                Once grades are submitted to class-teacher you can modify it from xseed results.`}>
-                                <IconButton sx={{
-                                    bgcolor: 'grey.500',
-                                    color: 'white',
-                                    '&:hover': {
-                                        bgcolor: 'grey.600'
-                                    }
-                                }}>
-                                    <QuestionMark />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
+                                    }}>
+                                        <QuestionMark />
+                                    </IconButton>
+                                </Tooltip>
+                            </Grid>
+                        </Stack>
                     </>
                 }
             />
-            <Stack direction='row' spacing={2}>
-                <SearchableDropdown
-                    ItemList={XseedStudentsList}
-                    defaultValue={student}
-                    label={'Student '}
-                    sx={{ minWidth: '20vw' }}
-                    size={"small"}
-                    onChange={clickStudent}
-                    mandatory
-                />
-                <SearchableDropdown
-                    ItemList={XseedSubjectSectionList}
-                    defaultValue={subjectSection}
-                    label={'Subject Section'}
-                    sx={{ minWidth: '20vw' }}
-                    size={"small"}
-                    onChange={clickSubSection}
-                    mandatory
-                />
-            </Stack>
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={4} md= {3} lg={3}>
+                    <SearchableDropdown
+                        ItemList={XseedStudentsList}
+                        defaultValue={student}
+                        label={'Student '}
+                        sx={{ minWidth: '15vw' }}
+                        size={"small"}
+                        onChange={clickStudent}
+                        mandatory
+                    /></Grid>
+                <Grid item xs={12} sm={4} md= {3} lg={3}>
+                    <SearchableDropdown
+                        ItemList={XseedSubjectSectionList}
+                        defaultValue={subjectSection}
+                        label={'Subject Section'}
+                        sx={{ minWidth: '15vw' }}
+                        size={"small"}
+                        onChange={clickSubSection}
+                        mandatory
+                    /></Grid>
+            </Grid>
             {EditStatusId === '3' &&
                 <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', mt: 2 }}>
                     <b>Student grades are already submitted.</b>
