@@ -1286,13 +1286,13 @@ function SmsCenter() {
             )}
 
             {activeTab == 'Received SMS' && (
-              <Box sx={{ mt: 2 }}>
+              <Box mb={1} sx={{ background: 'white' }}>
                 {loading ? (
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress />
                   </Box>
                 ) : PagedSMS.length > 0 ? (<TableContainer component={Box} >
-                  <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
+                  <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                     <TableHead>
                       <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                         <TableCell sx={{ color: 'white', py: 1.5 }}>
