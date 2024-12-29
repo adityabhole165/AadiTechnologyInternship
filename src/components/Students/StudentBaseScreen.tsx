@@ -8,6 +8,7 @@ import {
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import {
     Box,
+    Grid,
     IconButton,
     Stack,
     Table,
@@ -235,19 +236,14 @@ const StudentBaseScreen = () => {
         {
             id: 1,
             Name: 'Deactivated User',
-            Value: <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            Value:
                 <Square style={{ color: '#e2e8f0', fontSize: 25, position: 'relative', top: '-2px' }} />
-
-            </Box>
-
         },
         {
             id: 2,
             Name: 'Long Leave',
-            Value: <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            Value:
                 <Square style={{ color: '#dbeafe', fontSize: 25, position: 'relative', top: '-2px' }} />
-
-            </Box>
         }
     ]
     return (
@@ -270,27 +266,45 @@ const StudentBaseScreen = () => {
                                 justifyContent: { xs: 'flex-start', sm: 'flex-start' }
                             }}
                         >
-                            {StdDivList.length === 1 ?
-                                <TextField size="small" label="Class" value={StdDivList[0]?.Name} inputProps={{ readOnly: true, }} />
-                                :
-                                <SearchableDropdown1 size={"small"} ItemList={StdDivList}
-                                    sx={{ minWidth: '12vw' }}
-                                    defaultValue={selectedClass} label={'Class'}
-                                    onChange={(value: any) => { handleClassChange(value) }} />
-                            }
-                            <Box>
-                                <Tooltip title={`Student's list from your class. Click on "Edit" button to change details of individual student.`}>
-                                    <IconButton sx={{
-                                        bgcolor: 'grey.500',
-                                        color: 'white',
-                                        '&:hover': {
-                                            bgcolor: 'grey.600'
-                                        }
-                                    }}>
-                                        <QuestionMark />
-                                    </IconButton>
-                                </Tooltip>
-                            </Box>
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                            >
+                                {StdDivList.length === 1 ?
+
+                                    <TextField size="small" label="Class" value={StdDivList[0]?.Name} inputProps={{ readOnly: true, }} />
+                                    :
+                                    <SearchableDropdown1 size={"small"} ItemList={StdDivList}
+                                        sx={{ minWidth: '12vw' }}
+                                        defaultValue={selectedClass} label={'Class'}
+                                        onChange={(value: any) => { handleClassChange(value) }} />
+                                }
+                            </Grid>
+                            <Stack
+                                direction="row"
+                                gap={1}
+                                alignItems="right"
+                                sx={{
+                                    flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                                    justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                                }}
+                            >
+                                <Box>
+                                    <Tooltip title={`Student's list from your class. Click on "Edit" button to change details of individual student.`}>
+                                        <IconButton sx={{
+                                            bgcolor: 'grey.500',
+                                            color: 'white',
+                                            '&:hover': {
+                                                bgcolor: 'grey.600'
+                                            }
+                                        }}>
+                                            <QuestionMark />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                            </Stack>
                         </Stack>
                     </>
                 } />
