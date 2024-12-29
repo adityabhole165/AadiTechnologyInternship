@@ -12,7 +12,7 @@ import { default as QuestionMark, default as QuestionMarkIcon } from '@mui/icons
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SmsIcon from '@mui/icons-material/Sms';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
-import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CircularProgress, Grid, IconButton, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { useContext, useEffect, useState } from 'react';
@@ -190,6 +190,9 @@ function SmsCenter() {
   // const displayList = filtered ? sortedAndFilteredSmsList : NewSmsList; // Implement pagination
 
   const handleTabClick = (tabName: string) => {
+    if (tabName === 'Compose SMS') {
+      navigate('/RiteSchool/Teacher/ComposeSMS');
+    }
     setActiveTab(tabName);
   };
   const clickClear = () => {
@@ -245,7 +248,7 @@ function SmsCenter() {
   const [sortExpression1, setSortExpression1] = useState('ORDER BY Insert_Date DESC ');
   const isPrincipal = DesignationName == 'Principal' && activeTab == 'AllSendItem';
   //console.log(isPrincipal, "isPrincipal");
-
+  const buttonCount = DesignationName == 'Principal' ? 5 : 4;
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
     { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
@@ -636,7 +639,7 @@ function SmsCenter() {
                     justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                   >
                     <TextField
-                      sx={{ width: '15vw' }}
+                      sx={{ width: { xs: '40vw', sm: '20vw' } }}
                       fullWidth
                       label="To / From / SMS Text"
                       value={NameSubject}
@@ -737,7 +740,7 @@ function SmsCenter() {
                     justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                   >
                     <TextField
-                      sx={{ width: '15vw' }}
+                      sx={{ width: { xs: '40vw', sm: '20vw' } }}
                       fullWidth
                       label="Name / Reg. No. / User Name :"
                       value={SmsName}
@@ -760,7 +763,7 @@ function SmsCenter() {
                     justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                   >
                     <TextField
-                      sx={{ width: '15vw' }}
+                      sx={{ width: { xs: '40vw', sm: '20vw' } }}
                       fullWidth
                       label="Content :"
                       value={SmsName1}
@@ -885,7 +888,7 @@ function SmsCenter() {
               <>
 
                 <TextField
-                  sx={{ width: '15vw' }}
+                  sx={{ width: { xs: '40vw', sm: '20vw' } }}
                   fullWidth
                   label="Name / Reg. No. / User Name :"
                   value={SmsName}
@@ -903,7 +906,7 @@ function SmsCenter() {
                 />
 
                 <TextField
-                  sx={{ width: '15vw' }}
+                  sx={{ width: { xs: '40vw', sm: '20vw' } }}
                   fullWidth
                   label="Content :"
                   value={SmsName1}
@@ -1020,14 +1023,22 @@ function SmsCenter() {
       />
 
       <Box>
-        <Grid container >
-          <Grid item sx={{ minWidth: '10%', pr: 1, pb: 2 }}>
-            <Hidden smDown>
-              <RouterLink
-                style={{ textDecoration: 'none', color: '#223354' }}
-                to={`/${location.pathname.split('/')[1]
-                  }/Teacher/ComposeSMS`}
-              >
+        <Grid container item spacing={2}>
+          {/* <Grid item sx={{ minWidth: '10%', pr: 1, pb: 2 }}> */}
+          <Grid item xs={12} sm={2} >
+            <Grid container
+              flexDirection={{ xs: "row", sm: "column" }}
+              spacing={2}
+              sx={{ height: "100%", justifyContent: "flex-start" }}
+            >
+
+              <Grid item sx={{ display: "flex", justifyContent: "center" }} >
+                {/* <Hidden smDown> */}
+                {/* <RouterLink
+                  style={{ textDecoration: 'none', color: '#223354' }}
+                  to={`/${location.pathname.split('/')[1]
+                    }/Teacher/ComposeSMS`}
+                > */}
                 <Card
                   sx={{
                     textAlign: 'center',
@@ -1046,97 +1057,105 @@ function SmsCenter() {
                   <br />
                   <b style={{ color: '#38548A' }}>Compose SMS</b>
                 </Card>
-              </RouterLink>
+                {/* </RouterLink> */}
+              </Grid>
+              <Grid item sx={{ display: "flex", justifyContent: "center" }} >
 
-
-              <Card
-                sx={{
-                  textAlign: 'center',
-                  height: '85px',
-                  backgroundColor: activeTab === 'Received SMS' ? blue[100] : 'white',
-                  mb: '10px',
-                  borderRadius: '10px',
-                }}
-                onClick={() => handleTabClick('Received SMS')}
-              >
-
-                <MarkunreadMailboxIcon
-                  onClick={undefined}
-                  sx={{ mt: '10px', color: '#38548A' }}
-                  className={classes.IconSize}
-                />
-                <br />
-                <b style={{ color: '#38548A' }}>Received SMS</b>
-              </Card>
-
-
-              <Card
-                sx={{
-                  textAlign: 'center',
-                  height: '85px',
-                  backgroundColor: activeTab === 'Send Item' ? blue[100] : 'white',
-                  mb: '10px',
-                  borderRadius: '10px',
-                }} onClick={() => handleTabClick('Send Item')}
-              >
-
-                <SmsIcon
-                  onClick={undefined}
-                  sx={{ mt: '10px', color: '#38548A' }}
-                  className={classes.IconSize}
-                />
-                <br />
-                <b style={{ color: '#38548A' }}>Sent Item</b>
-
-              </Card>
-
-
-
-              <Card
-                sx={{
-                  textAlign: 'center',
-                  height: '85px',
-                  backgroundColor: activeTab === 'Scheduled SMS' ? blue[100] : 'white',
-                  mb: '10px',
-                  borderRadius: '10px',
-                }}
-                onClick={() => handleTabClick('Scheduled SMS')}
-              >
-
-                <AccessAlarmIcon
-                  onClick={undefined}
-                  sx={{ mt: '10px', color: '#38548A' }}
-                  className={classes.IconSize}
-                />
-                <br />
-                <b style={{ color: '#38548A' }}>Scheduled SMS</b>
-              </Card>
-              {DesignationName == 'Principal' && (
                 <Card
                   sx={{
                     textAlign: 'center',
                     height: '85px',
-                    backgroundColor: activeTab == 'AllSendItem' ? blue[100] : 'white',
+                    backgroundColor: activeTab === 'Received SMS' ? blue[100] : 'white',
                     mb: '10px',
                     borderRadius: '10px',
                   }}
-                  onClick={() => handleTabClick('AllSendItem')}
+                  onClick={() => handleTabClick('Received SMS')}
                 >
 
-                  <AllInboxIcon
+                  <MarkunreadMailboxIcon
                     onClick={undefined}
                     sx={{ mt: '10px', color: '#38548A' }}
                     className={classes.IconSize}
                   />
                   <br />
-                  <b style={{ color: '#38548A' }}>All Send Item</b>
+                  <b style={{ color: '#38548A' }}>Received SMS</b>
                 </Card>
+
+              </Grid>
+              <Grid item sx={{ display: "flex", justifyContent: "center" }} >
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    height: '85px',
+                    backgroundColor: activeTab === 'Send Item' ? blue[100] : 'white',
+                    mb: '10px',
+                    borderRadius: '10px',
+                  }} onClick={() => handleTabClick('Send Item')}
+                >
+
+                  <SmsIcon
+                    onClick={undefined}
+                    sx={{ mt: '10px', color: '#38548A' }}
+                    className={classes.IconSize}
+                  />
+                  <br />
+                  <b style={{ color: '#38548A' }}>Sent Item</b>
+
+                </Card>
+
+              </Grid>
+              <Grid item sx={{ display: "flex", justifyContent: "center" }} >
+
+
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    height: '85px',
+                    backgroundColor: activeTab === 'Scheduled SMS' ? blue[100] : 'white',
+                    mb: '10px',
+                    borderRadius: '10px',
+                  }}
+                  onClick={() => handleTabClick('Scheduled SMS')}
+                >
+
+                  <AccessAlarmIcon
+                    onClick={undefined}
+                    sx={{ mt: '10px', color: '#38548A' }}
+                    className={classes.IconSize}
+                  />
+                  <br />
+                  <b style={{ color: '#38548A' }}>Scheduled SMS</b>
+                </Card>
+              </Grid>
+              {DesignationName == 'Principal' && (
+
+                <Grid item sx={{ display: "flex", justifyContent: "center" }} >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      height: '85px',
+                      backgroundColor: activeTab == 'AllSendItem' ? blue[100] : 'white',
+                      mb: '10px',
+                      borderRadius: '10px',
+                    }}
+                    onClick={() => handleTabClick('AllSendItem')}
+                  >
+
+                    <AllInboxIcon
+                      onClick={undefined}
+                      sx={{ mt: '10px', color: '#38548A' }}
+                      className={classes.IconSize}
+                    />
+                    <br />
+                    <b style={{ color: '#38548A' }}>All Send Item</b>
+                  </Card>
+                </Grid>
               )}
-            </Hidden>
-          </Grid>
+              {/* </Hidden> */}
+            </Grid></Grid>
 
-          <Grid item sx={{ minWidth: '90%', maxWidth: activeTab === 'AllSendItem' ? '90%' : 'auto', p: 2, background: 'white', borderRadius: '10px' }}>
-
+          {/* <Grid item sx={{ minWidth: '90%', maxWidth: activeTab === 'AllSendItem' ? '90%' : 'auto', p: 2, background: 'white', borderRadius: '10px' }}> */}
+          <Grid item xs={12} sm={10} >
             {activeTab == 'Scheduled SMS' &&
               <Grid container spacing={2} pb={2}>
 
@@ -1465,7 +1484,7 @@ function SmsCenter() {
           </RouterLink>
         </span>
       </Box>
-    </Box>
+    </Box >
   );
 }
 
