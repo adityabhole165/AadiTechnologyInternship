@@ -371,7 +371,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
               {menuStructure.length > 0 && <ArrowForwardIosIcon sx={{ color: 'white' }} />}
             </IconButton>
             <Hidden smDown>
-              <Tooltip
+              {/* <Tooltip
                 title={`Displays dashboard for users. Lists available features of the application.`}
               >
                 <IconButton
@@ -382,7 +382,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                 >
                   <QuestionMarkIcon />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip title={'Support'}>
                 <IconButton
                   sx={{
@@ -434,7 +434,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
               </Popper>
               {/* Support Menu Popup End */}
               <SettingsDropdown />
-              <Tooltip title={'Notifications'}>
+              {/* <Tooltip title={'Notifications'}>
                 <IconButton
                   sx={{
                     color: 'white',
@@ -443,7 +443,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                 >
                   <NotificationsTwoToneIcon />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip title={'Logout'}>
                 <IconButton
                   sx={{
