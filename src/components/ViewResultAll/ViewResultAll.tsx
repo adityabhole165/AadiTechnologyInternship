@@ -415,7 +415,7 @@ const ViewResultAll = (props: Props) => {
             direction={{ xs: 'column', sm: 'row' }}
             justifyContent="space-between"
             alignItems="left"
-            gap={2}
+            gap={1}
             sx={{
               mt: { xs: 0, sm: 0 },
               flexWrap: { xs: 'nowrap', sm: 'nowrap' }
