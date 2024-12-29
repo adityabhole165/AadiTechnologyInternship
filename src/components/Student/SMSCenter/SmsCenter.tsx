@@ -1023,7 +1023,7 @@ function SmsCenter() {
       />
 
       <Box>
-        <Grid container item spacing={2}>
+        <Grid container item spacing={1}>
           {/* <Grid item sx={{ minWidth: '10%', pr: 1, pb: 2 }}> */}
           <Grid item xs={12} sm={2} >
             <Grid container
