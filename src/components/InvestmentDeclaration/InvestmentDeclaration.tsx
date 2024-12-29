@@ -488,7 +488,7 @@ const InvestmentDeclaration = () => {
                         border={1}
                         borderRadius={40}
                         pl={1}
-                        pr={7.4}
+                        pr={7}
                         mr={1}
                         component="span"
                       >
@@ -506,7 +506,7 @@ const InvestmentDeclaration = () => {
                         border={1}
                         borderRadius={4}
                         pl={1}
-                        pr={2}
+                        pr={2.5}
                         mr={1}
                         component="span"
                       >
@@ -544,7 +544,7 @@ const InvestmentDeclaration = () => {
                         border={1}
                         borderRadius={4}
                         pl={1}
-                        pr={2}
+                        pr={3.5}
                         mr={1}
                         component="span"
                       >
@@ -564,7 +564,7 @@ const InvestmentDeclaration = () => {
                         border={1}
                         borderRadius={4}
                         pl={1}
-                        pr={5}
+                        pr={6}
                         mr={1}
                         component="span"
                       >
@@ -582,7 +582,7 @@ const InvestmentDeclaration = () => {
                         border={1}
                         borderRadius={4}
                         pl={1}
-                        pr={5.4}
+                        pr={6.5}
                         mr={1}
                         component="span"
                       >
@@ -645,7 +645,7 @@ const InvestmentDeclaration = () => {
                   backgroundColor: '#38548a',
                   p: 1,
                   mr: isMobile ? 0 : 1.5,
-                  mb: isMobile ? 1 : 0
+                  mb: isMobile ? 0 : 0
                 }}
               >
                 Grand Total
