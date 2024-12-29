@@ -601,11 +601,11 @@ const StudentRegistrationForm = () => {
 
   useEffect(() => {
     if (ShowDayBoardingOptionOnStudentsScreen) {
-      setHidOldIsForDayBoarding(oStudentDetails.IsForDayBoarding);
+      setHidOldIsForDayBoarding(oStudentDetails?.IsForDayBoarding);
     }
   }, [UsGetSchoolSettings, ShowDayBoardingOptionOnStudentsScreen]);
 
-  console.log(oStudentDetails.IsForDayBoarding, (form.admission?.isForDayBoarding === true ? 'True' : 'False'));
+  console.log(oStudentDetails?.IsForDayBoarding, (form.admission?.isForDayBoarding === true ? 'True' : 'False'));
 
 
   // useEffect(() => {
