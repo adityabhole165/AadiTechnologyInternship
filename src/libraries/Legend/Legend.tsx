@@ -41,7 +41,10 @@ const Legend = ({ LegendArray }) => {
                             }}
                         >
                             {item.Value}
-                            <Typography>{item.Name}</Typography>
+                            <Typography sx={{
+                                color: item.color == undefined ? '#000000' : item.color, // Apply color dynamically from item.color
+                                fontWeight: item.fontWeight ? 'bold' : 'normal'
+                            }}>{item.Name}</Typography>
                         </Box>
                     )
                 })}

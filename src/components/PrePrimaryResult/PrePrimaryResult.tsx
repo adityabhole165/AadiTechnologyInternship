@@ -1,5 +1,5 @@
 import { QuestionMark } from '@mui/icons-material';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -333,90 +333,116 @@ const PrePrimaryResult = () => {
 
         rightActions={
           <>
-            <SearchableDropdown1
-              ItemList={Assessmentt}
-              sx={{ minWidth: '250px' }}
-              onChange={(value) => {
-                GetAssessmentDropdown(value.Value);
-                setTermName(value.Name);
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              alignItems="left"
+              gap={1}
+              sx={{
+                mt: { xs: 0, sm: 0 },
+                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
               }}
-              defaultValue={AssessmentResult}
-              label={'Assessment'}
-              size={"small"}
-
-            />
-            {
-              PreprimaryFullAccess == 'Y' ?
-                <SearchableDropdown1
-                  ItemList={PrePrimaryClassTeacher}
-                  sx={{ minWidth: '250px' }}
-                  onChange={(value) => {
-                    GetPrPriResultDropdown(value);
-                    setSelectedTeachers(value.Name)
-                  }}
-                  defaultValue={SelectTeacher}
-                  label={'Select Class Teacher'}
-                  size={"small"}
-                />
-                : <span></span>
-
-            }
-            {
-              StandardDivisionId == "" || AssessmentResult == '0' ? null : (
-                <div>
-                  {/* Publish Button */}
-                  <Tooltip title={'Publish'}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: blue[500],
-                        '&:hover': {
-                          backgroundColor: blue[600],
-                        },
-                      }}
-                      disabled={!(PublishStatus == "Y" && IsPublished == "N" && allY)}
-                      onClick={Clickpublish}
-                    >
-                      <CheckCircle />
-                    </IconButton>
-                  </Tooltip>
-                  &nbsp;
-
-                  {/* Unpublish Button */}
-                  <Tooltip title={'Unpublish'}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: red[500],
-                        '&:hover': {
-                          backgroundColor: red[500],
-                        },
-                      }}
-                      disabled={!(PublishStatus == "Y" && IsPublished == "Y" && allY)}
-                      onClick={onClickunpublished}
-                    >
-                      <Unpublished />
-                    </IconButton>
-                  </Tooltip>
-                </div>
-              )
-            }
-
-
-
-            <Tooltip title={'View summarised results of your class for the selected assessment.Assessment result can be publish by clicking on publish button and unpublish by clicking on unpublish button.'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
+            >
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
               >
-                <QuestionMark />
-              </IconButton>
-            </Tooltip>
+                <SearchableDropdown1
+                  ItemList={Assessmentt}
+                  sx={{    width: { xs: '50vw', sm: '13vw' } }}
+                  onChange={(value) => {
+                    GetAssessmentDropdown(value.Value);
+                    setTermName(value.Name);
+                  }}
+                  defaultValue={AssessmentResult}
+                  label={'Assessment'}
+                  size={"small"}
+
+                />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
+                {
+                  PreprimaryFullAccess == 'Y' && (
+                    <SearchableDropdown1
+                      ItemList={PrePrimaryClassTeacher}
+                      sx={{ width: { xs: '70vw', sm: '20vw' } }}
+                      onChange={(value) => {
+                        GetPrPriResultDropdown(value);
+                        setSelectedTeachers(value.Name)
+                      }}
+                      defaultValue={SelectTeacher}
+                      label={'Select Class Teacher'}
+                      size={"small"}
+                    />
+                  )
+                }</Grid>
+              <Grid
+                item
+                xs={12}
+                gap={1}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+              >
+                {
+                  StandardDivisionId == "" || AssessmentResult == '0' ? null : (
+                    <>
+                      <Tooltip title={'Publish'}>
+                        <IconButton
+                          sx={{
+                            color: 'white',
+                            backgroundColor: blue[500],
+                            '&:hover': {
+                              backgroundColor: blue[600],
+                            },
+                          }}
+                          disabled={!(PublishStatus == "Y" && IsPublished == "N" && allY)}
+                          onClick={Clickpublish}
+                        >
+                          <CheckCircle />
+                        </IconButton>
+                      </Tooltip>
+
+                      <Tooltip title={'Unpublish'}>
+                        <IconButton
+                          sx={{
+                            color: 'white',
+                            backgroundColor: red[500],
+                            '&:hover': {
+                              backgroundColor: red[500],
+                            },
+                          }}
+                          disabled={!(PublishStatus == "Y" && IsPublished == "Y" && allY)}
+                          onClick={onClickunpublished}
+                        >
+                          <Unpublished />
+                        </IconButton>
+                      </Tooltip>
+                    </>
+                  )
+                }
+
+                <Tooltip title={'View summarised results of your class for the selected assessment.Assessment result can be publish by clicking on publish button and unpublish by clicking on unpublish button.'}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <QuestionMark />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            </Stack>
           </>}
       />
 
@@ -500,11 +526,11 @@ const PrePrimaryResult = () => {
         <DialogContent>
 
           <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
-            <h1>
+            <h2>
               Enter Reason For Unpublish
-            </h1>
-            <Grid container spacing={0} alignItems="center">
-              <Grid item xs={6}>
+            </h2>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm={6}>
                 <Tooltip title={getClassName()} >
                   <TextField fullWidth label={'Assessment'}
                     sx={{ width: '95%', bgcolor: '#f0f0f0' }}
@@ -518,7 +544,7 @@ const PrePrimaryResult = () => {
               </Grid>
 
 
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <Tooltip title={getClassName1()} >
                   <TextField fullWidth label={'Class Teacher '}
                     sx={{ width: '100%', bgcolor: '#f0f0f0' }}

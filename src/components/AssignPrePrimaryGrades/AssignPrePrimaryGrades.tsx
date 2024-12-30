@@ -1,5 +1,8 @@
+import CheckIcon from '@mui/icons-material/Check';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import EditOff from '@mui/icons-material/EditOff';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -11,7 +14,6 @@ import {
   IGetTeacherXseedSubjectsBody,
   IGetTestwiseTermBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
-import DotLegends from 'src/libraries/ResuableComponents/DotLegends3';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
@@ -24,6 +26,12 @@ import {
 import { RootState } from 'src/store';
 import { decodeURL, GetIsPrePrimaryTeacher, GetScreenAccessPermissionByPageID } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import Legend from 'src/libraries/Legend/Legend';
+
+
 
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
@@ -287,6 +295,41 @@ const AssignPrePrimaryGrades = () => {
 
   let a = GetIsPrePrimaryTeacher()
   //console.log("IsPrePrimary >>>>", a)
+
+  const LegendArray = [
+
+    {
+      id: 1,
+      Name: 'Marks entry not started',
+      Value:
+        <EditOff style={{ color: '#f44336', fontSize: 'large', position: 'relative', top: '-2px' }} />
+    },
+    {
+      id: 2,
+      Name: 'Marks entry partially done',
+      Value:
+        <DesignServicesIcon style={{ color: '#ff9800', fontSize: 'large', position: 'relative', top: '-2px' }} />
+
+    },
+    {
+      id: 3,
+      Name: 'Submit exam marks to the class teacher',
+      Value:
+        <EventAvailableIcon style={{ color: '#25e67b', fontSize: 'large', position: 'relative', top: '-2px' }} />
+    },
+    {
+      id: 4,
+      Name: 'Marks entry completed',
+      Value:
+        <CheckIcon style={{ color: '#07bc0c', fontSize: 'large', position: 'relative', top: '-2px' }} />
+    },
+    {
+      id: 5,
+      Name: 'Unsubmit exam marks',
+      Value:
+        <EventBusyIcon style={{ color: 'black', fontSize: 'large', position: 'relative', top: '-2px' }} />
+    }
+  ]
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -298,61 +341,80 @@ const AssignPrePrimaryGrades = () => {
         ]}
           rightActions={
             <>
-              <SearchableDropdown
-                ItemList={USGetTestwiseTerm}
-                onChange={clickSelectTerm}
-                defaultValue={SelectTerm}
-                label={'Assessment: '}
-                sx={{ minWidth: '10vw' }}
-                size={"small"}
-                DisableClearable={true}
-                mandatory
-              />
-              {AssignPrePrimaryGradesAccess === "Y" &&
-                <SearchableDropdown
-                  ItemList={USGetTeacherDropdown}
-                  onChange={clickSelectClass}
-                  defaultValue={selectTeacher}
-                  label={'Subject Teacher: '}
-                  sx={{ minWidth: '20vw' }}
-                  size={"small"}
-                  mandatory
-                />
-              }
-              <Box>
-                <Tooltip title={`View all subjects assigned with the current status of grades given to students. Once grades for all 
-                  the students are allotted you have to submit these grades to the class-teacher by clicking on 'submit' button.`}>
-                  <IconButton sx={{
-                    bgcolor: 'grey.500',
-                    color: 'white',
-                    '&:hover': {
-                      bgcolor: 'grey.600'
-                    }
-                  }}>
-                    <QuestionMark />
-                  </IconButton>
-                </Tooltip>
-              </Box>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems="left"
+                gap={1}
+                sx={{ flexWrap: { xs: 'nowrap', sm: 'nowrap' } }}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                >
+                  <SearchableDropdown
+                    ItemList={USGetTestwiseTerm}
+                    onChange={clickSelectTerm}
+                    defaultValue={SelectTerm}
+                    label={'Assessment: '}
+                    sx={{ width: { xs: '40vw', sm: '20vw' } }}
+                    size={"small"}
+                    DisableClearable={true}
+                    mandatory
+                  />
+                </Grid>
 
+                {AssignPrePrimaryGradesAccess === "Y" &&
+                  <Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                  >
+                    <SearchableDropdown
+                      ItemList={USGetTeacherDropdown}
+                      onChange={clickSelectClass}
+                      defaultValue={selectTeacher}
+                      label={'Subject Teacher: '}
+                      sx={{ width: { xs: '40vw', sm: '20vw' } }}
+                      size={"small"}
+                      mandatory
+                    />
+                  </Grid>
+                }
+
+                <Stack
+                  direction={{ xs: 'column', sm: 'row' }}
+                  justifyContent="space-between"
+                  alignItems="left"
+                  gap={1}
+                  sx={{ flexWrap: { xs: 'nowrap', sm: 'nowrap' } }}
+                >
+                  <Box>
+                    <Tooltip title={`View all subjects assigned with the current status of grades given to students. Once grades for all 
+                  the students are allotted you have to submit these grades to the class-teacher by clicking on 'submit' button.`}>
+                      <IconButton sx={{
+                        bgcolor: 'grey.500',
+                        color: 'white',
+                        '&:hover': {
+                          bgcolor: 'grey.600'
+                        }
+                      }}>
+                        <QuestionMark />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                </Stack>
+              </Stack>
             </>
           }
         />
-        <Box sx={{ background: 'white', p: 1 }}>
-          <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-            <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
-            <Box sx={{ display: 'flex', gap: '20px' }}>
-              <DotLegends
-                color="secondary"
-                text={undefined}
-                text1={'Marks entry not started'}
-                text2={'Marks entry partially done'}
-                text3={'Submit exam marks to the class teacher'}
-                text4={'Marks entry completed'}
-                text5={'Unsubmit exam marks '} />
-
-            </Box>
-          </Box>
+        <Box sx={{ background: 'white', p: 1, mb: 2 }}>
+          <Legend LegendArray={LegendArray} />
         </Box>
+
         {USGetTeacherXseedSubjects.length > 0 &&
           <Box sx={{ backgroundColor: 'white', p: 2, marginTop: 2 }}>
             <div>

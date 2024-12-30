@@ -22,6 +22,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
   useTheme
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -893,6 +894,10 @@ function Form13() {
     // to olbarAdaptive: false,
     // etc.
   }), []);
+
+  const isTabletOrLaptop = useMediaQuery(
+    `(min-width: 1024px) and (max-width: 1366px)`
+  );
   return (
     <>
       <Box sx={{ px: 2, height: '95vh', mb: 2 }}>
@@ -986,7 +991,7 @@ function Form13() {
                   Form
                 </Typography>
               </Grid> */}
-              <Grid item xs={12} sm={8} md={9.5}>
+              <Grid item xs={12} sm={12} md={9.5}>
                 {/* <FormControl fullWidth> */}
                 <TextField
                   multiline
@@ -1019,7 +1024,7 @@ function Form13() {
                 </Typography>
               </Grid> */}
 
-              <Grid item xs={12} sm={8} md={9.5}>
+              <Grid item xs={12} sm={12} md={9.5}>
                 {/* <FormControl fullWidth> */}
                 <TextField
                   // multiline
@@ -1068,28 +1073,29 @@ function Form13() {
                 </Box>
               </Grid>
               {loading && <SuspenseLoader />}
-              <Grid item xs={6} sm={2} md={1}>
+              <Grid item xs={6} sm={6} md={3} lg={1}>
                 <Button
                   fullWidth
                   onClick={() => handleOpenDialog(true)}
                   sx={{
                     color: '#38548A',
-                    width: '140px',
-                    mt: 4,
+                    width: isTabletOrLaptop ? '240px' : '140px',
+                    mt: { xs: 0, sm: 0, md: 0, lg: 4 },
                     '&:hover': { color: '#38548A', backgroundColor: blue[100] }
                   }}
                 >
                   Add Recipients
                 </Button>
               </Grid>
-              <Grid item xs={6} sm={2} md={1}>
+              <Grid item xs={6} sm={6} md={3} lg={1}>
                 <Button
                   fullWidth
                   onClick={clickHide}
                   sx={{
                     color: '#38548A',
-                    ml: 4,
-                    mt: 4,
+                    width: isTabletOrLaptop ? '240px' : '140px',
+                    ml: 2,
+                    mt: { xs: 0, sm: 0, md: 0, lg: 4 },
                     '&:hover': { color: '#38548A', backgroundColor: blue[100] }
                   }}
                 >
@@ -1211,7 +1217,7 @@ function Form13() {
                 </Box>
               </Grid>
 
-              <Grid item xs={12} sm={2} md={2} lg={2.5} >
+              <Grid item xs={12} sm={4} md={4} lg={2.5} >
                 <Tooltip
                   title={
                     'Supports only ' +
@@ -1272,7 +1278,7 @@ function Form13() {
                   <Errormessages Error={fileerror} />
                 </Box>
               </Grid>
-              <Grid item xs={6} sm={4} md={4} lg={2} sx={{ mt: 0.5 }} >
+              <Grid item xs={12} sm={4} md={4} lg={2} sx={{ mt: 0.5 }} >
                 <Checkbox
                   size="medium"
                   onChange={() => setRequestReadReceipt(!requestReadReceipt)}
@@ -1282,7 +1288,7 @@ function Form13() {
                 </Typography>
               </Grid>
 
-              <Grid item xs={6} sm={4} md={4} lg={2.5} sx={{ mt: 0.5 }}>
+              <Grid item xs={12} sm={4} md={4} lg={2.5} sx={{ mt: 0.5 }}>
                 <Checkbox
                   onChange={scheduleMessageCheckBox}
                   onClick={() => setRequestSchedule(!requestSchedule)}

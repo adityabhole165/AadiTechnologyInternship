@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckIfAttendanceMarkedBody, IDeleteAadharCardPhotoCopyBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, ISaveSubmittedDocumentsBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckIfAttendanceMarkedBody, IDeleteAadharCardPhotoCopyBody, IDeleteDayBoardingFeesBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, ISaveSubmittedDocumentsBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -51,9 +51,11 @@ const StudentUISlice = createSlice({
         ISDeleteGuardianPhotoMsg: '',
         ISDeleteAadharCardDetailsMsg: "",
         ISUpdateStudentPhotoMsg: '',
-        //
+        //Fee Dependencies API
         ISReferenceListDetails: [],
         ISReferenceMessages: [],
+        //Day Boarding Fees
+        IsDeleteDayBoardingFeesMsg: '',
         Loading: true
     },
     reducers: {
@@ -239,6 +241,10 @@ const StudentUISlice = createSlice({
         },
         ResetFeeDependencyErrorMsg(state) {
             state.ISReferenceMessages = [];
+            state.Loading = false;
+        },
+        RDeleteDayBoardingFeesMsg(state, action) {
+            state.IsDeleteDayBoardingFeesMsg = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -440,7 +446,6 @@ export const CDAGetMasterData =
 export const CDAStaffName =
     (data: IStaffNameBody): AppThunk => async (dispatch) => {
         const response = await GetStudentUIAPI.StaffNameApi(data);
-
         const StaffName = response.data.map((item, i) => {
             return ({
                 Id: item.UserId,
@@ -448,7 +453,6 @@ export const CDAStaffName =
                 Value: item.UserId,
             })
         })
-
         dispatch(StudentUISlice.actions.RStaffName(StaffName));
     };
 //3
@@ -758,6 +762,23 @@ export const CDASaveSubmittedDocumentsMsg =
             if (response.status === 200) {
                 // The API call was successful
                 //console.log('-➖️⃣Submitted Documents saved successfully');
+                //console.log('Response data:', response.data);
+            }
+            else {
+                // Handle non-200 status codes
+                console.error('❌API call failed with status:', response.status);
+                console.error('Error response:', response.data);
+            }
+        };
+export const CDADeleteDayBoardingFeesMsg =
+    (data: IDeleteDayBoardingFeesBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.DeleteDayBoardingFeesApi(data);
+            dispatch(StudentUISlice.actions.RDeleteDayBoardingFeesMsg(response.data));
+            if (response.status === 200) {
+                // The API call was successful
+                //console.log('-Day Boarding Fees deleted successfully');
                 //console.log('Response data:', response.data);
             }
             else {

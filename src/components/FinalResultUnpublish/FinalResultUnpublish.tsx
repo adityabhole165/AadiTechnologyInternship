@@ -107,13 +107,13 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
         </DialogTitle>
         <DialogContent >
           <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
-            <h1>
+            <h2>
               Enter reason for unpublish
-            </h1>
+            </h2>
 
 
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs={6} >
+              <Grid item xs={12} sm={6} >
                 <Tooltip title={ExamName || 'No Exam Name Available'}>
                   <TextField
                     sx={{ width: '100%', bgcolor: '#F0F0F0' }}
@@ -124,7 +124,7 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
               </Grid>
 
 
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <Tooltip title={TeacherName || 'No Teacher Name Available'}>
                   <TextField
                     sx={{ width: '100%', bgcolor: '#F0F0F0' }}

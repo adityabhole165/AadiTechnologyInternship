@@ -1,7 +1,7 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useRef, useState } from 'react';
@@ -402,6 +402,11 @@ const ProgressReportNew = () => {
     asAcadmicYearId: Number(asAcademicYearId),
     asStdDivId: StandardDivisionId()
   }
+
+  useEffect(() => {
+    dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
+  }, [ StandardDivisionId(),asAcademicYearId,asSchoolId]);  
+  
   const StudentProgressReportBody: IStudentProgressReportBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmeicYearId: Number(AcademicYear),
@@ -919,101 +924,122 @@ const ProgressReportNew = () => {
           { title: 'Progress Report', path: '/RITeSchool/Teacher/ProgressReportNew' }
         ]}
         rightActions={<>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems="left"
+            gap={1}
+            sx={{
+              mt: { xs: 0, sm: 0 },
+              flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+            }}
+          >
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown
+                label={"Subject Teacher"}
+                sx={{ pl: 0, width: { xs: '70vw', sm: '20vw' }, backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
+                ItemList={USGetClassTeachers}
+                mandatory
+                onChange={clickSelectClass}
+                disabled={CanEdit == 'N'}
+                defaultValue={selectTeacher}
+                size={"small"}
+              /></Grid>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown
+                ItemList={USGetStudentNameDropdown}
+                sx={{ width: { xs: '70vw', sm: '20vw' } }}
+                onChange={clickStudentList}
+                defaultValue={StudentId}
+                label={'Student Name'}
+                size={"small"} />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              {StudentId == "0" ? <span></span> :
+                <SearchableDropdown
+                  ItemList={UsAcademicYearsOfStudent}
+                  sx={{ width: { xs: '70vw', sm: '20vw' } }}
+                  onChange={ClickAcademicYear}
+                  defaultValue={AcademicYear}
+                  label={'Academic Years '}
+                  size={"small"} />}</Grid>
 
-          <SearchableDropdown
-            label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px', backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
-            ItemList={USGetClassTeachers}
-            mandatory
-            onChange={clickSelectClass}
-            disabled={CanEdit == 'N'}
-            defaultValue={selectTeacher}
-            size={"small"}
+            <Grid
+              item
+              xs={12}
+              gap={1}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <Tooltip title={'Displays  progress report of published exam of selected / all student.'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
 
+              <Tooltip title={'Show'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}
+                  onClick={!Loading ? ClickShow : () => { }}>
+                  <VisibilityTwoToneIcon />
+                </IconButton>
+              </Tooltip>
 
-          />
-
-          <SearchableDropdown
-            ItemList={USGetStudentNameDropdown}
-            sx={{ minWidth: '300px' }}
-            onChange={clickStudentList}
-            defaultValue={StudentId}
-            label={'Student Name'}
-            size={"small"} />
-
-          {StudentId == "0" ? <span></span> :
-            <SearchableDropdown
-              ItemList={UsAcademicYearsOfStudent}
-              sx={{ minWidth: '300px' }}
-              onChange={ClickAcademicYear}
-              defaultValue={AcademicYear}
-              label={'Academic Years '}
-              size={"small"} />}
-
-
-
-
-
-          <Box>
-            <Tooltip title={'Displays  progress report of published exam of selected / all student.'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <QuestionMark />
-              </IconButton>
-            </Tooltip>
-          </Box>
-
-
-
-          <Tooltip title={'Show'}>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': {
-                  backgroundColor: blue[600]
-                }
-              }}
-              onClick={!Loading ? ClickShow : () => { }}>
-              <VisibilityTwoToneIcon />
-            </IconButton>
-          </Tooltip>
-
-
-
-
-
-          {((shouldShowToppersButton && open) && SchoolScreensAccessPermission()) && <Tooltip title="Toppers">
-            <span>
-              <IconButton
-                onClick={Toppers}
-                sx={{
-                  color: 'white',
-                  backgroundColor: blue[500],
-                  '&:hover': {
-                    backgroundColor: blue[600],
-                  },
-                }}
-              >
-                <WorkspacePremiumIcon />
-              </IconButton>
-            </span>
-          </Tooltip>}
+              {((shouldShowToppersButton && open) && SchoolScreensAccessPermission()) && <Tooltip title="Toppers">
+                <span>
+                  <IconButton
+                    onClick={Toppers}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: blue[500],
+                      '&:hover': {
+                        backgroundColor: blue[600],
+                      },
+                    }}
+                  >
+                    <WorkspacePremiumIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+              } </Grid>
+          </Stack>
         </>}
 
       />
 
       {USlistStudentsDetails.length > 0 &&
         <Grid container sx={{ mt: 2 }} >
-          <Grid xs={8}>
-            {open && (<div >
+          <Grid xs={12} sm={8}>
+            {open && (<>
 
               {
                 AcademicYear === asAcademicYearId ? (
@@ -1027,23 +1053,23 @@ const ProgressReportNew = () => {
                 )
               }
 
-              {AcademicYear !== asAcademicYearId && StudentId !== "0" ? <ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1> :
-                <span></span>
+              {AcademicYear !== asAcademicYearId && StudentId !== "0" && (<ErrorMessage1 Error={`You are viewing data of old academic year ${getStudentName()}.`}></ErrorMessage1>
+              )
               }
-            </div>)}
+            </>)}
           </Grid>
           {(!SchoolScreensAccessPermission() && AcademicYear !== asAcademicYearId) &&
-            <Grid xs={4}>
+            <Grid xs={12} sm={4} >
               {(open && !IsPrePrimary) && (
-                <Box display={'flex'} sx={{ justifyContent: 'flex-end' }}>
-                  <Box sx={{ mr: 1 }}>
-                    {(getIsTermExamPublished && AcademicYear >= "50") &&
-                      <Card5
-                        text1={asSchoolId == "11" ? 'DOWNLOAD PDF' : academictermsResult[0]?.TermName}
-                        text2=""
-                        clickIcon={() => { downloadProgress(1); }}
-                      />
-                    }</Box>
+                <Box display={'flex'} sx={{ justifyContent: 'flex-end', gap: 1 }}>
+
+                  {(getIsTermExamPublished && AcademicYear >= "50") &&
+                    <Card5
+                      text1={asSchoolId == "11" ? 'DOWNLOAD PDF' : academictermsResult[0]?.TermName}
+                      text2=""
+                      clickIcon={() => { downloadProgress(1); }}
+                    />
+                  }
                   <Box>
                     {(getIsFinalResultPublished && AcademicYear >= "50") &&
                       <Card5
@@ -1152,21 +1178,25 @@ const ProgressReportNew = () => {
 
               </ Box>
 
-            ) : (<Typography
-              variant="body1"
-              sx={{
-                textAlign: 'center',
-                marginTop: 4,
-                backgroundColor: '#324b84',
-                padding: 1,
-                borderRadius: 2,
-                color: 'white',
-              }}
-            >
-              <b> No exam of this class has been published for the  year ( {FStudentName()} )  </b>
-            </Typography>
+            ) : 
+            <div>
+                {StudentId != "0" && <> (<Typography
+                  variant="body1"
+                  sx={{
+                    textAlign: 'center',
+                    marginTop: 4,
+                    backgroundColor: '#324b84',
+                    padding: 1,
+                    borderRadius: 2,
+                    color: 'white',
+                  }}
+                >
+                  <b> No exam of this class has been published for the  year ( {FStudentName()} )  </b>
 
-            )
+                </Typography>
+
+                  ) </>}
+              </div>
           )
             : null}
 

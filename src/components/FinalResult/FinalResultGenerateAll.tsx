@@ -1,5 +1,5 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, IconButton, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,11 +7,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
     IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
+import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import {
     StudentDetailsGA,
     UpdateStudentTestMarks, ViewResultGA
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
+import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -366,9 +368,15 @@ const GenerateAll = ({ }) => {
         asStudentId: Number(asStudentId),
         asUserId: Number(asUserId)
     };
-
+    const GetSchoolSettings: GetSchoolSettingsBody = {
+        asSchoolId: Number(asSchoolId),
+    };
+    const fetchStudentProgressReport = async () => {
+        await dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
+    }
     useEffect(() => {
-        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
+        fetchStudentProgressReport();
     }, [IsTotalConsiderForProgressReport]);
 
     // Student Results API Call | Table 2 (Result to generate on clicking genarate button)
@@ -402,7 +410,7 @@ const GenerateAll = ({ }) => {
             // Loop over the MarksArr within each marksItem to generate individual entries
             marksItem.MarksArr.forEach((mark) => {
                 // Checking if isEdit is true before generating the XML entry and the student is not absent
-                if (mark.isEdit && mark.IsAbsent === 'N') {
+                if (mark?.isEdit && mark?.IsAbsent === 'N') {
                     sXML +=
                         '<SchoolWiseStudentTestMarksDetail ' +
                         'School_Id="' + asSchoolId + '" ' +
@@ -429,7 +437,7 @@ const GenerateAll = ({ }) => {
             asUseAvarageFinalResult: "Y"
         };
         await dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
-        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
+        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
         setIsResultGenerated(true); // Set the result as generated
         dispatch(ViewResultGA(GetViewResultBody));
 
@@ -508,21 +516,38 @@ const GenerateAll = ({ }) => {
                 ]}
                 rightActions={
                     <>
-                        <Box>
-                            <Tooltip title='Edit marks of individual student and click on "Save".'>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: grey[500],
-                                        '&:hover': {
-                                            backgroundColor: grey[600]
-                                        }
-                                    }}
-                                >
-                                    <QuestionMark />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>                    </>
+                        <Stack
+                            direction={{ xs: 'column', sm: 'row' }}
+                            justifyContent="space-between"
+                            alignItems="left"
+                            sx={{
+                                mt: { xs: 0, sm: 0 },
+                                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                            }}
+                        >
+                            <Grid
+                                item
+                                xs={12}
+                                sm={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                <Tooltip title='Edit marks of individual student and click on "Save".'>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            '&:hover': {
+                                                backgroundColor: grey[600]
+                                            }
+                                        }}
+                                    >
+                                        <QuestionMark />
+                                    </IconButton>
+                                </Tooltip>
+                            </Grid>
+                        </Stack>
+                    </>
                 }
             />
             {EntireDataList?.ErrorMessage !== '' && (
@@ -569,10 +594,10 @@ const GenerateAll = ({ }) => {
                                             {StudentDetailsUS.map((item, i) => {
                                                 return (
                                                     <TableRow sx={{ bgcolor: '#38548A' }} key={i}>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5 }}><b>Roll No: {item.Text2}</b></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5 }}><b>Name: {item.Text1}</b></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5 }}><b>Class: {item.Text3} - {item.Text4}</b></TableCell>
-                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5 }}><b>Year: {item.Text5}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, width: '220px', }}><b>Roll No: {item.Text2}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, width: '220px', }}><b>Name: {item.Text1}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, width: '220px', }}><b>Class: {item.Text3} - {item.Text4}</b></TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, width: '220px', }}><b>Year: {item.Text5}</b></TableCell>
                                                     </TableRow>
                                                 );
                                             })}
@@ -897,10 +922,10 @@ const GenerateAll = ({ }) => {
                                         {ViewProgress.map((item, i) => {
                                             return (
                                                 <TableRow sx={{ bgcolor: '#38548A' }} key={i}>
-                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, }}>Roll No: <b>{item.Text2}</b></TableCell>
-                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, }}>Name: <b>{item.Text1}</b></TableCell>
-                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, }}>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
-                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, }}>Year: <b>{item.Text5}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, width: '220px', }}>Roll No: <b>{item.Text2}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, width: '220px', }}>Name: <b>{item.Text1}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, width: '220px', }}>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
+                                                    <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, width: '220px', }}>Year: <b>{item.Text5}</b></TableCell>
                                                 </TableRow>
                                             );
                                         })}

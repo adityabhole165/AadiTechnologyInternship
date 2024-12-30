@@ -102,18 +102,18 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
       <DialogContent>
 
         <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
-          <h1>
+          <h2>
             Enter Reason For Unpublish
-          </h1>
-          <Grid container spacing={0} alignItems="center">
-            <Grid item xs={6}>
+          </h2>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={6}>
               <Tooltip title={ExamName || 'No Exam Name Available'}>
                 <TextField fullWidth label={'Exam'}
                   sx={{ width: '95%', bgcolor: '#f0f0f0' }}
                   value={ExamName}
                 /></Tooltip>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Tooltip title={TeacherName || 'No Teacher Name Available'}>
                 <TextField fullWidth label={'Class Teacher '}
                   sx={{ width: '100%', bgcolor: '#f0f0f0' }}
@@ -121,7 +121,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
               </Tooltip>
             </Grid>
             <br></br>
-            <Grid item xs={12} marginTop={2}>
+            <Grid item xs={12} sm={12} marginTop={2}>
               <ResizableTextField fullWidth
                 // label={'Reason For Unpublish  :'}
                 label={<>

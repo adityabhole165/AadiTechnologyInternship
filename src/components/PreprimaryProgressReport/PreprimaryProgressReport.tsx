@@ -2,7 +2,7 @@
 import PrintIcon from '@mui/icons-material/Print';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -241,112 +241,139 @@ const PreprimaryProgressReport = () => {
 
                 rightActions={
                     <>
-                        {
-                            PreprimaryFullAccess == 'Y' ?
-                                <SearchableDropdown
-                                    ItemList={PrePrimaryClassTeacher}
-                                    sx={{ minWidth: '250px' }}
-                                    onChange={clickClassTeacher}
-                                    defaultValue={ClassTeacher}
-                                    label={'Class Teacher '}
-                                    size={"small"}
-                                    mandatory
-                                />
-                                : <span></span>
-
-                        }
-
-                        <SearchableDropdown
-                            ItemList={USlistStudentNameDetails}
-                            sx={{ minWidth: '250px' }}
-                            onChange={clickStudentId}
-                            defaultValue={StudentId}
-                            label={'Student '}
-                            size={"small"}
-                        />
-
-
-
-
-
-                        {
-                            PreprimaryFullAccess == 'Y' ?
-                                <SearchableDropdown
-                                    ItemList={USlistAssessmentDetailss}
-                                    sx={{ minWidth: '250px' }}
-                                    onChange={clickAssessmentId}
-                                    defaultValue={AssessmentId}
-                                    label={'Assessment '}
-                                    size={"small"}
-                                    mandatory
-                                />
-                                : <span></span>
-
-                        }
-
-                        {
-                            PreprimaryFullAccess == 'N' && USlistAssessmentDetailss.length > 1 ?
-                                <SearchableDropdown
-                                    ItemList={USlistAssessmentDetailss}
-                                    sx={{ minWidth: '250px' }}
-                                    onChange={clickAssessmentId}
-                                    defaultValue={AssessmentId}
-                                    label={'Assessment '}
-                                    size={"small"}
-                                    mandatory
-                                />
-                                : <span></span>
-
-                        }
-
-
-
-
-                        <Box>
-                            <Tooltip title={'Show'}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: blue[500],
-                                        '&:hover': {
-                                            backgroundColor: blue[600]
-                                        }
-                                    }}
-                                    onClick={ClickShow}>
-                                    <Visibility />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                        <Tooltip title={'Displays xseed progress report of selected assessment.'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: grey[600] }
-                                }}
+                        <Stack
+                            direction={{ xs: 'column', sm: 'row' }}
+                            justifyContent="space-between"
+                            alignItems="left"
+                            gap={1}
+                            sx={{
+                                mt: { xs: 0, sm: 0 },
+                                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                            }}
+                        >
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                             >
-                                <QuestionMarkIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Box>
-                            <Tooltip title={'Print Preview'}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: blue[500],
-                                        '&:hover': {
-                                            backgroundColor: blue[600]
-                                        }
-                                    }}
-                                    onClick={clickPrint}>
-                                    <PrintIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
+                                {
+                                    PreprimaryFullAccess == 'Y' && (
+                                        <SearchableDropdown
+                                            ItemList={PrePrimaryClassTeacher}
+                                            sx={{ width: { xs: '70vw', sm: '30vw', md: '17vw' } }}
+                                            onChange={clickClassTeacher}
+                                            defaultValue={ClassTeacher}
+                                            label={'Class Teacher '}
+                                            size={"small"}
+                                            mandatory
+                                        />
+                                    )
+                                }</Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                <SearchableDropdown
+                                    ItemList={USlistStudentNameDetails}
+                                    sx={{ width: { xs: '70vw', sm: '30vw', md: '17vw' } }}
+                                    onChange={clickStudentId}
+                                    defaultValue={StudentId}
+                                    label={'Student '}
+                                    size={"small"}
+                                /></Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                {
+                                    PreprimaryFullAccess == 'Y' && (
+                                        <SearchableDropdown
+                                            ItemList={USlistAssessmentDetailss}
+                                            sx={{ width: { xs: '40vw', sm: '20vw', md: '13vw' } }}
+                                            onChange={clickAssessmentId}
+                                            defaultValue={AssessmentId}
+                                            label={'Assessment '}
+                                            size={"small"}
+                                            mandatory
+                                        />
+                                    )}
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                {
+                                    PreprimaryFullAccess == 'N' && USlistAssessmentDetailss.length > 1 && (
+                                        <SearchableDropdown
+                                            ItemList={USlistAssessmentDetailss}
+                                            sx={{ width: { xs: '40vw', sm: '20vw', md: '15vw' } }}
+                                            onChange={clickAssessmentId}
+                                            defaultValue={AssessmentId}
+                                            label={'Assessment '}
+                                            size={"small"}
+                                            mandatory
+                                        />
+                                    )}
+                            </Grid>
 
+                            <Grid
+                                item
+                                xs={12}
+                                gap={1}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                            >
+                                <Tooltip title={'Show'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={ClickShow}>
+                                        <Visibility />
+                                    </IconButton>
+                                </Tooltip>
 
+                                <Tooltip title={'Displays xseed progress report of selected assessment.'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: grey[600] }
+                                        }}
+                                    >
+                                        <QuestionMarkIcon />
+                                    </IconButton>
+                                </Tooltip>
+
+                                <Tooltip title={'Print Preview'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={clickPrint}>
+                                        <PrintIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Grid>
+
+                        </Stack>
                     </>}
             />
 

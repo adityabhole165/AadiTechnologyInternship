@@ -4,7 +4,7 @@ import EventAvailable from '@mui/icons-material/EventAvailable';
 import HowToReg from '@mui/icons-material/HowToReg';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, styled } from '@mui/material';
+import { Box, Grid, IconButton, Stack, TableCell, TextField, Tooltip, Typography, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -668,7 +668,7 @@ const AddLessonPlan = () => {
     .join(', ');
 
   return (
-    <Box sx={{ px: 2 }} maxWidth="xl">
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           {
@@ -682,22 +682,39 @@ const AddLessonPlan = () => {
         ]}
         rightActions={
           <>
-            <Box>
-              <Tooltip title={'Save/ Submit/ Approve lesson plan details.'}>
-                <IconButton
-                  sx={{
-                    backgroundColor: grey[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: grey[600]
-                    }
-                  }}
-                >
-                  <QuestionMark />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            {/* <Box>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              alignItems="right"
+              gap={1}
+              sx={{
+                mt: { xs: 0, sm: 0 },
+                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+              }}
+            >
+              <Grid
+                item
+                xs={12}
+                gap={1}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
+                <Box>
+                  <Tooltip title={'Save/ Submit/ Approve lesson plan details.'}>
+                    <IconButton
+                      sx={{
+                        backgroundColor: grey[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: grey[600]
+                        }
+                      }}
+                    >
+                      <QuestionMark />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                {/* <Box>
               <Tooltip title={'Translation Tool'}>
                 <IconButton
                   sx={{
@@ -715,90 +732,72 @@ const AddLessonPlan = () => {
                 </IconButton>
               </Tooltip>
             </Box> */}
-            <Box>
-              <Tooltip title={'Translation Guide'}>
-                <IconButton
-                  sx={{
-                    backgroundColor: blue[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: blue[600]
-                    }
-                  }}
-                  onClick={() => {
-                    OpenWindow("http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf")
-                  }}
-                >
-                  <Book />
-                </IconButton>
-              </Tooltip>
-            </Box>
+                <Box>
+                  <Tooltip title={'Translation Guide'}>
+                    <IconButton
+                      sx={{
+                        backgroundColor: blue[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: blue[600]
+                        }
+                      }}
+                      onClick={() => {
+                        OpenWindow("http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf")
+                      }}
+                    >
+                      <Book />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Grid>
 
-            {(Action == "Add" || Action == "Edit") &&
+              {(Action == "Add" || Action == "Edit") &&
 
-              <Box>
-                <Tooltip title={'Submit'}>
-                  <IconButton
-                    disabled={(GetEnableButtonList.length > 0 &&
-                      GetEnableButtonList[0].EnableSubmitButton == "False")}
-                    sx={{
-                      backgroundColor: green[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: green[600]
-                      }
-                    }}
-                    onClick={onClickSubmit}
-                  >
-                    <Check />
-                  </IconButton>
-                </Tooltip>
-              </Box>}
-            {(UserIdParam == sessionStorage.getItem("Id") ||
-              (GetEnableButtonList.length > 0 && GetEnableButtonList[0].EnableSaveButton == "True") ||
-              (IsApprover() && !getIsApproved()) ||
-              Action == "Add") &&
-              < Box >
-                <Tooltip title={'Save'}>
-                  <IconButton
-                    disabled={GetEnableStatus()}
-                    sx={{
-                      backgroundColor: green[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: green[600]
-                      }
-                    }}
-                    onClick={onClickSave}
-                  >
-                    <Save />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            }
+                <Box>
+                  <Tooltip title={'Submit'}>
+                    <IconButton
+                      disabled={(GetEnableButtonList.length > 0 &&
+                        GetEnableButtonList[0].EnableSubmitButton == "False")}
+                      sx={{
+                        backgroundColor: green[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
+                      }}
+                      onClick={onClickSubmit}
+                    >
+                      <Check />
+                    </IconButton>
+                  </Tooltip>
+                </Box>}
+              {(UserIdParam == sessionStorage.getItem("Id") ||
+                (GetEnableButtonList.length > 0 && GetEnableButtonList[0].EnableSaveButton == "True") ||
+                (IsApprover() && !getIsApproved()) ||
+                Action == "Add") &&
+                < Box >
+                  <Tooltip title={'Save'}>
+                    <IconButton
+                      disabled={GetEnableStatus()}
+                      sx={{
+                        backgroundColor: green[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
+                      }}
+                      onClick={onClickSave}
+                    >
+                      <Save />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              }
 
-            {(IsApprover() && !getIsApproved()) &&
+              {(IsApprover() && !getIsApproved()) &&
 
-              < Box > <Tooltip title={'Approve'}>
-                <IconButton
-                  sx={{
-                    backgroundColor: green[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: green[600]
-                    }
-                  }}
-                  onClick={onClickApprover}
-                >
-                  <HowToReg />
-                </IconButton>
-
-              </Tooltip>
-              </Box>}
-
-            {Action == "View" && getIsUpdateVisible() && (
-              <Box>
-                <Tooltip title={'Update Date'}>
+                < Box > <Tooltip title={'Approve'}>
                   <IconButton
                     sx={{
                       backgroundColor: green[500],
@@ -807,14 +806,34 @@ const AddLessonPlan = () => {
                         backgroundColor: green[600]
                       }
                     }}
-                    onClick={onClickUpdateDate}
-
+                    onClick={onClickApprover}
                   >
-                    <EventAvailable />
+                    <HowToReg />
                   </IconButton>
+
                 </Tooltip>
-              </Box>
-            )}
+                </Box>}
+
+              {Action == "View" && getIsUpdateVisible() && (
+                <Box>
+                  <Tooltip title={'Update Date'}>
+                    <IconButton
+                      sx={{
+                        backgroundColor: green[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
+                      }}
+                      onClick={onClickUpdateDate}
+
+                    >
+                      <EventAvailable />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              )}
+            </Stack>
           </>
 
 
@@ -824,24 +843,30 @@ const AddLessonPlan = () => {
 
       {/* <FileLink filePath="http://web.aaditechnology.info/RITESchool/DOWNLOADS/Lesson Plan/InputToolsSetup.exe" fileName="Translation Tool" />
       <FileLink filePath="http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf" fileName="Translation Guide" /> */}
+
       <Box sx={{ p: 2, background: 'white' }}>
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              label={<>
-                Teacher <span style={{ color: 'red' }}>*</span>
-              </>}
-              sx={{ bgcolor: '#F0F0F0' }}
-              InputProps={{
-                readOnly: true,
-              }}
-              value={TeacherName?.TeacherName}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            {/* <TextField
+        <Box sx={{ backgroundColor: 'white' }} p={2}>
+          <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm={6} md={3}>
+
+                <TextField
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  label={<>
+                    Teacher <span style={{ color: 'red' }}>*</span>
+                  </>}
+                  sx={{ bgcolor: '#F0F0F0' }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={TeacherName?.TeacherName}
+                />
+
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+
+                {/* <TextField
               type='date'
               label={'Start Date'}
               fullWidth
@@ -856,16 +881,17 @@ const AddLessonPlan = () => {
             // error={errorStartDate !== ''}
             // helperText={errorStartDate}
             /> */}
-            <Datepicker
-              DateValue={StartDate}
-              onDateChange={onSelectStartDate}
-              label={'Start Date'}
-              size={"medium"}
-            />
+                <Datepicker
+                  DateValue={StartDate}
+                  onDateChange={onSelectStartDate}
+                  label={'Start Date'}
+                  size={"medium"}
+                />
 
-          </Grid>
-          <Grid item xs={3}>
-            {/* <TextField
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+
+                {/* <TextField
               type='date'
               label={'End Date'}
               fullWidth
@@ -881,96 +907,102 @@ const AddLessonPlan = () => {
             // helperText={errorEndDate}
 
             /> */}
-            <Datepicker DateValue={EndDate} onDateChange={onSelectEndDate} label={'End Date'} size={"medium"} />
-          </Grid>
-          <Grid item xs={3}>
-            <SearchableDropdown
-              ItemList={ClassListDropdown}
-              defaultValue={SelectClass}
-              label='Class'
-              mandatory
-              sx={{ minWidth: '20vw' }}
-              onChange={onClickClass}
-            />
-          </Grid>
+                <Datepicker DateValue={EndDate} onDateChange={onSelectEndDate} label={'End Date'} size={"medium"} />
 
-          {LessonPlanPhrasesList.length !== 0 && (
-            <>
-              <Grid item xs={12} md={12}>
-                <TextField
-                  sx={{ width: '22.7vw' }}
-                  fullWidth
-                  label="Search Word / Sentence"
-                  value={wordsentence}
-                  variant="outlined"
-                  size="small"
-                  onChange={(e) => setwordsentence(e.target.value)}
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+
+                <SearchableDropdown
+                  ItemList={ClassListDropdown}
+                  defaultValue={SelectClass}
+                  label='Class'
+                  mandatory
+                  sx={{ minWidth: '100%' }}
+                  onChange={onClickClass}
                 />
+
               </Grid>
 
-              {/* <Grid container spacing={2}> */}
-              <Grid item xs={6}>
-                <ResizableTextField
-                  label="Words"
-                  multiline
-                  rows={3}
-                  value={filteredWords}
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <ResizableTextField
-                  label="Sentences"
-                  multiline
-                  rows={3}
-                  value={filteredSentences}
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Grid>
-              {/* </Grid> */}
-            </>
-          )}
+              {LessonPlanPhrasesList.length !== 0 && (
+                <>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      sx={{ width: '22.7vw' }}
+                      fullWidth
+                      label="Search Word / Sentence"
+                      value={wordsentence}
+                      variant="outlined"
+                      size="small"
+                      onChange={(e) => setwordsentence(e.target.value)}
+                    />
+                  </Grid>
+
+                  {/* <Grid container spacing={2}> */}
+                  <Grid item xs={6}>
+                    <ResizableTextField
+                      label="Words"
+                      multiline
+                      rows={3}
+                      value={filteredWords}
+                      fullWidth
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <ResizableTextField
+                      label="Sentences"
+                      multiline
+                      rows={3}
+                      value={filteredSentences}
+                      fullWidth
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                  {/* </Grid> */}
+                </>
+              )}
+
+            </Grid>
+          </Stack>
+        </Box>
 
 
+        {/* {errorexampleLessonDetails || errorMessage && ( */}
+        {message && (
+          <Typography style={{ position: "fixed", top: "50%", left: "50%", padding: "10px", backgroundColor: "#e8eaf6", border: "1px solid #ccc", zIndex: 9999, width: '500px', font: "20px" }}>
+            {message}
+          </Typography>
 
-          {/* {errorexampleLessonDetails || errorMessage && ( */}
-          {message && (
-            <Typography style={{ position: "fixed", top: "50%", left: "50%", padding: "10px", backgroundColor: "#e8eaf6", border: "1px solid #ccc", zIndex: 9999, width: '500px', font: "20px" }}>
-              {message}
-            </Typography>
-
-          )}
-          <Grid item xs={12}>
-            <Typography variant={"h5"} sx={{ color: 'red' }}>
-              {errorexampleLessonDetails}<br></br>
-              {errorMessage}<br></br>
-              {errorComment}
-              {errorStartDate} {errorOverlapDate}
-            </Typography>
-          </Grid>
-          {/* )} */}
-          {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
-            <Typography variant={"h5"} mb={1} mt={-4}>
-              Plan Details
-            </Typography>
-
-            <LessonPlanList exampleLessonDetails={exampleLessonDetails}
-              onTextChange={onTextChange} Action={Action}
-              IsEditingAllowed={IsEditingAllowed()} />
-          </Grid>
-          }
-          <Grid item xs={12}>
-            <LessonPlanActivity ApprovalData={ApprovalCommentData}
-              errorComment={errorComment} onChangeApproverComment={onChangeApproverComment} />
-
-          </Grid>
+        )}
+        <Grid item xs={12}>
+          <Typography variant={"h5"} sx={{ color: 'red' }}>
+            {errorexampleLessonDetails}<br></br>
+            {errorMessage}<br></br>
+            {errorComment}
+            {errorStartDate} {errorOverlapDate}
+          </Typography>
         </Grid>
+        {/* )} */}
+        {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
+          <Typography variant={"h5"} mb={1} mt={-4}>
+            Plan Details
+          </Typography>
+
+          <LessonPlanList exampleLessonDetails={exampleLessonDetails}
+            onTextChange={onTextChange} Action={Action}
+            IsEditingAllowed={IsEditingAllowed()} />
+        </Grid>
+        }
+        <Grid item xs={12}>
+          <LessonPlanActivity ApprovalData={ApprovalCommentData}
+            errorComment={errorComment} onChangeApproverComment={onChangeApproverComment} />
+
+        </Grid>
+
       </Box>
 
     </Box >

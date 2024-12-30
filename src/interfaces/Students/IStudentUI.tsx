@@ -621,6 +621,14 @@ export interface ISaveSubmittedDocumentsBody {
     asYearwiseStudentId: number
     asInsertedById: number
 }
+//Delete Day Boarding Fees
+export interface IDeleteDayBoardingFeesBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asSchoolWise_Student_Id: number
+    asUpdatedById: number
+}
+
 
 
 

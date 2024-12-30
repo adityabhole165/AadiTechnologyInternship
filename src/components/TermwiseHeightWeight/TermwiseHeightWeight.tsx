@@ -1,6 +1,6 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -259,72 +259,102 @@ const TermwiseHeightWeight = () => {
           { title: 'Termwise Height-Weight', path: '/RITeSchool/Teacher/TermwiseHeightWeight' },
         ]}
         rightActions={<>
-          <SearchableDropdown
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems="left"
+            gap={1}
             sx={{
-              minWidth: '20vw'
-              , bgcolor: CanEdit == 'N' ? '#F0F0F0' : 'inherit'
+              mt: { xs: 0, sm: 0 },
+              flexWrap: { xs: 'nowrap', sm: 'nowrap' }
             }}
-            ItemList={ClassTeacherDropdown}
-            onChange={clickTeacherDropdown}
-            label={'Class Teacher'}
-            defaultValue={SelectTeacher.toString()} // Convert number to string
-            mandatory
-            size={"small"}
-            DisableClearable={CanEdit == 'N'}
-            disabled={CanEdit == 'N'}
-          />
-          <SearchableDropdown
-            sx={{ minWidth: '20vw' }}
-            ItemList={TermDropdown}
-            onChange={clickTermDropdown}
-            label={'Term'}
-            defaultValue={SelectTerm.toString()} // Convert number to string
-            mandatory
-            size={"small"}
-          />
-          <Tooltip title={Note}>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: '#fbc02d',
-                '&:hover': {
-                  backgroundColor: '#e1ac28'
-                }
-              }}
+          >
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
             >
-              <PriorityHighIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={"Capture termwise students' height and weight."}>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[600]
-                }
-              }}
-            >
-              <QuestionMark />
-            </IconButton>
-          </Tooltip>
-          {Number(SelectTeacher) > 0 && (
-            <Tooltip title={'Save'}>
-              <IconButton
+              <SearchableDropdown
                 sx={{
-                  color: 'white',
-                  backgroundColor: green[500],
-                  '&:hover': {
-                    backgroundColor: green[500]
-                  }
+                  width: { xs: '70vw', sm: '20vw' }
+                  , bgcolor: CanEdit == 'N' ? '#F0F0F0' : 'inherit'
                 }}
-                disabled={GetFinalPublishedExamStatus?.ShowFlag == "1"}
-                onClick={onClickSave}
-              >
-                <Save />
-              </IconButton>
-            </Tooltip>
-          )}
+                ItemList={ClassTeacherDropdown}
+                onChange={clickTeacherDropdown}
+                label={'Class Teacher'}
+                defaultValue={SelectTeacher.toString()} // Convert number to string
+                mandatory
+                size={"small"}
+                DisableClearable={CanEdit == 'N'}
+                disabled={CanEdit == 'N'}
+              /></Grid>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown
+                sx={{ width: { xs: '40vw', sm: '15vw' } }}
+                ItemList={TermDropdown}
+                onChange={clickTermDropdown}
+                label={'Term'}
+                defaultValue={SelectTerm.toString()} // Convert number to string
+                mandatory
+                size={"small"}
+              /></Grid>
+            <Grid
+              item
+              xs={12}
+              gap={1}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <Tooltip title={Note}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: '#fbc02d',
+                    '&:hover': {
+                      backgroundColor: '#e1ac28'
+                    }
+                  }}
+                >
+                  <PriorityHighIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={"Capture termwise students' height and weight."}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+              {Number(SelectTeacher) > 0 && (
+                <Tooltip title={'Save'}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      '&:hover': {
+                        backgroundColor: green[500]
+                      }
+                    }}
+                    disabled={GetFinalPublishedExamStatus?.ShowFlag == "1"}
+                    onClick={onClickSave}
+                  >
+                    <Save />
+                  </IconButton>
+                </Tooltip>
+              )}</Grid>
+          </Stack>
         </>}
       />
 

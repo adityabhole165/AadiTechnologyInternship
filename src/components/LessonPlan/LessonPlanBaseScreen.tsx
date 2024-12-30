@@ -1,7 +1,7 @@
 import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import html2pdf from 'html2pdf.js';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -19,7 +19,6 @@ import {
   IGetLessonPlanRecordCountBody,
   IUpdateReadSuggestionBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
-import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
 import {
   CDAAddOrEditLessonPlanDetails,
   CDAGetAllTeachersOfLessonPlan,
@@ -31,9 +30,12 @@ import {
   resetdeleteplan
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { AlertContext } from 'src/contexts/AlertContext';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import Legend from 'src/libraries/Legend/Legend';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
 import { GetAddOrEditLessonPlanDetails } from 'src/requests/LessonPlan/RequestAddLessonPlan';
@@ -42,6 +44,7 @@ import { encodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ExportLessonPlan from './ExportLessonPlan';
 import IsHighliteStaus from './LessonPlanContext';
+
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -610,6 +613,36 @@ const LessonPlanBaseScreen = () => {
     }
   };
 
+  const LegendArray = [
+
+    {
+      id: 1,
+      Name: 'Submitted',
+      Value:
+        <CheckIcon style={{ color: 'green', fontSize: 'large', position: 'relative', top: '-1px' }} />
+    },
+    {
+      id: 2,
+      Name: 'Non Submitted',
+      Value:
+        <CloseIcon style={{ color: 'red', fontSize: 'large', position: 'relative', top: '-1px' }} />
+
+    },
+    {
+      id: 3,
+      Name: 'Not Applicable',
+      Value:
+        <Typography component="h5" style={{ color: 'black', margin: 0 }}>N/A</Typography>
+    },
+    {
+      id: 4,
+      Name: 'Suggestion Added',
+      color: 'blue',
+      Value:
+        ""
+    }
+  ]
+
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -617,109 +650,148 @@ const LessonPlanBaseScreen = () => {
           navLinks={[{ title: 'Lesson Plans', path: '' }]}
           rightActions={
             <>
-              {USGetAllTeachersOfLessonPlan.length > 1 && (
-                <Box sx={{ background: 'white' }}>
-                  <SearchableDropdown1
-                    sx={{ minWidth: '20vw' }}
-                    ItemList={USGetAllTeachersOfLessonPlan}
-                    onChange={ClickSelectTeacher}
-                    label={'Select Teacher:'}
-                    defaultValue={selectClasstecahernew}
-                    mandatory
-                    size="small"
-                  />
-                </Box>
-              )}
-              {errorMessage && (
-                <Typography variant="body2" color="error">
-                  {errorMessage}
-                </Typography>
-              )}
-              <Box sx={{ background: 'white' }}>
-                <Datepicker
-                  DateValue={StartDate}
-                  onDateChange={onSelectStartDate}
-                  label="Start Date"
-                  size="small"
-                />
-              </Box>
-              <Box sx={{ background: 'white' }}>
-                <Datepicker
-                  DateValue={EndDate}
-                  onDateChange={onSelectEndDate}
-                  label="End Date"
-                  size="small"
-                />
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Tooltip title="Displays all available lesson plans.">
-                  <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: grey[500],
-                      height: '36px !important',
-                      ':hover': { backgroundColor: grey[600] },
-                      marginRight: '-4px',
-                    }}
-                  >
-                    <QuestionMark />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-              <Box>
-                {(LessonPlanList.length < 0 ? LessonPlanList[0].IsSubmitted === "1" : true) && (
-                  <Tooltip title="Export All">
-                    <span>
-                      <IconButton
-                        sx={{
-                          color: 'white',
-                          backgroundColor: blue[500],
-                          height: '36px !important',
-                          ':hover': { backgroundColor: blue[600] },
-                        }}
-                        onClick={OnClickExportAll}
-                        disabled={LessonPlanList.length <= 0}
-                      >
-                        <Download />
-                      </IconButton>
-                    </span>
-                  </Tooltip>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems="left"
+                gap={1}
+                sx={{ flexWrap: { xs: 'nowrap', sm: 'nowrap' } }}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+                  {USGetAllTeachersOfLessonPlan.length > 1 && (
+                    <Box sx={{ background: 'white' }}>
+                      <SearchableDropdown1
+                        sx={{ width: { xs: '40vw', sm: '20vw' } }}
+                        ItemList={USGetAllTeachersOfLessonPlan}
+                        onChange={ClickSelectTeacher}
+                        label={'Select Teacher:'}
+                        defaultValue={selectClasstecahernew}
+                        mandatory
+                        size="small"
+                      />
+                    </Box>
+                  )}
+                </Grid>
+                {errorMessage && (
+                  <Typography variant="body2" color="error">
+                    {errorMessage}
+                  </Typography>
                 )}
-              </Box>
-              <Box>
-                {String(asUserId) === String(selectClasstecahernew) ? (
-                  <Tooltip title="Add Lesson Plan">
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: green[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: green[600] },
-                        marginLeft: '-4px',
-                      }}
-                      onClick={onClickAdd}
-                    >
-                      <Add />
-                    </IconButton>
-                  </Tooltip>
-                ) : null}
-              </Box>
+
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+
+                  <Box sx={{ background: 'white' }}>
+                    <Datepicker
+                      DateValue={StartDate}
+                      onDateChange={onSelectStartDate}
+                      label="Start Date"
+                      size="small"
+
+                    />
+                  </Box>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+                  <Box sx={{ background: 'white' }}>
+                    <Datepicker
+                      DateValue={EndDate}
+                      onDateChange={onSelectEndDate}
+                      label="End Date"
+                      size="small"
+                    />
+                  </Box>
+                </Grid>
+
+                <Stack
+                  direction={{ xs: 'column', sm: 'row' }}
+                  justifyContent="space-between"
+                  alignItems="left"
+                  gap={1}
+                  sx={{ flexWrap: { xs: 'nowrap', sm: 'nowrap' } }}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    gap={1}
+                    display="flex"
+                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                  >
+
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Tooltip title="Displays all available lesson plans.">
+                        <IconButton
+                          sx={{
+                            color: 'white',
+                            backgroundColor: grey[500],
+                            height: '36px !important',
+                            ':hover': { backgroundColor: grey[600] },
+                            marginRight: '-4px',
+                          }}
+                        >
+                          <QuestionMark />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                    <Box>
+                      {(LessonPlanList.length < 0 ? LessonPlanList[0].IsSubmitted === "1" : true) && (
+                        <Tooltip title="Export All">
+                          <span>
+                            <IconButton
+                              sx={{
+                                color: 'white',
+                                backgroundColor: blue[500],
+                                height: '36px !important',
+                                ':hover': { backgroundColor: blue[600] },
+                              }}
+                              onClick={OnClickExportAll}
+                              disabled={LessonPlanList.length <= 0}
+                            >
+                              <Download />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                      )}
+                    </Box>
+                    <Box>
+                      {String(asUserId) === String(selectClasstecahernew) ? (
+                        <Tooltip title="Add Lesson Plan">
+                          <IconButton
+                            sx={{
+                              color: 'white',
+                              backgroundColor: green[500],
+                              height: '36px !important',
+                              ':hover': { backgroundColor: green[600] },
+                              marginLeft: '-4px',
+                            }}
+                            onClick={onClickAdd}
+                          >
+                            <Add />
+                          </IconButton>
+                        </Tooltip>
+                      ) : null}
+                    </Box>
+                  </Grid>
+                </Stack>
+              </Stack>
             </>
           }
         />
         <Box sx={{ background: 'white', p: 2, mb: 2 }}>
-          <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-            <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
-            <DotLegends2
-              color="secondary"
-              text=""
-              text1="Submitted"
-              text2="Non Submitted"
-              text3="Not Applicable"
-              text4="Suggestion Added"
-              text5=""
-            />
-          </Box>
+          <Legend LegendArray={LegendArray} />
         </Box>
         <Box sx={{ background: 'white', pt: 1, pl: 2, pr: 2, pb: 2 }}>
           {LessonPlanList.length > 0 ? (

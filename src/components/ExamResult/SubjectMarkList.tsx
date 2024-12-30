@@ -1,6 +1,6 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Divider, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, yellow } from '@mui/material/colors';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ import {
   GetStudentsForSubjectMarkMouseOverBody,
   IGetTestMarkBody
 } from 'src/interfaces/ExamResult/ISubjectMarkList';
+import Legend from 'src/libraries/Legend/Legend';
 import {
   firstthreetopperslist,
   gettestmarklist
@@ -194,6 +195,73 @@ const SubjectMarkList = () => {
     endIndex += recordsPerPage
   }
   let gridIndex = 12 / pageCount
+  const LegendArray = [
+    ...HeaderListTestMark.slice(-1).map((Item, i) => ({
+      id: 1, // Unique ID for the last item that will now appear first
+      Name: `Legend for ${Item}`,
+      color: 'blue', // Color for the Name
+      fontWeight: 'bold',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <span
+            style={{
+              color: 'blue',
+              fontWeight: 'bold'
+            }}
+          >
+            {Item.substring(0, 1)} : {Item}
+          </span>
+        </Box>
+      )
+    })),
+    {
+      id: 2,
+      Name: 'Exempted',
+      color: 'brown', // Color for the Name
+      fontWeight: 'bold',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <span style={{ color: 'brown', fontWeight: 'bold' }}>Ex :</span>
+        </Box>
+      )
+    },
+    {
+      id: 3,
+      Name: 'Late Joinee',
+      color: 'green', // Color for the Name
+      fontWeight: 'bold',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <span style={{ color: 'green', fontWeight: 'bold' }}>- :</span>
+        </Box>
+      )
+    },
+    {
+      id: 4,
+      Name: 'Absent',
+      color: 'red', // Color for the Name
+      fontWeight: 'bold',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <span style={{ color: 'red', fontWeight: 'bold' }}>Ab :</span>
+        </Box>
+      )
+    },
+    {
+      id: 5,
+      Name: '',
+      color: 'black', // Color for the Name
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <Typography variant="h5">Toppers of the class :</Typography>
+          <img src={GoldMedal} alt="Gold Medal" width={17} />
+          <img src={SilverMedal} alt="Silver Medal" width={17} />
+          <img src={BronzeMedal} alt="Bronze Medal" width={17} />
+        </Box>
+      )
+    },
+  ];
+
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -210,154 +278,116 @@ const SubjectMarkList = () => {
           ]}
           rightActions={
             <>
-              <Box sx={{ width: '250px' }}>
-                <TextField
-                  fullWidth
-                  label={"Class"}
-                  InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#F0F0F0' }}
-                  value={getTeacherName}
-                  size={"small"}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Box>
-              <Box sx={{ width: '250px' }}>
-                <TextField
-                  fullWidth
-                  label={"Subject Name"}
-                  InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#F0F0F0' }}
-                  value={getSubjectName}
-                  size={"small"}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Box>
-              <Box sx={{ width: '250px' }}>
-                <TextField
-                  fullWidth
-                  label={"Exam "}
-                  InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#F0F0F0' }}
-                  value={getExamName}
-                  size={"small"}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Box>
-              <Box>
-                <Tooltip title={HoverNote}>
-                  <IconButton
-
-                    sx={{
-                      color: 'white',
-                      backgroundColor: yellow[700],
-                      '&:hover': {
-                        backgroundColor: yellow[800]
-                      }
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems="left"
+                gap={1}
+                sx={{
+                  mt: { xs: 0, sm: 0 },
+                  flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                }}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+                  <TextField
+                    fullWidth
+                    label={"Class"}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ bgcolor: '#F0F0F0', width: { xs: '60vw', sm: '17vw' } }}
+                    value={getTeacherName}
+                    size={"small"}
+                    InputProps={{
+                      readOnly: true,
                     }}
-                  >
-                    <PriorityHighIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-              <Box>
-                <Tooltip title={Note}>
-                  <IconButton
+                  /></Grid>
 
-                    sx={{
-                      color: 'white',
-                      backgroundColor: grey[500],
-                      '&:hover': {
-                        backgroundColor: grey[500]
-                      }
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+                  <TextField
+                    fullWidth
+                    label={"Subject Name"}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ bgcolor: '#F0F0F0', width: { xs: '60vw', sm: '17vw' } }}
+                    value={getSubjectName}
+                    size={"small"}
+                    InputProps={{
+                      readOnly: true,
                     }}
-                  >
-                    <QuestionMark />
-                  </IconButton>
-                </Tooltip>
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+                  <TextField
+                    fullWidth
+                    label={"Exam "}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ bgcolor: '#F0F0F0', width: { xs: '60vw', sm: '18vw' } }}
+                    value={getExamName}
+                    size={"small"}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  gap={1}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                >
+                  <Tooltip title={HoverNote}>
+                    <IconButton
 
-              </Box>
+                      sx={{
+                        color: 'white',
+                        backgroundColor: yellow[700],
+                        '&:hover': {
+                          backgroundColor: yellow[800]
+                        }
+                      }}
+                    >
+                      <PriorityHighIcon />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip title={Note}>
+                    <IconButton
+
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                          backgroundColor: grey[500]
+                        }
+                      }}
+                    >
+                      <QuestionMark />
+                    </IconButton>
+                  </Tooltip>
+
+                </Grid>
+              </Stack>
             </>
           }
         />
         <Box >
-          <Box sx={{ backgroundColor: 'white', p: 1, mb: 2 }}>
 
-            <Stack direction={"row"} gap={2} alignItems={'center'} mt={1}>
-              <Box>
-                <Typography variant='h5'>
-                  Legend
-                </Typography>
-              </Box>
-              {HeaderListTestMark.map((Item, i) => (
-                <Box key={i}>
-                  <span
-                    style={{
-                      color: 'blue',
-                      fontWeight: 'bold'
-                    }}
-                  >
-                    {Item.substring(0, 1)} : {Item}
-                  </span>
-                </Box>
-              ))}
-
-              <Box>
-                <span
-                  style={{
-                    color: 'brown',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Ex : Exempted
-                </span>
-              </Box>
-              <Box>
-                <span
-                  style={{
-                    color: 'green',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  - : Late Joinee
-                </span>
-              </Box>
-              <Box>
-                <span
-                  style={{
-                    color: 'red',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Ab : Absent
-                </span>
-              </Box>
-              <Box>
-                <Divider
-                  sx={{ height: 20 }}
-                  orientation='vertical'
-                />
-              </Box>
-              <Box>
-                <Typography variant='h5'>
-                  Toppers of the class:
-                </Typography>
-              </Box>
-              <Box>
-                <img src={GoldMedal} alt="Gold Medal" width={18} />
-              </Box>
-              <Box>
-                <img src={SilverMedal} alt="Silver Medal" width={18} />
-              </Box>
-              <Box>
-                <img src={BronzeMedal} alt="Bronze Medal" width={18} />
-              </Box>
-            </Stack>
+          <Box sx={{ background: 'white', p: 1, mb: 2 }}>
+            <Legend LegendArray={LegendArray} />
           </Box>
           <Box sx={{ p: 2, background: 'white' }}>
             {/* New Table */}

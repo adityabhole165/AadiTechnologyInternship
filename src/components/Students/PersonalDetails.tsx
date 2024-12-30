@@ -980,7 +980,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   value={personal.parentOccupation == '5' ? personal.otherOccupation : ''}
                   onChange={handleInputChange}
                   error={personal.parentOccupation === '5' && !!invalidFields.find(field => field.field === "otherOccupation")}
-                  helperText={personal.parentOccupation === '5' && invalidFields.find(field => field.field === "otherOccupation") ? 'Other Occupation is required when Parent Occupation is Other.' : ''}
+                  helperText={personal.parentOccupation === '5' && invalidFields.find(field => field.field === "otherOccupation") ? 'Other Occupation should not be blank when Parent Occupation is Other.' : ''}
                   fullWidth
                 />
               </Grid>

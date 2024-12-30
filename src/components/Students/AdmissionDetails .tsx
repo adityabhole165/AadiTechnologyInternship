@@ -738,22 +738,24 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
             />
           </Grid>
         )}
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <SearchableDropdown
-            sx={{ minWidth: '15vw' }}
-            ItemList={FeeAreaNamesDrop}
-            onChange={(value) => {
-              if (schoolId && parseInt(schoolId) === 122) {
-                onChange('feeAreaNames', value);
-              } else {
-                onChange('feeAreaNames', '0');
-              }
-            }}
-            label={'Fee Area Name'}
-            defaultValue={schoolId && parseInt(schoolId) === 122 ? admission.feeAreaNames : '0'}
-            size={'medium'}
-          />
-        </Grid>
+        {schoolId && parseInt(schoolId) === 122 && (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <SearchableDropdown
+              sx={{ minWidth: '15vw' }}
+              ItemList={FeeAreaNamesDrop}
+              onChange={(value) => {
+                if (schoolId && parseInt(schoolId) === 122) {
+                  onChange('feeAreaNames', value);
+                } else {
+                  onChange('feeAreaNames', '0');
+                }
+              }}
+              label={'Fee Area Name'}
+              defaultValue={schoolId && parseInt(schoolId) === 122 ? admission.feeAreaNames : '0'}
+              size={'medium'}
+            />
+          </Grid>
+        )}
         {IsAdditionalFieldsApplicable && (
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <TextField

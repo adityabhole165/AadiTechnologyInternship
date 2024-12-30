@@ -2,9 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiFinalResultGenerateAll from "src/api/FinalResult/ApiFinalResultGenerateAll";
 import { IGetGenerateAllStudentBody, IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody } from "src/interfaces/FinalResult/IFinalResultGenerateAll";
-import { GetSchoolSettingsBody } from "src/interfaces/ProgressReport/IprogressReport";
 import { AppThunk } from "src/store";
-import { CDAGetSchoolSettings } from "../ProgressReport/ReqProgressReport";
 
 
 
@@ -130,18 +128,15 @@ const FinalResultGenerateAllSlice = createSlice({
 });
 // ViewResultGA
 export const StudentDetailsGA =
-    (data: IGetStudentPrrogressReportBody, data12: string, totalCount: string): AppThunk =>
+    (data: IGetStudentPrrogressReportBody, data12: string): AppThunk =>
         async (dispatch, getState) => {
-            const asSchoolId = localStorage.getItem('localSchoolId');
-            const GetSchoolSettings: GetSchoolSettingsBody = {
-                asSchoolId: Number(asSchoolId),
-            };
-            // const data1 = 'True';
-            await dispatch(CDAGetSchoolSettings(GetSchoolSettings));
             const { IsGetSchoolSettings } = getState().ProgressReportNew;
+            const totalCount = IsGetSchoolSettings?.GetSchoolSettingsResult?.ToppersCount.toString();
             const data1 = IsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport;
             const response = await ApiFinalResultGenerateAll.StudentPrrogressReport(data);
             dispatch(FinalResultGenerateAllSlice.actions.REntireDataList(response.data));
+            const isSingleTestRecord = response.data?.listTestDetails.filter((item) => item?.Test_Id !== '-1').length === 1;
+
             let listSubjectsDetails = response.data.listSubjectsDetails
             const getListDisplayName = (cell) => {
                 let returnVal: any = ""
@@ -317,7 +312,7 @@ export const StudentDetailsGA =
                                     testType: TestType.TestType_Id,
                                     testId: Test.Test_Id,
                                     isCoCurricular: cell ? cell.Is_CoCurricularActivity : 'False',
-                                    MarksOrGrade: cell ? cell.Grade_Or_Marks.trim() : 'M',
+                                    MarksOrGrade: 'M', //cell.Grade_Or_Marks.trim(),
                                     // isGrade: 
                                 })
                             } else if (SubjectArray[SubjectIndex].Parent_Subject_Id !== '0') {
@@ -331,7 +326,7 @@ export const StudentDetailsGA =
                                     testType: TestType.TestType_Id,
                                     testId: Test.Test_Id,
                                     isCoCurricular: cell ? cell.Is_CoCurricularActivity : 'False',
-                                    MarksOrGrade: cell ? cell.Grade_Or_Marks.trim() : 'M',
+                                    MarksOrGrade: 'M', //cell.Grade_Or_Marks.trim(),
                                 })
                             }                            //#region  check
                             // }
@@ -485,7 +480,7 @@ export const StudentDetailsGA =
                                     IsAbsent: valArr.length > 0 ? valArr[0].Is_Absent : "N",
                                     isEdit: valArr.length > 0 && valArr[0].Is_Absent === 'N' && valArr[0].Marks !== '' ? true : false,
                                     isCoCurricular: valArr.length > 0 ? valArr[0].Is_CoCurricularActivity : "False",
-                                    MarksOrGrade: valArr.length > 0 ? valArr[0].Grade_Or_Marks.trim() : 'M',
+                                    MarksOrGrade: valArr[0]?.Grade_Or_Marks.trim(),
                                     schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, Subject.Subject_Id, ''),
                                     testType: '999',
                                     testId: Test.Test_Id,
@@ -498,7 +493,7 @@ export const StudentDetailsGA =
                                     IsAbsent: valArr.length > 0 ? valArr[0].Is_Absent : "N",
                                     isEdit: valArr.length > 0 && valArr[0].Is_Absent === 'N' && valArr[0].Marks !== '' ? true : false,
                                     isCoCurricular: valArr.length > 0 ? valArr[0].Is_CoCurricularActivity : "False",
-                                    MarksOrGrade: valArr.length > 0 ? valArr[0].Grade_Or_Marks.trim() : 'M',
+                                    MarksOrGrade: valArr[0]?.Grade_Or_Marks.trim(),
                                     schoolWiseStudentTestMarksId: GetSchoolWiseStudentTestMarksId(Test.Test_Id, Subject.Subject_Id, ''),
                                     testType: '999',
                                     testId: Test.Test_Id,
@@ -510,8 +505,9 @@ export const StudentDetailsGA =
 
                     //show grade column
                     if (data1.toLowerCase() === "true") {
+                        let isDataPushed = false; // Flag to track if data has been pushed
                         response.data.ListSchoolWiseTestNameDetail.map((Item) => {
-                            if (Item.SchoolWise_Test_Id == Test.Test_Id) {
+                            if (Item.SchoolWise_Test_Id == Test.Test_Id && !isDataPushed) {
                                 const matchingMarksDetails = response.data.ListMarkssDetails.find(
                                     (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
                                 );
@@ -543,52 +539,57 @@ export const StudentDetailsGA =
                                     IsGrades: "Y",
                                     isEdit: false,
                                     isCoCurricular: 'False'
-                                })
+                                });
+                                isDataPushed = true; // Set the flag to true
                             }
 
                         })
 
-                        if (true) {
-                            response.data.ListSchoolWiseTestNameDetail.map((Item) => {
-                                let testTypeLength = response.data.ListTestTypeIdDetails.length;
-                                if (Item.SchoolWise_Test_Id == Test.Test_Id) {
-                                    let isDataPushed = false; // Flag to track if data has been pushed
-                                    const matchingMarksDetails = response.data.ListMarkssDetails.find(
-                                        (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
-                                    );
-                                    if (response.data.listStudentsDetails[0]?.IsFailCriteriaNotApplicable === 'N' && data1.toLowerCase() === 'true') {
-                                        let studentResult = Item.Result.trim().toLowerCase();
-                                        columns.push({
-                                            MarksScored: Item.Result.trim(),
-                                            TotalMarks: "-",
-                                            IsAbsent: "N",
-                                            IsGrades: "Y",
-                                            Result: Item.Result.trim(),
-                                            Rank: Item.rank,
-                                            isEdit: false,
-                                            isCoCurricular: 'False',
-                                            isResult: true,
-                                            cellColor: studentResult === 'fail' ? 'red' : studentResult === 'pass' ? 'green' : 'inherit',
-                                        })
-                                    }
-                                    if (totalCount !== '0' && data1.toLowerCase() === 'true' && hasNonDefaultRank) {
-                                        let studentRank = !Item.rank.trim().includes('999') || Item.FailCount !== '';
-                                        columns.push({
-                                            MarksScored: Item.rank.trim().includes('999') || Item.FailCount === '' ? '-' : Item.rank.trim(),
-                                            TotalMarks: "-",
-                                            IsAbsent: "N",
-                                            IsGrades: "Y",
-                                            Result: Item.Result.trim(),
-                                            Rank: Item.rank,
-                                            isEdit: false,
-                                            isResult: true,
-                                            isCoCurricular: 'False',
-                                            cellColor: studentRank ? 'green' : 'inherit'
-                                        })
-                                    }
+                        // #region Result And Rank Cell values
+                        let isDataPushed1 = false; // Flag to track if data has been pushed
+                        response.data?.ListSchoolWiseTestNameDetail?.map((Item, index) => {
+                            let testTypeLength = response.data.ListTestTypeIdDetails.length;
+                            if (Item.SchoolWise_Test_Id == Test.Test_Id && !isDataPushed1) {
+                                let isDataPushed = false; // Flag to track if data has been pushed
+                                const matchingMarksDetails = response.data.ListMarkssDetails.find(
+                                    (marksItem) => marksItem.Marks_Grades_Configuration_Detail_ID === Item.Grade_id
+                                );
+                                if (response.data.listStudentsDetails[0]?.IsFailCriteriaNotApplicable === 'N' && data1.toLowerCase() === 'true') {
+                                    let studentResult = Item.Result.trim().toLowerCase();
+                                    columns.push({
+                                        MarksScored: Item.Result.trim(),
+                                        TotalMarks: "-",
+                                        IsAbsent: "N",
+                                        IsGrades: "Y",
+                                        Result: Item.Result.trim(),
+                                        Rank: Item.rank,
+                                        isEdit: false,
+                                        isCoCurricular: 'False',
+                                        isResult: true,
+                                        cellColor: studentResult === 'fail' ? 'red' : studentResult === 'pass' ? 'green' : 'inherit',
+                                    })
                                 }
-                            })
-                        }
+
+                                if (totalCount !== '0' && data1.toLowerCase() === 'true' && hasNonDefaultRank) {
+                                    let studentRank = !Item.rank.trim().includes('999') || Item.FailCount !== '';
+                                    columns.push({
+                                        MarksScored: Item.rank.trim().includes('999') || Item.FailCount === '' ? '-' : Item.rank.trim(),
+                                        TotalMarks: "-",
+                                        IsAbsent: "N",
+                                        IsGrades: "Y",
+                                        Result: Item.Result.trim(),
+                                        Rank: Item.rank,
+                                        isEdit: false,
+                                        isResult: true,
+                                        isCoCurricular: 'False',
+                                        cellColor: studentRank ? 'green' : 'inherit'
+                                    })
+                                    isDataPushed1 = true; // Set the flag to true
+                                }
+                            }
+                        })
+                        // #endregion
+
                         if (Test.Test_Id === `-1`) {
                             columns.push({
                                 MarksScored: `-`,

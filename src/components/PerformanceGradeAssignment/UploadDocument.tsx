@@ -1,5 +1,5 @@
 import { QuestionMark } from "@mui/icons-material";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, TextField, Tooltip, Typography } from "@mui/material";
 import { green, grey } from "@mui/material/colors";
 import { ClearIcon } from "@mui/x-date-pickers";
 import { useContext, useEffect, useState } from 'react';
@@ -306,11 +306,27 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
             </DialogTitle>
 
             <DialogContent>
-                <Box>
-                    <Typography variant="h2" sx={{ pt: 2, pl: 1 }}>Documents</Typography>
-                    <Box sx={{ background: 'white', top: '1px', alignItems: 'center', pl: 1, pr: 2, pt: 2 }}>
-                        <Grid container spacing={2} >
-                            <Grid item xs={4}>
+                <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    justifyContent="space-between"
+                    alignItems="right"
+                    gap={1}
+                    sx={{
+                        mt: { xs: 0, sm: 0 },
+                        flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                    }}
+                >
+
+                    <Box>
+                        <Typography variant="h2" sx={{ pt: 2, pl: 1 }}>Documents</Typography>
+                        <Grid container spacing={2} mt={.5} >
+                            <Grid
+                                item
+                                xs={12}
+                                sm={4}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                            >
                                 <TextField
                                     fullWidth
                                     label={<>
@@ -325,7 +341,14 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={4}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                            >
+
                                 <TextField
                                     fullWidth
                                     label={<>
@@ -340,37 +363,47 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={4}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.7, width: 'calc(100% + 1px)', position: 'relative' }}>
-                                    <SpecificFileType
-                                        ValidFileTypes={ValidFileTypes}
-                                        MaxfileSize={MaxfileSize}
-                                        FileName={fileName}
-                                        ChangeFile={ChangeFile}
-                                        FileLabel={'Upload Document '}
-                                        width={'100%'}
-                                        height={"52px"}
-                                        FilePath={USGetAllDocumentsList.length > 0 ? USGetAllDocumentsList.FileName : ''}
-                                        // errorMessage={''}
-                                        // isMandatory={false}
-                                        errorMessage={fileNameError}
-                                        isMandatory={true}
-                                    />
-                                    {/* {fileNameError && (
+                            <Grid
+                                item
+                                xs={12}
+                                sm={4}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                            >
+
+                                {/* <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.2, position: 'relative' }}> */}
+                                <SpecificFileType
+                                    ValidFileTypes={ValidFileTypes}
+                                    MaxfileSize={MaxfileSize}
+                                    FileName={fileName}
+                                    ChangeFile={ChangeFile}
+                                    FileLabel={'Upload Document '}
+                                    width={'100%'}
+                                    height={"52px"}
+                                    FilePath={USGetAllDocumentsList.length > 0 ? USGetAllDocumentsList.FileName : ''}
+                                    // errorMessage={''}
+                                    // isMandatory={false}
+                                    errorMessage={fileNameError}
+                                    isMandatory={true}
+                                />
+                                {/* {fileNameError && (
                                         <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px', }}>
                                             <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
                                         </Box>
                                     )} */}
-                                    {/* {ValidFile && (
+                                {/* {ValidFile && (
                                         <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
                                             <ErrorMessage1 Error={ValidFile}></ErrorMessage1>
                                         </Box>
                                     )} */}
-                                </Box>
+                                {/* </Box> */}
+
                             </Grid>
                         </Grid>
+                        {/* </Box> */}
                     </Box>
-                </Box>
+
+                </Stack>
 
                 <Box sx={{ backgroundColor: 'white', mt: 2, px: 1 }}>
                     {GetAllDocumentsList.length > 0 ? (
@@ -409,6 +442,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                         Upload
                     </Button>
                 </DialogActions>
+
             </DialogContent>
         </Dialog >
     );
