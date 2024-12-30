@@ -118,7 +118,7 @@ function DashBoard() {
   };
 
   return (
-    <Box sx={{ px: 2 }}>
+    <Box sx={{ px: 2 , mb:2}}>
       <SchoolNoticeBoard />
       <Grid container justifyContent="flex-end" my={1} mr={2}>
         {/* <IconButton onClick={handleReset}>
@@ -197,7 +197,9 @@ function DashBoard() {
                     <Grid
                       item
                       xs={tile.id === 'attendance' ? 12 : 12}
-                      sm={tile.id === 'attendance' ? 8 : 4}
+                      sm={tile.id === 'attendance' ? 12 : 0}
+                      md={tile.id === 'attendance' ? 8 : 4}
+                      lg={tile.id === 'attendance' ? 8 : 4}
                       key={resetKey} // Use the resetKey to force re-render
                       ref={provided.innerRef}
                       {...provided.draggableProps}
