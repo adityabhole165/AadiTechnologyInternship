@@ -10,13 +10,15 @@ import {
 import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import {
+    CDA_EntireStudentFinalResult,
     StudentDetailsGA,
-    UpdateStudentTestMarks, ViewResultGA
+    UpdateStudentTestMarks
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import ViewResultAllTable from '../ViewResultAll/ViewResultAllTable';
 
 const GenerateAll = ({ }) => {
     const [isResultGenerated, setIsResultGenerated] = useState(false); // State to track result generation
@@ -52,6 +54,7 @@ const GenerateAll = ({ }) => {
     const SubHeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.SubHeaderArray);
     const ShortenTestDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getShortenTestDetails);
     const EntireDataList: any = useSelector((state: RootState) => state.FinalResultGenerateAll.EntireDataList);
+    const EntireStudentFinalResult: any = useSelector((state: RootState) => state.FinalResultGenerateAll.ISEntireStudentFinalResult);
     const ListDisplayNameDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.ListDisplayNameDetails);
     const ViewProgress = useSelector((state: RootState) => state.FinalResultGenerateAll.getViewResult);
     const MarkDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getMarkDetailsView);
@@ -103,7 +106,9 @@ const GenerateAll = ({ }) => {
     }, [EntireDataList]);
     useEffect(() => {
         if (UsGetSchoolSettings != null)
-            setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+            console.log('UsGetSchoolSettings', UsGetSchoolSettings);
+
+        setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
     }, [UsGetSchoolSettings])
 
     const getListDisplayName = (ShortName) => {
@@ -380,18 +385,9 @@ const GenerateAll = ({ }) => {
     }, [IsTotalConsiderForProgressReport]);
 
     // Student Results API Call | Table 2 (Result to generate on clicking genarate button)
-    const GetViewResultBody: IViewBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcadmeicYearId),
-        asStudentsIds: [asStudentId],
-        asStdDivId: Number(stdId),
-        asWithGrace: 1,
-    };
     useEffect(() => {
-        dispatch(ViewResultGA(GetViewResultBody));
+        dispatch(CDA_EntireStudentFinalResult(GetViewResultBody));
     }, []);
-
-
 
     const onClickClose = () => {
         navigate('/RITeSchool/Teacher/FinalResult');
@@ -428,7 +424,13 @@ const GenerateAll = ({ }) => {
         sXML += '</SchoolWiseStudentTestMarksDetails>';
         return sXML;
     };
-
+    const GetViewResultBody: IViewBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcadmeicYearId),
+        asStudentsIds: [asStudentId],
+        asStdDivId: Number(stdId),
+        asWithGrace: 1,
+    };
     const onSaveGenerate = async () => {
         const UpdateStudentTestMarksBody: IUpdateStudentTestMarksBody = {
             asschoolId: Number(asSchoolId),
@@ -439,7 +441,8 @@ const GenerateAll = ({ }) => {
         await dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
         dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
         setIsResultGenerated(true); // Set the result as generated
-        dispatch(ViewResultGA(GetViewResultBody));
+        // dispatch(ViewResultGA(GetViewResultBody));
+        dispatch(CDA_EntireStudentFinalResult(GetViewResultBody));
 
     };
 
@@ -501,6 +504,7 @@ const GenerateAll = ({ }) => {
         }
     }
     const [temp, setTemp] = useState('8');
+
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -550,166 +554,256 @@ const GenerateAll = ({ }) => {
                     </>
                 }
             />
-            {EntireDataList?.ErrorMessage !== '' && (
-                <Typography
-                    variant="body1"
-                    sx={{
-                        textAlign: 'center',
-                        marginTop: 4,
-                        backgroundColor: '#324b84',
-                        padding: 1,
-                        borderRadius: 2,
-                        color: 'white',
-                    }}
-                >
-                    <b> {EntireDataList?.ErrorMessage}</b>
-                </Typography>
-            )}
-            {StudentDetailsUS?.length > 0 && (
+            {Loading ? <SuspenseLoader /> : <>
+                {EntireDataList?.ErrorMessage !== '' && (
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            textAlign: 'center',
+                            marginTop: 4,
+                            backgroundColor: '#324b84',
+                            padding: 1,
+                            borderRadius: 2,
+                            color: 'white',
+                        }}
+                    >
+                        <b> {EntireDataList?.ErrorMessage}</b>
+                    </Typography>
+                )}
+                {StudentDetailsUS?.length > 0 && (
 
-                //  {showProgressReport && ( -
-                <div >
-                    {(IsView == 'false' && isGenerated) && (
-                        <div>
-                            <Box sx={{ background: 'white' }}>
-                                <Box>
-                                    <hr />
-                                    {StudentDetailsUS.map((item, index) => (
-                                        <div key={index}>
-                                            <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
-                                                {item.School_Orgn_Name}
-                                            </Typography>
-                                            <hr />
-                                            <Typography variant={"h3"} textAlign={'center'} color={"black"} mb={1}>
-                                                {item.School_Name}
-                                            </Typography>
-                                            <hr />
-                                            <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
-                                                Progress Report
-                                            </Typography>
-                                        </div>
-                                    ))}
-                                    <TableContainer
-                                        component={Paper}
-                                        sx={{
-                                            maxWidth: '100%',
-                                            overflowX: 'auto', // Allows horizontal scrolling on small screens
-                                        }}
-                                    >
-                                        <Table>
-                                            <TableBody>
-                                                {StudentDetailsUS.map((item, i) => {
-                                                    return (
-                                                        <TableRow sx={{
-                                                            bgcolor: '#38548A',
-                                                            display: 'flex',
-                                                            flexWrap: 'nowrap', // Ensures all cells stay in a single line
-                                                        }} key={i}>
-                                                            <TableCell
-                                                                sx={{
-                                                                    flex: '0 0 200px', // Fixed width for Roll No
-                                                                    minWidth: '200px',
-                                                                    textAlign: 'left',
-                                                                    whiteSpace: 'nowrap', // Prevent wrapping
-                                                                    color: 'white',
-                                                                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                                                                }}
-                                                            ><b>Roll No: {item.Text2}</b></TableCell>
-                                                            <TableCell
-                                                                sx={{
-                                                                    flex: '0 0 500px', // Fixed width for Name
-                                                                    minWidth: '500px',
-                                                                    textAlign: 'left',
-                                                                    whiteSpace: 'nowrap', // Prevent wrapping
-                                                                    color: 'white',
-                                                                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                                                                }}
-                                                            ><b>Name: {item.Text1}</b></TableCell>
-                                                            <TableCell
-                                                                sx={{
-                                                                    flex: '1 1 auto', // Flexible width for Class
-                                                                    minWidth: '200px',
-                                                                    textAlign: 'left',
+                    //  {showProgressReport && ( -
+                    <div >
+                        {(IsView == 'false' && isGenerated) && (
+                            <div>
+                                <Box sx={{ background: 'white' }}>
+                                    <Box>
+                                        <hr />
+                                        {StudentDetailsUS.map((item, index) => (
+                                            <div key={index}>
+                                                <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
+                                                    {item.School_Orgn_Name}
+                                                </Typography>
+                                                <hr />
+                                                <Typography variant={"h3"} textAlign={'center'} color={"black"} mb={1}>
+                                                    {item.School_Name}
+                                                </Typography>
+                                                <hr />
+                                                <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
+                                                    Progress Report
+                                                </Typography>
+                                            </div>
+                                        ))}
+                                        <TableContainer
+                                            component={Paper}
+                                            sx={{
+                                                maxWidth: '100%',
+                                                overflowX: 'auto', // Allows horizontal scrolling on small screens
+                                            }}
+                                        >
+                                            <Table>
+                                                <TableBody>
+                                                    {StudentDetailsUS.map((item, i) => {
+                                                        return (
+                                                            <TableRow sx={{
+                                                                bgcolor: '#38548A',
+                                                                display: 'flex',
+                                                                flexWrap: 'nowrap', // Ensures all cells stay in a single line
+                                                            }} key={i}>
+                                                                <TableCell
+                                                                    sx={{
+                                                                        flex: '0 0 200px', // Fixed width for Roll No
+                                                                        minWidth: '200px',
+                                                                        textAlign: 'left',
+                                                                        whiteSpace: 'nowrap', // Prevent wrapping
+                                                                        color: 'white',
+                                                                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                                                    }}
+                                                                ><b>Roll No: {item.Text2}</b></TableCell>
+                                                                <TableCell
+                                                                    sx={{
+                                                                        flex: '0 0 500px', // Fixed width for Name
+                                                                        minWidth: '500px',
+                                                                        textAlign: 'left',
+                                                                        whiteSpace: 'nowrap', // Prevent wrapping
+                                                                        color: 'white',
+                                                                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                                                    }}
+                                                                ><b>Name: {item.Text1}</b></TableCell>
+                                                                <TableCell
+                                                                    sx={{
+                                                                        flex: '1 1 auto', // Flexible width for Class
+                                                                        minWidth: '200px',
+                                                                        textAlign: 'left',
+                                                                        whiteSpace: 'nowrap',
+                                                                        color: 'white',
+                                                                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                                                    }}
+                                                                ><b>Class: {item.Text3} - {item.Text4}</b></TableCell>
+                                                                <TableCell
+                                                                    sx={{
+                                                                        flex: '1 1 auto', // Flexible width for Year
+                                                                        minWidth: '200px',
+                                                                        textAlign: 'left',
+                                                                        whiteSpace: 'nowrap',
+                                                                        color: 'white',
+                                                                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                                                    }}
+                                                                ><b>Year: {item.Text5}</b></TableCell>
+                                                            </TableRow>
+                                                        );
+                                                    })}
+                                                </TableBody>
+                                            </Table>
+                                            <Table>
+                                                <TableBody>
+                                                    {TotalconsidrationProgressReport.length > 0 && (
+                                                        <>
+                                                            <TableRow sx={{ bgcolor: 'white', p: 2, }}>
+                                                                <TableCell sx={{
+                                                                    minWidth: '600px',
                                                                     whiteSpace: 'nowrap',
-                                                                    color: 'white',
-                                                                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                                                                }}
-                                                            ><b>Class: {item.Text3} - {item.Text4}</b></TableCell>
-                                                            <TableCell
-                                                                sx={{
-                                                                    flex: '1 1 auto', // Flexible width for Year
-                                                                    minWidth: '200px',
-                                                                    textAlign: 'left',
-                                                                    whiteSpace: 'nowrap',
-                                                                    color: 'white',
-                                                                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                                                                }}
-                                                            ><b>Year: {item.Text5}</b></TableCell>
-                                                        </TableRow>
-                                                    );
-                                                })}
-                                            </TableBody>
-                                        </Table>
-                                        <Table>
-                                            <TableBody>
-                                                {TotalconsidrationProgressReport.length > 0 && (
-                                                    <>
-                                                        <TableRow sx={{ bgcolor: 'white', p: 2, }}>
-                                                            <TableCell sx={{
-                                                                minWidth: '600px',
-                                                                whiteSpace: 'nowrap',
-                                                            }}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
-                                                        </TableRow>
-                                                    </>
-                                                )}
+                                                                }}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
+                                                            </TableRow>
+                                                        </>
+                                                    )}
 
-                                            </TableBody>
-                                        </Table></TableContainer>
-                                    <Box sx={{ overflowX: 'auto', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                        <Table>
-                                            <TableHead>
-                                                {hasParentHeader && (
-                                                    <>
+                                                </TableBody>
+                                            </Table></TableContainer>
+                                        <Box sx={{ overflowX: 'auto', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                            <Table>
+                                                <TableHead>
+                                                    {hasParentHeader && (
+                                                        <>
+                                                            <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+                                                                <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                    <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={6}>
+                                                                        Subjects &#9654;
+                                                                    </Typography>
+                                                                    <Typography variant={"h3"} textAlign={'center'} color={"black"}>
+                                                                        &#9660; Exam
+                                                                    </Typography>
+                                                                </TableCell>
+                                                                {findRow1().map((item, index) => (
+                                                                    <TableCell
+                                                                        key={index}
+                                                                        colSpan={item.Total_Consideration == 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
+                                                                        sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center' }}
+                                                                    >
+                                                                        <Typography color="black" textAlign="center" mr={0}>
+                                                                            <b style={{ marginRight: "0px" }}>
+                                                                                {item.Subject_Name}
+                                                                                {item.Is_CoCurricularActivity == "True" && (
+                                                                                    <span style={{ color: 'red' }}>*</span>
+                                                                                )}
+                                                                            </b>
+                                                                        </Typography>
+
+                                                                    </TableCell>
+                                                                ))}
+                                                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                                    <>
+                                                                        <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                            <Typography color="#38548A" textAlign={'center'} px={3}>
+                                                                                <b>Total</b>
+                                                                            </Typography>
+                                                                        </TableCell>
+                                                                        <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                            <Typography color="#38548A" textAlign={'center'} px={1}>
+                                                                                <b>%</b>
+                                                                            </Typography>
+                                                                        </TableCell>
+                                                                        <TableCell rowSpan={3} sx={{ minWidth: '160px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                                                                            <Typography color="#38548A" textAlign={'center'} px={0}>
+                                                                                <b>Grade</b>
+                                                                            </Typography>
+                                                                        </TableCell>
+                                                                    </>}
+                                                                {StudentDetailsUS[0]?.IsFailCriteriaNotApplicable === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                                    <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                                                                        <Typography color="black" textAlign={'center'} px={0}>
+                                                                            <b>Result</b>
+                                                                        </Typography>
+                                                                    </TableCell>}
+                                                                {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' && showRankColumn &&
+                                                                    <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
+                                                                        <Typography color="black" textAlign={'center'} px={0}>
+                                                                            <b>Rank</b>
+                                                                        </Typography>
+                                                                    </TableCell>}
+                                                            </TableRow>
+                                                            <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+                                                                {findRow2()?.map((item, index) => (
+                                                                    <>
+                                                                        {/* SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && (SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === '0' || SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === undefined) && */}
+                                                                        {index > 0 && findRow2()[index - 1].Parent_Subject_Id !== "0" && item.Parent_Subject_Id === '0' && (
+                                                                            <>
+                                                                                {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
+                                                                                {findTestTypeForParentSubjects(findRow2()[index - 1]?.Parent_Subject_Id)?.map((item1, i) => {
+                                                                                    return (
+                                                                                        <TableCell key={i} rowSpan={2} sx={{ minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography textAlign={'center'} mr={0} sx={{ color: '#38548A', fontWeight: '800' }}>Total {item1?.ShortenTestType_Name}</Typography></TableCell>
+                                                                                    )
+                                                                                })}
+                                                                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
+                                                                                    <TableCell rowSpan={2} sx={{ minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'center'} mr={4}>Total</Typography></TableCell>}
+                                                                            </>
+                                                                        )}
+                                                                        {item.Subject_Name !== '' &&
+                                                                            <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', }}>
+                                                                                <Typography color="black" textAlign={'center'} mr={0}>
+                                                                                    <b style={{ marginRight: "5px" }}>{item.Subject_Name}
+                                                                                        {item.Is_CoCurricularActivity == "True" && (
+                                                                                            <span style={{ color: 'red' }}>*</span>
+                                                                                        )}
+                                                                                    </b>
+
+
+                                                                                </Typography>
+                                                                            </TableCell>}
+
+                                                                        {/* Check if the previous item has a parent and the current item doesn't */}
+
+                                                                    </>
+                                                                ))}
+                                                            </TableRow>
+                                                        </>
+                                                    )}
+                                                    {!hasParentHeader && (
                                                         <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                                                            <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={6}>
+                                                            <TableCell rowSpan={2} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={5}>
                                                                     Subjects &#9654;
                                                                 </Typography>
-                                                                <Typography variant={"h3"} textAlign={'center'} color={"black"}>
+                                                                <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={5}>
                                                                     &#9660; Exam
                                                                 </Typography>
                                                             </TableCell>
                                                             {findRow1().map((item, index) => (
-                                                                <TableCell
-                                                                    key={index}
-                                                                    colSpan={item.Total_Consideration == 'N' ? 1 : item.colSpan} rowSpan={item.rowSpan}
-                                                                    sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center' }}
-                                                                >
-                                                                    <Typography color="black" textAlign="center" mr={0}>
-                                                                        <b style={{ marginRight: "0px" }}>
-                                                                            {item.Subject_Name}
-                                                                            {item.Is_CoCurricularActivity == "True" && (
+                                                                <TableCell key={index} colSpan={item.colSpan} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth: '180px' }}>
+                                                                    <Typography color="black" textAlign={'center'} mr={0}>
+                                                                        <b style={{ marginRight: "5px" }}>{item.Subject_Name}
+
+                                                                            {item.Total_Consideration == "N" && (
                                                                                 <span style={{ color: 'red' }}>*</span>
                                                                             )}
                                                                         </b>
                                                                     </Typography>
-
                                                                 </TableCell>
                                                             ))}
                                                             {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
                                                                 <>
-                                                                    <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                    <TableCell rowSpan={3} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                                                                         <Typography color="#38548A" textAlign={'center'} px={3}>
                                                                             <b>Total</b>
                                                                         </Typography>
                                                                     </TableCell>
-                                                                    <TableCell rowSpan={3} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                        <Typography color="#38548A" textAlign={'center'} px={1}>
+                                                                    <TableCell rowSpan={3} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                        <Typography color="#38548A" textAlign={'center'} px={3}>
                                                                             <b>%</b>
                                                                         </Typography>
                                                                     </TableCell>
-                                                                    <TableCell rowSpan={3} sx={{ minWidth: '160px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
-                                                                        <Typography color="#38548A" textAlign={'center'} px={0}>
+                                                                    <TableCell rowSpan={3} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                                                                        <Typography color="#38548A" textAlign={'center'} px={5}>
                                                                             <b>Grade</b>
                                                                         </Typography>
                                                                     </TableCell>
@@ -727,536 +821,165 @@ const GenerateAll = ({ }) => {
                                                                     </Typography>
                                                                 </TableCell>}
                                                         </TableRow>
-                                                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                                                            {findRow2()?.map((item, index) => (
-                                                                <>
-                                                                    {/* SubjectArray[SubjectIndex].Parent_Subject_Id !== '0' && (SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === '0' || SubjectArray[SubjectIndex + 1]?.Parent_Subject_Id === undefined) && */}
-                                                                    {index > 0 && findRow2()[index - 1].Parent_Subject_Id !== "0" && item.Parent_Subject_Id === '0' && (
-                                                                        <>
-                                                                            {/* IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&  */}
-                                                                            {findTestTypeForParentSubjects(findRow2()[index - 1]?.Parent_Subject_Id)?.map((item1, i) => {
-                                                                                return (
-                                                                                    <TableCell key={i} rowSpan={2} sx={{ minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, }}>  <Typography textAlign={'center'} mr={0} sx={{ color: '#38548A', fontWeight: '800' }}>Total {item1?.ShortenTestType_Name}</Typography></TableCell>
-                                                                                )
-                                                                            })}
-                                                                            {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                                                                                <TableCell rowSpan={2} sx={{ minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>  <Typography sx={{ fontWeight: '800' }} color="#38548A" textAlign={'center'} mr={4}>Total</Typography></TableCell>}
-                                                                        </>
-                                                                    )}
-                                                                    {item.Subject_Name !== '' &&
-                                                                        <TableCell key={index} colSpan={item.colSpan} rowSpan={item.rowSpan} sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', }}>
-                                                                            <Typography color="black" textAlign={'center'} mr={0}>
-                                                                                <b style={{ marginRight: "5px" }}>{item.Subject_Name}
-                                                                                    {item.Is_CoCurricularActivity == "True" && (
-                                                                                        <span style={{ color: 'red' }}>*</span>
-                                                                                    )}
-                                                                                </b>
-
-
-                                                                            </Typography>
-                                                                        </TableCell>}
-
-                                                                    {/* Check if the previous item has a parent and the current item doesn't */}
-
-                                                                </>
-                                                            ))}
-                                                        </TableRow>
-                                                    </>
-                                                )}
-                                                {!hasParentHeader && (
-                                                    <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                                                        <TableCell rowSpan={2} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                            <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={5}>
-                                                                Subjects &#9654;
-                                                            </Typography>
-                                                            <Typography variant={"h3"} textAlign={'center'} color={"black"} ml={5}>
-                                                                &#9660; Exam
-                                                            </Typography>
-                                                        </TableCell>
-                                                        {findRow1().map((item, index) => (
-                                                            <TableCell key={index} colSpan={item.colSpan} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, textAlign: 'center', minWidth: '180px' }}>
-                                                                <Typography color="black" textAlign={'center'} mr={0}>
-                                                                    <b style={{ marginRight: "5px" }}>{item.Subject_Name}
-
-                                                                        {item.Total_Consideration == "N" && (
-                                                                            <span style={{ color: 'red' }}>*</span>
-                                                                        )}
-                                                                    </b>
-                                                                </Typography>
-                                                            </TableCell>
-                                                        ))}
-                                                        {IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                                                            <>
-                                                                <TableCell rowSpan={3} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                    <Typography color="#38548A" textAlign={'center'} px={3}>
-                                                                        <b>Total</b>
-                                                                    </Typography>
-                                                                </TableCell>
-                                                                <TableCell rowSpan={3} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                    <Typography color="#38548A" textAlign={'center'} px={3}>
-                                                                        <b>%</b>
-                                                                    </Typography>
-                                                                </TableCell>
-                                                                <TableCell rowSpan={3} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                                    <Typography color="#38548A" textAlign={'center'} px={5}>
-                                                                        <b>Grade</b>
-                                                                    </Typography>
-                                                                </TableCell>
-                                                            </>}
-                                                        {StudentDetailsUS[0]?.IsFailCriteriaNotApplicable === 'N' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' &&
-                                                            <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
-                                                                <Typography color="black" textAlign={'center'} px={0}>
-                                                                    <b>Result</b>
-                                                                </Typography>
-                                                            </TableCell>}
-                                                        {totalCount !== '0' && IsTotalConsiderForProgressReport.toLowerCase() === 'true' && showRankColumn &&
-                                                            <TableCell rowSpan={3} sx={{ py: 1, minWidth: '140px', border: (theme) => `1px solid ${theme.palette.grey[400]}` }} >
-                                                                <Typography color="black" textAlign={'center'} px={0}>
-                                                                    <b>Rank</b>
-                                                                </Typography>
-                                                            </TableCell>}
-                                                    </TableRow>
-                                                )}
-                                                <TableRow>
-                                                    {/* <TableCell></TableCell> ListTestTypeIdDetails */}
-                                                    {dataList.listSubjectsDetails?.map((item, index1) => (
-                                                        <>
-                                                            {dataList.ListSubjectidDetails.map((item2, index) => (
-                                                                <>
-                                                                    {item.Subject_Id === item2.Subject_Id &&
-                                                                        <TableCell key={index} sx={{ py: 1, alignItems: 'center', minWidth: '120px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
-                                                                            <Typography color="#38548A" textAlign={'center'} >
-                                                                                <b style={{ marginRight: "0px" }}>{item2.ShortenTestType_Name}</b>
-                                                                            </Typography>
-                                                                        </TableCell>
-                                                                    }
-                                                                </>
-                                                            ))}
-                                                            {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && dataList.ListSubjectidDetails.filter((itemFind) => itemFind.Subject_Id === item.Subject_Id).length > 1 && (
-                                                                <TableCell key={`total-${index1}`} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
-                                                                    <Typography color="#38548A" textAlign={'center'} px={2}>
-                                                                        <b>Total</b>
-                                                                    </Typography>
-                                                                </TableCell>
-                                                            )}
-                                                            {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' && !Boolean(dataList.ListSubjectidDetails.find((itemFind) => itemFind.Subject_Id === item.Subject_Id)) &&
-                                                                <TableCell key={index1} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
-                                                                    <Typography color="#38548A" textAlign={'center'} mr={0}>
-                                                                        <b>Grade</b>
-                                                                    </Typography>
-                                                                </TableCell>
-                                                            }
-                                                        </>
-                                                    ))}
-                                                </TableRow>
-                                            </TableHead>
-
-                                            {marksListArray.length > 0 && marksListArray.map((testItem, i) => (
-                                                <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center', }}>
+                                                    )}
                                                     <TableRow>
-                                                        <TableCell sx={{ py: 1, alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, maxWidth: '100%', minWidth: '300px' }}>
-                                                            <b> {testItem.TestName}</b>
-                                                        </TableCell>
-                                                        {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell sx={{ py: 1, alignItems: 'center', fontWeight: i === marksListArray.length - 1 ? 'bold' : 'normal', textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`, minWidth: '150px', width: '150px' }}>
-                                                                <span style={{ fontWeight: MarkItem?.IsGrades === 'Y' || i === marksListArray.length - 1 ? 'bold' : 'normal', display: 'flex', justifyContent: 'center', alignItems: 'center', color: MarkItem?.isResult ? MarkItem?.cellColor : 'inherit' }}>
-                                                                    {
-                                                                        !MarkItem
-                                                                            ? '-'
-                                                                            : (MarkItem?.MarksScored === undefined || MarkItem?.MarksScored === null || MarkItem?.MarksScored === '-'
-                                                                                ? '-'
-                                                                                : (MarkItem?.IsAbsent !== 'N'
-                                                                                    ? getRemarkForGradeCell(MarkItem.IsAbsent)
-                                                                                    : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null || MarkItem?.MarksScored === '-'
-                                                                                        ? '-'
-                                                                                        : <>
-                                                                                            {MarkItem?.isEdit && i !== marksListArray.length - 1
-                                                                                                ? MarkItem?.MarksOrGrade === 'M' ? <TextField
-                                                                                                    size="small"
-                                                                                                    value={MarkItem?.MarksScored}
-                                                                                                    inputProps={{
-                                                                                                        maxLength: 3,
-                                                                                                        pattern: '[0-9]*'
-                                                                                                    }}
-                                                                                                    onChange={(e) => {
-                                                                                                        const value = e.target.value.replace(/[^0-9]/g, '')
-                                                                                                        if (value.length <= 3) {
-                                                                                                            updateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, value, MarkItem.testType);
-                                                                                                        }
-                                                                                                    }}
-                                                                                                    onBlur={(e) => {
-                                                                                                        if (e.target.value === '') {
-                                                                                                            onBlurUpdateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, '0', MarkItem.testType);
-                                                                                                        } else if (Number(e.target.value) > Number(MarkItem.TotalMarks)) {
-                                                                                                            resetUpdateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, '0', MarkItem.testType);
+                                                        {/* <TableCell></TableCell> ListTestTypeIdDetails */}
+                                                        {dataList.listSubjectsDetails?.map((item, index1) => (
+                                                            <>
+                                                                {dataList.ListSubjectidDetails.map((item2, index) => (
+                                                                    <>
+                                                                        {item.Subject_Id === item2.Subject_Id &&
+                                                                            <TableCell key={index} sx={{ py: 1, alignItems: 'center', minWidth: '120px', border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                                <Typography color="#38548A" textAlign={'center'} >
+                                                                                    <b style={{ marginRight: "0px" }}>{item2.ShortenTestType_Name}</b>
+                                                                                </Typography>
+                                                                            </TableCell>
+                                                                        }
+                                                                    </>
+                                                                ))}
+                                                                {IsTotalConsiderForProgressReport.toLowerCase() === 'true' && dataList.ListSubjectidDetails.filter((itemFind) => itemFind.Subject_Id === item.Subject_Id).length > 1 && (
+                                                                    <TableCell key={`total-${index1}`} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                        <Typography color="#38548A" textAlign={'center'} px={2}>
+                                                                            <b>Total</b>
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                )}
+                                                                {item?.Is_CoCurricularActivity.toLowerCase() === 'true' && item?.Total_Consideration === 'N' && !Boolean(dataList.ListSubjectidDetails.find((itemFind) => itemFind.Subject_Id === item.Subject_Id)) &&
+                                                                    <TableCell key={index1} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, backgroundColor: blue[50] }}>
+                                                                        <Typography color="#38548A" textAlign={'center'} mr={0}>
+                                                                            <b>Grade</b>
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                }
+                                                            </>
+                                                        ))}
+                                                    </TableRow>
+                                                </TableHead>
 
-                                                                                                        }
-                                                                                                    }}
-                                                                                                    sx={{ width: '60px', marginRight: '8px' }}
-                                                                                                /> : <Select
-                                                                                                    size="small"
-                                                                                                    value={MarkItem?.MarksScored || ''}
-                                                                                                    onChange={(e) => {
-                                                                                                        // updateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, e.target.value, MarkItem.testType);
-                                                                                                        updateGradeDropdown(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, e.target.value, MarkItem.testType);
-                                                                                                    }}
-                                                                                                    sx={{ width: '80px', marginRight: '8px' }}
-                                                                                                >
-                                                                                                    {(MarkItem?.isCoCurricular === 'True' ? co_curricularDropdown : non_co_curricularDropdown)?.map((grade) => (
-                                                                                                        <MenuItem key={grade.Marks_Grades_Configuration_Detail_ID} value={grade.Grade_Name}>
-                                                                                                            {grade.Grade_Name}
-                                                                                                        </MenuItem>
-                                                                                                    ))}
-                                                                                                </Select>
-                                                                                                : MarkItem.MarksScored
-                                                                                            }
-                                                                                            {MarkItem.TotalMarks !== "-" && ` / ${MarkItem.TotalMarks}`}
-                                                                                        </>
+                                                {marksListArray.length > 0 && marksListArray.map((testItem, i) => (
+                                                    <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center', }}>
+                                                        <TableRow>
+                                                            <TableCell sx={{ py: 1, alignItems: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}`, maxWidth: '100%', minWidth: '300px' }}>
+                                                                <b> {testItem.TestName}</b>
+                                                            </TableCell>
+                                                            {testItem.MarksArr.map((MarkItem) => (
+                                                                <TableCell sx={{ py: 1, alignItems: 'center', fontWeight: i === marksListArray.length - 1 ? 'bold' : 'normal', textAlign: 'center', backgroundColor: 'white', border: (theme) => `1px solid ${theme.palette.grey[200]}`, minWidth: '150px', width: '150px' }}>
+                                                                    <span style={{ fontWeight: MarkItem?.IsGrades === 'Y' || i === marksListArray.length - 1 ? 'bold' : 'normal', display: 'flex', justifyContent: 'center', alignItems: 'center', color: MarkItem?.isResult ? MarkItem?.cellColor : 'inherit' }}>
+                                                                        {
+                                                                            !MarkItem
+                                                                                ? '-'
+                                                                                : (MarkItem?.MarksScored === undefined || MarkItem?.MarksScored === null || MarkItem?.MarksScored === '-'
+                                                                                    ? '-'
+                                                                                    : (MarkItem?.IsAbsent !== 'N'
+                                                                                        ? getRemarkForGradeCell(MarkItem.IsAbsent)
+                                                                                        : (MarkItem?.MarksScored == null || MarkItem?.TotalMarks == null || MarkItem?.MarksScored === '-'
+                                                                                            ? '-'
+                                                                                            : <>
+                                                                                                {MarkItem?.isEdit && i !== marksListArray.length - 1
+                                                                                                    ? MarkItem?.MarksOrGrade === 'M' ? <TextField
+                                                                                                        size="small"
+                                                                                                        value={MarkItem?.MarksScored}
+                                                                                                        inputProps={{
+                                                                                                            maxLength: 3,
+                                                                                                            pattern: '[0-9]*'
+                                                                                                        }}
+                                                                                                        onChange={(e) => {
+                                                                                                            const value = e.target.value.replace(/[^0-9]/g, '')
+                                                                                                            if (value.length <= 3) {
+                                                                                                                updateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, value, MarkItem.testType);
+                                                                                                            }
+                                                                                                        }}
+                                                                                                        onBlur={(e) => {
+                                                                                                            if (e.target.value === '') {
+                                                                                                                onBlurUpdateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, '0', MarkItem.testType);
+                                                                                                            } else if (Number(e.target.value) > Number(MarkItem.TotalMarks)) {
+                                                                                                                resetUpdateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, '0', MarkItem.testType);
+
+                                                                                                            }
+                                                                                                        }}
+                                                                                                        sx={{ width: '60px', marginRight: '8px' }}
+                                                                                                    /> : <Select
+                                                                                                        size="small"
+                                                                                                        value={MarkItem?.MarksScored || ''}
+                                                                                                        onChange={(e) => {
+                                                                                                            // updateMarksListArray(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, e.target.value, MarkItem.testType);
+                                                                                                            updateGradeDropdown(MarkItem.testId, MarkItem.schoolWiseStudentTestMarksId, MarkItem.testwiseSubjectMarksId, e.target.value, MarkItem.testType);
+                                                                                                        }}
+                                                                                                        sx={{ width: '80px', marginRight: '8px' }}
+                                                                                                    >
+                                                                                                        {(MarkItem?.isCoCurricular === 'True' ? co_curricularDropdown : non_co_curricularDropdown)?.map((grade) => (
+                                                                                                            <MenuItem key={grade.Marks_Grades_Configuration_Detail_ID} value={grade.Grade_Name}>
+                                                                                                                {grade.Grade_Name}
+                                                                                                            </MenuItem>
+                                                                                                        ))}
+                                                                                                    </Select>
+                                                                                                    : MarkItem.MarksScored
+                                                                                                }
+                                                                                                {MarkItem.TotalMarks !== "-" && ` / ${MarkItem.TotalMarks}`}
+                                                                                            </>
+                                                                                        )
                                                                                     )
                                                                                 )
-                                                                            )
-                                                                    }
-                                                                </span>
-                                                            </TableCell>
-                                                        ))}
-                                                    </TableRow>
-                                                </TableBody>
-                                            ))}
-                                        </Table>
+                                                                        }
+                                                                    </span>
+                                                                </TableCell>
+                                                            ))}
+                                                        </TableRow>
+                                                    </TableBody>
+                                                ))}
+                                            </Table>
+                                        </Box>
+
                                     </Box>
-
                                 </Box>
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-                                <Button
-                                    onClick={onSaveGenerate}
-                                    // variant="contained"
-                                    // color="error"
-                                    sx={{
-                                        color: 'green',
-                                        //   backgroundColor: green[500],
-                                        '&:hover': {
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
+                                    <Button
+                                        onClick={onSaveGenerate}
+                                        // variant="contained"
+                                        // color="error"
+                                        sx={{
                                             color: 'green',
-                                            backgroundColor: green[100]
-                                        }
-                                    }}
-                                >
-                                    Save & Generate Result
-                                </Button>
-                            </Box>
-                        </div>
-                    )}
-                    {Loading && <SuspenseLoader />}
-                    {(isResultGenerated || isGenerated == 'Y') && ( // Conditionally display the final result section
-                        <Box sx={{ mt: 2, background: 'white', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                            <Box>
-                                <hr />
-                                {ViewProgress.length > 0 && (
-                                    <>
-                                        <Typography variant="h4" textAlign={'center'} color={'primary'} mb={1}>
-                                            {ViewProgress[0].Text7}
-                                        </Typography>
-                                        <hr />
-                                        <Typography variant="h3" textAlign={'center'} color={'black'} mb={1}>
-                                            {ViewProgress[0].Text6}
-                                        </Typography>
-                                        <hr />
-                                        <Typography variant="h4" textAlign={'center'} color={'black'} pb={1}>
-                                            Final Result
-                                        </Typography>
-                                    </>
-                                )}
-                                <TableContainer
-                                    component={Paper}
-                                    sx={{
-                                        maxWidth: '100%',
-                                        overflowX: 'auto', // Allows horizontal scrolling on small screens
-                                    }}
-                                >
-                                    <Table>
-                                        <TableBody>
-                                            {ViewProgress.map((item, i) => {
-                                                return (
-                                                    <TableRow key={i}
-                                                        sx={{
-                                                            bgcolor: '#38548A',
-                                                            display: 'flex',
-                                                            flexWrap: 'nowrap', // Ensures all cells stay in a single line
-                                                        }}>
-                                                        <TableCell
-                                                            sx={{
-                                                                flex: '0 0 200px', // Fixed width for Roll No
-                                                                minWidth: '200px',
-                                                                textAlign: 'center',
-                                                                whiteSpace: 'nowrap', // Prevent wrapping
-                                                                color: 'white',
-                                                                fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                                                            }}
-                                                        >Roll No: <b>{item.Text2}</b></TableCell>
-                                                        <TableCell
-                                                            sx={{
-                                                                flex: '0 0 500px', // Fixed width for Name
-                                                                minWidth: '500px',
-                                                                textAlign: 'center',
-                                                                whiteSpace: 'nowrap', // Prevent wrapping
-                                                                color: 'white',
-                                                                fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                                                            }}
-                                                        >Name: <b>{item.Text1}</b></TableCell>
-                                                        <TableCell
-                                                            sx={{
-                                                                flex: '1 1 auto', // Flexible width for Class
-                                                                minWidth: '200px',
-                                                                textAlign: 'center',
-                                                                whiteSpace: 'nowrap',
-                                                                color: 'white',
-                                                                fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                                                            }}
-                                                        >Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
-                                                        <TableCell
-                                                            sx={{
-                                                                flex: '1 1 auto', // Flexible width for Year
-                                                                minWidth: '200px',
-                                                                textAlign: 'center',
-                                                                whiteSpace: 'nowrap',
-                                                                color: 'white',
-                                                                fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                                                            }}
-                                                        >Year: <b>{item.Text5}</b></TableCell>
-                                                    </TableRow>
-                                                );
-                                            })}
-                                        </TableBody>
-                                    </Table></TableContainer>
-                                <Table>
-                                    <TableBody>
-                                        {totalconsidration.length > 0 && (
-                                            <>
-                                                <TableRow sx={{ bgcolor: 'white', p: 2 }}>
-                                                    <TableCell sx={{ pl: 10, py: 1, }}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
-                                                </TableRow>
-                                            </>
-                                        )}
-
-                                    </TableBody>
-                                </Table>
-                                <Box sx={{ overflowX: 'auto', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                    <Table sx={{}}>
-                                        <TableBody >
-                                            <TableRow sx={{ bgcolor: '#F0F0F0' }}>
-                                                <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
-                                                    <Typography variant={"h4"} textAlign={'center'} color={"black"} ml={2}>
-                                                        Subjects
-                                                    </Typography>
-                                                </TableCell>
-                                                {SubjectDetailsView.map((subject, i) => (
-
-                                                    <TableCell key={subject.Subject_Id} sx={{ py: 1, textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[400]}` }}><b>{subject.Name}  </b>
-                                                        {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
-                                                    </TableCell>
-                                                ))}
-                                                {IsTotalConsiderForProgressReport === "True" && !showOnlyGrades && (
-                                                    <>
-                                                        <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Total</TableCell>
-                                                        <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>%</TableCell>
-                                                    </>
-                                                )}
-                                                {IsTotalConsiderForProgressReport === "True" && (
-                                                    <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
-                                                )}
-                                                {ToppersCount !== 0 && hasTopRanks && (
-                                                    <TableCell
-                                                        sx={{
-                                                            py: 1,
-                                                            border: (theme) => `1px solid ${theme.palette.grey[400]}`,
-                                                            fontWeight: 'bold',
-                                                            textAlign: 'center'
-                                                        }}
-                                                    >
-                                                        Rank
-                                                    </TableCell>
-                                                )}
-                                                {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && (
-                                                    <TableCell
-                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}
-                                                    >
-                                                        Result
-                                                    </TableCell>
-                                                )}
-                                            </TableRow>
-
-                                            <TableRow>
-                                                <>
-                                                    {/* <TableCell sx={{ backgroundColor: '#F0F0F0' }}>
-                                                            <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
-                                                                Marks
-                                                            </Typography>
-                                                        </TableCell> */}
-                                                    <>
-                                                        {MarkDetailsView.map((marks, i) => (
-                                                            <TableCell
-                                                                key={i}
-                                                                sx={{
-                                                                    py: 1,
-                                                                    border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-                                                                    textAlign: 'center'
-                                                                }}
-                                                            >
-                                                                {marks?.Name ? (marks.IsAbsent === '1' ? '-' : marks.Name) : '-'}
-                                                            </TableCell>
-                                                        ))}
-
-                                                        {showOnlyGrades && (
-                                                            <TableCell
-                                                                sx={{
-                                                                    py: 1,
-                                                                    border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-                                                                    textAlign: 'center'
-                                                                }}
-                                                            >
-                                                                -
-                                                            </TableCell>
-                                                        )}
-                                                    </>
-
-                                                    {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && TotalPerGradeView.map((totalData, index) => {
-                                                        if (index === 0) {
-                                                            const matchingRemark = PercentageDetails?.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
-                                                            return (
-                                                                <>
-                                                                    <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.TotalMarks}</TableCell>
-                                                                    <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}>{totalData.Percentage}%</TableCell>
-                                                                    <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }} >
-                                                                        <Typography variant="body2">
-                                                                            <Typography component="span" fontWeight="bold">
-                                                                                {totalData.GradeName}
-                                                                            </Typography>
-                                                                            {matchingRemark && ` (${matchingRemark})`}
-                                                                        </Typography>
-                                                                    </TableCell>
-
-                                                                </>
-                                                            );
-                                                        }
-                                                        return null;
-                                                    })}
-                                                    {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
-                                                        if (index === 0) {
-                                                            return (
-                                                                <>
-                                                                    <TableCell
-                                                                        key={index}
-                                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
-                                                                    >
-                                                                        {resultData.Result.trim() ? resultData.Result.trim() : '-'}
-                                                                    </TableCell>
-                                                                </>
-                                                            );
-                                                        }
-                                                        return null;
-                                                    })}
-                                                </>
-
-
-                                                {ToppersCount !== 0 && hasTopRanks && TotalPerGradeView.map((rank, rankIndex) => (
-                                                    <TableCell key={rankIndex} sx={{ color: 'green', textAlign: 'center', fontWeight: 'bold' }}>
-                                                        {rank.rank.trim() ? rank.rank.trim() : '-'}
-                                                    </TableCell>
-                                                ))
-
-                                                }
-
-
-                                            </TableRow>
-                                            {/* <TableRow>
-                                                {MarkDetailsView.map((subject, i) => (
-                                                    <TableCell key={i} align="center">  {subject.IsAbsent === '1' ? '-' : subject.Name}</TableCell>
-                                                ))}
-                                            </TableRow> */}
-                                            <TableRow>
-                                                {/* {GradesDetailsView.map((Grade, i) => (
-                                                    <TableCell key={i} align="center"> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
-                                                ))} */}
-                                                {GradesDetailsView.map((Grade, i) => (
-                                                    <TableCell key={i} sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }}> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
-                                                ))}
-                                                {!showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
-                                                    <>
-                                                        <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
-                                                        <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
-                                                        <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
-                                                        {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
-                                                            if (index === 0) {
-                                                                return (
-                                                                    <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, fontWeight: 'bold', textAlign: 'center' }}>-</TableCell>
-                                                                );
-                                                            }
-                                                            return null;
-                                                        })}
-                                                    </>
-                                                )}
-                                                {showOnlyGrades && IsTotalConsiderForProgressReport === "True" && (
-                                                    <>
-                                                        {TotalPerGradeView.map((totalData, index) => {
-                                                            if (index === 0) {
-                                                                const matchingRemark = PercentageDetails.find(detail => detail.GradeConfId === totalData.Grade_id)?.Remarks || '';
-                                                                return (
-                                                                    <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center' }} >
-                                                                        <Typography variant="body2">
-                                                                            <Typography component="span" fontWeight="bold">
-                                                                                {totalData.GradeName}
-                                                                            </Typography>
-                                                                            {matchingRemark && ` (${matchingRemark})`}
-                                                                        </Typography>
-                                                                    </TableCell>
-                                                                );
-                                                            }
-                                                            return null;
-                                                        })}
-
-                                                        {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
-                                                            if (index === 0) {
-                                                                return (
-                                                                    <TableCell
-                                                                        key={index}
-                                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
-                                                                    >
-                                                                        {resultData.Result.trim() ? resultData.Result.trim() : '-'}
-                                                                    </TableCell>
-                                                                );
-                                                            }
-                                                            return null;
-                                                        })}
-                                                    </>
-                                                )}
-                                                {ToppersCount !== 0 && hasTopRanks && (
-                                                    <TableCell
-                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
-                                                    >
-                                                        -
-                                                    </TableCell>
-                                                )}
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
+                                            //   backgroundColor: green[500],
+                                            '&:hover': {
+                                                color: 'green',
+                                                backgroundColor: green[100]
+                                            }
+                                        }}
+                                    >
+                                        Save & Generate Result
+                                    </Button>
                                 </Box>
-                            </Box>
-                        </Box>
-                    )}
-                </div>
-            )
-            }
-
-            {
-                !StudentDetailsUS && (
-                    <Box>
-                        {StudentDetailsUS.map((item, i) => (
-                            <Typography key={i}>
-                                Progress Report is not available for the student:{item.Text2} {item.Text1}
-                            </Typography>
-                        ))}
-                    </Box>
+                            </div>
+                        )}
+                        {Loading && <SuspenseLoader />}
+                        {(isResultGenerated || isGenerated == 'Y') && ( // Conditionally display the final result section 
+                            EntireStudentFinalResult.length > 0 && EntireStudentFinalResult?.map((studentResult, key) => {
+                                return (
+                                    <>
+                                        <ViewResultAllTable stdFinalResult={studentResult} key={key}
+                                            IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                                            ToppersCount={ToppersCount} isAllStdSelect={false}
+                                        />
+                                    </>
+                                )
+                            })
+                        )}
+                    </div>
                 )
+                }
+
+                {
+                    !StudentDetailsUS && (
+                        <Box>
+                            {StudentDetailsUS.map((item, i) => (
+                                <Typography key={i}>
+                                    Progress Report is not available for the student:{item.Text2} {item.Text1}
+                                </Typography>
+                            ))}
+                        </Box>
+                    )
+                }
+            </>
             }
         </Box >
 
