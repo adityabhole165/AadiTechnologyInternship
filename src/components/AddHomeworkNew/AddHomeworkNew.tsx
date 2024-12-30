@@ -1470,7 +1470,7 @@ const AddHomeworkNew = () => {
                 }}
                 style={{ width: '545px' }}
               />
-            </Grid>s
+            </Grid>
           </DialogContent>
 
           <DialogActions sx={{ py: 2, px: 3 }}>
