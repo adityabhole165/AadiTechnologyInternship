@@ -15,7 +15,7 @@ import {
     Tooltip,
     Typography
 } from "@mui/material";
-import { blue, red } from "@mui/material/colors";
+import { red } from "@mui/material/colors";
 
 
 
@@ -88,7 +88,7 @@ const FileUploadComponent = ({ files, comment, setFiles, setComment, setFileList
                 </Grid>
 
                 {/* Add Button */}
-                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+                {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
                     <Button
                         onClick={handleAddFile}
                         sx={{
@@ -103,7 +103,7 @@ const FileUploadComponent = ({ files, comment, setFiles, setComment, setFileList
                     >
                         Add Photos
                     </Button>
-                </Grid>
+                </Grid> */}
             </Grid>
 
             {/* Table to display files */}

@@ -12,7 +12,7 @@ import {
   Tooltip,
   useMediaQuery
 } from "@mui/material";
-import { green, grey, red } from "@mui/material/colors";
+import { blue, green, grey, red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from "react-toastify";
@@ -50,6 +50,9 @@ const AddNewPhoto = () => {
   const [ClassesAndDivisionssError, setClassesAndDivisionssError] = useState('');
   const [checkedValues, setCheckedValues] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [AddMorePhotos, setAddMorePhotos] = useState(false); //setAddMorePhoto
+  //console.log(AddMorePhotos, "AddMorePhoto");
+
   const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
   const MaxfileSize2 = 3000000;
   const [base64URL2, setbase64URL2] = useState('');
@@ -230,6 +233,14 @@ const AddNewPhoto = () => {
       setCheckedValues([]);
     }
   };
+  // function AddMorePhoto(event: SyntheticEvent<Element, Event>, checked: boolean): void {
+  //   throw new Error("Function not implemented.");
+  // }
+
+  const AddMorePhoto = (event) => {
+    const { checked } = event.target;
+    setAddMorePhotos(checked);
+  }
 
   return (
     <Box px={2}>
@@ -322,12 +333,14 @@ const AddNewPhoto = () => {
             </Box>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <FormControlLabel control={<Checkbox />} label="Add More Photos" />
+          <Grid item xs={12} sm={6} >
+            <FormControlLabel
+              onChange={AddMorePhoto}
+              control={<Checkbox />}
+              label="Add More Photos" />
           </Grid>
         </Grid>
-        <Grid xs={12} sm={6}>
-
+        <Grid xs={3} sm={3}>
           <FileUploadComponent
             files={files}
             comment={comment}
@@ -337,11 +350,40 @@ const AddNewPhoto = () => {
             fileList={fileList}
             handleFileChange={handleFileChange}
             handleAddFile={handleAddFile}
-
-
+          // AddMorePhoto={setAddMorePhotos}
           />
           <ErrorMessage1 Error={SelectImageError}></ErrorMessage1>
+
+
+          {AddMorePhotos === true ? (
+            <Button
+              onClick={handleAddFile}
+              sx={{
+
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 1, // Adds spacing between the text field and button
+
+
+                mt: 1, color: '#38548A',
+                //  backgroundColor: grey[500],
+                '&:hover': {
+                  color: '#38548A',
+                  backgroundColor: blue[100]
+                }
+              }}
+
+            >
+              Add Photos
+            </Button>
+
+          ) : (
+            <span></span>
+          )}
+
         </Grid>
+
         <Box pt={2} >
           <Box>
             <SelectListHierarchy1
