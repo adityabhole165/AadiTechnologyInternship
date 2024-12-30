@@ -212,8 +212,8 @@ function PhotoCardDash() {
   return (
     <Box sx={{height: '382px',}}>
     <Box sx={{ backgroundColor: 'white' }}>
-      <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
-        <Grid item xs={12}>
+      <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' , }}>
+        <Grid item xs={12} mt={1}>
           <Header Title="Photo Albums" />
         </Grid>
         <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', pr: 4, mt: 1 }}>
@@ -233,7 +233,7 @@ function PhotoCardDash() {
 
       {/* Photo Album Display */}
       <div>
-        <Box sx={{ display: 'flex', justifyContent: 'center', }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: -1 }}>
           {PhotoAlbum.length > 0 ? (
             <CarouselPhoto
               itemlist={PhotoAlbum1}
