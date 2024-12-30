@@ -69,7 +69,7 @@ const GenerateAll = ({ }) => {
     const [co_curricularDropdown, set_co_curricularDropdown] = useState([]);
     const [non_co_curricularDropdown, set_non_co_curricularDropdown] = useState([]);
     const hasTopRanks = TotalPerGradeView?.some((item) =>
-        [1, 2, 3].includes(item.rank)
+        ['1', '2', '3'].includes(item.rank)
     );
 
     // Dropdown for Co-curricular subjects and Non-co-curricular subjects | Edit Cells
@@ -655,8 +655,10 @@ const GenerateAll = ({ }) => {
                                                 {TotalconsidrationProgressReport.length > 0 && (
                                                     <>
                                                         <TableRow sx={{ bgcolor: 'white', p: 2, }}>
-                                                            <TableCell sx={{minWidth: '600px',
-                                                                    whiteSpace: 'nowrap',}}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
+                                                            <TableCell sx={{
+                                                                minWidth: '600px',
+                                                                whiteSpace: 'nowrap',
+                                                            }}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
                                                         </TableRow>
                                                     </>
                                                 )}
@@ -1062,7 +1064,7 @@ const GenerateAll = ({ }) => {
                                                 {IsTotalConsiderForProgressReport === "True" && (
                                                     <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
                                                 )}
-                                                {ToppersCount === 3 && hasTopRanks && (
+                                                {ToppersCount !== 0 && hasTopRanks && (
                                                     <TableCell
                                                         sx={{
                                                             py: 1,
@@ -1141,17 +1143,29 @@ const GenerateAll = ({ }) => {
                                                     {ViewProgress.some((item) => item.IsFailCriteriaNotApplicable === "N") && TotalPerGradeView.map((resultData, index) => {
                                                         if (index === 0) {
                                                             return (
-                                                                <TableCell
-                                                                    key={index}
-                                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
-                                                                >
-                                                                    {resultData.Result.trim() ? resultData.Result.trim() : '-'}
-                                                                </TableCell>
+                                                                <>
+                                                                    <TableCell
+                                                                        key={index}
+                                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold', color: `${resultData.Result.trim() == "Pass" ? 'green' : resultData.Result.trim() == "Fail" ? "red" : 'inherit'}` }}
+                                                                    >
+                                                                        {resultData.Result.trim() ? resultData.Result.trim() : '-'}
+                                                                    </TableCell>
+                                                                </>
                                                             );
                                                         }
                                                         return null;
                                                     })}
                                                 </>
+
+
+                                                {ToppersCount !== 0 && hasTopRanks && TotalPerGradeView.map((rank, rankIndex) => (
+                                                    <TableCell key={rankIndex} sx={{ color: 'green', textAlign: 'center', fontWeight: 'bold' }}>
+                                                        {rank.rank.trim() ? rank.rank.trim() : '-'}
+                                                    </TableCell>
+                                                ))
+
+                                                }
+
 
                                             </TableRow>
                                             {/* <TableRow>
@@ -1214,6 +1228,13 @@ const GenerateAll = ({ }) => {
                                                             return null;
                                                         })}
                                                     </>
+                                                )}
+                                                {ToppersCount !== 0 && hasTopRanks && (
+                                                    <TableCell
+                                                        sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                    >
+                                                        -
+                                                    </TableCell>
                                                 )}
                                             </TableRow>
                                         </TableBody>
