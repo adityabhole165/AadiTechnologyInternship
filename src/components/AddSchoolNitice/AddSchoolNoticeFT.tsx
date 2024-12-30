@@ -663,7 +663,7 @@ const AddSchoolNoticeFT = () => {
                 <Box sx={{ p: 2, background: 'white' }}>
                     <Grid container spacing={2}>
                         {radioBtn === '1' ? (
-                            <Grid item xs={12} sm={3} md={6} lg={6}>
+                            <Grid item xs={12} sm={4} md={4} lg={6}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -689,7 +689,7 @@ const AddSchoolNoticeFT = () => {
 
                             </Grid>
                         ) : (
-                            <Grid item xs={12} sm={3} md={6} lg={6}>
+                            <Grid item xs={12} sm={4} md={4} lg={6}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -711,7 +711,7 @@ const AddSchoolNoticeFT = () => {
                                 <ErrorMessage1 Error={NoticeNameError1}></ErrorMessage1>
                             </Grid>
                         )}
-                        <Grid item xs={12} sm={2} md={3} lg={3}>
+                        <Grid item xs={12} sm={4} md={4} lg={3}>
                             <SearchableDropdown
                                 sx={{ minWidth: '20vw' }}
                                 ItemList={DisplayLocation}
@@ -721,7 +721,7 @@ const AddSchoolNoticeFT = () => {
                                 label='Display Location'
                             />
                         </Grid>
-                        <Grid item xs={12} sm={2} md={3} lg={3}>
+                        <Grid item xs={12} sm={4} md={4} lg={3}>
                             <TextField
                                 fullWidth
                                 label={
@@ -741,7 +741,7 @@ const AddSchoolNoticeFT = () => {
                             />
                             <ErrorMessage1 Error={SortOrderError}></ErrorMessage1>
                         </Grid>
-                        <Grid item xs={12} sm={2} md={3} lg={3} >
+                        <Grid item xs={12} sm={4} md={4} lg={3} >
                             <Datepicker2
                                 DateValue={StartDate}
                                 onDateChange={onSelectStartDate}
@@ -751,11 +751,11 @@ const AddSchoolNoticeFT = () => {
                             <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
                             <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
                         </Grid>
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} sm={4} md={4} lg={3}>
                             <TimepickerTwofields Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
 
                         </Grid>
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} sm={4} md={4} lg={3}>
                             <Datepicker2
                                 DateValue={EndDate}
                                 onDateChange={onSelectEndDate}
@@ -766,13 +766,13 @@ const AddSchoolNoticeFT = () => {
                             <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
                         </Grid>
 
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} sm={4} md={4} lg={3}>
                             <TimepickerTwofields Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
                         </Grid>
 
                         {radioBtn === '1' && (
                             <>
-                                <Grid item xs={10} md={2}>
+                                <Grid item xs={10} sm={3} md={3} lg={2.5}>
                                     <SingleFile2
                                         ValidFileTypes={ValidFileTypes}
                                         MaxfileSize={MaxfileSize}
@@ -788,7 +788,7 @@ const AddSchoolNoticeFT = () => {
                                         <ErrorMessage1 Error={NoticeFileError} />
                                     )}
                                 </Grid>
-                                <Grid item xs={1} md={1}>
+                                <Grid item xs={1} sm={1} md={1} lg={0.5}>
 
                                     <Tooltip title={"View"}>
                                         <IconButton
@@ -810,7 +810,7 @@ const AddSchoolNoticeFT = () => {
                             </>
                         )}
 
-                        <Grid item xs={8} sm={2} md={1.8} lg={2}>
+                        <Grid item xs={8} sm={2.3} md={2.5} lg={2}>
                             <SingleFile2
                                 ValidFileTypes={ValidFileTypes2}
                                 MaxfileSize={MaxfileSize2}
@@ -823,7 +823,7 @@ const AddSchoolNoticeFT = () => {
                                 isMandatory={false}
                             />
                         </Grid>
-                        <Grid item xs={4} md={1.2} lg={1}>
+                        <Grid item xs={4} sm={1.7} md={1.5} lg={1}>
                             <>
                                 <Tooltip title={"View"}>
                                     <IconButton
@@ -878,16 +878,16 @@ const AddSchoolNoticeFT = () => {
                             />
                         </Grid>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={2} mt={2} ml={2}>
+                            <Grid item xs={12} sm={12} md={2} mt={2} ml={1}>
                                 <Typography variant="h5" p={1}>
                                     Applicable to: <span style={{ color: 'red' }}>*</span>
                                 </Typography>
 
                                 <FormGroup>
                                     <Box
-                                        ml={1}
-                                        gap={2}
-                                        sx={{
+                                       
+                                        gap={1}
+                                        sx={{ ml:1,
                                             display: 'flex',
                                             flexDirection: { xs: 'column', sm: 'column', md: 'row' },
                                             alignItems: { xs: 'flex-start', md: 'center' },
@@ -998,7 +998,7 @@ const AddSchoolNoticeFT = () => {
                             :
                             <Grid item md={12}>
                                 <Box>
-                                    <ReactQuill className='ql-editor' value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
+                                    <ReactQuill className='ql-editor' value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "20px", }} />
                                     <ErrorMessage1 Error={NoticeContentError}></ErrorMessage1>
                                 </Box>
                             </Grid>
