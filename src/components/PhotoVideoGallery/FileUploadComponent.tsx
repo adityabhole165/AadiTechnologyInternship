@@ -18,11 +18,14 @@ import {
 import { blue, red } from "@mui/material/colors";
 import React, { useState } from "react";
 
-const FileUploadComponent: React.FC = () => {
 
-    const [files, setFiles] = useState<File[]>([]);
-    const [comment, setComment] = useState("");
-    const [fileList, setFileList] = useState<{ fileNames: string[]; comment: string }[]>([]);
+
+const FileUploadComponent = ({files,comment,setFiles,setComment,setFileList,fileList,handleFileChange,handleAddFile}) => {
+  
+   
+
+     
+
 
     //console.log(files, "files👌👌👌");
     //console.log(fileList, "fileList1234😒😒")
@@ -33,45 +36,8 @@ const FileUploadComponent: React.FC = () => {
     const MaxfileSize = 10 * 1000000; // 10 MB in bytes
     const FileLabel = "Select Images";
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            const selectedFiles = Array.from(event.target.files);
-            setFiles(selectedFiles);
-        }
-    };
-
-    const handleAddFile = () => {
-        if (files.length === 0) {
-            alert("At least one file must be selected.");
-            return;
-        }
-
-        if (!comment.trim()) {
-            alert("Please add a comment.");
-            return;
-        }
-
-        const newEntry = {
-            fileNames: files.map((file) => file.name),
-            comment,
-        };
-
-        setFileList([...fileList, newEntry]);
-        setFiles([]); // Reset file input
-        setComment(""); // Reset comment field
-    };
-    const handleDeleteFile = (entryIndex: number, fileIndex: number) => {
-        setFileList((prevList) =>
-            prevList.map((entry, idx) =>
-                idx === entryIndex
-                    ? {
-                        ...entry,
-                        fileNames: entry.fileNames.filter((_, fIdx) => fIdx !== fileIndex),
-                    }
-                    : entry
-            ).filter((entry) => entry.fileNames.length > 0) // Remove entry if all files are deleted
-        );
-    };
+  
+    
     return (
         <Box pt={2}>
             <Grid container spacing={2}>
@@ -199,4 +165,8 @@ const FileUploadComponent: React.FC = () => {
     );
 };
 
-export default FileUploadComponent;
+export default FileUploadComponent
+
+
+
+

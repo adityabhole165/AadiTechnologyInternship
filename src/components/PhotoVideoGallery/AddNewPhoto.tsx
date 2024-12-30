@@ -85,32 +85,7 @@ const AddNewPhoto = () => {
     return arr.toString()
   }
   const ClassSelected = String(isClassSelected());
-  const ClickSave = async () => {
-    let isValid = true;
-    if (!GalleryName.trim()) {
-      setGalleryNameError('Gallery name should not be blank.');
-      isValid = false;
-    }
-    const SavephotoGallery: IManagePhotoGalleryBody = {
-      asSchool_Id: asSchoolId,
-      asOrg_Gallery_Name: "",
-      asGallery_Name: GalleryName,
-      asGallery_DetailsXML: "",
-      asInserted_By_id: asUserId,
-      asAssociatedSection: "1,2,3",
-      asClassesIds: ClassSelected,
-      Gallery_ID: 0
-    }
-    dispatch(CDAManagePhotoGalleryMsg(SavephotoGallery))
-    //setGalleryNameError('');
-  }
-  useEffect(() => {
-    if (USManagePhotoGallery !== "") {
-      toast.success(USManagePhotoGallery);
-      dispatch(resetManagePhotoGalleryMsg());
-      dispatch(CDAGetPhotoDetails(PhotoDetailsBody));
-    }
-  }, [GalleryName, ClassSelected]);
+
 
 
   // function getXML() {
@@ -139,6 +114,10 @@ const AddNewPhoto = () => {
   //   return asUpdateSelectXML;
   // }
 
+  
+
+
+
 
   useEffect(() => {
     setitemList(ClassesAndDivisionss);
@@ -158,6 +137,87 @@ const AddNewPhoto = () => {
   const ClickGalleryName = (value) => {
     setGalleryName(value);
   };
+
+  const [files, setFiles] = useState<File[]>([]);
+  const [comment, setComment] = useState("");
+  const [fileList, setFileList] = useState<{ fileNames: string[]; comment: string }[]>([]);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const selectedFiles = Array.from(event.target.files);
+            setFiles(selectedFiles);
+        }
+    };
+
+    const handleAddFile = () => {
+        if (files.length === 0) {
+            alert("At least one file must be selected.");
+            return;
+        }
+
+        if (!comment.trim()) {
+            alert("Please add a comment.");
+            return;
+        }
+
+        const newEntry = {
+            fileNames: files.map((file) => file.name),
+            comment,
+        };
+
+        setFileList([...fileList, newEntry]);
+        setFiles([]); // Reset file input
+        setComment(""); // Reset comment field
+    };
+
+    const getXML1 = () => {
+      let Image_SrNo = 0; 
+      let xml = '<PhotoGallery>\n'; 
+      
+      fileList.forEach((entry) => {
+          entry.fileNames.forEach((fileName) => {
+              Image_SrNo++; // Increment for each file
+              xml += `  <PhotoGallery Image_Path="${fileName}" Image_SrNo="${Image_SrNo}" Comment="${entry.comment}" />\n`;
+          });
+      });
+  
+      xml += '</PhotoGallery>'; 
+      return xml;
+  };
+  
+
+
+console.log(getXML1(),"getXML1");
+
+
+const ClickSave = async () => {
+  let isValid = true;
+  if (!GalleryName.trim()) {
+    setGalleryNameError('Gallery name should not be blank.');
+    isValid = false;
+  }
+  const SavephotoGallery: IManagePhotoGalleryBody = {
+    asSchool_Id: asSchoolId,
+    asOrg_Gallery_Name: "",
+    asGallery_Name: GalleryName,
+    asGallery_DetailsXML: getXML1(),
+    asInserted_By_id: asUserId,
+    asAssociatedSection: "1,2,3",
+    asClassesIds: ClassSelected,
+    Gallery_ID: 0
+  }
+  dispatch(CDAManagePhotoGalleryMsg(SavephotoGallery))
+  //setGalleryNameError('');
+}
+useEffect(() => {
+  if (USManagePhotoGallery !== "") {
+    toast.success(USManagePhotoGallery);
+    dispatch(resetManagePhotoGalleryMsg());
+    dispatch(CDAGetPhotoDetails(PhotoDetailsBody));
+  }
+}, [GalleryName, ClassSelected]);
+
+
 
 
   return (
@@ -258,7 +318,18 @@ const AddNewPhoto = () => {
           </Grid>
         </Grid>
         <Grid xs={12} sm={6}>
-          <FileUploadComponent />
+          <FileUploadComponent
+          files={files}
+          comment={comment}
+          setFiles={setFiles}
+          setComment={setComment}
+          setFileList={setFileList}
+          fileList={fileList}
+          handleFileChange={handleFileChange}
+          handleAddFile={handleAddFile}
+          
+          
+          />
 
         </Grid>
         <Box pt={2} >
