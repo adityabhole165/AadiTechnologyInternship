@@ -211,7 +211,7 @@ function PhotoCardDash() {
 
   return (
     <Box sx={{height: '382px',}}>
-    <Box sx={{ height: '350px', backgroundColor: 'white' }}>
+    <Box sx={{ backgroundColor: 'white' }}>
       <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
         <Grid item xs={12}>
           <Header Title="Photo Albums" />
