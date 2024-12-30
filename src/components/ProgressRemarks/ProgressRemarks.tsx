@@ -1,8 +1,8 @@
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, Button, DialogTitle, Grid, IconButton, Modal, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey, red } from '@mui/material/colors';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Paper, Stack, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { blue, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +23,7 @@ import {
   IStudentswiseRemarkDetailsToExportBody,
   IUpdateAllStudentsRemarkDetailsBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
+import Legend from 'src/libraries/Legend/Legend';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
@@ -48,7 +49,6 @@ import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressRemarkTerm from './ProgressRemarkTerm';
 import ProgressRemarksNotes from './ProgressRemarksNotes';
-import Legend from 'src/libraries/Legend/Legend';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -925,6 +925,9 @@ const ProgressRemarks = () => {
       dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody))
     }
   }, [UpdateAllStudentsRemarkDetail]);
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+  const is1024 = useMediaQuery('(min-width:1024px) and (max-width:1366px)');
   const LegendArray = [
     {
       id: 1,
@@ -1147,128 +1150,146 @@ const ProgressRemarks = () => {
         </Box>
       </Box>
 
-      <Modal
+      <Dialog
         open={open}
         onClose={ClickAppropriate}
-
+        fullWidth
+        maxWidth={is1024 ? 'md' : 'md'}
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+            width: is1024 ? '100%' : 'auto',
+          },
+        }}
       >
-        <Box sx={style}>
-          <DialogTitle
+        <DialogTitle
+          sx={{
+            backgroundColor: '#324b84',
+            position: 'relative'
+
+          }}
+        >
+
+          <ClearIcon
+            onClick={() => setOpen(!open)}
             sx={{
-              bgcolor: '#223354',
-              color: (theme) => theme.palette.common.white,
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderTopLeftRadius: '15px',
-              borderTopRightRadius: '15px',
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '8px',
+              right: '10px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+              },
+            }}
+          />
+        </DialogTitle>
+        <Typography variant={isXs ? 'h4' : 'h3'} sx={{ pt: 1, pl: 2 }}>
+          Select Appropriate Template
+        </Typography>
+        <DialogContent>
+          <Box sx={{ mb: 2 }}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm={6} md={4} lg={4}>
+                <TextField
+                  size="small"
+                  fullWidth
+                  label="Student Name"
+                  value={studentName}
+                  sx={{ bgcolor: '#F0F0F0' }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={4}>
+                <SearchableDropdown
+                  ItemList={USRemarksCategory}
+                  onChange={clickRemark}
+                  defaultValue={Remark}
+                  label="Remark Category"
+                  size="small"
+                  sx={{ minWidth: '100%' }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={4}>
+                <SearchableDropdown
+                  ItemList={GradeDropDown}
+                  onChange={clickGrade}
+                  defaultValue={SelectGrade}
+                  label="Grades"
+                  size="small"
+                  sx={{ minWidth: '100%' }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+
+          <Box
+            sx={{
+              maxHeight: '320px',
+              overflowY: 'auto',
+              bgcolor: '#F9F9F9',
+              p: 2,
+              borderRadius: 1,
             }}
           >
-            <ClearIcon onClick={() => setOpen(!open)}
-              sx={{
-                color: 'white',
-                borderRadius: '7px',
-                position: 'absolute',
-                top: '5px',
-                right: '7px',
-                cursor: 'pointer',
-                '&:hover': {
-                  color: 'red',
-                }
-              }} />
-          </DialogTitle>
-          <Box sx={{ color: '#223354', position: 'relative', flexDirection: 'column', margin: '18px' }}>
-
-            <h1>
-              Select Appropriate Template
-            </h1>
-
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
-
-              <TextField
-                size={"small"}
-                fullWidth
-                label={"Student Name"}
-                value={studentName}
-                sx={{ bgcolor: '#F0F0F0	', minWidth: '230px' }}
-                InputProps={{
-                  readOnly: true,
+            {remarkTemplates.length > 0 ? (
+              <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
+                <RemarkList
+                  ItemList={remarkTemplates}
+                  HeaderArray={HeaderPublish}
+                  onChange={Changevalue}
+                  ClickHeader={ClickHeader}
+                />
+              </ProgressRemarkTerm.Provider>
+            ) : (
+              <Typography
+                variant="body1"
+                sx={{
+                  textAlign: 'center',
+                  mt: 1,
+                  bgcolor: '#324b84',
+                  p: 1,
+                  borderRadius: 2,
+                  color: 'white',
                 }}
-              />
-              <SearchableDropdown
-                ItemList={USRemarksCategory}
-                sx={{ minWidth: '230px' }}
-                onChange={clickRemark}
-                defaultValue={Remark}
-                label={'Remark Category'}
-                size={"small"}
-              />
-              <SearchableDropdown
-                ItemList={GradeDropDown}
-                sx={{ minWidth: '230px' }}
-                onChange={clickGrade}
-                defaultValue={SelectGrade}
-                label={'Grades'}
-                size={"small"}
-              />
-
-            </Box>
-
-            <Box sx={{ pt: 1, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto' }}>
-              {remarkTemplates.length > 0 ? (
-                <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
-
-                  <RemarkList
-                    ItemList={remarkTemplates}
-                    HeaderArray={HeaderPublish}
-                    onChange={Changevalue}
-                    ClickHeader={ClickHeader}
-                  />
-                </ProgressRemarkTerm.Provider>
-              ) : (
-                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: 'auto' }}>
-                  <b>No record found.</b>
-                </Typography>
-              )}
-            </Box>
-
+              >
+                <b>No record found.</b>
+              </Typography>
+            )}
           </Box>
-          <Box sx={{ marginLeft: 70 }}>
-            <Button
-              sx={{
-                mt: 2,
-                color: 'red',
-                '&:hover': {
-                  color: 'red',
-                  backgroundColor: red[100]
-                }
-              }}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{
+              color: 'red',
+              '&:hover': {
+                bgcolor: 'rgba(255,0,0,0.1)',
+              },
+            }}
+            onClick={() => setOpen(!open)}
+          >
+            Cancel
+          </Button>
+          <Button
+            sx={{
+              color: 'green',
+              '&:hover': {
+                bgcolor: 'rgba(0,255,0,0.1)',
+              },
+            }}
+            onClick={SelectClick}
+            disabled={remarkTemplates.length === 0}
+          >
+            Select
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-              onClick={() => setOpen(!open)}
-            >
-              Cancel
-            </Button>
-            <Button
-              sx={{
-                mt: 2,
-                color: 'green',
-                '&:hover': {
-                  color: 'green',
-                  backgroundColor: green[100]
-                }
-              }}
-              onClick={SelectClick}
-              disabled={remarkTemplates.length === 0}
-            >
-              Select
-            </Button>
 
-          </Box>
-
-        </Box>
-      </Modal>
-
-    </Box>
+    </Box >
   );
 };
 
