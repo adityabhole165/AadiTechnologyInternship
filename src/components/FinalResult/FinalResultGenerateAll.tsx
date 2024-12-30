@@ -607,8 +607,8 @@ const GenerateAll = ({ }) => {
                                                         }} key={i}>
                                                             <TableCell
                                                                 sx={{
-                                                                    flex: '0 0 100px', // Fixed width for Roll No
-                                                                    minWidth: '100px',
+                                                                    flex: '0 0 200px', // Fixed width for Roll No
+                                                                    minWidth: '200px',
                                                                     textAlign: 'left',
                                                                     whiteSpace: 'nowrap', // Prevent wrapping
                                                                     color: 'white',
@@ -617,8 +617,8 @@ const GenerateAll = ({ }) => {
                                                             ><b>Roll No: {item.Text2}</b></TableCell>
                                                             <TableCell
                                                                 sx={{
-                                                                    flex: '0 0 300px', // Fixed width for Name
-                                                                    minWidth: '300px',
+                                                                    flex: '0 0 500px', // Fixed width for Name
+                                                                    minWidth: '500px',
                                                                     textAlign: 'left',
                                                                     whiteSpace: 'nowrap', // Prevent wrapping
                                                                     color: 'white',
@@ -628,7 +628,7 @@ const GenerateAll = ({ }) => {
                                                             <TableCell
                                                                 sx={{
                                                                     flex: '1 1 auto', // Flexible width for Class
-                                                                    minWidth: '100px',
+                                                                    minWidth: '200px',
                                                                     textAlign: 'left',
                                                                     whiteSpace: 'nowrap',
                                                                     color: 'white',
@@ -638,7 +638,7 @@ const GenerateAll = ({ }) => {
                                                             <TableCell
                                                                 sx={{
                                                                     flex: '1 1 auto', // Flexible width for Year
-                                                                    minWidth: '100px',
+                                                                    minWidth: '200px',
                                                                     textAlign: 'left',
                                                                     whiteSpace: 'nowrap',
                                                                     color: 'white',
@@ -655,7 +655,8 @@ const GenerateAll = ({ }) => {
                                                 {TotalconsidrationProgressReport.length > 0 && (
                                                     <>
                                                         <TableRow sx={{ bgcolor: 'white', p: 2, }}>
-                                                            <TableCell><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
+                                                            <TableCell sx={{minWidth: '600px',
+                                                                    whiteSpace: 'nowrap',}}><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks. </TableCell>
                                                         </TableRow>
                                                     </>
                                                 )}
