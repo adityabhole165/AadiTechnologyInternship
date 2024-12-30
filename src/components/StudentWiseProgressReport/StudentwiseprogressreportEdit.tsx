@@ -2,7 +2,7 @@
 import { CheckCircle, Save, Unpublished } from '@mui/icons-material';
 import FactCheck from '@mui/icons-material/FactCheck';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -472,103 +472,110 @@ const StudentwiseprogressreportEdit = () => {
                 ]}
                 rightActions={
                     <>
-                        {/* <SearchableDropdown
-                            ItemList={USGetStandardwiseAssessmentDetails}
-                            sx={{ minWidth: '250px' }}
-                            onChange={clickAssessmentId}
-                            defaultValue={AssessmentId}
-                            label={'Assessment'}
-                            size={"small"}
-
-                        /> */}
-
-                        <SearchableDropdown
-                            sx={{ minWidth: '15vw' }}
-                            ItemList={USAssessmentDrop}
-                            onChange={clickAssessmentId}
-                            label={'Assessment'}
-                            defaultValue={AssessmentId}
-                            size={"small"}
-                        />
-
-                        <Tooltip title={'Assign,publish student grades and view students progress report.'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: grey[600] }
-                                }}
+                        <Stack
+                            direction={{ xs: 'column', sm: 'row' }}
+                            justifyContent="space-between"
+                            alignItems="left"
+                            gap={1}
+                            sx={{
+                                mt: { xs: 0, sm: 0 },
+                                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                            }}
+                        >
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                             >
-                                <QuestionMarkIcon />
-                            </IconButton>
-                        </Tooltip>
+                                <SearchableDropdown
+                                    sx={{ width: { xs: '50vw', sm: '20vw', md: '15vw' } }}
+                                    ItemList={USAssessmentDrop}
+                                    onChange={clickAssessmentId}
+                                    label={'Assessment'}
+                                    defaultValue={AssessmentId}
+                                    size={"small"}
+                                /></Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                gap={1}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                <Tooltip title={'Assign,publish student grades and view students progress report.'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
 
-                        <Tooltip title={'View Progress Report'}>
-                            <span>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: blue[500],
-                                        '&:hover': {
-                                            backgroundColor: blue[600]
-                                        }
-                                    }}
-                                    disabled={StudentWiseAssessmentPublishStatus == "N" || allOutcomesValid == false}
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: grey[600] }
+                                        }}
+                                    >
+                                        <QuestionMarkIcon />
+                                    </IconButton>
+                                </Tooltip>
 
-                                    onClick={ClickShow}>
-                                    <FactCheck />
-                                </IconButton>
-                            </span>
-                        </Tooltip>
-
-
-
-                        {
-                            UserDetail.CanPublishUnpublishExam == true ? (
-                                <Tooltip title={StudentWiseAssessmentPublishStatus[0] == "N" ? "Publish" : "Unpublish"}>
+                                <Tooltip title={'View Progress Report'}>
                                     <span>
                                         <IconButton
                                             sx={{
                                                 color: 'white',
-                                                backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[500] : red[500],
+                                                backgroundColor: blue[500],
                                                 '&:hover': {
-                                                    backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[600] : red[600],
-                                                },
+                                                    backgroundColor: blue[600]
+                                                }
                                             }}
-                                            disabled={
-                                                (AssessmentPublishStatus[0] == "Y" || allOutcomesValid == false)
-                                            }
-                                            onClick={StudentWiseAssessmentPublishStatus[0] == "N" ? Clickpublish : ClickUnpublish}
-                                        >
-                                            {StudentWiseAssessmentPublishStatus[0] == "N" ? <CheckCircle /> : <Unpublished />}
+                                            disabled={StudentWiseAssessmentPublishStatus == "N" || allOutcomesValid == false}
+
+                                            onClick={ClickShow}>
+                                            <FactCheck />
                                         </IconButton>
                                     </span>
                                 </Tooltip>
-                            ) : <span></span>
-                        }
 
+                                {
+                                    UserDetail.CanPublishUnpublishExam == true && (
+                                        <Tooltip title={StudentWiseAssessmentPublishStatus[0] == "N" ? "Publish" : "Unpublish"}>
+                                            <span>
+                                                <IconButton
+                                                    sx={{
+                                                        color: 'white',
+                                                        backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[500] : red[500],
+                                                        '&:hover': {
+                                                            backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[600] : red[600],
+                                                        },
+                                                    }}
+                                                    disabled={
+                                                        (AssessmentPublishStatus[0] == "Y" || allOutcomesValid == false)
+                                                    }
+                                                    onClick={StudentWiseAssessmentPublishStatus[0] == "N" ? Clickpublish : ClickUnpublish}
+                                                >
+                                                    {StudentWiseAssessmentPublishStatus[0] == "N" ? <CheckCircle /> : <Unpublished />}
+                                                </IconButton>
+                                            </span>
+                                        </Tooltip>
+                                    )
+                                }
 
-
-
-
-                        <Tooltip title={'Save'}>
-                            <span>
-                                <IconButton
-                                    onClick={clicksave}
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: green[500],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: green[600] },
-                                    }}
-                                    disabled={AssessmentPublishStatus == "Y" || StudentWiseAssessmentPublishStatus == "Y"}
-                                >
-                                    <Save />
-                                </IconButton>
-                            </span>
-                        </Tooltip>
+                                <Tooltip title={'Save'}>
+                                    <span>
+                                        <IconButton
+                                            onClick={clicksave}
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: green[500],
+                                                height: '36px !important',
+                                                ':hover': { backgroundColor: green[600] },
+                                            }}
+                                            disabled={AssessmentPublishStatus == "Y" || StudentWiseAssessmentPublishStatus == "Y"}
+                                        >
+                                            <Save />
+                                        </IconButton>
+                                    </span>
+                                </Tooltip></Grid>
+                        </Stack>
                     </>}
             />
 
@@ -610,33 +617,100 @@ const StudentwiseprogressreportEdit = () => {
                         ))}
                     </Grid>
                 </Box>
+                <TableContainer
+                    component={Paper}
+                    sx={{
+                        maxWidth: '100%',
+                        overflowX: 'auto', // Allows horizontal scrolling on small screens
+                    }}
+                >
+                    <Table>
+                        <TableBody>
+                            {USFillStudentDetails.map((detail, index) => (
+                                <TableRow
+                                    key={index}
+                                    sx={{
+                                        bgcolor: '#38548A',
+                                        display: 'flex',
+                                        flexWrap: 'nowrap', // Ensures all cells stay in a single line
+                                    }}
+                                >
+                                    <TableCell
+                                        sx={{
+                                            flex: '0 0 100px', // Fixed width for Roll No
+                                            minWidth: '100px',
+                                            textAlign: 'left',
+                                            whiteSpace: 'nowrap', // Prevent wrapping
+                                            color: 'white',
+                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                        }}
+                                    ><b>Roll No :  {detail.RollNo} </b></TableCell>
+                                    <TableCell
+                                        sx={{
+                                            flex: '0 0 300px', // Fixed width for Name
+                                            minWidth: '300px',
+                                            textAlign: 'left',
+                                            whiteSpace: 'nowrap', // Prevent wrapping
+                                            color: 'white',
+                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                        }}
+                                    ><b>Name :  {detail.StudentName} </b></TableCell>
+                                    <TableCell
+                                        sx={{
+                                            flex: '1 1 auto', // Flexible width for Class
+                                            minWidth: '100px',
+                                            textAlign: 'left',
+                                            whiteSpace: 'nowrap',
+                                            color: 'white',
+                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                        }}
+                                    ><b>Class :  {detail.Class} </b></TableCell>
+                                    <TableCell
+                                        sx={{
+                                            flex: '1 1 auto', // Flexible width for Year
+                                            minWidth: '100px',
+                                            textAlign: 'left',
+                                            whiteSpace: 'nowrap',
+                                            color: 'white',
+                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                        }}
+                                    ><b>Year :  {detail.AcademicYear} </b></TableCell>
+                                    <TableCell
+                                        sx={{
+                                            flex: '1 1 auto', // Flexible width for Assessment
+                                            minWidth: '200px',
+                                            textAlign: 'left',
+                                            whiteSpace: 'nowrap',
+                                            color: 'white',
+                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                        }}
+                                    ><b>Assessment : {detail.Assessment} </b></TableCell>
+                                    <TableCell
+                                        sx={{
+                                            flex: '1 1 auto', // Flexible width for Attendance
+                                            minWidth: '200px',
+                                            textAlign: 'left',
+                                            whiteSpace: 'nowrap',
+                                            color: 'white',
+                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                        }}
+                                    ><b>Attendance :  {USFillStudentAttendance.filter(
+                                        (attendance) =>
+                                            attendance.YearwiseStudentId == detail.YearWiseStudentId &&
+                                            attendance.IsPresent == "true"
+                                    ).length} / {
 
-                <Table>
-                    <TableBody>
-                        {USFillStudentDetails.map((detail) => (
-                            <TableRow sx={{ bgcolor: '#38548A' }}>
-                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No :  {detail.RollNo} </b></TableCell>
-                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name :  {detail.StudentName} </b></TableCell>
-                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class :  {detail.Class} </b></TableCell>
-                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year :  {detail.AcademicYear} </b></TableCell>
-                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Assessment : {detail.Assessment} </b></TableCell>
-                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Attendance :  {USFillStudentAttendance.filter(
-                                    (attendance) =>
-                                        attendance.YearwiseStudentId == detail.YearWiseStudentId &&
-                                        attendance.IsPresent == "true"
-                                ).length} / {
+                                                USFillStudentAttendance.filter(
+                                                    (item) => item.YearwiseStudentId == detail.YearWiseStudentId
+                                                ).length
 
-                                        USFillStudentAttendance.filter(
-                                            (item) => item.YearwiseStudentId == detail.YearWiseStudentId
-                                        ).length
+                                            } </b></TableCell>
 
-                                    } </b></TableCell>
-
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
                 <div>
                     <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2}>
                         Key to Curricular and Co-Curricular
