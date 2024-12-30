@@ -1,7 +1,7 @@
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, Button, DialogTitle, Grid, IconButton, Modal, Paper, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, DialogTitle, Grid, IconButton, Modal, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
 import { useContext, useEffect, useState } from 'react';
@@ -48,6 +48,7 @@ import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressRemarkTerm from './ProgressRemarkTerm';
 import ProgressRemarksNotes from './ProgressRemarksNotes';
+import Legend from 'src/libraries/Legend/Legend';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -924,7 +925,24 @@ const ProgressRemarks = () => {
       dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody))
     }
   }, [UpdateAllStudentsRemarkDetail]);
-
+  const LegendArray = [
+    {
+      id: 1,
+      Name: 'Left Students',
+      Value: (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box
+            sx={{
+              height: '20px',
+              width: '20px',
+              background: red[500],
+              borderRadius: '4px', // Optional: Adds rounded corners
+            }}
+          />
+        </Box>
+      )
+    }
+  ];
   const CustomTablePaginationActions = () => null;
   return (
     <Box sx={{ px: 2 }}>
@@ -934,94 +952,116 @@ const ProgressRemarks = () => {
           { title: 'Progress Remarks', path: '/RITeSchool/Teacher/ProgressRemarks' }
         ]}
         rightActions={<>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems="left"
+            gap={1}
+            sx={{
+              mt: { xs: 0, sm: 0 },
+              flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+            }}
+          >
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown
+                label={"Subject Teacher"}
+                sx={{ width: { xs: '73vw', sm: '20vw', md: '15vw', lg: '23vw' }, backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
+                ItemList={USClassTeachers}
+                onChange={clickSelectClass}
+                defaultValue={selectTeacher}
+                mandatory
+                size={"small"}
 
-          <SearchableDropdown
-            label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '20vw', backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
-            ItemList={USClassTeachers}
-            onChange={clickSelectClass}
-            defaultValue={selectTeacher}
-            mandatory
-            size={"small"}
-
-            disabled={CanEdit == 'N'}
-          />
-
-
-          <SearchableDropdown1
-            ItemList={USGetTestwiseTerm}
-            sx={{ minWidth: '10vw' }}
-            onChange={clickSelectTerm}
-            defaultValue={SelectTerm}
-            label={'Term'}
-            size={"small"}
-          />
-
-          <SearchableDropdown
-            ItemList={USStudentListDropDown}
-            sx={{ minWidth: '20vw' }}
-            onChange={clickStudentList}
-            defaultValue={StudentList}
-            label={'Student List'}
-            size={"small"}
-          />
-
-          <Box>
-            <Tooltip title={'Add / Edit / Delete student progress remarks.'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <QuestionMark />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            {USGetAllStudentswiseRemarkDetails.length > 0 ?
-              <Tooltip title={'Export'}>
+                disabled={CanEdit == 'N'}
+              /></Grid>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown1
+                ItemList={USGetTestwiseTerm}
+                sx={{ width: { xs: '40vw', sm: '10vw', md: '13vw' } }}
+                onChange={clickSelectTerm}
+                defaultValue={SelectTerm}
+                label={'Term'}
+                size={"small"}
+              /></Grid>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <SearchableDropdown
+                ItemList={USStudentListDropDown}
+                sx={{ width: { xs: '73vw', sm: '20vw', md: '15vw', lg: '23vw' } }}
+                onChange={clickStudentList}
+                defaultValue={StudentList}
+                label={'Student List'}
+                size={"small"}
+              /></Grid>
+            <Grid
+              item
+              xs={12}
+              gap={1}
+              display="flex"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+            >
+              <Tooltip title={'Add / Edit / Delete student progress remarks.'}>
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: blue[500],
+                    backgroundColor: grey[500],
                     '&:hover': {
-                      backgroundColor: blue[600]
+                      backgroundColor: grey[600]
                     }
                   }}
-                  onClick={Exportremark}  >
-                  <Download />
-                </IconButton>
-              </Tooltip> : null
-            }
-
-          </Box>
-          <Box>
-            {USGetAllStudentswiseRemarkDetails.length > 0 ? (
-
-
-              <Tooltip title={'Save'}>
-                <IconButton
-                  onClick={UpdateRemark}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: 'green'
-                  }}
-                  disabled={USGetFinalPublishedExamStatus.IsPublishedStatus == 1}
                 >
-                  <SaveIcon />
+                  <QuestionMark />
                 </IconButton>
               </Tooltip>
-            ) : (
-              <span></span>
-            )
 
-            }
+              {USGetAllStudentswiseRemarkDetails.length > 0 && (
+                <Tooltip title={'Export'}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: blue[500],
+                      '&:hover': {
+                        backgroundColor: blue[600]
+                      }
+                    }}
+                    onClick={Exportremark}  >
+                    <Download />
+                  </IconButton>
+                </Tooltip>)
+              }
 
-          </Box>
+              {USGetAllStudentswiseRemarkDetails.length > 0 && (
+                <Tooltip title={'Save'}>
+                  <IconButton
+                    onClick={UpdateRemark}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: 'green'
+                    }}
+                    disabled={USGetFinalPublishedExamStatus.IsPublishedStatus == 1}
+                  >
+                    <SaveIcon />
+                  </IconButton>
+                </Tooltip>
+              )
+
+              }
+            </Grid>
+          </Stack>
         </>}
       />
       <Box >
@@ -1029,14 +1069,8 @@ const ProgressRemarks = () => {
       </Box>
 
       <Box sx={{ mb: 2, mt: 1 }}>
-        <Box sx={{ background: 'white', mb: 1, p: 2 }}>
-          <Grid item xs={12}>
-            <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
-              <Typography fontWeight={"bold"} variant='h4' >Legend</Typography>
-              <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
-              <Box>Left Students</Box>
-            </Typography>
-          </Grid>
+        <Box sx={{ background: 'white', p: 1, mb: 2 }}>
+          <Legend LegendArray={LegendArray} />
         </Box>
         <Box sx={{ background: 'white', p: 1 }}>
           <Grid container spacing={2}>
