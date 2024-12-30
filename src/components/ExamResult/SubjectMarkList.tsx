@@ -200,6 +200,7 @@ const SubjectMarkList = () => {
       id: 1, // Unique ID for the last item that will now appear first
       Name: `Legend for ${Item}`,
       color: 'blue', // Color for the Name
+      fontWeight: 'bold',
       Value: (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <span
@@ -239,7 +240,7 @@ const SubjectMarkList = () => {
       id: 4,
       Name: 'Absent',
       color: 'red', // Color for the Name
-      fontWeight: 'bold', 
+      fontWeight: 'bold',
       Value: (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <span style={{ color: 'red', fontWeight: 'bold' }}>Ab :</span>
