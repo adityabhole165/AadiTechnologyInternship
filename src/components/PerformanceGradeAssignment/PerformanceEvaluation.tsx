@@ -13,8 +13,9 @@ import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import Datepicker3 from "src/libraries/DateSelector/Datepicker3";
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
 import { CDAGetDetailsForAttachment, CDAGetPerformanceEvaluationDetails, CDAPublishStaffPerformanceDetailsMsg, CDAResetPublishStaffPerformanceDetailsMsg, CDAResetSaveStaffPerformanceEvalDetailsMsg, CDAResetSubmitStaffPerformanceDetailsMsg, CDASaveStaffPerformanceEvalDetailsMsg, CDASubmitStaffPerformanceDetailsMsg } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
-import { encodeURL, formatDate } from "../Common/Util";
+import { encodeURL } from "../Common/Util";
 import CommonPageHeader from "../CommonPageHeader";
+import AppraisalForm from "./AppraisalForm";
 import UploadDocument from "./UploadDocument";
 // import DatePicker from "react-multi-date-picker";
 
@@ -898,114 +899,26 @@ const PerformanceEvaluation = () => {
                                     {listUserNameDetails.length > 0 && listUserNameDetails.map((item, i) => (
                                         <>
                                             <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', pr: 7 }}>
-                                                {/* Left Column */}
-                                                <Box>
-                                                    <Typography variant="h5" pb={0.5}>{item.Text7}</Typography>
-                                                    {[
-                                                        { label: 'Status :', value: item.Text3 },
-                                                        { label: 'Name :', value: item.Text1 },
-                                                        { label: 'Employee Code :', value: item.Text4 },
-                                                        { label: 'Date of Joining :', value: formatDate(item.Text5.split(' ')[0]) },
-                                                        { label: 'Address :', value: item.Text14 }
-                                                    ].map((field, index) => (
-                                                        <Box key={index} mb={1} display="flex" alignItems="center">
-                                                            <Box
-                                                                display="inline-block"
-                                                                border={1}
-                                                                borderRadius={4}
-                                                                width="10vw"
-                                                                pl={1}
-                                                                mr={1}
-                                                            >
-                                                                {field.label}
-                                                            </Box>
-                                                            <Typography variant="h5" component="span" sx={{ textWrap: 'wrap', maxWidth: field.label === 'Address :' ? '35vw' : 'auto' }}>
-                                                                {field.value}
-                                                            </Typography>
-                                                        </Box>
-                                                    ))}
-                                                </Box>
-
-                                                {/* Right Column */}
-                                                <Box>
-                                                    {[
-                                                        { label: 'Year :', value: item.Text11 },
-                                                        { label: 'Post :', value: item.Text2 },
-                                                        { label: 'Length Of Service :', value: item.Text6 }
-                                                    ].map((field, index) => (
-                                                        <Box key={index} mb={1} display="flex" alignItems="center">
-                                                            <Box
-                                                                display="inline-block"
-                                                                border={1}
-                                                                borderRadius={4}
-                                                                width="15vw"
-                                                                pl={1}
-                                                                mr={1}
-                                                            >
-                                                                {field.label}
-                                                            </Box>
-                                                            <Typography variant="h5" component="span">
-                                                                {field.value}
-                                                            </Typography>
-                                                        </Box>
-                                                    ))}
-
-                                                    <Box display="flex" alignItems="center" mb={1}>
-                                                        <Box
-                                                            display="inline-flex"
-                                                            alignItems="center"
-                                                            border={1}
-                                                            borderRadius={4}
-                                                            pl={1}
-                                                            mr={1}
-                                                            sx={{ height: '5vh', width: '15vw' }}
-                                                        >
-                                                            Date of Last Increment:
-                                                        </Box>
-                                                        <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center' }}>
-                                                            {isFinalApprover() === false ? <Typography variant="h5" component="span">
-                                                                {item.Text12 !== '' ? formatDate(item.Text12.split(' ')[0]) : '-'}
-                                                            </Typography> :
-                                                                <Datepicker3
-                                                                    disabled={listEnableRejectButtonDetails[0]?.Text5 === '1' ? true : false}
-                                                                    maxDate={true}
-                                                                    DateValue={incrementDate}
-                                                                    onDateChange={(value) => { setIncrementDate(value) }}
-                                                                    label={''}
-                                                                    size={"small"}
-                                                                    fullWidth={false}
-                                                                />}
-                                                        </Box>
-                                                    </Box>
-
-                                                    <Box display="flex" alignItems="center">
-                                                        <Box
-                                                            display="inline-block"
-                                                            border={1}
-                                                            borderRadius={4}
-                                                            width="15vw"
-                                                            pl={1}
-                                                            mr={1}
-                                                        >
-                                                            Highest Education Qualification and Year of Passing:
-                                                        </Box>
-                                                        <Typography variant="h5" sx={{ textWrap: 'wrap', maxWidth: '35vw' }}>
-                                                            {item.Text15}
-                                                        </Typography>
-                                                    </Box>
-                                                </Box>
+                                                <AppraisalForm />
                                             </Box>
 
-                                            <Box py={1}>
+                                            <Box py={1} mb={1} display="flex" alignItems="center">
                                                 <Box
-                                                    display="inline-flex"
+                                                    display="inline-block"
                                                     border={1}
                                                     borderRadius={4}
-                                                    alignItems="center"
-                                                    width="12vw"
-                                                    height="4.5vh"
+                                                    width="10vw"
                                                     pl={1}
                                                     mr={1}
+                                                    sx={{
+                                                        width: {
+                                                            xs: '40vw', // 80% of the viewport width on extra-small screens
+                                                            sm: '40vw', // 60% of the viewport width on small screens
+                                                            md: '20vw', // 40% of the viewport width on medium screens
+                                                            lg: '10vw', // 20% of the viewport width on large screens
+                                                            xl: '10vw', // 10% of the viewport width on extra-large screens
+                                                        },
+                                                    }}
                                                 >
                                                     Classes Taught:
                                                 </Box>
@@ -1020,20 +933,30 @@ const PerformanceEvaluation = () => {
                                                     }}
                                                     size="small"
                                                     inputProps={{ maxLength: 100, readOnly: isSelfUser() ? false : true, }}
-                                                    sx={{ height: "2vh", minWidth: "76vw" }}
+                                                    sx={{ height: "1vh", width: "76vw" }}
                                                 />
                                                 <span style={{ color: 'red' }}> *</span>
                                             </Box>
-                                            <Box py={0.5}>
+
+
+
+                                            <Box py={0.5} mb={1} display="flex" alignItems="center">
                                                 <Box
-                                                    display="inline-flex"
+                                                    display="inline-block"
                                                     border={1}
                                                     borderRadius={4}
-                                                    alignItems="center"
-                                                    width="12vw"
-                                                    height="4.5vh"
+                                                    width="10vw"
                                                     pl={1}
                                                     mr={1}
+                                                    sx={{
+                                                        width: {
+                                                            xs: '40vw', // 80% of the viewport width on extra-small screens
+                                                            sm: '40vw', // 60% of the viewport width on small screens
+                                                            md: '20vw', // 40% of the viewport width on medium screens
+                                                            lg: '10vw', // 20% of the viewport width on large screens
+                                                            xl: '10vw', // 10% of the viewport width on extra-large screens
+                                                        },
+                                                    }}
                                                 >
                                                     Teaching Subjects:
                                                 </Box>
@@ -1045,13 +968,15 @@ const PerformanceEvaluation = () => {
                                                     onChange={(e) => {
                                                         isSelfUser() ? setTeachingSub(e.target.value) : '';
                                                     }}
-                                                    inputProps={{ maxLength: 100, readOnly: isSelfUser() ? false : true, }}
+                                                    inputProps={{ readOnly: isSelfUser() ? false : true, }}
                                                     variant="outlined"
                                                     size="small"
-                                                    sx={{ height: "2vh", minWidth: "76vw" }}
+                                                    sx={{ height: "1vh", width: "76vw" }}
                                                 />
                                                 <span style={{ color: 'red' }}> *</span>
+
                                             </Box>
+
                                             {isFinalApprover() && <Box py={1}>
                                                 <Box
                                                     display="inline-flex"
@@ -1078,10 +1003,11 @@ const PerformanceEvaluation = () => {
                                                     />
                                                 </Box>
                                             </Box>}
+
                                         </>
 
                                     ))}
-                                </Grid>
+                                </Grid >
                             ))}
                         </Grid>
                         {showKeyToRate() && listDescriptionDetails.length > 0 &&
