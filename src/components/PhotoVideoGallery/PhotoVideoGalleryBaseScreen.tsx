@@ -38,6 +38,7 @@ const PhotoVideoGalleryBaseScreen = () => {
     const [rowsPerPage1, setRowsPerPage1] = useState(20);
     const [page, setPage] = useState<number>(1);
     const [SearchPhotoGallery, setSearchPhotoGallery] = useState('');
+    const [SearchVideoGallery, setSearchVideoGallery] = useState('');
     const rowsPerPageOptions = [20, 50, 100, 200];
     const rowsPerPageOptions1 = [20, 50, 100, 200];
     const { showAlert, closeAlert } = useContext(AlertContext);
@@ -135,7 +136,8 @@ const PhotoVideoGalleryBaseScreen = () => {
         asSortExp: "ORDER BY " + SortBy1 + " " + SortDirection1,
         asStartIndex: startIndexNew1,
         asPageSize: page * rowsPerPage1,
-        asIsFromExternalWebsite: 0
+        asIsFromExternalWebsite: 0,
+        asVideoNameFilter: SearchVideoGallery
 
     }
     useEffect(() => {
@@ -295,10 +297,19 @@ const PhotoVideoGalleryBaseScreen = () => {
         setSearchPhotoGallery(Value);
     }
     const clickSearch = () => {
-
+        dispatch(CDAVideoDetails(VideoData1))
         dispatch(CDAGetPhotoDetails(photoD1ata))
     }
 
+
+    const handleSearchGalleryName1 = (Value) => {
+        setSearchVideoGallery(Value);
+    }
+
+    // const clickSearch1 = () => {
+
+
+    // }
 
 
 
@@ -314,14 +325,18 @@ const PhotoVideoGalleryBaseScreen = () => {
                         fullWidth
                         label="Photo/Video Gallery"
                         value={SearchPhotoGallery}
+                        value1={SearchVideoGallery}
                         variant={'outlined'}
                         size={"small"}
                         onChange={(e) => {
                             handleSearchGalleryName(e.target.value);
+                            handleSearchGalleryName1(e.target.value);
                         }}
+
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === 'Tab') {
                                 clickSearch();
+                                // clickSearch1();
                             }
                         }}
                     />
@@ -329,6 +344,7 @@ const PhotoVideoGalleryBaseScreen = () => {
                     <Tooltip title={'Search'}>
                         <IconButton
                             onClick={clickSearch}
+                            // onClick1={clickSearch1}
                             sx={{
                                 background: (theme) => theme.palette.primary.main,
                                 color: 'white',

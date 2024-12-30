@@ -4,6 +4,7 @@ export interface IGetVideoGalleryBody {
     asStartIndex: number,
     asPageSize: number,
     asIsFromExternalWebsite: number
+    asVideoNameFilter: string
 }
 export interface IGetVideoGalleryResponse {
     RowID: string,
