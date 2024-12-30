@@ -1,4 +1,4 @@
-import { Box, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressReport, ToppersCount, isAllStdSelect }: any) => {
@@ -11,6 +11,7 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
     const [totalconsidration, setTotalconsidration] = useState<any>([]);
     const [showOnlyGrades, setShowOnlyGrades] = useState<any>();
     const [hasTopRanks, setHasTopRanks] = useState<any>();
+
 
     // useEffects();
     //--
@@ -154,21 +155,68 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                     </Typography>
                                 </>
                             )}
-
-                            <Table>
-                                <TableBody>
-                                    {ViewProgress.map((item, i) => {
-                                        return (
-                                            <TableRow sx={{ bgcolor: '#38548A' }} key={i}>
-                                                <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, }}>Roll No: <b>{item.Text2}</b></TableCell>
-                                                <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, }}>Name: <b>{item.Text1}</b></TableCell>
-                                                <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, }}>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
-                                                <TableCell sx={{ textAlign: 'center', color: 'white', py: 1.5, }}>Year: <b>{item.Text5}</b></TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
+                            <TableContainer
+                                component={Paper}
+                                sx={{
+                                    maxWidth: '100%',
+                                    overflowX: 'auto', // Allows horizontal scrolling on small screens
+                                }}
+                            >
+                                <Table>
+                                    <TableBody>
+                                        {ViewProgress.map((item, i) => {
+                                            return (
+                                                <TableRow sx={{
+                                                    bgcolor: '#38548A',
+                                                    display: 'flex',
+                                                    flexWrap: 'nowrap',
+                                                }} key={i}>
+                                                    <TableCell
+                                                        sx={{
+                                                            flex: '0 0 100px', // Fixed width for Roll No
+                                                            minWidth: '100px',
+                                                            textAlign: 'left',
+                                                            whiteSpace: 'nowrap', // Prevent wrapping
+                                                            color: 'white',
+                                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                                        }}
+                                                    >Roll No: <b>{item.Text2}</b></TableCell>
+                                                    <TableCell
+                                                        sx={{
+                                                            flex: '0 0 300px', // Fixed width for Name
+                                                            minWidth: '300px',
+                                                            textAlign: 'left',
+                                                            whiteSpace: 'nowrap', // Prevent wrapping
+                                                            color: 'white',
+                                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                                        }}
+                                                    >Name: <b>{item.Text1}</b></TableCell>
+                                                    <TableCell
+                                                        sx={{
+                                                            flex: '1 1 auto', // Flexible width for Class
+                                                            minWidth: '100px',
+                                                            textAlign: 'left',
+                                                            whiteSpace: 'nowrap',
+                                                            color: 'white',
+                                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                                        }}
+                                                    >Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
+                                                    <TableCell
+                                                        sx={{
+                                                            flex: '1 1 auto', // Flexible width for Year
+                                                            minWidth: '100px',
+                                                            textAlign: 'left',
+                                                            whiteSpace: 'nowrap',
+                                                            color: 'white',
+                                                            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                                        }}
+                                                    >Year: <b>{item.Text5}</b></TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                             <Table>
                                 <TableBody>
                                     {totalconsidration.length > 0 && (
