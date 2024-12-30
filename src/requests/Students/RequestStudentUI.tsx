@@ -624,6 +624,13 @@ export const CDAFeeAreaNames =
                 })
             })
 
+            // Add the "Select" option at the top of the list 
+            responseData.unshift({
+                Id: '0',
+                Name: 'Select',
+                Value: '0',
+            });
+
             dispatch(StudentUISlice.actions.RFeeAreaNames(responseData));
             //console.log('CDAFeeAreaNames:', responseData);
         };

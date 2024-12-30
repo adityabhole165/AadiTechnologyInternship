@@ -150,7 +150,8 @@ const StudentRegistrationForm = () => {
       isMinority: false,
       isForDayBoarding: false,
       isDayBoardingFeePaid: false,
-      isHandicapped: false
+      isHandicapped: false,
+      hidOldFeeAreaId: '',
     },
     personal: {
       firstName: '',
@@ -278,6 +279,8 @@ const StudentRegistrationForm = () => {
   const [feeDependencyError, setFeeDependencyError] = useState('');
   const [isDeleteFee, setIsDeleteFee] = useState(false);
   const [hidOldIsForDayBoarding, setHidOldIsForDayBoarding] = useState('');
+  //const [hidOldFeeAreaId, setHidOldFeeAreaId] = useState('');
+
   //object to store latest AdmissionDocuments List
   const [documentList, setDocumentList] = useState([]);
   //Siblings States
@@ -558,7 +561,7 @@ const StudentRegistrationForm = () => {
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   //console.log('1️⃣USGetSingleStudentDetails', USGetSingleStudentDetails);
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
-  //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
+  console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
   ///=>AdmissionDocument Uplpoad Document List
   const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
@@ -595,8 +598,9 @@ const StudentRegistrationForm = () => {
     }
   }, [UsGetSchoolSettings, ShowDayBoardingOptionOnStudentsScreen]);
 
-  //console.log(oStudentDetails?.IsForDayBoarding, (form.admission?.isForDayBoarding === true ? 'True' : 'False'));
 
+  console.log(typeof form.admission.feeAreaNames, form.admission.feeAreaNames, '🎈', form.admission.hidOldFeeAreaId);
+  //console.log(oStudentDetails?.IsForDayBoarding, (form.admission?.isForDayBoarding === true ? 'True' : 'False'));
 
   // useEffect(() => {
   //   let sMsg = '';
@@ -657,7 +661,7 @@ const StudentRegistrationForm = () => {
           staffUserRole: studentData?.User_Role_Id || '',
           staffName: studentData?.staffName || '',
           residenceTypes: studentData?.ResidenceTypeId || '',
-          feeAreaNames: AdditionalData?.FeeAreaName || '',
+          feeAreaNames: (parseInt(schoolId) === 122) ? AdditionalData?.FeeAreaName : 0,
           RFID: AdditionalData?.RFID || '',
           isStaffKid: studentData?.IsStaffKid === 'False' ? false : true,
           isOnlyChild: studentData?.IsOnlyChild === 'False' ? false : true,
@@ -665,7 +669,8 @@ const StudentRegistrationForm = () => {
           isMinority: studentData?.Minority === 'False' ? false : true,
           isForDayBoarding: studentData?.IsForDayBoarding === 'False' ? false : true,
           isDayBoardingFeePaid: studentData?.IsDayBoardingFeePaid === 'False' ? false : true,
-          isHandicapped: AdditionalData?.IsHandicapped || false
+          isHandicapped: AdditionalData?.IsHandicapped || false,
+          hidOldFeeAreaId: (parseInt(schoolId) === 122) ? AdditionalData?.FeeAreaName : '0'
         },
         personal: {
           ...prevForm.personal,
@@ -1223,13 +1228,14 @@ const StudentRegistrationForm = () => {
         //console.log('Sending additional details:', additionalDetailsBody);
         await dispatch(CDAAddStudentAdditionalDetails(additionalDetailsBody));
         // Transport Fee Logic
-        // if (parseInt(schoolId) === 122) {
-        //   if (currentFeeAreaId !== oldFeeAreaId) {
-        //     await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
-        //   }
-        // } else {
-        //   await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
-        // }
+        if (parseInt(schoolId) === 122) {
+          if (form.admission.feeAreaNames != form.admission.hidOldFeeAreaId) {
+            await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
+          }
+        }
+        else {
+          await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
+        }
       }
 
       if (overwriteSiblingDetails === 0) {
