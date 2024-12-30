@@ -119,7 +119,7 @@ function UpcomingEvent() {
   };
 
   return (
-    <Box sx={{ height: '382px', width: 'auto', backgroundColor: 'white', p: 1 }}>
+    <Box sx={{ height: '382px', width: 'auto', backgroundColor: 'white', p: 1, }}>
       <Grid container >
         <Grid item xs={6}>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -145,7 +145,7 @@ function UpcomingEvent() {
             </Grid>
           ))}
         </Grid></Grid>
-      <Box sx={{ height: '180px', mt: 2, overflow: 'auto' }}>
+      <Box sx={{ height: {xs:'180px', sm:'180px', md:'150px', lg:'180px'} , mt: 2, overflow: 'auto' }}>
         {filteredEvents.map((event, index) => (
           <Grid item xs={12} sm={6} md={12} >
             <Grid container>
@@ -202,20 +202,25 @@ function UpcomingEvent() {
           )
         }
       </Box>
-
-      <Grid container p={1} pl={19}>
+      <Grid
+      container
+      alignItems="center"
+      justifyContent="center" 
+    >
+      <Grid item xs={12} sm={8} md={8} lg={6} pl={6} sx={{pl:{xs:24, sm:6, md:6, lg:6} }} textAlign={'center'}>
         <Link
           href="/RITeSchool/Common/AnnualPlanner"
-          style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', width: '70%' }}
+          style={{ display: 'flex', alignItems: 'center', textDecoration: 'none',  }}
         >
-          <Typography variant="h4">
+          <Typography variant="h4"  textAlign={'center'}>
             <b>See all events</b>
           </Typography>
           <ArrowCircleRightIcon />
         </Link>
       </Grid>
-      <Grid item xs={12} textAlign={'center'}>
-        <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
+      <Grid item xs={12} textAlign={'center'} >
+        <Typography variant="h4" > <b>Please re-login or refresh the widget to see the updates.</b></Typography>
+      </Grid>
       </Grid>
     </Box>
   );
