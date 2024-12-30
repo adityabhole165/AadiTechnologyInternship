@@ -49,7 +49,7 @@ const AddNotePopupList = ({ data, clickView, onEdit, onDelete }) => {
             {data.map((row, index) => (
               <TableRow key={index}>
                 <TableCell sx={{ py: 1 }}>{row.Text1}</TableCell>
-                <TableCell sx={{ py: 1 }}>{row.Text2}</TableCell>
+                <TableCell sx={{ py: 1 }}>{row.Text2.split(' ')[0]}</TableCell>
                 <TableCell sx={{ py: 1 }}>{row.Text3}</TableCell>
                 {/* <TableCell sx={{ py: 1 }}>{row.Text4}</TableCell> */}
                 <TableCell sx={{ pr: 8, textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} align='center' >

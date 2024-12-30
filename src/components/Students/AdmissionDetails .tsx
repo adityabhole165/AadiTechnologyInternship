@@ -426,22 +426,6 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
                 size={'medium'}
                 disabled={!IsRTEApplicable} // Checkbox is always disabled
               />
-              {/* <TextField
-                name="rteCategory"
-                label="RTE Category"
-                value={form.rteCategory}
-                onChange={handleInputChange}
-                fullWidth
-                error={errors.rteCategory}
-                helperText={errors.rteCategory ? 'This field is required' : ''}
-                sx={{
-                  backgroundColor: errors.rteCategory
-                    ? 'red'
-                    : form.rteCategory
-                      ? 'lightblue'
-                      : 'inherit'
-                }}
-              /> */}
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
@@ -459,10 +443,10 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
               <TextField
                 name="annualIncome"
                 label="Annual Income"
-                value={admission.annualIncome}
+                value={(admission.annualIncome !== null && IsRTEApplicable) ? admission.annualIncome : '0'}
                 onChange={handleInputChange}
                 fullWidth
-                disabled={!admission.isRTEApplicable || parseInt(schoolId) === 11}
+                disabled={!IsRTEApplicable}
               />
             </Grid>
 

@@ -289,6 +289,8 @@ const StudentRegistrationForm = () => {
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
   const ShowDayBoardingOptionOnStudentsScreen = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowDayBoardingOptionOnStudentsScreen || false;
+  const IsRTEApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsRTEApplicable || false;
+
   // Centralized Required Fields Configuration
 
   const [progress, setProgress] = useState(0);
@@ -1036,13 +1038,13 @@ const StudentRegistrationForm = () => {
     asHeight: 0, //Not Found on Screen
     asWeight: 0, //Not Found on Screen
     asUpdated_By_id: Number(teacherId),
-    asRTECategoryId: Number(form.admission?.rteCategory) || 0,
+    asRTECategoryId: (IsRTEApplicable && form.admission?.isRTEApplicable) ? Number(form.admission?.rteCategory) : 0,
     asSecondLanguageSubjectId: form.admission?.secondlanguage || '',
     asThirdLanguageSubjectId: form.admission?.thirdlanguage || '',
     asIsForDayBoarding: form.admission?.isForDayBoarding === false ? false : true,
     asFeeCategoryDetailsId: '0', // ❌This is the cause of problem
-    asRTEApplicationFormNo: form.admission?.rteApplicationForm || '',
-    asAnnualIncome: 0, //Not Found on Screen
+    asRTEApplicationFormNo: (IsRTEApplicable && form.admission?.isRTEApplicable) ? form.admission?.rteApplicationForm : '',
+    asAnnualIncome: (IsRTEApplicable && form.admission?.isRTEApplicable) ? Number(form.admission?.annualIncome) : 0, //Not Found on Screen
     asStandard_Id: standardId ?? localData.standardId, // Missing
     asDivision_Id: DivisionId ?? localData.DivisionId, // Missing
     asReligion: form.personal?.religion || '',
