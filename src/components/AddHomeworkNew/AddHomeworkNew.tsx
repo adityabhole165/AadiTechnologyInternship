@@ -12,6 +12,7 @@ import {
   DialogTitle,
   Grid,
   IconButton,
+  Stack,
   TextField,
   Tooltip,
   Typography,
@@ -1019,24 +1020,42 @@ const AddHomeworkNew = () => {
           ]}
           rightActions={
             <>
-              <Box>
-                <Tooltip
-                  title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems="right"
+                gap={1}
+                sx={{
+                  mt: { xs: 0, sm: 0 },
+                  flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                }}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  gap={1}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                 >
-                  <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: grey[500],
-                      height: '36px !important',
-                      ':hover': { backgroundColor: grey[600] }
-                    }}
-                  >
-                    <QuestionMarkIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
+                  <Box>
+                    <Tooltip
+                      title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
+                    >
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: grey[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: grey[600] }
+                        }}
+                      >
+                        <QuestionMarkIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
 
-              {/* <Box>
+                  {/* <Box>
                 <Tooltip title={`Cancel`}>
                   <IconButton
                     sx={{
@@ -1069,21 +1088,23 @@ const AddHomeworkNew = () => {
                 </Tooltip>
               </Box> */}
 
-              <Box>
-                <Tooltip title={'Add HomeWork'}>
-                  <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: green[500],
-                      height: '36px !important',
-                      ':hover': { backgroundColor: green[600] }
-                    }}
-                    onClick={ClickAppropriate}
-                  >
-                    <Add />
-                  </IconButton>
-                </Tooltip>
-              </Box>
+                  <Box>
+                    <Tooltip title={'Add HomeWork'}>
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: green[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: green[600] }
+                        }}
+                        onClick={ClickAppropriate}
+                      >
+                        <Add />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                </Grid>
+              </Stack>
             </>
           }
         />
@@ -1433,21 +1454,25 @@ const AddHomeworkNew = () => {
               }}
             />
           </DialogTitle>
+
           <DialogContent dividers sx={{ px: 4 }}>
-            <Typography variant={'h4'} sx={{ mb: 1 }}>
-              Unpublish Reason
-            </Typography>
-            <ResizableTextField
-              multiline
-              // rows={5}
-              type="text"
-              value={text}
-              onChange={(e) => {
-                setText(e.target.value);
-              }}
-              style={{ width: '545px' }}
-            />
+            <Grid container spacing={2} alignItems="center">
+              <Typography variant={'h4'} sx={{ mb: 1 }}>
+                Unpublish Reason
+              </Typography>
+              <ResizableTextField
+                multiline
+                // rows={5}
+                type="text"
+                value={text}
+                onChange={(e) => {
+                  setText(e.target.value);
+                }}
+                style={{ width: '545px' }}
+              />
+            </Grid>s
           </DialogContent>
+
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button
               onClick={() => {
@@ -1570,19 +1595,24 @@ const AddHomeworkNew = () => {
               }}
             />
           </DialogTitle>
-          <DialogContent dividers sx={{ px: 4 }}>
-            <Typography variant={'h4'} sx={{ mb: 1 }}>
-              Unpublish Reason
-            </Typography>
-            <ResizableTextField
-              multiline
-              // rows={5}
-              type="text"
-              value={textall}
-              onChange={Detailschnageall}
-              style={{ width: '545px' }}
-            />
-          </DialogContent>
+
+          <Grid container spacing={1} alignItems="center">
+            <Grid item xs={12} marginTop={1}>
+              <DialogContent dividers sx={{ px: 4 }}>
+                <Typography variant={'h4'} sx={{ mb: 1 }}>
+                  Unpublish Reason
+                </Typography>
+                <ResizableTextField
+                  multiline
+                  // rows={5}
+                  type="text"
+                  value={textall}
+                  onChange={Detailschnageall}
+                  style={{ width: '545px' }}
+                />
+              </DialogContent>
+            </Grid>
+          </Grid>
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button
               onClick={() => {
