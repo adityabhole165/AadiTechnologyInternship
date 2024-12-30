@@ -1,6 +1,6 @@
 import { AddPhotoAlternate, QuestionMark, VideoLibrary } from '@mui/icons-material';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, FormControlLabel, Grid, IconButton, Radio, RadioGroup, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -307,112 +307,144 @@ const PhotoVideoGalleryBaseScreen = () => {
                     { title: 'Photo/Video Gallery', path: '/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen' }
                 ]}
                 rightActions={<>
-                    {(selectedOption === 'photo' ? (<TextField
-
-                        sx={{ width: '15vw' }}
-                        fullWidth
-                        label="Photo/Video Gallery"
-                        value={SearchPhotoGallery}
-
-                        variant={'outlined'}
-                        size={"small"}
-                        onChange={(e) => {
-                            handleSearchGalleryName(e.target.value);
-                            // handleSearchGalleryName1(e.target.value);
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        justifyContent="space-between"
+                        alignItems="left"
+                        gap={1}
+                        sx={{
+                            mt: { xs: 0, sm: 0 },
+                            flexWrap: { xs: 'nowrap', sm: 'nowrap' }
                         }}
+                    >
 
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === 'Tab') {
-                                clickSearch();
-
-                            }
-                        }}
-                    />) : (<TextField
-                        sx={{ width: '15vw' }}
-                        fullWidth
-                        label="Photo/Video Gallery"
-                        value={SearchVideoGallery}
-
-                        variant={'outlined'}
-                        size={"small"}
-                        onChange={(e) => {
-                            // handleSearchGalleryName(e.target.value);
-                            handleSearchGalleryName1(e.target.value);
-                        }}
-
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === 'Tab') {
-                                clickSearch();
-                                // clickSearch1();
-                            }
-                        }}
-                    />))}
-
-
-
-                    <Tooltip title={'Search'}>
-                        <IconButton
-                            onClick={clickSearch}
-
-                            sx={{
-                                background: (theme) => theme.palette.primary.main,
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: (theme) => theme.palette.primary.dark
-                                }
-                            }}
-
-                        >
-                            <SearchTwoTone />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title={'Create new photo galleries or add photos to existing gallery. You can also view all gallery photos by clicking on SlideShow.You can also add or view videos into gallery.'}>
-                        <IconButton
-                            sx={{
-                                color: 'white',
-                                backgroundColor: grey[500],
-                                '&:hover': {
-                                    backgroundColor: grey[600]
-                                }
-                            }}
-                        >
-                            <QuestionMark />
-                        </IconButton>
-                    </Tooltip>
-
-                    {selectedOption === 'photo' && (
-                        <Tooltip title="Add Photo">
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600]
-                                    }
-                                }}
-                                onClick={AddNewPhoto} // Dummy link for Photo Page
+                        {(selectedOption === 'photo' ? (
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                             >
-                                <AddPhotoAlternate />
-                            </IconButton>
-                        </Tooltip>
-                    )}
-                    {selectedOption === 'video' && (
-                        <Tooltip title="Add Video">
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600]
-                                    }
-                                }}
-                                onClick={AddNewVideo} // Dummy link for Video Page
-                            >
-                                <VideoLibrary />
-                            </IconButton>
-                        </Tooltip>
-                    )}
+                                <TextField
 
+                                    sx={{  width: { xs: '60vw', sm: '15vw' }}}
+                                    fullWidth
+                                    label="Photo/Video Gallery"
+                                    value={SearchPhotoGallery}
+
+                                    variant={'outlined'}
+                                    size={"small"}
+                                    onChange={(e) => {
+                                        handleSearchGalleryName(e.target.value);
+                                        // handleSearchGalleryName1(e.target.value);
+                                    }}
+
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === 'Tab') {
+                                            clickSearch();
+
+                                        }
+                                    }}
+                                /> </Grid>) : (
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                <TextField
+                                    sx={{  width: { xs: '60vw', sm: '15vw' } }}
+                                    fullWidth
+                                    label="Photo/Video Gallery"
+                                    value={SearchVideoGallery}
+
+                                    variant={'outlined'}
+                                    size={"small"}
+                                    onChange={(e) => {
+                                        // handleSearchGalleryName(e.target.value);
+                                        handleSearchGalleryName1(e.target.value);
+                                    }}
+
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === 'Tab') {
+                                            clickSearch();
+                                            // clickSearch1();
+                                        }
+                                    }}
+                                /></Grid>))}
+
+
+                        <Grid
+                            item
+                            xs={12}
+                            gap={1}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                        >
+
+                            <Tooltip title={'Search'}>
+                                <IconButton
+                                    onClick={clickSearch}
+
+                                    sx={{
+                                        background: (theme) => theme.palette.primary.main,
+                                        color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: (theme) => theme.palette.primary.dark
+                                        }
+                                    }}
+
+                                >
+                                    <SearchTwoTone />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title={'Create new photo galleries or add photos to existing gallery. You can also view all gallery photos by clicking on SlideShow.You can also add or view videos into gallery.'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        '&:hover': {
+                                            backgroundColor: grey[600]
+                                        }
+                                    }}
+                                >
+                                    <QuestionMark />
+                                </IconButton>
+                            </Tooltip>
+
+                            {selectedOption === 'photo' && (
+                                <Tooltip title="Add Photo">
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={AddNewPhoto} // Dummy link for Photo Page
+                                    >
+                                        <AddPhotoAlternate />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                            {selectedOption === 'video' && (
+                                <Tooltip title="Add Video">
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={AddNewVideo} // Dummy link for Video Page
+                                    >
+                                        <VideoLibrary />
+                                    </IconButton>
+                                </Tooltip>
+                            )}</Grid>
+                    </Stack>
                 </>}
             />
 
