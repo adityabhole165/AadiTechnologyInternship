@@ -16,28 +16,17 @@ import {
     Typography
 } from "@mui/material";
 import { blue, red } from "@mui/material/colors";
-import React, { useState } from "react";
 
 
 
-const FileUploadComponent = ({files,comment,setFiles,setComment,setFileList,fileList,handleFileChange,handleAddFile}) => {
-  
-   
-
-     
-
-
-    //console.log(files, "files👌👌👌");
-    //console.log(fileList, "fileList1234😒😒")
-    //console.log(comment, "comment@@@🤞🤞");
-
+const FileUploadComponent = ({ files, comment, setFiles, setComment, setFileList, fileList, handleFileChange, handleAddFile }) => {
 
     const ValidFileTypes = [".bmp", ".jpg", ".jpeg", ".png"];
     const MaxfileSize = 10 * 1000000; // 10 MB in bytes
     const FileLabel = "Select Images";
 
-  
-    
+
+
     return (
         <Box pt={2}>
             <Grid container spacing={2}>

@@ -26,6 +26,14 @@ import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 import FileUploadComponent from "./FileUploadComponent";
 import SelectListHierarchy1 from "./SelectListHierarchy1";
+
+
+const dropdownItems = [
+  { Value: '1', Name: 'Pre-Primary' },
+  { Value: '2', Name: 'Primary' },
+  { Value: '3', Name: 'Secondary' },
+
+];
 const AddNewPhoto = () => {
   const dispatch = useDispatch();
   const isSmallScreen = useMediaQuery("(max-width:600px)");
@@ -35,12 +43,13 @@ const AddNewPhoto = () => {
   const [ItemList, setitemList] = useState([]);
   const [GalleryName, setGalleryName] = useState('');
   const [selected, setSelected] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+  // const [selectAll, setSelectAll] = useState(false);
   const [GalleryNameError, setGalleryNameError] = useState('');
-
-  //console.log(ItemList, "ItemList");
-
-
+  const [SelectImageError, setSelectImageError] = useState('');
+  const [AssociatedSectionsError, setAssociatedSectionsError] = useState('');
+  const [ClassesAndDivisionssError, setClassesAndDivisionssError] = useState('');
+  const [checkedValues, setCheckedValues] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
   const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
   const MaxfileSize2 = 3000000;
   const [base64URL2, setbase64URL2] = useState('');
@@ -87,38 +96,6 @@ const AddNewPhoto = () => {
   const ClassSelected = String(isClassSelected());
 
 
-
-  // function getXML() {
-  //  // <PhotoGallery>
-  //             <PhotoGallery
-  //               imagePath="Images/Gallery/Screenshot (2)10436.png"
-  //               imageSrNo="1"
-  //               comment=""
-  //             />
-  //              </PhotoGallery>
-  // }
-
-
-  // function getXML() {
-  //   let asUpdateSelectXML = "<PhotoGallery>";
-  //   let SrNo=0;
-  //   asUpdateSelectXML +=
-
-  //   selectedd.forEach(item => {
-
-  //     asUpdateSelectXML += "<PhotoGallery Image_Path=\"+item.ImagePath+"Image_SrNo=\"+1+"
-  //                                           Comment=\"+item.comment+" />" 
-
-  //   });
-  //   asUpdateSelectXML += "</PhotoGallery>";
-  //   return asUpdateSelectXML;
-  // }
-
-  
-
-
-
-
   useEffect(() => {
     setitemList(ClassesAndDivisionss);
   }, [ClassesAndDivisionss]);
@@ -143,82 +120,116 @@ const AddNewPhoto = () => {
   const [fileList, setFileList] = useState<{ fileNames: string[]; comment: string }[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            const selectedFiles = Array.from(event.target.files);
-            setFiles(selectedFiles);
-        }
-    };
-
-    const handleAddFile = () => {
-        if (files.length === 0) {
-            alert("At least one file must be selected.");
-            return;
-        }
-
-        if (!comment.trim()) {
-            alert("Please add a comment.");
-            return;
-        }
-
-        const newEntry = {
-            fileNames: files.map((file) => file.name),
-            comment,
-        };
-
-        setFileList([...fileList, newEntry]);
-        setFiles([]); // Reset file input
-        setComment(""); // Reset comment field
-    };
-
-    const getXML1 = () => {
-      let Image_SrNo = 0; 
-      let xml = '<PhotoGallery>\n'; 
-      
-      fileList.forEach((entry) => {
-          entry.fileNames.forEach((fileName) => {
-              Image_SrNo++; // Increment for each file
-              xml += `  <PhotoGallery Image_Path="${fileName}" Image_SrNo="${Image_SrNo}" Comment="${entry.comment}" />\n`;
-          });
-      });
-  
-      xml += '</PhotoGallery>'; 
-      return xml;
+    if (event.target.files) {
+      const selectedFiles = Array.from(event.target.files);
+      setFiles(selectedFiles);
+    }
   };
-  
 
+  const handleAddFile = () => {
+    if (files.length === 0) {
+      setSelectImageError('At least one file should be selected.');
 
-console.log(getXML1(),"getXML1");
+      return;
+    }
 
+    if (!comment.trim()) {
+      alert("Please add a comment.");
+      return;
+    }
 
-const ClickSave = async () => {
-  let isValid = true;
-  if (!GalleryName.trim()) {
-    setGalleryNameError('Gallery name should not be blank.');
-    isValid = false;
+    const newEntry = {
+      fileNames: files.map((file) => file.name),
+      comment,
+    };
+
+    setFileList([...fileList, newEntry]);
+    setFiles([]); // Reset file input
+    setComment(""); // Reset comment field
+  };
+
+  const getXML1 = () => {
+    let Image_SrNo = 0;
+    let xml = '<PhotoGallery>\n';
+
+    fileList.forEach((entry) => {
+      entry.fileNames.forEach((fileName) => {
+        Image_SrNo++; // Increment for each file
+        xml += `  <PhotoGallery Image_Path="${fileName}" Image_SrNo="${Image_SrNo}" Comment="${entry.comment}" />\n`;
+      });
+    });
+
+    xml += '</PhotoGallery>';
+    return xml;
+
+  };
+  const ClickSave = async () => {
+    let isValid = true;
+    if (!GalleryName.trim()) {
+      setGalleryNameError('Gallery name should not be blank.');
+      isValid = false;
+    }
+    if (files.length === 0) {
+      setSelectImageError('At least one file should be selected.');
+      isValid = false;
+    }
+    if (!ClassSelected.trim()) {
+      setClassesAndDivisionssError('At least one class should be selected.');
+      isValid = false;
+    }
+    if (checkedValues.length === 0) {
+      setAssociatedSectionsError('At least one section should be associated for photo gallery.');
+      isValid = false;
+    }
+    const SavephotoGallery: IManagePhotoGalleryBody = {
+      asSchool_Id: asSchoolId,
+      asOrg_Gallery_Name: "",
+      asGallery_Name: GalleryName,
+      asGallery_DetailsXML: getXML1(),
+      asInserted_By_id: asUserId,
+      asAssociatedSection: checkedValues.toString(),
+      asClassesIds: ClassSelected,
+      Gallery_ID: 0
+    }
+    dispatch(CDAManagePhotoGalleryMsg(SavephotoGallery))
   }
-  const SavephotoGallery: IManagePhotoGalleryBody = {
-    asSchool_Id: asSchoolId,
-    asOrg_Gallery_Name: "",
-    asGallery_Name: GalleryName,
-    asGallery_DetailsXML: getXML1(),
-    asInserted_By_id: asUserId,
-    asAssociatedSection: "1,2,3",
-    asClassesIds: ClassSelected,
-    Gallery_ID: 0
-  }
-  dispatch(CDAManagePhotoGalleryMsg(SavephotoGallery))
-  //setGalleryNameError('');
-}
-useEffect(() => {
-  if (USManagePhotoGallery !== "") {
-    toast.success(USManagePhotoGallery);
-    dispatch(resetManagePhotoGalleryMsg());
-    dispatch(CDAGetPhotoDetails(PhotoDetailsBody));
-  }
-}, [GalleryName, ClassSelected]);
+  useEffect(() => {
+    if (USManagePhotoGallery !== "") {
+      toast.success(USManagePhotoGallery);
+      dispatch(resetManagePhotoGalleryMsg());
+      dispatch(CDAGetPhotoDetails(PhotoDetailsBody));
+    }
+  }, [GalleryName, ClassSelected]);
 
+  const handleChange = (event) => {
+    const { value, checked } = event.target;
 
+    if (checked) {
+      setCheckedValues((prev) => {
+        const updatedValues = [...prev, value];
+        if (updatedValues.length === dropdownItems.length) {
+          setSelectAll(true);
+        }
+        return updatedValues;
+      });
+    } else {
+      setCheckedValues((prev) => {
+        const updatedValues = prev.filter((item) => item !== value);
+        setSelectAll(false);
+        return updatedValues;
+      });
+    }
+  };
 
+  const handleSelectAll = (event) => {
+    const { checked } = event.target;
+    setSelectAll(checked);
+    if (checked) {
+      setCheckedValues(dropdownItems.map((item) => item.Value));
+    } else {
+      setCheckedValues([]);
+    }
+  };
 
   return (
     <Box px={2}>
@@ -234,7 +245,7 @@ useEffect(() => {
           <>
             <Tooltip
               title={
-                "Create new photo galleries or add photos to existing gallery. You can also view all gallery photos by clicking on SlideShow.You can also add or view videos into gallery."
+                "Create new photo galleries or add photos to existing gallery. You can also view all gallery photos by clicking on Slideshow."
               }
             >
               <IconButton
@@ -262,8 +273,6 @@ useEffect(() => {
                       },
                     }}
 
-                  // onClick={handleUpdate}
-                  // disabled={!formData.url || !formData.title}
                   >
                     <SaveIcon />
                   </IconButton>
@@ -318,19 +327,20 @@ useEffect(() => {
           </Grid>
         </Grid>
         <Grid xs={12} sm={6}>
-          <FileUploadComponent
-          files={files}
-          comment={comment}
-          setFiles={setFiles}
-          setComment={setComment}
-          setFileList={setFileList}
-          fileList={fileList}
-          handleFileChange={handleFileChange}
-          handleAddFile={handleAddFile}
-          
-          
-          />
 
+          <FileUploadComponent
+            files={files}
+            comment={comment}
+            setFiles={setFiles}
+            setComment={setComment}
+            setFileList={setFileList}
+            fileList={fileList}
+            handleFileChange={handleFileChange}
+            handleAddFile={handleAddFile}
+
+
+          />
+          <ErrorMessage1 Error={SelectImageError}></ErrorMessage1>
         </Grid>
         <Box pt={2} >
           <Box>
@@ -339,33 +349,41 @@ useEffect(() => {
               ParentList={ClassesAndDivisionss1}
               ClickChild={ClickChild}
             ></SelectListHierarchy1>
+            <ErrorMessage1 Error={ClassesAndDivisionssError}></ErrorMessage1>
           </Box>
         </Box>
         <Box sx={{ backgroundColor: "lightgrey", pl: 1, mt: 2, }}>
           <FormControlLabel
             sx={{ mr: 0 }}
-            control={<Checkbox checked={selectAll} onChange={undefined} />} label={""}
+            control={
+              <Checkbox
+                checked={selectAll}
+                onChange={handleSelectAll}
+              />
+            }
+            label="Associated Sections"
           />
-          <strong>Associated Sections</strong>
-
         </Box>
         <Grid container spacing={2} alignItems="center" >
           <Grid item xs={12}>
             <Box pl={1}>
-              <FormControlLabel
-                control={<Checkbox checked={undefined} onChange={undefined} />}
-                label="Pre-Primary"
-              />
-              <FormControlLabel
-                control={<Checkbox checked={undefined} onChange={undefined} />}
-                label="Primary"
-              />
-              <FormControlLabel
-                control={<Checkbox checked={undefined} onChange={undefined} />}
-                label="Secondary"
-              />
+              {dropdownItems.map((item) => (
+                <FormControlLabel
+                  key={item.Value}
+                  control={
+                    <Checkbox
+                      value={item.Value}
+                      checked={checkedValues.includes(item.Value)}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={item.Name}
+                />
+              ))}
             </Box>
+            <ErrorMessage1 Error={AssociatedSectionsError}></ErrorMessage1>
           </Grid>
+
         </Grid>
         <Grid item xs={12} md={12} mt={2}>
           <Stack direction={"row"} gap={2} alignItems={"center"}>
