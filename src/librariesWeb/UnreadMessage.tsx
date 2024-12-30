@@ -234,18 +234,16 @@ const UnreadMessage = () => {
       <Grid container spacing={2}>
         <Grid
           item
-          xs={12} // Full width on smaller devices
-          md={6} // Half width on medium and larger devices
+          xs={8} sm={6} md={10} lg={6}
         >
           <Header Title="Unread Messages" />
         </Grid>
         <Grid
           item
-          xs={12}
-          md={5}
+          xs={2} sm={5} md={2} lg={6}
           container
           justifyContent="flex-end"
-          sx={{ mt: { xs: 1, md: 0 } }} // Add top margin for small devices
+          sx={{ ml: { xs: 2, md: 0 } }} // Add top margin for small devices
         >
           <Actions IconType="Label" DiplayText={UnreadMessageCount} />
         </Grid>

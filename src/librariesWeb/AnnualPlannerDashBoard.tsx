@@ -113,12 +113,12 @@ function MyLeaveRequisitionAppraisal() {
     return (
         <Box sx={{ height: '382px', width: 'auto', backgroundColor: 'white', p: 1 }}>
             <Grid container>
-                <Grid item xs={8} sm={6}  md={6} lg={6}>
+                <Grid item xs={8} sm={6}  md={10} lg={6}>
                     <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                         <Header Title="Approval Process" />
                     </Grid>
                 </Grid>
-                <Grid item xs={4} sm={6} md={6} lg={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
+                <Grid item xs={4} sm={6} md={2} lg={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
                     <Actions
                         Icon={RefreshIcon}
                         ClickIcon={handleRefresh}

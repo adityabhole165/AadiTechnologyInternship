@@ -143,12 +143,12 @@ function BirthdayDashboard() {
   return (
     <Box sx={{ height: { xs: 'auto', md: '382px', lg: '382px'}, backgroundColor: 'white', pt: 1 }}>
       <Grid container>
-        <Grid item xs={12} sm={12} md={12} lg={6} >
+        <Grid item xs={10} sm={6} md={8} lg={6} >
           <Grid item xs={4} sx={{ pl: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
             <Header Title="Birthdays" />
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 4 }}>
+        <Grid item xs={2} sm={6} md={4} lg={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 4 }}>
           <Actions IconType="Label" DiplayText={Birthdays.length !== 0 ? Birthdays.length : '0'} />
           <Actions
             Icon={RefreshIcon}
