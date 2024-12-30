@@ -1,6 +1,6 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -516,9 +516,22 @@ const SubjectExamMarks = () => {
 
         rightActions={
           <>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-
-              <Box sx={{ width: '10%' }}>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              alignItems="left"
+              gap={1}
+              sx={{
+                mt: { xs: 0, sm: 0 },
+                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+              }}
+            >
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
                 <TextField
                   size={"small"}
                   fullWidth
@@ -529,7 +542,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#F0F0F0', maxWidth: '16vw' }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '10vw' } }}
 
                   InputProps={{
                     readOnly: true,
@@ -537,9 +550,14 @@ const SubjectExamMarks = () => {
                   disabled={IsReadOnly === 'true'}
                 //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                 />
-              </Box>
+              </Grid>
 
-              <Box sx={{ ml: 1, width: '28%' }}>
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
                 <TextField
                   size={"small"}
                   fullWidth
@@ -550,7 +568,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#F0F0F0', maxWidth: '20vw' }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '17vw' } }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -558,15 +576,20 @@ const SubjectExamMarks = () => {
                   disabled={IsReadOnly === 'true'}
 
                 />
-              </Box>
+              </Grid>
 
-              <Box sx={{ ml: 1 }}>
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
                 <TextField
                   size={"small"}
                   fullWidth
                   label={"Subject Name"}
                   value={SubjectName || ''}
-                  sx={{ bgcolor: '#F0F0F0', maxWidth: '20vw' }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '13vw' } }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -575,35 +598,42 @@ const SubjectExamMarks = () => {
                 //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                 />
 
-              </Box>
-              {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>*/}
-              <Box sx={{ ml: 1, width: '18%', display: 'flex', alignItems: 'center' }}>
-                {/* <Box sx={{ ml: 1 }}> */}
+              </Grid>
+
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
                 {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
-                  <Datepicker
-                    DateValue={new Date(TestDate)}
-                    onDateChange={clickTestDate}
-                    label={"Exam Date"}
-                    size={"small"}
-                  />
+                  <Box sx={{ width: { xs: '45vw', sm: '10vw', md: '10vw' } }}>
+                    <Datepicker
+                      DateValue={new Date(TestDate)}
+                      onDateChange={clickTestDate}
+                      label={"Exam Date"}
+                      size={"small"}
+                    /></Box>
                   :
-                  <>
+                  <Box sx={{ width: { xs: '45vw', sm: '10vw', md: '10vw' } }}>
                     <Datepicker
                       DateValue={new Date(TestDate)}
                       onDateChange={clickTestDate}
                       label={"Exam Date"}
                       size={"small"}
                     />
-                    {/* <div style={{ color: 'red', marginLeft: '5px' }}>
-                      *
-                    </div> */}
-                  </>
-                }
-              </Box>
-              {/* </Box> */}
+                  </Box>
+                }</Grid>
 
 
-              <Box sx={{ ml: 1 }}>
+
+              <Grid
+                item
+                xs={12}
+                gap={1}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+              >
                 <Tooltip title={`Assign marks to each student in the class for the selected subject and click on "Save". Once marks are submitted to class-teacher you can modify it from exam results.`}>
                   <IconButton
                     sx={{
@@ -616,8 +646,6 @@ const SubjectExamMarks = () => {
                     <QuestionMark />
                   </IconButton>
                 </Tooltip>
-              </Box>
-              <Box sx={{ ml: 1 }}>
 
                 {(IsReadOnly === 'true' || examResultProp === 'true' && publish === 'true') ? (
                   null // Don't render anything
@@ -638,46 +666,9 @@ const SubjectExamMarks = () => {
                   </Tooltip>
                 )}
 
+              </Grid>
 
-
-                {/* {IsReadOnly === 'true' ? (
-                  null // If IsReadOnly is true, don't render anything
-                ) : (
-                  <Tooltip title={`Save`}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: MarksError !== '' ? grey[500] : green[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: MarksError !== '' ? grey[500] : green[600] }
-                      }}
-                      onClick={onClickSave}
-                      disabled={isSaveDisabled}
-                    >
-                      <Save />
-                    </IconButton>
-                  </Tooltip>
-                )} */}
-              </Box>
-            </Box>
-            {/* <Box>
-              <Tooltip title={`Save`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: MarksError != '' ? grey[500] : green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: MarksError != '' ? grey[500] : green[600], }
-                  }}
-                  onClick={onClickSave}
-                  disabled={isSaveDisabled}
-
-                >
-                  <Save />
-                </IconButton>
-              </Tooltip>
-            </Box> */}
-
+            </Stack>
           </>
         }
       />
