@@ -737,6 +737,14 @@ function SmsCenter() {
     }
   }, [DeleteScheduleSMS]);
 
+
+
+  const clickTitleScheduleSMS = (Id) => {
+    navigate('/RITeSchool/Teacher/ViewSmsNew/' + encodeURL(Id)
+    );
+  };
+
+
   useEffect(() => {
     dispatch(CDAGetScheduleSMS(GetScheduleSMSBody));
   }, [sortExpressionScheduleSMS,startIndexScheduleSMS,endIndexScheduleSMS]);
@@ -1634,7 +1642,7 @@ function SmsCenter() {
                     ItemList={SmsListScheduleSMS}
                     ClickHeader={handleHeaderClickScheduleSMS}
                     clickchange={ChangevalueScheduleSMS}
-                    clickTitle={clickTitle1}
+                    clickTitle={clickTitleScheduleSMS}
 
                     
 
