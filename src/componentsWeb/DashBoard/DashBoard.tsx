@@ -1,7 +1,7 @@
 import { QuestionMark } from '@mui/icons-material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, Card, Grid, IconButton, Tooltip } from '@mui/material';
+import { Box, Card, Grid, IconButton, Tooltip } from '@mui/material';
 import { blue, red } from '@mui/material/colors';
 import { motion } from 'framer-motion'; // Import framer-motion for animations
 import { useEffect, useState } from 'react';
@@ -97,7 +97,14 @@ function DashBoard() {
     const reorderedTiles = Array.from(tiles);
     const [removed] = reorderedTiles.splice(source.index, 1);
     reorderedTiles.splice(destination.index, 0, removed);
-
+    const profileCard = tiles[0];
+    const profileCardCurrentIndex = reorderedTiles.findIndex(
+      (tile) => tile === profileCard
+    );
+    if (profileCardCurrentIndex !== 0) {
+      reorderedTiles.splice(profileCardCurrentIndex, 1); // Remove from its current position
+      reorderedTiles.splice(0, 0, profileCard); // Reinsert at the original position
+    }
     setTiles(reorderedTiles);
   };
 
@@ -141,7 +148,7 @@ function DashBoard() {
             sx={{
               bgcolor: blue[500],
               color: 'white',
-              ml:1,
+              ml: 1,
               '&:hover': {
                 bgcolor: blue[600]
               }
@@ -169,7 +176,6 @@ function DashBoard() {
       </Grid>
 
       {/* Drag and Drop Context */}
-
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="dashboard" direction="horizontal">
           {(provided) => (

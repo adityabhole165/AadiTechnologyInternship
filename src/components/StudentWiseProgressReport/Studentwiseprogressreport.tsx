@@ -2,10 +2,15 @@ import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import {
   Box,
+  Grid,
   IconButton,
+  Stack,
   Tooltip, Typography
 } from '@mui/material';
 // import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import EditOffIcon from '@mui/icons-material/EditOff';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +27,6 @@ import {
   IoneDeleteStudentTestMarksBody
 } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import StudentwiseProgressreportList from 'src/libraries/ResuableComponents/StudentwiseProgressreportList';
 import {
@@ -41,6 +45,7 @@ import { RootState } from 'src/store';
 import { decodeURL, encodeURL, getSchoolConfigurations } from '../Common/Util';
 import IsPublishstatus from './IsPublishstatus';
 
+import Legend from 'src/libraries/Legend/Legend';
 import CommonPageHeader from '../CommonPageHeader';
 // import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 const Studentwiseprogressreport = () => {
@@ -437,60 +442,119 @@ const Studentwiseprogressreport = () => {
     setPage(pageNumber);
   };
 
+  const LegendArray = [
+    {
+      id: 1,
+      Name: 'Marks entry not started',
+      Value: (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <EditOffIcon style={{ color: '#f44336', fontSize: 'large', position: 'relative', top: '-2px' }} />
+          <Typography>Marks entry not started</Typography>
+        </Box>
+      ),
+    },
+    {
+      id: 2,
+      Name: 'Marks entry partially done',
+      Value: (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <DesignServicesIcon style={{ color: '#ff9800', fontSize: 'large', position: 'relative', top: '-2px' }} />
+          <Typography>Marks entry partially done</Typography>
+        </Box>
+      ),
+    },
+    {
+      id: 3,
+      Name: 'Marks entry completed',
+      Value: (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <EventAvailableIcon style={{ color: '#25e67b', fontSize: 'large', position: 'relative', top: '-2px' }} />
+          <Typography>Marks entry completed</Typography>
+        </Box>
+      ),
+    },
+  ];
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Student Wise Progress Report ', path: '/RITeSchool/Teacher/StudentwiseProgressReport' }
+          { title: 'Student Wise Progress Report', path: '/RITeSchool/Teacher/StudentwiseProgressReport' }
         ]}
         rightActions={
           <>
-            <Box>
-              <SearchableDropdown
-                sx={{
-                  minWidth: '20vw'
-                  , bgcolor: GetScreenPermission() === 'N' && PrimaryTeacher.length == 0 ? '#F0F0F0' : 'inherit'
-                }}
-                ItemList={PrimaryTeacher}
-                onChange={clickSelectClass}
-                defaultValue={SelectTeacher?.toString()}
-                size="small"
-                label="Class Teacher"
-                DisableClearable={GetScreenPermission() === 'N'}
-                mandatory
-                disabled={GetScreenPermission() === 'N' && PrimaryTeacher.length == 0}
-              />
-            </Box>
-
-            <Box>
-              <SearchableDropdown
-                sx={{ minWidth: '15vw' }}
-                ItemList={USAssessmentDrop}
-                onChange={clickAssessmentDropdown}
-                label={'Assessment:'}
-                defaultValue={String(Assessment)}
-                mandatory
-                size={"small"}
-              />
-            </Box>
-
-            <Box>
-              <Tooltip
-                title={`Select the class and edit any students grades for student wise marks assignment.`}
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              alignItems="left"
+              gap={1}
+              sx={{
+                mt: { xs: 0, sm: 0 },
+                flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+              }}
+            >
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
               >
-                <IconButton
+                <SearchableDropdown
                   sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
+                    width: { xs: '70vw', sm: '25vw', md: '22vw' }
+                    , bgcolor: GetScreenPermission() === 'N' && PrimaryTeacher.length == 0 ? '#F0F0F0' : 'inherit'
                   }}
+                  ItemList={PrimaryTeacher}
+                  onChange={clickSelectClass}
+                  defaultValue={SelectTeacher?.toString()}
+                  size="small"
+                  label="Class Teacher"
+                  DisableClearable={GetScreenPermission() === 'N'}
+                  mandatory
+                  disabled={GetScreenPermission() === 'N' && PrimaryTeacher.length == 0}
+                />
+              </Grid>
+
+              <Grid
+                item
+                xs={12}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
+                <SearchableDropdown
+                  sx={{ width: { xs: '50vw', sm: '20vw', md: '15vw' } }}
+                  ItemList={USAssessmentDrop}
+                  onChange={clickAssessmentDropdown}
+                  label={'Assessment:'}
+                  defaultValue={String(Assessment)}
+                  mandatory
+                  size={"small"}
+                />
+              </Grid>
+
+              <Grid
+                item
+                xs={12}
+                gap={1}
+                display="flex"
+                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+              >
+                <Tooltip
+                  title={`Select the class and edit any students grades for student wise marks assignment.`}
                 >
-                  <QuestionMark />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            {/* <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <QuestionMark />
+                  </IconButton>
+                </Tooltip>
+
+                {/* <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
               {StudentAssignment.length > 0 &&
                 (() => {
                   const item = StudentAssignment.find(item => item.ShowDeleteButton === "1");
@@ -521,31 +585,31 @@ const Studentwiseprogressreport = () => {
 
 
 
-            <Tooltip title="Delete All">
-              <span>
-                <IconButton
-                  sx={{
-                    display: 'inline-flex',
-                    color: 'white',
-                    padding: '4px',
-                    width: '36px',
-                    height: '36px',
-                    backgroundColor: red[500],
-                    ':hover': { backgroundColor: red[600] },
-                    marginLeft: '0px',
-                  }}
-                  disabled={ShowDeleteButton == true || IsPublished == true}
-                  onClick={clickDeleteAlll}
-                >
-                  <DeleteSweepIcon />
-                </IconButton>
-              </span>
-            </Tooltip>
+                <Tooltip title="Delete All">
+                  <span>
+                    <IconButton
+                      sx={{
+                        display: 'inline-flex',
+                        color: 'white',
+                        padding: '4px',
+                        width: '36px',
+                        height: '36px',
+                        backgroundColor: red[500],
+                        ':hover': { backgroundColor: red[600] },
+                        marginLeft: '0px',
+                      }}
+                      disabled={ShowDeleteButton == true || IsPublished == true}
+                      onClick={clickDeleteAlll}
+                    >
+                      <DeleteSweepIcon />
+                    </IconButton>
+                  </span>
+                </Tooltip>
 
 
 
 
-            {/* <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+                {/* <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
               {StudentAssignment.length > 0 &&
                 (() => {
                   const item = StudentAssignment.find(item => item.ShowDeleteButton == "1");
@@ -585,7 +649,7 @@ const Studentwiseprogressreport = () => {
                 })()
               }
             </Box> */}
-            {/* {PublishStatu.AllowPublish == true || PublishStatu.AllowUnpublish == true && GetAllRecordSubmitted.AllSubmitted == true ? <IconButton
+                {/* {PublishStatu.AllowPublish == true || PublishStatu.AllowUnpublish == true && GetAllRecordSubmitted.AllSubmitted == true ? <IconButton
               sx={{
                 backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500],
                 display: 'inline-flex',
@@ -601,25 +665,14 @@ const Studentwiseprogressreport = () => {
               {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
             </IconButton> : <span> </span>} */}
 
-
-
+              </Grid>
+            </Stack>
 
           </>
         } />
 
-      <Box sx={{ background: 'white', pl: 2, p: 2, mb: 2 }}>
-        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-          <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
-          <Box sx={{ display: 'flex', gap: '20px' }}>
-            <DotLegends
-              color="secondary"
-              text={''}
-              text1={'Marks entry not started'}
-              text2={'Marks entry partially done'}
-              text3={'Marks entry completed	'} text4={undefined} text5={undefined}
-            />
-          </Box>
-        </Box>
+      <Box sx={{ background: 'white', p: 1.5, mb: 2 }}>
+        <Legend LegendArray={LegendArray} />
       </Box>
       <Box mb={1} sx={{ p: 2, background: 'white' }}>
         <Box>
