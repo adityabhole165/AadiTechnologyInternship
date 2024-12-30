@@ -369,7 +369,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
     <>
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               label={
@@ -430,7 +430,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
         <ContactGroupEditTable GPID={GPID} />
       )}
       <Grid container direction="row" alignItems="center" spacing={2} sx={{ pt: 1 }}>
-        <Grid item xs={3.5}>
+        <Grid item xs={12} sm={4}>
           <SearchableDropdown
             label="User Role "
             sx={{ minWidth: '15vw' }}
@@ -440,7 +440,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
           />
         </Grid>
         {UsersRole === '3' && (
-          <Grid item xs={3.5}>
+          <Grid xs={12} sm={4}>
             <SearchableDropdown
               label="Class"
               sx={{ minWidth: '15vw' }}
@@ -450,7 +450,7 @@ const ContactGroupList: React.FC<ContactGroupListProps> = ({ onClose, GPID = 0, 
             />
           </Grid>
         )}
-        <Grid item xs={3.5}>
+        <Grid item xs={12} sm={4}>
           <TextField
             fullWidth
             label={
