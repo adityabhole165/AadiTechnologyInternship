@@ -22,9 +22,11 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   // Session Variables
   const schoolId = localStorage.getItem('SchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
-  const teacherId = sessionStorage.getItem('TeacherId');
+  const localUserId = localStorage.getItem('UserId');                     //Environmental User
 
   const [showSecondOptional, setShowSecondOptional] = useState(false);
+  const [streamDetail, setStreamDetail] = useState(false);
+
   // const [selectedStream, setSelectedStream] = useState('');
   // const [selectedGroup, setSelectedGroup] = useState('');
   // const [compulsorySubjects, setCompulsorySubjects] = useState([]);
@@ -33,10 +35,12 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState({});
   useEffect(() => {
-    //console.log('5️⃣streamwiseSubject data from Parent', streamwiseSubject);
+    console.log('5️⃣streamwiseSubject data from Parent', streamwiseSubject);
   }, [streamwiseSubject]);
 
   //#region API Calls
+  const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
+  console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
   //const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
   //console.log('🎈GetStudentStreamwiseSubjectDetails:', GetStudentStreamwiseSubjectDetails);
   const GetAllStreamsDrop = useSelector((state: RootState) => state.StudentUI.ISGetAllStreams);
@@ -50,6 +54,14 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   const FillCompitativeExams = useSelector((state: RootState) => state.StudentUI.ISFillCompitativeExams);
   //console.log('3️⃣FillCompitativeExams:', FillCompitativeExams);
 
+
+  useEffect(() => {
+    if (parseInt(schoolId) === 122) {
+      if (IsShowStreamSection[0]?.IsSecondary && !IsShowStreamSection[0]?.IsMidYear) {
+        setStreamDetail(true)
+      }
+    }
+  }, []);
 
   // const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
   //   asSchoolId: 122,
@@ -97,7 +109,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
   // }, [GetStudentStreamwiseSubjectDetails, GetAllStreamsDrop]);
   // console.log('🤬', form);
   const GetAllStremsBody: IGetAllStreamsBody = {
-    asSchoolId: 122,// Number(schoolId),
+    asSchoolId: Number(schoolId),// Number(schoolId),
   }
 
   useEffect(() => {
@@ -106,24 +118,26 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
 
   // Fetch groups when stream changes
   useEffect(() => {
-    if (streamwiseSubject.streamId) {
-      const GetAllGroupsOfStreamBody: IGetAllGroupsOfStreamBody = {
-        asSchoolId: 122,
-        asStreamId: Number(streamwiseSubject.streamId),
-      };
-      dispatch(CDAGetAllGroupsOfStream(GetAllGroupsOfStreamBody));
+    if (streamDetail) {
+      if (streamwiseSubject.streamId) {
+        const GetAllGroupsOfStreamBody: IGetAllGroupsOfStreamBody = {
+          asSchoolId: Number(schoolId),
+          asStreamId: Number(streamwiseSubject.streamId),
+        };
+        dispatch(CDAGetAllGroupsOfStream(GetAllGroupsOfStreamBody));
 
-      // Reset optionalSubject2 when switching away from StreamId 3
-      if (streamwiseSubject.streamId !== "3") {
-        onChange('optionalSubject2', '');
+        // Reset optionalSubject2 when switching away from StreamId 3
+        if (streamwiseSubject.streamId !== "3") {
+          onChange('optionalSubject2', '');
+        }
       }
     }
   }, [streamwiseSubject.streamId]);
 
   const StreamwiseSubjectDetailsBody: IGetStreamwiseSubjectDetailsBody = {
-    asSchoolId: 122,// Number(schoolId),
+    asSchoolId: Number(schoolId),// Number(schoolId),
     asStreamGroupId: Number(streamwiseSubject.groupId),
-    asAcademicYearId: 10,//Number(academicYearId)
+    asAcademicYearId: Number(academicYearId),//Number(academicYearId)
   }
 
   useEffect(() => {
@@ -195,7 +209,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            defaultValue={streamwiseSubject.groupId}
+            defaultValue={streamDetail ? streamwiseSubject.groupId : ''}
             ItemList={GetAllGroupsOfStreamDrop}
             onChange={(value) => onChange('groupId', value)}
             label={'Group'}
@@ -208,7 +222,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
             name='compulsorySubjects'
             label="Compulsory Subjects"
             variant="outlined"
-            value={streamwiseSubject.compulsorySubjects}
+            value={streamDetail ? streamwiseSubject.compulsorySubjects : ''}
             InputProps={{
               readOnly: true,
             }}
@@ -220,7 +234,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
         <Grid item xs={3}>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            defaultValue={streamwiseSubject.optionalSubject1}
+            defaultValue={streamDetail ? streamwiseSubject.optionalSubject1 : ''}
             ItemList={FillFirstOptionalSubjects}
             onChange={(value) => onChange('optionalSubject1', value)}
             //onChange={handleOptionalSubjectChange}
@@ -233,7 +247,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
           <Grid item xs={3}>
             <SearchableDropdown
               sx={{ minWidth: '300px' }}
-              defaultValue={streamwiseSubject.optionalSubject2}
+              defaultValue={streamDetail ? streamwiseSubject.optionalSubject2 : ''}
               ItemList={FillSecondOptionalSubjectArts}
               onChange={(value) => onChange('optionalSubject2', value)}
               //onChange={handleOptionalSubjectChange}
@@ -263,7 +277,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
                 key={exam.Id}
                 control={
                   <Checkbox
-                    checked={streamwiseSubject.competitiveExams.includes(exam.Id)}
+                    checked={streamDetail ? streamwiseSubject.competitiveExams.includes(exam.Id) : false}
                     onChange={() => handleCheckboxChange(exam.Id)}
                   />
                 }

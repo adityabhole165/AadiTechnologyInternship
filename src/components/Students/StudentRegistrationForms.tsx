@@ -561,7 +561,7 @@ const StudentRegistrationForm = () => {
   const USGetSingleStudentDetails = useSelector((state: RootState) => state.StudentUI.ISGetSingleStudentDetails);
   //console.log('1️⃣USGetSingleStudentDetails', USGetSingleStudentDetails);
   const GetStudentAdditionalDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentAdditionalDetails);
-  console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
+  //console.log('2️⃣GetStudentAdditionalDetails', GetStudentAdditionalDetails);
   const GetFromNumber = useSelector((state: RootState) => state.GetStandardwiseMinMaxDOB.IGetFormNumber);
   ///=>AdmissionDocument Uplpoad Document List
   const GetStudentDocumentsList = useSelector((state: RootState) => state.StudentUI.ISGetStudentDocuments);
@@ -569,7 +569,7 @@ const StudentRegistrationForm = () => {
   const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
   //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
   const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
-  //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
+  console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
   const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
   //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
   //console.log('⏮️ReferenceMessages', ReferenceMessages);
@@ -598,8 +598,7 @@ const StudentRegistrationForm = () => {
     }
   }, [UsGetSchoolSettings, ShowDayBoardingOptionOnStudentsScreen]);
 
-
-  console.log(typeof form.admission.feeAreaNames, form.admission.feeAreaNames, '🎈', form.admission.hidOldFeeAreaId);
+  //console.log(typeof form.admission.feeAreaNames, form.admission.feeAreaNames, '🎈', form.admission.hidOldFeeAreaId);
   //console.log(oStudentDetails?.IsForDayBoarding, (form.admission?.isForDayBoarding === true ? 'True' : 'False'));
 
   // useEffect(() => {
@@ -1225,40 +1224,30 @@ const StudentRegistrationForm = () => {
 
       // Add Additional Student Details
       if (IsAdditionalFieldsApplicable) {
-        //console.log('Sending additional details:', additionalDetailsBody);
+        console.log('.3️⃣Additional details:', additionalDetailsBody);
         await dispatch(CDAAddStudentAdditionalDetails(additionalDetailsBody));
         // Transport Fee Logic
         if (parseInt(schoolId) === 122) {
+          console.log('4️⃣ Transport fee entries:', transportFeeBody);
           if (form.admission.feeAreaNames != form.admission.hidOldFeeAreaId) {
             await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
           }
         }
         else {
+          console.log('✅4️⃣ Transport fee entries:', transportFeeBody);
           await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
         }
       }
 
       if (overwriteSiblingDetails === 0) {
-        //console.log('overwriteSiblingDetails:', overwriteSiblingDetails);
-        //console.log('Sending overwriteSiblingDetails details:', overwriteSiblingDetailsBody);
+        console.log('5️⃣OverwriteSiblingDetails:', overwriteSiblingDetails);
         await dispatch(CDAOverwriteSiblingDetailsMsg(overwriteSiblingDetailsBody));
       }
 
-      // Update Streamwise Subject Details    // NEED TO MOVE FROM HERE
-      if (parseInt(schoolId) === 122 && streamwiseSubjectDetailsBody) {
-        //console.log('Updating streamwise subject details:', streamwiseSubjectDetailsBody);
-        await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(streamwiseSubjectDetailsBody));
-      }
-
-      // Generate Transport Fee Entries
-      if (transportFeeBody) {
-        //console.log('Generating transport fee entries:', transportFeeBody);
-        await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
-      }
 
       // Update Student Photo & Base64 Image
       if (form.personal?.photoFilePathImage && UpdateStudentPhotoBody) {
-        //console.log('Updating student photo:', UpdateStudentPhotoBody);
+        console.log('6️⃣Updating student photo:', UpdateStudentPhotoBody);
         await dispatch(CDAUpdateStudentPhoto(UpdateStudentPhotoBody));
       }
 
@@ -1297,7 +1286,11 @@ const StudentRegistrationForm = () => {
       //console.log('❎❎❎ Submission Stopped');
       return; // Stop submission
     }
-
+    if (parseInt(schoolId) === 122 && UpdateStudentStreamwiseSubjectDetailsBody) {
+      if (IsShowStreamSection[0]?.IsSecondary && !IsShowStreamSection[0]?.IsMidYear) {
+        await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(UpdateStudentStreamwiseSubjectDetailsBody));
+      }
+    }
     // First check dependencies
     const dependencyResult = await CheckDependenciesForFees();
     setIsDeleteFee(dependencyResult.bFlag);

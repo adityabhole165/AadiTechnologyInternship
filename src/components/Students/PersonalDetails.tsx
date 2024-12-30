@@ -445,6 +445,34 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
     }
   };
 
+  // const checkWebcamSupport = () => {
+  //   if (window.location.protocol !== 'https:') {
+  //     setErrorMessage('Webcam access requires HTTPS connection');
+  //     return false;
+  //   }
+  //   return true;
+  // };
+
+  const requestWebcamPermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach(track => track.stop());
+      setOpen(true);
+      setIsWebcamActive(true);
+      setErrorMessage(''); // Clear error message on successful permission
+    } catch (err) {
+      setErrorMessage('Please allow camera access to use this feature');
+    }
+  };
+
+
+  const handleWebcamClick = async () => {
+    // if (checkWebcamSupport()) {
+    await requestWebcamPermission();
+    // }
+  };
+
+  //Capture Photo using webcam
   const CapturePhoto = () => {
     const imageSrc = webcamRef.current.getScreenshot();
     setCapturedImage(imageSrc);
@@ -502,7 +530,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
   const restartWebcam = () => {
     setIsWebcamActive(true)
     setCapturedImage(null)
-    //setFileNameError('');
+    setErrorMessage('');
 
   }
 
@@ -510,6 +538,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
     setOpen(false);
     //setFileNameError('');
     setIsWebcamActive(false);
+    setErrorMessage('');
   };
 
   const deleteImage = () => {
@@ -935,7 +964,8 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
               />
             </Grid>
             <Grid item xs={3} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <IconButton onClick={() => setOpen(true)}>
+              <IconButton onClick={handleWebcamClick}>
+                {/* onClick={() => setOpen(true)} */}
                 <Tooltip title={"Use Webcam"}>
                   <AddAPhotoIcon />
                 </Tooltip>
@@ -1432,6 +1462,11 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                         height={310}
                         width={1280}
                         //className="w-full h-full object-contain"
+                        onUserMediaError={(error) => {
+                          console.error('Webcam error:', error);
+                          setErrorMessage('Unable to access webcam. Please check browser permissions.');
+                          setIsWebcamActive(false);
+                        }}
                         style={{
                           //maxWidth: '100%',
                           // maxHeight: '100%',
