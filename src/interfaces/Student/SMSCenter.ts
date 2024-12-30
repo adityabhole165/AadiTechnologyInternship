@@ -120,3 +120,35 @@ export interface IGetSentSMSBody {
 export interface IGetSentSMSResult {
   boolean;
 }
+
+
+export interface IGetScheduleSMSBody {
+  asSchoolId: number
+  asUserId: number
+  asReceiverUserRoleId: number
+  asAcademicYearId: number
+  asSortExp: string
+  asStartIndex: number
+  asPageSize: number
+}
+
+export interface IGetScheduleSMSBodyResult {
+  RowID: string
+  TotalRows: string
+  Read_Message_Flag: string
+  UserName: string
+  Subject: string
+  Insert_Date: string
+  SMS_Id: string
+  SMS_Receiver_Details_Id: string
+  StatusId: string
+  SenderName: string
+  SMSShootId: string
+}
+
+
+export interface DeleteScheduleSMSBody {
+  asSMSIds: string
+  asSchoolId: number
+  asAcademicYearId: number
+}

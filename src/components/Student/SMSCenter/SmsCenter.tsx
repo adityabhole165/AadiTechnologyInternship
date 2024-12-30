@@ -27,14 +27,15 @@ import { CDADeleteSMSApi, CDAExportSentItems, CDAGetSentItems, CDAResendSMS, CDA
 // import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import { Styles } from 'src/assets/style/student-style';
 import CommonPageHeader from 'src/components/CommonPageHeader';
-import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Student/SMSCenter';
+import { DeleteScheduleSMSBody, IGetScheduleSMSBody, IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Student/SMSCenter';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
+import { CDADeleteScheduleSMS, CDAGetScheduleSMS, CDAResetDeleteScheduleSMS, getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
 
 import { encodeURL, getDateFormattedNew } from 'src/components/Common/Util';
 import SentsmsList from 'src/components/SentSms/SentsmsList';
 import SentsmsListAll from 'src/components/SentSms/SentsmsListAll';
 import { RootState } from 'src/store';
+import SchedulesmsList from './SchedulesmsList';
 const PageSize = 20;
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -607,6 +608,142 @@ function SmsCenter() {
   }, [USGetSentItems]);
 
 
+
+  //sheduled Sms 
+
+  const GetScheduleSMSList = useSelector((state: RootState) => state.SmsCenter.GetScheduleSMSBodyIS);
+  const DeleteScheduleSMS = useSelector((state: RootState) => state.SmsCenter.DeleteScheduleSMSIS);
+  const totalRowsScheduleSMS = GetScheduleSMSList.length > 0 ? GetScheduleSMSList[0].TotalRows : null;
+  const [sortExpressionScheduleSMS, setSortExpressionScheduleSMS] = useState('ORDER BY Insert_Date DESC ');
+  const [SmsListIDScheduleSMS, setSmsListIDScheduleSMS] = useState('');
+
+  const [rowsPerPageScheduleSMS, setRowsPerPageScheduleSMS] = useState(20);
+  const rowsPerPageOptionsScheduleSMS = [20, 50, 100, 200];
+  const [pageScheduleSMS, setPageScheduleSMS] = useState(1);
+  const startIndexScheduleSMS = (pageScheduleSMS - 1) * rowsPerPageScheduleSMS;
+  const endIndexScheduleSMS = startIndexScheduleSMS + rowsPerPageScheduleSMS;
+
+
+  const startRecordScheduleSMS = (pageScheduleSMS - 1) * rowsPerPageScheduleSMS + 1;
+  const endRecordScheduleSMS= Math.min(pageScheduleSMS * rowsPerPageScheduleSMS, totalRowsScheduleSMS);
+  const pagecountScheduleSMS = Math.ceil(totalRowsScheduleSMS / rowsPerPageScheduleSMS);
+
+  const ChangeRowsPerPageScheduleSMS = (event) => {
+    setRowsPerPageScheduleSMS(parseInt(event.target.value, 10));
+    setPageScheduleSMS(1);
+  };
+
+  const PageChangeScheduleSMS = (pageNumber) => {
+    setPageNew(pageNumber);
+  };
+
+
+
+
+  console.log(GetScheduleSMSList, "ooo", DeleteScheduleSMS);
+  const [SmsListScheduleSMS, setSmsListScheduleSMS] = useState([]);
+  useEffect(() => {
+    setSmsListScheduleSMS(GetScheduleSMSList);
+  }, [GetScheduleSMSList]);
+  const [headerArrayScheduleSMS, setHeaderArrayScheduleSMS] = useState([
+    { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
+    { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
+    { Id: 3, Header: 'Scheduled Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
+  
+    // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
+
+  ]);
+
+  const handleHeaderClickScheduleSMS = (updatedHeaderArray) => {
+    setHeaderArrayScheduleSMS(updatedHeaderArray);
+    const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Created_Date desc';
+    setSortExpressionScheduleSMS(newSortExpression);
+  };
+
+
+  const GetScheduleSMSBody: IGetScheduleSMSBody = {
+    "asSchoolId": Number(asSchoolId),
+    "asUserId": asUserId,
+    "asReceiverUserRoleId": 2,
+    "asAcademicYearId": Number(asAcademicYearId),
+    "asSortExp": sortExpressionScheduleSMS,
+    "asStartIndex": startIndexScheduleSMS,
+    "asPageSize": endIndexScheduleSMS
+  }
+
+  const DeleteScheduleSMSBody: DeleteScheduleSMSBody = {
+
+    "asSMSIds": SmsListIDScheduleSMS.toString(),
+    "asSchoolId": Number(asSchoolId),
+    "asAcademicYearId": Number(asAcademicYearId)
+
+  }
+
+
+ 
+  const ChangevalueScheduleSMS = (updatedList) => {
+    setSmsListScheduleSMS(updatedList);
+    const activeItems = updatedList.filter(item => item.IsActive).map(item => item.Id);
+    setSmsListIDScheduleSMS(activeItems);
+  };
+
+
+  const clickdeleteScheduleSMS = () => {
+    if (!SmsListIDScheduleSMS || SmsListIDScheduleSMS.length === 0) {
+      showAlert({
+        title: 'Error',
+        message: 'At least one SMS should be selected for deletion.',
+        variant: 'error',
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        onConfirm: () => {
+          closeAlert();
+        },
+        onCancel: () => {
+          closeAlert();
+        },
+
+      });
+      return;
+    }
+
+  
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete the selected SMS(s)?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(CDADeleteScheduleSMS(DeleteScheduleSMSBody));
+        closeAlert();
+      }
+    });
+  };
+
+
+  useEffect(() => {
+    if (DeleteScheduleSMS != '') {
+      dispatch(CDAResetDeleteScheduleSMS());
+      toast.success(DeleteScheduleSMS);
+
+      dispatch(CDAGetScheduleSMS(GetScheduleSMSBody));
+
+    }
+  }, [DeleteScheduleSMS]);
+
+  useEffect(() => {
+    dispatch(CDAGetScheduleSMS(GetScheduleSMSBody));
+  }, [sortExpressionScheduleSMS,startIndexScheduleSMS,endIndexScheduleSMS]);
+  useEffect(() => {
+    dispatch(CDADeleteScheduleSMS(DeleteScheduleSMSBody));
+  }, []);
+
   return (
     <Box sx={{ px: 2 }}>
 
@@ -1015,6 +1152,72 @@ function SmsCenter() {
             )}
 
 
+{activeTab == 'Scheduled SMS' && (
+              <>
+                {SmsListNew.length > 0 && <Box>
+                  <Tooltip title={"Delete"}>
+                    <IconButton
+                      onClick={clickdeleteScheduleSMS}
+
+                      sx={{
+                        color: 'white',
+                        backgroundColor: red[500],
+                        '&:hover': {
+                          // color: red[300],
+                          backgroundColor: red[600]
+                        }
+                      }}
+
+
+
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>}
+
+
+              
+                <Tooltip title={'New Sms'}>
+                  <IconButton
+                    onClick={NewSms}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: green[600] },
+
+                    }}
+                  >
+                    <AddTwoTone />
+                  </IconButton>
+                </Tooltip>
+
+
+                <Box>
+                  <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                          backgroundColor: grey[600]
+                        }
+                      }}
+                    >
+                      <QuestionMark />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+
+
+
+
+              </>
+            )}
+
+
+
 
 
 
@@ -1156,61 +1359,6 @@ function SmsCenter() {
 
           {/* <Grid item sx={{ minWidth: '90%', maxWidth: activeTab === 'AllSendItem' ? '90%' : 'auto', p: 2, background: 'white', borderRadius: '10px' }}> */}
           <Grid item xs={12} sm={10} >
-            {activeTab == 'Scheduled SMS' &&
-              <Grid container spacing={2} pb={2}>
-
-                <Grid item xs={12} sm={3}>
-                  <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                    <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
-                    <Box>
-                      <Typography variant="h6" color="blue">
-                        Free SMS
-                      </Typography>
-                      <Typography variant="h4">{SmsCount.AllowedSMSCount ?? 0}</Typography>
-                    </Box>
-                  </Card>
-                </Grid>
-
-
-                <Grid item xs={12} sm={3}>
-                  <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                    <SmsIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
-                    <Box>
-                      <Typography variant="h6" color="green">
-                        Sent SMS
-                      </Typography>
-                      <Typography variant="h4">{SmsCount.SentSMSCount ?? 0}</Typography>
-                    </Box>
-                  </Card>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                    <SmsFailedIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
-                    <Box>
-                      <Typography variant="h6" color="blue">
-                        Balance SMS
-                      </Typography>
-                      <Typography variant="h4">0</Typography>
-                    </Box>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={3}>
-                  <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                    <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 2 }} />
-                    <Box>
-                      <Typography variant="h6" color="red">
-                        Exceeded SMS
-                      </Typography>
-                      <Typography variant="h4">{SmsCount.ExceededSMSCount ?? 0}</Typography>
-                    </Box>
-                  </Card>
-                </Grid>
-
-              </Grid>
-            }
-
-
             {activeTab == 'AllSendItem' && (
 
               <Box>
@@ -1450,6 +1598,98 @@ function SmsCenter() {
 
 
               </Box>
+            )}
+
+
+
+
+            {activeTab === 'Scheduled SMS' && (
+
+              <Box>
+                {(Loading) && <SuspenseLoader />}
+
+                {SmsListScheduleSMS.length > 0 && <Box mb={1} sx={{ background: 'white' }}>
+                  {
+                    SmsListScheduleSMS.length > 0 ? (
+                      <div style={{ flex: 1, textAlign: 'center' }}>
+                        <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                          <Box component="span" fontWeight="fontWeightBold">
+                            {startRecordScheduleSMS} to {endRecordScheduleSMS}
+                          </Box>
+                          {' '}out of{' '}
+                          <Box component="span" fontWeight="fontWeightBold">
+                            {totalRowsScheduleSMS}
+                          </Box>{' '}
+                          {totalRowsScheduleSMS === 1 ? 'record' : 'records'}
+                        </Typography>
+                      </div>
+
+                    ) : (
+                      <span></span>
+
+                    )
+                  }
+                  <SchedulesmsList
+                    HeaderArray={headerArrayScheduleSMS}
+                    ItemList={SmsListScheduleSMS}
+                    ClickHeader={handleHeaderClickScheduleSMS}
+                    clickchange={ChangevalueScheduleSMS}
+                    clickTitle={clickTitle1}
+
+                    
+
+                  />
+
+                  {
+                    endRecordScheduleSMS > 19 ? (
+                      <ButtonGroupComponent
+                        rowsPerPage={rowsPerPageNew}
+                        ChangeRowsPerPage={ChangeRowsPerPageScheduleSMS}
+                        rowsPerPageOptions={rowsPerPageOptionsScheduleSMS}
+                        PageChange={PageChangeScheduleSMS}
+                        pagecount={pagecountScheduleSMS}
+
+                      />
+
+                    ) : (
+                      <span></span>
+
+                    )
+                  }
+
+
+
+                </Box>
+
+
+                }
+
+                {
+                  SmsListNew.length == 0 && !Loading ? <Typography
+                    variant="body1"
+                    sx={{
+                      textAlign: 'center',
+                      marginTop: 4,
+                      backgroundColor: '#324b84',
+                      padding: 1,
+                      borderRadius: 2,
+                      color: 'white',
+                    }}
+                  >
+                    <b>No Records Found.</b>
+                  </Typography>
+                    : (
+                      <span></span>
+                    )
+                }
+
+
+
+
+
+
+              </Box>
+
             )}
 
 

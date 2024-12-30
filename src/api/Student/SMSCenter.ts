@@ -1,6 +1,9 @@
 import {
+  DeleteScheduleSMSBody,
   GetNewSMSListResult,
   GetSMSDetailsResult,
+  IGetScheduleSMSBody,
+  IGetScheduleSMSBodyResult,
   IGetSentSMSBody,
   IGetSentSMSResult,
   IMobileNumber,
@@ -37,13 +40,26 @@ const GetSmsCountDetails = (data: ISmsCountBody) => {
 const GetSendSMS = (data: IGetSentSMSBody) => {
   return http.post<IGetSentSMSResult>('SMS/SendSMS', data);
 };
+
+const GetScheduleSMS = (data: IGetScheduleSMSBody) => {
+  return http.post<IGetScheduleSMSBodyResult[]>('Teacher/GetScheduleSMS', data);
+};
+
+const DeleteScheduleSMS = (data: DeleteScheduleSMSBody) => {
+  return http.post<''>('Teacher/DeleteScheduleSMS', data);
+};
+
+
+
 const SmsCenterApi = {
   GetSmsCenterList,
   GetNewSmsCenterList,
   GetMobileNumber,
   GetSmsDetails,
   GetSmsCountDetails,
-  GetSendSMS
+  GetSendSMS,
+  GetScheduleSMS,
+  DeleteScheduleSMS
 };
 
 export default SmsCenterApi;
