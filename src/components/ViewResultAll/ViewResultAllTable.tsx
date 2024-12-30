@@ -17,7 +17,7 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
     //--
     useEffect(() => {
         if (TotalPerGradeView) {
-            setHasTopRanks(TotalPerGradeView.some((item) => [1, 2, 3].includes(item.rank)));
+            setHasTopRanks(TotalPerGradeView.some((item) => ['1', '2', '3'].includes(item.rank)));
         }
     }, [TotalPerGradeView]);
     //--
@@ -347,11 +347,8 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                                         {rank.rank.trim() ? rank.rank.trim() : '-'}
                                                     </TableCell>
                                                 ))
-
                                                 }
-
                                             </>
-
                                         </TableRow>
                                         {/* <TableRow>
                                                 {MarkDetailsView.map((subject, i) => (
@@ -404,15 +401,14 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                                         }
                                                         return null;
                                                     })}
-                                                    {ToppersCount !== 0 && hasTopRanks && TotalPerGradeView.map((rank, rankIndex) => (
-                                                        <TableCell key={rankIndex} sx={{ color: 'green', textAlign: 'center', fontWeight: 'bold' }}>
-                                                            {rank.rank.trim() ? rank.rank.trim() : '-'}
-                                                        </TableCell>
-                                                    ))
-
-                                                    }
-
                                                 </>
+                                            )}
+                                            {ToppersCount !== 0 && hasTopRanks && (
+                                                <TableCell
+                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, textAlign: 'center', fontWeight: 'bold' }}
+                                                >
+                                                    -
+                                                </TableCell>
                                             )}
                                         </TableRow>
                                     </TableBody>
