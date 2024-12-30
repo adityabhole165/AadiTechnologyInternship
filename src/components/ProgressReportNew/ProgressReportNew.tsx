@@ -402,6 +402,11 @@ const ProgressReportNew = () => {
     asAcadmicYearId: Number(asAcademicYearId),
     asStdDivId: StandardDivisionId()
   }
+
+  useEffect(() => {
+    dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
+  }, [ StandardDivisionId(),asAcademicYearId,asSchoolId]);  
+  
   const StudentProgressReportBody: IStudentProgressReportBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmeicYearId: Number(AcademicYear),
@@ -1173,21 +1178,25 @@ const ProgressReportNew = () => {
 
               </ Box>
 
-            ) : (<Typography
-              variant="body1"
-              sx={{
-                textAlign: 'center',
-                marginTop: 4,
-                backgroundColor: '#324b84',
-                padding: 1,
-                borderRadius: 2,
-                color: 'white',
-              }}
-            >
-              <b> No exam of this class has been published for the  year ( {FStudentName()} )  </b>
-            </Typography>
+            ) : 
+            <div>
+                {StudentId != "0" && <> (<Typography
+                  variant="body1"
+                  sx={{
+                    textAlign: 'center',
+                    marginTop: 4,
+                    backgroundColor: '#324b84',
+                    padding: 1,
+                    borderRadius: 2,
+                    color: 'white',
+                  }}
+                >
+                  <b> No exam of this class has been published for the  year ( {FStudentName()} )  </b>
 
-            )
+                </Typography>
+
+                  ) </>}
+              </div>
           )
             : null}
 

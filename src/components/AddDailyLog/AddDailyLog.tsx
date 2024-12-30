@@ -11,6 +11,7 @@ import {
   DialogTitle,
   Grid,
   IconButton,
+  Stack,
   TextField,
   Tooltip,
   Typography
@@ -619,23 +620,29 @@ const AddDailyLog = () => {
               <h1>
                 {LogId == 0 ? 'Add Daily Log' : 'Edit Daily Log'}
               </h1>
-
-              <Grid container spacing={0} alignItems="center">
-                <Grid item xs={4}>
-                  <TextField fullWidth label={'Class'} sx={{ bgcolor: '  #F0F0F0', width: '90%' }} value={ClassName} />
-                </Grid>
-                <Grid item xs={4}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems="right"
+                gap={1}
+                sx={{
+                  mt: { xs: 0, sm: 0 },
+                  flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                }}
+              >
+                <Grid container spacing={2} mt={.5} >
+                  <Grid item xs={12} sm={4}>
+                    <TextField fullWidth label={'Class'} sx={{ bgcolor: '  #F0F0F0', width: '100%' }} value={ClassName} />
+                  </Grid>
+                  <Grid item xs={12} sm={4} >
                     <Datepicker DateValue={dateState} onDateChange={handleDateChange} label={'Date'} size={"medium"} />
                     {dateError && (
                       <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
                         <ErrorMessage1 Error={dateError}></ErrorMessage1>
                       </Box>
                     )}
-                  </Box>
-                </Grid>
-                <Grid item xs={4}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
                     <SingleFile
                       ValidFileTypes={ValidFileTypes}
                       MaxfileSize={MaxfileSize}
@@ -649,9 +656,9 @@ const AddDailyLog = () => {
                         <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
                       </Box>
                     )}
-                  </Box>
+                  </Grid>
                 </Grid>
-              </Grid>
+              </Stack>
             </Box>
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>

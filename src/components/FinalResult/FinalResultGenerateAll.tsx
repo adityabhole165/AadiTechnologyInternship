@@ -7,11 +7,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
     IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
+import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import {
     StudentDetailsGA,
     UpdateStudentTestMarks, ViewResultGA
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
+import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -366,9 +368,15 @@ const GenerateAll = ({ }) => {
         asStudentId: Number(asStudentId),
         asUserId: Number(asUserId)
     };
-
+    const GetSchoolSettings: GetSchoolSettingsBody = {
+        asSchoolId: Number(asSchoolId),
+    };
+    const fetchStudentProgressReport = async () => {
+        await dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
+    }
     useEffect(() => {
-        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
+        fetchStudentProgressReport();
     }, [IsTotalConsiderForProgressReport]);
 
     // Student Results API Call | Table 2 (Result to generate on clicking genarate button)
@@ -402,7 +410,7 @@ const GenerateAll = ({ }) => {
             // Loop over the MarksArr within each marksItem to generate individual entries
             marksItem.MarksArr.forEach((mark) => {
                 // Checking if isEdit is true before generating the XML entry and the student is not absent
-                if (mark.isEdit && mark.IsAbsent === 'N') {
+                if (mark?.isEdit && mark?.IsAbsent === 'N') {
                     sXML +=
                         '<SchoolWiseStudentTestMarksDetail ' +
                         'School_Id="' + asSchoolId + '" ' +
@@ -429,7 +437,7 @@ const GenerateAll = ({ }) => {
             asUseAvarageFinalResult: "Y"
         };
         await dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
-        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport, totalCount));
+        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody, IsTotalConsiderForProgressReport));
         setIsResultGenerated(true); // Set the result as generated
         dispatch(ViewResultGA(GetViewResultBody));
 
