@@ -253,7 +253,7 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                             {IsTotalConsiderForProgressReport === "True" && (
                                                 <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
                                             )}
-                                            {ToppersCount === 3 && hasTopRanks && (
+                                            {ToppersCount !== 0 && hasTopRanks && (
                                                 <TableCell
                                                     sx={{
                                                         py: 1,
@@ -342,6 +342,14 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                                     }
                                                     return null;
                                                 })}
+                                                {ToppersCount !== 0 && hasTopRanks && TotalPerGradeView.map((rank, rankIndex) => (
+                                                    <TableCell key={rankIndex} sx={{ color: 'green', textAlign: 'center', fontWeight: 'bold' }}>
+                                                        {rank.rank.trim() ? rank.rank.trim() : '-'}
+                                                    </TableCell>
+                                                ))
+
+                                                }
+
                                             </>
 
                                         </TableRow>
@@ -396,6 +404,14 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                                         }
                                                         return null;
                                                     })}
+                                                    {ToppersCount !== 0 && hasTopRanks && TotalPerGradeView.map((rank, rankIndex) => (
+                                                        <TableCell key={rankIndex} sx={{ color: 'green', textAlign: 'center', fontWeight: 'bold' }}>
+                                                            {rank.rank.trim() ? rank.rank.trim() : '-'}
+                                                        </TableCell>
+                                                    ))
+
+                                                    }
+
                                                 </>
                                             )}
                                         </TableRow>
