@@ -1,7 +1,7 @@
 import PrintIcon from '@mui/icons-material/Print';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Grid, IconButton, Stack, Tooltip } from '@mui/material';
+import { Alert, Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useRef, useState } from 'react';
@@ -19,6 +19,7 @@ import {
   IconfiguredExamBody
 } from 'src/interfaces/VeiwResultAll/IViewResultAll';
 
+import { InfoOutlined } from '@mui/icons-material';
 import { IClassTeacherListBody } from 'src/interfaces/FinalResult/IFinalResult';
 import { IViewBody } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
 import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
@@ -78,12 +79,9 @@ const ViewResultAll = (props: Props) => {
   const TotalPerGradeView = useSelector((state: RootState) => state.VeiwResult.getTotalPerGradeView);
   const PercentageDetails = useSelector((state: RootState) => state.VeiwResult.getPerDetails);
   const Usisconfigred: any = useSelector((state: RootState) => state.VeiwResult.iscofigred);
+
   const Usunpublishedexam: any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
-  useEffect(() => {
-    // EntireStudentFinalResult
-    //console.log('EntireStudentFinalResult', EntireStudentFinalResult);
-  }, [EntireStudentFinalResult])
   const GetClassTeachers = useSelector(
     (state: RootState) => state.FinalResult.ClassTeachers
   );
@@ -515,7 +513,19 @@ const ViewResultAll = (props: Props) => {
         </>
         }
       />
-
+      <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+        {Usisconfigred?.IsConfiged === '0' && open ? (
+          <div>
+            {Usunpublishedexam?.length > 0 && (
+              <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+                <b style={{ color: 'blue' }}> All configured exams are not published - {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
+              </Alert>
+            )}
+          </div>
+        ) : (
+          <span> </span>
+        )}
+      </Typography>
       <Box sx={{ mt: 1, background: 'white' }} ref={printRef}>
         {open &&
           <>
