@@ -207,7 +207,7 @@ function UpcomingEvent() {
       alignItems="center"
       justifyContent="center" 
     >
-      <Grid item xs={12} sm={8} md={8} lg={6} pl={6} sx={{pl:{xs:24, sm:6, md:6, lg:6} }} textAlign={'center'}>
+      <Grid item xs={12} sm={8} md={8} lg={6}  sx={{pl:{xs:14, sm:20, md:6, lg:6} }} textAlign={'center'}>
         <Link
           href="/RITeSchool/Common/AnnualPlanner"
           style={{ display: 'flex', alignItems: 'center', textDecoration: 'none',  }}

@@ -254,7 +254,7 @@ const UnreadMessage = () => {
         sx={{
           overflow: 'auto',
           mt: 2,
-          height: { xs: '240px', md: '382px' },
+          height: { xs: '240px', md: '260px', lg:'260px'},
           maxWidth: '100%'
         }}
       >
@@ -361,7 +361,7 @@ const UnreadMessage = () => {
       </Box>
 
       {/* Footer Section */}
-      <Grid container justifyContent="center" sx={{ mt: 2 }}>
+      <Grid container justifyContent="center" sx={{ mt: 2,  mb:2,}}>
         <Grid item xs={12} sm="auto" container justifyContent="center">
           <Link
             href="/RITeSchool/MessageCenter/msgCenter"
@@ -377,6 +377,7 @@ const UnreadMessage = () => {
               sx={{
                 fontWeight: 'bold',
                 pr: 1,
+               
                 textAlign: { xs: 'center', sm: 'left' }
               }}
             >
