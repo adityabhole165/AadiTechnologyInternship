@@ -356,35 +356,23 @@ const StudentRegistrationForm = () => {
 
     Object.keys(currentSchoolFields).forEach((tab) => {
       currentSchoolFields[tab].forEach((field) => {
-        // Base required fields
+
+        // Skipping family fields if Additional fields not applicable
+        if (tab === 'family' && Number(schoolId) === 18 && !IsAdditionalFieldsApplicable) { return; }
+
+        // Base required fields only once
         requiredFields.push({ tab, field });
 
         // otherOccupation conditionally
         if (field === 'parentOccupation' && form?.personal?.parentOccupation === '5') {
           requiredFields.push({ tab: 'personal', field: 'otherOccupation' });
         }
-        // else {
-        //   requiredFields.push({ tab, field });
-        // }
 
-        // Handle conditional fields in PPSH
-        if (tab === 'family' && schoolId === 18) {
-          if (IsAdditionalFieldsApplicable) {
-            requiredFields.push({ tab, field });
-          }
-        }
-        // else {
-        //   requiredFields.push({ tab, field });
-        // }
       });
     });
-
+    //console.log('requiredFields', requiredFields);
     return requiredFields;
   };
-
-  // Usage Example
-  const requiredFields = getRequiredFields(schoolId, form);
-  //console.log(requiredFields);
 
   // Validation and Progress Calculation Function
   const validateFieldsAndCalculateProgress = (schoolId, form) => {
@@ -427,7 +415,7 @@ const StudentRegistrationForm = () => {
     const progress = (validFieldsCount / requiredFields.length) * 100;
 
     return {
-      progress: progress.toFixed(2), // Return progress as a percentage
+      progress: progress.toFixed(0), // Return progress as a percentage
       invalidFields // List of missing/invalid fields for feedback
     };
   };
@@ -449,7 +437,7 @@ const StudentRegistrationForm = () => {
     const emailPattern = /^(?!.*\.\.)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     // Admission Tab Validations
     if (form.admission) {
-      if (form.admission.registrationNumber === '0') {
+      if (form.admission.registrationNumber && /^0+$/.test(form.admission.registrationNumber)) {
         specificFieldValidations.push({ tab: 'admission', field: 'registrationNumber' });
       }
     }
@@ -493,7 +481,7 @@ const StudentRegistrationForm = () => {
   //console.log('Progress:', result.progress + '%');
   const result1 = validateSpecificFields(form);
   //console.log('Invalid Fields:', result.invalidFields);
-  //console.log('Specific Invalid Fields:', result1);
+  console.log('Specific Invalid Fields:', result1);
 
   //#region Tabs
   const totalTabs = parseInt(schoolId) === 122 ? 6 : 5;
@@ -605,7 +593,7 @@ const StudentRegistrationForm = () => {
     }
   }, [UsGetSchoolSettings, ShowDayBoardingOptionOnStudentsScreen]);
 
-  console.log(oStudentDetails?.IsForDayBoarding, (form.admission?.isForDayBoarding === true ? 'True' : 'False'));
+  //console.log(oStudentDetails?.IsForDayBoarding, (form.admission?.isForDayBoarding === true ? 'True' : 'False'));
 
 
   // useEffect(() => {
@@ -824,7 +812,7 @@ const StudentRegistrationForm = () => {
   }, [GetStudentDocumentsList])
 
   useEffect(() => {
-    //console.log('Nested Form🆕', form);
+    console.log('Nested Form🆕', form);
     //console.log('0️⃣Admission Documents🆕', documentList);
   }, [form, documentList]);
   //#endregion
@@ -1095,7 +1083,7 @@ const StudentRegistrationForm = () => {
     asLandmark: form.additional?.landmark || '',
     asTaluka: form.additional?.taluka || '',
     asDistrict: form.additional?.district || '',
-    asFeeAreaName: Number(form.admission?.feeAreaNames) || 0,
+    asFeeAreaName: (parseInt(schoolId) === 122) ? Number(form.admission?.feeAreaNames) : 0,  //Number(form.admission?.feeAreaNames),//(schoolId && parseInt(schoolId) === 122) ? Number(form.admission?.feeAreaNames) : 0,
     asFatherOccupation: form.family?.fatherOccupation || '',
     asFatherQualification: form.family?.fatherQualification || '',
     asFatherEmail: form.family?.fatherEmail || '',
