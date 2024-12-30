@@ -4,7 +4,7 @@ import CallReceived from '@mui/icons-material/CallReceived';
 import History from '@mui/icons-material/History';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SmsOutlined from '@mui/icons-material/SmsOutlined';
-import { Box, Divider, Grid, IconButton, Tooltip, Typography, styled } from '@mui/material';
+import { Box, Divider, Grid, IconButton, Stack, Tooltip, Typography, styled } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -88,21 +88,30 @@ function ViewSmsNew() {
 
           rightActions={
             <>
-              <Box>
-                <Tooltip title={`View Send/Received Messages`}>
-                  <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: grey[500],
-                      height: '36px !important',
-                      ':hover': { backgroundColor: grey[600] }
-                    }}
-                  >
-                    <QuestionMark />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-
+              <Stack
+                direction="row"
+                gap={1}
+                alignItems="right"
+                sx={{
+                  flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                  justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                }}
+              >
+                <Box>
+                  <Tooltip title={`View Send/Received Messages`}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: grey[600] }
+                      }}
+                    >
+                      <QuestionMark />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Stack>
             </>
           }
         />
