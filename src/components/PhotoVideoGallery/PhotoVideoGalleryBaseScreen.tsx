@@ -31,6 +31,7 @@ const PhotoVideoGalleryBaseScreen = () => {
 
 
     const [selectedOption, setSelectedOption] = useState<string>('photo');
+    console.log(selectedOption, "23456")
     const [view, setView] = useState<"table" | "card">("table");
     const [SelectResult, setSelectResult] = useState(0);
     const [PhotoDetails, SetPhotoDetails] = useState([]);
@@ -129,7 +130,7 @@ const PhotoVideoGalleryBaseScreen = () => {
     }
     useEffect(() => {
         dispatch(CDAGetPhotoDetails(photoD1ata))
-    }, [page, rowsPerPage, SortDirection, SortBy, startIndexNew])
+    }, [page, rowsPerPage, SortDirection, SortBy, startIndexNew, selectedOption])
 
     const VideoData1: IGetVideoGalleryBody = {
         asSchoolId: asSchoolId,
@@ -142,7 +143,7 @@ const PhotoVideoGalleryBaseScreen = () => {
     }
     useEffect(() => {
         dispatch(CDAVideoDetails(VideoData1))
-    }, [page, rowsPerPage1, startIndexNew1, SortDirection1, SortBy1])
+    }, [page, rowsPerPage1, startIndexNew1, SortDirection1, SortBy1, selectedOption])
 
 
     const handleDelete1 = (Video_Id: number) => {
@@ -227,17 +228,11 @@ const PhotoVideoGalleryBaseScreen = () => {
     //Video Section
 
 
-    // const handleView = (videoName: string) => {
-    //     alert(`View clicked for ${videoName}`);
-    // };
-
     const handleEdit = (videoName: string) => {
         alert(`Edit clicked for ${videoName}`);
     };
 
-    // const handleDelete = (videoName: string) => {
-    //     alert(`Delete clicked for ${videoName}`);
-    // };
+
 
 
     const startRecord = (page - 1) * rowsPerPage + 1;
@@ -301,17 +296,9 @@ const PhotoVideoGalleryBaseScreen = () => {
         dispatch(CDAGetPhotoDetails(photoD1ata))
     }
 
-
     const handleSearchGalleryName1 = (Value) => {
         setSearchVideoGallery(Value);
     }
-
-    // const clickSearch1 = () => {
-
-
-    // }
-
-
 
     return (
         <Box sx={{ px: 2 }}>
@@ -320,16 +307,36 @@ const PhotoVideoGalleryBaseScreen = () => {
                     { title: 'Photo/Video Gallery', path: '/RITeSchool/Teacher/PhotoVideoGalleryBaseScreen' }
                 ]}
                 rightActions={<>
-                    <TextField
+                    {(selectedOption === 'photo' ? (<TextField
+
                         sx={{ width: '15vw' }}
                         fullWidth
                         label="Photo/Video Gallery"
                         value={SearchPhotoGallery}
-                        value1={SearchVideoGallery}
+
                         variant={'outlined'}
                         size={"small"}
                         onChange={(e) => {
                             handleSearchGalleryName(e.target.value);
+                            // handleSearchGalleryName1(e.target.value);
+                        }}
+
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === 'Tab') {
+                                clickSearch();
+
+                            }
+                        }}
+                    />) : (<TextField
+                        sx={{ width: '15vw' }}
+                        fullWidth
+                        label="Photo/Video Gallery"
+                        value={SearchVideoGallery}
+
+                        variant={'outlined'}
+                        size={"small"}
+                        onChange={(e) => {
+                            // handleSearchGalleryName(e.target.value);
                             handleSearchGalleryName1(e.target.value);
                         }}
 
@@ -339,12 +346,14 @@ const PhotoVideoGalleryBaseScreen = () => {
                                 // clickSearch1();
                             }
                         }}
-                    />
+                    />))}
+
+
 
                     <Tooltip title={'Search'}>
                         <IconButton
                             onClick={clickSearch}
-                            // onClick1={clickSearch1}
+
                             sx={{
                                 background: (theme) => theme.palette.primary.main,
                                 color: 'white',
