@@ -253,6 +253,13 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                             {IsTotalConsiderForProgressReport === "True" && (
                                                 <TableCell sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}>Grade</TableCell>
                                             )}
+                                            {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && (
+                                                <TableCell
+                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}
+                                                >
+                                                    Result
+                                                </TableCell>
+                                            )}
                                             {ToppersCount !== 0 && hasTopRanks && (
                                                 <TableCell
                                                     sx={{
@@ -263,13 +270,6 @@ const ViewResultAllTable = ({ stdFinalResult, key, IsTotalConsiderForProgressRep
                                                     }}
                                                 >
                                                     Rank
-                                                </TableCell>
-                                            )}
-                                            {ViewProgress.some((item) => item?.IsFailCriteriaNotApplicable === "N") && (
-                                                <TableCell
-                                                    sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[400]}`, fontWeight: 'bold', textAlign: 'center' }}
-                                                >
-                                                    Result
                                                 </TableCell>
                                             )}
                                         </TableRow>
