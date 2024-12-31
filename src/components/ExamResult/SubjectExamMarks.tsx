@@ -466,7 +466,7 @@ const SubjectExamMarks = () => {
     value.map((Obj, i) => {
       Obj.MarksForStudent.map((Item, Index) => {
         if (Number(Item.Text1) > Number(Item.Text2))
-          setMarksError('Highlighted Marks should be less than total marks')
+          setMarksError('Highlighted marks should be less than total marks.')
       })
     })
 
