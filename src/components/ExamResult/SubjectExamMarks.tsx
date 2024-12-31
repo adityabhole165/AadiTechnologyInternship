@@ -389,7 +389,7 @@ const SubjectExamMarks = () => {
   useEffect(() => {
 
     if (ManageStudentsTestMarks !== '') {
-      toast.success(ManageStudentsTestMarks)
+      toast.success('Subject exam marks saved successfully.', { toastId: 'success1' })
       dispatch(resetManageStudentsTestMark())
       if (examResultProp === "true") {
         navigate("/RITeSchool/Teacher/ExamResultBase/" + encodeURL(StandardDivisionId) + "/" + encodeURL(TestId));
