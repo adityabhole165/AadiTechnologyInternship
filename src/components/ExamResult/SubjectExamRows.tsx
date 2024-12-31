@@ -35,7 +35,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
             {ExamMarks?.map((Item, Index) => {
                 return (
                     <>
-                        <TableCell key={Index} sx={{py:1}}>
+                        <TableCell key={Index} sx={{ py: 1 }}>
                             <Dropdown
                                 width='150px'
                                 size={"small"}
@@ -56,15 +56,15 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                         {IsMark ? (
 
                             <>
-                                <TableCell key={Index} sx={{py:1,}}>
+                                <TableCell key={Index} sx={{ py: 1, }}>
                                     <Tooltip title={
                                         (Number(Item.Text1) > Number(Item.Text2)) ?
-                                            ("Marks Scored should be less than " + Item.Text2)
+                                            ("Marks Scored should be less than " + Item.Text2 + ".")
                                             : null}>
                                         <TextField size={"small"}
 
                                             sx={{
-                                                ml:3,
+                                                ml: 3,
                                                 width: '50px',
                                                 border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
                                                 borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0,
@@ -81,12 +81,12 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                                         />
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell key={Index} sx={{py:1}}>
+                                <TableCell key={Index} sx={{ py: 1 }}>
                                     {getGrade(Item.Text1, Item.Text2)}
                                 </TableCell>
                             </>
                         ) : (
-                            <TableCell key={Index} sx={{py:1}}>
+                            <TableCell key={Index} sx={{ py: 1 }}>
                                 <Box>
                                     <Dropdown
                                         size={"small"}
