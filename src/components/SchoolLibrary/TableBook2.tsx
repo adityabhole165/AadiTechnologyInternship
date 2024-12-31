@@ -10,6 +10,7 @@ import {
 import React, { useState } from 'react';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 
+
 const BookTable2 = ({ data1 }) => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(5); // Default rows per page
   const [currentPage, setCurrentPage] = useState<number>(1); // Current page

@@ -1,15 +1,14 @@
-import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
+  Grid,
   IconButton,
-  InputBase,
-  Paper,
   Stack,
+  TextField,
   Tooltip
 } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,9 +16,8 @@ import { IGetMonthwiseAttendanceBody } from 'src/interfaces/MonthwiseAttendance/
 import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
 import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttendance';
 import { RootState } from 'src/store';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { encodeURL } from '../Common/Util';
 
 const MonthwiseAttandance = () => {
   let {
@@ -108,7 +106,7 @@ const MonthwiseAttandance = () => {
   }, [MonthWiseAttendance]);
 
   const click = () => {
-    navigate('/RITeSchool/Teacher/TAttendance/' +  encodeURL(selectClasstecahernew));
+    navigate('/RITeSchool/Teacher/TAttendance/' + encodeURL(selectClasstecahernew));
   };
   return (
     <>
@@ -144,7 +142,7 @@ const MonthwiseAttandance = () => {
                   flexWrap: { xs: 'nowrap', sm: 'nowrap' }
                 }}
               >
-                <Box
+                {/* <Box
                   sx={{
                     width: { xs: '100%', sm: 'auto' },
                     mb: { xs: 1, sm: 'auto' }
@@ -178,14 +176,43 @@ const MonthwiseAttandance = () => {
                       ''
                     )}{' '}
                   </Paper>
-                </Box>
+                </Box> */}
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+                  <TextField
+
+                    sx={{ width: { xs: '60vw', sm: '15vw' } }}
+                    fullWidth
+                    label="Student Name"
+                    value={SearchText}
+
+                    variant={'outlined'}
+                    size={"small"}
+                    onChange={(e) => {
+                      SearchNameChange(e.target.value);
+                      // handleSearchGalleryName1(e.target.value);
+                    }}
+
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === 'Tab') {
+                        changeSearchText();
+
+                      }
+                    }}
+                  /> </Grid>
                 {/* <Divider sx={{ height: 28,  }} orientation="vertical" /> */}
                 <Tooltip title="search">
                   <IconButton
                     sx={{
+                      background: (theme) => theme.palette.primary.main,
                       color: 'white',
-                      backgroundColor: blue[500],
-                      ':hover': { backgroundColor: blue[600] }
+                      '&:hover': {
+                        backgroundColor: (theme) => theme.palette.primary.dark
+                      }
                     }}
                     onClick={() => {
                       setSearch(!search);
