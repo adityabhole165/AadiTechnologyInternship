@@ -780,7 +780,7 @@ const SubjectExamMarks = () => {
         {
           TestName?.AllowDecimal == "True" && (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#38548A', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>Note:	Marks assignment can be done in decimal numbers.</b>
+              <b>Note :	Marks assignment can be done in decimal numbers.</b>
             </Typography>)
         }
         {/* Table */}
