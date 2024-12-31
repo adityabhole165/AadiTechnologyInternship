@@ -183,12 +183,14 @@ const ImprovedNestedMenu = ({ menuStructure, onItemClick }) => {
                 onMouseLeave={handleMouseLeaveButton}
                 color="inherit"
                 sx={{
-                    textWrap: 'nowrap'
+                    textWrap: 'nowrap',
+                    minWidth: 'auto',
+                    maxWidth:'auto'
                 }}
             >
                 {menuStructure.MenuName}
                 {menuStructure.children && menuStructure.children.length > 0 && (
-                    <ListItemIcon sx={{ flex: '0 0 auto', minWidth: 'auto', color: 'white' }}>
+                    <ListItemIcon sx={{ flex: '0 0 auto', minWidth: 'auto', color: 'white'  }}>
                         <KeyboardArrowDownIcon />
                     </ListItemIcon>
                 )}
