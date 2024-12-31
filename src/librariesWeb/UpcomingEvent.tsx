@@ -1,8 +1,18 @@
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, Divider, Grid, Link, Tooltip, Typography } from '@mui/material';
 import {
-  differenceInHours, differenceInMinutes, differenceInSeconds
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Link,
+  Tooltip,
+  Typography
+} from '@mui/material';
+import {
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds
 } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,11 +25,13 @@ import Header from './Header';
 
 function UpcomingEvent() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedEventType, setSelectedEventType] = useState('');
   const [isRefresh, setIsRefresh] = useState(false);
-  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(new Date());
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(
+    new Date()
+  );
   const [countdown, setCountdown] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -27,7 +39,9 @@ function UpcomingEvent() {
   const asUserId = Number(localStorage.getItem('UserId'));
   const asUserRoleId = Number(sessionStorage.getItem('RoleId'));
 
-  const UpcomingEventDash = useSelector((state: RootState) => state.UpcomingEventDash.UpcomingEventData);
+  const UpcomingEventDash = useSelector(
+    (state: RootState) => state.UpcomingEventDash.UpcomingEventData
+  );
 
   const UpcomingEventDashBody: IUpcomingEventDashBody = {
     aiSchoolId: asSchoolId,
@@ -41,14 +55,12 @@ function UpcomingEvent() {
     dispatch(getUpcomingEventDashdata(UpcomingEventDashBody));
   }, []);
 
-
-
   const handleEventTypeClick = (eventType: string) => {
     setSelectedEventType(eventType);
   };
 
-  const filteredEvents = UpcomingEventDash.filter(event =>
-    selectedEventType === '' || event.Text6 === selectedEventType
+  const filteredEvents = UpcomingEventDash.filter(
+    (event) => selectedEventType === '' || event.Text6 === selectedEventType
   );
 
   const handleDateChange = (value: Date) => {
@@ -78,7 +90,6 @@ function UpcomingEvent() {
   };
 
   useEffect(() => {
-
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
@@ -111,59 +122,113 @@ function UpcomingEvent() {
   };
   const getButtonColor = (eventType: string) => {
     switch (eventType) {
-      case 'Event': return '#4d79ff';
-      case 'Holiday': return ' #ff4d4d';
-      case 'Exam': return ' #33ff77';
-      default: return '#F0F0F0';
+      case 'Event':
+        return '#29b6f6';
+      case 'Holiday':
+        return ' #ef5350';
+      case 'Exam':
+        return ' #66bb6a';
+      default:
+        return '#F0F0F0';
     }
   };
 
   return (
-    <Box sx={{ height: '382px', width: 'auto', backgroundColor: 'white', p: 1, }}>
-      <Grid container >
-        <Grid item xs={8} sm={6}  md={8} lg={6}>
-          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+    <Box
+      sx={{ height: '382px', width: 'auto', backgroundColor: 'white', p: 1 }}
+    >
+      <Grid container>
+        <Grid item xs={8} sm={6} md={8} lg={6}>
+          <Grid
+            item
+            xs={12}
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
             <Header Title="Upcoming Event" />
           </Grid>
         </Grid>
-        <Grid item xs={4} sm={6} md={4} lg={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
-          <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
+        <Grid
+          item
+          xs={4}
+          sm={6}
+          md={4}
+          lg={6}
+          sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}
+        >
+          <Actions
+            Icon={RefreshIcon}
+            ClickIcon={handleRefresh}
             title={`You are viewing ${countdown} old data, click here to see the latest data.`}
-            handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
+            handleMouseEnter={handleMouseEnter}
+            handleMouseLeave={handleMouseLeave}
+          />
         </Grid>
         <Grid container spacing={1} sx={{ mt: 1 }}>
           {['Event', 'Holiday', 'Exam'].map((eventType) => (
             <Grid item xs={4} key={eventType}>
               <Button
                 sx={{
-                  backgroundColor: selectedEventType === eventType ? '#F0F0F0' : getButtonColor(eventType),
-                  color: selectedEventType === eventType ? `${getButtonColor(eventType)}` : '#F0F0F0', height: '3rem', width: '100%',
+                  backgroundColor:
+                    selectedEventType === eventType
+                      ? '#F0F0F0'
+                      : getButtonColor(eventType),
+                  color:
+                    selectedEventType === eventType
+                      ? `${getButtonColor(eventType)}`
+                      : '#F0F0F0',
+                  height: '3rem',
+                  width: '100%',
+                  '&:hover': {
+                    backgroundColor: '#D0D0D0', // Replace with your demo hover color
+                    color: '#000000' // Adjust text color if needed for hover state
+                  }
                 }}
-                onClick={() => handleEventTypeClick(eventType)}>
-                <b>{eventType}</b>
+                onClick={() => handleEventTypeClick(eventType)}
+              >
+                <strong>{eventType}</strong>
               </Button>
             </Grid>
           ))}
-        </Grid></Grid>
-      <Box sx={{ height: {xs:'180px', sm:'180px', md:'150px', lg:'180px'} , mt: 2, overflow: 'auto' }}>
+        </Grid>
+      </Grid>
+      <Box
+        sx={{
+          height: { xs: '180px', sm: '180px', md: '150px', lg: '180px' },
+          mt: 2,
+          overflow: 'auto'
+        }}
+      >
         {filteredEvents.map((event, index) => (
-          <Grid item xs={12} sm={6} md={12} >
+          <Grid item xs={12} sm={6} md={12}>
             <Grid container>
               <Grid item xs={8}>
-                <Typography variant="h4" p={1} sx={{ color: `${getButtonColor(event.Text6)}` }} >{event.Text3}</Typography>
+                <Typography
+                  variant="h4"
+                  p={1}
+                  sx={{ color: `${getButtonColor(event.Text6)}` }}
+                >
+                  {event.Text3}
+                </Typography>
               </Grid>
-              <Grid item xs={4} pt={0.5} >
+              <Grid item xs={4} pt={0.5}>
                 {/* <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" /> */}
                 <Typography>
                   {/* {event.Text1.length > 4 ? event.Text1.slice(0, -5) + '' : event.Text1} to  {event.Text2.length > 4 ? event.Text2.slice(0, -5) + '' : event.Text2} */}
                   <Typography sx={{ mt: 0.5, ml: 2 }}>
-                    {event.Text1.length > 4 ? event.Text1.slice(0, -5) + '' : event.Text1}
-                    {event.Text1 !== event.Text2 && ` to ${event.Text2.length > 4 ? event.Text2.slice(0, -5) + '' : event.Text2}`}
+                    {event.Text1.length > 4
+                      ? event.Text1.slice(0, -5) + ''
+                      : event.Text1}
+                    {event.Text1 !== event.Text2 &&
+                      ` to ${
+                        event.Text2.length > 4
+                          ? event.Text2.slice(0, -5) + ''
+                          : event.Text2
+                      }`}
                   </Typography>
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Tooltip title={event.Text4} >
+                <Tooltip title={event.Text4}>
                   <Typography
                     variant="body2"
                     px={1}
@@ -176,7 +241,7 @@ function UpcomingEvent() {
                       display: '-webkit-box',
                       WebkitLineClamp: 1,
                       WebkitBoxOrient: 'vertical',
-                      position: 'relative',
+                      position: 'relative'
                     }}
                   >
                     {event.Text4}
@@ -191,36 +256,44 @@ function UpcomingEvent() {
           </Grid>
         ))}
 
-
-        {
-          filteredEvents.length === 0 && (
-            <Grid item xs={12}>
-              <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
-                <b>No record found for the selected type.</b>
-              </Typography>
-            </Grid>
-          )
-        }
+        {filteredEvents.length === 0 && (
+          <Grid item xs={12}>
+            <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
+              <b>No record found for the selected type.</b>
+            </Typography>
+          </Grid>
+        )}
       </Box>
-      <Grid
-      container
-      alignItems="center"
-      justifyContent="center" 
-    >
-      <Grid item xs={12} sm={8} md={8} lg={6}  sx={{pl:{xs:14, sm:20, md:6, lg:6} }} textAlign={'center'}>
-        <Link
-          href="/RITeSchool/Common/AnnualPlanner"
-          style={{ display: 'flex', alignItems: 'center', textDecoration: 'none',  }}
+      <Grid container alignItems="center" justifyContent="center">
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={8}
+          lg={6}
+          sx={{ pl: { xs: 14, sm: 20, md: 6, lg: 6 } }}
+          textAlign={'center'}
         >
-          <Typography variant="h4"  textAlign={'center'}>
-            <b>See all events</b>
+          <Link
+            href="/RITeSchool/Common/AnnualPlanner"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none'
+            }}
+          >
+            <Typography variant="h4" textAlign={'center'}>
+              <b>See all events</b>
+            </Typography>
+            <ArrowCircleRightIcon />
+          </Link>
+        </Grid>
+        <Grid item xs={12} textAlign={'center'}>
+          <Typography variant="h4">
+            {' '}
+            <b>Please re-login or refresh the widget to see the updates.</b>
           </Typography>
-          <ArrowCircleRightIcon />
-        </Link>
-      </Grid>
-      <Grid item xs={12} textAlign={'center'} >
-        <Typography variant="h4" > <b>Please re-login or refresh the widget to see the updates.</b></Typography>
-      </Grid>
+        </Grid>
       </Grid>
     </Box>
   );
