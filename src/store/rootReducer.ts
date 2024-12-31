@@ -107,6 +107,7 @@ import AbsentStudentslice from '../requests/AbsentStudentPopCp/ReqAbsentStudent'
 import AddNoticeslice from '../requests/AddSchoolNotice/ReqAddNotice';
 import AddSchoolNotice from '../requests/AddSchoolNotice/ReqAddSchoolNotice';
 import SchoolNoticeFormslice from '../requests/AddSchoolNotice/RequestSchoolNoticeForm';
+import BlockUnBlockStudents from '../requests/BlockProgressReport/RequestBlockProgressReport';
 import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
 import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList';
 import ToppersSlice from '../requests/ExamResult/RequestToppers';
@@ -275,7 +276,8 @@ const rootReducer = combineReducers({
   ContactGroup: ContactGroupSlice,
   StudentUI: StudentUISlice,
   Photo: PhotoSlice,
-  VideoNew: VideoSlice
+  VideoNew: VideoSlice,
+  BlockUnBlocklist: BlockUnBlockStudents
 
 });
 

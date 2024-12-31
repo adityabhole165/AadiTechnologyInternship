@@ -2,9 +2,11 @@ import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
 import { Box, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { IAllClassTeachersBody, IBlockUnBlockStudentsBody } from 'src/interfaces/BlockProgressReport/IBlockProgressReport';
+import { CDABlockUnblocklist, CDAClassTeachers } from 'src/requests/BlockProgressReport/RequestBlockProgressReport';
+import { RootState, useDispatch } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import AddNewPhoto from '../PhotoVideoGallery/AddNewPhoto';
 import AddNewVideo from '../PhotoVideoGallery/AddNewVideo';
@@ -12,11 +14,18 @@ import SearchableDropdown2 from './SearchableDropdown2';
 import ShowBlockedStudentsTable from './ShowBlockedStudentsTable';
 import ShowUnblockedStudentsTable from './ShowUnblockedStudentsTable';
 
+
 const BlockProgressReportBaseScreen = () => {
+    const dispatch = useDispatch();
     const [selectedOption, setSelectedOption] = useState<string>('Blocked');
-    const [selectedValue, setSelectedValue] = useState<string>('');
+    const [selectStudents, setSelectStudents] = useState<string>('');
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState(1);
+    // const [selectedOption, setSelectedOption] = useState("");
+    const [radioBtn, setRadioBtn] = useState('2');
+
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value);
@@ -25,17 +34,30 @@ const BlockProgressReportBaseScreen = () => {
         throw new Error('Function not implemented.');
     }
 
-    const handleDropdownChange = (value: string) => {
-        setSelectedValue(value);
-        //console.log('Selected Value:', value);
+    // const handleDropdownChange = (value: string) => {
+    //     setSelectedValue(value);
+    //     console.log('Selected Value:', value);
+    // };
+
+    const handleDropdownChange = (Value) => {
+        setSelectedOption(Value);
     };
 
-    const dropdownItems = [
-        { Value: '1', Name: 'Option 1' },
-        { Value: '2', Name: 'Option 2' },
-        { Value: '3', Name: 'Option 3' },
-        { Value: '4', Name: 'Option 4' },
-    ];
+    const handleStudentsChange = (Value) => {
+        setSelectStudents(Value);
+    };
+
+    const ClickRadio = (value) => {
+        setRadioBtn(value);
+
+    };
+
+    // const dropdownItems = [
+    //     { Value: '1', Name: 'Option 1' },
+    //     { Value: '2', Name: 'Option 2' },
+    //     { Value: '3', Name: 'Option 3' },
+    //     { Value: '4', Name: 'Option 4' },
+    // ];
     const rowsData = [
         { rollNo: 1, name: 'Miss Pranjal Pritam Bajare', reason: 'Pending fees' },
         { rollNo: 2, name: 'Miss Sakshi Anand Battale', reason: 'Incomplete forms' },
@@ -55,6 +77,17 @@ const BlockProgressReportBaseScreen = () => {
         (state: RootState) => state.SliceRequisition.RequisitionListCount
 
     );
+    const GetBlockUnblockList = useSelector((state: RootState) => state.BlockUnBlocklist.IsStudentsName);
+    console.log(GetBlockUnblockList, 'GetBlockUnblockList');
+    const GetBlockUnblockCount = useSelector((state: RootState) => state.BlockUnBlocklist.IsStudentsCount);
+    const GetClassTeacherList = useSelector((state: RootState) => state.BlockUnBlocklist.IsClassTeachers);
+    console.log(GetClassTeacherList, 'GetClassTeacherList');
+
+    const RadioListCT = [
+        { Value: '1', Name: 'Show Blocked Students' },
+        { Value: '2', Name: 'Show Unblocked Students' }
+    ];
+
 
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, CountGetPagedRequisition.TotalCount);
@@ -63,6 +96,38 @@ const BlockProgressReportBaseScreen = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1);
     };
+    const BlockUnblockList: IBlockUnBlockStudentsBody = {
+        asSchoolId: 18,
+        asAcademicYearId: 55,
+        asStandardDivId: 1344,
+        asShowblocked: 0,
+        asStudentId: 0,
+        asSearch: "",
+        asSortExp: "ORDER BY RollNo",
+        asStartIndex: 0,
+        asEndIndex: 20
+    };
+    // useEffect(() => {
+    //     dispatch(CDABlockUnblocklist(BlockUnblockList));
+    // }, []);
+
+    useEffect(() => {
+        if (radioBtn == '1') {
+            dispatch(CDABlockUnblocklist(BlockUnblockList));
+        } else if (radioBtn == '2') {
+            dispatch(CDABlockUnblocklist(BlockUnblockList));
+        }
+    }, [radioBtn]);
+
+    const TeacherList: IAllClassTeachersBody = {
+        asSchoolId: 18,
+        asAcademicYearId: 55
+    };
+    useEffect(() => {
+        dispatch(CDAClassTeachers(TeacherList));
+    }, []);
+
+
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -71,10 +136,10 @@ const BlockProgressReportBaseScreen = () => {
                 ]}
                 rightActions={<>
                     <SearchableDropdown2
-                        ItemList={dropdownItems}
+                        ItemList={GetClassTeacherList}
                         onChange={handleDropdownChange}
                         label="Class Teacher"
-                        defaultValue="1" // Default selected value
+                        defaultValue={selectedOption} //"1" // Default selected value
                         mandatory={true} // Mark field as mandatory (optional)
                         sx={{ width: '15vw' }} // Custom styling
                         size="small" // Dropdown size
@@ -82,10 +147,10 @@ const BlockProgressReportBaseScreen = () => {
                         disabled={false} // Dropdown enabled
                     />
                     <SearchableDropdown2
-                        ItemList={dropdownItems}
-                        onChange={handleDropdownChange}
+                        ItemList={GetBlockUnblockList}
+                        onChange={handleStudentsChange}
                         label="Student Name"
-                        defaultValue="1" // Default selected value
+                        defaultValue={selectStudents}//"1" // Default selected value
                         mandatory={true} // Mark field as mandatory (optional)
                         sx={{ width: '15vw' }} // Custom styling
                         size="small" // Dropdown size
@@ -172,15 +237,22 @@ const BlockProgressReportBaseScreen = () => {
             />
 
             <Box sx={{ backgroundColor: 'white', px: 2, mb: 1, py: 1 }}>
+                {/* <RadioButton1
+                    Array={RadioListCT}
+                    ClickRadio={ClickRadio}
+                    defaultValue={radioBtn}
+                    Label={''}
+                /> */}
+
                 <RadioGroup
                     row
                     value={selectedOption}
                     onChange={handleChange}
                 //   sx={{ mb: 4 }}
+
                 >
                     <FormControlLabel value="Unblocked" control={<Radio />} label="Show Blocked Students" />
-                    <FormControlLabel value="Blocked" control={<Radio />} label="Show Unblocked Students
-" />
+                    <FormControlLabel value="Blocked" control={<Radio />} label="Show Unblocked Students" />
                 </RadioGroup>
             </Box>
             <Box sx={{ backgroundColor: 'white' }}>
@@ -231,7 +303,7 @@ const BlockProgressReportBaseScreen = () => {
                                     <b>No record found.</b>
                                 </Typography>
                             )}
-                            <ShowBlockedStudentsTable rowsData={rowsData} />
+                            <ShowBlockedStudentsTable rowsData={GetBlockUnblockList} />
                         </Box>
                     </>
                 ) : (
@@ -279,7 +351,7 @@ const BlockProgressReportBaseScreen = () => {
                                 <b>No record found.</b>
                             </Typography>
                         )}
-                        <ShowUnblockedStudentsTable rowsData={rowsData1} />
+                        <ShowUnblockedStudentsTable rowsData={GetBlockUnblockList} />
                     </Box>
                 )}
             </Box>
@@ -288,3 +360,9 @@ const BlockProgressReportBaseScreen = () => {
 }
 
 export default BlockProgressReportBaseScreen
+
+
+
+
+
+

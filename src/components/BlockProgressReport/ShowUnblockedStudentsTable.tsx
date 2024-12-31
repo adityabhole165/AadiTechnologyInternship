@@ -153,15 +153,15 @@ const ShowUnblockedStudentsTable = ({ rowsData }) => {
                     </TableHead>
                     <TableBody>
                         {rows.map((row) => (
-                            <TableRow key={row.rollNo}>
+                            <TableRow key={row.RollNo}>
                                 <TableCell>
                                     <Checkbox
-                                        checked={selectedRows.includes(row.rollNo)}
+                                        checked={selectedRows.includes(row.RollNo)}
                                         onChange={() => handleCheckboxClick(row)}
                                     />
                                 </TableCell>
-                                <TableCell sx={{ py: 0.5 }}>{row.rollNo}</TableCell>
-                                <TableCell sx={{ py: 0.5 }}>{row.name}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>{row.RollNo}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>{row.Name}</TableCell>
                                 <TableCell sx={{ py: 0.5 }}>
                                     <TextField
                                         value={row.reason}
@@ -169,11 +169,11 @@ const ShowUnblockedStudentsTable = ({ rowsData }) => {
                                         fullWidth
                                         minRows={1}
                                         onChange={(e) =>
-                                            selectedRows.includes(row.rollNo)
+                                            selectedRows.includes(row.RollNo)
                                                 ? handleReasonChange(row, e.target.value)
                                                 : null
                                         }
-                                        disabled={!selectedRows.includes(row.rollNo)}
+                                        disabled={!selectedRows.includes(row.RollNo)}
                                         sx={{
                                             '& .MuiInputBase-root': {
                                                 resize: 'both', // Allows the TextField to be resizable

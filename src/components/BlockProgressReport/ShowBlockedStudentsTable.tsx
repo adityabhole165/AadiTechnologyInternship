@@ -156,8 +156,8 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
                                         onChange={() => handleCheckboxClick(row)}
                                     />
                                 </TableCell>
-                                <TableCell sx={{ py: 0.5 }}>{row.rollNo}</TableCell>
-                                <TableCell sx={{ py: 0.5 }}>{row.name}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>{row.RollNo}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>{row.Name}</TableCell>
                                 <TableCell sx={{ py: 0.5 }}>
                                     {/* Directly editable Reason */}
                                     <TextField

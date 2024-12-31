@@ -1,0 +1,83 @@
+import { createSlice } from "@reduxjs/toolkit";
+import ApiBlockProgressReport from "src/api/BlockProgressReport/ApiBlockProgressReport";
+import { IAllClassTeachersBody, IBlockUnBlockStudentsBody } from "src/interfaces/BlockProgressReport/IBlockProgressReport";
+import { AppThunk } from "src/store";
+
+const BlockUnBlockStudents = createSlice({
+    name: 'BlockUnblock',
+    initialState: {
+
+        IsStudentsName: [],
+        IsStudentsCount: [],
+        IsClassTeachers: [],
+        Loading: true
+    },
+
+    reducers: {
+
+        RlistStudentsName(state, action) {
+            state.IsStudentsName = action.payload;
+        },
+        RlistStudentsCount(state, action) {
+            state.Loading = false;
+            state.IsStudentsCount = action.payload;
+        },
+        RAllClassTeachers(state, action) {
+            state.Loading = false;
+            state.IsClassTeachers = action.payload;
+        },
+
+        getLoading(state, action) {
+            state.Loading = true;
+        }
+
+    }
+})
+
+export const CDABlockUnblocklist =
+    (data: IBlockUnBlockStudentsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await ApiBlockProgressReport.BlockUnBlockStudents(data);
+            let getStudentName = response.data.listStudentsName.map((item, i) => {
+                return {
+                    RegNo: item.RegNo,
+                    Id: item.YearwiseStudentId,
+                    RollNo: item.RollNo,
+                    Name: item.StudentName,
+                    Reason: item.Reason,
+                    RowNo: item.RowNo,
+                    Value: item.YearwiseStudentId
+                }
+            });
+            let getStudentCount = response.data.listStudentsCount.map((item, i) => {
+                return {
+                    Count: item.Count
+                }
+            });
+            dispatch(BlockUnBlockStudents.actions.RlistStudentsName(getStudentName));
+            dispatch(BlockUnBlockStudents.actions.RlistStudentsCount(getStudentCount));
+        };
+
+export const CDAClassTeachers =
+    (data: IAllClassTeachersBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(BlockUnBlockStudents.actions.getLoading(true));
+            const response = await ApiBlockProgressReport.AllClassTeachers(data);
+            const responseData = response.data.map((item, i) => {
+                return {
+                    Name: item.TeacherName,
+                    Id: item.Teacher_Id,
+                    Value: item.Teacher_Id,
+                    // Teacher_First_Name: item.Teacher_First_Name,
+                    // Standard_Name: item.Standard_Name,
+                    // Division_Name: item.Division_Name,
+                    // Original_Standard_Id: item.Original_Standard_Id,
+                    // Original_Division_Id: item.Original_Division_Id,
+                    // SchoolWise_Standard_Division_Id: item.SchoolWise_Standard_Division_Id
+                }
+            })
+            dispatch(BlockUnBlockStudents.actions.RAllClassTeachers(responseData));
+        };
+
+
+export default BlockUnBlockStudents.reducer;
