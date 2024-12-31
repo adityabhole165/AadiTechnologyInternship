@@ -1350,7 +1350,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
               />
             </Grid>
             {/* Single File Upload */}
-            <Grid item xs={4} sm={2} md={2} lg={2}>
+            <Grid item xs={8} sm={2.3} md={2.5} lg={2}>
               <SingleFile2
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
@@ -1364,7 +1364,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
               //errorMessage={unacceptableFields.find(field => field.field === "aadharCardScanCopy") ? 'Please select valid file type.' : ''}
               />
             </Grid>
-            <Grid item xs={1} md={1}>
+            <Grid item xs={4} sm={1.7} md={1.5} lg={1}>
               <>
                 <Tooltip title={'View'}>
                   <IconButton

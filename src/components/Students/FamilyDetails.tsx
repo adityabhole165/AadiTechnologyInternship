@@ -22,7 +22,7 @@ import { CDADeleteFamilyPhoto, CDADeleteFatherPhoto, CDADeleteGuardianPhoto, CDA
 import { RootState } from 'src/store';
 import { decodeURL, getCalendarDateFormatDateNew } from '../Common/Util';
 
-const FamilyDetails = ({ family, onChange, invalidFields }) => {
+const FamilyDetails = ({ family, onChange, invalidFields, unacceptableFields }) => {
   const location = useLocation();
   const { Name, standardId, DivisionId, YearWise_Student_Id, SchoolWise_Student_Id, StandardDivision_Id } = location.state || {};
   const dispatch = useDispatch();
@@ -598,14 +598,17 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 size={'medium'}
                 label={"Father's DOB"}
                 mandatory={parseInt(schoolId) === 18}
-                error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "fatherDOB")}
-                helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "fatherDOB") ? "Father's Date of Birth should not be blank." : ''}
+                error={(parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "fatherDOB")) || !!unacceptableFields.find(field => field.field === "fatherDOB")}
+                helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "fatherDOB") ?
+                  "Father's Date of Birth should not be blank." :
+                  unacceptableFields.find(field => field.field === "fatherDOB") ?
+                    "Father DOB should be less than students DOB." : ''}
                 maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
               />
             </Grid>
 
             {/* fatherPhoto */}
-            <Grid item xs={12} md={2}>
+            <Grid item xs={8} sm={2.3} md={2} lg={2}>
               <SingleFile2
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
@@ -618,7 +621,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 errorMessage={fileErrors.fatherPhoto}
               />
             </Grid>
-            <Grid item xs={1} md={1}>
+            <Grid item xs={4} sm={1.7} md={1} lg={1}>
               <>
                 <Tooltip title={'View'}>
                   <IconButton
@@ -817,7 +820,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
             </Grid>
 
             {/* motherPhoto */}
-            <Grid item xs={12} md={2}>
+            <Grid item xs={8} sm={2.3} md={2} lg={2}>
               <SingleFile2
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
@@ -831,7 +834,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
               />
             </Grid>
 
-            <Grid item xs={1} md={1}>
+            <Grid item xs={4} sm={1.7} md={1} lg={1}>
               <>
                 <Tooltip title={'View'}>
                   <IconButton
@@ -959,7 +962,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
             </Grid>
 
             {/* localGuardianPhoto */}
-            <Grid item xs={12} md={2}>
+            <Grid item xs={8} sm={2.3} md={2} lg={2}>
               <SingleFile2
                 ValidFileTypes={ValidFileTypes2}
                 MaxfileSize={MaxfileSize2}
@@ -972,7 +975,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
                 errorMessage={fileErrors.localGuardianPhoto}
               />
             </Grid>
-            <Grid item xs={1} md={1}>
+            <Grid item xs={4} sm={1.7} md={1} lg={1}>
               <>
                 <Tooltip title={'View'}>
                   <IconButton
@@ -1084,7 +1087,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
         </Grid>
 
         {/* familyPhoto */}
-        <Grid item xs={12} md={2}>
+        <Grid item xs={8} sm={2.3} md={2} lg={2}>
           <SingleFile2
             ValidFileTypes={ValidFileTypes2}
             MaxfileSize={MaxfileSize2}
@@ -1097,7 +1100,7 @@ const FamilyDetails = ({ family, onChange, invalidFields }) => {
             errorMessage={fileErrors.familyPhoto}
           />
         </Grid>
-        <Grid item xs={1} md={1}>
+        <Grid item xs={4} sm={1.7} md={1} lg={1}>
           <>
             <Tooltip title={'View'}>
               <IconButton

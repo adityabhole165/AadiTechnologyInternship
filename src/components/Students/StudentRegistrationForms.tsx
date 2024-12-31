@@ -300,6 +300,15 @@ const StudentRegistrationForm = () => {
   const [invalidFields, setInvalidFields] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [unacceptableFields, setUnacceptableFields] = useState([]);
+  const parseDate = (dateString) => {
+    if (!dateString) return null; // Handle empty dates
+    // Handle format with time, e.g., "01-01-1900 00:00:00"
+    if (dateString.includes(" ")) {
+      return new Date(dateString.split(" ")[0].split("-").reverse().join("-"));
+    }
+    // Handle format like "19-10-2011"
+    return new Date(dateString.split("-").reverse().join("-"));
+  };
 
   const schoolRequiredFields = {
     18: {
@@ -472,21 +481,44 @@ const StudentRegistrationForm = () => {
       // }
     }
 
-    // Family Tab Validations
-    // if (form.family) {
-    //   if (form.family.fatherPhoto === 'ErrorMsg') {
-    //     specificFieldValidations.push({ tab: 'family', field: 'fatherPhoto' });
-    //   }
-    // }
+    if (form.family && form.personal) {
+      const studentDOB = parseDate(form.personal.dateOfBirth);
+      const fatherDOB = parseDate(form.family.fatherDOB);
+      const motherDOB = parseDate(form.family.motherDOB);
+      const marriageDate = parseDate(form.family.marriageAnniversaryDate);
+
+      // Validate fatherDOB > studentDOB
+      if (studentDOB && fatherDOB && studentDOB <= fatherDOB) {
+        specificFieldValidations.push({ tab: 'family', field: 'fatherDOB' });
+      }
+
+      // Validate motherDOB > studentDOB
+      if (motherDOB && studentDOB && studentDOB <= motherDOB) {
+        specificFieldValidations.push({ tab: 'family', field: 'motherDOB' });
+      }
+
+      // Validate marriageAnniversaryDate < fatherDOB and motherDOB
+      // if (marriageDate) {
+      //   if (fatherDOB && marriageDate <= fatherDOB) {
+      //     specificFieldValidations.push({ tab: 'family', field: 'marriageAnniversaryDate' });
+      //   }
+      //   if (motherDOB && marriageDate <= motherDOB) {
+      //     specificFieldValidations.push({ tab: 'family', field: 'marriageAnniversaryDate' });
+      //   }
+      //   if (marriageDate && studentDOB <= marriageDate) {
+      //     specificFieldValidations.push({ tab: 'family', field: 'marriageAnniversaryDate' });
+      //   }
+      // }
+    }
 
     return specificFieldValidations;
   };
 
   const result = validateFieldsAndCalculateProgress(schoolId, form);
-  //console.log('Progress:', result.progress + '%');
-  const result1 = validateSpecificFields(form);
   //console.log('Invalid Fields:', result.invalidFields);
+  const result1 = validateSpecificFields(form);
   console.log('Specific Invalid Fields:', result1);
+
 
   //#region Tabs
   const totalTabs = parseInt(schoolId) === 122 ? 6 : 5;
@@ -1244,14 +1276,14 @@ const StudentRegistrationForm = () => {
         await dispatch(CDAOverwriteSiblingDetailsMsg(overwriteSiblingDetailsBody));
       }
 
-
+      console.log('6️⃣✅Updating student photo:', UpdateStudentPhotoBody);
       // Update Student Photo & Base64 Image
       if (form.personal?.photoFilePathImage && UpdateStudentPhotoBody) {
         console.log('6️⃣Updating student photo:', UpdateStudentPhotoBody);
         await dispatch(CDAUpdateStudentPhoto(UpdateStudentPhotoBody));
       }
 
-      //console.log('API calls completed successfully.');
+      console.log('✅✅✅API calls completed successfully.');
     } catch (error) {
       console.error('Error during API calls:', error);
     }
@@ -1262,15 +1294,15 @@ const StudentRegistrationForm = () => {
     setIsSubmitted(true); // Enable validation display
 
     // Get specific field validations
-    //const specificFieldValidations = validateSpecificFields(form);
+    const specificFieldValidations = validateSpecificFields(form);
 
     // Get required field validations
     const { invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
 
-    if (invalidFields.length > 0) {                               //|| specificFieldValidations.length > 0
+    if (invalidFields.length > 0 || specificFieldValidations.length > 0) {
       //console.log('Validation errors found:', invalidFields);
       // Switch to the tab with the first invalid field
-      const firstInvalidFieldTab = invalidFields[0];             //|| specificFieldValidations[0]
+      const firstInvalidFieldTab = invalidFields[0] || specificFieldValidations[0];
 
       setCurrentTab(() => {
         const tabIndexMapping = {
@@ -1283,7 +1315,8 @@ const StudentRegistrationForm = () => {
         };
         return tabIndexMapping[firstInvalidFieldTab.tab] || 0;
       });
-      //console.log('❎❎❎ Submission Stopped');
+      console.log('❎❎❎ Submission Stopped');
+      setIsSubmitted(false);
       return; // Stop submission
     }
     if (parseInt(schoolId) === 122 && UpdateStudentStreamwiseSubjectDetailsBody) {
@@ -1295,6 +1328,7 @@ const StudentRegistrationForm = () => {
     const dependencyResult = await CheckDependenciesForFees();
     setIsDeleteFee(dependencyResult.bFlag);
     console.log('⚠️', dependencyResult);
+
     // Check if there's any blocking message from the dependency check
     if (ReferenceMessages[0]?.ReferenceMsg) {
       //toast.warning(ReferenceMessages[0].ReferenceMsg);
@@ -1333,9 +1367,7 @@ const StudentRegistrationForm = () => {
       console.error('🚨 Error during form submission or API calls:', error);
     }
   };
-  useEffect(() => {
-    //console.log('🎈🎈🎈🎈isDeleteFee:', isDeleteFee);
-  }, [isDeleteFee])
+
   //#region SiblingPopSave
   const handleSiblingPopSave = async () => {
     setIsSubmitted(true);
@@ -1401,6 +1433,9 @@ const StudentRegistrationForm = () => {
 
 
   useEffect(() => {
+    if (currentJoiningDate === hidOldJoiningDate) {
+      dispatch(ResetFeeDependencyErrorMsg());
+    }
     if (TrackingId != 0) {
       const UpdateStudentTrackingDetailsBody: IUpdateStudentTrackingDetailsBody =
       {
@@ -1413,13 +1448,12 @@ const StudentRegistrationForm = () => {
       //console.log('UpdateStudentTrackingDetailsBody:', UpdateStudentTrackingDetailsBody);
       dispatch(CDAUpdateStudentTrackingDetails(UpdateStudentTrackingDetailsBody));
       SaveSubmittedDocuments()
+      setTimeout(() => { dispatch(ResetUpdateStudentMsg()); }, 50);
+      //navigate('/RITeSchool/Teacher/Students');
+      // Delay navigation by 2 seconds (2000 milliseconds) 
+      setTimeout(() => { navigate('/RITeSchool/Teacher/Students'); }, 2000);
     }
-    dispatch(ResetUpdateStudentMsg());
-
-    if (currentJoiningDate === hidOldJoiningDate) {
-      dispatch(ResetFeeDependencyErrorMsg());
-    }
-  }, [TrackingId, currentJoiningDate, form.admission.applicableRules, form.admission.joiningDate]);
+  }, [TrackingId]);
 
   // Save changes
   const createDocumentXML = (documentList) => {
@@ -2101,6 +2135,8 @@ const StudentRegistrationForm = () => {
                 // isValid={!showValidation || tabValidationStatus.family}
                 // onTabChange={onFamilyTab}
                 invalidFields={invalidFields.filter(field => field.tab === 'family')}
+                unacceptableFields={unacceptableFields.filter(field => field.tab === 'family')}
+
               />
             </Grid>
           </Grid>
