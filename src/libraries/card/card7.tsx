@@ -2,7 +2,7 @@ import { EditTwoTone, QuestionMark } from '@mui/icons-material';
 import ForwardIcon from '@mui/icons-material/Forward';
 import ReplyIcon from '@mui/icons-material/Reply';
 import ReplyAllIcon from '@mui/icons-material/ReplyAll';
-import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
@@ -178,9 +178,18 @@ function Card7({
         ]}
         rightActions={
           <>
-            {MessageCenterReadMode == true ? null : (
-              <CardWrapper>
-                {/* <RouterLink
+            <Stack
+              direction="row"
+              gap={1}
+              alignItems="right"
+              sx={{
+                flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+              }}
+            >
+              {MessageCenterReadMode == true ? null : (
+                <CardWrapper>
+                  {/* <RouterLink
             style={{ textDecoration: 'none' }}
             to={
               `/${
@@ -196,104 +205,105 @@ function Card7({
             }
           > */}
 
-                <Box>
-                  <Tooltip title={`View detailed message received to you. To reply the sender click on "Reply" and to send reply to all the receipients click on "Reply To All".`}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        mr: 1,
-                        backgroundColor: grey[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: grey[600] }
-                      }}>
-                      <QuestionMark />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                {FromRoute === 'Draft' ? null : (
-                  <Tooltip title={`Reply`}>
-                    <IconButton
-                      onClick={() => {
-                        saveMessageBody('Reply');
-                      }}
-                      sx={{
-                        color: 'white',
-                        mr: 1,
-                        backgroundColor: blue[500],
-                        '&:hover': {
-                          backgroundColor: blue[600]
-                        }
-                      }}
-                    >
-                      <ReplyIcon />
-                    </IconButton>
-                  </Tooltip>
-                )}
+                  <Box>
+                    <Tooltip title={`View detailed message received to you. To reply the sender click on "Reply" and to send reply to all the receipients click on "Reply To All".`}>
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          mr: 1,
+                          backgroundColor: grey[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: grey[600] }
+                        }}>
+                        <QuestionMark />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                  {FromRoute === 'Draft' ? null : (
+                    <Tooltip title={`Reply`}>
+                      <IconButton
+                        onClick={() => {
+                          saveMessageBody('Reply');
+                        }}
+                        sx={{
+                          color: 'white',
+                          mr: 1,
+                          backgroundColor: blue[500],
+                          '&:hover': {
+                            backgroundColor: blue[600]
+                          }
+                        }}
+                      >
+                        <ReplyIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
 
 
-                {/* {RoleId !== '3' && (
+                  {/* {RoleId !== '3' && (
                   <> */}
-                {FromRoute !== 'Draft' && (
+                  {FromRoute !== 'Draft' && (
 
-                  <Tooltip title={`Reply To All`}>
-                    <IconButton
-                      onClick={() => {
-                        saveMessageBody('ReplyAll');
-                      }}
-                      sx={{
-                        color: 'white',
-                        mr: 1,
-                        backgroundColor: blue[500],
-                        '&:hover': {
-                          backgroundColor: blue[600]
-                        }
-                      }}>
-                      {' '}
-                      <ReplyAllIcon />
-                    </IconButton>
-                  </Tooltip>
-                )}
+                    <Tooltip title={`Reply To All`}>
+                      <IconButton
+                        onClick={() => {
+                          saveMessageBody('ReplyAll');
+                        }}
+                        sx={{
+                          color: 'white',
+                          mr: 1,
+                          backgroundColor: blue[500],
+                          '&:hover': {
+                            backgroundColor: blue[600]
+                          }
+                        }}>
+                        {' '}
+                        <ReplyAllIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
 
-                {/* </>
+                  {/* </>
                 )} */
 
-                }
-                {FromRoute === 'Draft' ? (
+                  }
+                  {FromRoute === 'Draft' ? (
 
-                  <Tooltip title={"Edit"}>
-                    <IconButton
-                      onClick={() => {
-                        saveMessageBody('Edit');
-                      }}
-                      sx={{
-                        color: 'white',
-                        mr: 1,
-                        backgroundColor: blue[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: blue[600] }
-                      }}
-                    >
-                      <EditTwoTone />
-                    </IconButton>
-                  </Tooltip>
-                ) : (
-                  <Tooltip title={`Forward`}>
-                    <IconButton
-                      onClick={() => {
-                        saveMessageBody('Forward');
-                      }}
-                      sx={{
-                        color: 'white',
-                        backgroundColor: blue[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: blue[600] }
-                      }}>
-                      <ForwardIcon />
-                    </IconButton>
-                  </Tooltip>
-                )}
-              </CardWrapper>
-            )}
+                    <Tooltip title={"Edit"}>
+                      <IconButton
+                        onClick={() => {
+                          saveMessageBody('Edit');
+                        }}
+                        sx={{
+                          color: 'white',
+                          mr: 1,
+                          backgroundColor: blue[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: blue[600] }
+                        }}
+                      >
+                        <EditTwoTone />
+                      </IconButton>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title={`Forward`}>
+                      <IconButton
+                        onClick={() => {
+                          saveMessageBody('Forward');
+                        }}
+                        sx={{
+                          color: 'white',
+                          backgroundColor: blue[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: blue[600] }
+                        }}>
+                        <ForwardIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </CardWrapper>
+              )}
+            </Stack>
           </>
         }
       />
