@@ -178,22 +178,26 @@ const PieChart = () => {
                 </Tooltip>
             </Grid>
             <Grid container>
-                <Grid item xs={12} sm={4} md={4} lg={4} mt={5} sx={{height: { xs: 'auto',sm:'305px', md: '280px', lg: '280px' }, overflow: 'hidden'}}>
-                    <ApexCharts
-                        options={options1}
-                        series={[TotalGirlsPresentPercentage, TotalGirlsAbsentPercentage, TotalBoysPresentPercentage, TotalBoysAbsentPercentage]}
-                        type="donut"
-                        width="100%"
-                        height="382"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={8} md={8} lg={8} sx={{ height: '320px', overflow: 'auto', mt: 1 }}>
+                
+                <Grid item xs={12} sm={8} md={8} lg={8} 
+                sx={{ height: '320px', overflow: 'auto', mt: 1 }}
+                >
                     <ApexCharts
                         options={state.options}
                         series={state.series}
                         type="bar"
                         width="95%"
                         height="295"
+                    />
+                </Grid>
+                <Grid item xs={12} sm={4} md={4} lg={4} mt={5} 
+                sx={{height: { xs: 'auto',sm:'305px', md: '280px', lg: '280px' }, overflow: 'hidden'}}>
+                    <ApexCharts
+                        options={options1}
+                        series={[TotalGirlsPresentPercentage, TotalGirlsAbsentPercentage, TotalBoysPresentPercentage, TotalBoysAbsentPercentage]}
+                        type="donut"
+                        width="100%"
+                        height="382"
                     />
                 </Grid>
             </Grid>
