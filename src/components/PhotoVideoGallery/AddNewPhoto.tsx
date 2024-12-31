@@ -67,7 +67,6 @@ const AddNewPhoto = () => {
   const ClassesAndDivisionss1 = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss1);
   const USManagePhotoGallery: any = useSelector((state: RootState) => state.PhotoGalllary.IManagePhotoGalleryMsg);
   const USPhotoGallery: any = useSelector((state: RootState) => state.Photo.ISGetPhotoDetils)
-
   const USStandardDivisionName: any = useSelector((state: RootState) => state.PhotoGalllary.IStandardDivisionName);
 
   const StandardDivisionName: IAllClassesAndDivisionsBody = {
@@ -81,11 +80,17 @@ const AddNewPhoto = () => {
 
   const PhotoDetailsBody: IGetPhotoDetailsBody = {
     asSchoolId: asSchoolId,
-    asSortExp: "",
+    asSortExp: "ORDER by Update_Date desc",
     asStartIndex: 0,
     asPageSize: 20,
     asAcademicYearId: asAcademicYearId,
-    asGalleryNameFilter: "",
+    asGalleryNameFilter: ''
+    // asSchoolId: asSchoolId,
+    // asSortExp: "ORDER by Update_Date desc",
+    // asStartIndex: 0,
+    // asPageSize: 20,
+    // asAcademicYearId: asAcademicYearId,
+    // asGalleryNameFilter: "",
   }
 
   const isClassSelected = () => {
@@ -166,8 +171,14 @@ const AddNewPhoto = () => {
     return xml;
 
   };
+  console.log(fileList, "getXML187685");
+
   const ClickSave = async () => {
     let isValid = true;
+    setGalleryNameError('');
+    setSelectImageError('');
+    setClassesAndDivisionssError('');
+    setAssociatedSectionsError('');
     if (!GalleryName.trim()) {
       setGalleryNameError('Gallery name should not be blank.');
       isValid = false;
@@ -184,6 +195,7 @@ const AddNewPhoto = () => {
       setAssociatedSectionsError('At least one section should be associated for photo gallery.');
       isValid = false;
     }
+    if (!isValid) return;
     const SavephotoGallery: IManagePhotoGalleryBody = {
       asSchool_Id: asSchoolId,
       asOrg_Gallery_Name: "",
@@ -195,6 +207,10 @@ const AddNewPhoto = () => {
       Gallery_ID: 0
     }
     dispatch(CDAManagePhotoGalleryMsg(SavephotoGallery))
+    setGalleryNameError('');
+    setSelectImageError('');
+    setClassesAndDivisionssError('');
+    setAssociatedSectionsError('');
   }
   useEffect(() => {
     if (USManagePhotoGallery !== "") {
@@ -202,8 +218,8 @@ const AddNewPhoto = () => {
       dispatch(resetManagePhotoGalleryMsg());
       dispatch(CDAGetPhotoDetails(PhotoDetailsBody));
     }
-  }, [GalleryName, ClassSelected]);
-
+  }, [GalleryName, ClassSelected, checkedValues, USManagePhotoGallery]);
+  console.log(USManagePhotoGallery, "USManagePhotoGallery👌");
   const handleChange = (event) => {
     const { value, checked } = event.target;
 
@@ -340,50 +356,44 @@ const AddNewPhoto = () => {
               label="Add More Photos" />
           </Grid>
         </Grid>
-        <Grid xs={3} sm={3}>
-          <FileUploadComponent
-            files={files}
-            comment={comment}
-            setFiles={setFiles}
-            setComment={setComment}
-            setFileList={setFileList}
-            fileList={fileList}
-            handleFileChange={handleFileChange}
-            handleAddFile={handleAddFile}
-          // AddMorePhoto={setAddMorePhotos}
-          />
-          <ErrorMessage1 Error={SelectImageError}></ErrorMessage1>
-
-
-          {AddMorePhotos === true ? (
-            <Button
-              onClick={handleAddFile}
-              sx={{
-
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 1, // Adds spacing between the text field and button
-
-
-                mt: 1, color: '#38548A',
-                //  backgroundColor: grey[500],
-                '&:hover': {
-                  color: '#38548A',
-                  backgroundColor: blue[100]
-                }
-              }}
-
-            >
-              Add Photos
-            </Button>
-
-          ) : (
-            <span></span>
-          )}
-
+        <Grid container spacing={2} mt={2} ml={0.5} >
+          <Grid xs={12} sm={10}>
+            <FileUploadComponent
+              files={files}
+              comment={comment}
+              setFiles={setFiles}
+              setComment={setComment}
+              setFileList={setFileList}
+              fileList={fileList}
+              handleFileChange={handleFileChange}
+              handleAddFile={handleAddFile}
+            // AddMorePhoto={setAddMorePhotos}
+            />
+            <ErrorMessage1 Error={SelectImageError}></ErrorMessage1>
+          </Grid>
+          <Grid xs={12} sm={2}>
+            {AddMorePhotos === true ? (
+              <Button
+                onClick={handleAddFile}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 1, // Adds spacing between the text field and button
+                  mt: 1, color: '#38548A',
+                  '&:hover': {
+                    color: '#38548A',
+                    backgroundColor: blue[100]
+                  }
+                }}
+              >
+                Add Photos
+              </Button>
+            ) : (
+              <span></span>
+            )}
+          </Grid>
         </Grid>
-
         <Box pt={2} >
           <Box>
             <SelectListHierarchy1
