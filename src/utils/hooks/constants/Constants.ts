@@ -65,5 +65,8 @@ export const Constants = {
         NoticeBoard: 68,
         StudentRecord: 271,
         UserManagement: 76,
+        PhotoVideoGallery: 54,
+        RegenerateRollNo: 243,
+        StudentDetails: 221,
     }
 }

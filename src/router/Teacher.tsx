@@ -946,7 +946,7 @@ const teacherRoutes = [
   },
   {
     path: 'PhotoVideoGalleryBaseScreen',
-    element: <PhotoVideoGalleryBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.PhotoVideoGallery}`} component={PhotoVideoGalleryBaseScreen} /> //  <PhotoVideoGalleryBaseScreen />
   },
   {
     path: 'AddNewPhoto',
@@ -983,7 +983,7 @@ const teacherRoutes = [
   },
   {
     path: 'StudentDetailsBaseScreen',
-    element: <StudentDetailsBaseScreen />
+    element: <ProtectedRoute screenId={`${ScreenID.StudentDetails}`} component={StudentDetailsBaseScreen} /> //  <StudentDetailsBaseScreen />
   },
   {
     path: 'EnterStudentSiblingDetails',
@@ -1015,7 +1015,7 @@ const teacherRoutes = [
   },
   {
     path: 'RegenarateRollNo',
-    element: <RegenarateRollNo />
+    element: <ProtectedRoute screenId={`${ScreenID.RegenerateRollNo}`} component={RegenarateRollNo} /> //  <RegenarateRollNo />
   },
   {
     path: 'UserManagementBasescreen',

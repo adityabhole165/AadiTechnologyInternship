@@ -645,7 +645,6 @@ export const CDASaveAddTeacherTimetable =
                 // await dispatch(CDAValidateAddLecTeacherData(data));
                 // Get the updated validation messages from the state
                 // const { ISValidateAddLecTeacherData } = getState().WeeklyTimetable;
-                // console.log(`🥱`, ISValidateAddLecTeacherData)
                 // if (ISValidateAddLecTeacherData.length === 0) {
                 // dispatch(CDAManageClassTimeTable(AddLecForManageTeacherBody))
                 dispatch(CDAValidateAdditionalDataForTeacher(ValidateAddDataForTeacher));
@@ -690,7 +689,6 @@ export const CDASaveAddClassTimetable =
                 // await dispatch(CDAValidateAddLecTeacherData(data));
                 // Get the updated validation messages from the state
                 // const { ISValidateAddLecTeacherData } = getState().WeeklyTimetable;
-                // console.log(`🥱`, ISValidateAddLecTeacherData)
                 // if (ISValidateAddLecTeacherData.length === 0) {
                 // dispatch(CDAManageClassTimeTable(AddLecForManageTeacherBody))
                 dispatch(CDAValidateAdditionalDataForClass(ValidateAddDataForClass));
