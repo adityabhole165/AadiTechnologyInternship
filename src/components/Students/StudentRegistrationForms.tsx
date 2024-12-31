@@ -515,7 +515,7 @@ const StudentRegistrationForm = () => {
   };
 
   const result = validateFieldsAndCalculateProgress(schoolId, form);
-  //console.log('Invalid Fields:', result.invalidFields);
+  console.log('Invalid Fields:', result.invalidFields);
   const result1 = validateSpecificFields(form);
   console.log('Specific Invalid Fields:', result1);
 
@@ -1299,10 +1299,10 @@ const StudentRegistrationForm = () => {
     // Get required field validations
     const { invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
 
-    if (invalidFields.length > 0 || specificFieldValidations.length > 0) {
+    if (invalidFields.length > 0) {          //|| specificFieldValidations.length > 0
       //console.log('Validation errors found:', invalidFields);
       // Switch to the tab with the first invalid field
-      const firstInvalidFieldTab = invalidFields[0] || specificFieldValidations[0];
+      const firstInvalidFieldTab = invalidFields[0];   //|| specificFieldValidations[0]
 
       setCurrentTab(() => {
         const tabIndexMapping = {
@@ -1316,7 +1316,7 @@ const StudentRegistrationForm = () => {
         return tabIndexMapping[firstInvalidFieldTab.tab] || 0;
       });
       console.log('❎❎❎ Submission Stopped');
-      setIsSubmitted(false);
+      //setIsSubmitted(false);
       return; // Stop submission
     }
     if (parseInt(schoolId) === 122 && UpdateStudentStreamwiseSubjectDetailsBody) {

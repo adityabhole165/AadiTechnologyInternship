@@ -31,6 +31,7 @@ import Webcam from 'react-webcam';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeleteAadharCardPhotoCopyBody, IRemoveStudentPhotoBody } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDADeleteAadharCardDetailsMsg, CDADeleteStudentPhoto, CDAresetDeletePhotoMsg, ResetDeleteAadharCardDetailsMsg } from 'src/requests/Students/RequestStudentUI';
@@ -119,6 +120,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
   useEffect(() => {
     //console.log('2️⃣personal data from Parent', personal);
     //console.log('🎈🎈From Parent', personal.dateOfBirth);
+    console.log('🎈🎈invalidFields', invalidFields);
   }, [personal]);
 
   const ValidFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'XLS', 'XLSX'];
@@ -750,13 +752,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                 variant="outlined"
                 value={personal.firstName}
                 onChange={handleInputChange}
-                error={!!invalidFields.find(field => field.field === 'firstName')}
-                helperText={invalidFields.find(field => field.field === 'firstName') ? 'First Name should not be blank.' : ''}
+                //error={!!invalidFields.find(field => field.field === "firstName")}
+                //helperText={invalidFields.find(field => field.field === "firstName") ? 'First Name should not be blank.' : ''}
                 fullWidth
                 inputProps={{
                   maxLength: 50, // Restricts the input length to 50 characters
                 }}
               />
+              <ErrorMessage1 Error={invalidFields.find(field => field.field === "firstName") ? 'First Name should not be blank.' : ''}></ErrorMessage1>
             </Grid>
 
             {personal.middleName !== undefined && (
@@ -797,10 +800,11 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.motherName}
                   onChange={handleInputChange}
-                  error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "motherName")}
-                  helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "motherName") ? 'Mother Name should not be blank.' : ''}
+                  //error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "motherName")}
+                  //helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "motherName") ? 'Mother Name should not be blank.' : ''}
                   fullWidth
                 />
+                <ErrorMessage1 Error={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "motherName") ? 'Mother Name should not be blank.' : ''}></ErrorMessage1>
               </Grid>
             )}
 
@@ -816,20 +820,24 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.mobileNumber1}
                   onChange={handleContactNoChange}
-                  error={(parseInt(schoolId) === 18 || parseInt(schoolId) === 122) && !!invalidFields.find(field => field.field === "mobileNumber1") ||
-                    !!unacceptableFields.find(field => field.field === "mobileNumber1")}
-                  helperText={
-                    invalidFields.find(field => field.field === "mobileNumber1")
-                      ? 'Mobile Number should not be blank.'
-                      : unacceptableFields.find(field => field.field === "mobileNumber1")
-                        ? 'Mobile number must be 10 digits'
-                        : ''
-                  }
+                  // error={(parseInt(schoolId) === 18 || parseInt(schoolId) === 122) && !!invalidFields.find(field => field.field === "mobileNumber1") ||
+                  //   !!unacceptableFields.find(field => field.field === "mobileNumber1")}
+                  // helperText={
+                  //   invalidFields.find(field => field.field === "mobileNumber1")
+                  //     ? 'Mobile Number should not be blank.'
+                  //     : unacceptableFields.find(field => field.field === "mobileNumber1")
+                  //       ? 'Mobile number must be 10 digits'
+                  //       : ''
+                  // }
                   fullWidth
                   inputProps={{
                     maxLength: 10,
                   }}
                 />
+                <ErrorMessage1 Error={((parseInt(schoolId) === 18 || parseInt(schoolId) === 122) && invalidFields.find(field => field.field === "mobileNumber1"))
+                  ? 'Mobile Number should not be blank.'
+                  : unacceptableFields.find(field => field.field === "mobileNumber1") ? 'Mobile number must be 10 digits' : ''
+                }></ErrorMessage1>
               </Grid>
             )}
             {personal.email !== undefined && (
