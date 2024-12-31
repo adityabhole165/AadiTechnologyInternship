@@ -20,13 +20,11 @@ import { red } from "@mui/material/colors";
 
 
 const FileUploadComponent = ({ files, comment, setFiles, setComment, setFileList, fileList, handleFileChange, handleAddFile }) => {
-
-    const ValidFileTypes = [".bmp", ".jpg", ".jpeg", ".png"];
-    const MaxfileSize = 10 * 1000000; // 10 MB in bytes
     const FileLabel = "Select Images";
-
-
-
+    const handleDelete = (index: number) => {
+        const updatedFileList = fileList.filter((_, fileIndex) => fileIndex !== index);
+        setFileList(updatedFileList); // Update the state
+    };
     return (
         <Box pt={2}>
             <Grid container spacing={2}>
@@ -130,6 +128,8 @@ const FileUploadComponent = ({ files, comment, setFiles, setComment, setFileList
                                     <TableCell>{entry.comment}</TableCell>
                                     <TableCell>
                                         <IconButton
+                                            onClick={() => handleDelete(index)} // Call the delete handler
+
                                             // onClick={() => handleDelete(user.UserId)}
                                             sx={{
                                                 color: '#38548A	',

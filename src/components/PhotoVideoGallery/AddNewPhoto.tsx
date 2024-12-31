@@ -114,11 +114,13 @@ const AddNewPhoto = () => {
         return isValidSize && isValidType;
       });
       if (validatedFiles.length !== selectedFiles.length) {
-        console.warn("Some files were excluded due to validation errors.");
+        toast.warn("Some files were excluded due to validation errors.");
       }
       setFiles(validatedFiles);
     }
   };
+  console.log(files, 'files123');
+
   const handleAddFile = () => {
     if (files.length === 0) {
       setSelectImageError('At least one file should be selected.');
