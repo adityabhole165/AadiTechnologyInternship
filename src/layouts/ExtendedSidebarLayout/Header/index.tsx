@@ -14,6 +14,7 @@ import {
   Dialog,
   Divider,
   Grid,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -26,6 +27,7 @@ import {
   alpha,
   lighten,
   styled,
+  useMediaQuery,
   useTheme
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
@@ -54,6 +56,8 @@ import { GetSchoolSettingsss } from 'src/requests/AbsentStudentPopCp/ReqAbsentSt
 import { Stafflogin } from 'src/requests/Authentication/StaffKidLogin';
 import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import ListIcon from '@mui/icons-material/List';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -431,6 +435,7 @@ function Header() {
     asSchoolId: SchoolId,
     asUserId: UserId
   };
+  const isMobile = useMediaQuery('(max-width : 600px )');
 
   useEffect(() => {
     dispatch(Stafflogin(Staffkid));
@@ -527,7 +532,7 @@ function Header() {
           >
             <Typography
               variant="h1"
-              sx={{ fontSize: { xs: 'small', sm: 'medium', lg: 'large' } }}
+              sx={{ fontSize: { xs: 'small', sm: 'small', lg: 'large' } }}
             >
               {SchoolName}{' '}
               <Typography
@@ -541,7 +546,7 @@ function Header() {
           <Stack
             direction="row"
             display="flex"
-            spacing={2}
+            spacing={0}
             alignItems="center"
             sx={{ pb: 2 }}
           >
@@ -575,19 +580,34 @@ function Header() {
                   sx={{
                     backgroundColor: grey[500],
                     borderRadius:'10px',
-                    height: 52,
+                    height: 50,
                     width: 40,
                     '& img': { objectFit: 'cover' } // Ensures the full image fits within the circle
                   }}
                   variant="square" 
                   aria-label="add"
                 />
+                {!isMobile &&
                 <Box>
                   <Typography fontWeight={'bold'}>{Name}</Typography>
                   <Typography>{DesignationName}</Typography>
-                </Box>
+                </Box>}
               </ListItemButton>
             </Tooltip>
+            {isMobile &&
+            <Tooltip title="Menus">
+              <IconButton 
+               sx={{ 
+              color:'#38548A',
+              backgroundColor: grey[200],
+              borderRadius:'10px',
+              height: 50,
+              width: 40,
+              }}
+               >
+                <ListIcon/>
+              </IconButton>
+            </Tooltip>}
             <Popover
               disableScrollLock
               anchorEl={ref.current}
@@ -707,7 +727,7 @@ function Header() {
                   />
                   
                 </ListItem>
-                <ListItem
+                {/* <ListItem
                   onClick={() => {
                     handleClose();
                   }}
@@ -799,7 +819,7 @@ function Header() {
                     }
                   />
                   
-                </ListItem>
+                </ListItem> */}
                 {siblingList?.length == 0 ? (
                   <></>
                 ) : siblingList?.length == 1 ? (
