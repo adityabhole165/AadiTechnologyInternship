@@ -33,7 +33,7 @@ const FileUploadComponent = ({ files, comment, setFiles, setComment, setFileList
                 {/* File Input */}
                 <Grid item xs={12} sm={6} md={4} lg={4} xl={2}>
                     <Tooltip
-                        title={'Supports files of types - .BMP, .JPG, .JPEG, .PNG with total size upto 10 MB. At least one file must be selected.'}
+                        title={'Supports files of types - .BMP, .JPG, .JPEG, .PNG with total size upto 10 MB.'}
                     >
                         <Button
                             sx={{

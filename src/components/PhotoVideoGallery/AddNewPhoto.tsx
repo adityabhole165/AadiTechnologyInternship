@@ -127,10 +127,39 @@ const AddNewPhoto = () => {
   const [comment, setComment] = useState("");
   const [fileList, setFileList] = useState<{ fileNames: string[]; comment: string }[]>([]);
 
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     const selectedFiles = Array.from(event.target.files);
+  //     setFiles(selectedFiles);
+  //   }
+  // };
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB in bytes
+    const ALLOWED_FILE_TYPES = ['image/bmp', 'image/jpg', 'application/jpeg', 'image/png'];
+
     if (event.target.files) {
       const selectedFiles = Array.from(event.target.files);
-      setFiles(selectedFiles);
+
+      const validatedFiles = selectedFiles.filter((file) => {
+        const isValidSize = file.size <= MAX_FILE_SIZE;
+        const isValidType = ALLOWED_FILE_TYPES.includes(file.type);
+
+        if (!isValidSize) {
+          toast.error(`File ${file.name} exceeds the maximum size of 10 MB.`);
+        }
+        if (!isValidType) {
+          toast.error(`File ${file.name} is not an allowed file type.`);
+        }
+
+        return isValidSize && isValidType;
+      });
+
+      if (validatedFiles.length !== selectedFiles.length) {
+        console.warn("Some files were excluded due to validation errors.");
+      }
+
+      setFiles(validatedFiles);
     }
   };
 
