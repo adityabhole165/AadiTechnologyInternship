@@ -232,7 +232,7 @@ const AssignExamMark = () => {
         'Once you submit the result to the class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
         'Are you sure, Do you want to unsubmit marks/grades?',
       variant: 'warning',
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
       onConfirm: () => {
         closeAlert();
@@ -427,7 +427,7 @@ const AssignExamMark = () => {
               justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
             >
               <SearchableDropdown
-                sx={{ width: { xs: '70vw', sm: '25vw',md: '20vw' } }}
+                sx={{ width: { xs: '70vw', sm: '25vw', md: '20vw' } }}
                 ItemList={ClassWiseExamDropdown}
                 onChange={clickClassWiseExam}
                 label={'Select Exam'}
