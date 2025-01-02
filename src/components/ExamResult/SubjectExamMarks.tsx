@@ -31,6 +31,7 @@ import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import CommonPageHeader from '../CommonPageHeader';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
+import DatepickermaxDate from './DatepickermaxDate';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -608,19 +609,21 @@ const SubjectExamMarks = () => {
               >
                 {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
                   <Box sx={{ width: { xs: '45vw', sm: '10vw', md: '10vw' } }}>
-                    <Datepicker
+                    <DatepickermaxDate
                       DateValue={new Date(TestDate)}
                       onDateChange={clickTestDate}
                       label={"Exam Date"}
                       size={"small"}
+                      maxDate={new Date()}
                     /></Box>
                   :
                   <Box sx={{ width: { xs: '45vw', sm: '12vw', md: '12vw' } }}>
-                    <Datepicker
+                    <DatepickermaxDate
                       DateValue={new Date(TestDate)}
                       onDateChange={clickTestDate}
                       label={"Exam Date"}
                       size={"small"}
+                      maxDate={new Date()}
                     />
                   </Box>
                 }</Grid>
