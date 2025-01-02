@@ -877,7 +877,7 @@ const AddSchoolNoticeFT = () => {
                                 }}
                             />
                         </Grid>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} pl={1}>
                             <Grid item xs={12} sm={12} md={2} mt={2} ml={1}>
                                 <Typography variant="h5" p={1}>
                                     Applicable to: <span style={{ color: 'red' }}>*</span>
@@ -885,30 +885,37 @@ const AddSchoolNoticeFT = () => {
 
                                 <FormGroup>
                                     <Box
-                                       
+                                        bgcolor="lightgrey"
+                                        pl={2}
+                                        justifyContent="flex-start"
+                                        width={{ xs: '100%', sm: '100%', md: '200px' }}
+                                        sx={{ display: 'flex', alignItems: 'center' }}
+                                    >
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={selectAll}
+                                                    onChange={handleSelectAll}
+                                                    disabled={selectDisplayLocation === 'H'}
+                                                // sx={{ ml: 1 }}
+                                                />
+                                            }
+                                            label={<Typography variant="h6">Select All</Typography>}
+                                        // sx={{ mr: -3 }}
+                                        />
+                                    </Box>
+                                    <Box
+
                                         gap={1}
-                                        sx={{ ml:1,
+                                        sx={{
+                                            ml: 1,
+                                            pl: 1,
                                             display: 'flex',
                                             flexDirection: { xs: 'column', sm: 'column', md: 'row' },
                                             alignItems: { xs: 'flex-start', md: 'center' },
                                         }}
                                     >
-                                        <Box
-                                            bgcolor="lightgrey"
-                                            px={1}
-                                            width={{ xs: '100%', sm: '100%', md: '200px' }}
-                                        >
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={selectAll}
-                                                        onChange={handleSelectAll}
-                                                        disabled={selectDisplayLocation === 'H'}
-                                                    />
-                                                }
-                                                label={<Typography variant="h6">Select All</Typography>}
-                                            />
-                                        </Box>
+
                                         <Box width={{ xs: '100%', sm: '100%', md: 'auto' }}>
                                             <FormControlLabel
                                                 control={
@@ -980,7 +987,7 @@ const AddSchoolNoticeFT = () => {
                             </Grid>
                         </Grid>
 
-                        <Grid container pl={3} mt={2}>
+                        <Grid container pl={2} mt={2}>
                             {applicableTo.student && (
                                 <Grid item xs={12} md={12} mt={1}>
                                     <Typography variant="h4" py={1}>
