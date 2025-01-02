@@ -35,7 +35,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
             {ExamMarks?.map((Item, Index) => {
                 return (
                     <>
-                        <TableCell key={Index} sx={{ py: 1 }}>
+                        <TableCell key={Index} sx={{paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                             <Dropdown
                                 width='150px'
                                 size={"small"}
@@ -56,7 +56,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                         {IsMark ? (
 
                             <>
-                                <TableCell key={Index} sx={{ py: 1, }}>
+                                <TableCell key={Index} sx={{paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                     <Tooltip title={
                                         (Number(Item.Text1) > Number(Item.Text2)) ?
                                             ("Marks Scored should be less than " + Item.Text2 + ".")
@@ -81,12 +81,12 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                                         />
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell key={Index} sx={{ py: 1 }}>
+                                <TableCell key={Index} sx={{paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                     {getGrade(Item.Text1, Item.Text2)}
                                 </TableCell>
                             </>
                         ) : (
-                            <TableCell key={Index} sx={{ py: 1 }}>
+                            <TableCell key={Index} sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                                 <Box>
                                     <Dropdown
                                         size={"small"}
