@@ -15,7 +15,6 @@ import {
   IGetSubjectExamMarkslistsBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import {
   getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes,
   getExamSchedule,
@@ -30,8 +29,9 @@ import { decodeURL, encodeURL, formatDateAsDDMMMYYYY, getCalendarDateFormatDate,
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import CommonPageHeader from '../CommonPageHeader';
-import SubjectExamMarkTable from './SubjectExamMarkTable';
 import DatepickermaxDate from './DatepickermaxDate';
+import SubjectExamMarkTable from './SubjectExamMarkTable';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -103,7 +103,7 @@ const SubjectExamMarks = () => {
   const [GradeHeaderDetails, setGradeHeaderDetails] = useState([]);
   const [GradeRowDetails, setGradeRowDetails] = useState([]);
 
-
+  const Loading = useSelector((state: RootState) => state.SubjectExamMark.Loading);
   const StudentsForMarksAssignment: any = useSelector(
     (state: RootState) => state.SubjectExamMark.StudentsForMarksAssignments
   );
@@ -493,6 +493,7 @@ const SubjectExamMarks = () => {
   };
   return (
     <Box sx={{ px: 2 }}>
+      {Loading && <SuspenseLoader />}
       {/* <CommonPageHeader
         navLinks={
           IsReadOnly
