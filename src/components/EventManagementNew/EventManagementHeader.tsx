@@ -7,7 +7,7 @@ import { useParams } from 'react-router';
 import { useNavigate } from "react-router-dom";
 import HeaderIcons from '../AnnualPlannerNew/HeaderIcons';
 import UploadAnnualPlanner from '../AnnualPlannerNew/UploadAnnualPlanner';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
@@ -76,7 +76,7 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     const Breadcrumbs = [{
         Id: 1,
         Name: 'Annual Planner',
-        Value: '/RITeSchool/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId,
+        Value: '/RITeSchool/Common/AnnualPlanner/' + encodeURL(SelectedDate) + '/' + encodeURL(StandardId) + '/' + encodeURL(DivisionId),
         IsActive: false
     }, {
         Id: 2,
@@ -89,7 +89,7 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
                 navLinks={[
                     {
                         title: 'Annual Planner',
-                        path: '/RITeSchool/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId
+                        path: '/RITeSchool/Common/AnnualPlanner/' + encodeURL(SelectedDate) + '/' + encodeURL(StandardId) + '/' + encodeURL(DivisionId)
                     },
                     {
                         title: 'Event(s) Management',
