@@ -106,15 +106,17 @@ const AddNewPhoto = () => {
         const isValidSize = file.size <= MAX_FILE_SIZE;
         const isValidType = ALLOWED_FILE_TYPES.includes(file.type);
         if (!isValidSize) {
-          toast.error(`File ${file.name} exceeds the maximum size of 10 MB.`);
+          // setSelectImageError(`Total file  ${file.name} size should be less than 1 0 MB`);
+          setSelectImageError("Total file size should be less than 10 MB");
         }
         if (!isValidType) {
-          toast.error(`File ${file.name} is not an allowed file type.`);
+          // toast.error(`File ${file.name} is not an allowed file type.`);
+          setSelectImageError("Please upload a valid file format.");
         }
         return isValidSize && isValidType;
       });
       if (validatedFiles.length !== selectedFiles.length) {
-        toast.warn("Some files were excluded due to validation errors.");
+        //toast.warn("Some files were excluded due to validation errors.");
       }
       setFiles(validatedFiles);
     }
