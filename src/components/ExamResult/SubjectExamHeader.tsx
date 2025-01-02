@@ -67,11 +67,11 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
 
                         {/* <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
                         {Item.Text4}</TableCell> */}
-                        <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1  }}>
+                        <TableCell sx={{ color: 'white', fontWeight: "bold",paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                             {Item.Text4}
                         </TableCell>
 
-                        <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
+                        <TableCell sx={{ color: 'white', fontWeight: "bold", paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                             {IsMark ? (
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                     {Item.Text1}
@@ -101,7 +101,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
                                 />
                             )}
                         </TableCell>
-                        <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }} />
+                        <TableCell sx={{ color: 'white', fontWeight: "bold",paddingTop: '2.5px', paddingBottom: '2.5px' }} />
                         {/* </Box>
                    */}
                         {/* </TableCell>

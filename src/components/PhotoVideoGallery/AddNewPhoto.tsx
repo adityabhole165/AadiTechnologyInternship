@@ -9,8 +9,7 @@ import {
   IconButton,
   Stack,
   TextField,
-  Tooltip,
-  useMediaQuery
+  Tooltip
 } from "@mui/material";
 import { blue, green, grey, red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
@@ -36,28 +35,19 @@ const dropdownItems = [
 ];
 const AddNewPhoto = () => {
   const dispatch = useDispatch();
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
-  const [selectedClasses, setSelectedClasses] = useState({});
-  // const [selectAll, setSelectAll] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
   const [ItemList, setitemList] = useState([]);
   const [GalleryName, setGalleryName] = useState('');
-  const [selected, setSelected] = useState([]);
-  // const [selectAll, setSelectAll] = useState(false);
   const [GalleryNameError, setGalleryNameError] = useState('');
   const [SelectImageError, setSelectImageError] = useState('');
   const [AssociatedSectionsError, setAssociatedSectionsError] = useState('');
   const [ClassesAndDivisionssError, setClassesAndDivisionssError] = useState('');
   const [checkedValues, setCheckedValues] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const [AddMorePhotos, setAddMorePhotos] = useState(false); //setAddMorePhoto
-  //console.log(AddMorePhotos, "AddMorePhoto");
-
-  const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
-  const MaxfileSize2 = 3000000;
-  const [base64URL2, setbase64URL2] = useState('');
-  const [ImageFile, setImageFile] = useState('');
-  //console.log(base64URL2, "base64URL2123");
+  const [AddMorePhotos, setAddMorePhotos] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
+  const [comment, setComment] = useState("");
+  const [fileList, setFileList] = useState<{ fileNames: string[]; comment: string }[]>([]);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -85,12 +75,6 @@ const AddNewPhoto = () => {
     asPageSize: 20,
     asAcademicYearId: asAcademicYearId,
     asGalleryNameFilter: ''
-    // asSchoolId: asSchoolId,
-    // asSortExp: "ORDER by Update_Date desc",
-    // asStartIndex: 0,
-    // asPageSize: 20,
-    // asAcademicYearId: asAcademicYearId,
-    // asGalleryNameFilter: "",
   }
 
   const isClassSelected = () => {
@@ -102,106 +86,72 @@ const AddNewPhoto = () => {
     return arr.toString()
   }
   const ClassSelected = String(isClassSelected());
-
-
   useEffect(() => {
     setitemList(ClassesAndDivisionss);
   }, [ClassesAndDivisionss]);
-
   const ClickChild = (value) => {
     setitemList(value);
-  };
-
-  //console.log(ClassSelected, "ClassSelected1234");
-
-  const ChangeFile2 = (value) => {
-    setImageFile(value.Name);
-    setbase64URL2(value.Value);
   };
 
   const ClickGalleryName = (value) => {
     setGalleryName(value);
   };
 
-  const [files, setFiles] = useState<File[]>([]);
-  const [comment, setComment] = useState("");
-  const [fileList, setFileList] = useState<{ fileNames: string[]; comment: string }[]>([]);
-
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     const selectedFiles = Array.from(event.target.files);
-  //     setFiles(selectedFiles);
-  //   }
-  // };
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB in bytes
     const ALLOWED_FILE_TYPES = ['image/bmp', 'image/jpg', 'application/jpeg', 'image/png'];
-
     if (event.target.files) {
       const selectedFiles = Array.from(event.target.files);
-
       const validatedFiles = selectedFiles.filter((file) => {
         const isValidSize = file.size <= MAX_FILE_SIZE;
         const isValidType = ALLOWED_FILE_TYPES.includes(file.type);
-
         if (!isValidSize) {
-          toast.error(`File ${file.name} exceeds the maximum size of 10 MB.`);
+          // setSelectImageError(`Total file  ${file.name} size should be less than 1 0 MB`);
+          setSelectImageError("Total file size should be less than 10 MB");
         }
         if (!isValidType) {
-          toast.error(`File ${file.name} is not an allowed file type.`);
+          // toast.error(`File ${file.name} is not an allowed file type.`);
+          setSelectImageError("Please upload a valid file format.");
         }
-
         return isValidSize && isValidType;
       });
-
       if (validatedFiles.length !== selectedFiles.length) {
-        console.warn("Some files were excluded due to validation errors.");
+        //toast.warn("Some files were excluded due to validation errors.");
       }
-
       setFiles(validatedFiles);
     }
   };
+  console.log(files, 'files123');
 
   const handleAddFile = () => {
     if (files.length === 0) {
       setSelectImageError('At least one file should be selected.');
-
       return;
     }
-
     if (!comment.trim()) {
       alert("Please add a comment.");
       return;
     }
-
     const newEntry = {
       fileNames: files.map((file) => file.name),
       comment,
     };
-
     setFileList([...fileList, newEntry]);
     setFiles([]); // Reset file input
     setComment(""); // Reset comment field
   };
-
   const getXML1 = () => {
     let Image_SrNo = 0;
     let xml = '<PhotoGallery>\n';
-
     fileList.forEach((entry) => {
       entry.fileNames.forEach((fileName) => {
         Image_SrNo++; // Increment for each file
         xml += `  <PhotoGallery Image_Path="${fileName}" Image_SrNo="${Image_SrNo}" Comment="${entry.comment}" />\n`;
       });
     });
-
     xml += '</PhotoGallery>';
     return xml;
-
   };
-  console.log(fileList, "getXML187685");
-
   const ClickSave = async () => {
     let isValid = true;
     setGalleryNameError('');
@@ -268,7 +218,6 @@ const AddNewPhoto = () => {
       });
     }
   };
-
   const handleSelectAll = (event) => {
     const { checked } = event.target;
     setSelectAll(checked);
@@ -278,15 +227,10 @@ const AddNewPhoto = () => {
       setCheckedValues([]);
     }
   };
-  // function AddMorePhoto(event: SyntheticEvent<Element, Event>, checked: boolean): void {
-  //   throw new Error("Function not implemented.");
-  // }
-
   const AddMorePhoto = (event) => {
     const { checked } = event.target;
     setAddMorePhotos(checked);
   }
-
   return (
     <Box px={2}>
       <CommonPageHeader
@@ -345,8 +289,6 @@ const AddNewPhoto = () => {
                     },
                   }}
                   onClick={ClickSave}
-                // onClick={handleAdd}
-                // disabled={!formData.url || !formData.title}
                 >
                   <SaveIcon />
                 </IconButton>
@@ -356,9 +298,6 @@ const AddNewPhoto = () => {
         }
       />
       <Box padding={2} sx={{ backgroundColor: "white" }}>
-        {/* <Typography variant="h5" gutterBottom sx={{pb:2}}>
-          Photo Gallery Details
-        </Typography> */}
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth
@@ -396,7 +335,6 @@ const AddNewPhoto = () => {
               fileList={fileList}
               handleFileChange={handleFileChange}
               handleAddFile={handleAddFile}
-            // AddMorePhoto={setAddMorePhotos}
             />
             <ErrorMessage1 Error={SelectImageError}></ErrorMessage1>
           </Grid>
@@ -408,7 +346,7 @@ const AddNewPhoto = () => {
                   display: 'flex',
                   flexDirection: 'row',
                   alignItems: 'center',
-                  gap: 1, // Adds spacing between the text field and button
+                  gap: 1,
                   mt: 1, color: '#38548A',
                   '&:hover': {
                     color: '#38548A',
@@ -464,14 +402,11 @@ const AddNewPhoto = () => {
             </Box>
             <ErrorMessage1 Error={AssociatedSectionsError}></ErrorMessage1>
           </Grid>
-
         </Grid>
         <Grid item xs={12} md={12} mt={2}>
           <Stack direction={"row"} gap={2} alignItems={"center"}>
             <Button
-              // onClick={resetForm}
               sx={{
-                // backgroundColor: green[100],
                 color: 'red',
                 ':hover': { backgroundColor: red[100] }
               }}>
@@ -480,7 +415,6 @@ const AddNewPhoto = () => {
             <Button
               onClick={ClickSave}
               sx={{
-                // backgroundColor: green[100],
                 color: 'green',
                 ':hover': { backgroundColor: green[100] }
               }} >

@@ -113,7 +113,7 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
         >
           <Box
             display="block"
-            sx={{ position: 'absolute', width: '100%', pb:{xs:10, sm:4, md:4, lg:4}  }}
+            sx={{ position: 'absolute', width: '100%', pb: { xs: 4, sm: 4, md: 4, lg: 4 } }}
           >
             <Outlet />
             <Box

@@ -42,8 +42,13 @@ const AssignPrePrimaryGrades = () => {
   } = useParams();
 
   // Decode in-place
-  TermId = decodeURL(TermId);
-  TeacherId = decodeURL(TeacherId);
+  useEffect(() => {
+    if (TermId !== undefined && TeacherId !== undefined) {
+      TermId = decodeURL(TermId);
+      TeacherId = decodeURL(TeacherId);
+    }
+  }, [TermId, TeacherId]);
+
 
   const { showAlert, closeAlert } = useContext(AlertContext);
   let Teacher_ID = sessionStorage.getItem("TeacherId")
@@ -201,7 +206,7 @@ const AssignPrePrimaryGrades = () => {
 
   useEffect(() => {
     if (SubmitUnsubmitToastMsg != '') {
-      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Marks submitted successfully") : toast.success("Marks unsubmitted successfully")
+      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Grades submitted successfully.") : toast.success("Grades unsubmitted successfully.")
 
       dispatch(resetSubmitUnSubmitGradeMsg());
       dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));

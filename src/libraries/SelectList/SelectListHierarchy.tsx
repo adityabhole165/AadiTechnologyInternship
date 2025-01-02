@@ -52,7 +52,7 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
 
   return (
     <>
-      <Box sx={{ backgroundColor: 'lightgrey' }}>
+      <Box sx={{ backgroundColor: 'lightgrey', pl: 1 }}>
         <Checkbox
           checked={getIsParentCheckedAll()}
           onChange={(e) => {
@@ -65,7 +65,7 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
         {ParentList.map((ParentItem, index) => {
           return (
             <Box key={index}>
-              <Box sx={{ borderBottom: `1px solid grey`, fontWeight: 'bold' }}>
+              <Box sx={{ borderBottom: `1px solid grey`, fontWeight: 'bold', pl: 1 }}>
                 <Checkbox
                   checked={getIsCheckedAll(ParentItem.Id)}
                   onChange={() => {
@@ -78,7 +78,7 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
                 return obj.ParentId == ParentItem.Id;
               }).map((item, index) => {
                 return (
-                  <Box key={index}>
+                  <Box key={index} sx={{ pl: 1 }}>
                     <Checkbox
                       checked={item.IsActive}
                       onChange={() => {

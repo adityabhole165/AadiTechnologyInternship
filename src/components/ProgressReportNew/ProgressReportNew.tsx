@@ -20,7 +20,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { StudentDetailsGA, ViewResultGA } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
 import AllStudents from 'src/requests/ProgressReport/AllStudent';
 import { DataParserAndFormatter } from 'src/requests/ProgressReport/PotoType';
-import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAGetLatestExamId, CDAGetLatestExamId1, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAGetTeachersForPrePrimaryProgressReport, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAIsXseedApplicable, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAcademicYearsOfStudent, CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAgetIsFinalResultPublished, CDAGetIsPrePrimary, CDAgetIsTermExamPublished, CDAGetLatestExamId, CDAGetLatestExamId1, CDAgetOldstudentDetails, CDAGetPassedAcademicYears, CDAGetPrePrimaryExamPublishStatus, CDAGetProgressReport, CDAGetSchoolSettings, CDAGetStudentName, CDAGetTeachersForPrePrimaryProgressReport, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAIsXseedApplicable, CDAStudentProgressReport, GetAllStudentsProgressSheet, GetSchoolSettingValues, resetProgressReportFileName } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import { decodeURL, encodeURL, getSchoolConfigurations, SchoolScreensAccessPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -739,7 +739,9 @@ const ProgressReportNew = () => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
   }, [GetOldStudentDetails.StandardId, AcademicYear]);
 
-
+  useEffect(() => {
+    dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody));
+  }, [GetOldStudentDetails.StandardId, AcademicYear]);
 
 
   useEffect(() => {

@@ -64,13 +64,13 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
             />
           )}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={2.5} alignItems={'center'}>
           <CardDetailR>
-            <Typography color={Item.isError ? 'primary' : 'error'} fontWeight={fontWeight}>{Item.text1}</Typography>
+            <Typography color={Item.isError ? 'primary' : 'error'} fontWeight={fontWeight} sx={{textAlign:'center'}}>{Item.text1}</Typography>
 
           </CardDetailR>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={8.5}>
           <CardDetailA>
             <Typography color={Item.isError ? 'primary' : 'error'} fontWeight={fontWeight}>{Item.text2}</Typography>
           </CardDetailA>

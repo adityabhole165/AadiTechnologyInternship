@@ -49,7 +49,7 @@ function Basenav() {
   const theme = useTheme();
   const RoleId = sessionStorage.getItem('RoleId');
   const classes = useStyles();
-  const isMobile = useMediaQuery('(max-width : 600px )');
+  const isMobile = useMediaQuery('(max-width : 0px )');
 
   return (
     <>

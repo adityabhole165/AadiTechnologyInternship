@@ -287,7 +287,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
   const handleMouseLeave = () => {
     stopScrolling();
   };
-  //
+
+
   return (
     <Box mb={1.5}>
       <AppBar
@@ -308,6 +309,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           py={.5}
         >
           {/* <Tooltip title={'Left'}> */}
+          {!isMobile && 
           <IconButton
             onMouseDown={() => handleMouseDown('left')}
             onMouseUp={handleMouseUp}
@@ -315,7 +317,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
             sx={{ zIndex: 1200, ml: 3 }}
           >
             {menuStructure.length > 0 && <ArrowBackIosNewIcon sx={{ color: 'white' }} />}
-          </IconButton>
+          </IconButton>}
           {/* </Tooltip> */}
 
           <Box
@@ -346,12 +348,13 @@ function SubHeaderNavBar({ toggleDrawer }) {
                     </IconButton>
                   </Tooltip>
                 </Stack>
+                {!isMobile &&
                 <Box sx={{ gap: 0, display: 'flex', alignItems: 'center' }}>
                   {menuStructure.map((item, i) => (
                     <ImprovedNestedMenu key={i}
                       menuStructure={item} onItemClick={handleItemClick} />
                   ))}
-                </Box>
+                </Box>}
                 <div style={{ width: '16vw' }} />
               </Stack>
             </Stack>
@@ -362,6 +365,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           {/* Right-hand controls (support, settings, notifications, logout) */}
           <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '63px', height: '45px', backgroundColor: (theme) => theme.palette.primary.main }}>
             {/* Add your support, settings, notifications, and logout buttons here */}
+            {!isMobile && 
             <IconButton
               onMouseDown={() => handleMouseDown('right')}
               onMouseUp={handleMouseUp}
@@ -369,8 +373,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
               sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0.5 }}
             >
               {menuStructure.length > 0 && <ArrowForwardIosIcon sx={{ color: 'white' }} />}
-            </IconButton>
-            <Hidden smDown>
+            </IconButton>}
+            
               {/* <Tooltip
                 title={`Displays dashboard for users. Lists available features of the application.`}
               >
@@ -456,7 +460,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                   <LogoutTwoToneIcon />
                 </IconButton>
               </Tooltip>
-            </Hidden>
+            
           </Stack>
         </Stack>
       </AppBar>

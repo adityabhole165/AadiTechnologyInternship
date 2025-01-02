@@ -161,7 +161,7 @@ const EventOverview = (props: Props) => {
               // justifyContent="space-between"
               alignItems="right"
 
-              spacing={2}
+              spacing={1}
               sx={{
 
                 mt: { xs: 0, sm: 0 },
@@ -216,7 +216,7 @@ const EventOverview = (props: Props) => {
                   handleChange={clicYearDropdown}
                   defaultValue={selectYear}
                   label={'Academic Year'}
-                  width={'150px'}
+                  width={'140px'}
                 />
               </Box>
               <Box>

@@ -1304,7 +1304,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           </IconButton>
         </Tooltip>
       </Box>
-      <Box sx={{ position: 'absolute', bottom: 0, display: 'flow', width: '100%' }}>
+      {/* <Box sx={{ position: 'absolute', bottom: 0, display: 'flow', width: '100%' }}>
         <Divider className="m-5" />
         <Grid className="p-8" container>
           <Tooltip title={'Profile'}>
@@ -1323,7 +1323,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
             </Grid>
           </Tooltip>
         </Grid>
-      </Box>
+      </Box> */}
     </Box>
   );
 

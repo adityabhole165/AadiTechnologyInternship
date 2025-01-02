@@ -881,7 +881,7 @@ const teacherRoutes = [
   },
   {
     path: 'PreprimaryProgressReport1',
-    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryProgressReport}`} component={PreprimaryProgressReport1} /> // <PreprimaryProgressReport1 />
+    element: <ProtectedRoute screenId={`0`} component={PreprimaryProgressReport1} /> // <PreprimaryProgressReport1 />
   },
   {
     path: 'StudentwiseprogressreportEdit/:Assessment/:YearwiseStudentId/:StandardId',

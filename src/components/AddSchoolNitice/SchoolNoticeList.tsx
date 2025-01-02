@@ -53,7 +53,7 @@ function SchoolNoticeList({
         }
     })
     return (
-        <div >
+        <Box sx={{ }}>
             {ItemList.length === 0 ? (
                 <Box sx={{ backgroundColor: '#D2FDFC' }}>
 
@@ -211,7 +211,7 @@ function SchoolNoticeList({
                 </>
             )
             }
-        </div >
+        </Box >
     );
 }
 

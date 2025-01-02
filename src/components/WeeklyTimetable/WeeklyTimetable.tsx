@@ -1845,7 +1845,7 @@ const WeeklyTimetable = (props: Props) => {
 
   return (
     <>
-      <Box sx={{ mb: 5, mx: 2 }}>
+      <Box sx={{ mx: 2 }}>
         <CommonPageHeader
           navLinks={[
             {

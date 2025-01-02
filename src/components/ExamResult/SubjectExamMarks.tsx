@@ -15,7 +15,6 @@ import {
   IGetSubjectExamMarkslistsBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import {
   getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes,
   getExamSchedule,
@@ -30,7 +29,9 @@ import { decodeURL, encodeURL, formatDateAsDDMMMYYYY, getCalendarDateFormatDate,
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import CommonPageHeader from '../CommonPageHeader';
+import DatepickermaxDate from './DatepickermaxDate';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -102,7 +103,7 @@ const SubjectExamMarks = () => {
   const [GradeHeaderDetails, setGradeHeaderDetails] = useState([]);
   const [GradeRowDetails, setGradeRowDetails] = useState([]);
 
-
+  const Loading = useSelector((state: RootState) => state.SubjectExamMark.Loading);
   const StudentsForMarksAssignment: any = useSelector(
     (state: RootState) => state.SubjectExamMark.StudentsForMarksAssignments
   );
@@ -389,7 +390,7 @@ const SubjectExamMarks = () => {
   useEffect(() => {
 
     if (ManageStudentsTestMarks !== '') {
-      toast.success(ManageStudentsTestMarks)
+      toast.success('Subject exam marks saved successfully.', { toastId: 'success1' })
       dispatch(resetManageStudentsTestMark())
       if (examResultProp === "true") {
         navigate("/RITeSchool/Teacher/ExamResultBase/" + encodeURL(StandardDivisionId) + "/" + encodeURL(TestId));
@@ -432,7 +433,7 @@ const SubjectExamMarks = () => {
         if (isOutsideAcademicYear(TestDate)) {
           setMarksError('Please fix following error(s): ' +
             'Exam date should be within the current academic year (i.e., between ' +
-            formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
+            formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
         } else {
 
           const startDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date));
@@ -466,7 +467,7 @@ const SubjectExamMarks = () => {
     value.map((Obj, i) => {
       Obj.MarksForStudent.map((Item, Index) => {
         if (Number(Item.Text1) > Number(Item.Text2))
-          setMarksError('Highlighted Marks should be less than total marks')
+          setMarksError('Highlighted marks should be less than total marks.')
       })
     })
 
@@ -492,6 +493,7 @@ const SubjectExamMarks = () => {
   };
   return (
     <Box sx={{ px: 2 }}>
+      {Loading && <SuspenseLoader />}
       {/* <CommonPageHeader
         navLinks={
           IsReadOnly
@@ -608,19 +610,21 @@ const SubjectExamMarks = () => {
               >
                 {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
                   <Box sx={{ width: { xs: '45vw', sm: '10vw', md: '10vw' } }}>
-                    <Datepicker
+                    <DatepickermaxDate
                       DateValue={new Date(TestDate)}
                       onDateChange={clickTestDate}
                       label={"Exam Date"}
                       size={"small"}
+                      maxDate={new Date()}
                     /></Box>
                   :
-                  <Box sx={{ width: { xs: '45vw', sm: '10vw', md: '10vw' } }}>
-                    <Datepicker
+                  <Box sx={{ width: { xs: '45vw', sm: '12vw', md: '12vw' } }}>
+                    <DatepickermaxDate
                       DateValue={new Date(TestDate)}
                       onDateChange={clickTestDate}
                       label={"Exam Date"}
                       size={"small"}
+                      maxDate={new Date()}
                     />
                   </Box>
                 }</Grid>
@@ -780,7 +784,7 @@ const SubjectExamMarks = () => {
         {
           TestName?.AllowDecimal == "True" && (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#38548A', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>Note:	Marks assignment can be done in decimal numbers.</b>
+              <b>Note :	Marks assignment can be done in decimal numbers.</b>
             </Typography>)
         }
         {/* Table */}
