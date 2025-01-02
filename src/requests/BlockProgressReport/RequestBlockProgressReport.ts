@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiBlockProgressReport from "src/api/BlockProgressReport/ApiBlockProgressReport";
-import { IAllClassTeachersBody, IBlockUnBlockStudentsBody } from "src/interfaces/BlockProgressReport/IBlockProgressReport";
+import { IAllClassTeachersBody, IBlockUnBlockStudentsBody, IBlockUnBlockUpdateBtnBody } from "src/interfaces/BlockProgressReport/IBlockProgressReport";
 import { AppThunk } from "src/store";
 
 const BlockUnBlockStudents = createSlice({
@@ -10,6 +10,8 @@ const BlockUnBlockStudents = createSlice({
         IsStudentsName: [],
         IsStudentsCount: [],
         IsClassTeachers: [],
+        IsBlockUnblockUpdatebtn: '',
+
         Loading: true
     },
 
@@ -25,6 +27,10 @@ const BlockUnBlockStudents = createSlice({
         RAllClassTeachers(state, action) {
             state.Loading = false;
             state.IsClassTeachers = action.payload;
+        },
+        RBlockUnblockUpdateBtn(state, action) {
+            state.Loading = false;
+            state.IsBlockUnblockUpdatebtn = action.payload;
         },
 
         getLoading(state, action) {
@@ -79,5 +85,11 @@ export const CDAClassTeachers =
             dispatch(BlockUnBlockStudents.actions.RAllClassTeachers(responseData));
         };
 
+export const CDABlockUnblockUpdatebtn =
+    (data: IBlockUnBlockUpdateBtnBody): AppThunk =>
+        async (dispatch) => {
+            const response = await ApiBlockProgressReport.BlockUnblockUpdateBtn(data);
+            dispatch(BlockUnBlockStudents.actions.RBlockUnblockUpdateBtn(response.data));
+        };
 
 export default BlockUnBlockStudents.reducer;
