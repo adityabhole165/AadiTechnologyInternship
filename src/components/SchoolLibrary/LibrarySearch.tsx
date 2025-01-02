@@ -107,7 +107,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
         <Box sx={{ p: 2, background: 'white' }}>
             <Typography variant='h4' pb={1} color={'#38548A'}> Search Criteria  </Typography>
             <Grid container spacing={2}>
-                <Grid item xs={4} md={3}>
+                <Grid item xs={12} md={3}>
                     <TextField
                         fullWidth
                         label="Book Title"
@@ -123,7 +123,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                     />
 
                 </Grid>
-                <Grid item xs={4} md={3}>
+                <Grid item xs={12} md={3}>
                     <TextField
                         fullWidth
                         size={"medium"}
@@ -138,7 +138,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         }}
                     />
                 </Grid>
-                <Grid item xs={6} md={3}>
+                <Grid item xs={12} md={3}>
                     <TextField
                         fullWidth
                         label="Author"
@@ -153,7 +153,7 @@ const LibrarySearch: React.FC<LibrarySearchProps> = ({
                         }}
                     />
                 </Grid>
-                <Grid item xs={6} md={3}>
+                <Grid item xs={12} md={3}>
                     <TextField
                         fullWidth
                         label="Publisher"
