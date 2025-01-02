@@ -9,7 +9,7 @@ import { IGetInsertStudentGradesBody, IGetLearningOutcomesForSubjectSectionBody,
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
 import { CDAClearInsertStudentGrades, CDAInsertStudentGrades, CDALearningOutcomesForSubjectSection, CDAXseedStudentsdata } from "src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades"
 import { RootState } from "src/store"
-import { SchoolScreensAccessPermission } from "../Common/Util"
+import { encodeURL, SchoolScreensAccessPermission } from "../Common/Util"
 import CommonPageHeader from "../CommonPageHeader"
 
 // THIS PAGE IS FOR XSEEED SUBJECT GRADES
@@ -161,7 +161,7 @@ const AssignPrePrimarySubjectGrades = () => {
                 navLinks={[
                     {
                         title: selectTeacher === 'RP' ? 'Pre-Primary Pro...' : 'Assign Pre-Pri...',
-                        path: selectTeacher === 'RP' ? `/RITeSchool/Teacher/PrePrimaryResult/${SelectTerm}/${StandardDivisionId}` : '/RITeSchool/Teacher/AssignPrePrimaryGrades' + '/' + SelectTerm + '/' + selectTeacher
+                        path: selectTeacher === 'RP' ? `/RITeSchool/Teacher/PrePrimaryResult/${SelectTerm}/${StandardDivisionId}` : '/RITeSchool/Teacher/AssignPrePrimaryGrades' + '/' + encodeURL(SelectTerm) + '/' + encodeURL(selectTeacher)
                     },
                     {
                         title: 'Pre-Primary Progress Report Subject Grades',
@@ -271,7 +271,7 @@ const AssignPrePrimarySubjectGrades = () => {
                 }
             />
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={4} md= {3} lg={3}>
+                <Grid item xs={12} sm={4} md={3} lg={3}>
                     <SearchableDropdown
                         ItemList={XseedStudentsList}
                         defaultValue={student}
@@ -281,7 +281,7 @@ const AssignPrePrimarySubjectGrades = () => {
                         onChange={clickStudent}
                         mandatory
                     /></Grid>
-                <Grid item xs={12} sm={4} md= {3} lg={3}>
+                <Grid item xs={12} sm={4} md={3} lg={3}>
                     <SearchableDropdown
                         ItemList={XseedSubjectSectionList}
                         defaultValue={subjectSection}

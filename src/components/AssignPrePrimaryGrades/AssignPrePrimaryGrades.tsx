@@ -42,8 +42,13 @@ const AssignPrePrimaryGrades = () => {
   } = useParams();
 
   // Decode in-place
-  TermId = decodeURL(TermId);
-  TeacherId = decodeURL(TeacherId);
+  useEffect(() => {
+    if (TermId !== undefined && TeacherId !== undefined) {
+      TermId = decodeURL(TermId);
+      TeacherId = decodeURL(TeacherId);
+    }
+  }, [TermId, TeacherId]);
+
 
   const { showAlert, closeAlert } = useContext(AlertContext);
   let Teacher_ID = sessionStorage.getItem("TeacherId")
