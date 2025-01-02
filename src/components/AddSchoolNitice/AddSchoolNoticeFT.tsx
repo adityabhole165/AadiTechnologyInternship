@@ -987,7 +987,7 @@ const AddSchoolNoticeFT = () => {
                             </Grid>
                         </Grid>
 
-                        <Grid container pl={2} mt={2}>
+                        <Grid container pl={2} >
                             {applicableTo.student && (
                                 <Grid item xs={12} md={12} mt={1}>
                                     <Typography variant="h4" py={1}>
