@@ -432,7 +432,7 @@ const SubjectExamMarks = () => {
         if (isOutsideAcademicYear(TestDate)) {
           setMarksError('Please fix following error(s): ' +
             'Exam date should be within the current academic year (i.e., between ' +
-            formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
+            formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
         } else {
 
           const startDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date));
