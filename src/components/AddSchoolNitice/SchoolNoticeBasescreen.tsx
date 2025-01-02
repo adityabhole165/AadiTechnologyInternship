@@ -454,7 +454,7 @@ const SchoolNoticeBaseScreen = () => {
                 </Grid>
             </Grid >
 
-            <Box sx={{ background: 'white', pt: 2 }}>
+            <Box sx={{ background: 'white', pt: 2 , p:2}}>
                 {singleTotalCount > 0 ? (
                     <div style={{ flex: 1, textAlign: 'center' }}>
                         <Typography
