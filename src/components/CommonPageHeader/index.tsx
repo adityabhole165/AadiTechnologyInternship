@@ -12,6 +12,7 @@ type Props = {
     rightActions?: React.ReactNode;
 };
 
+
 const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
     return (
         <Box sx={{ pt: 4, pb: 2 }}>
@@ -46,16 +47,18 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                             <Link
                                 key={index}
                                 to={navLink.path}
+                                
                                 style={{
                                     textDecoration: 'none',
-                                }}
+                              }}
                             >
                                 <Typography
                                     variant={'h3'}
                                     fontSize={{
-                                        xs: '14px',
-                                        sm: '16px',
-                                        md: '18px',
+                                        xs: '10px',
+                                        sm: '12px',
+                                        md: '16px',
+                                        lg: '18px',
                                     }}
                                     fontWeight={'normal'}
                                     color={'text.primary'}
@@ -73,9 +76,10 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                             <Typography
                                 variant={'h3'}
                                 fontSize={{
-                                    xs: '14px',
-                                    sm: '16px',
-                                    md: '18px',
+                                    xs: '12px',
+                                    sm: '12px',
+                                    md: '16px',
+                                    lg: '18px',
                                 }}
                                 color="text.primary"
                             >
