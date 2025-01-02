@@ -72,6 +72,8 @@ const ButtonGroupComponent = ({
         showFirstButton
         showLastButton
         size={isMobile ? 'small' : 'medium'}
+        siblingCount={isMobile ? 0 : 1}
+        boundaryCount={isMobile ? 0  : 1}
         onChange={(event, value) => {
           PageChange(value);
         }}
