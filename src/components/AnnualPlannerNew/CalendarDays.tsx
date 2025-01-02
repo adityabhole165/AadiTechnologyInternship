@@ -1,7 +1,5 @@
-import { Box, Grid, IconButton, styled, Tooltip, tooltipClasses, TooltipProps, Typography } from '@mui/material';
+import { Box, Grid, styled, Tooltip, tooltipClasses, TooltipProps, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { BorderAllRounded } from '@mui/icons-material';
 
 const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualPlannerViewAccess }) => {
   const date = new Date(DefaultValue);
@@ -46,6 +44,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
       gridItems.push(<Grid item xs={12 / 7} md={12 / 7} key={`empty-${i}`} />);
     }
 
+    // console.log(ItemList, "ItemList");
     // Render the actual days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       const currentDay = new Date(year, month, day);
@@ -68,11 +67,11 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
           border="0.5px solid #ebebeb"
         >
           {Item?.Text1.length > 0 ?
-            <LightTooltip arrow sx={{borderRadius:'7px'}}  title={Item?.Text1.map((obj, idx) => {
+            <LightTooltip arrow sx={{ borderRadius: '7px' }} title={Item?.Text1.map((obj, idx) => {
               return (
                 <>
-                <Box >
-                  <Typography variant='h5' color={'#38548A'}><b>{obj.Name}</b></Typography>
+                  <Box >
+                    <Typography variant='h5' color={'#38548A'}><b>{obj.Name}</b></Typography>
                   </Box>
                 </>
               )
@@ -99,34 +98,32 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
                   <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 0 }}>
                     {Item.Text1.map((obj, idx) => {
                       return (
-                        <>
-                          {idx <= 1 &&
-                            <b style={{ width: '100%', paddingLeft: 2, paddingRight: 2 }}>
-                              <Box
-                                sx={{
-                                  color: legendColors[obj.Legend],
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  whiteSpace: 'nowrap'
-                                }}
-                              >
-                                {idx <= 1 ? obj.Name : ''}
-                              </Box>
+                        idx <= 1 &&
+                        <b key={idx} style={{ width: '100%', paddingLeft: 2, paddingRight: 2 }}>
+                          <Box
+                            sx={{
+                              color: legendColors[obj.Legend],
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap'
+                            }}
+                          >
+                            {idx <= 1 ? obj.Name : ''}
+                          </Box>
 
-                            </b>}
-                        </>
+                        </b>
                       )
                     })}
                     {Item.Text1.length > 2 && (
-                      <Box sx={{ display: 'flex', width:'100%'}}>
-                        <Typography sx={{ textAlign: 'center', color:'#38548A', backgroundColor:'inherit', ml:9}}> <b>more...</b></Typography>
+                      <Box sx={{ display: 'flex', width: '100%' }}>
+                        <Typography sx={{ textAlign: 'center', color: '#38548A', backgroundColor: 'inherit', ml: 9 }}> <b>more...</b></Typography>
                         {/* <MoreVertIcon sx={{ ml: 0.5 }} /> */}
                       </Box>
                     )}
                   </Box>
                 )}
               </Box>
-              </LightTooltip> :
+            </LightTooltip> :
             <Box
               sx={{
                 minHeight: '90px',
@@ -157,10 +154,10 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap'
                         }}>
-                        {obj.Name}   
-                      </Box>  
+                        {obj.Name}
+                      </Box>
                     </b>
-     
+
                   ))}
                 </Box>
               )}
