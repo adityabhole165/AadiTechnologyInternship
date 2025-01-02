@@ -10,7 +10,6 @@ import {
     TableRow,
     TextField,
 } from '@mui/material';
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 const ShowUnblockedStudentsTable = ({ rowsData }) => {
@@ -191,8 +190,6 @@ const ShowUnblockedStudentsTable = ({ rowsData }) => {
     );
 };
 
-ShowUnblockedStudentsTable.propTypes = {
-    rowsData: PropTypes.array.isRequired,
-};
+
 
 export default ShowUnblockedStudentsTable;

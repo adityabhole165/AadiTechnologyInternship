@@ -2,7 +2,7 @@ import { QuestionMark, SearchTwoTone } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
 import { Box, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IAllClassTeachersBody, IBlockUnBlockStudentsBody } from 'src/interfaces/BlockProgressReport/IBlockProgressReport';
 import { CDABlockUnblocklist, CDAClassTeachers } from 'src/requests/BlockProgressReport/RequestBlockProgressReport';
@@ -21,58 +21,14 @@ const BlockProgressReportBaseScreen = () => {
     const [selectStudents, setSelectStudents] = useState<string>('');
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState(1);
-    // const [selectedOption, setSelectedOption] = useState("");
-    const [radioBtn, setRadioBtn] = useState('2');
+
+    const [selectedValue, setSelectedValue] = useState('1');
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const asStandardDivId = Number(sessionStorage.getItem('StandardDivisionId'));
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedOption(event.target.value);
-    };
-    function clickSearch() {
-        throw new Error('Function not implemented.');
-    }
 
-    // const handleDropdownChange = (value: string) => {
-    //     setSelectedValue(value);
-    //     console.log('Selected Value:', value);
-    // };
-
-    const handleDropdownChange = (Value) => {
-        setSelectedOption(Value);
-    };
-
-    const handleStudentsChange = (Value) => {
-        setSelectStudents(Value);
-    };
-
-    const ClickRadio = (value) => {
-        setRadioBtn(value);
-
-    };
-
-    // const dropdownItems = [
-    //     { Value: '1', Name: 'Option 1' },
-    //     { Value: '2', Name: 'Option 2' },
-    //     { Value: '3', Name: 'Option 3' },
-    //     { Value: '4', Name: 'Option 4' },
-    // ];
-    const rowsData = [
-        { rollNo: 1, name: 'Miss Pranjal Pritam Bajare', reason: 'Pending fees' },
-        { rollNo: 2, name: 'Miss Sakshi Anand Battale', reason: 'Incomplete forms' },
-    ];
-    const rowsData1 = [
-        { rollNo: 3, name: 'Miss Ayushi Raju Daptare', reason: '' },
-        { rollNo: 4, name: 'Miss Sharvari Dada Dhumal', reason: '' },
-        { rollNo: 5, name: 'Miss Kinjal Kiran Gadiya', reason: '' },
-        { rollNo: 6, name: 'Miss Rudrapriya Ghosh', reason: '' },
-        { rollNo: 7, name: 'Miss Svara Abhijit Gogawale', reason: '' },
-        { rollNo: 8, name: 'Miss Ira Sanjay Gondhale', reason: '' },
-        { rollNo: 9, name: 'Miss Anushri Anil Jadhav', reason: '' },
-        { rollNo: 10, name: 'Miss Ishita Narendra Jain', reason: '' },
-        { rollNo: 11, name: 'Miss Tanvesha Nitin Lokhande', reason: '' },
-    ];
     const CountGetPagedRequisition: any = useSelector(
         (state: RootState) => state.SliceRequisition.RequisitionListCount
 
@@ -83,10 +39,7 @@ const BlockProgressReportBaseScreen = () => {
     const GetClassTeacherList = useSelector((state: RootState) => state.BlockUnBlocklist.IsClassTeachers);
     console.log(GetClassTeacherList, 'GetClassTeacherList');
 
-    const RadioListCT = [
-        { Value: '1', Name: 'Show Blocked Students' },
-        { Value: '2', Name: 'Show Unblocked Students' }
-    ];
+
 
 
     const startRecord = (page - 1) * rowsPerPage + 1;
@@ -97,36 +50,47 @@ const BlockProgressReportBaseScreen = () => {
         setPage(1);
     };
     const BlockUnblockList: IBlockUnBlockStudentsBody = {
-        asSchoolId: 18,
-        asAcademicYearId: 55,
-        asStandardDivId: 1344,
-        asShowblocked: 0,
-        asStudentId: 0,
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asStandardDivId: Number(asStandardDivId),
+        asShowblocked: selectedValue == "1",
+        asStudentId: Number(0),
         asSearch: "",
         asSortExp: "ORDER BY RollNo",
-        asStartIndex: 0,
-        asEndIndex: 20
+        asStartIndex: Number(0),
+        asEndIndex: Number(20)
     };
-    // useEffect(() => {
-    //     dispatch(CDABlockUnblocklist(BlockUnblockList));
-    // }, []);
 
     useEffect(() => {
-        if (radioBtn == '1') {
-            dispatch(CDABlockUnblocklist(BlockUnblockList));
-        } else if (radioBtn == '2') {
-            dispatch(CDABlockUnblocklist(BlockUnblockList));
-        }
-    }, [radioBtn]);
+
+        dispatch(CDABlockUnblocklist(BlockUnblockList));
+
+    }, [selectedValue, selectedOption]);
 
     const TeacherList: IAllClassTeachersBody = {
-        asSchoolId: 18,
-        asAcademicYearId: 55
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId)
     };
     useEffect(() => {
         dispatch(CDAClassTeachers(TeacherList));
     }, []);
+    const handleChange = (value) => {
+        setSelectedValue(value);
+    };
+    console.log(selectedValue, "checkedValues");
+    function clickSearch() {
+        throw new Error('Function not implemented.');
+    }
 
+    const handleDropdownChange = (Value) => {
+        setSelectedOption(Value);
+    };
+
+    const handleStudentsChange = (Value) => {
+        setSelectStudents(Value);
+    };
+
+    console.log(GetBlockUnblockList, 'GetBlockUnblockList')
 
     return (
         <Box px={2}>
@@ -237,27 +201,22 @@ const BlockProgressReportBaseScreen = () => {
             />
 
             <Box sx={{ backgroundColor: 'white', px: 2, mb: 1, py: 1 }}>
-                {/* <RadioButton1
-                    Array={RadioListCT}
-                    ClickRadio={ClickRadio}
-                    defaultValue={radioBtn}
-                    Label={''}
-                /> */}
-
                 <RadioGroup
                     row
-                    value={selectedOption}
-                    onChange={handleChange}
-                //   sx={{ mb: 4 }}
+                    value={selectedValue}
+                    onChange={(e) => handleChange(e.target.value)}
+                    sx={{ mb: 4 }}
 
                 >
-                    <FormControlLabel value="Unblocked" control={<Radio />} label="Show Blocked Students" />
-                    <FormControlLabel value="Blocked" control={<Radio />} label="Show Unblocked Students" />
+                    <FormControlLabel value="0" control={<Radio />} label="Show Blocked Students" />
+                    <FormControlLabel value="1" control={<Radio />} label="Show Unblocked Students" />
                 </RadioGroup>
             </Box>
+
             <Box sx={{ backgroundColor: 'white' }}>
                 {/* Display Page Content */}
-                {selectedOption === 'Unblocked' ? (
+                {/* {selectedOption === 'Unblocked' ? ( */}
+                {selectedValue === '0' ? (
                     <>
                         <Box sx={{
                             display: 'flex', gap: '20px', alignItems: 'center',
@@ -287,7 +246,7 @@ const BlockProgressReportBaseScreen = () => {
                             </Box>
                         </Box>
                         <Box sx={{ px: 2, pb: 1 }}>
-                            {rowsData.length > 0 ? (
+                            {/* {rowsData.length > 0 ? (
                                 <Typography variant="subtitle1" sx={{ margin: '2px 0', textAlign: 'center' }}>
                                     <Box component="span" fontWeight="fontWeightBold">
                                         {startRecord} to {endRecord}
@@ -302,7 +261,7 @@ const BlockProgressReportBaseScreen = () => {
                                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                                     <b>No record found.</b>
                                 </Typography>
-                            )}
+                            )} */}
                             <ShowBlockedStudentsTable rowsData={GetBlockUnblockList} />
                         </Box>
                     </>
@@ -335,7 +294,7 @@ const BlockProgressReportBaseScreen = () => {
                                 </Box>
                             </Box>
                         </Box>
-                        {rowsData1.length > 0 ? (
+                        {/* {rowsData1.length > 0 ? (
                             <Typography variant="subtitle1" sx={{ margin: '2px 0', textAlign: 'center' }}>
                                 <Box component="span" fontWeight="fontWeightBold">
                                     {startRecord} to {endRecord}
@@ -350,7 +309,7 @@ const BlockProgressReportBaseScreen = () => {
                             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                                 <b>No record found.</b>
                             </Typography>
-                        )}
+                        )} */}
                         <ShowUnblockedStudentsTable rowsData={GetBlockUnblockList} />
                     </Box>
                 )}

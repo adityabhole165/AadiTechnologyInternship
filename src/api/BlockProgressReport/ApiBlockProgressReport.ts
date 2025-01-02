@@ -1,4 +1,4 @@
-import { IAllClassTeachersBody, IAllClassTeachersResult, IBlockUnBlockStudentsBody, IBlockUnBlockStudentsResult } from "src/interfaces/BlockProgressReport/IBlockProgressReport";
+import { IAllClassTeachersBody, IAllClassTeachersResult, IBlockUnBlockStudentsBody, IBlockUnBlockStudentsResult, IBlockUnBlockUpdateBtnBody, IBlockUnBlockUpdateBtnResult } from "src/interfaces/BlockProgressReport/IBlockProgressReport";
 import http from '../../requests/SchoolService/schoolServices';
 
 const BlockUnBlockStudents = (data: IBlockUnBlockStudentsBody) => {
@@ -9,9 +9,14 @@ const AllClassTeachers = (data: IAllClassTeachersBody) => {
     return http.post<IAllClassTeachersResult[]>('School/AllClassTeachers', data);
 };
 
+const BlockUnblockUpdateBtn = (data: IBlockUnBlockUpdateBtnBody) => {
+    return http.post<IBlockUnBlockUpdateBtnResult>('Teacher/BlockUnBlockUpdateBtn', data);
+};
+
 const ApiBlockProgressReport = {
     BlockUnBlockStudents,
-    AllClassTeachers
+    AllClassTeachers,
+    BlockUnblockUpdateBtn
 
 };
 export default ApiBlockProgressReport;

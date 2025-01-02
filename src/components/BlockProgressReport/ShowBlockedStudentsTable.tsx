@@ -21,7 +21,6 @@ import {
 } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 const ShowBlockedStudentsTable = ({ rowsData }) => {
@@ -32,18 +31,18 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
     const [selectedRow, setSelectedRow] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
     // Handle checkbox for individual rows
-    const handleCheckboxClick = (row) => {
+    const handleCheckboxClick = (item) => {
         setSelectedRows((prev) =>
-            prev.includes(row.rollNo)
-                ? prev.filter((id) => id !== row.rollNo)
-                : [...prev, row.rollNo]
+            prev.includes(item.RollNo)
+                ? prev.filter((id) => id !== item.RollNo)
+                : [...prev, item.RollNo]
         );
     };
 
     // Handle Select All checkbox
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const allRowIds = rows.map((row) => row.rollNo);
+            const allRowIds = rows.map((item) => item.RollNo);
             setSelectedRows(allRowIds);
         } else {
             setSelectedRows([]);
@@ -66,9 +65,9 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
     };
 
     // Handle editing
-    const handleEditClick = (row) => {
-        setSelectedRow(row);
-        setPopupReason(row.reason);
+    const handleEditClick = (item) => {
+        setSelectedRow(item);
+        setPopupReason(item.reason);
         setIsPopupOpen(true);
     };
 
@@ -78,19 +77,20 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
 
     const handleUpdate = () => {
         setRows((prevRows) =>
-            prevRows.map((row) =>
-                row.rollNo === selectedRow.rollNo ? { ...row, reason: popupReason } : row
+            prevRows.map((item) =>
+                item.RollNo === selectedRow.RollNo ? { ...item, reason: popupReason } : item
             )
         );
         setIsPopupOpen(false);
     };
 
     // Handle reason change directly in the table
-    const handleReasonChange = (row, value) => {
+    const handleReasonChange = (item, value) => {
         setRows((prevRows) =>
-            prevRows.map((r) => (r.rollNo === row.rollNo ? { ...r, reason: value } : r))
+            prevRows.map((r) => (r.rollNo === item.RollNo ? { ...r, reason: value } : r))
         );
     };
+    console.log(rowsData, 'rowsData')
 
     return (
         <div>
@@ -148,25 +148,25 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={row.rollNo}>
+                        {rows.map((item) => (
+                            <TableRow key={item.RollNo}>
                                 <TableCell>
                                     <Checkbox
-                                        checked={selectedRows.includes(row.rollNo)}
-                                        onChange={() => handleCheckboxClick(row)}
+                                        checked={selectedRows.includes(item.RollNo)}
+                                        onChange={() => handleCheckboxClick(item)}
                                     />
                                 </TableCell>
-                                <TableCell sx={{ py: 0.5 }}>{row.RollNo}</TableCell>
-                                <TableCell sx={{ py: 0.5 }}>{row.Name}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>{item.RollNo}</TableCell>
+                                <TableCell sx={{ py: 0.5 }}>{item.Name}</TableCell>
                                 <TableCell sx={{ py: 0.5 }}>
                                     {/* Directly editable Reason */}
                                     <TextField
-                                        value={row.reason}
+                                        value={item.reason}
                                         multiline
                                         fullWidth
                                         minRows={1}
                                         disabled
-                                        onChange={(e) => handleReasonChange(row, e.target.value)}
+                                        onChange={(e) => handleReasonChange(item, e.target.value)}
                                         sx={{
                                             '& .MuiInputBase-root': {
                                                 resize: 'both', // Allows the TextField to be resizable
@@ -177,7 +177,7 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
                                 </TableCell>
                                 <TableCell sx={{ textAlign: "center", py: 0.5 }}>
                                     <Tooltip title="Edit">
-                                        <IconButton onClick={() => handleEditClick(row)} color="primary">
+                                        <IconButton onClick={() => handleEditClick(item)} color="primary">
                                             <EditIcon />
                                         </IconButton>
                                     </Tooltip>
@@ -243,8 +243,8 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
     );
 };
 
-ShowBlockedStudentsTable.propTypes = {
-    rowsData: PropTypes.array.isRequired,
-};
+// ShowBlockedStudentsTable.propTypes = {
+//     rowsData: PropTypes.array.isRequired,
+// };
 
 export default ShowBlockedStudentsTable;
