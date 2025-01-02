@@ -642,7 +642,7 @@ export const logoURL =
   'https://riteschoolmobileservicehttps.riteschool.com/images/';
 export const androidCurrentAppVersion = '2.1.1';
 export const appleCurrentAppVersion = '2.0.6';
-export const SessionTimeout = 600; // 10 minutes in seconds
+export const SessionTimeout = 1200; // 20 minutes in seconds
 export const deviceType =
   typeof window.localStorage.getItem('deviceType') != undefined &&
     window.localStorage.getItem('deviceType') == 'ios'
