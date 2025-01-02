@@ -615,7 +615,7 @@ const SubjectExamMarks = () => {
                       size={"small"}
                     /></Box>
                   :
-                  <Box sx={{ width: { xs: '45vw', sm: '10vw', md: '10vw' } }}>
+                  <Box sx={{ width: { xs: '45vw', sm: '12vw', md: '12vw' } }}>
                     <Datepicker
                       DateValue={new Date(TestDate)}
                       onDateChange={clickTestDate}
