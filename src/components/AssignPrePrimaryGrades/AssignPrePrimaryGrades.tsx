@@ -201,7 +201,7 @@ const AssignPrePrimaryGrades = () => {
 
   useEffect(() => {
     if (SubmitUnsubmitToastMsg != '') {
-      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Marks submitted successfully") : toast.success("Marks unsubmitted successfully")
+      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Grades submitted successfully.") : toast.success("Grades unsubmitted successfully.")
 
       dispatch(resetSubmitUnSubmitGradeMsg());
       dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
