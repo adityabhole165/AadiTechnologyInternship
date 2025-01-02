@@ -25,7 +25,7 @@ const CarouselPhoto = ({ itemlist, IsPath = false, onImageClick, largeImage = fa
         setIndex((prevIndex) =>
           prevIndex === itemlist.length - 1 ? 0 : prevIndex + 1
         );
-      }, 1000);
+      }, 2000);
     }
 
     return () => {

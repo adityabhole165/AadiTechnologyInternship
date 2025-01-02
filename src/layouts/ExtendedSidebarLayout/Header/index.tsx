@@ -602,10 +602,10 @@ function Header() {
               backgroundColor: grey[200],
               borderRadius:'10px',
               height: 50,
-              width: 40,
+              width: 35,
               }}
                >
-                <ListIcon/>
+                <ListIcon sx={{ fontSize: 40, m:1 }} />
               </IconButton>
             </Tooltip>}
             <Popover
