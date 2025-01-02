@@ -47,19 +47,25 @@ const AssignExamMark = () => {
     TestId
   } = useParams();
 
+
+
+  const [selectClass, SetSelectClass] = useState('');
+  const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : decodeURL(TestId));
+  const TeacherId = sessionStorage.getItem('TeacherId');
+  const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : decodeURL(ClassTecherid));
+
+
   // Decode in-place
-  ClassTecherid = decodeURL(ClassTecherid);
-  ClassId = decodeURL(ClassId);
-  TestId = decodeURL(TestId);
+  useEffect(() => {
+    if (ClassTecherid !== undefined && TestId !== undefined && ClassId !== undefined) {
+      ClassTecherid = decodeURL(ClassTecherid);
+      ClassId = decodeURL(ClassId);
+      TestId = decodeURL(TestId);
+      SetSelectClass(ClassId);
+    }
+  }, [ClassTecherid, ClassId, TestId])
 
   let CanEdit = getSchoolConfigurations(74)
-
-
-  const [selectClass, SetSelectClass] = useState(ClassId == undefined ? "" : ClassId);
-  const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
-  const TeacherId = sessionStorage.getItem('TeacherId');
-  const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
-
 
 
   const { showAlert, closeAlert } = useContext(AlertContext);
@@ -70,7 +76,6 @@ const AssignExamMark = () => {
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
   // const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const asExamId = Number(sessionStorage.getItem('ExamID'));
-
 
   const ClassDropdown = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISAssignExam
@@ -304,8 +309,6 @@ const AssignExamMark = () => {
       encodeURL(getStandardId())
     )
       ;
-
-
   };
 
   const LegendArray = [
