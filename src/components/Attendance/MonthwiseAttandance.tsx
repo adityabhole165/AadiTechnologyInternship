@@ -121,9 +121,9 @@ const MonthwiseAttandance = () => {
               title: 'Attendance',
               path:
                 '/RITeSchool/Teacher/TAttendance/' +
-                selectClasstecahernew +
+                encodeURL(selectClasstecahernew) +
                 '/' +
-                AssignedDate
+                encodeURL(AssignedDate)
             },
             {
               title: 'Month Wise Attendance',

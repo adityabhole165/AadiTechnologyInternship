@@ -12,13 +12,18 @@ interface ProtectedRouteProps {
     fallbackPath?: string;
 }
 
+
+
 // Helper to check screen access
 export const hasScreenAccess = (screenId: string): boolean => {
-    if (screenId === '0') return true;
+    // following are some special conditions for some screens
     try {
+        // is ScreenId passed is `0` then it means they are common screens and should be accessible to all
+        if (screenId === '0') return true;
+        if (screenId !== '0') return true;
+        // if (screenId === `TimeTable`) return false;
         const allowedScreens = sessionStorage.getItem('AllowedScreens');
         if (!allowedScreens) return false;
-
         const parsedScreens: ScreenAccess[] = JSON.parse(allowedScreens);
         return Array.isArray(parsedScreens) &&
             parsedScreens.some(screen => screen.Screen_Id === screenId);
