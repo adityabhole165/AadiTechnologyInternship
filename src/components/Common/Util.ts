@@ -1,4 +1,4 @@
-export const dayIndex = 1, monthIndex = 0, yearIndex = 2
+export const dayIndex = 0, monthIndex = 1, yearIndex = 2
 export const separator = "/"
 export const WeekdaysFull = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 export const monthNames = [
