@@ -55,8 +55,8 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                                 <Typography
                                     variant={'h3'}
                                     fontSize={{
-                                        xs: '10px',
-                                        sm: '12px',
+                                        xs: '12px',
+                                        sm: '14px',
                                         md: '16px',
                                         lg: '18px',
                                     }}
@@ -77,7 +77,7 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                                 variant={'h3'}
                                 fontSize={{
                                     xs: '12px',
-                                    sm: '12px',
+                                    sm: '14px',
                                     md: '16px',
                                     lg: '18px',
                                 }}
