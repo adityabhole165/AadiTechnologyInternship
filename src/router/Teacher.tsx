@@ -582,6 +582,11 @@ const teacherRoutes = [
     path: 'AssignHomework',
     element: <AssignHomework />
   },
+
+  {
+    path: 'AssignHomework/:ClassTecherId/:ClassId',
+    element: <AssignHomework />
+  }, 
   {
     path: 'TermwiseHeightWeight',
     element: <TermwiseHeightWeight />
@@ -665,7 +670,7 @@ const teacherRoutes = [
     element: <ProtectedRoute screenId={`${ScreenID.StudentRecord}`} component={AddStudentRecord} /> // <AddStudentRecord />
   },
   {
-    path: 'AddDailyLog/:Id/:ClassName',
+    path: 'AddDailyLog/:Id/:ClassName/:SelectTeacher',
     element: <AddDailyLog />
   },
   {

@@ -46,7 +46,7 @@ import {
   Savedailylog
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
-import { decodeURL, formatDateAsDDMMMYYYY } from '../Common/Util';
+import { decodeURL, encodeURL, formatDateAsDDMMMYYYY } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 
@@ -55,12 +55,13 @@ const AddDailyLog = () => {
   const navigate = useNavigate();
   let {
     Id,
-    ClassName
+    ClassName,SelectTeacher
   } = useParams();
 
   // Decode in-place
   Id = decodeURL(Id);
   ClassName = decodeURL(ClassName);
+  SelectTeacher = decodeURL(SelectTeacher);
 
   const [dateState, setDateState]: any = useState('');
   const [dateSearch, setDateSearch] = useState('');
@@ -526,14 +527,13 @@ const AddDailyLog = () => {
   const PageChange = (pageNumber) => {
     setPage(pageNumber);
   };
-
-
+  
   return (
     <>
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
-            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' },
+            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework/' +  encodeURL(Id) + "/" + encodeURL(SelectTeacher)},
             { title: 'Manage Daily Log', path: '' }
           ]}
           rightActions={<>
