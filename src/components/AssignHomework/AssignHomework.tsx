@@ -11,7 +11,7 @@ import {
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import {
   IClassDropDownBody,
   IClassTeacherDropdownBody,
@@ -32,9 +32,16 @@ import {
   resetSubjectDetails
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
-import { GetScreenPermission, encodeURL } from '../Common/Util';
+import { GetScreenPermission, decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 const AssignHomework = () => {
+
+  let {ClassTecherId , ClassId } = useParams();
+  ClassTecherId = decodeURL(ClassTecherId);
+  ClassId = decodeURL(ClassId);
+
+  console.log(ClassTecherId,"ClassTecherId");
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -54,9 +61,12 @@ const AssignHomework = () => {
   );
   const AssignHomeworkPermission = GetScreenPermission('Assign Homework');
 
-  const [SelectClass, setSelectClass] = useState(null);
+  const [SelectClass, setSelectClass] = useState( ClassTecherId ? ClassTecherId : "0");
+
+  console.log(ClassTecherId,"ClassTecherId", SelectClass);
+ 
   const [SelectTeacher, setSelectTeacher] = useState(
-    AssignHomeworkPermission !== 'Y' ? TeacherId : null
+    AssignHomeworkPermission !== 'Y' ? TeacherId : ClassId ? ClassId : "0"
   );
 
   const TeacherList = useSelector(
@@ -86,7 +96,7 @@ const AssignHomework = () => {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asShowHomeworkToClassTeacher: asShowHomeworkToClassTeacher,
-      aTeacherId: AssignHomeworkPermission === 'Y' ? 0 : SelectTeacher
+      aTeacherId: AssignHomeworkPermission === 'Y' ? 0 : Number(SelectTeacher)
     };
     const fullClassTeacherBody: IClassTeacherDropdownBody = {
       asSchoolId: asSchoolId,
@@ -99,32 +109,21 @@ const AssignHomework = () => {
     dispatch(FullTeacherName(fullClassTeacherBody));
   }, []);
 
-  useEffect(() => {
-    if (AssignHomeworkPermission == 'Y' && TeacherList.length > 0) {
-      setSelectTeacher(TeacherList[0].Value);
-    }
-  }, [TeacherList]);
+ 
 
+  const GetClassD: IClassDropDownBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    aTeacherId: Number(SelectTeacher)
+  };
   useEffect(() => {
-    if (SelectTeacher == null) {
-      dispatch(resetClassName());
-      setSelectClass(null);
-    } else {
-      const GetClassD: IClassDropDownBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        aTeacherId: SelectTeacher
-      };
-
-      dispatch(ClassName(GetClassD));
-    }
+     dispatch(ClassName(GetClassD));
   }, [SelectTeacher]);
 
-  useEffect(() => {
-    if (ClassList.length > 0) {
-      setSelectClass(ClassList[0].Id);
-    }
-  }, [ClassList]);
+
+  
+
+ 
 
   //subjectList
   useEffect(() => {
@@ -133,9 +132,9 @@ const AssignHomework = () => {
     } else {
       const TeacherSubject: IGetTeacherSubjectDetailsBody = {
         asSchoolId: asSchoolId,
-        aTeacherId: SelectTeacher,
+        aTeacherId:Number(SelectTeacher),
         asAcademicYearId: asAcademicYearId,
-        asStandardDivisionId: SelectClass
+        asStandardDivisionId: Number(SelectClass)
       };
       dispatch(SubjectDetails(TeacherSubject));
     }
@@ -189,7 +188,9 @@ const AssignHomework = () => {
       '/RITeSchool/Teacher/AddDailyLog/' +
       encodeURL(SelectClass) +
       '/' +
-      encodeURL(getClassName())
+      encodeURL(getClassName()) +
+      '/' +
+      encodeURL(SelectTeacher)
     );
   };
 
@@ -278,7 +279,7 @@ const AssignHomework = () => {
                   </IconButton>
                 </Tooltip>
                 {SelectClass &&
-                  ((asStandardDivisionId === SelectClass &&
+                  ((asStandardDivisionId === Number(SelectClass) &&
                     AssignHomeworkPermission === 'Y') ||
                     (SubjectDetailLists.some((item) => item.Text5 === 'Y') &&
                       UsschoolSettings === 'true')) && (
