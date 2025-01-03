@@ -1,5 +1,5 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import { Box, Grid, IconButton, Tooltip } from '@mui/material';
+import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 import { useDispatch, useSelector } from 'react-redux';
@@ -160,7 +160,7 @@ const PieChart = () => {
     return (
         <Box sx={{  backgroundColor: 'white', p: 1 }} >
             <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
-                <Header Title="Weekly Attendance" />
+                <Header Title="Attendance Status" />
                 <Tooltip
                     title={`If today's attendance is not marked, the circular graph will not be visible.`}
                 >
@@ -199,6 +199,14 @@ const PieChart = () => {
                         width="100%"
                         height="382"
                     />
+                     <Box sx={{ textAlign: 'center', mt: 2, }}>
+                        <Typography variant="subtitle1" sx={{ color: '#38548A' }}>
+                            <strong>Monday</strong>
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#666' }}>
+                        <strong> 2024-01-15</strong>
+                        </Typography>
+                    </Box>
                 </Grid>
             </Grid>
         </Box>
