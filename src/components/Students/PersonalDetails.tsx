@@ -889,15 +889,24 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   value={personal.mobileNumber2}
                   onChange={handleContactNoChange}
                   fullWidth
-                  error={(parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "mobileNumber2")) ||
-                    !!unacceptableFields.find(field => field.field === "mobileNumber2")}
-                  helperText={
-                    invalidFields.find(field => field.field === "mobileNumber2")
-                      ? 'Mobile Number should not be blank.'
-                      : unacceptableFields.find(field => field.field === "mobileNumber2")
-                        ? 'Mobile number must be 10 digits'
-                        : ''
-                  } />
+
+                // error={(parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "mobileNumber2")) ||
+                //   !!unacceptableFields.find(field => field.field === "mobileNumber2")}
+                // helperText={
+                //   invalidFields.find(field => field.field === "mobileNumber2")
+                //     ? 'Mobile Number should not be blank.'
+                //     : unacceptableFields.find(field => field.field === "mobileNumber2")
+                //       ? 'Mobile number must be 10 digits'
+                //       : ''
+                // } 
+                />
+                <ErrorMessage1 Error={
+                  invalidFields.find(field => field.field === "mobileNumber2")
+                    ? 'Mobile Number should not be blank.'
+                    : unacceptableFields.find(field => field.field === "mobileNumber2")
+                      ? 'Mobile number must be 10 digits'
+                      : ''
+                }></ErrorMessage1>
               </Grid>
             )}
 
@@ -1234,10 +1243,11 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.nationality}
                   onChange={handleInputChange}
-                  error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "nationality")}
-                  helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "nationality") ? 'Nationality field should not be blank.' : ''}
+                  // error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "nationality")}
+                  // helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "nationality") ? 'Nationality field should not be blank.' : ''}
                   fullWidth
                 />
+                <ErrorMessage1 Error={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "nationality") ? 'Nationality field should not be blank.' : ''}></ErrorMessage1>
               </Grid>
             )}
             {personal.religion !== undefined && (
@@ -1293,13 +1303,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                 variant="outlined"
                 value={personal.motherTongue}
                 onChange={handleInputChange}
-                error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "motherTongue")}
-                helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "motherTongue") ? 'Mother Tongue should not be blank.' : ''}
+                // error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "motherTongue")}
+                // helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "motherTongue") ? 'Mother Tongue should not be blank.' : ''}
                 fullWidth
                 inputProps={{
                   maxLength: 50, // Restricts the input length to 50 characters
                 }}
               />
+              <ErrorMessage1 Error={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "motherTongue") ? 'Mother Tongue should not be blank.' : ''}></ErrorMessage1>
             </Grid>
 
             {/* Other Fields */}

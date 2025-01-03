@@ -483,13 +483,14 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
             variant="outlined"
             value={admission.formNumber}
             onChange={handleInputChange}
-            error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "formNumber")}
-            helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "formNumber") ? 'Form Number should not be blank.' : ''}
+            // error={parseInt(schoolId) === 71 && !!invalidFields.find(field => field.field === "formNumber")}
+            // helperText={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "formNumber") ? 'Form Number should not be blank.' : ''}
             fullWidth
             inputProps={{
               maxLength: 15, // Restricts the input length to 50 characters
             }}
           />
+          <ErrorMessage1 Error={parseInt(schoolId) === 71 && invalidFields.find(field => field.field === "formNumber") ? 'Form Number should not be blank.' : ''}></ErrorMessage1>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <Tooltip title="Valid Prefix(s): No Prefix, PP">
