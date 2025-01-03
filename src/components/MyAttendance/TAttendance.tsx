@@ -295,7 +295,7 @@ const TAttendance = () => {
   }, []);
 
   useEffect(() => {
-    if (ClassTeacherDropdownnew.length > 0) {
+    if (ClassTeacherDropdownnew.length > 0 && SelectClasstecahernew == undefined) {
       setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
     }
   }, [ClassTeacherDropdownnew]);
