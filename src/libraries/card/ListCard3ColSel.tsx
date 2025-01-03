@@ -42,12 +42,14 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
   return (
     <>
       <Box
-        bgcolor={
-          !Item.isActive
-            ? `${theme.colors.gradients.listColor}`
-            : `${theme.colors.gradients.selectedlistColor}`
-        }
-        sx={{ backgroundColor: color, display: 'flex', alignItems: 'center' }}
+        // bgcolor={
+        //   !Item.isActive
+        //     ? `${theme.colors.gradients.listColor}`
+        //     : `${theme.colors.gradients.selectedlistColor}`
+        // }
+        sx={{ 
+          // backgroundColor: color, 
+          display: 'flex', alignItems: 'center' }}
       >
         <Grid
           item

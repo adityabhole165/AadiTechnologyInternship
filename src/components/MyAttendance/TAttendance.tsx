@@ -196,6 +196,7 @@ const TAttendance = () => {
     return perm;
   };
 
+  console.log(assignedDate, "assignedDate🤞🤞")
   const [SaveIsActive, setSaveIsActive] = useState(true);
 
   const GetStudentDetails: IStudentsDetails = {
@@ -294,7 +295,7 @@ const TAttendance = () => {
   }, []);
 
   useEffect(() => {
-    if (ClassTeacherDropdownnew.length > 0 && SelectClasstecahernew == undefined) {
+    if (ClassTeacherDropdownnew.length > 0) {
       setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
     }
   }, [ClassTeacherDropdownnew]);
