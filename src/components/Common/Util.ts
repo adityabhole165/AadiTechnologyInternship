@@ -1,20 +1,7 @@
 export const dayIndex = 0, monthIndex = 1, yearIndex = 2
 export const separator = "/"
 export const WeekdaysFull = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-export const monthNames = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec'
-];// export const WeekdaysFull = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+// export const WeekdaysFull = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 export function isFutureDate(date) {
   return (
     new Date(date.toLocaleDateString()) >
@@ -116,10 +103,24 @@ export const getAttendanceLegend = (Status) => {
               ? 'tomato'
               : 'salmon';
 };
+export const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+];
 
 export const getDateMonthYearFormattedDash = (date) => {
   let arrDate = date.split(' ')[0].split(separator)
-  return `${arrDate[dayIndex]}-${monthNames[parseInt(arrDate[monthIndex]) - 1]}-${arrDate[yearIndex]}`;
+  return `${arrDate[1]}-${monthNames[parseInt(arrDate[0]) - 1]}-${arrDate[2]}`;
 };
 
 export const getDateMonthYearDayDash = (date) => {
@@ -127,14 +128,14 @@ export const getDateMonthYearDayDash = (date) => {
   let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
   let Weekday = new Date(dateFormatted).getDay()
 
-  return `${arrDate[dayIndex]}-${monthNames[parseInt(arrDate[monthIndex]) - 1]}-${arrDate[yearIndex]} (${WeekdaysFull[Weekday]})`;
+  return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]} (${WeekdaysFull[Weekday]})`;
 };
 
 export const getDateMonthYear = (date) => {
   let arrDate = date.split(' ')[0].split(separator);
-  let dateFormatted = `${arrDate[dayIndex]}-${monthNames[parseInt(arrDate[monthIndex]) - 1]}-${arrDate[yearIndex]}`;
+  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;
 
-  return `${arrDate[dayIndex]} ${monthNames[parseInt(arrDate[monthIndex]) - 1]} ${arrDate[yearIndex]}`;
+  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
 };
 
 export function extractTimenew(datetimeString) {
@@ -151,10 +152,12 @@ export function extractTimenew(datetimeString) {
 
 export const getDateMonthYearTimeDayDash = (date) => {
   let arrDate = date.split(' ')[0].split(separator);
-  let dateFormatted = `${arrDate[dayIndex]}-${monthNames[parseInt(arrDate[monthIndex]) - 1]}-${arrDate[yearIndex]}`
+  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
   let Weekday = new Date(dateFormatted).getDay()
+  let yearIndex = arrDate[0].length == 4 ? 0 : 2
+  let dateIndex = arrDate[0].length == 2 ? 0 : 2
 
-  return `${arrDate[dayIndex]}-${monthNames[parseInt(arrDate[monthIndex]) - 1]}-${arrDate[yearIndex]} ${date.split(' ')[1].substring(0, 5)}`;
+  return `${arrDate[dateIndex]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[yearIndex]} ${date.split(' ')[1].substring(0, 5)}`;
 };
 
 
@@ -163,23 +166,23 @@ export const getDateMonthYearFormatted = (date) => {
   let yearIndex = arrDate[0].length == 4 ? 0 : 2
   let dateIndex = arrDate[0].length != 4 ? 0 : 2
   console.log(arrDate, "arrDate", parseInt(arrDate[1]))
-  return `${arrDate[dayIndex]} ${monthNames[parseInt(arrDate[monthIndex]) - 1]} ${arrDate[yearIndex]}`;
+  return `${arrDate[1]} ${monthNames[parseInt(arrDate[0]) - 1]} ${arrDate[yearIndex]}`;
 };
 export const getYearFirstDateFormatted = (date) => {
   let arrDate = date.split(' ')[0].split(separator);
   let yearIndex = arrDate[0].length == 4 ? 0 : 2
   let dateIndex = arrDate[0].length == 2 ? 0 : 2
-  return `${arrDate[dayIndex]} ${monthNames[parseInt(arrDate[monthIndex]) - 1]} ${arrDate[yearIndex]}`;
+  return `${arrDate[1]} ${monthNames[parseInt(arrDate[0]) - 1]} ${arrDate[yearIndex]}`;
 };
 export const getYearFirstDateDashFormatted = (date) => {
 
   let arrDate = date.split(separator)
-  return `${arrDate[2]} ${monthNames[parseInt(arrDate[monthIndex]) - 1]} ${arrDate[dayIndex]}`;
+  return `${arrDate[2]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[0]}`;
 };
 export const getDateMonthSpace = (date) => {
   let arrDate = date.split(' ')[0].split(separator);
 
-  return `${arrDate[dayIndex]} ${monthNames[parseInt(arrDate[monthIndex]) - 1]}`;
+  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]}`;
 };
 export function compareStringWithoutSpace(value1, value2) {
   if (value1.replace(/ /g, '') === value2.replace(/ /g, '')) return true;
@@ -296,7 +299,7 @@ export const getDateFormatFeedbackTime = (date) => {
   month.setMonth(date[0] - 1);
   date[0] = month.toLocaleString('en-US', { month: 'short' });
 
-  return `${date[dayIndex]} ${date[monthIndex]} ${date[yearIndex]} ${time}`;
+  return `${date[1]} ${date[0]} ${date[2]} ${time}`;
 };
 
 export const getDateFormatDraftTime = (date) => {
@@ -310,15 +313,15 @@ export const getDateFormatDraftTime = (date) => {
   month.setMonth(date[0] - 1);
   date[0] = month.toLocaleString('en-US', { month: 'short' });
 
-  return `${date[dayIndex]} ${date[monthIndex]} ${time}`;
+  return `${date[1]} ${date[0]} ${time}`;
 };
 export const getCalendarDateFormatDate = (date) => {
   date = String(date || new Date());
   date = date.split(' ')[0];
   date = date.split(separator);
-  let Day = date[dayIndex]
-  let Month = date[monthIndex]
-  let Year = date[yearIndex]
+  let Day = date[0]
+  let Month = date[1]
+  let Year = date[2]
   return `${Year}-${Month}-${Day}`;
 };
 export const getCalendarDateFormatDateNew = (date) => {
@@ -398,8 +401,21 @@ export const getHomeworkDateFormatted = (date) => {
 };
 export const getDateMonthFormatted = (date) => {
   let arrDate = date.split(separator);
-
-  return `${arrDate[dayIndex]} ${monthNames[parseInt(arrDate[monthIndex]) - 1]}`;
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]}`;
 };
 
 export const getDateMonthFormat = (date) => {
@@ -407,10 +423,38 @@ export const getDateMonthFormat = (date) => {
   const arrDate = parts[0].split(separator);
   const time = parts[1].split(':').slice(0, 2).join(':');
 
-  return `${arrDate[dayIndex]} ${monthNames[parseInt(arrDate[monthIndex]) - 1]} ${time}`;
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${time}`;
 };
 export const getMonthYearSplitFormatted = (date) => {
   let arrDate = date.split(' ')[0].split(separator);
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
 
   return `${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
 };
@@ -441,7 +485,7 @@ export const getDateFromatDateTime = (date) => {
   date = String(date || new Date());
   date = date.split(' ')[0];
   date = date.split(separator);
-  return date[dayIndex];
+  return date[1];
 };
 export const CheckFileValidationUploadPic = (
   fileData,
