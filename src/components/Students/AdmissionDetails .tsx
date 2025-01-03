@@ -22,6 +22,7 @@ import {
   IStaffNameBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAnyExamPublished,
@@ -508,14 +509,14 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
               value={admission.registrationNumber}
               defaultValue={admission.registrationNumber}
               onChange={handleInputChange}
-              error={!!invalidFields.find(field => field.field === "registrationNumber") ||
-                !!unacceptableFields.find(field => field.field === "registrationNumber")
-              }
-              helperText={invalidFields.find(field => field.field === "registrationNumber") ?
-                'Registration Number should not be blank.' :
-                unacceptableFields.find(field => field.field === "registrationNumber")
-                  ? 'Registration number should not be zero.'
-                  : ''}
+              // error={!!invalidFields.find(field => field.field === "registrationNumber") ||
+              //   !!unacceptableFields.find(field => field.field === "registrationNumber")
+              // }
+              // helperText={invalidFields.find(field => field.field === "registrationNumber") ?
+              //   'Registration Number should not be blank.' :
+              //   unacceptableFields.find(field => field.field === "registrationNumber")
+              //     ? 'Registration number should not be zero.'
+              //     : ''}
               sx={{ cursor: 'pointer' }}
               fullWidth
               inputProps={{
@@ -523,6 +524,11 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
               }}
             />
           </Tooltip>
+          <ErrorMessage1 Error={invalidFields.find(field => field.field === "registrationNumber") ?
+            'Registration Number should not be blank.' :
+            unacceptableFields.find(field => field.field === "registrationNumber")
+              ? 'Registration number should not be zero.'
+              : ''}></ErrorMessage1>
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -531,10 +537,13 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
             onDateChange={handleDateChange('admissionDate')}
             size={'medium'}
             label={'Admission Date'}
-            error={!!invalidFields.find(field => field.field === "admissionDate")}
-            helperText={invalidFields.find(field => field.field === "admissionDate") ? 'Addmission date should not be blank.' : ''}
+            error={''}
+            helperText={''}
+            // error={!!invalidFields.find(field => field.field === "admissionDate")}
+            // helperText={invalidFields.find(field => field.field === "admissionDate") ? 'Addmission date should not be blank.' : ''}
             maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
           />
+          <ErrorMessage1 Error={invalidFields.find(field => field.field === "admissionDate") ? 'Addmission date should not be blank.' : ''}></ErrorMessage1>
           {/* {validationMessages.admissionDate && (
               <Typography color="error" variant="caption" sx={{ mt: 1 }}>
                 {validationMessages.admissionDate}
@@ -567,10 +576,13 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
             // label={'Start Date'}
             size={'medium'}
             label={'Joining Date'}
-            error={!!invalidFields.find(field => field.field === "joiningDate")}
-            helperText={invalidFields.find(field => field.field === "joiningDate") ? 'Joining date should not be blank.' : ''}
+            // error={!!invalidFields.find(field => field.field === "joiningDate")}
+            // helperText={invalidFields.find(field => field.field === "joiningDate") ? 'Joining date should not be blank.' : ''}
+            error={''}
+            helperText={''}
             maxDate={new Date()}
           />
+          <ErrorMessage1 Error={invalidFields.find(field => field.field === "joiningDate") ? 'Joining date should not be blank.' : ''}></ErrorMessage1>
           {/* <TextField
             name="joiningDate"
             label={
@@ -608,13 +620,14 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
             variant="outlined"
             value={admission.studentRollNumber}
             onChange={handleInputChange}
-            error={!!invalidFields.find(field => field.field === "studentRollNumber")}
-            helperText={invalidFields.find(field => field.field === "studentRollNumber") ? 'Student Roll Number should not be blank.' : ''}
+            // error={!!invalidFields.find(field => field.field === "studentRollNumber")}
+            // helperText={invalidFields.find(field => field.field === "studentRollNumber") ? 'Student Roll Number should not be blank.' : ''}
             fullWidth
             inputProps={{
               maxLength: 3, // Restricts the input length to 50 characters
             }}
           />
+          <ErrorMessage1 Error={invalidFields.find(field => field.field === "studentRollNumber") ? 'Student Roll Number should not be blank.' : ''}></ErrorMessage1>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField

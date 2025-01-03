@@ -115,9 +115,9 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                     <Tooltip title={'Marks cannot be submitted.'}>
                       <span>Marks cannot be submitted.</span>
                     </Tooltip>
-                  ) : item.STATUS === 'Partial' ? (
+                  ) : item.STATUS === 'Complete' ? (
                     item.Is_Submitted === 'N' ? (
-                      UsschoolSettingPartialSubmit === true ? (
+                      UsschoolSettingPartialSubmit == false ? (
                         <Tooltip title={'Submit Marks To Class Teacher'}>
                           <EventAvailableIcon
                             style={{ color: '#25e67b' }}

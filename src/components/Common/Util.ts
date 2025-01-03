@@ -877,7 +877,7 @@ export const getDateFormattedNew = (dateStr) => {
   if (!dateStr) {
     date = new Date();
   } else if (typeof dateStr === 'string') {
-    let separator = dateStr.indexOf('/') > 0 ? '/' : '-'
+    let separator = date.indexOf('/') > 0 ? '/' : '-'
     const [day, month, yearTime] = dateStr.split(separator);
     const [year, time] = yearTime.split(' ');
     const [hours, minutes, seconds] = time.split(':');

@@ -553,6 +553,7 @@ const PersonalAddressBook = () => {
                         </Tooltip>
                     </>}
             />
+
             {isLoading && <SuspenseLoader />}
             <Grid sx={{ backgroundColor: 'white', mb: 1, p: 1 }}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -579,6 +580,7 @@ const PersonalAddressBook = () => {
                         </Typography>
                     }
                 </Box>}
+
             <AddPersonalContact
                 handleClear={handleClearForIndividualContact}
                 isExistsError={showNotExists ? isPersonalContactExists : ''}
@@ -593,6 +595,7 @@ const PersonalAddressBook = () => {
                 OnChange1={(item) => { setIContactName(item) }}
                 OnChange2={(item) => { handleContactNoChange(item) }}
                 onSubmit={() => { addIPersonalContact() }} />
+
             <AddPersonalContactGroup
                 clearForm={handleClearForGroupContact}
                 isExistsError={showNotExistsGroup ? CheckIfPersonalAddressGroupAlreadyExists : ''}
@@ -609,7 +612,10 @@ const PersonalAddressBook = () => {
                 ItemList2={AddressBookGroupDetails}
                 OnChange1={(item) => { setGroupName(item) }}
                 onSubmit={() => { addIPersonalContactGroup() }} />
+
+
         </Box>
+
     )
 }
 

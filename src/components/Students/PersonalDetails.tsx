@@ -10,8 +10,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
-  FormHelperText,
   Grid,
   IconButton,
   MenuItem,
@@ -867,13 +865,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.parentName}
                   onChange={handleInputChange}
-                  error={!!invalidFields.find(field => field.field === "parentName")}
-                  helperText={invalidFields.find(field => field.field === "parentName") ? 'Parent Name should not be blank.' : ''}
+                  // error={!!invalidFields.find(field => field.field === "parentName")}
+                  // helperText={invalidFields.find(field => field.field === "parentName") ? 'Parent Name should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 50, // Restricts the input length to 50 characters
                   }}
                 />
+                <ErrorMessage1 Error={invalidFields.find(field => field.field === "parentName") ? 'Parent Name should not be blank.' : ''}></ErrorMessage1>
               </Grid>
             )}
 
@@ -904,39 +903,40 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
 
             {/* Dropdown */}
             <Grid item xs={12} sm={6} md={4}>
-              <FormControl error={!!invalidFields.find(field => field.field === "parentOccupation")}>
-                <SearchableDropdown
-                  sx={{
-                    minWidth: { xs: '100%', sm: '22.9vw' },
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': {
-                        borderColor: invalidFields.find(field => field.field === "parentOccupation")
-                          ? '#d32f2f'
-                          : 'rgba(0, 0, 0, 0.23)'
-                      }
-                    },
-                    '& .MuiInputLabel-root': {
-                      color: invalidFields.find(field => field.field === "parentOccupation")
-                        ? '#d32f2f'
-                        : 'rgba(0, 0, 0, 0.6)'
-                    }
-                  }}
-                  ItemList={OccupationDropdown}
-                  onChange={(value) => onChange('parentOccupation', value)}
-                  label={'Parent Occupation'}
-                  mandatory
-                  defaultValue={personal.parentOccupation}
-                  size="medium"
-                //error={!!invalidFields.find((field) => field.field === "parentOccupation")}
-                // helperText={invalidFields.find((field) => field.field === "parentOccupation")
-                //   ? "Parent Occupation should not be blank."
-                //   : ""
-                // }
-                />
-                {invalidFields.find(field => field.field === "parentOccupation") && (
+              {/* <FormControl error={!!invalidFields.find(field => field.field === "parentOccupation")}> */}
+              <SearchableDropdown
+                sx={{
+                  minWidth: { xs: '100%', sm: '22.9vw' }
+                  // '& .MuiOutlinedInput-root': {
+                  //   '& fieldset': {
+                  //     borderColor: invalidFields.find(field => field.field === "parentOccupation")
+                  //       ? '#d32f2f'
+                  //       : 'rgba(0, 0, 0, 0.23)'
+                  //   }
+                  // },
+                  // '& .MuiInputLabel-root': {
+                  //   color: invalidFields.find(field => field.field === "parentOccupation")
+                  //     ? '#d32f2f'
+                  //     : 'rgba(0, 0, 0, 0.6)'
+                  // }
+                }}
+                ItemList={OccupationDropdown}
+                onChange={(value) => onChange('parentOccupation', value)}
+                label={'Parent Occupation'}
+                mandatory
+                defaultValue={personal.parentOccupation}
+                size="medium"
+              //error={!!invalidFields.find((field) => field.field === "parentOccupation")}
+              // helperText={invalidFields.find((field) => field.field === "parentOccupation")
+              //   ? "Parent Occupation should not be blank."
+              //   : ""
+              // }
+              />
+              {/* {invalidFields.find(field => field.field === "parentOccupation") && (
                   <FormHelperText error>Parent Occupation should not be blank.</FormHelperText>
-                )}
-              </FormControl>
+                )} */}
+              {/* </FormControl> */}
+              <ErrorMessage1 Error={invalidFields.find(field => field.field === "parentOccupation") ? 'Parent Occupation should not be blank.' : ''}></ErrorMessage1>
             </Grid>
           </Grid>
         </Grid>
@@ -1036,11 +1036,12 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.address}
                   onChange={handleInputChange}
-                  error={!!invalidFields.find(field => field.field === "address")}
-                  helperText={invalidFields.find(field => field.field === "address") ? 'Address should not be blank.' : ''}
+                  // error={!!invalidFields.find(field => field.field === "address")}
+                  // helperText={invalidFields.find(field => field.field === "address") ? 'Address should not be blank.' : ''}
                   fullWidth
                   multiline
                 />
+                <ErrorMessage1 Error={invalidFields.find(field => field.field === "address") ? 'Address should not be blank.' : ''}></ErrorMessage1>
               </Grid>
             )}
             {/* City */}
@@ -1056,13 +1057,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.city}
                   onChange={handleInputChange}
-                  error={!!invalidFields.find(field => field.field === "city")}
-                  helperText={invalidFields.find(field => field.field === "city") ? 'City name should not be blank.' : ''}
+                  // error={!!invalidFields.find(field => field.field === "city")}
+                  // helperText={invalidFields.find(field => field.field === "city") ? 'City name should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 50, // Restricts the input length to 50 characters
                   }}
                 />
+                <ErrorMessage1 Error={invalidFields.find(field => field.field === "city") ? 'City name should not be blank.' : ''}></ErrorMessage1>
               </Grid>
             )}
             {/* State */}
@@ -1078,13 +1080,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.state}
                   onChange={handleInputChange}
-                  error={!!invalidFields.find(field => field.field === "state")}
-                  helperText={invalidFields.find(field => field.field === "state") ? 'State Name should not be blank.' : ''}
+                  // error={!!invalidFields.find(field => field.field === "state")}
+                  // helperText={invalidFields.find(field => field.field === "state") ? 'State Name should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 50, // Restricts the input length to 50 characters
                   }}
                 />
+                <ErrorMessage1 Error={invalidFields.find(field => field.field === "state") ? 'State Name should not be blank.' : ''}></ErrorMessage1>
               </Grid>
             )}
             {/* PIN Code */}
@@ -1100,8 +1103,8 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.pin}
                   onChange={handleInputChange}
-                  error={!!invalidFields.find(field => field.field === "pin")}
-                  helperText={invalidFields.find(field => field.field === "pin") ? 'PIN Code should not be blank.' : ''}
+                  // error={!!invalidFields.find(field => field.field === "pin")}
+                  // helperText={invalidFields.find(field => field.field === "pin") ? 'PIN Code should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 6,
@@ -1113,6 +1116,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                     input.value = input.value.replace(/\D/g, '').slice(0, 6);
                   }}
                 />
+                <ErrorMessage1 Error={invalidFields.find(field => field.field === "pin") ? 'PIN Code should not be blank.' : ''}></ErrorMessage1>
               </Grid>
             )}
             {/* Date of Birth */}
@@ -1123,10 +1127,13 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   onDateChange={handleDateChange('dateOfBirth')}
                   size={'medium'}
                   label={'Date of Birth'}
-                  error={!!invalidFields.find(field => field.field === "dateOfBirth")}
-                  helperText={invalidFields.find(field => field.field === "dateOfBirth") ? 'Date of Birth should not be blank.' : ''}
+                  // error={!!invalidFields.find(field => field.field === "dateOfBirth")}
+                  // helperText={invalidFields.find(field => field.field === "dateOfBirth") ? 'Date of Birth should not be blank.' : ''}
+                  error={''}
+                  helperText={''}
                   maxDate={new Date()}
                 />
+                <ErrorMessage1 Error={invalidFields.find(field => field.field === "dateOfBirth") ? 'Date of Birth should not be blank.' : ''}></ErrorMessage1>
                 {/* <TextField
                   name="dateOfBirth"
                   label={
@@ -1169,13 +1176,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.placeOfBirth}
                   onChange={handleInputChange}
-                  error={!!invalidFields.find(field => field.field === "placeOfBirth")}
-                  helperText={invalidFields.find(field => field.field === "placeOfBirth") ? 'Place of Birth should not be blank.' : ''}
+                  // error={!!invalidFields.find(field => field.field === "placeOfBirth")}
+                  // helperText={invalidFields.find(field => field.field === "placeOfBirth") ? 'Place of Birth should not be blank.' : ''}
                   fullWidth
                   inputProps={{
                     maxLength: 50, // Restricts the input length to 50 characters
                   }}
                 />
+                <ErrorMessage1 Error={invalidFields.find(field => field.field === "placeOfBirth") ? 'Place of Birth should not be blank.' : ''}></ErrorMessage1>
               </Grid>
             )}
             {personal.birthTaluka !== undefined && (
@@ -1265,13 +1273,14 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                 variant="outlined"
                 value={personal.casteAndSubCaste}
                 onChange={handleInputChange}
-                error={!!invalidFields.find(field => field.field === "casteAndSubCaste")}
-                helperText={invalidFields.find(field => field.field === "casteAndSubCaste") ? 'Caste and Sub-Caste should not be blank.' : ''}
+                // error={!!invalidFields.find(field => field.field === "casteAndSubCaste")}
+                // helperText={invalidFields.find(field => field.field === "casteAndSubCaste") ? 'Caste and Sub-Caste should not be blank.' : ''}
                 fullWidth
                 inputProps={{
                   maxLength: 50, // Restricts the input length to 50 characters
                 }}
               />
+              <ErrorMessage1 Error={invalidFields.find(field => field.field === "casteAndSubCaste") ? 'Caste and Sub-Caste should not be blank.' : ''}></ErrorMessage1>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField

@@ -8,6 +8,7 @@ const BlockUnBlockStudents = createSlice({
     initialState: {
 
         IsStudentsName: [],
+        IsStudentsName1: [],
         IsStudentsCount: [],
         IsClassTeachers: [],
         IsBlockUnblockUpdatebtn: '',
@@ -19,10 +20,16 @@ const BlockUnBlockStudents = createSlice({
 
         RlistStudentsName(state, action) {
             state.IsStudentsName = action.payload;
+            state.Loading = false;
+        },
+        RlistStudentsName1(state, action) {
+            state.IsStudentsName1 = action.payload;
+            state.Loading = false;
         },
         RlistStudentsCount(state, action) {
             state.Loading = false;
             state.IsStudentsCount = action.payload;
+            state.Loading = false;
         },
         RAllClassTeachers(state, action) {
             state.Loading = false;
@@ -41,7 +48,7 @@ const BlockUnBlockStudents = createSlice({
 })
 
 export const CDABlockUnblocklist =
-    (data: IBlockUnBlockStudentsBody): AppThunk =>
+    (data: IBlockUnBlockStudentsBody, radioValue): AppThunk =>
         async (dispatch) => {
             const response = await ApiBlockProgressReport.BlockUnBlockStudents(data);
             let getStudentName = response.data.listStudentsName.map((item, i) => {
@@ -60,7 +67,11 @@ export const CDABlockUnblocklist =
                     Count: item.Count
                 }
             });
-            dispatch(BlockUnBlockStudents.actions.RlistStudentsName(getStudentName));
+            if (radioValue === '1') {
+                dispatch(BlockUnBlockStudents.actions.RlistStudentsName(getStudentName));
+            } else if (radioValue === '0') {
+                dispatch(BlockUnBlockStudents.actions.RlistStudentsName1(getStudentName)); // Need to Rename
+            }
             dispatch(BlockUnBlockStudents.actions.RlistStudentsCount(getStudentCount));
         };
 

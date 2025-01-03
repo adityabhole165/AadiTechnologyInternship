@@ -2,7 +2,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoIcon from '@mui/icons-material/Info';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SendIcon from '@mui/icons-material/Send';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Paper, TextField, Tooltip, Typography, useTheme } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, Hidden, IconButton, Paper, TextField, Tooltip, Typography, useTheme } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
@@ -557,6 +557,7 @@ const ComposeSMSform = () => {
                     ]}
                     rightActions={
                         <>
+
                             <Tooltip title={'Send SMS to individual student / teacher or the entire school. To send sms to other mobile numbers check Add Mobile Numbers Manually checkbox and enter mobile numbers separated by comma.'}>
                                 <IconButton
                                     sx={{
@@ -642,8 +643,27 @@ const ComposeSMSform = () => {
                             </Grid>
                         </Grid> */}
                     <form onSubmit={formik.handleSubmit}>
-                        <Grid container>
-                            <Grid xs={12} mt={3.3} px={2} sm={3} md={3} lg={3}>
+                        <Grid container px={2} spacing={2} >
+
+                            <Hidden xsDown>
+                                <Grid sm={3}></Grid>
+                                <Hidden>
+                                    <Grid xs={12} sm={9}>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={isManualEntryEnabled}
+                                                    onChange={handleCheckboxChange}
+                                                    color="primary"
+                                                />
+                                            }
+                                            label="Add Mobile Numbers Manually"
+                                        />
+                                    </Grid>
+                                </Hidden>
+                            </Hidden>
+
+                            <Grid xs={12} sm={3}  >
                                 <TextField
                                     sx={{ marginTop: '20px' }}
                                     variant="outlined"
@@ -657,18 +677,7 @@ const ComposeSMSform = () => {
                                     value={senderUserName}
                                 />
                             </Grid>
-                            <Grid xs={12} sm={8} md={7} lg={7.1}>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={isManualEntryEnabled}
-                                            onChange={handleCheckboxChange}
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Add Mobile Numbers Manually"
-                                />
-                                {/* TextField for mobile numbers */}
+                            <Grid xs={12} sm={6} md={6} >
                                 <TextField
                                     disabled={!isManualEntryEnabled}
                                     multiline
@@ -686,33 +695,32 @@ const ComposeSMSform = () => {
                                     }}
                                 />
                             </Grid>
-                            <Grid xs={12} mt={6} sm={2} md={2} lg={1.9}>
-                                <Box ml={2}>
-                                    <Button
-                                        fullWidth
-                                        // onClick={(e) => RecipientCCButton(e)}       
-                                        // onClick={() => handleOpenDialog(false)}
-                                        sx={{
+                            <Grid item xs={12} sm={3} >
+                                <Button
+                                    fullWidth
+                                    // onClick={(e) => RecipientCCButton(e)}       
+                                    // onClick={() => handleOpenDialog(false)}
+                                    sx={{
+                                        color: '#38548A',
+                                        mt: 0.7,
+                                        width: '200px',
+                                        '&:hover': {
                                             color: '#38548A',
-                                            mt: 0.7,
-                                            width: '200px',
-                                            '&:hover': {
-                                                color: '#38548A',
-                                                backgroundColor: blue[100]
-                                            }
-                                        }}
-                                        onClick={() => {
-                                            // pass data via state > mobileNumbers
-                                            navigate('/RITeSchool/teacher/PersonalAddressBook', { state: { mobileNumbers } })
-                                        }}
-                                    >
-                                        Personal Address book
-                                    </Button>
-                                </Box>
+                                            backgroundColor: blue[100]
+                                        }
+                                    }}
+                                    onClick={() => {
+                                        // pass data via state > mobileNumbers
+                                        navigate('/RITeSchool/teacher/PersonalAddressBook', { state: { mobileNumbers } })
+                                    }}
+                                >
+                                    Personal Address book
+                                </Button>
                             </Grid>
+
                         </Grid>
 
-                        <Grid container px={2}>
+                        <Grid container px={2} >
                             <Grid xs={10.2} >
                                 <Box sx={{ mt: "10px" }}>
                                     <TextField

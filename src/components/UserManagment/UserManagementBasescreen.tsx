@@ -1,6 +1,6 @@
 import { SearchTwoTone } from '@mui/icons-material';
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
@@ -240,8 +240,8 @@ const UserManagementBasescreen = () => {
     const LegendArray = [
         {
             id: 1,
-            Name: 'Activate',
-            Value: <LockOpenTwoToneIcon
+            Name: 'Active',
+            Value: <LockOpenOutlinedIcon
                 style={{
                     color: 'green',
                     fontSize: 25,
@@ -252,10 +252,10 @@ const UserManagementBasescreen = () => {
         },
         {
             id: 2,
-            Name: 'Deactivate',
-            Value: <LockIcon
+            Name: 'Deactive',
+            Value: <LockOutlinedIcon
                 style={{
-                    color: 'green',
+                    color: '#ff6347',
                     fontSize: 25,
                     position: 'relative',
                     top: '-2px',
@@ -264,7 +264,7 @@ const UserManagementBasescreen = () => {
         },
         {
             id: 3,
-            Name: 'Available for SMS/Message',
+            Name: 'Active for SMS/Message',
             Value: <MarkEmailReadIcon
                 style={{
                     color: 'green',
@@ -276,7 +276,7 @@ const UserManagementBasescreen = () => {
         },
         {
             id: 3,
-            Name: 'Not available for SMS/Message',
+            Name: 'Deactive for SMS/Message',
             Value: <UnsubscribeIcon
                 style={{
                     color: '#ff6347',

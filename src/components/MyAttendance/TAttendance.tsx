@@ -91,7 +91,7 @@ const TAttendance = () => {
   let { SelectClasstecahernew, AssignedDate } = useParams();
   useEffect(() => {
     if (SelectClasstecahernew && AssignedDate) {
-      SelectClasstecahernew = decodeURL(SelectClasstecahernew);
+      SelectClasstecahernew = SelectClasstecahernew;
       AssignedDate = decodeURL(AssignedDate);
     }
   }, [SelectClasstecahernew, AssignedDate]);
@@ -196,6 +196,7 @@ const TAttendance = () => {
     return perm;
   };
 
+  console.log(assignedDate, "assignedDate🤞🤞")
   const [SaveIsActive, setSaveIsActive] = useState(true);
 
   const GetStudentDetails: IStudentsDetails = {

@@ -1,8 +1,8 @@
 import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import KeyIcon from '@mui/icons-material/Key';
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import TextsmsIcon from '@mui/icons-material/Textsms';
 import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
@@ -89,14 +89,14 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailRea
                                                 <IconButton
                                                     onClick={() => handleActivateDeactivateClick(item.Id)}
                                                     sx={{
-                                                        color: item.ActivateDeactivate === 'Active' ? 'green' : 'red',
+                                                        color: item.ActivateDeactivate === 'Active' ? 'green' : '#ff6347',
                                                         '&:hover': {
-                                                            color: item.ActivateDeactivate === 'Active' ? 'darkgreen' : 'darkred',
+                                                            color: item.ActivateDeactivate === 'Active' ? 'darkgreen' : '#ff6347',
                                                             cursor: 'pointer',
                                                         }
                                                     }}
                                                 >
-                                                    {item.ActivateDeactivate === 'Active' ? <LockOpenIcon /> : <LockIcon />}
+                                                    {item.ActivateDeactivate === 'Active' ? <LockOpenOutlinedIcon /> : <LockOutlinedIcon />}
                                                 </IconButton>
                                             </Tooltip>
                                         </TableCell>
@@ -105,10 +105,10 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailRea
                                             <IconButton
                                                 onClick={() => handleKeyClick(item.Id)}
                                                 sx={{
-                                                    color: '#a9a9a9',
+                                                    color: '#223354',
                                                     '&:hover': {
-                                                        color: '#808080',
-                                                        cursor: 'pointer',
+                                                        color: '#223354',
+                                                        cursor: 'pointer'
                                                     }
                                                 }}
                                             >
@@ -121,10 +121,10 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailRea
                                                 <IconButton
                                                     onClick={() => handleTextsmsClick(item.Id)}
                                                     sx={{
-                                                        color: '#3cb371',
+                                                        color: '#223354',
                                                         '&:hover': {
-                                                            color: '#2e8b57',
-                                                            cursor: 'pointer',
+                                                            color: '#223354',
+                                                            cursor: 'pointer'
                                                         }
                                                     }}
                                                 >
@@ -138,9 +138,9 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailRea
                                                 <IconButton
                                                     onClick={() => handleEmailReadClick(item.Id)}
                                                     sx={{
-                                                        color: item.ActivateDeactivate === 'Active' ? 'green' : 'red',
+                                                        color: item.ActivateDeactivate === 'Active' ? 'green' : '#ff6347',
                                                         '&:hover': {
-                                                            color: item.ActivateDeactivate === 'Active' ? 'darkgreen' : 'darkred',
+                                                            color: item.ActivateDeactivate === 'Active' ? 'darkgreen' : '#ff6347',
                                                             cursor: 'pointer',
                                                         }
                                                     }}

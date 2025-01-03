@@ -17,6 +17,7 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import { CDADeleteFamilyPhoto, CDADeleteFatherPhoto, CDADeleteGuardianPhoto, CDADeleteMotherPhoto, CDAresetDeletePhotoMsg, } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
@@ -598,12 +599,18 @@ const FamilyDetails = ({ family, onChange, invalidFields, unacceptableFields }) 
                 size={'medium'}
                 label={"Father's DOB"}
                 mandatory={parseInt(schoolId) === 18}
-                error={(parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "fatherDOB")) || !!unacceptableFields.find(field => field.field === "fatherDOB")}
-                helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "fatherDOB") ?
-                  "Father's Date of Birth should not be blank." :
-                  unacceptableFields.find(field => field.field === "fatherDOB") ?
-                    "Father DOB should be less than students DOB." : ''}
-                maxDate={moment().format("YYYY-MM-DD")} // Disable future dates
+                error={''}
+                helperText={''}
+                maxDate={moment().format("YYYY-MM-DD")} // Added maxDate prop
+              />
+              <ErrorMessage1
+                Error={
+                  parseInt(schoolId, 10) === 18 && invalidFields.find(field => field.field === "fatherDOB")
+                    ? "Father's Date of Birth should not be blank."
+                    : unacceptableFields.find(field => field.field === "fatherDOB")
+                      ? "Father DOB should be less than student's DOB."
+                      : ''
+                }
               />
             </Grid>
 
@@ -813,10 +820,15 @@ const FamilyDetails = ({ family, onChange, invalidFields, unacceptableFields }) 
                 size={'medium'}
                 label={"Mother's DOB"}
                 mandatory={parseInt(schoolId) === 18}
-                error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "motherDOB")}
-                helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "motherDOB") ? "Mother's Date of Birth should not be blank." : ''}
                 maxDate={new Date()}
+                error={''}
+                helperText={''}
+              // error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "motherDOB")}
+              // helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "motherDOB") ? "Mother's Date of Birth should not be blank." : ''}
+              // maxDate={new Date()}
               />
+              <ErrorMessage1 Error={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "motherDOB") ? "Mother's Date of Birth should not be blank." : ''}
+              ></ErrorMessage1>
             </Grid>
 
             {/* motherPhoto */}
@@ -955,10 +967,13 @@ const FamilyDetails = ({ family, onChange, invalidFields, unacceptableFields }) 
                 size={'medium'}
                 label={"Marriage Anniversary Date"}
                 mandatory={parseInt(schoolId) === 18}
-                error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "marriageAnniversaryDate")}
-                helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}
+                error={''}
+                helperText={''}
+                // error={parseInt(schoolId) === 18 && !!invalidFields.find(field => field.field === "marriageAnniversaryDate")}
+                // helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}
                 maxDate={new Date()}
               />
+              <ErrorMessage1 Error={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}></ErrorMessage1>
             </Grid>
 
             {/* localGuardianPhoto */}
