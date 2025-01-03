@@ -1,5 +1,5 @@
 export const dayIndex = 0, monthIndex = 1, yearIndex = 2
-export const separator = "/"
+export const separator = "-"
 export const WeekdaysFull = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 // export const WeekdaysFull = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 export function isFutureDate(date) {
