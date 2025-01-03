@@ -1,5 +1,4 @@
-export const dayIndex = 0, monthIndex = 1, yearIndex = 2
-export const separator = "-"
+
 export const WeekdaysFull = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 // export const WeekdaysFull = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 export function isFutureDate(date) {
@@ -119,11 +118,13 @@ export const monthNames = [
 ];
 
 export const getDateMonthYearFormattedDash = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   let arrDate = date.split(' ')[0].split(separator)
   return `${arrDate[1]}-${monthNames[parseInt(arrDate[0]) - 1]}-${arrDate[2]}`;
 };
 
 export const getDateMonthYearDayDash = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   let arrDate = date.split(' ')[0].split(separator);
   let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
   let Weekday = new Date(dateFormatted).getDay()
@@ -132,6 +133,7 @@ export const getDateMonthYearDayDash = (date) => {
 };
 
 export const getDateMonthYear = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   let arrDate = date.split(' ')[0].split(separator);
   let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;
 
@@ -151,6 +153,7 @@ export function extractTimenew(datetimeString) {
 }
 
 export const getDateMonthYearTimeDayDash = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   let arrDate = date.split(' ')[0].split(separator);
   let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
   let Weekday = new Date(dateFormatted).getDay()
@@ -162,24 +165,27 @@ export const getDateMonthYearTimeDayDash = (date) => {
 
 
 export const getDateMonthYearFormatted = (date) => {
-  let arrDate = date.split(' ')[0].split(separator);
-  let yearIndex = arrDate[0].length == 4 ? 0 : 2
-  let dateIndex = arrDate[0].length != 4 ? 0 : 2
-  console.log(arrDate, "arrDate", parseInt(arrDate[1]))
-  return `${arrDate[1]} ${monthNames[parseInt(arrDate[0]) - 1]} ${arrDate[yearIndex]}`;
-};
-export const getYearFirstDateFormatted = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   let arrDate = date.split(' ')[0].split(separator);
   let yearIndex = arrDate[0].length == 4 ? 0 : 2
   let dateIndex = arrDate[0].length == 2 ? 0 : 2
-  return `${arrDate[1]} ${monthNames[parseInt(arrDate[0]) - 1]} ${arrDate[yearIndex]}`;
+  return `${arrDate[dateIndex]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[yearIndex]}`;
+};
+export const getYearFirstDateFormatted = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
+  let arrDate = date.split(' ')[0].split(separator);
+  let yearIndex = arrDate[0].length == 4 ? 0 : 2
+  let dateIndex = arrDate[0].length == 2 ? 0 : 2
+  return `${arrDate[dateIndex]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[yearIndex]}`;
 };
 export const getYearFirstDateDashFormatted = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
 
   let arrDate = date.split(separator)
   return `${arrDate[2]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[0]}`;
 };
 export const getDateMonthSpace = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   let arrDate = date.split(' ')[0].split(separator);
 
   return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]}`;
@@ -282,6 +288,7 @@ export const getDateFormatWithSpaceAndMonthInString = (date) => {
 export const getDateFormatFeedback = (date) => {
   date = String(date || new Date());
   date = date.split(' ')[0];
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   date = date.split(separator);
 
   const month = new Date();
@@ -294,6 +301,7 @@ export const getDateFormatFeedbackTime = (date) => {
   date = String(date || new Date());
   let time = date.split(' ')[1] + ' ' + date.split(' ')[2];
   date = date.split(' ')[0];
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   date = date.split(separator);
   const month = new Date();
   month.setMonth(date[0] - 1);
@@ -308,6 +316,7 @@ export const getDateFormatDraftTime = (date) => {
   time = time.split(':')[0] + ':' + time.split(':')[1];
   time = time + ':' + date.split(':')[2];
   date = date.split(' ')[0];
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   date = date.split(separator);
   const month = new Date();
   month.setMonth(date[0] - 1);
@@ -318,6 +327,7 @@ export const getDateFormatDraftTime = (date) => {
 export const getCalendarDateFormatDate = (date) => {
   date = String(date || new Date());
   date = date.split(' ')[0];
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   date = date.split(separator);
   let Day = date[0]
   let Month = date[1]
@@ -341,6 +351,7 @@ export const getDateFormat = (date) => {
 };
 export function formatDate(dateString) {
   // Parse the input date string (assuming it is in DD-MM-YYYY format)
+  let separator = dateString.indexOf('/') > 0 ? '/' : '-'
   let [day, month, year] = dateString.split(separator);
 
   // Pad day and month with leading zeros if necessary
@@ -360,6 +371,7 @@ export function formatDate(dateString) {
 }
 export function formatDate1(dateString) {
   // Parse the input date string (assuming it is in DD-MM-YYYY format)
+  let separator = dateString.indexOf('/') > 0 ? '/' : '-'
   let [day, month, year] = dateString.split(separator);
 
   // Pad day and month with leading zeros if necessary
@@ -400,6 +412,7 @@ export const getHomeworkDateFormatted = (date) => {
   return `${Day}-${Month}-${Year}`;
 };
 export const getDateMonthFormatted = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   let arrDate = date.split(separator);
   const monthNames = [
     'Jan',
@@ -420,6 +433,7 @@ export const getDateMonthFormatted = (date) => {
 
 export const getDateMonthFormat = (date) => {
   const parts = date.split(' ');
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   const arrDate = parts[0].split(separator);
   const time = parts[1].split(':').slice(0, 2).join(':');
 
@@ -440,6 +454,7 @@ export const getDateMonthFormat = (date) => {
   return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${time}`;
 };
 export const getMonthYearSplitFormatted = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   let arrDate = date.split(' ')[0].split(separator);
   const monthNames = [
     'Jan',
@@ -484,8 +499,9 @@ export const getNextDate = (date, prevNext) => {
 export const getDateFromatDateTime = (date) => {
   date = String(date || new Date());
   date = date.split(' ')[0];
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
   date = date.split(separator);
-  return date[1];
+  return date[0];
 };
 export const CheckFileValidationUploadPic = (
   fileData,
@@ -796,6 +812,7 @@ export const getWithoutHTML = (value) => {
 export const formatDateTo12Hour = (dateString: string): string => {
   // Parse the input date string
   const [datePart, timePart] = dateString?.split(' ');
+  let separator = datePart.indexOf('/') > 0 ? '/' : '-'
   const [day, month, year] = datePart?.split(separator).map(Number);
   const [hours, minutes, seconds] = timePart?.split(':').map(Number);
 
@@ -822,6 +839,7 @@ export const getDateFormattedDashNew = (dateStr) => {
   if (!dateStr) {
     date = new Date();
   } else if (typeof dateStr === 'string') {
+    let separator = date.indexOf('/') > 0 ? '/' : '-'
     const [day, month, yearTime] = dateStr.split(separator);
     const [year, time] = yearTime.split(' ');
     const [hours, minutes, seconds] = time.split(':');
@@ -859,6 +877,7 @@ export const getDateFormattedNew = (dateStr) => {
   if (!dateStr) {
     date = new Date();
   } else if (typeof dateStr === 'string') {
+    let separator = date.indexOf('/') > 0 ? '/' : '-'
     const [day, month, yearTime] = dateStr.split(separator);
     const [year, time] = yearTime.split(' ');
     const [hours, minutes, seconds] = time.split(':');
