@@ -11,7 +11,6 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import { default as QuestionMark, default as QuestionMarkIcon } from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SmsIcon from '@mui/icons-material/Sms';
-import SmsFailedIcon from '@mui/icons-material/SmsFailed';
 import { Box, Card, CircularProgress, Grid, IconButton, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
@@ -625,7 +624,7 @@ function SmsCenter() {
 
 
   const startRecordScheduleSMS = (pageScheduleSMS - 1) * rowsPerPageScheduleSMS + 1;
-  const endRecordScheduleSMS= Math.min(pageScheduleSMS * rowsPerPageScheduleSMS, totalRowsScheduleSMS);
+  const endRecordScheduleSMS = Math.min(pageScheduleSMS * rowsPerPageScheduleSMS, totalRowsScheduleSMS);
   const pagecountScheduleSMS = Math.ceil(totalRowsScheduleSMS / rowsPerPageScheduleSMS);
 
   const ChangeRowsPerPageScheduleSMS = (event) => {
@@ -649,7 +648,7 @@ function SmsCenter() {
     { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
     { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'ORDER BY SMS_Text' },
     { Id: 3, Header: 'Scheduled Date', SortOrder: 'DESC', sortKey: 'ORDER BY Insert_Date' },
-  
+
     // { Id: 5, Header: 'Status', SortOrder: 'DESC', sortKey: 'Created_Date' },
 
   ]);
@@ -681,7 +680,7 @@ function SmsCenter() {
   }
 
 
- 
+
   const ChangevalueScheduleSMS = (updatedList) => {
     setSmsListScheduleSMS(updatedList);
     const activeItems = updatedList.filter(item => item.IsActive).map(item => item.Id);
@@ -708,7 +707,7 @@ function SmsCenter() {
       return;
     }
 
-  
+
     showAlert({
       title: 'Please Confirm',
       message:
@@ -747,10 +746,8 @@ function SmsCenter() {
 
   useEffect(() => {
     dispatch(CDAGetScheduleSMS(GetScheduleSMSBody));
-  }, [sortExpressionScheduleSMS,startIndexScheduleSMS,endIndexScheduleSMS]);
-  useEffect(() => {
-    dispatch(CDADeleteScheduleSMS(DeleteScheduleSMSBody));
-  }, []);
+  }, [sortExpressionScheduleSMS, startIndexScheduleSMS, endIndexScheduleSMS]);
+
 
   return (
     <Box sx={{ px: 2 }}>
@@ -1160,7 +1157,7 @@ function SmsCenter() {
             )}
 
 
-{activeTab == 'Scheduled SMS' && (
+            {activeTab == 'Scheduled SMS' && (
               <>
                 {SmsListNew.length > 0 && <Box>
                   <Tooltip title={"Delete"}>
@@ -1185,7 +1182,7 @@ function SmsCenter() {
                 </Box>}
 
 
-              
+
                 <Tooltip title={'New Sms'}>
                   <IconButton
                     onClick={NewSms}
@@ -1472,7 +1469,7 @@ function SmsCenter() {
                       {PagedSMS.map((row, index) => (
                         <TableRow key={index}>
                           <TableCell sx={{ py: 1 }}>{row.UserName}</TableCell>
-                          <TableCell sx={{ py: 1 }}>   <Link href={url + row.SMS_Id}>
+                          <TableCell sx={{ py: 1 }}>   <Link href={url + encodeURL(row.SMS_Id)}>
                             {row.Subject}
                           </Link></TableCell>
                           <TableCell sx={{ py: 1 }}>{getDateFormattedNew(new Date(row.Date))}</TableCell>
@@ -1644,7 +1641,7 @@ function SmsCenter() {
                     clickchange={ChangevalueScheduleSMS}
                     clickTitle={clickTitleScheduleSMS}
 
-                    
+
 
                   />
 
