@@ -148,6 +148,7 @@ const TAttendance = () => {
     (state: RootState) => state.AttendanceList.StudentList
   );
 
+
   const StudentAbsent = useSelector(
     (state: RootState) => state.AttendanceList.StudentAbsent
   );
@@ -196,6 +197,7 @@ const TAttendance = () => {
   };
 
   const [SaveIsActive, setSaveIsActive] = useState(true);
+
   const GetStudentDetails: IStudentsDetails = {
     asStdDivId: selectClasstecahernew,
     asDate: assignedDate,
@@ -292,7 +294,7 @@ const TAttendance = () => {
   }, []);
 
   useEffect(() => {
-    if (ClassTeacherDropdownnew.length > 0) {
+    if (ClassTeacherDropdownnew.length > 0 && SelectClasstecahernew == undefined) {
       setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
     }
   }, [ClassTeacherDropdownnew]);
@@ -666,6 +668,8 @@ const TAttendance = () => {
   const clickClassTechernew = (value) => {
     setIsDirty(true);
     setselectClasstecahernew(value);
+    dispatch(GetStudentList(GetStudentDetails));
+    //  dispatch(setClassTeacherId(value));
   };
   const handleCheckboxChange = (value) => {
     setIsDirty(true);
