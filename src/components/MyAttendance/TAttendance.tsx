@@ -91,7 +91,7 @@ const TAttendance = () => {
   let { SelectClasstecahernew, AssignedDate } = useParams();
   useEffect(() => {
     if (SelectClasstecahernew && AssignedDate) {
-      SelectClasstecahernew = decodeURL(SelectClasstecahernew);
+      SelectClasstecahernew = SelectClasstecahernew;
       AssignedDate = decodeURL(AssignedDate);
     }
   }, [SelectClasstecahernew, AssignedDate]);

@@ -380,7 +380,7 @@ const IndividualAttendance = () => {
             title: 'Attendance',
             path:
               '/RITeSchool/Teacher/TAttendance/' +
-              encodeURL(selectClasstecahernew) +
+              selectClasstecahernew +
               '/' +
               encodeURL(AssignedDate)
           },
