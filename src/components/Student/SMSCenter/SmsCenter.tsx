@@ -1,7 +1,6 @@
 import { AddTwoTone } from '@mui/icons-material';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import AllInboxIcon from '@mui/icons-material/AllInbox';
 import ArrowCircleDown from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -33,6 +32,7 @@ import { CDADeleteScheduleSMS, CDAGetScheduleSMS, CDAResetDeleteScheduleSMS, get
 import { encodeURL, getDateFormattedNew } from 'src/components/Common/Util';
 import SentsmsList from 'src/components/SentSms/SentsmsList';
 import SentsmsListAll from 'src/components/SentSms/SentsmsListAll';
+import VerticalButtons from 'src/libraries/button/VerticalButtons';
 import { RootState } from 'src/store';
 import SchedulesmsList from './SchedulesmsList';
 const PageSize = 20;
@@ -748,7 +748,44 @@ function SmsCenter() {
     dispatch(CDAGetScheduleSMS(GetScheduleSMSBody));
   }, [sortExpressionScheduleSMS, startIndexScheduleSMS, endIndexScheduleSMS]);
 
-
+  const [DefaultValue, setDefaultValue] = useState(2)
+  const clickItem = (value) => {
+    const foundItem = ItemList.find(Item => Item.Value === value);
+    handleTabClick(foundItem.Name)
+    setDefaultValue(value)
+  }
+  const ItemList = [{
+    Id: 1,
+    Name: "Compose SMS",
+    Value: 1,
+    Icon: <AddCircleIcon onClick={clickItem}
+      sx={{ mt: 0.5, color: '#38548A' }} className={classes.IconSize} />,
+    Badge: ""
+  },
+  {
+    Id: 2,
+    Name: "Received SMS",
+    Value: 2,
+    Icon: <MarkunreadMailboxIcon onClick={clickItem}
+      sx={{ mt: 0.5, color: '#38548A' }} className={classes.IconSize} />,
+    Badge: ""
+  },
+  {
+    Id: 3,
+    Name: "Send Item",
+    Value: 3,
+    Icon: <SmsIcon onClick={clickItem}
+      sx={{ mt: 0.5, color: '#38548A' }} className={classes.IconSize} />,
+    Badge: ""
+  },
+  {
+    Id: 4,
+    Name: "Scheduled SMS",
+    Value: 4,
+    Icon: <AccessAlarmIcon onClick={clickItem}
+      sx={{ mt: 0.5, color: '#38548A' }} className={classes.IconSize} />,
+    Badge: ""
+  },]
   return (
     <Box sx={{ px: 2 }}>
 
@@ -1233,137 +1270,12 @@ function SmsCenter() {
       <Box>
         <Grid container item spacing={1}>
           {/* <Grid item sx={{ minWidth: '10%', pr: 1, pb: 2 }}> */}
-          <Grid item xs={12} sm={2} >
-            <Grid container
-              flexDirection={{ xs: "row", sm: "column" }}
-              spacing={2}
-              sx={{ height: "100%", justifyContent: "flex-start" }}
-            >
-
-              <Grid item sx={{ display: "flex", justifyContent: "center" }} >
-                {/* <Hidden smDown> */}
-                {/* <RouterLink
-                  style={{ textDecoration: 'none', color: '#223354' }}
-                  to={`/${location.pathname.split('/')[1]
-                    }/Teacher/ComposeSMS`}
-                > */}
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    height: '85px',
-                    backgroundColor: activeTab === 'Compose SMS' ? blue[100] : 'white',
-                    mb: '10px',
-                    borderRadius: '10px',
-                  }} onClick={() => handleTabClick('Compose SMS')}
-                >
-
-                  <AddCircleIcon
-                    onClick={undefined}
-                    sx={{ mt: '10px', color: '#38548A' }}
-                    className={classes.IconSize}
-                  />
-                  <br />
-                  <b style={{ color: '#38548A' }}>Compose SMS</b>
-                </Card>
-                {/* </RouterLink> */}
-              </Grid>
-              <Grid item sx={{ display: "flex", justifyContent: "center" }} >
-
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    height: '85px',
-                    backgroundColor: activeTab === 'Received SMS' ? blue[100] : 'white',
-                    mb: '10px',
-                    borderRadius: '10px',
-                  }}
-                  onClick={() => handleTabClick('Received SMS')}
-                >
-
-                  <MarkunreadMailboxIcon
-                    onClick={undefined}
-                    sx={{ mt: '10px', color: '#38548A' }}
-                    className={classes.IconSize}
-                  />
-                  <br />
-                  <b style={{ color: '#38548A' }}>Received SMS</b>
-                </Card>
-
-              </Grid>
-              <Grid item sx={{ display: "flex", justifyContent: "center" }} >
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    height: '85px',
-                    backgroundColor: activeTab === 'Send Item' ? blue[100] : 'white',
-                    mb: '10px',
-                    borderRadius: '10px',
-                  }} onClick={() => handleTabClick('Send Item')}
-                >
-
-                  <SmsIcon
-                    onClick={undefined}
-                    sx={{ mt: '10px', color: '#38548A' }}
-                    className={classes.IconSize}
-                  />
-                  <br />
-                  <b style={{ color: '#38548A' }}>Sent Item</b>
-
-                </Card>
-
-              </Grid>
-              <Grid item sx={{ display: "flex", justifyContent: "center" }} >
-
-
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    height: '85px',
-                    backgroundColor: activeTab === 'Scheduled SMS' ? blue[100] : 'white',
-                    mb: '10px',
-                    borderRadius: '10px',
-                  }}
-                  onClick={() => handleTabClick('Scheduled SMS')}
-                >
-
-                  <AccessAlarmIcon
-                    onClick={undefined}
-                    sx={{ mt: '10px', color: '#38548A' }}
-                    className={classes.IconSize}
-                  />
-                  <br />
-                  <b style={{ color: '#38548A' }}>Scheduled SMS</b>
-                </Card>
-              </Grid>
-              {DesignationName == 'Principal' && (
-
-                <Grid item sx={{ display: "flex", justifyContent: "center" }} >
-                  <Card
-                    sx={{
-                      textAlign: 'center',
-                      height: '85px',
-                      backgroundColor: activeTab == 'AllSendItem' ? blue[100] : 'white',
-                      mb: '10px',
-                      borderRadius: '10px',
-                    }}
-                    onClick={() => handleTabClick('AllSendItem')}
-                  >
-
-                    <AllInboxIcon
-                      onClick={undefined}
-                      sx={{ mt: '10px', color: '#38548A' }}
-                      className={classes.IconSize}
-                    />
-                    <br />
-                    <b style={{ color: '#38548A' }}>All Send Item</b>
-                  </Card>
-                </Grid>
-              )}
-              {/* </Hidden> */}
-            </Grid></Grid>
+          <Grid item xs={12} sm={3} md={2}>
+            <VerticalButtons ItemList={ItemList} DefaultValue={DefaultValue} clickItem={clickItem} />
+          </Grid>
 
           {/* <Grid item sx={{ minWidth: '90%', maxWidth: activeTab === 'AllSendItem' ? '90%' : 'auto', p: 2, background: 'white', borderRadius: '10px' }}> */}
-          <Grid item xs={12} sm={10} >
+          <Grid item xs={12} sm={9} md={10}>
             {activeTab == 'AllSendItem' && (
 
               <Box>
