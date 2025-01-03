@@ -2,7 +2,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoIcon from '@mui/icons-material/Info';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SendIcon from '@mui/icons-material/Send';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, Hidden, IconButton, Paper, TextField, Tooltip, Typography, useTheme } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Paper, TextField, Tooltip, Typography, useTheme } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
@@ -643,27 +643,8 @@ const ComposeSMSform = () => {
                             </Grid>
                         </Grid> */}
                     <form onSubmit={formik.handleSubmit}>
-                        <Grid container px={2} spacing={2} >
-
-                            <Hidden xsDown>
-                                <Grid sm={3}></Grid>
-                                <Hidden>
-                                    <Grid xs={12} sm={9}>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    checked={isManualEntryEnabled}
-                                                    onChange={handleCheckboxChange}
-                                                    color="primary"
-                                                />
-                                            }
-                                            label="Add Mobile Numbers Manually"
-                                        />
-                                    </Grid>
-                                </Hidden>
-                            </Hidden>
-
-                            <Grid xs={12} sm={3}  >
+                        <Grid container>
+                            <Grid xs={12} mt={3.3} px={2} sm={2} md={3} lg={3}>
                                 <TextField
                                     sx={{ marginTop: '20px' }}
                                     variant="outlined"
@@ -677,7 +658,18 @@ const ComposeSMSform = () => {
                                     value={senderUserName}
                                 />
                             </Grid>
-                            <Grid xs={12} sm={6} md={6} >
+                            <Grid xs={12} sm={7} md={7} lg={7.1} spacing={2} px={2}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={isManualEntryEnabled}
+                                            onChange={handleCheckboxChange}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Add Mobile Numbers Manually"
+                                />
+                                {/* {/ TextField for mobile numbers /} */}
                                 <TextField
                                     disabled={!isManualEntryEnabled}
                                     multiline
@@ -695,34 +687,35 @@ const ComposeSMSform = () => {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} >
-                                <Button
-                                    fullWidth
-                                    // onClick={(e) => RecipientCCButton(e)}       
-                                    // onClick={() => handleOpenDialog(false)}
-                                    sx={{
-                                        color: '#38548A',
-                                        mt: 0.7,
-                                        width: '200px',
-                                        '&:hover': {
+                            <Grid xs={12} mt={6} sm={3} md={1} lg={1.9} >
+                                <Box >
+                                    <Button
+                                        fullWidth
+                                        // onClick={(e) => RecipientCCButton(e)}       
+                                        // onClick={() => handleOpenDialog(false)}
+                                        sx={{
                                             color: '#38548A',
-                                            backgroundColor: blue[100]
-                                        }
-                                    }}
-                                    onClick={() => {
-                                        // pass data via state > mobileNumbers
-                                        navigate('/RITeSchool/teacher/PersonalAddressBook', { state: { mobileNumbers } })
-                                    }}
-                                >
-                                    Personal Address book
-                                </Button>
+                                            mt: 0.7,
+                                            width: '200px',
+                                            '&:hover': {
+                                                color: '#38548A',
+                                                backgroundColor: blue[100]
+                                            }
+                                        }}
+                                        onClick={() => {
+                                            // pass data via state > mobileNumbers
+                                            navigate('/RITeSchool/teacher/PersonalAddressBook', { state: { mobileNumbers } })
+                                        }}
+                                    >
+                                        Personal Address book
+                                    </Button>
+                                </Box>
                             </Grid>
-
                         </Grid>
 
-                        <Grid container px={2} >
-                            <Grid xs={10.2} >
-                                <Box sx={{ mt: "10px" }}>
+                        <Grid container px={2}>
+                            <Grid xs={12} sm={9} md={10} lg={10.2}>
+                                <Box sx={{ mt: { xs: '10px', sm: '30px', md: '10px', lg: '10px' } }}>
                                     <TextField
                                         // name="To"
                                         label={
@@ -770,21 +763,22 @@ const ComposeSMSform = () => {
                                     <Errormessage Error={formik.errors.To} />
                                 </div>
                             </Grid>
-                            <Grid xs={1.2} mt={2} >
-                                <Box mt={2} ml={2}>
+                            <Grid xs={12} sm={3} md={2} lg={1.2} mt={2} >
+                                <Box >
                                     <Button
                                         fullWidth
                                         onClick={() => handleOpenDialog(true)}
                                         sx={{
                                             color: '#38548A',
-                                            ml: 1,
-                                            mt: 4,
+                                            ml: 0.1,
+                                            mt: { xs: '0px', sm: '60px', md: '60px', lg: '50px' },
                                             width: '140px',
                                             '&:hover': {
                                                 color: '#38548A',
                                                 backgroundColor: blue[100]
                                             }
                                         }}>
+
                                         Add Recipients
                                     </Button>
                                 </Box>
@@ -792,7 +786,7 @@ const ComposeSMSform = () => {
                         </Grid>
 
                         <Grid container spacing={2} px={2} mt={0}>
-                            <Grid item xs={12} sm={6} md={2} lg={2} px={2}>
+                            <Grid item xs={12} sm={6} md={2} lg={2} >
                                 <FormControlLabel
                                     control={
                                         <Checkbox
@@ -826,7 +820,7 @@ const ComposeSMSform = () => {
 
                             {form.scheduleSMS && (
                                 <>
-                                    {/* <Grid container spacing={2} pt={2} pl={2} alignItems="center"> */}
+                                    {/* {/ <Grid container spacing={2} pt={2} pl={2} alignItems="center"> /} */}
                                     <Grid item xs={12} sm={6} md={3} lg={2.1}>
                                         <Datepicker
                                             DateValue={SelectDate}
@@ -845,11 +839,11 @@ const ComposeSMSform = () => {
                                         and within 7 days range from now.
                                     </Typography>
                                 </Grid> */}
-                                    {/* </Grid> */}
+                                    {/* {/ </Grid> /} */}
                                 </>
                             )}
 
-                            <Grid item xs={12} sm={6} md={6} lg={2.1}>
+                            <Grid item xs={12} sm={6} md={4} lg={1.5} >
                                 <TextField
                                     name="TemplateId"
                                     label="Template Id"
@@ -858,7 +852,7 @@ const ComposeSMSform = () => {
                                 />
                             </Grid>
                             <Grid xs={2} mt={2} sm={2} md={1.7} >
-                                <Box ml={2}>
+                                <Box px={2} sx={{ mt: { xs: '10px', sm: '30px', md: '10px', lg: 1.5 } }} >
                                     <Button
                                         fullWidth
                                         // onClick={(e) => RecipientCCButton(e)}       
@@ -866,7 +860,7 @@ const ComposeSMSform = () => {
                                         sx={{
                                             color: '#38548A',
                                             mt: 0.7,
-                                            ml: 2,
+                                            ml: { xs: 1 },
                                             width: '130px',
                                             '&:hover': {
                                                 color: '#38548A',
@@ -880,7 +874,6 @@ const ComposeSMSform = () => {
                                 </Box>
                             </Grid>
                         </Grid>
-
 
                         {/* <Grid item md={3} >
 
