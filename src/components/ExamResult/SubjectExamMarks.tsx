@@ -20,6 +20,7 @@ import {
   getExamSchedule,
   getManageStudentsTestMark,
   getSubjectExamMarkslist,
+  resetGetSubjectExamMarkslist,
   resetManageStudentsTestMark
 } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
@@ -28,10 +29,10 @@ import { decodeURL, encodeURL, formatDateAsDDMMMYYYY, getCalendarDateFormatDate,
 // import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import CommonPageHeader from '../CommonPageHeader';
 import DatepickermaxDate from './DatepickermaxDate';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,19 +56,20 @@ const SubjectExamMarks = () => {
   } = useParams();
 
   // Decode in-place
-  ClassTecher = decodeURL(ClassTecher);
-  ClassId = decodeURL(ClassId);
-  TeacherId = decodeURL(TeacherId);
-  StandardId = decodeURL(StandardId);
-  IsMonthConfig = decodeURL(IsMonthConfig);
-  IsReadOnly = decodeURL(IsReadOnly);
-  StandardDivisionId = decodeURL(StandardDivisionId);
-  SubjectId = decodeURL(SubjectId);
-  TestId = decodeURL(TestId);
-  examResultProp = decodeURL(examResultProp);
-  publish = decodeURL(publish);
-  getStandardId = decodeURL(getStandardId);
-
+  useEffect(() => {
+    if (ClassTecher) ClassTecher = decodeURL(ClassTecher);
+    if (ClassId) ClassId = decodeURL(ClassId);
+    if (TeacherId) TeacherId = decodeURL(TeacherId);
+    if (StandardId) StandardId = decodeURL(StandardId);
+    if (IsMonthConfig) IsMonthConfig = decodeURL(IsMonthConfig);
+    if (IsReadOnly) IsReadOnly = decodeURL(IsReadOnly);
+    if (StandardDivisionId) StandardDivisionId = decodeURL(StandardDivisionId);
+    if (SubjectId) SubjectId = decodeURL(SubjectId);
+    if (TestId) TestId = decodeURL(TestId);
+    if (examResultProp) examResultProp = decodeURL(examResultProp);
+    if (publish) publish = decodeURL(publish);
+    if (getStandardId) getStandardId = decodeURL(getStandardId);
+  }, [ClassTecher, ClassId, TeacherId, StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publish, getStandardId]);
 
   // const [examResultProp, setexamResultProp] = useState(false);
 
@@ -79,6 +81,7 @@ const SubjectExamMarks = () => {
   const [TestDate, setTestDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [DisplayName, setDisplayName] = useState('');
   const [SubjectTotalMarks, setSubjectTotalMarks] = useState('')
+  const [delay, setDelay] = useState(false);
   const [PassingTotalMarks, setPassingTotalMarks] = useState('')
   const [TestTypeName, setTestTypeName] = useState('')
   const [TestTypeTotalMarks, setTestTypeTotalMarks] = useState('')
@@ -128,6 +131,7 @@ const SubjectExamMarks = () => {
   const ExamStatus: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ListDisplayNameDetail
   );
+
   // console.log(ExamStatus, "ExamStatus");
 
   const ManageStudentsTestMarks: any = useSelector(
@@ -146,6 +150,11 @@ const SubjectExamMarks = () => {
       format(value, 'yyyy-MM-dd')
     )
   }
+  useEffect(() => {
+    setTimeout(() => {
+      setDelay(true)
+    }, 1500)
+  }, [])
   useEffect(() => {
     if (StandardName != undefined || StandardName) {
       getStandardId = StandardName.Standard_Id
@@ -256,7 +265,9 @@ const SubjectExamMarks = () => {
     dispatch(getExamSchedule(GetExamSchedule));
 
   }, []);
-
+  useEffect(() => {
+    dispatch(resetGetSubjectExamMarkslist());
+  }, []);
   const onClickBack = () => {
     navigate('/RITeSchool/Teacher/AssignExamMark');
   };
@@ -493,7 +504,7 @@ const SubjectExamMarks = () => {
   };
   return (
     <Box sx={{ px: 2 }}>
-      {Loading && <SuspenseLoader />}
+
       {/* <CommonPageHeader
         navLinks={
           IsReadOnly
@@ -676,136 +687,138 @@ const SubjectExamMarks = () => {
           </>
         }
       />
-      < Box sx={{ p: 2, background: 'white' }}>
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+      {!delay ? <SuspenseLoader /> :
+        < Box sx={{ p: 2, background: 'white' }}>
 
-          <Typography variant={"h4"}>
-            {/* Total Marks: 20 */}
-            {TestName && TestName.Grade_Or_Marks == "M" &&
-              <TextField
-                size={"small"}
-                fullWidth
-                label={"Total Marks"}
-                value={
-                  (TestName && Object.keys(TestName).length > 0) ?
-                    TestName.Subject_Total_Marks
-                    :
-                    ''
-                }
-                sx={{ bgcolor: '#F0F0F0' }}
-                InputProps={{
-                  readOnly: true,
-                }}
-                // disabled={IsReadOnly === 'true'}
-                disabled={IsReadOnly === 'true'}
-              //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
-              />
-              // <TextField
-              // size={"small"} fullWidth value={TestMarkDetails?.length > 0 ?
-              //  (TestMarkDetails[0].Subject_Total_Marks) : ''}
-              //   disabled={IsReadOnly === 'true'} />
-            }
-          </Typography>
-          {/* {TestName && TestName.Grade_Or_Marks == "M" &&
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+
+            <Typography variant={"h4"}>
+              {/* Total Marks: 20 */}
+              {TestName && TestName.Grade_Or_Marks == "M" &&
+                <TextField
+                  size={"small"}
+                  fullWidth
+                  label={"Total Marks"}
+                  value={
+                    (TestName && Object.keys(TestName).length > 0) ?
+                      TestName.Subject_Total_Marks
+                      :
+                      ''
+                  }
+                  sx={{ bgcolor: '#F0F0F0' }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  // disabled={IsReadOnly === 'true'}
+                  disabled={IsReadOnly === 'true'}
+                //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                />
+                // <TextField
+                // size={"small"} fullWidth value={TestMarkDetails?.length > 0 ?
+                //  (TestMarkDetails[0].Subject_Total_Marks) : ''}
+                //   disabled={IsReadOnly === 'true'} />
+              }
+            </Typography>
+            {/* {TestName && TestName.Grade_Or_Marks == "M" &&
             <div>|</div>
           } */}
-          <Typography variant={"h4"}>
-            {/* Passing Marks: 20 */}
-            {TestName && TestName.Grade_Or_Marks == "M" &&
-              // <TextField
-              // size={"small"} fullWidth value={TestMarkDetails?.length > 0 ?
-              //   (TestMarkDetails[0].Passing_Total_Marks) : ''}
-              //   disabled={IsReadOnly === 'true'}
-
-              // />
-              <TextField
-                fullWidth
-                label={"Passing Marks"}
-                size={"small"}
-                value={
-                  (TestName && Object.keys(TestName).length > 0) ?
-                    parseInt(TestName.Passing_Total_Marks)
-                    :
-                    ''
-                }
-                sx={{ bgcolor: '#F0F0F0' }}
-                InputProps={{
-                  readOnly: true,
-                }}
-                // disabled={IsReadOnly === 'true'}
-                disabled={IsReadOnly === 'true'}
-              //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
-              />
-            }
-            {TestName && TestName.Grade_Or_Marks == "G" &&
-              <TextField
-                size={"small"}
-                fullWidth
-                label={"Passing Grade"}
-                value={
-                  (TestName && Object.keys(TestName).length > 0) ?
-                    TestName.Grade_Name
-                    :
-                    ''
-                }
-                sx={{ bgcolor: '#F0F0F0' }}
-                InputProps={{
-                  readOnly: true,
-                }}
+            <Typography variant={"h4"}>
+              {/* Passing Marks: 20 */}
+              {TestName && TestName.Grade_Or_Marks == "M" &&
+                // <TextField
+                // size={"small"} fullWidth value={TestMarkDetails?.length > 0 ?
+                //   (TestMarkDetails[0].Passing_Total_Marks) : ''}
                 //   disabled={IsReadOnly === 'true'}
-                disabled={IsReadOnly === 'true'}
-              //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
-              />
-            }
 
-          </Typography>
-          <Typography sx={{ color: 'red' }}>{MarksError}</Typography>
+                // />
+                <TextField
+                  fullWidth
+                  label={"Passing Marks"}
+                  size={"small"}
+                  value={
+                    (TestName && Object.keys(TestName).length > 0) ?
+                      parseInt(TestName.Passing_Total_Marks)
+                      :
+                      ''
+                  }
+                  sx={{ bgcolor: '#F0F0F0' }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  // disabled={IsReadOnly === 'true'}
+                  disabled={IsReadOnly === 'true'}
+                //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                />
+              }
+              {TestName && TestName.Grade_Or_Marks == "G" &&
+                <TextField
+                  size={"small"}
+                  fullWidth
+                  label={"Passing Grade"}
+                  value={
+                    (TestName && Object.keys(TestName).length > 0) ?
+                      TestName.Grade_Name
+                      :
+                      ''
+                  }
+                  sx={{ bgcolor: '#F0F0F0' }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  //   disabled={IsReadOnly === 'true'}
+                  disabled={IsReadOnly === 'true'}
+                //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                />
+              }
 
-        </Box>
-        <br>
-        </br>
-        {
-          IsReadOnly === 'true' && (
-            // <Typography variant="body2" color="textSecondary" style={{ backgroundColor: '#d3d3d3', color: '#000000' }}>
-            //   <span style={{ fontWeight: 'bold' }}> Student marks are already submitted.</span>
-            // </Typography>
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#38548A', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>Student marks are already submitted.</b>
             </Typography>
-          )
-        }
-        {
-          examResultProp === 'true' && publish === 'true' && (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#38548A', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>Results for this exam have been published. You need to unpublish the exam to update the marks.</b>
-            </Typography>
-          )
-        }
-        {
-          TestName?.AllowDecimal == "True" && (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#38548A', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>Note :	Marks assignment can be done in decimal numbers.</b>
-            </Typography>)
-        }
-        {/* Table */}
-        {
-          (MarksAssignment.length > 0 && HeaderDetails != null) &&
-          <SubjectExamMarkTable
-            ExamMarksHeader={HeaderDetails}
-            onChangeExamHeader={onClickExamHeader}
-            ExamStatus={ExamStatus}
-            StudentsForMarksAssignment={MarksAssignment}
-            onChangeExamStatus={onChangeExamStatus}
-            GradesForSubjectMarkList={GradesForSubjectMarkList}
-            onChangeExamGrade={onClickExamGrade}
-            IsReadOnly={IsReadOnly}
-            examResultProp={examResultProp}
-            publish={publish}
-            IsMark={TestName?.Grade_Or_Marks == "M"}
-            AllowDecimal={TestName?.AllowDecimal == "True"}
-          />
-        }
-      </Box >
+            <Typography sx={{ color: 'red' }}>{MarksError}</Typography>
+
+          </Box>
+          <br>
+          </br>
+          {
+            IsReadOnly === 'true' && (
+              // <Typography variant="body2" color="textSecondary" style={{ backgroundColor: '#d3d3d3', color: '#000000' }}>
+              //   <span style={{ fontWeight: 'bold' }}> Student marks are already submitted.</span>
+              // </Typography>
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#38548A', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>Student marks are already submitted.</b>
+              </Typography>
+            )
+          }
+          {
+            examResultProp === 'true' && publish === 'true' && (
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#38548A', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>Results for this exam have been published. You need to unpublish the exam to update the marks.</b>
+              </Typography>
+            )
+          }
+          {
+            TestName?.AllowDecimal == "True" && (
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#38548A', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>Note :	Marks assignment can be done in decimal numbers.</b>
+              </Typography>)
+          }
+          {/* Table */}
+          {
+            (MarksAssignment.length > 0 && HeaderDetails != null) &&
+            <SubjectExamMarkTable
+              ExamMarksHeader={HeaderDetails}
+              onChangeExamHeader={onClickExamHeader}
+              ExamStatus={ExamStatus}
+              StudentsForMarksAssignment={MarksAssignment}
+              onChangeExamStatus={onChangeExamStatus}
+              GradesForSubjectMarkList={GradesForSubjectMarkList}
+              onChangeExamGrade={onClickExamGrade}
+              IsReadOnly={IsReadOnly}
+              examResultProp={examResultProp}
+              publish={publish}
+              IsMark={TestName?.Grade_Or_Marks == "M"}
+              AllowDecimal={TestName?.AllowDecimal == "True"}
+            />
+          }
+        </Box >}
 
     </Box >
   );

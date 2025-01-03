@@ -61,6 +61,14 @@ const SubjectExamMarksslice = createSlice({
             state.ListYearwiseStudentId = action.payload.listYearwiseStudentId;
 
         },
+        resetGetSubjectExamMarkslist(state) {
+            // state.Loading = false;
+            state.SubjectExamMarkslists = [];
+            state.ListStudentTestMarkDetails = [];
+            state.ListFailCreatiaDetails = [];
+            state.ListYearwiseStudentId = [];
+
+        },
         GetExamMarkHeader(state, action) {
             state.Loading = false;
             state.ExamMarkHeader = action.payload;
@@ -157,6 +165,10 @@ export const getSubjectExamMarkslist =
     (data): AppThunk =>
         async (dispatch) => {
             dispatch(SubjectExamMarksslice.actions.getLoading(true));
+            dispatch(SubjectExamMarksslice.actions.GetExamMarkHeader(null));
+            dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist([]));
+            dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment([]));
+            dispatch(SubjectExamMarksslice.actions.GetListDisplayNameDetail([]));
             const body2: IGetSubjectExamMarkslistsBody = {
                 asSchoolId: data.asSchoolId,
                 asStandardDivision_Id: data.asStandardDivision_Id,
@@ -363,10 +375,11 @@ export const getSubjectExamMarkslist =
 
         }
 
-
-
-
-
+export const resetGetSubjectExamMarkslist =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(SubjectExamMarksslice.actions.resetGetSubjectExamMarkslist())
+        }
 
 
 export const getManageStudentsTestMark =
