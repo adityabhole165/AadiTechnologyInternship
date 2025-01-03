@@ -555,7 +555,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '10vw' } }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '8vw', md: '8vw' ,lg:'10vw'} }}
 
                   InputProps={{
                     readOnly: true,
@@ -581,7 +581,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '17vw' } }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '15vw', lg: '17vw' } }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -602,7 +602,7 @@ const SubjectExamMarks = () => {
                   fullWidth
                   label={"Subject Name"}
                   value={SubjectName || ''}
-                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '13vw' } }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '10vw',lg:'13vw' } }}
                   InputProps={{
                     readOnly: true,
                   }}
