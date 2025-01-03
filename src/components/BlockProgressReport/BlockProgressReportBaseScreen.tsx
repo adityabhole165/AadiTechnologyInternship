@@ -24,6 +24,7 @@ const BlockProgressReportBaseScreen = () => {
 
     const [selectedValue, setSelectedValue] = useState('1');
 
+
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asStandardDivId = Number(sessionStorage.getItem('StandardDivisionId'));
@@ -34,11 +35,15 @@ const BlockProgressReportBaseScreen = () => {
 
     );
     const GetBlockUnblockList = useSelector((state: RootState) => state.BlockUnBlocklist.IsStudentsName);
+    const GetBlockUnblockList1 = useSelector((state: RootState) => state.BlockUnBlocklist.IsStudentsName1);
     console.log(GetBlockUnblockList, 'GetBlockUnblockList');
     const GetBlockUnblockCount = useSelector((state: RootState) => state.BlockUnBlocklist.IsStudentsCount);
     const GetClassTeacherList = useSelector((state: RootState) => state.BlockUnBlocklist.IsClassTeachers);
     console.log(GetClassTeacherList, 'GetClassTeacherList');
-
+    // print in coonsole on effect GetBlockUnblockList
+    useEffect(() => {
+        console.log(GetBlockUnblockList, 'GetBlockUnblockList')
+    }, [GetBlockUnblockList])
 
 
 
@@ -53,7 +58,7 @@ const BlockProgressReportBaseScreen = () => {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
         asStandardDivId: Number(asStandardDivId),
-        asShowblocked: selectedValue == "1",
+        asShowblocked: selectedValue === "1" ? false : true,
         asStudentId: Number(0),
         asSearch: "",
         asSortExp: "ORDER BY RollNo",
@@ -61,9 +66,13 @@ const BlockProgressReportBaseScreen = () => {
         asEndIndex: Number(20)
     };
 
+
+    useEffect(() => {
+        dispatch(CDABlockUnblocklist(BlockUnblockList, selectedValue));
+    }, []);
     useEffect(() => {
 
-        dispatch(CDABlockUnblocklist(BlockUnblockList));
+        dispatch(CDABlockUnblocklist(BlockUnblockList, selectedValue));
 
     }, [selectedValue, selectedOption]);
 
@@ -216,7 +225,7 @@ const BlockProgressReportBaseScreen = () => {
             <Box sx={{ backgroundColor: 'white' }}>
                 {/* Display Page Content */}
                 {/* {selectedOption === 'Unblocked' ? ( */}
-                {selectedValue === '0' ? (
+                {selectedValue === '0' && GetBlockUnblockList1.length > 0 &&
                     <>
                         <Box sx={{
                             display: 'flex', gap: '20px', alignItems: 'center',
@@ -262,10 +271,10 @@ const BlockProgressReportBaseScreen = () => {
                                     <b>No record found.</b>
                                 </Typography>
                             )} */}
-                            <ShowBlockedStudentsTable rowsData={GetBlockUnblockList} />
+                            <ShowBlockedStudentsTable rowsData={GetBlockUnblockList1} />
                         </Box>
-                    </>
-                ) : (
+                    </>}
+                {selectedValue === '1' && GetBlockUnblockList.length > 0 &&
                     <Box sx={{ px: 2, py: 1 }}>
                         <Box sx={{
                             display: 'flex', gap: '20px', alignItems: 'center',
@@ -312,7 +321,8 @@ const BlockProgressReportBaseScreen = () => {
                         )} */}
                         <ShowUnblockedStudentsTable rowsData={GetBlockUnblockList} />
                     </Box>
-                )}
+                }
+
             </Box>
         </Box >
     )
