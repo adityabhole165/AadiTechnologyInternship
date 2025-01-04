@@ -41,8 +41,12 @@ const PrePrimaryResult = () => {
   } = useParams();
 
   // Decode in-place
-  TermId = decodeURL(TermId);
-  StdDivId = decodeURL(StdDivId);
+  useEffect(() => {
+    if (TermId !== undefined && StdDivId !== undefined) {
+      TermId = decodeURL(TermId);
+      StdDivId = decodeURL(StdDivId);
+    }
+  }, [TermId, StdDivId])
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
