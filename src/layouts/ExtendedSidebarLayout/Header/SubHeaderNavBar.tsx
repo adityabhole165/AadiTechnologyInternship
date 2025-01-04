@@ -299,6 +299,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           backgroundColor: (theme) => theme.palette.primary.main,
           // backgroundColor: 'green',
           minHeight: '50px',
+          maxHeight: '50px',
         }}
       >
         <Stack
