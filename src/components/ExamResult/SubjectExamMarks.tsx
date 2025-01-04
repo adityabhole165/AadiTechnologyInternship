@@ -105,6 +105,9 @@ const SubjectExamMarks = () => {
   const [HeaderDetails, setHeaderDetails] = useState([]);
   const [GradeHeaderDetails, setGradeHeaderDetails] = useState([]);
   const [GradeRowDetails, setGradeRowDetails] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const rowsPerPageOptions = [20, 50, 100, 200];
+  const [page, setPage] = useState(1);
 
   const Loading = useSelector((state: RootState) => state.SubjectExamMark.Loading);
   const StudentsForMarksAssignment: any = useSelector(
@@ -170,6 +173,8 @@ const SubjectExamMarks = () => {
       asTestId: Number(TestId),
       asAcademicYrId: Number(asAcademicYearId),
       asShowTotalAsPerOutOfMarks: "Y",
+      asStartIndex: (page - 1) * rowsPerPage,
+      asEndIndex: page * rowsPerPage,
       asTestDate: TestDate
     }
 
@@ -198,6 +203,8 @@ const SubjectExamMarks = () => {
       asAcademicYrId: Number(asAcademicYearId),
       asStandardId: Number(StandardId),
       asSubjectId: Number(SubjectId),
+      asStartIndex: (page - 1) * rowsPerPage,
+      asEndIndex: page * rowsPerPage,
       asTestId: Number(TestId),
     };
 
@@ -818,7 +825,12 @@ const SubjectExamMarks = () => {
               AllowDecimal={TestName?.AllowDecimal == "True"}
             />
           }
-        </Box >}
+
+          
+        </Box >
+
+        
+        }
 
     </Box >
   );

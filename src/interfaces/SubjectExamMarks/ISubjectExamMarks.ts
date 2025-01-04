@@ -35,28 +35,38 @@ export interface IGetAllStudentsForMarksAssignmentsBody {
     asSchoolId: number,
     asSubject_Id: number,
     asStandardDivision_Id: number,
+    asStartIndex: number,
+    asEndIndex: number,
     asTestDate: string
 }
 export interface IGetAllStudentsForMarksAssignmentsResult {
-    Student_Id: string
-    Enrolment_Number: string,
-    Roll_No: string,
-    Name: string,
-    is_absent: boolean,
-    Marks_Scored: string,
-    Joining_Date: string,
-    SalutationId: string,
-    FName: string,
-    MName: string,
-    LName: string
+    GetAllStudentsForMarksAssignmentsdetails: [
+        {
+            Student_Id: string;
+            Enrolment_Number: string;
+            Roll_No: string;
+            Name: string;
+            is_absent: string;
+            Marks_Scored: string;
+            Joining_Date: string;
+            SalutationId: string;
+            FName: string;
+            MName: string;
+            LName: string;
+        },
+    ];
+    listGetCount: {
+        TotalStudentCount: string;
+    };
 }
-
 
 export interface IGetAllGradesForSubjectMarkListBody {
     asSchoolId: number,
     asAcademicYrId: number,
     asStandardId: number,
     asSubjectId: number,
+    asStartIndex: number,
+    asEndIndex: number,
     asTestId: number
 }
 export interface IGetAllGradesForSubjectMarkListResult {
@@ -74,6 +84,8 @@ export interface IGetSubjectExamMarkslistsBody {
     asTestId: number,
     asAcademicYrId: number,
     asShowTotalAsPerOutOfMarks: string,
+    asStartIndex: number,
+    asEndIndex: number,
     asTestDate?: string
 }
 export interface IGetSubjectExamMarkslistsResult {

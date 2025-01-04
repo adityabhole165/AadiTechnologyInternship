@@ -26,6 +26,7 @@ const SubjectExamMarksslice = createSlice({
         ListFailCreatiaDetails: [],
         ListYearwiseStudentId: [],
         ManageStudentsTestMark: '',
+        StudentCount: [],
         ExamSchedule: [],
         Loading: true
     },
@@ -72,6 +73,10 @@ const SubjectExamMarksslice = createSlice({
         GetExamMarkHeader(state, action) {
             state.Loading = false;
             state.ExamMarkHeader = action.payload;
+        },
+        GetStudentCount(state, action) {
+            state.Loading = false;
+            state.StudentCount = action.payload;
         },
         GetListDisplayNameDetail(state, action) {
             state.Loading = false;
@@ -175,6 +180,8 @@ export const getSubjectExamMarkslist =
                 asSubjectId: data.asSubjectId,
                 asTestId: data.asTestId,
                 asAcademicYrId: data.asAcademicYrId,
+                asStartIndex: data.asStartIndex,
+                asEndIndex: data.asEndIndex,
                 asShowTotalAsPerOutOfMarks: data.asShowTotalAsPerOutOfMarks
             }
             const body3: IGetAllGradesForSubjectMarkListBody = {
@@ -182,6 +189,8 @@ export const getSubjectExamMarkslist =
                 asAcademicYrId: data.asAcademicYrId,
                 asStandardId: data.asStandardId,
                 asSubjectId: data.asSubjectId,
+                asStartIndex: data.asStartIndex,
+                asEndIndex: data.asEndIndex,
                 asTestId: data.asTestId
             }
             const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
@@ -191,6 +200,8 @@ export const getSubjectExamMarkslist =
                 asSchoolId: data.asSchoolId,
                 asSubject_Id: data.asSubjectId,
                 asStandardDivision_Id: data.asStandardDivision_Id,
+                asStartIndex: data.asStartIndex,
+                asEndIndex: data.asEndIndex,
                 asTestDate: data.asTestDate
             }
             // console.log(body1, "body1", response2.data);
@@ -296,7 +307,7 @@ export const getSubjectExamMarkslist =
 
                 return TotalMarks
             }
-            response1.data.map((Item, i) => {
+            response1.data.GetAllStudentsForMarksAssignmentsdetails.map((Item, i) => {
                 reponseData1.push({
                     Id: Item.Student_Id,
                     Text1: Item.Roll_No,
@@ -309,7 +320,7 @@ export const getSubjectExamMarkslist =
 
 
             dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(reponseData1));
-
+            dispatch(SubjectExamMarksslice.actions.GetStudentCount(response1.data.listGetCount));
             let responseData2 = [];
             const ExamMarkHeader = {
                 Text1: "Roll No.",

@@ -14,7 +14,7 @@ const GetClassExamSubjectNameDetailes = (data: IGetClassExamSubjectNameDetailesB
 };
 
 const GetAllStudentsForMarksAssignments = (data: IGetAllStudentsForMarksAssignmentsBody) => {
-    return http.post<IGetAllStudentsForMarksAssignmentsResult[]>('Teacher/GetAllStudentsForMarksAssignments', data);
+    return http.post<IGetAllStudentsForMarksAssignmentsResult>('Teacher/GetAllStudentsForMarksAssignments', data);
 };
 
 const GetAllGradesForSubjectMarkList = (data: IGetAllGradesForSubjectMarkListBody) => {
