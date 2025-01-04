@@ -205,7 +205,7 @@ const SubjectExamMarks = () => {
 
     dispatch(getSubjectExamMarkslist(GetSubjectExamMarkslists));
 
-  }, [startIndex,endIndex]);
+  }, []);
   //for Passing Total marks
   useEffect(() => {
 
