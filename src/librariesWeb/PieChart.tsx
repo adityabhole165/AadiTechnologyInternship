@@ -22,6 +22,7 @@ const PieChart = () => {
     const validAttendance = filteredAttendance.filter((item: any) => Object.keys(item).length > 0);
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString('en-GB').split('/').join('-');
+    const currentDay = currentDate.toLocaleDateString('en-US', { weekday: 'long' }); // Get current day (e.g., Monday)
     // const TotalBoysPresentPercentage = parseFloat(validAttendance.map((item: any) =>item.TotalBoysPresentPercentage)[0]) || 0;
     // const TotalGirlsPresentPercentage = parseFloat(validAttendance.map((item: any) => item.TotalGirlsPresentPercentage)[0]) || 0;
     // const TotalBoysAbsentPercentage = parseFloat(validAttendance.map((item: any) => item.TotalBoysAbsentPercentage)[0]) || 0;
@@ -52,15 +53,18 @@ const PieChart = () => {
     const isHoliday = (statusDesc: string) => statusDesc === 'Holiday';
     const isNotDone = (statusDesc: string) => statusDesc === 'Not Done';
     // const colors = statusDescriptions.map((item) => (isWeekend(item.StatusDesc) ? 'red' : ''));
+
+    const attendanceMarkedToday = validAttendance.length > 0;
+
     const colors = statusDescriptions.map((item) => {
         if (isWeekend(item.StatusDesc)) {
             return 'red';
         } else if (isHoliday(item.StatusDesc)) {
-            return 'brown';
+            return 'red';
         } else if (isNotDone(item.StatusDesc)) {
-            return '#a9a9a9';
+            return '#38548A';
         } else {
-            return '#007305';
+            return '#38548A';
         }
     });
     const attendanceNotTaken = validAttendance.length == 0;
@@ -158,7 +162,7 @@ const PieChart = () => {
     }, [filteredAttendance, statusDescriptions]);
 
     return (
-        <Box sx={{  backgroundColor: 'white', p: 1 }} >
+        <Box sx={{ backgroundColor: 'white', p: 1 }} >
             <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
                 <Header Title="Attendance Status" />
                 <Tooltip
@@ -178,9 +182,9 @@ const PieChart = () => {
                 </Tooltip>
             </Grid>
             <Grid container>
-                
-                <Grid item xs={12} sm={8} md={8} lg={8} 
-                sx={{ height: '320px', overflow: 'auto', mt: 1 }}
+
+                <Grid item xs={12} sm={8} md={8} lg={8}
+                    sx={{ height: '320px', overflow: 'auto', mt: 1 }}
                 >
                     <ApexCharts
                         options={state.options}
@@ -190,24 +194,26 @@ const PieChart = () => {
                         height="295"
                     />
                 </Grid>
-                <Grid item xs={12} sm={4} md={4} lg={4} mt={5} 
-                sx={{height: { xs: 'auto',sm:'305px', md: '280px', lg: '280px' }, overflow: 'hidden'}}>
-                    <ApexCharts
-                        options={options1}
-                        series={[TotalGirlsPresentPercentage, TotalGirlsAbsentPercentage, TotalBoysPresentPercentage, TotalBoysAbsentPercentage]}
-                        type="donut"
-                        width="100%"
-                        height="382"
-                    />
-                     <Box sx={{ textAlign: 'center', mt: 2, }}>
-                        <Typography variant="subtitle1" sx={{ color: '#38548A' }}>
-                            <strong>Monday</strong>
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: '#666' }}>
-                        <strong> 2024-01-15</strong>
-                        </Typography>
-                    </Box>
-                </Grid>
+
+                {attendanceMarkedToday && (
+                    <Grid item xs={12} sm={4} md={4} lg={4} mt={5}
+                        sx={{ height: { xs: 'auto', sm: '305px', md: '280px', lg: '280px' }, overflow: 'hidden' }}>
+                        <ApexCharts
+                            options={options1}
+                            series={[TotalGirlsPresentPercentage, TotalGirlsAbsentPercentage, TotalBoysPresentPercentage, TotalBoysAbsentPercentage]}
+                            type="donut"
+                            width="100%"
+                            height="382"
+                        />
+                        <Box sx={{ textAlign: 'center', mt: 2 }}>
+                            <Typography variant="subtitle1" sx={{ color: '#38548A' }}>
+                                <strong>{currentDay}</strong>
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: '#666' }}>
+                                <strong>{formattedDate}</strong>
+                            </Typography>
+                        </Box>
+                    </Grid>)}
             </Grid>
         </Box>
     );
