@@ -66,9 +66,8 @@ import {
   getallowNextYearInternalFeePaymentForStudent
 } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 import PayCautionMoney from './PayCautionMoney';
-import { encodeURL } from '../Common/Util';
 
 const note = [
   '1) Caution Money paid by Cheque on date 14 Dec 2017. Cheque Details (Date: 14 Dec 2017, Number: 0099998, Bank Name: ICICI BANK), Receipt No. : 30057.'
@@ -501,7 +500,7 @@ function Fees() {
   };
 
   const ClickNavigateChallan = () => {
-    navigate('ChallanSNSForFees');
+    navigate('ChallanSNSForFees', { state: { fromInternal: true } });
   };
 
   return (

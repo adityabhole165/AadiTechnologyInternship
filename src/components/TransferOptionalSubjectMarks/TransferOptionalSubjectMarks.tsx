@@ -362,7 +362,7 @@ const TransferOptionalSubjectMarks = () => {
   };
 
   const ExamResultBase = (value) => {
-    navigate('/RITeSchool/Teacher/ExamResultBase');
+    navigate('/RITeSchool/Teacher/ExamResultBase', { state: { fromInternal: true } });
   };
   useEffect(() => {
     dispatch(CDAGetClassTeachers(GetClassTeachersBody));
@@ -501,7 +501,7 @@ const TransferOptionalSubjectMarks = () => {
                   justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                 >
                   <TextField
-                    sx={{ width: { xs: '70vw', sm: '15vw' }}}
+                    sx={{ width: { xs: '70vw', sm: '15vw' } }}
                     fullWidth
                     label="Student Name / Reg.No. "
                     value={SearchText}

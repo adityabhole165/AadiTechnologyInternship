@@ -132,11 +132,11 @@ const FinalResult = () => {
 
 
   const AssignmentClickIcon = (value) => {
-    navigate('/RITeSchool/Teacher/StudentProgressReport/' + encodeURL(asUserId) + '/' + encodeURL(asStudentId))
+    navigate('/RITeSchool/Teacher/StudentProgressReport/' + encodeURL(asUserId) + '/' + encodeURL(asStudentId), { state: { fromInternal: true } })
   }
 
   const VisibilityClickIcon = (value) => {
-    navigate('/RITeSchool/Teacher/StudentProgressReport/' + encodeURL(asStudentId))
+    navigate('/RITeSchool/Teacher/StudentProgressReport/' + encodeURL(asStudentId), { state: { fromInternal: true } })
   }
 
 
@@ -209,7 +209,7 @@ const FinalResult = () => {
         !GetResultGenerated || buttonsDisabled ? (
           <IconButton
             onClick={() => {
-              navigate('/RITeSchool/Teacher/GenerateAll/' + encodeURL(row.Id) + '/' + encodeURL(row.Text7) + '/' + encodeURL(false) + '/' + encodeURL(StandardDivisionId));
+              navigate('/RITeSchool/Teacher/GenerateAll/' + encodeURL(row.Id) + '/' + encodeURL(row.Text7) + '/' + encodeURL(false) + '/' + encodeURL(StandardDivisionId), { state: { fromInternal: true } }); // ,{ state: { fromInternal: true } }
             }}
             sx={{
               display: 'flex',
@@ -229,7 +229,7 @@ const FinalResult = () => {
         row.CanShowVisibility ? (
           <IconButton
             onClick={() => {
-              navigate('/RITeSchool/Teacher/GenerateAll/' + encodeURL(row.Id) + '/' + encodeURL('Y') + '/' + encodeURL(true) + '/' + encodeURL(StandardDivisionId));
+              navigate('/RITeSchool/Teacher/GenerateAll/' + encodeURL(row.Id) + '/' + encodeURL('Y') + '/' + encodeURL(true) + '/' + encodeURL(StandardDivisionId), { state: { fromInternal: true } });
             }}
             sx={{
               display: 'flex',
@@ -569,7 +569,7 @@ const FinalResult = () => {
 
 
   const Toppers = (value) => {
-    navigate('/RITeSchool/Teacher/Toppers/' + encodeURL(getTeacherId()) + '/' + encodeURL(StandardDivisionId) + '/' + encodeURL(standardId) + '/' + encodeURL(true));
+    navigate('/RITeSchool/Teacher/Toppers/' + encodeURL(getTeacherId()) + '/' + encodeURL(StandardDivisionId) + '/' + encodeURL(standardId) + '/' + encodeURL(true), { state: { fromInternal: true } });
   };
 
 
@@ -871,7 +871,7 @@ const FinalResult = () => {
                 <span>
                   <IconButton
                     onClick={() => {
-                      navigate('/RITeSchool/Teacher/ViewResultAll/' + encodeURL(StandardDivisionId))
+                      navigate('/RITeSchool/Teacher/ViewResultAll/' + encodeURL(StandardDivisionId), { state: { fromInternal: true } })
                     }}
                     disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
                     sx={{

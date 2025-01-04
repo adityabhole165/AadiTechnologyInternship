@@ -15,7 +15,7 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
         clickSingle({ name: name, value: value, checked: !item.isActive })
     }
     const clickCard = (path) => {
-        navigate('../' + path.replace('/Common/', ''))
+        navigate('../' + path.replace('/Common/', ''), { state: { fromInternal: true } })
 
     }
     return (

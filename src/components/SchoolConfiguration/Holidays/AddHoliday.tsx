@@ -279,7 +279,7 @@ const AddHoliday = ({ }) => {
             }
             dispatch(resetSaveHolidays());
 
-            navigate('/RITeSchool/Admin/SchoolConfiguration/Holidays');
+            navigate('/RITeSchool/Admin/SchoolConfiguration/Holidays', { state: { fromInternal: true } });
         }
     }, [SaveHolidays])
 
@@ -368,7 +368,7 @@ const AddHoliday = ({ }) => {
 
 
     const resetForm = () => {
-        navigate('/RITeSchool/Admin/SchoolConfiguration/Holidays')
+        navigate('/RITeSchool/Admin/SchoolConfiguration/Holidays', { state: { fromInternal: true } })
     }
 
     return (

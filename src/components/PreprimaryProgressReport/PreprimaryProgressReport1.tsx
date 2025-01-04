@@ -125,7 +125,7 @@ const PreprimaryProgressReport1 = () => {
     const Newvalue = true;
     useEffect(() => {
         if (!USIsXseedApplicable) {
-            let state1 = { AcademicYear, newstudntid, Newvalue, TeacherID };
+            let state1 = { AcademicYear, newstudntid, Newvalue, TeacherID, fromInternal: true };
             navigate('/RITeSchool/Teacher/ProgressReportNew', { state: state1 });
 
         }

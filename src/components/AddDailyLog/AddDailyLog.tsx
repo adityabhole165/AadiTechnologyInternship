@@ -55,7 +55,7 @@ const AddDailyLog = () => {
   const navigate = useNavigate();
   let {
     Id,
-    ClassName,SelectTeacher
+    ClassName, SelectTeacher
   } = useParams();
 
   // Decode in-place
@@ -359,7 +359,7 @@ const AddDailyLog = () => {
   };
 
   const onClickBack = () => {
-    navigate('/RITeSchool/Teacher/AssignHomework');
+    navigate('/RITeSchool/Teacher/AssignHomework', { state: { fromInternal: true } });
   };
   const handleDateChange = (selectedDate) => {
     setDateState(selectedDate);
@@ -527,13 +527,13 @@ const AddDailyLog = () => {
   const PageChange = (pageNumber) => {
     setPage(pageNumber);
   };
-  
+
   return (
     <>
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
-            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework/' +  encodeURL(Id) + "/" + encodeURL(SelectTeacher)},
+            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework/' + encodeURL(Id) + "/" + encodeURL(SelectTeacher) },
             { title: 'Manage Daily Log', path: '' }
           ]}
           rightActions={<>

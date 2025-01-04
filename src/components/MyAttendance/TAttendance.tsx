@@ -828,7 +828,7 @@ const TAttendance = () => {
                         '/RITeSchool/Teacher/IndidualAttendance/' +
                         encodeURL(selectClasstecahernew) +
                         '/' +
-                        encodeURL(getDateFormattedDash(assignedDate))
+                        encodeURL(getDateFormattedDash(assignedDate)), { state: { fromInternal: true } }
                       )
                     }
                     sx={{

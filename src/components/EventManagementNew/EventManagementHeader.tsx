@@ -64,7 +64,7 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     ]
     const ClickIcon = (value) => {
         if (value == 'EventsOverview') {
-            navigate('/RITeSchool/Common/EventOverview');
+            navigate('/RITeSchool/Common/EventOverview', { state: { fromInternal: true } });
         }
         if (value == 'Save') {
             ClickSave();

@@ -158,7 +158,6 @@ import {
   Box,
   CircularProgress,
   Divider,
-  FormGroup,
   Grid,
   Link,
   Stack,
@@ -167,16 +166,16 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { encodeURL } from 'src/components/Common/Util';
 import { IUnreadMessages } from 'src/interfaces/Student/dashboard';
 import { getUnreadMessages } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
 import Actions from './Actions';
 import Header from './Header';
-import { encodeURL } from 'src/components/Common/Util';
-import { grey } from '@mui/material/colors';
 
 const UnreadMessage = () => {
   const dispatch = useDispatch();
@@ -216,8 +215,8 @@ const UnreadMessage = () => {
   const clickMessage = (item) => {
     navigate(
       '/RITeSchool/MessageCenter/viewMSg/' +
-        encodeURL(item.MessageDetailsId) +
-        '/Inbox'
+      encodeURL(item.MessageDetailsId) +
+      '/Inbox'
     );
   };
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -252,7 +251,7 @@ const UnreadMessage = () => {
         sx={{
           overflow: 'auto',
           mt: 2,
-          height: { xs: '240px', md: '260px', lg:'260px'},
+          height: { xs: '240px', md: '260px', lg: '260px' },
           maxWidth: '100%'
         }}
       >
@@ -291,7 +290,7 @@ const UnreadMessage = () => {
                               height: 40,
                               '& img': { objectFit: 'contain' }
                             }}
-                            // variant='circular'
+                          // variant='circular'
                           />
                         ) : null
                       )}
@@ -301,7 +300,7 @@ const UnreadMessage = () => {
                   {/* Message Details */}
                   <Grid item xs={10} sm={10}>
                     <Grid container>
-                      <Grid item xs={4} sm={4}  md={4}
+                      <Grid item xs={4} sm={4} md={4}
                         lg={5}>
                         <Typography variant="h6" pl={1}>{item.UserName}</Typography>
                       </Grid>
@@ -319,7 +318,7 @@ const UnreadMessage = () => {
                         />
                         <Typography
                           variant="body1"
-                          sx={{width:'80%' }}
+                          sx={{ width: '80%' }}
                         >
                           {item.Date}
                         </Typography>
@@ -359,7 +358,7 @@ const UnreadMessage = () => {
       </Box>
 
       {/* Footer Section */}
-      <Grid container justifyContent="center" sx={{ mt: 2,  mb:2,}}>
+      <Grid container justifyContent="center" sx={{ mt: 2, mb: 2, }}>
         <Grid item xs={12} sm="auto" container justifyContent="center">
           <Link
             href="/RITeSchool/MessageCenter/msgCenter"
@@ -375,7 +374,7 @@ const UnreadMessage = () => {
               sx={{
                 fontWeight: 'bold',
                 pr: 1,
-               
+
                 textAlign: { xs: 'center', sm: 'left' }
               }}
             >

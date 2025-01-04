@@ -210,11 +210,11 @@ const StudentRecords = () => {
   };
   const clickEdit = (value) => {
     navigate('/RITeSchool/Teacher/AddStudentRecord/Add/' + encodeURL(SelectTeacher) +
-      '/' + value);
+      '/' + value, { state: { fromInternal: true } });
   };
   const clickView = (value) => {
     navigate('/RITeSchool/Teacher/AddStudentRecord/Edit/' + encodeURL(SelectTeacher) +
-      '/' + value);
+      '/' + value, { state: { fromInternal: true } });
   };
   const PageChange = (pageNumber) => {
     setPage(pageNumber);

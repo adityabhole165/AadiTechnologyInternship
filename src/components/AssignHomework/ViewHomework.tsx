@@ -116,7 +116,7 @@ const ViewHomework = () => {
       encodeURL(MySubject) +
       '/' +
       encodeURL(SelectClass)
-
+      , { state: { fromInternal: true } }
     );
   };
 

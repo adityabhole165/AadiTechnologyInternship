@@ -390,7 +390,7 @@ const GenerateAll = ({ }) => {
     }, []);
 
     const onClickClose = () => {
-        navigate('/RITeSchool/Teacher/FinalResult');
+        navigate('/RITeSchool/Teacher/FinalResult', { state: { fromInternal: true } });
     };
     // f() to find the gradeId with Gade_Name and isCoCurricular flag
     function getGradeId(grade, isCoCurricular) {

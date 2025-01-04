@@ -16,6 +16,7 @@ const SchoolSettingSlice = createSlice({
   initialState: {
     ModulesPermission: [],
     ModulesPermissionsResult: [],
+    IS_SidebarMenuList: [],
     SchoolTrasnportIsEnabled: false,
     SubTeacher: false,
     isLibrarySchoolSetting: false,
@@ -50,6 +51,10 @@ const SchoolSettingSlice = createSlice({
   reducers: {
     getModulesPermission(state, action) {
       state.ModulesPermission = action.payload.GetModulesPermissionsResult;
+    },
+    // IS_SidebarMenuList
+    getIS_SidebarMenuList(state, action) {
+      state.IS_SidebarMenuList = action.payload;
     },
     getEnableOnlineExamModule(state, action) {
       state.EnableOnlineExamModule = action.payload;
@@ -156,6 +161,17 @@ const SchoolSettingSlice = createSlice({
     }
   }
 });
+//     // IS_SidebarMenuList
+// getIS_SidebarMenuList(state, action) {
+// state.IS_SidebarMenuList = action.payload;
+// },
+export const CDA_SidebarMenuList =
+  (dataList): AppThunk =>
+    async (dispatch) => {
+      console.log('dataList 🗝️🗝️', dataList);
+      dispatch(SchoolSettingSlice.actions.getIS_SidebarMenuList(dataList));
+      sessionStorage.setItem('IS_SidebarMenuList', JSON.stringify(dataList));
+    }
 export const getAllAcademicYears =
   (data: IGetAllAcademicYearForSchoolBody): AppThunk =>
     async (dispatch) => {

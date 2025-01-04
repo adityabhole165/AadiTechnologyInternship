@@ -238,7 +238,7 @@ const IndividualAttendance = () => {
     if (ItemList.length >= 0) setAttendanceXML(getAttendanceString());
   }, [ItemList]);
   const click = () => {
-    navigate('/RITeSchool/Teacher/TAttendance');
+    navigate('/RITeSchool/Teacher/TAttendance', { state: { fromInternal: true } });
   };
   const handlePrevMonth = () => {
     const newDate = new Date(FormattedDate);

@@ -227,6 +227,7 @@ const PrePrimaryResult = () => {
       SubjectId: SubId,
       StandardDivisionId: StdDivIds,
       selectTeacher: 'RP',
+      fromInternal: true
     };
     if (IsXseedSubject === 'Y') {
       navigate('/RITeSchool/Teacher/AssignPrePrimarySubjectGrades/', { state });
@@ -351,7 +352,7 @@ const PrePrimaryResult = () => {
               >
                 <SearchableDropdown1
                   ItemList={Assessmentt}
-                  sx={{    width: { xs: '50vw', sm: '13vw' } }}
+                  sx={{ width: { xs: '50vw', sm: '13vw' } }}
                   onChange={(value) => {
                     GetAssessmentDropdown(value.Value);
                     setTermName(value.Name);

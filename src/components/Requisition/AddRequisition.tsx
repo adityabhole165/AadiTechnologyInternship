@@ -329,7 +329,7 @@ const AddRequisition = () => {
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
             toast.success("Requisition is sent successfully.");
-            navigate('/RITeSchool/Teacher/Requisition')
+            navigate('/RITeSchool/Teacher/Requisition', { state: { fromInternal: true } })
             setItemlist([]);
             setAddItemlistNew([]);
             setError('')
@@ -512,7 +512,7 @@ const AddRequisition = () => {
     }
 
     const onClickBack = () => {
-        navigate('/RITeSchool/Teacher/ExamResultBase');
+        navigate('/RITeSchool/Teacher/ExamResultBase', { state: { fromInternal: true } });
     };
 
     useEffect(() => {

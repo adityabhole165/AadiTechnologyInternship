@@ -287,7 +287,7 @@ const LibraryBaseScreen = () => {
                                     },
                                 }}
                                 onClick={() =>
-                                    navigate('/RITeSchool/Teacher/ClaimedBookDetailsPage' + '/')
+                                    navigate('/RITeSchool/Teacher/ClaimedBookDetailsPage' + '/', { state: { fromInternal: true } })
                                 }
                             >
                                 <BookIcon />

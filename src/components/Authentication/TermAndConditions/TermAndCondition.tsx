@@ -19,7 +19,7 @@ function TermAndCondition() {
     //console.log(value);
   };
   const ChangePassword = () => {
-    navigate('/changePassword');
+    navigate('/changePassword', { state: { fromInternal: true } });
   };
   return (
     <Box sx={{ px: 2 }}>

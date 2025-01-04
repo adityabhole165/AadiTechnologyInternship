@@ -80,7 +80,7 @@ const SchoolAttendanceOverview = () => {
 
   const navigate = useNavigate();
   const click = () => {
-    navigate('/RITeSchool/Teacher/TAttendance/' + encodeURL(SelectDate));
+    navigate('/RITeSchool/Teacher/TAttendance/' + encodeURL(SelectDate), { state: { fromInternal: true } });
   };
 
   useEffect(() => {
@@ -178,7 +178,7 @@ const SchoolAttendanceOverview = () => {
           {ISWeekendStatusList}
         </Typography>
       ) : (
-        <Box sx={{ backgroundColor: 'white', p: 2,  }}>
+        <Box sx={{ backgroundColor: 'white', p: 2, }}>
           <Grid container spacing={2}>
             <Grid item xs={12}  >
               <TableUsingArray
@@ -188,7 +188,7 @@ const SchoolAttendanceOverview = () => {
             </Grid>
             <div className=""></div>
           </Grid>
-         
+
         </Box>
       )}
 

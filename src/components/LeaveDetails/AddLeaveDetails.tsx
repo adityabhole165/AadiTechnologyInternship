@@ -327,7 +327,7 @@ const AddLeaveDetails = () => {
                 toast.success("Leave record saved successfully.", { toastId: "success1" });
             }
             dispatch(resetSubmitLeave());
-            navigate('/RITeSchool/Teacher/LeaveDetails');
+            navigate('/RITeSchool/Teacher/LeaveDetails', { state: { fromInternal: true } });
         }
     }, [SubmitLeaveDetails])
     // useEffect(() => {

@@ -32,15 +32,14 @@ const StandardwiseExamSchedule = () => {
         SchoolwiseStandardTestId
     } = useParams();
 
-    // Decode in-place
-    StandardId = decodeURL(StandardId);
-    TestId = decodeURL(TestId);
-    SchoolwiseStandardExamScheduleId = decodeURL(SchoolwiseStandardExamScheduleId);
-    StandardTestId = decodeURL(StandardTestId);
-    IsConfigured = decodeURL(IsConfigured);
-    SchoolwiseStandardTestId = decodeURL(SchoolwiseStandardTestId);
-
-
+    useEffect(() => {
+        if (StandardId === undefined) StandardId = decodeURL(StandardId);
+        if (TestId === undefined) TestId = decodeURL(TestId);
+        if (SchoolwiseStandardExamScheduleId === undefined) SchoolwiseStandardExamScheduleId = decodeURL(SchoolwiseStandardExamScheduleId);
+        if (StandardTestId === undefined) StandardTestId = decodeURL(StandardTestId);
+        if (IsConfigured === undefined) IsConfigured = decodeURL(IsConfigured);
+        if (SchoolwiseStandardTestId === undefined) SchoolwiseStandardTestId = decodeURL(SchoolwiseStandardTestId);
+    }, [StandardId, TestId, SchoolwiseStandardExamScheduleId, StandardTestId, IsConfigured, SchoolwiseStandardTestId]);
 
     const inistailSchoolwiseStandardExamScheduleId = SchoolwiseStandardExamScheduleId !== undefined ? SchoolwiseStandardExamScheduleId : 0
     const inistailStandardTestId = StandardTestId !== undefined ? StandardTestId : SchoolwiseStandardTestId;
@@ -137,7 +136,7 @@ const StandardwiseExamSchedule = () => {
         asStandardId: Number(StandardId),
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
-        asStandardwiseExamScheduleId: asStandardwiseExamScheduleId
+        asStandardwiseExamScheduleId: SchoolwiseStandardTestId
 
     }
 

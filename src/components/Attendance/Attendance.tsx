@@ -1,11 +1,11 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Calender1 } from 'src/components/Attendance/Calender';
 import {
-    GetStudentAttendaceForMonthResult,
-    IAttendance
+  GetStudentAttendaceForMonthResult,
+  IAttendance
 } from 'src/interfaces/Student/Attendance';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Card1 from 'src/libraries/mainCard/Card1';
@@ -58,7 +58,7 @@ function Attendance() {
   }, [month, year]);
 
   const AttendanceTopper = () => {
-    navigate('AttendanceTopper');
+    navigate('AttendanceTopper', { state: { fromInternal: true } });
   };
 
   return (

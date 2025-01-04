@@ -451,7 +451,7 @@ const AddReciepentsSMS = ({
     setOpenDialog(false);
   };
   const handleClick = () => {
-    navigate('/RITeSchool/SMSCenter/ContactGroup'); // Replace with your desired route path
+    navigate('/RITeSchool/SMSCenter/ContactGroup', { state: { fromInternal: true } }); // Replace with your desired route path
   };
 
   const handleOpenDialog = (isRecipients) => {

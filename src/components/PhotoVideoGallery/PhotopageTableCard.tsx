@@ -62,7 +62,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
 
     const handleEdit = (action: string, item: any) => {
         // navigate('/RITeSchool/Teacher/AddNewPhoto/' + (item.galleryName));
-        navigate('/RITeSchool/Teacher/AddNewPhoto/' + (item.RowID));
+        navigate('/RITeSchool/Teacher/AddNewPhoto/' + (item.RowID), { state: { fromInternal: true } });
     }
 
 
@@ -78,7 +78,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
     };
 
     const ViewPhotoFilePage = (value) => {
-        navigate('/RITeSchool/Teacher/ViewPhotoFile');
+        navigate('/RITeSchool/Teacher/ViewPhotoFile', { state: { fromInternal: true } });
     };
 
     return (

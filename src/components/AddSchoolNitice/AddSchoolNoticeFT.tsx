@@ -406,7 +406,7 @@ const AddSchoolNoticeFT = () => {
             }
             dispatch(resetSaveSchoolNoticeDetails());
 
-            navigate('/RITeSchool/Teacher/SchoolNoticeBasescreen');
+            navigate('/RITeSchool/Teacher/SchoolNoticeBasescreen', { state: { fromInternal: true } });
         }
     }, [SaveNotice])
 

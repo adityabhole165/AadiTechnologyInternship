@@ -283,6 +283,7 @@ const AssignPrePrimaryGrades = () => {
       SubjectId,
       StandardDivisionId,
       selectTeacher,
+      fromInternal: true, // Add the fromInternal flag directly in the state
     };
 
     if (isXseed === 'N') {

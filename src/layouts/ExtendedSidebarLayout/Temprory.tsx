@@ -30,21 +30,18 @@ import InsertCommentTwoToneIcon from '@mui/icons-material/InsertCommentTwoTone';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone'; //Leave Details
 import LockResetTwoToneIcon from '@mui/icons-material/LockResetTwoTone'; // password
-import User from '@mui/icons-material/ManageAccounts';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
-import PowerOutLined from '@mui/icons-material/PowerSettingsNew';
 import ReceiptTwoToneIcon from '@mui/icons-material/ReceiptTwoTone'; // Assign Pre-Primary Progress Report Grades
 import RuleIcon from '@mui/icons-material/Rule'; //Assign exam mark 
 import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone'; //Pre-Primary Progress Report Results
-import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
 import SmsTwoToneIcon from '@mui/icons-material/SmsTwoTone'; //SMS Center 
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
 import TableChart from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
-import { Accordion, AccordionDetails, AccordionSummary, Grid, IconButton, ListItemText, Stack, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, IconButton, ListItemText, Stack, Tooltip, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
@@ -199,7 +196,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }, [])
 
   useEffect(() => {
-    if (AllowedPagesListForUser.length > 0 && sessionStorage.getItem('AllowedScreens') === null) {
+    if (AllowedPagesListForUser.length > 0) {
       let allowedScreens = JSON.stringify(AllowedPagesListForUser);
       sessionStorage.setItem('AllowedScreens', allowedScreens);
     }
@@ -1064,12 +1061,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     };
   }
 
-  // useEffect(() => {
-  //   if (sideList.length > 0 && !sessionStorage.getItem('sideList')) {
-  //     sessionStorage.setItem('sideList', JSON.stringify(sideList, removeCircularReferences()));
-
-  //   }
-  // }, [sideList]);
 
   useEffect(() => {
     if (hasMissingDays && !sessionStorage.getItem('hasShownMissingAttendancePopup')) {
@@ -1096,7 +1087,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     let sd = sideList;
     let AllowedScreens = AllowedPagesListForUser;
     let configSetting = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
-    let finalArr = [];
+    let finalArr: any = [];
 
     sd.map((item, i) => {
       if (item.screenId === 0) {
@@ -1131,10 +1122,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     })
     // console.log('final list --->>>', finalArr);
     let FinalListForSubTeacher = SideLisrForSubTeacher?.filter((item) => item.visible === true)
-
     return isClassTeacher === 'Y' ? finalArr : FinalListForSubTeacher.concat(matchingExtraScreens);
   }
-
 
   //new impliment
   // useEffect(() => {
@@ -1151,11 +1140,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     "Other Utilities": filt().filter(item => item.id === 'Other Utilities'),
     "Extra Screens": filt().filter(item => item.id === 'Extra Screens'),
   };
-
   groupedItems['Extra Screens'] = groupedItems['Extra Screens'].sort((a, b) => {
     const titleA = a?.title?.toUpperCase();
     const titleB = b?.title?.toUpperCase();
-
     return titleA?.localeCompare(titleB); // Shorter comparison using localeCompare
   });
   const handleListItemClick1 = (event, link, anchor, title) => {
@@ -1181,13 +1168,27 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       } else {
         navigate(link);
       }
-
       // navigate(link);
       toggleDrawer(anchor, false);
     }
   };
   //end new impliment
-
+  if (filt()?.length > 0) {
+    try {
+      sessionStorage.removeItem('sideList');
+      const filteredList = filt().map(item => ({
+        id: item.id,
+        title: item.title,
+        link: item.link,
+        icon: item.icon ? item.icon.type.name : null
+      }));
+      const serializedList = JSON.stringify(filteredList, removeCircularReferences());
+      sessionStorage.setItem('sideList', serializedList);
+      console.log('sideList saved to sessionStorage');
+    } catch (error) {
+      console.error('Error saving sideList to sessionStorage:', error);
+    }
+  }
   const list = (anchor: Anchor) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 260 }}
@@ -1257,31 +1258,33 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
               </Typography>
             </ListItemButton>
           </Box>
-          {Object.keys(groupedItems).map((group, index) => (
-            <Accordion key={index} >
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} >
-                {group === 'Daily Activities' && <IconButton sx={{ pt: 0, borderRadius: '7px', }}><NoteAltOutlinedIcon /></IconButton>}
-                {group === 'Communication' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><MailCheck /></IconButton>}
-                {group === 'Exam' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><ImportContactsOutlinedIcon /></IconButton>}
-                {group === 'Calendar' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><CalendarMonthIcon /></IconButton>}
-                {group === 'Other Utilities' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><Inbox /></IconButton>}
-                {group === 'Extra Screens' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><FolderCopyOutlinedIcon /></IconButton>}
-                <b style={{ marginTop: '4px' }}> {group}</b>
-              </AccordionSummary >
-              <AccordionDetails sx={{ py: 0, pl: 0 }}>
-                <List sx={{ pt: 0, px: 0 }}>
-                  {groupedItems[group].map((item, index) => (
-                    <ListItem button key={index}
-                      //  component="a" href={item.link}
-                      onClick={(e) => handleListItemClick1(e, item.link, anchor, item.title)}>
-                      <ListItemIcon sx={{ pt: 0, px: 0, pl: 2 }}>{item.icon}</ListItemIcon>
-                      <ListItemText primary={item.title} />
-                    </ListItem>
-                  ))}
-                </List>
-              </AccordionDetails>
-            </Accordion>
-          ))}
+          {Object.keys(groupedItems).map((group, index) => {
+            return (
+              <Accordion key={index} >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} >
+                  {group === 'Daily Activities' && <IconButton sx={{ pt: 0, borderRadius: '7px', }}><NoteAltOutlinedIcon /></IconButton>}
+                  {group === 'Communication' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><MailCheck /></IconButton>}
+                  {group === 'Exam' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><ImportContactsOutlinedIcon /></IconButton>}
+                  {group === 'Calendar' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><CalendarMonthIcon /></IconButton>}
+                  {group === 'Other Utilities' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><Inbox /></IconButton>}
+                  {group === 'Extra Screens' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><FolderCopyOutlinedIcon /></IconButton>}
+                  <b style={{ marginTop: '4px' }}> {group}</b>
+                </AccordionSummary >
+                <AccordionDetails sx={{ py: 0, pl: 0 }}>
+                  <List sx={{ pt: 0, px: 0 }}>
+                    {groupedItems[group].map((item, index) => (
+                      <ListItem button key={index}
+                        //  component="a" href={item.link}
+                        onClick={(e) => handleListItemClick1(e, item.link, anchor, item.title)}>
+                        <ListItemIcon sx={{ pt: 0, px: 0, pl: 2 }}>{item.icon}</ListItemIcon>
+                        <ListItemText primary={item.title} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </AccordionDetails>
+              </Accordion>
+            )
+          })}
         </div>
       </Box>
       <Box sx={{ position: 'absolute', top: 0 }}>

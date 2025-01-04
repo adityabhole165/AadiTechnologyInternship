@@ -64,11 +64,11 @@ function CardDraft({
 
 
   const navigateToInBox = () => {
-    navigate('/RITeSchool/MessageCenter/msgCenter/Inbox');
+    navigate('/RITeSchool/MessageCenter/msgCenter/Inbox', { state: { fromInternal: true } });
   };
 
   const navigateToEdit = () => {
-    navigate('/RITeSchool/MessageCenter/Compose/Edit');
+    navigate('/RITeSchool/MessageCenter/Compose/Edit', { state: { fromInternal: true } });
   };
   return (
     <>

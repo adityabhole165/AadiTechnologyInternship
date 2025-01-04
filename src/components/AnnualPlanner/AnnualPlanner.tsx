@@ -370,10 +370,10 @@ function AnnualPlanner() {
     : date.selectedDate;
   const date1 = new Date(moment(formatSelectedDate).format('YYYY-MM'));
   const onUpcomingEvent = () => {
-    navigate('UpcomingEvent');
+    navigate('UpcomingEvent', { state: { fromInternal: true } });
   };
   const clickAddAnnual = () => {
-    navigate('/RITeSchool/teacher/AddAnnualPlaner');
+    navigate('/RITeSchool/teacher/AddAnnualPlaner', { state: { fromInternal: true } });
   };
 
   return (
@@ -441,7 +441,7 @@ function AnnualPlanner() {
                           }
                         }}
                         onClick={() => {
-                          navigate('/RITeSchool/Common/EventOverview');
+                          navigate('/RITeSchool/Common/EventOverview', { state: { fromInternal: true } });
                         }}
                       >
                         <CalendarMonthIcon />

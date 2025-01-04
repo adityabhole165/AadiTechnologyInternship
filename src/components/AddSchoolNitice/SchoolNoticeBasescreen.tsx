@@ -221,15 +221,15 @@ const SchoolNoticeBaseScreen = () => {
 
     const EditSchoolNotice = (Id: number) => {
         if (selectDisplayT) {
-            navigate('../../AddSchoolNoticeFT/' + encodeURL(Id) + '/' + encodeURL(selectDisplayType));
+            navigate('../../AddSchoolNoticeFT/' + encodeURL(Id) + '/' + encodeURL(selectDisplayType), { state: { fromInternal: true } });
         }
         else {
-            navigate('../AddSchoolNoticeFT/' + encodeURL(Id) + '/' + encodeURL(selectDisplayType));
+            navigate('../AddSchoolNoticeFT/' + encodeURL(Id) + '/' + encodeURL(selectDisplayType), { state: { fromInternal: true } });
         }
     };
 
     const AddSchoolNotice = () => {
-        navigate('../AddSchoolNoticeFT');
+        navigate('../AddSchoolNoticeFT', { state: { fromInternal: true } });
     };
 
     const clickDisplayTypeDropdown = (value) => {
@@ -413,7 +413,7 @@ const SchoolNoticeBaseScreen = () => {
                                 <Tooltip title={'Add New Notice'}>
                                     <IconButton
                                         onClick={() =>
-                                            navigate('/RITeSchool/Teacher/AddSchoolNoticeFT' + '/' + encodeURL(selectDisplayType))
+                                            navigate('/RITeSchool/Teacher/AddSchoolNoticeFT' + '/' + encodeURL(selectDisplayType), { state: { fromInternal: true } })
                                         }
                                         sx={{
                                             color: 'white',
@@ -454,7 +454,7 @@ const SchoolNoticeBaseScreen = () => {
                 </Grid>
             </Grid >
 
-            <Box sx={{ background: 'white', pt: 2 , p:2}}>
+            <Box sx={{ background: 'white', pt: 2, p: 2 }}>
                 {singleTotalCount > 0 ? (
                     <div style={{ flex: 1, textAlign: 'center' }}>
                         <Typography

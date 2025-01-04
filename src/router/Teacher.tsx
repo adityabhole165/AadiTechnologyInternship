@@ -398,60 +398,60 @@ const teacherRoutes = [
 
   {
     path: 'LeaveDetails',
-    element: <ProtectedRoute screenId={`${ScreenID.LeaveDetails}`} component={LeaveDetailsBaseScreen} />
+    element: <ProtectedRoute component={LeaveDetailsBaseScreen} /> // <LeaveDetailsBaseScreen />
   },
   {
     path: 'StudentRegistrationForms',
-    element: <StudentRegistrationForms />
+    element: <ProtectedRoute component={StudentRegistrationForms} /> // <StudentRegistrationForms />
   },
   {
     path: 'StudentRegistrationForms/:PageID',
-    element: <StudentRegistrationForms />
+    element: <ProtectedRoute component={StudentRegistrationForms} /> // <StudentRegistrationForms />
   },
   {
     path: 'StudentRegistrationForms/:BackN_Student_Ids',
-    element: <StudentRegistrationForms />
+    element: <ProtectedRoute component={StudentRegistrationForms} /> // <StudentRegistrationForms />
   },
   {
     path: 'AddLeaveDetails/:LeaveDId/:ParamsUserId',
-    element: <ProtectedRoute screenId={`${ScreenID.LeaveDetails}`} component={AddLeaveDetails} />  // <AddLeaveDetails />
+    element: <ProtectedRoute component={AddLeaveDetails} />  // <AddLeaveDetails />
   },
   {
     path: 'AssignPrePrimarySubjectGrades',
-    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimarySubjectGrades} />  //  <AssignPrePrimarySubjectGrades />
+    element: <ProtectedRoute component={AssignPrePrimarySubjectGrades} />  //  <AssignPrePrimarySubjectGrades />
   },
   {
     path: 'AssignPrePrimarySubjectGrades/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId/:selectTeacher',
-    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimarySubjectGrades} />  // <AssignPrePrimarySubjectGrades />
+    element: <ProtectedRoute component={AssignPrePrimarySubjectGrades} />  // <AssignPrePrimarySubjectGrades />
   },
   {
     path: 'AssignPrePrimarySubjectGrades/:SubjectID/:Termid/:classid',
-    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimarySubjectGrades} />  // <AssignPrePrimarySubjectGrades />
+    element: <ProtectedRoute component={AssignPrePrimarySubjectGrades} />  // <AssignPrePrimarySubjectGrades />
   },
   {
     path: 'PerfEvalViewReport',
-    element: <PerEvalViewReport />
+    element: <ProtectedRoute component={PerEvalViewReport} /> // <PerEvalViewReport />
   },
 
   {
     path: 'AddLeaveDetails',
-    element: <ProtectedRoute screenId={`${ScreenID.LeaveDetails}`} component={AddLeaveDetails} /> // <AddLeaveDetails />
+    element: <ProtectedRoute component={AddLeaveDetails} /> // <AddLeaveDetails />
   },
   {
     path: 'Students',
-    element: <StudentBaseScreen />
+    element: <ProtectedRoute component={StudentBaseScreen} /> // <StudentBaseScreen />
   },
   {
     path: 'ViewLeaveDetails/:LeaveDId/:ParamsUserId/:selectCategory/:getSenderName',
-    element: <ProtectedRoute screenId={`${ScreenID.LeaveDetails}`} component={ViewLeaveDetails} /> // <ViewLeaveDetails />
+    element: <ProtectedRoute component={ViewLeaveDetails} /> // <ViewLeaveDetails />
   },
   {
     path: 'GenerateAll',
-    element: <GenerateAll />
+    element: <ProtectedRoute component={GenerateAll} /> // <GenerateAll />
   },
   {
     path: 'GenerateAll/:asStudentId/:isGenerated/:IsView/:stdId',
-    element: <GenerateAll />
+    element: <ProtectedRoute component={GenerateAll} /> // <GenerateAll />
   },
   // {
   //   path: 'GenerateAll/:asStudentId/:isGenerated',
@@ -459,44 +459,44 @@ const teacherRoutes = [
   // },
   {
     path: 'TAttendance',
-    element: <TAttendance />
+    element: <ProtectedRoute component={TAttendance} /> // <TAttendance />
   },
   {
     path: 'InvestmentDeclaration',
-    element: <ProtectedRoute screenId={`${ScreenID.InvestmentDeclaration}`} component={InvestmentDeclaration} />  // <InvestmentDeclaration />
+    element: <ProtectedRoute component={InvestmentDeclaration} />  // <InvestmentDeclaration />
   },
   {
     path: 'InvestmentDetailsDocument',
-    element: <ProtectedRoute screenId={`${ScreenID.InvestmentDeclaration}`} component={InvestmentDetailsDocument} />  // <InvestmentDetailsDocument />
+    element: <ProtectedRoute component={InvestmentDetailsDocument} />  // <InvestmentDetailsDocument />
   },
   {
     path: 'AddUnpublish1/:Id',
-    element: <AddUnpublish1 />
+    element: <ProtectedRoute component={AddUnpublish1} /> // <AddUnpublish1 />
   },
   {
     path: 'TAttendance/TView/:assignedDate/:StandardId',
-    element: <TView />
+    element: <ProtectedRoute component={TView} /> // <TView />
   },
   {
     path: 'TeacherTimetable',
-    element: <TeacherTimetable />
+    element: <ProtectedRoute component={TeacherTimetable} /> // <TeacherTimetable />
   },
 
   {
     path: 'TExamschedule',
-    element: <TExamschedule />
+    element: <ProtectedRoute component={TExamschedule} /> // <TExamschedule />
   },
   {
     path: 'TAttendance/MissingAttandence/:assignedDate/:StandardId',
-    element: <MissingAttandence />
+    element: <ProtectedRoute component={MissingAttandence} /> // <MissingAttandence />
   },
   {
     path: 'smscenter',
-    element: <SmsCenter />
+    element: <ProtectedRoute component={SmsCenter} /> // <SmsCenter />
   },
   {
     path: 'ComposeSMS',
-    element: <ComposeSMS />
+    element: <ProtectedRoute component={ComposeSMS} /> // <ComposeSMS />
   },
   // {
   //   path: 'TAttendance/:AssignedDate/:StandardId',
@@ -504,182 +504,180 @@ const teacherRoutes = [
   // },
   {
     path: 'TAttendance/:AssignedDate',
-    element: <TAttendance />
+    element: <ProtectedRoute component={TAttendance} /> // <TAttendance />
   },
   {
     path: 'SchoolAttendanceOverview/:AssignedDate',
-    element: <SchoolAttendanceOverview />
+    element: <ProtectedRoute component={SchoolAttendanceOverview} /> // <SchoolAttendanceOverview />
   },
   {
     path: 'IndidualAttendance',
-    element: <IndidualAttendance />
+    element: <ProtectedRoute component={IndidualAttendance} /> // <IndidualAttendance />
   },
   {
     path: 'IndidualAttendance/:selectClasstecahernew/:AssignedDate',
-    element: <IndidualAttendance />
+    element: <ProtectedRoute component={IndidualAttendance} /> // <IndidualAttendance />
   },
   {
     path: 'AddAnnualPlaner',
-    element: <ProtectedRoute screenId={`${ScreenID.AnnualPlanner}`} component={AddAnnualPlaner} /> // <AddAnnualPlaner />
+    element: <ProtectedRoute component={AddAnnualPlaner} /> // <AddAnnualPlaner />
   },
   {
     path: 'MonthwiseAttendance/:selectClasstecahernew/:AssignedDate',
-    element: <MonthwiseAttandance />
+    element: <ProtectedRoute component={MonthwiseAttandance} /> // <MonthwiseAttandance />
   },
   {
     path: 'TAttendance/:SelectClasstecahernew/:AssignedDate',
-    element: <TAttendance />
+    element: <ProtectedRoute component={TAttendance} /> // <TAttendance />
   },
 
   {
     path: 'MonthwiseAttendance',
-    element: <MonthwiseAttandance />
+    element: <ProtectedRoute component={MonthwiseAttandance} /> // <MonthwiseAttandance />
   },
   {
     path: 'ExamResultBase/:selectTeacher',
-    element: <ExamResultBase />
+    element: <ProtectedRoute component={ExamResultBase} /> // <ExamResultBase />
   },
   {
     path: 'ExamResultBase',
-    element: <ExamResultBase />
+    element: <ProtectedRoute component={ExamResultBase} /> // <ExamResultBase />
   },
   {
     path: 'ExamResultBase/:ParamsStandardDivisionId/:ParamsTestId',
-    element: <ExamResultBase />
+    element: <ProtectedRoute component={ExamResultBase} /> // <ExamResultBase />
   },
   {
     path: 'ExamResultBase/:ParamsStandardDivisionId/:ParamsTestId',
-    element: <ExamResultBase />
+    element: <ProtectedRoute component={ExamResultBase} /> // <ExamResultBase />
   },
   {
     path: 'SubjectExamMarks',
-    element: <SubjectExamMarks />
+    element: <ProtectedRoute component={SubjectExamMarks} /> // <SubjectExamMarks />
   },
   {
     path: 'SubjectExamMarks/:ClassTecher/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly/:examResultProp/:publish/:getStandardId',
-    element: <SubjectExamMarks />
-  },
-  // {
+    element: <ProtectedRoute component={SubjectExamMarks} /> // <SubjectExamMarks />
+  },  // {
   //   path: 'SubjectExamMarks/:examResultProp/:StandardDivisionId/:TestId',
   //   element: <SubjectExamMarks />
   // },
-
   {
     path: 'AssignExamMark',
-    element: <AssignExamMark />
+    element: <ProtectedRoute component={AssignExamMark} /> // <AssignExamMark />
   },
   {
     path: 'AssignExamMark/:ClassTecher/:ClassId/:TestId',
-    element: <AssignExamMark />
+    element: <ProtectedRoute component={AssignExamMark} /> // <AssignExamMark />
   },
 
   {
     path: 'AnnualPlanerBaseScreen',
-    element: <ProtectedRoute screenId={`${ScreenID.AnnualPlanner}`} component={AnnualPlanerBaseScreen} /> // <AnnualPlanerBaseScreen />
+    element: <ProtectedRoute component={AnnualPlanerBaseScreen} /> // <AnnualPlanerBaseScreen />
   },
 
   {
     path: 'AssignHomework',
-    element: <AssignHomework />
+    element: <ProtectedRoute component={AssignHomework} /> // <AssignHomework />
   },
 
   {
     path: 'AssignHomework/:ClassTecherId/:ClassId',
-    element: <AssignHomework />
-  }, 
+    element: <ProtectedRoute component={AssignHomework} /> // <AssignHomework />
+  },
   {
     path: 'TermwiseHeightWeight',
-    element: <TermwiseHeightWeight />
+    element: <ProtectedRoute component={TermwiseHeightWeight} /> // <TermwiseHeightWeight />
   },
   {
     path: 'TermwiseHeightWeight/:StandardDivisionId',
-    element: <TermwiseHeightWeight />
+    element: <ProtectedRoute component={TermwiseHeightWeight} /> // <TermwiseHeightWeight />
   },
   ///encrypted  Url  
   {
     path: 'AddDailyLog',
-    element: <AddDailyLog />
+    element: <ProtectedRoute component={AddDailyLog} /> // <AddDailyLog />
   },
   {
     path: 'EventManegement/:Id',
-    element: <EventManegement />
+    element: <ProtectedRoute component={EventManegement} /> // <EventManegement />
   },
   {
     path: 'EventManegement',
-    element: <EventManegement />
+    element: <ProtectedRoute component={EventManegement} /> // <EventManegement />
   },
 
   {
     path: 'SubjectListmainpage',
-    element: <SubjectListmainpage />
+    element: <ProtectedRoute component={SubjectListmainpage} /> // <SubjectListmainpage />
   },
 
   {
     path: 'AssignPrePrimaryGrades',
-    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimaryGrades} /> //  <AssignPrePrimaryGrades />
+    element: <ProtectedRoute component={AssignPrePrimaryGrades} /> //  <AssignPrePrimaryGrades />
   },
   {
     path: 'PersonalAddressBook',
-    element: <PersonalAddressBook />
+    element: <ProtectedRoute component={PersonalAddressBook} /> // <PersonalAddressBook />
   },
   {
     path: 'AssignPrePrimaryGrades/:TermId/:TeacherId',
-    element: <ProtectedRoute screenId={`${ScreenID.AssignPrePrimarySubjectGrades}`} component={AssignPrePrimaryGrades} /> //  <AssignPrePrimaryGrades />
+    element: <ProtectedRoute component={AssignPrePrimaryGrades} /> //  <AssignPrePrimaryGrades />
   },
 
   {
     path: 'ProgressRemarks/:TestId/:StandardDivisionId',
-    element: <ProtectedRoute screenId={`${ScreenID.ProgressRemark}`} component={ProgressRemarks} />  //  <ProgressRemarks />
+    element: <ProtectedRoute component={ProgressRemarks} />  //  <ProgressRemarks />
   },
   {
     path: 'ProgressRemarks',
-    element: <ProtectedRoute screenId={`${ScreenID.ProgressRemark}`} component={ProgressRemarks} />  //  <ProgressRemarks />
+    element: <ProtectedRoute component={ProgressRemarks} />  //  <ProgressRemarks />
   },
 
   {
     path: 'ViewProgressReport/:TestId/:StandardDivisionId',
-    element: <ViewProgressReport />
+    element: <ProtectedRoute component={ViewProgressReport} /> // <ViewProgressReport />
   },
 
   {
     path: 'FinalResult',
-    element: <FinalResult />
+    element: <ProtectedRoute component={FinalResult} /> // <FinalResult />
   },
   {
     path: 'FinalResult/:StandardDivisionId1',
-    element: <FinalResult />
+    element: <ProtectedRoute component={FinalResult} /> // <FinalResult />
   },
   {
     path: 'StudentProgressReport/:asUserId/:asStudentId',
-    element: <StudentProgressReport />
+    element: <ProtectedRoute component={StudentProgressReport} /> // <StudentProgressReport />
   },
   {
     path: 'StudentRecords',
-    element: <ProtectedRoute screenId={`${ScreenID.StudentRecord}`} component={StudentRecords} /> // <StudentRecords />
+    element: <ProtectedRoute component={StudentRecords} /> // <StudentRecords />
   },
   {
     path: 'AddStudentRecord/',
-    element: <ProtectedRoute screenId={`${ScreenID.StudentRecord}`} component={AddStudentRecord} /> // <AddStudentRecord />
+    element: <ProtectedRoute component={AddStudentRecord} /> // <AddStudentRecord />
   },
   {
     path: 'AddStudentRecord/:StudentRecordComment',
-    element: <ProtectedRoute screenId={`${ScreenID.StudentRecord}`} component={StudentRecordComment} /> // <StudentRecordComment />
+    element: <ProtectedRoute component={StudentRecordComment} /> // <StudentRecordComment />
   },
   {
     path: 'AddStudentRecord/:Action/:SelectTeacher/:SchoolWiseStudentIdparam',
-    element: <ProtectedRoute screenId={`${ScreenID.StudentRecord}`} component={AddStudentRecord} /> // <AddStudentRecord />
+    element: <ProtectedRoute component={AddStudentRecord} /> // <AddStudentRecord />
   },
   {
     path: 'AddDailyLog/:Id/:ClassName/:SelectTeacher',
-    element: <AddDailyLog />
+    element: <ProtectedRoute component={AddDailyLog} /> // <AddDailyLog />
   },
   {
     path: 'FinalResultToppers',
-    element: <FinalResultToppers />
+    element: <ProtectedRoute component={FinalResultToppers} /> // <FinalResultToppers />
   },
   {
     path: 'FinalResult/:TeacherId',
-    element: <FinalResult />
+    element: <ProtectedRoute component={FinalResult} /> // <FinalResult />
   },
   // {
   //   path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:standardId/:examtopperProp',
@@ -691,40 +689,40 @@ const teacherRoutes = [
   // },
   {
     path: 'Toppers/:TeacherId/:StandardDivisionId/:standardId/:AcademicYear/:LatestExamId/:LatestExamId1/:Studentid/:examtopperProp',
-    element: <Toppers />
+    element: <ProtectedRoute component={Toppers} /> // <Toppers />
   },
   {
     path: 'Toppers/:TeacherId/:StandardDivisionId/:TestId/:standardId/:IsReadOnly',
-    element: <Toppers />
+    element: <ProtectedRoute component={Toppers} /> // <Toppers />
   },
 
   {
     path: 'StandardToppers',
-    element: <StandardToppers />
+    element: <ProtectedRoute component={StandardToppers} /> // <StandardToppers />
   },
   {
     path: 'ExamResultUnpublish',
-    element: <ExamResultUnpublish />
+    element: <ProtectedRoute component={ExamResultUnpublish} /> // <ExamResultUnpublish />
   },
   {
     path: 'ExamResultUnpublish/:ExamId/:TeacherId/:ExamName/:TeacherName',
-    element: <ExamResultUnpublish />
+    element: <ProtectedRoute component={ExamResultUnpublish} /> // <ExamResultUnpublish />
   },
   {
     path: 'AddHomework',
-    element: <AddHomework />
+    element: <ProtectedRoute component={AddHomework} /> // <AddHomework />
   },
   {
     path: 'AddHomework/:ClassId/:ClassName/:TeacherId/:TeacherName/:subjectId/:SubjectName',
-    element: <AddHomework />
+    element: <ProtectedRoute component={AddHomework} /> // <AddHomework />
   },
   {
     path: 'HomeworkSubjectList',
-    element: <HomeworkSubjectList />
+    element: <ProtectedRoute component={HomeworkSubjectList} /> // <HomeworkSubjectList />
   },
   {
     path: 'HomeworkDocuments/:Id/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject/:SelectClass',
-    element: <HomeworkDocuments />
+    element: <ProtectedRoute component={HomeworkDocuments} /> // <HomeworkDocuments />
   },
   // {
   //   path:'HomeworkDocuments',
@@ -732,35 +730,34 @@ const teacherRoutes = [
   // },
   {
     path: 'ViewHomework/:Id',
-    element: <ViewHomework />
+    element: <ProtectedRoute component={ViewHomework} /> // <ViewHomework />
   },
   {
     path: 'ViewHomework/:Id/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject/:SelectClass',
-    element: <ViewHomework />
+    element: <ProtectedRoute component={ViewHomework} /> // <ViewHomework />
   },
   {
     path: 'AddUnpublish/:Id',
-    element: <AddUnpublish />
-  },
-  {
+    element: <ProtectedRoute component={AddUnpublish} /> // <AddUnpublish />
+  }, {
     path: 'AddLessonPlan/:Action',
-    element: <ProtectedRoute screenId={`${ScreenID.LessonPlan}`} component={AddLessonPlan} />  // <AddLessonPlan />
+    element: <ProtectedRoute component={AddLessonPlan} />  // <AddLessonPlan />
   },
   {
     path: 'AddLessonPlan/:Action/:UserIdParam/:StartDateParam/:EndDateParam',
-    element: <ProtectedRoute screenId={`${ScreenID.LessonPlan}`} component={AddLessonPlan} />  // <AddLessonPlan />
+    element: <ProtectedRoute component={AddLessonPlan} />  // <AddLessonPlan />
   },
   {
     path: 'LessonPlanBaseScreen',
-    element: <ProtectedRoute screenId={`${ScreenID.LessonPlan}`} component={LessonPlanBaseScreen} />  // <LessonPlanBaseScreen />
+    element: <ProtectedRoute component={LessonPlanBaseScreen} />  // <LessonPlanBaseScreen />
   },
   {
     path: 'PrePrimaryResult',
-    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryResult}`} component={PrePrimaryResult} /> //  <PrePrimaryResult />
+    element: <ProtectedRoute component={PrePrimaryResult} /> //  <PrePrimaryResult />
   },
   {
     path: 'PrePrimaryResult/:TermId/:StdDivId',
-    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryResult}`} component={PrePrimaryResult} /> // <PrePrimaryResult />
+    element: <ProtectedRoute component={PrePrimaryResult} /> // <PrePrimaryResult />
   },
   // {
   //   path: 'UnpublishPrePrimaryResult/:AssessmentName/:TeacherName',
@@ -768,32 +765,32 @@ const teacherRoutes = [
   // },
   {
     path: 'Requisition',
-    element: <Requisition />
+    element: <ProtectedRoute component={Requisition} /> // <Requisition />
   },
   {
     path: 'AddRequisition',
-    element: <AddRequisition />
+    element: <ProtectedRoute component={AddRequisition} /> // <AddRequisition />
   },
   {
     path: 'RequistionView/:ViewId',
-    element: <RequistionView />
+    element: <ProtectedRoute component={RequistionView} /> // <RequistionView />
   },
   {
     path: 'AddRequisition/:asRequisitionId',
-    element: <AddRequisition />
+    element: <ProtectedRoute component={AddRequisition} /> // <AddRequisition />
   },
 
   {
     path: 'FinalResultUnpublish/:SelectTeacher/:TeacherName',
-    element: <FinalResultUnpublish />
+    element: <ProtectedRoute component={FinalResultUnpublish} /> // <FinalResultUnpublish />
   },
   {
     path: 'AadharCard',
-    element: <ProtectedRoute screenId={`${ScreenID.AadharCard}`} component={AadharCard} />,
+    element: <ProtectedRoute component={AadharCard} />,
   },
   {
     path: 'WeeklyTimetable',
-    element: <WeeklyTimetable />
+    element: <ProtectedRoute component={WeeklyTimetable} /> // <WeeklyTimetable />
   },
   // {
   //   path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:TestId/:standardId',
@@ -801,230 +798,227 @@ const teacherRoutes = [
   // },
   {
     path: 'Toppers/:TeacherId/:StandardDivisionId/:TestId/:standardId',
-    element: <Toppers />
+    element: <ProtectedRoute component={Toppers} /> // <Toppers />
   },
   {
     path: 'TransferOptionalSubjectMarks',
-    element: <TransferOptionalSubjectMarks />
+    element: <ProtectedRoute component={TransferOptionalSubjectMarks} /> // <TransferOptionalSubjectMarks />
   },
   {
     path: 'SubjectMarkList/:TestId/:StandardDivisionId/:getExamName/:getTeacherName/:getSubjectName/:SubjectId',
-    element: <SubjectMarkList />
+    element: <ProtectedRoute component={SubjectMarkList} /> // <SubjectMarkList />
   },
 
   {
     path: 'AddHomeworkNew/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject/:SelectClass',
-    element: <AddHomeworkNew />
+    element: <ProtectedRoute component={AddHomeworkNew} /> // <AddHomeworkNew />
   },
   {
     path: 'AssignProgressReportSubject',
-    element: <AssignProgressReportSubject />
+    element: <ProtectedRoute component={AssignProgressReportSubject} /> // <AssignProgressReportSubject />
   },
   {
     path: 'AssignProgressReportSubject/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId/:selectTeacher',
-    element: <AssignProgressReportSubject />
+    element: <ProtectedRoute component={AssignProgressReportSubject} /> // <AssignProgressReportSubject />
   },
   {
     path: 'AddHomeworkNew',
-    element: <AddHomeworkNew />
+    element: <ProtectedRoute component={AddHomeworkNew} /> // <AddHomeworkNew />
   },
   {
     path: 'ViewResultAll',
-    element: <ViewResultAll />
+    element: <ProtectedRoute component={ViewResultAll} /> // <ViewResultAll />
   },
   {
     path: 'ViewResultAll/:StandardDivisionId',
-    element: <ViewResultAll />
+    element: <ProtectedRoute component={ViewResultAll} /> // <ViewResultAll />
   },
   {
     path: 'ViewFinalResult',
-    element: <ViewFinalResult />
+    element: <ProtectedRoute component={ViewFinalResult} /> // <ViewFinalResult />
   },
   {
     path: 'ProgressReportNew/:AcademicYearTopper/:StudentidTopper/:TeacherIdTopper',
-    element: <ProgressReportNew />
+    element: <ProtectedRoute component={ProgressReportNew} /> // <ProgressReportNew />
   },
   {
     path: 'Studentwiseprogressreport',
-    element: <ProtectedRoute screenId={`${ScreenID.StudentwiseProgressReport}`} component={Studentwiseprogressreport} />  // <Studentwiseprogressreport />
+    element: <ProtectedRoute component={Studentwiseprogressreport} />  // <Studentwiseprogressreport />
   },
   {
     path: 'Studentwiseprogressreport/:TermId',
-    element: <ProtectedRoute screenId={`${ScreenID.StudentwiseProgressReport}`} component={Studentwiseprogressreport} />  // <Studentwiseprogressreport />
+    element: <ProtectedRoute component={Studentwiseprogressreport} />  // <Studentwiseprogressreport />
   },
   {
     path: 'AllNoticeList',
-    element: <AllNoticeList />
+    element: <ProtectedRoute component={AllNoticeList} /> // <AllNoticeList />
   },
   {
     path: 'SchoolNoticeBasescreen',
-    element: <SchoolNoticeBasescreen />
+    element: <ProtectedRoute component={SchoolNoticeBasescreen} /> // <SchoolNoticeBasescreen />
   },
   {
     path: 'SchoolNoticeBasescreen/:selectDisplayT',
-    element: <SchoolNoticeBasescreen />
+    element: <ProtectedRoute component={SchoolNoticeBasescreen} /> // <SchoolNoticeBasescreen />
   },
   {
     path: 'AddSchoolNotice',
-    element: <AddSchoolNotice />
+    element: <ProtectedRoute component={AddSchoolNotice} /> // <AddSchoolNotice />
   },
   {
     path: 'AddSchoolNotice/:Id',
-    element: <AddSchoolNotice />
+    element: <ProtectedRoute component={AddSchoolNotice} /> // <AddSchoolNotice />
   },
   {
     path: 'AddSchoolNoticeFT/:selectDisplayType',
-    element: <AddSchoolNoticeFT />
+    element: <ProtectedRoute component={AddSchoolNoticeFT} /> // <AddSchoolNoticeFT />
   },
   {
     path: 'AddSchoolNoticeFT/:NoticeId/:selectDisplayType',
-    element: <AddSchoolNoticeFT />
+    element: <ProtectedRoute component={AddSchoolNoticeFT} /> // <AddSchoolNoticeFT />
   },
   {
     path: 'PreprimaryProgressReport',
-    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryProgressReport}`} component={PreprimaryProgressReport} /> //  <PreprimaryProgressReport />
+    element: <ProtectedRoute component={PreprimaryProgressReport} /> //  <PreprimaryProgressReport />
   },
+  // Exception Occured screenId={`0`}
   {
     path: 'PreprimaryProgressReport1',
-    element: <ProtectedRoute screenId={`0`} component={PreprimaryProgressReport1} /> // <PreprimaryProgressReport1 />
+    element: <ProtectedRoute component={PreprimaryProgressReport1} /> // <PreprimaryProgressReport1 />
   },
   {
     path: 'StudentwiseprogressreportEdit/:Assessment/:YearwiseStudentId/:StandardId',
-    element: <ProtectedRoute screenId={`${ScreenID.StudentwiseProgressReport}`} component={StudentwiseprogressreportEdit} />  // <StudentwiseprogressreportEdit />
+    element: <ProtectedRoute component={StudentwiseprogressreportEdit} />  // <StudentwiseprogressreportEdit />
   },
   {
     path: 'PerformanceGradeAssignmentBaseScreen',
-    element: <ProtectedRoute screenId={`${ScreenID.PerfGradeAssign}`} component={PerformanceGradeAssignmentBaseScreen} />  //<PerformanceGradeAssignmentBaseScreen />
+    element: <ProtectedRoute component={PerformanceGradeAssignmentBaseScreen} />  //<PerformanceGradeAssignmentBaseScreen />
   },
   {
     path: 'PerformanceGradeAssignmentBaseScreen/:asYearID/:statusID',
-    element: <ProtectedRoute screenId={`${ScreenID.PerfGradeAssign}`} component={PerformanceGradeAssignmentBaseScreen} />  // <PerformanceGradeAssignmentBaseScreen />
+    element: <ProtectedRoute component={PerformanceGradeAssignmentBaseScreen} />  // <PerformanceGradeAssignmentBaseScreen />
   },
   {
     path: 'PerformanceEvaluation',
-    element: <PerformanceEvaluation />
+    element: <ProtectedRoute component={PerformanceEvaluation} /> // <PerformanceEvaluation />
   },
   {
     path: 'LibraryBaseScreen',
-    element: <LibraryBaseScreen />
+    element: <ProtectedRoute component={LibraryBaseScreen} /> // <LibraryBaseScreen />
   },
   {
     path: 'ClaimedBookDetailsPage',
-    element: <ClaimedBookDetailsPage />
+    element: <ProtectedRoute component={ClaimedBookDetailsPage} /> // <ClaimedBookDetailsPage />
   },
   {
     path: 'ProgressReportNew',
-    element: <ProgressReportNew />
-  },
-  {
+    element: <ProtectedRoute component={ProgressReportNew} /> // <ProgressReportNew />
+  }, {
     path: 'PreprimaryProgressReportView/:Assessment/:YearwiseStudentId/:StandardId',
-    element: <ProtectedRoute screenId={`${ScreenID.PrePrimaryProgressReport}`} component={PreprimaryProgressReportView} /> //  <PreprimaryProgressReportView />
+    element: <ProtectedRoute component={PreprimaryProgressReportView} /> //  <PreprimaryProgressReportView />
   },
   {
     path: 'ViewSmsNew/:SmsId',
-    element: <ViewSmsNew />
+    element: <ProtectedRoute component={ViewSmsNew} /> // <ViewSmsNew />
   },
   {
     path: 'ExamScheduleBasescreen',
-    element: <ExamScheduleBasescreen />
+    element: <ProtectedRoute component={ExamScheduleBasescreen} /> // <ExamScheduleBasescreen />
   },
   {
     path: 'StandardwiseExamSchedule/:StandardId/:TestId/:SchoolwiseStandardExamScheduleId/:StandardTestId/:IsConfigured',
-    element: <StandardwiseExamSchedule />
+    element: <ProtectedRoute component={StandardwiseExamSchedule} /> // <StandardwiseExamSchedule />
   },
   {
     path: 'StandardwiseExamSchedule/:StandardId/:TestId/:SchoolwiseStandardTestId/:IsConfigured',
-    element: <StandardwiseExamSchedule />
+    element: <ProtectedRoute component={StandardwiseExamSchedule} /> // <StandardwiseExamSchedule />
   },
   {
     path: 'StandardwiseExamSchedule',
-    element: <StandardwiseExamSchedule />
+    element: <ProtectedRoute component={StandardwiseExamSchedule} /> // <StandardwiseExamSchedule />
   },
   {
     path: 'ViewExamSchedule',
-    element: <ViewExamSchedule />
+    element: <ProtectedRoute component={ViewExamSchedule} /> // <ViewExamSchedule />
   },
 
   {
     path: 'ReceivedSMSOwn',
-    element: <ReceivedSMSOwn />
+    element: <ProtectedRoute component={ReceivedSMSOwn} /> // <ReceivedSMSOwn />
   },
   {
     path: 'PhotoVideoGalleryBaseScreen',
-    element: <ProtectedRoute screenId={`${ScreenID.PhotoVideoGallery}`} component={PhotoVideoGalleryBaseScreen} /> //  <PhotoVideoGalleryBaseScreen />
+    element: <ProtectedRoute component={PhotoVideoGalleryBaseScreen} /> //  <PhotoVideoGalleryBaseScreen />
   },
   {
     path: 'AddNewPhoto',
-    element: <AddNewPhoto />
+    element: <ProtectedRoute component={AddNewPhoto} /> // <AddNewPhoto />
   },
   {
-    // path: 'AddNewPhoto/:galleryName',
     path: 'AddNewPhoto/:RowID',
-    element: <AddNewPhoto />
+    element: <ProtectedRoute component={AddNewPhoto} /> // <AddNewPhoto />
   },
   {
     path: 'AddNewVideo',
-    element: <AddNewVideo />
+    element: <ProtectedRoute component={AddNewVideo} /> // <AddNewVideo />
   },
   {
     path: 'AddNewVideo/:RowID',
-    element: <AddNewVideo />
+    element: <ProtectedRoute component={AddNewVideo} /> // <AddNewVideo />
   },
   {
     path: 'ViewPhotoFile',
-    element: <ViewPhotoFile />
+    element: <ProtectedRoute component={ViewPhotoFile} /> // <ViewPhotoFile />
   },
   {
     path: 'ViewVideoGallery',
-    element: <ViewVideoGallery />
-  },
-  {
+    element: <ProtectedRoute component={ViewVideoGallery} /> // <ViewVideoGallery />
+  }, {
     path: 'BlockProgressReportBaseScreen',
-    element: <ProtectedRoute screenId={`${ScreenID.BlockProgressReport}`} component={BlockProgressReportBaseScreen} /> // <BlockProgressReportBaseScreen />
+    element: <ProtectedRoute component={BlockProgressReportBaseScreen} /> // <BlockProgressReportBaseScreen />
   },
   {
     path: 'FeedbackDetailsBasescreen',
-    element: <ProtectedRoute screenId={`${ScreenID.FeedbackDetails}`} component={FeedbackDetailsBasescreen} /> // <FeedbackDetailsBasescreen />
+    element: <ProtectedRoute component={FeedbackDetailsBasescreen} /> // <FeedbackDetailsBasescreen />
   },
   {
     path: 'StudentDetailsBaseScreen',
-    element: <ProtectedRoute screenId={`${ScreenID.StudentDetails}`} component={StudentDetailsBaseScreen} /> //  <StudentDetailsBaseScreen />
+    element: <ProtectedRoute component={StudentDetailsBaseScreen} /> //  <StudentDetailsBaseScreen />
   },
   {
     path: 'EnterStudentSiblingDetails',
-    element: <EnterStudentSiblingDetails />
+    element: <ProtectedRoute component={EnterStudentSiblingDetails} /> // <EnterStudentSiblingDetails />
   },
   {
     path: 'StudentDetailsAttendance',
-    element: <StudentDetailsAttendance />
+    element: <ProtectedRoute component={StudentDetailsAttendance} /> // <StudentDetailsAttendance />
   },
   {
     path: 'StudentDetailsExam',
-    element: <StudentDetailsExam />
+    element: <ProtectedRoute component={StudentDetailsExam} /> // <StudentDetailsExam />
   },
   {
     path: 'AttendanceTopperspage',
-    element: <AttendanceTopperspage />
-  },
-  {
+    element: <ProtectedRoute component={AttendanceTopperspage} /> // <AttendanceTopperspage />
+  }, {
     path: 'ExportStudentMarksBaseScreen',
-    element: <ProtectedRoute screenId={`${ScreenID.ExportStdMarks}`} component={ExportStudentMarksBaseScreen} /> // <ExportStudentMarksBaseScreen />
+    element: <ProtectedRoute component={ExportStudentMarksBaseScreen} /> // <ExportStudentMarksBaseScreen />
   },
   {
     path: 'UserDocumentDetailsBaseScreen',
-    element: <ProtectedRoute screenId={`${ScreenID.UserDocumentDetails}`} component={UserDocumentDetailsBaseScreen} /> // <UserDocumentDetailsBaseScreen />
+    element: <ProtectedRoute component={UserDocumentDetailsBaseScreen} /> // <UserDocumentDetailsBaseScreen />
   },
   {
     path: 'NoticeBoardBaseScreen',
-    element: <ProtectedRoute screenId={`${ScreenID.NoticeBoard}`} component={NoticeBoardBaseScreen} /> // <NoticeBoardBaseScreen />
+    element: <ProtectedRoute component={NoticeBoardBaseScreen} /> // <NoticeBoardBaseScreen />
   },
   {
     path: 'RegenarateRollNo',
-    element: <ProtectedRoute screenId={`${ScreenID.RegenerateRollNo}`} component={RegenarateRollNo} /> //  <RegenarateRollNo />
+    element: <ProtectedRoute component={RegenarateRollNo} /> //  <RegenarateRollNo />
   },
   {
     path: 'UserManagementBasescreen',
-    element: <ProtectedRoute screenId={`${ScreenID.UserManagement}`} component={UserManagementBasescreen} /> // <UserManagementBasescreen />
+    element: <ProtectedRoute component={UserManagementBasescreen} /> // <UserManagementBasescreen />
   }
 ];
 

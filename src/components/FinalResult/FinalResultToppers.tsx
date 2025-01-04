@@ -349,7 +349,7 @@ const FinalResultToppers = () => {
     setHighlightStudentId('0')
   };
   const onClickClose = () => {
-    navigate('/RITeSchool/Teacher/FinalResult');
+    navigate('/RITeSchool/Teacher/FinalResult', { state: { fromInternal: true } });
   };
   const clickHighlightStudent = (value) => {
     if (

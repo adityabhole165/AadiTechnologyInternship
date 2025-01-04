@@ -2,14 +2,14 @@ import { PartialRouteObject } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
 import AuthenticationRoutes from 'src/router/Authentication';
+import adminRoutes from './adminRoutes';
 import commonRoutes from './Common';
 import landingRoutes from './Landing';
 import messageCenterRoutes from './MessageCenter';
+import PrivateRoute from './PrivateRoute';
 import smsCenterRoutes from './SmsCenter';
 import studentRoutes from './Student';
 import teacherRoutes from './Teacher';
-import adminRoutes from './adminRoutes';
-import PrivateRoute from './PrivateRoute'; 
 
 const router: PartialRouteObject[] = [
     {
@@ -23,12 +23,12 @@ const router: PartialRouteObject[] = [
             { path: '/', element: <Navigate to="/Authentication" replace /> },
             {
                 path: '/landing',
-                element: <PrivateRoute />, 
+                element: <PrivateRoute />,
                 children: landingRoutes,
             },
             {
                 path: '/Student',
-                element: <PrivateRoute />, 
+                element: <PrivateRoute />,
                 children: studentRoutes,
             },
             {
@@ -37,27 +37,27 @@ const router: PartialRouteObject[] = [
             },
             {
                 path: '/MessageCenter',
-                element: <PrivateRoute />, 
+                element: <PrivateRoute />,
                 children: messageCenterRoutes,
             },
             {
                 path: '/SMSCenter',
-                element: <PrivateRoute />, 
+                element: <PrivateRoute />,
                 children: smsCenterRoutes,
             },
             {
                 path: '/Teacher',
-                element: <PrivateRoute />, 
+                element: <PrivateRoute />,
                 children: teacherRoutes,
             },
             {
                 path: '/Common',
-                element: <PrivateRoute />, 
+                element: <PrivateRoute />,
                 children: commonRoutes,
             },
             {
                 path: '/Admin',
-                element: <PrivateRoute />, 
+                element: <PrivateRoute />,
                 children: adminRoutes,
             },
         ],

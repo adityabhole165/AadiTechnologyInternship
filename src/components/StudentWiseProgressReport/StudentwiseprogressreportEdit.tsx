@@ -447,7 +447,7 @@ const StudentwiseprogressreportEdit = () => {
             encodeURL(AssessmentId) + '/' +
             encodeURL(YearwiseStudentId) + '/' +
             encodeURL(StandardId)
-
+            , { state: { fromInternal: true } }
         );
     };
 

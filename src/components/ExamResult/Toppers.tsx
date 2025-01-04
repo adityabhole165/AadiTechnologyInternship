@@ -418,7 +418,7 @@ const ExamResultToppers = () => {
         setIsPageload(false)
     };
     const onClickClose = () => {
-        navigate('/RITeSchool/Teacher/ExamResultBase');
+        navigate('/RITeSchool/Teacher/ExamResultBase', { state: { fromInternal: true } });
     };
     const clickHighlightStudent = (value) => {
         if (
@@ -459,7 +459,7 @@ const ExamResultToppers = () => {
     };
 
 
-    const getNavLinks = () => {
+    const getNavLinks = (): any => {
         if (LatestExamId1) {
             return [
                 { title: 'Progress Report', path: '/RITeSchool/Teacher/ProgressReportNew/' + AcademicYear + '/' + Studentid + '/' + TeacherId },

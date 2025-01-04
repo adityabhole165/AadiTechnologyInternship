@@ -34,9 +34,8 @@ import {
 import { GetFile } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 import AddAnnualPlaner from './AddAnnualPlaner';
-import { encodeURL } from '../Common/Util';
 
 const AnnualPlanerBaseScreen = () => {
   const navigate = useNavigate();
@@ -279,7 +278,7 @@ const AnnualPlanerBaseScreen = () => {
   };
   const ClickItemList = (Id) => {
     alert(Id);
-    navigate('/RITeSchool/Teacher/EventManegement/' + encodeURL(Id));
+    navigate('/RITeSchool/Teacher/EventManegement/' + encodeURL(Id), { state: { fromInternal: true } });
     // navigate('/RITeSchool/Teacher/EventManegement');
   };
 
@@ -301,7 +300,7 @@ const AnnualPlanerBaseScreen = () => {
   };
 
   const clickEventsoverview = (value) => {
-    navigate('/RITeSchool/common/EventOverview');
+    navigate('/RITeSchool/common/EventOverview', { state: { fromInternal: true } });
   };
   const shouldDisplayDropdown = GetScreenPermission() === 'N' ? 0 : null;
 
