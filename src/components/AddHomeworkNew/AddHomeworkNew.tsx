@@ -1368,7 +1368,7 @@ const AddHomeworkNew = () => {
             alignItems="center"
             justifyContent="flex-end"
           >
-            <Grid item xs={12} sm={6} md={4} lg={2.5}>
+            <Grid item xs={12} sm={6} md={3.5} lg={2}>
               <SearchableDropdown
                 sx={{ minWidth: '100%' }}
                 ItemList={HomeworkStatus}
@@ -1378,7 +1378,7 @@ const AddHomeworkNew = () => {
                 size={'small'}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={2}>
+            <Grid item xs={12} sm={6} md={3.5} lg={2}>
               <Box sx={{ minWidth: '100%' }}>
                 <Datepicker
                   DateValue={AssignedDate1}
@@ -1388,7 +1388,7 @@ const AddHomeworkNew = () => {
                 />
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={2}>
+            <Grid item xs={12} sm={6} md={3.5} lg={2}>
               <TextField
                 size={'small'}
                 fullWidth
@@ -1404,7 +1404,7 @@ const AddHomeworkNew = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={12} lg="auto">
+            <Grid item xs={12} sm={6} md={1} lg="auto">
               <IconButton
                 onClick={handleSearchClick}
                 sx={{
