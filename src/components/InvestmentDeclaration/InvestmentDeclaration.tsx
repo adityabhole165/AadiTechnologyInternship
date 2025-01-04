@@ -597,7 +597,7 @@ const InvestmentDeclaration = () => {
                 {/* </Box> */}
                 <Box>
                   <SearchableDropdown
-                    sx={{ maxWidth: '26vh' }}
+                    sx={{ maxWidth: '30vh' }}
                     ItemList={USGetRegimeDropdown}
                     onChange={clickRegimeDropDown}
                     label={'Regime'}
@@ -630,7 +630,7 @@ const InvestmentDeclaration = () => {
             <Box
               sx={{
                 mt: 0,
-                pl: isMobile ? 0 : 68,
+                pl: isMobile ? 0 : 0,
                 display: 'flex',
                 flexDirection: isMobile ? 'row' : 'row',
                 alignItems: 'center',
