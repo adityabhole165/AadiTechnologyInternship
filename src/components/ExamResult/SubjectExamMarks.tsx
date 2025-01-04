@@ -205,7 +205,7 @@ const SubjectExamMarks = () => {
 
     dispatch(getSubjectExamMarkslist(GetSubjectExamMarkslists));
 
-  }, []);
+  }, [startIndex,endIndex]);
   //for Passing Total marks
   useEffect(() => {
 
@@ -227,13 +227,11 @@ const SubjectExamMarks = () => {
       asAcademicYrId: Number(asAcademicYearId),
       asStandardId: Number(StandardId),
       asSubjectId: Number(SubjectId),
-      asStartIndex: startIndex,
-      asEndIndex: endIndex,
       asTestId: Number(TestId),
     };
 
     dispatch(getAllGradesForSubjectMarkList(GetAllGradesForSubjectMarkListBody));
-  }, [startIndex,endIndex]);
+  }, []);
   useEffect(() => {
     setMarksAssignment(StudentsForMarksAssignment)
   }, [StudentsForMarksAssignment])
@@ -396,7 +394,7 @@ const SubjectExamMarks = () => {
   const onClickSave = () => {
     if (TestDate !== "" && isOutsideAcademicYear(TestDate)) {
       setMarksError('Exam date should be within the current academic year (i.e. between ' +
-        formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
+        formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
     } else {
       setMarksError('');
       if (!MarksError) {
@@ -617,7 +615,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '9vw', md: '15vw', lg: '17vw' } }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '15vw', lg: '17vw' } }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -638,7 +636,7 @@ const SubjectExamMarks = () => {
                   fullWidth
                   label={"Subject Name"}
                   value={SubjectName || ''}
-                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '9vw', md: '10vw', lg: '13vw' } }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '10vw', lg: '13vw' } }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -656,7 +654,7 @@ const SubjectExamMarks = () => {
                 justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
               >
                 {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
-                  <Box sx={{ width: { xs: '45vw', sm: '9vw', md: '10vw' } }}>
+                  <Box sx={{ width: { xs: '45vw', sm: '10vw', md: '10vw' } }}>
                     <DatepickermaxDate
                       DateValue={new Date(TestDate)}
                       onDateChange={clickTestDate}
@@ -665,7 +663,7 @@ const SubjectExamMarks = () => {
                       maxDate={new Date()}
                     /></Box>
                   :
-                  <Box sx={{ width: { xs: '45vw', sm: '9vw', md: '12vw' } }}>
+                  <Box sx={{ width: { xs: '45vw', sm: '12vw', md: '12vw' } }}>
                     <DatepickermaxDate
                       DateValue={new Date(TestDate)}
                       onDateChange={clickTestDate}

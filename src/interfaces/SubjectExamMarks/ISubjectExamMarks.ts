@@ -65,8 +65,6 @@ export interface IGetAllGradesForSubjectMarkListBody {
     asAcademicYrId: number,
     asStandardId: number,
     asSubjectId: number,
-    asStartIndex: number,
-    asEndIndex: number,
     asTestId: number
 }
 export interface IGetAllGradesForSubjectMarkListResult {

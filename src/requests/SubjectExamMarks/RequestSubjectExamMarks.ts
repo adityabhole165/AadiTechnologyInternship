@@ -189,8 +189,6 @@ export const getSubjectExamMarkslist =
                 asAcademicYrId: data.asAcademicYrId,
                 asStandardId: data.asStandardId,
                 asSubjectId: data.asSubjectId,
-                asStartIndex: data.asStartIndex,
-                asEndIndex: data.asEndIndex,
                 asTestId: data.asTestId
             }
             const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
