@@ -198,7 +198,7 @@ const AddNewPhoto = () => {
       dispatch(CDAGetPhotoDetails(PhotoDetailsBody));
     }
   }, [GalleryName, ClassSelected, checkedValues, USManagePhotoGallery]);
-  console.log(USManagePhotoGallery, "USManagePhotoGallery👌");
+  //console.log(USManagePhotoGallery, "USManagePhotoGallery👌");
   const handleChange = (event) => {
     const { value, checked } = event.target;
 
@@ -230,6 +230,18 @@ const AddNewPhoto = () => {
   const AddMorePhoto = (event) => {
     const { checked } = event.target;
     setAddMorePhotos(checked);
+  }
+  const ClickCancel = () => {
+    setCheckedValues([]);
+    setFiles([]);
+    setFileList([]);
+    setGalleryName('');
+    setComment('');
+    setGalleryNameError('');
+    setSelectImageError('');
+    setClassesAndDivisionssError('');
+    setAssociatedSectionsError('');
+    setSelectAll(false);
   }
   return (
     <Box px={2}>
@@ -406,6 +418,7 @@ const AddNewPhoto = () => {
         <Grid item xs={12} md={12} mt={2}>
           <Stack direction={"row"} gap={2} alignItems={"center"}>
             <Button
+              onClick={ClickCancel}
               sx={{
                 color: 'red',
                 ':hover': { backgroundColor: red[100] }
