@@ -1,11 +1,11 @@
 import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import KeyIcon from '@mui/icons-material/Key';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
-import TextsmsIcon from '@mui/icons-material/Textsms';
-import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
+import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
+import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
+import UnsubscribeOutlinedIcon from '@mui/icons-material/UnsubscribeOutlined';
+import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 
 function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailReadClick, handleActivateDeactivateClick, handleKeyClick, handleTextsmsClick }) {
@@ -81,10 +81,10 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailRea
                             <TableBody>
                                 {ItemList.map((item, index) => (
                                     <TableRow key={index}>
-                                        <TableCell sx={{ textAlign: 'left', py: 1 }}>{item.Name}</TableCell>
-                                        <TableCell sx={{ textAlign: 'center', py: 1 }}>{item.MobileNumber}</TableCell>
-                                        <TableCell sx={{ textAlign: 'left', py: 1 }}>{item.UserName}</TableCell>
-                                        <TableCell sx={{ textAlign: 'center', py: 1 }}>
+                                        <TableCell sx={{ textAlign: 'left',paddingTop: '2.5px', paddingBottom: '2.5px' }}>{item.Name}</TableCell>
+                                        <TableCell sx={{ textAlign: 'center',paddingTop: '2.5px', paddingBottom: '2.5px' }}>{item.MobileNumber}</TableCell>
+                                        <TableCell sx={{ textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{item.UserName}</TableCell>
+                                        <TableCell sx={{ textAlign: 'center',paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                                             <Tooltip title={item.ActivateDeactivate === 'Active' ? "Deactivate" : "Activate"}>
                                                 <IconButton
                                                     onClick={() => handleActivateDeactivateClick(item.Id)}
@@ -101,7 +101,7 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailRea
                                             </Tooltip>
                                         </TableCell>
 
-                                        <TableCell sx={{ textAlign: 'center', py: 1 }}>
+                                        <TableCell sx={{ textAlign: 'center',paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                                             <IconButton
                                                 onClick={() => handleKeyClick(item.Id)}
                                                 sx={{
@@ -112,11 +112,11 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailRea
                                                     }
                                                 }}
                                             >
-                                                <KeyIcon />
+                                                <VpnKeyOutlinedIcon  sx={{ fontSize: '20px' }}/>
                                             </IconButton>
                                         </TableCell>
 
-                                        <TableCell sx={{ textAlign: 'center', py: 1 }}>
+                                        <TableCell sx={{ textAlign: 'center',paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                             <Tooltip title="Send Login SMS">
                                                 <IconButton
                                                     onClick={() => handleTextsmsClick(item.Id)}
@@ -128,12 +128,12 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailRea
                                                         }
                                                     }}
                                                 >
-                                                    <TextsmsIcon />
+                                                    <SmsOutlinedIcon />
                                                 </IconButton>
                                             </Tooltip>
                                         </TableCell>
 
-                                        <TableCell sx={{ textAlign: 'center', py: 1 }}>
+                                        <TableCell sx={{ textAlign: 'center',paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                             <Tooltip title={item.ActivateDeactivate === 'Active' ? "Remove from SMS/Message List" : "Add to SMS/Message List"}>
                                                 <IconButton
                                                     onClick={() => handleEmailReadClick(item.Id)}
@@ -145,7 +145,7 @@ function UserManagementList({ ItemList, HeaderArray, ClickHeader, handleEmailRea
                                                         }
                                                     }}
                                                 >
-                                                    {item.ActivateDeactivate === 'Active' ? <MarkEmailReadIcon /> : <UnsubscribeIcon />}
+                                                    {item.ActivateDeactivate === 'Active' ? <MarkEmailReadOutlinedIcon sx={{ fontSize: '25px' }}/> : <UnsubscribeOutlinedIcon sx={{ fontSize: '28px' }}/>}
                                                 </IconButton>
                                             </Tooltip>
                                         </TableCell>

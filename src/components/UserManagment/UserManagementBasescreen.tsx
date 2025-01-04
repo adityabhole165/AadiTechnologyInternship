@@ -1,9 +1,9 @@
 import { SearchTwoTone } from '@mui/icons-material';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
+import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
+import UnsubscribeOutlinedIcon from '@mui/icons-material/UnsubscribeOutlined';
 import { Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useContext, useState } from 'react';
@@ -265,7 +265,7 @@ const UserManagementBasescreen = () => {
         {
             id: 3,
             Name: 'Active for SMS/Message',
-            Value: <MarkEmailReadIcon
+            Value: <MarkEmailReadOutlinedIcon
                 style={{
                     color: 'green',
                     fontSize: 25,
@@ -275,14 +275,14 @@ const UserManagementBasescreen = () => {
             />
         },
         {
-            id: 3,
+            id: 4,
             Name: 'Deactive for SMS/Message',
-            Value: <UnsubscribeIcon
+            Value: <UnsubscribeOutlinedIcon
                 style={{
                     color: '#ff6347',
-                    fontSize: 25,
+                    fontSize: 28,
                     position: 'relative',
-                    top: '-2px',
+                   
                 }}
             />
         },
