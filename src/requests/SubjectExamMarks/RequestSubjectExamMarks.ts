@@ -320,7 +320,11 @@ export const getSubjectExamMarkslist =
 
 
             dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(reponseData1));
-            dispatch(SubjectExamMarksslice.actions.GetStudentCount(response1.data.listGetCount));
+            dispatch(SubjectExamMarksslice.actions.GetStudentCount(response1.data?.listGetCount?.TotalStudentCount));
+
+            console.log(response1.data.listGetCount.TotalStudentCount,"response1.data.listGetCount");
+            
+
             let responseData2 = [];
             const ExamMarkHeader = {
                 Text1: "Roll No.",

@@ -33,6 +33,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import CommonPageHeader from '../CommonPageHeader';
 import DatepickermaxDate from './DatepickermaxDate';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,22 +57,20 @@ const SubjectExamMarks = () => {
   } = useParams();
 
   // Decode in-place
-  useEffect(() => {
-    if (ClassTecher) ClassTecher = decodeURL(ClassTecher);
-    if (ClassId) ClassId = decodeURL(ClassId);
-    if (TeacherId) TeacherId = decodeURL(TeacherId);
-    if (StandardId) StandardId = decodeURL(StandardId);
-    if (IsMonthConfig) IsMonthConfig = decodeURL(IsMonthConfig);
-    if (IsReadOnly) IsReadOnly = decodeURL(IsReadOnly);
-    if (StandardDivisionId) StandardDivisionId = decodeURL(StandardDivisionId);
-    if (SubjectId) SubjectId = decodeURL(SubjectId);
-    if (TestId) TestId = decodeURL(TestId);
-    if (examResultProp) examResultProp = decodeURL(examResultProp);
-    if (publish) publish = decodeURL(publish);
-    if (getStandardId) getStandardId = decodeURL(getStandardId);
-  }, [ClassTecher, ClassId, TeacherId, StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publish, getStandardId]);
-
-  // const [examResultProp, setexamResultProp] = useState(false);
+  
+     ClassTecher = decodeURL(ClassTecher);
+    ClassId = decodeURL(ClassId);
+    TeacherId = decodeURL(TeacherId);
+     StandardId = decodeURL(StandardId);
+    IsMonthConfig = decodeURL(IsMonthConfig);
+     IsReadOnly = decodeURL(IsReadOnly);
+    StandardDivisionId = decodeURL(StandardDivisionId);
+     SubjectId = decodeURL(SubjectId);
+     TestId = decodeURL(TestId);
+     examResultProp = decodeURL(examResultProp);
+     publish = decodeURL(publish);
+     getStandardId = decodeURL(getStandardId);
+ 
 
   // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
@@ -147,6 +146,26 @@ const SubjectExamMarks = () => {
     (state: RootState) => state.SubjectExamMark.ExamSchedule
   );
 
+  const StudentCountTotal: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.StudentCount
+  );
+
+
+
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, StudentCountTotal);
+  const pagecount = Math.ceil(StudentCountTotal / rowsPerPage);
+  const ChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
+
+  const PageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+
+  console.log(StudentCountTotal,"StudentCountTotal");
+  
   const [ExamGrade, setExamGrade] = useState([])
   const clickTestDate = (value) => {
     setTestDate(
@@ -164,6 +183,11 @@ const SubjectExamMarks = () => {
     }
   }, [StandardName])
   //for testdate
+
+
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
   useEffect(() => {
     const GetSubjectExamMarkslists: IGetSubjectExamMarkslistsBody =
     {
@@ -173,15 +197,15 @@ const SubjectExamMarks = () => {
       asTestId: Number(TestId),
       asAcademicYrId: Number(asAcademicYearId),
       asShowTotalAsPerOutOfMarks: "Y",
-      asStartIndex: (page - 1) * rowsPerPage,
-      asEndIndex: page * rowsPerPage,
+      asStartIndex: startIndex,
+      asEndIndex: endIndex,
       asTestDate: TestDate
     }
 
 
     dispatch(getSubjectExamMarkslist(GetSubjectExamMarkslists));
 
-  }, []);
+  }, [startIndex,endIndex]);
   //for Passing Total marks
   useEffect(() => {
 
@@ -203,13 +227,13 @@ const SubjectExamMarks = () => {
       asAcademicYrId: Number(asAcademicYearId),
       asStandardId: Number(StandardId),
       asSubjectId: Number(SubjectId),
-      asStartIndex: (page - 1) * rowsPerPage,
-      asEndIndex: page * rowsPerPage,
+      asStartIndex: startIndex,
+      asEndIndex: endIndex,
       asTestId: Number(TestId),
     };
 
     dispatch(getAllGradesForSubjectMarkList(GetAllGradesForSubjectMarkListBody));
-  }, []);
+  }, [startIndex,endIndex]);
   useEffect(() => {
     setMarksAssignment(StudentsForMarksAssignment)
   }, [StudentsForMarksAssignment])
@@ -509,6 +533,11 @@ const SubjectExamMarks = () => {
     title: 'Assign Exam Mark',
     path: '/RITeSchool/Teacher/AssignExamMark/' + encodeURL(ClassTecher) + "/" + encodeURL(ClassId) + "/" + encodeURL(TestId)
   };
+
+
+  
+
+
   return (
     <Box sx={{ px: 2 }}>
 
@@ -810,6 +839,30 @@ const SubjectExamMarks = () => {
           {/* Table */}
           {
             (MarksAssignment.length > 0 && HeaderDetails != null) &&
+<div>
+             {
+          MarksAssignment.length > 0 ? (
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                <Box component="span" fontWeight="fontWeightBold">
+                  {startRecord} to {endRecord}
+                </Box>
+                {' '}out of{' '}
+                <Box component="span" fontWeight="fontWeightBold">
+                  {StudentCountTotal}
+                </Box>{' '}
+                {StudentCountTotal === 1 ? 'record' : 'records'}
+              </Typography>
+            </div>
+
+          ) : (
+            <span></span>
+
+          )
+        }
+         
+
+
             <SubjectExamMarkTable
               ExamMarksHeader={HeaderDetails}
               onChangeExamHeader={onClickExamHeader}
@@ -824,8 +877,24 @@ const SubjectExamMarks = () => {
               IsMark={TestName?.Grade_Or_Marks == "M"}
               AllowDecimal={TestName?.AllowDecimal == "True"}
             />
+             </div>
           }
+          <br/>
+          {
+          endRecord > 19  &&  MarksAssignment.length > 0 ? (
+            <ButtonGroupComponent
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              PageChange={PageChange}
+              pagecount={pagecount}
+            />
 
+          ) : (
+            <span></span>
+
+          )
+        }
           
         </Box >
 
