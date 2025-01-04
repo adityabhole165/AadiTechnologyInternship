@@ -2,17 +2,18 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, FormControl, FormControlLabel, Grid, IconButton, MenuItem, Radio, RadioGroup, Select, Stack, Tooltip, Typography } from '@mui/material';
-import { blue, grey, yellow } from "@mui/material/colors";
+import { blue, green, grey, yellow } from "@mui/material/colors";
+import SaveIcon from '@mui/icons-material/Save';
 import { useEffect, useState } from 'react';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
 import RegenerateRollNoList1 from './RegenerateRollNoList1';
 import RegenerateRollNoList2 from './RegenerateRollNoList2';
-
 const RegenarateRollNo = () => {
     // Hardcoded data arrays
     const dummyData = [
@@ -195,8 +196,8 @@ const RegenarateRollNo = () => {
         { RegNo: 4502, Class: '1-A', RollNo: 22, NewRollNo: 22, StudentName: 'Miss Sneha Vaibhav Pawar', DateOfBirth: '25 Aug 2018', Category: 'OBC' }
     ]);
     const totalCount = dummyDataList2.length;
-    const [selectDisplayType, setDisplayType] = useState('all');
-    const [selectDisplayLocation, setDisplayLocation] = useState('all');
+    const [selectStandard, setDisplayType] = useState('all');
+    const [selectDivision, setDivision] = useState('all');
     const [open, setOpen] = useState(false);
     const [isShowClicked, setIsShowClicked] = useState(false);
     const [ShowRollNo, setShowRollNo] = useState("true");
@@ -261,7 +262,7 @@ const RegenarateRollNo = () => {
         setIsShowClicked(false);
     };
 
-    const clickDisplayTypeDropdown = (value) => {
+    const clickStandardDropdown = (value) => {
         setDisplayType(value);
         setShowRollNo('true')
         setRowsPerPage(20)
@@ -281,8 +282,8 @@ const RegenarateRollNo = () => {
         setSortExpression(newSortExpression);
     };
 
-    const clickDisplayLocationDropdown = (value) => {
-        setDisplayLocation(value);
+    const clickDivisionDropdown = (value) => {
+        setDivision(value);
         setRowsPerPage(20)
         setPage(1);
     };
@@ -340,8 +341,8 @@ const RegenarateRollNo = () => {
                                     <SearchableDropdown
                                         sx={{ minWidth: '13vw' }}
                                         ItemList={dropdownData}
-                                        defaultValue={selectDisplayType}
-                                        onChange={clickDisplayTypeDropdown}
+                                        defaultValue={selectStandard}
+                                        onChange={clickStandardDropdown}
                                         size={'small'}
                                         label={'Standard'}
                                     />
@@ -352,8 +353,8 @@ const RegenarateRollNo = () => {
                             <SearchableDropdown
                                 sx={{ minWidth: '13vw' }}
                                 ItemList={divisionDropdown}
-                                defaultValue={selectDisplayLocation}
-                                onChange={clickDisplayTypeDropdown}
+                                defaultValue={selectDivision}
+                                onChange={clickDivisionDropdown}
                                 size={'small'}
                                 label="Division"
                             />
@@ -399,6 +400,37 @@ const RegenarateRollNo = () => {
                                     <RestartAltIcon />
                                 </IconButton>
                             </Tooltip>
+                            {ShowRollNo === "true" ? (
+                                <Tooltip title={'Regenerate Roll No'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={ClickChangeInput} // Replace with actual function if needed
+                                    >
+                                        <RepeatOutlinedIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            ) : (
+                                <Tooltip title={`Save`}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: green[600] }
+                                        }}
+                                        onClick={undefined}
+                                    >
+                                        <SaveIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+
                             <Tooltip title={`If any exam result is published then updated roll number will not be displayed on the progress report on screen.`}>
                                 <IconButton
                                     sx={{
@@ -448,7 +480,7 @@ const RegenarateRollNo = () => {
                     </Grid>
                 </Grid >
             </Box>
-            {isShowClicked && ShowRollNo === "true" && (
+            {ShowRollNo === "true" && (
                 <Box sx={{ flexGrow: 1, padding: 2, backgroundColor: 'white' }}>
                     <Typography variant="h4" sx={{ mb: 1 }}>
                         Criteria For Roll Number Generation
@@ -555,7 +587,7 @@ const RegenarateRollNo = () => {
                         <span></span>
                     )}
                 </Box>
-            ) : isShowClicked && ShowRollNo === "false" && (
+            ) : ShowRollNo === "false" && (
                 <Box sx={{ background: 'white', pr: 2, pl: 2, pt: 1, pb: 2 }}>
                     {singleTotalCount > 0 ? (
                         <div style={{ flex: 1, textAlign: 'center' }}>
