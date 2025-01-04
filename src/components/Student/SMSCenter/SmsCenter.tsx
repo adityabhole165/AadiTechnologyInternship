@@ -764,7 +764,9 @@ function SmsCenter() {
 
 
   useEffect(() => {
-    dispatch(CDAGetScheduleSMS(GetScheduleSMSBody));
+    if(activeTab === 'Scheduled SMS'){
+      dispatch(CDAGetScheduleSMS(GetScheduleSMSBody));
+    }
   }, [sortExpressionScheduleSMS, startIndexScheduleSMS, endIndexScheduleSMS]);
 
   const [DefaultValue, setDefaultValue] = useState(2)
