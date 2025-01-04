@@ -12,6 +12,7 @@ import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoo
 import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import { RootState } from 'src/store';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
+import { encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 
@@ -69,7 +70,7 @@ function Schoolnotice() {
             header: item.Name,
             text1: newdate,
             text2: '',
-            linkPath: '/Common/Viewschoolnotice/' + item.Id,
+            linkPath: '/Common/Viewschoolnotice/' + encodeURL(item.Id),
             FileName: item.FileName
         };
     });
@@ -85,7 +86,7 @@ function Schoolnotice() {
                         id: item.Id,
                         header: item.Name,
                         text2: '',
-                        linkPath: '/Common/Viewschoolnotice/' + item.Id,
+                        linkPath: '/Common/Viewschoolnotice/' + encodeURL(item.Id),
                         FileName: item.FileName,
                         IsText: item.IsText,
                         IsImageNotice: item.IsImageNotice,

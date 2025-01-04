@@ -46,7 +46,7 @@ function Viewschoolnotice() {
             navLinks={[
               {
                 title: 'School Notice',
-                path: '/schoolNotice'
+                path: sessionStorage.getItem('Id') === null ? '/schoolNotice' : '/RITeSchool/Common/SchoolnoticeOwn'
               },
               {
                 title: 'Notice Details',
