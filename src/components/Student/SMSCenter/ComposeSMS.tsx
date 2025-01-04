@@ -658,7 +658,7 @@ const ComposeSMSform = () => {
                                     value={senderUserName}
                                 />
                             </Grid>
-                            <Grid xs={12} sm={7} md={7} lg={7.1} spacing={2} px={2}>
+                            <Grid xs={12} sm={7} md={6} lg={7.1} spacing={1} px={2}>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
@@ -687,8 +687,8 @@ const ComposeSMSform = () => {
                                     }}
                                 />
                             </Grid>
-                            <Grid xs={12} mt={6} sm={3} md={1} lg={1.9} >
-                                <Box >
+                            <Grid xs={12} mt={6} sm={2} md={1} lg={1.9} >
+                                <Box sx={{ mt: { xs: '10px', sm: '10px', md: '10px', lg: '10px' } }}>
                                     <Button
                                         fullWidth
                                         // onClick={(e) => RecipientCCButton(e)}       
@@ -696,7 +696,7 @@ const ComposeSMSform = () => {
                                         sx={{
                                             color: '#38548A',
                                             mt: 0.7,
-                                            width: '200px',
+                                            width: '187px',
                                             '&:hover': {
                                                 color: '#38548A',
                                                 backgroundColor: blue[100]
@@ -713,8 +713,8 @@ const ComposeSMSform = () => {
                             </Grid>
                         </Grid>
 
-                        <Grid container px={2}>
-                            <Grid xs={12} sm={9} md={10} lg={10.2}>
+                        <Grid container gap={2}>
+                            <Grid xs={12} sm={9} md={10} lg={10.2} px={2} >
                                 <Box sx={{ mt: { xs: '10px', sm: '30px', md: '10px', lg: '10px' } }}>
                                     <TextField
                                         // name="To"
@@ -763,15 +763,14 @@ const ComposeSMSform = () => {
                                     <Errormessage Error={formik.errors.To} />
                                 </div>
                             </Grid>
-                            <Grid xs={12} sm={3} md={2} lg={1.2} mt={2} >
-                                <Box >
+                            <Grid xs={12} sm={2} md={1} lg={1.2} mt={2} >
+                                <Box sx={{ mt: { xs: '10px', sm: '30px', md: '50px', lg: '50px' } }}>
                                     <Button
                                         fullWidth
                                         onClick={() => handleOpenDialog(true)}
                                         sx={{
                                             color: '#38548A',
-                                            ml: 0.1,
-                                            mt: { xs: '0px', sm: '60px', md: '60px', lg: '50px' },
+                                            mt: 0.7,
                                             width: '140px',
                                             '&:hover': {
                                                 color: '#38548A',
@@ -852,7 +851,8 @@ const ComposeSMSform = () => {
                                 />
                             </Grid>
                             <Grid xs={2} mt={2} sm={2} md={1.7} >
-                                <Box px={2} sx={{ mt: { xs: '10px', sm: '30px', md: '10px', lg: 1.5 } }} >
+                                <Box >
+                                    {/* sx={{ mt: { xs: '10px', sm: '30px', md: '10px', lg: '50px' } }} */}
                                     <Button
                                         fullWidth
                                         // onClick={(e) => RecipientCCButton(e)}       
@@ -860,7 +860,7 @@ const ComposeSMSform = () => {
                                         sx={{
                                             color: '#38548A',
                                             mt: 0.7,
-                                            ml: { xs: 1 },
+
                                             width: '130px',
                                             '&:hover': {
                                                 color: '#38548A',
