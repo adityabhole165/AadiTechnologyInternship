@@ -57,7 +57,7 @@ function RegenerateRollNoList1({
                                             key={i}
                                             sx={{
                                                 color: (theme) => theme.palette.common.white,
-                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'center', pt: 1.5, pb: 1.5
+                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'center', py: 1
                                             }}
                                             onClick={item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ? () => clickHeader(item.Id) : null}
                                         >
@@ -77,23 +77,23 @@ function RegenerateRollNoList1({
                                 {ItemList.map((item, index) => {
                                     return (
                                         <TableRow key={index}>
-                                            <TableCell sx={{ width: '170px', py: 1 }} align="left">
+                                            <TableCell sx={{ width: '170px', py: 0.5 }} align="left">
                                                 {item.RegNo}
                                             </TableCell>
-                                            <TableCell sx={{ width: '170px', py: 1 }} align="left">
+                                            <TableCell sx={{ width: '170px', py: 0.5 }} align="left">
                                                 {item.Class}
                                             </TableCell>
-                                            <TableCell sx={{ width: '170px', py: 1 }} align="left">
+                                            <TableCell sx={{ width: '170px', py: 0.5 }} align="left">
                                                 {item.RollNo}
                                             </TableCell>
-                                            <TableCell sx={{ width: '350px', py: 1 }} align="left">
+                                            <TableCell sx={{ width: '350px', py: 0.5 }} align="left">
                                                 {item.StudentName}
                                             </TableCell>
-                                            <TableCell sx={{ width: '300px', py: 1 }} align="left">
+                                            <TableCell sx={{ width: '300px', py: 0.5 }} align="left">
                                                 {moment(item.Text5).format('DD MMM YYYY   h:mm A')}
                                             </TableCell>
                                             {/* New Field: Text6 */}
-                                            <TableCell sx={{ width: '300px', py: 1 }} align="left">
+                                            <TableCell sx={{ width: '300px', py: 0.5 }} align="left">
                                                 {item.Category}
                                             </TableCell>
                                         </TableRow>

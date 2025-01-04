@@ -104,29 +104,31 @@ const RegenarateRollNo = () => {
     ];
 
     const dropdownData = [
-        { Id: 0, Name: " All", Value: "all" },
-        { Id: 1, Name: "Nursery", Value: "nursery" },
-        { Id: 2, Name: "Junior KG", Value: "junior_kg" },
-        { Id: 3, Name: "Senior KG", Value: "senior_kg" },
-        { Id: 4, Name: "1", Value: "1" },
-        { Id: 5, Name: "2", Value: "2" },
-        { Id: 6, Name: "3", Value: "3" },
-        { Id: 7, Name: "4", Value: "4" },
-        { Id: 8, Name: "5", Value: "5" },
-        { Id: 9, Name: "6", Value: "6" },
-        { Id: 10, Name: "7", Value: "7" },
-        { Id: 11, Name: "8", Value: "8" },
-        { Id: 12, Name: "9", Value: "9" },
-        { Id: 13, Name: "10", Value: "10" },
+        { Id: 0, Name: " Select", Value: "Select" },
+        { Id: 1, Name: " All", Value: "all" },
+        { Id: 2, Name: "Nursery", Value: "nursery" },
+        { Id: 3, Name: "Junior KG", Value: "junior_kg" },
+        { Id: 4, Name: "Senior KG", Value: "senior_kg" },
+        { Id: 5, Name: "1", Value: "1" },
+        { Id: 6, Name: "2", Value: "2" },
+        { Id: 7, Name: "3", Value: "3" },
+        { Id: 8, Name: "4", Value: "4" },
+        { Id: 9, Name: "5", Value: "5" },
+        { Id: 10, Name: "6", Value: "6" },
+        { Id: 11, Name: "7", Value: "7" },
+        { Id: 12, Name: "8", Value: "8" },
+        { Id: 13, Name: "9", Value: "9" },
+        { Id: 14, Name: "10", Value: "10" },
     ];
 
     const divisionDropdown = [
-        { Id: 0, Name: "All", Value: "all" },
-        { Id: 1, Name: "A", Value: "a" },
-        { Id: 2, Name: "B", Value: "b" },
-        { Id: 3, Name: "C", Value: "c" },
-        { Id: 4, Name: "D", Value: "d" },
-        { Id: 5, Name: "E", Value: "e" },
+        { Id: 0, Name: " Select", Value: "Select" },
+        { Id: 1, Name: "All", Value: "all" },
+        { Id: 2, Name: "A", Value: "a" },
+        { Id: 3, Name: "B", Value: "b" },
+        { Id: 4, Name: "C", Value: "c" },
+        { Id: 5, Name: "D", Value: "d" },
+        { Id: 6, Name: "E", Value: "e" },
     ];
 
     const [HeaderList1, setHeaderList1] = useState([
@@ -196,8 +198,8 @@ const RegenarateRollNo = () => {
         { RegNo: 4502, Class: '1-A', RollNo: 22, NewRollNo: 22, StudentName: 'Miss Sneha Vaibhav Pawar', DateOfBirth: '25 Aug 2018', Category: 'OBC' }
     ]);
     const totalCount = dummyDataList2.length;
-    const [selectStandard, setDisplayType] = useState('all');
-    const [selectDivision, setDivision] = useState('all');
+    const [selectStandard, setDisplayType] = useState('Select');
+    const [selectDivision, setDivision] = useState('Select');
     const [open, setOpen] = useState(false);
     const [isShowClicked, setIsShowClicked] = useState(false);
     const [ShowRollNo, setShowRollNo] = useState("true");
