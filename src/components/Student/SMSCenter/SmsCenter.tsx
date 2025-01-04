@@ -10,6 +10,7 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import { default as QuestionMark, default as QuestionMarkIcon } from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SmsIcon from '@mui/icons-material/Sms';
+import SmsFailedIcon from '@mui/icons-material/SmsFailed';
 import { Box, Card, CircularProgress, Grid, IconButton, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
@@ -33,9 +34,9 @@ import { encodeURL, getDateFormattedNew } from 'src/components/Common/Util';
 import SentsmsList from 'src/components/SentSms/SentsmsList';
 import SentsmsListAll from 'src/components/SentSms/SentsmsListAll';
 import VerticalButtons from 'src/libraries/button/VerticalButtons';
+import Legend from 'src/libraries/Legend/Legend';
 import { RootState } from 'src/store';
 import SchedulesmsList from './SchedulesmsList';
-import Legend from 'src/libraries/Legend/Legend';
 const PageSize = 20;
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -764,9 +765,9 @@ function SmsCenter() {
 
 
   useEffect(() => {
-    if(activeTab === 'Scheduled SMS'){
-      dispatch(CDAGetScheduleSMS(GetScheduleSMSBody));
-    }
+
+    dispatch(CDAGetScheduleSMS(GetScheduleSMSBody));
+
   }, [sortExpressionScheduleSMS, startIndexScheduleSMS, endIndexScheduleSMS]);
 
   const [DefaultValue, setDefaultValue] = useState(2)
@@ -1309,8 +1310,16 @@ function SmsCenter() {
       />
 
       <Box>
+
+
         <Grid container item spacing={1}>
           {/* <Grid item sx={{ minWidth: '10%', pr: 1, pb: 2 }}> */}
+
+
+
+
+
+
           <Grid item xs={12} sm={3} md={2}>
             <VerticalButtons ItemList={ItemList} DefaultValue={DefaultValue} clickItem={clickItem} />
           </Grid>
@@ -1319,7 +1328,7 @@ function SmsCenter() {
           <Grid item xs={12} sm={9} md={10}>
             {activeTab == 'AllSendItem' && (
 
-              <Box>
+              <Box mb={1} sx={{ background: 'white' , p:2 }}>
                 {(Loading) && <SuspenseLoader />}
                 {SmsListNew.length > 0 && <Box mb={0} sx={{ background: 'white' }}>
                   {
@@ -1392,7 +1401,62 @@ function SmsCenter() {
             )}
 
             {activeTab == 'Received SMS' && (
-              <Box mb={1} sx={{ background: 'white' }}>
+              <Box mb={1} sx={{ background: 'white' , p:2 }}>
+
+                <Grid container spacing={2} pb={2}>
+                  <Grid item xs={12} sm={3}>
+                    <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                      <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
+                      <Box>
+                        <Typography variant="h6" color="blue">
+                          Free SMS
+                        </Typography>
+                        <Typography variant="h4">{SmsCount.AllowedSMSCount ?? 0}</Typography>
+                      </Box>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                      <SmsIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
+                      <Box>
+                        <Typography variant="h6" color="green">
+                          Sent SMS
+                        </Typography>
+                        <Typography variant="h4">{SmsCount.SentSMSCount ?? 0}</Typography>
+                      </Box>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                      <SmsFailedIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
+                      <Box>
+                        <Typography variant="h6" color="blue">
+                          Balance SMS
+                        </Typography>
+                        <Typography variant="h4">0</Typography>
+                      </Box>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                      <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 2 }} />
+                      <Box>
+                        <Typography variant="h6" color="red">
+                          Exceeded SMS
+                        </Typography>
+                        <Typography variant="h4">{SmsCount.ExceededSMSCount ?? 0}</Typography>
+                      </Box>
+                    </Card>
+                  </Grid>
+                </Grid>
+
+                <Box mb={1} sx={{ p:1  , textAlign: 'center' }}>
+                <Typography variant="h6" >
+                <strong> Mobile Number : {MobileNumber}</strong>  
+                        </Typography>
+                    
+                   </Box>
+
                 {loading ? (
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress />
@@ -1465,7 +1529,7 @@ function SmsCenter() {
 
 
             {activeTab == 'Send Item' && (
-              <Box>
+              <Box mb={1} sx={{ background: 'white' , p:2 }}>
                 {(Loading) && <SuspenseLoader />}
 
 
@@ -1563,7 +1627,18 @@ function SmsCenter() {
 
             {activeTab === 'Scheduled SMS' && (
 
-              <Box>
+
+
+
+
+
+
+              <Box mb={1} sx={{ background: 'white' , p:2 }}>
+
+
+
+
+
                 <Box sx={{ background: 'white', p: 1, mb: 1 }}>
                   <Legend LegendArray={LegendArray} />
                 </Box>
