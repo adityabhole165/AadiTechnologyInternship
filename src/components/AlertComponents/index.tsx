@@ -71,14 +71,14 @@ const AlertDialog = ({
             }
           }} />
       </DialogTitle>
-      <DialogContent dividers sx={{ px: 4 }}>
+      <DialogContent dividers sx={{ px: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={2}>
             <Box>
               {variant === 'error' && (
                 <ErrorTwoToneIcon
                   sx={{
-                    fontSize: 'clamp(46px, 5vw, 68px)',
+                    fontSize: 'clamp(35px, 10vw, 68px)',
                     color: (theme) => theme.palette.error.main
                   }}
                 />
@@ -86,7 +86,7 @@ const AlertDialog = ({
               {variant === 'warning' && (
                 <CheckIcon
                   sx={{
-                    fontSize: 'clamp(46px, 7vw, 68px)',
+                    fontSize: 'clamp(35px, 10vw, 68px)',
                     color: (theme) => theme.palette.success.main
                   }}
                 />
@@ -94,7 +94,7 @@ const AlertDialog = ({
               {variant === 'info' && (
                 <InfoTwoToneIcon
                   sx={{
-                    fontSize: 'clamp(46px, 7vw, 68px)',
+                    fontSize: 'clamp(35px, 10vw, 68px)',
                     color: (theme) => theme.palette.info.main
                   }}
                 />
@@ -102,7 +102,7 @@ const AlertDialog = ({
               {variant === 'success' && (
                 <CheckCircleTwoTone
                   sx={{
-                    fontSize: 'clamp(46px, 7vw, 68px)',
+                    fontSize: 'clamp(35px, 7vw, 68px)',
                     color: (theme) => theme.palette.success.main
                   }}
                 />
