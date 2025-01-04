@@ -492,7 +492,7 @@ const teacherRoutes = [
   },
   {
     path: 'smscenter',
-    element: <ProtectedRoute component={SmsCenter} /> // <SmsCenter />
+    element: <SmsCenter /> // <SmsCenter />
   },
   {
     path: 'ComposeSMS',

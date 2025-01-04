@@ -35,6 +35,7 @@ import SentsmsListAll from 'src/components/SentSms/SentsmsListAll';
 import VerticalButtons from 'src/libraries/button/VerticalButtons';
 import { RootState } from 'src/store';
 import SchedulesmsList from './SchedulesmsList';
+import Legend from 'src/libraries/Legend/Legend';
 const PageSize = 20;
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -625,6 +626,9 @@ function SmsCenter() {
 
   const GetScheduleSMSList = useSelector((state: RootState) => state.SmsCenter.GetScheduleSMSBodyIS);
   const DeleteScheduleSMS = useSelector((state: RootState) => state.SmsCenter.DeleteScheduleSMSIS);
+  const LoadingScheduled = useSelector((state: RootState) => state.SmsCenter.Loading);
+
+
   const totalRowsScheduleSMS = GetScheduleSMSList.length > 0 ? GetScheduleSMSList[0].TotalRows : null;
   const [sortExpressionScheduleSMS, setSortExpressionScheduleSMS] = useState('ORDER BY Insert_Date DESC ');
   const [SmsListIDScheduleSMS, setSmsListIDScheduleSMS] = useState('');
@@ -751,6 +755,7 @@ function SmsCenter() {
 
 
 
+
   const clickTitleScheduleSMS = (Id) => {
     navigate('/RITeSchool/Teacher/ViewSmsNew/' + encodeURL(Id), { state: { fromInternal: true } }
 
@@ -768,6 +773,26 @@ function SmsCenter() {
     handleTabClick(foundItem.Name)
     setDefaultValue(value)
   }
+
+  const LegendArray = [
+    {
+      id: 1,
+      Name: 'Processed SMS',
+      Value: <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+        <Box
+          sx={{
+            width: 23,
+            height: 23,
+            backgroundColor: blue[100],
+            border: "1px solid black",
+
+          }}
+        />
+      </Box>
+    }
+  ]
+
+
   const ItemList = [{
     Id: 1,
     Name: "Compose SMS",
@@ -1537,7 +1562,11 @@ function SmsCenter() {
             {activeTab === 'Scheduled SMS' && (
 
               <Box>
-                {(Loading) && <SuspenseLoader />}
+                <Box sx={{ background: 'white', p: 1, mb: 1 }}>
+                  <Legend LegendArray={LegendArray} />
+                </Box>
+
+                {(LoadingScheduled) && <SuspenseLoader />}
 
                 {SmsListScheduleSMS.length > 0 && <Box mb={1} sx={{ background: 'white' }}>
                   {
