@@ -47,6 +47,7 @@ const AddNewPhoto = () => {
   const [AddMorePhotos, setAddMorePhotos] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [comment, setComment] = useState("");
+  const [commentError, setCommentError] = useState("");
   const [fileList, setFileList] = useState<{ fileNames: string[]; comment: string }[]>([]);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -129,7 +130,7 @@ const AddNewPhoto = () => {
       return;
     }
     if (!comment.trim()) {
-      alert("Please add a comment.");
+      setCommentError("Please add a comment.");
       return;
     }
     const newEntry = {
@@ -242,6 +243,7 @@ const AddNewPhoto = () => {
     setClassesAndDivisionssError('');
     setAssociatedSectionsError('');
     setSelectAll(false);
+    setCommentError('')
   }
   return (
     <Box px={2}>
@@ -313,6 +315,7 @@ const AddNewPhoto = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth
+              inputProps={{ maxLength: 50 }}
               label={
                 <span>
                   Gallery Name <span style={{ color: 'red' }}> *</span>
@@ -320,7 +323,8 @@ const AddNewPhoto = () => {
               }
               variant="outlined"
               onChange={(e) => {
-                ClickGalleryName(e.target.value);
+                //ClickGalleryName(e.target.value);
+                ClickGalleryName(e.target.value.slice(0, 50));
               }}
               value={GalleryName}
             />
@@ -343,6 +347,7 @@ const AddNewPhoto = () => {
               comment={comment}
               setFiles={setFiles}
               setComment={setComment}
+              commentError={commentError}
               setFileList={setFileList}
               fileList={fileList}
               handleFileChange={handleFileChange}

@@ -16,10 +16,11 @@ import {
     Typography
 } from "@mui/material";
 import { red } from "@mui/material/colors";
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 
 
-const FileUploadComponent = ({ files, comment, setFiles, setComment, setFileList, fileList, handleFileChange, handleAddFile }) => {
+const FileUploadComponent = ({ files, commentError, comment, setFiles, setComment, setFileList, fileList, handleFileChange, handleAddFile }) => {
     const FileLabel = "Select Images";
     const handleDelete = (index: number) => {
         const updatedFileList = fileList.filter((_, fileIndex) => fileIndex !== index);
@@ -80,9 +81,12 @@ const FileUploadComponent = ({ files, comment, setFiles, setComment, setFileList
                         label="Comment"
                         variant="outlined"
                         value={comment}
-                        onChange={(e) => setComment(e.target.value)}
+                        // onChange={(e) => setComment(e.target.value)}
+                        onChange={(e) => setComment(e.target.value.slice(0, 200))}
+                        inputProps={{ maxLength: 200 }}
                         fullWidth
                     />
+                    <ErrorMessage1 Error={commentError}></ErrorMessage1>
                 </Grid>
 
                 {/* Add Button */}
