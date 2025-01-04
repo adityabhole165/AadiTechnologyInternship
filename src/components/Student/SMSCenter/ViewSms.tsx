@@ -114,7 +114,7 @@ function ViewSms() {
         />
         <Box sx={{ p: 2, background: 'white' }}>
           <Grid container spacing={2}>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"}>
                 <CallReceived fontSize='small' />
                 <Typography variant={"h4"} >From
@@ -124,7 +124,7 @@ function ViewSms() {
                 {viewSms?.Sender_Name}
               </Typography>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={8}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"}>
                 <History fontSize={'small'} />
                 <Typography variant={"h4"} > Received Date :
