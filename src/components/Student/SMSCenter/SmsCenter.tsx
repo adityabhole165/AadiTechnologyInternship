@@ -74,10 +74,18 @@ function SmsCenter() {
   const [NameSubject, setNameSubject] = useState('');
   const [SortExp, setSortExp] = useState('Insert_Date')
   const [SortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-  const filteredList = NewSmsList.filter((item) => item.TotalRows !== undefined);
-  const TotalCount = filteredList.map((item) => item.TotalRows);
-  const uniqueTotalCount = [...new Set(TotalCount)];
-  const singleTotalCount = uniqueTotalCount[0];
+  let filteredList = []
+  let TotalCount = []
+  let uniqueTotalCount = []
+  let singleTotalCount = 0
+  useEffect(() => {
+    filteredList = NewSmsList?.filter((item) => item.TotalRows !== undefined);
+    TotalCount = filteredList?.map((item) => item.TotalRows);
+    uniqueTotalCount = [...new Set(TotalCount)];
+    singleTotalCount = uniqueTotalCount[0];
+  }, [NewSmsList])
+
+
   const [activeTab, setActiveTab] = useState('');
   const [SortBy, setSortBy] = useState('Date');
 
@@ -110,33 +118,36 @@ function SmsCenter() {
   // In your component, remove the `sortedAndFilteredSmsList` declaration and replace it with the following `useEffect`.
 
   useEffect(() => {
-    const filteredAndSortedList = NewSmsList
-      .filter(item => {
-        if (!dateFilter.startDate && !dateFilter.endDate) return true;
-        const itemDate = new Date(item.Date);
-        if (dateFilter.startDate && !dateFilter.endDate) return itemDate >= dateFilter.startDate;
-        if (!dateFilter.startDate && dateFilter.endDate) return itemDate <= dateFilter.endDate;
-        return itemDate >= dateFilter.startDate && itemDate <= dateFilter.endDate;
-      })
-      .filter(item => {
-        // Apply filter based on `NameSubject` input
-        return item.UserName.toLowerCase().includes(NameSubject.toLowerCase()) ||
-          item.Subject.toLowerCase().includes(NameSubject.toLowerCase());
-      })
-      .sort((a, b) => {
-        let comparison = 0;
-        if (SortBy === 'Date') {
-          comparison = new Date(a.Date).getTime() - new Date(b.Date).getTime();
-        } else if (SortBy === 'UserName') {
-          comparison = a.UserName.localeCompare(b.UserName);
-        } else if (SortBy === 'Subject') {
-          comparison = a.Subject.localeCompare(b.Subject);
-        }
-        return SortDirection === 'asc' ? comparison : -comparison;
-      });
-
+    let filteredAndSortedList = []
+    if (NewSmsList.length > 0) {
+      filteredAndSortedList = NewSmsList
+        .filter(item => {
+          if (!dateFilter.startDate && !dateFilter.endDate) return true;
+          const itemDate = new Date(item.Date);
+          if (dateFilter.startDate && !dateFilter.endDate) return itemDate >= dateFilter.startDate;
+          if (!dateFilter.startDate && dateFilter.endDate) return itemDate <= dateFilter.endDate;
+          return itemDate >= dateFilter.startDate && itemDate <= dateFilter.endDate;
+        })
+        .filter(item => {
+          // Apply filter based on `NameSubject` input
+          return item.UserName.toLowerCase().includes(NameSubject.toLowerCase()) ||
+            item.Subject.toLowerCase().includes(NameSubject.toLowerCase());
+        })
+        .sort((a, b) => {
+          let comparison = 0;
+          if (SortBy === 'Date') {
+            comparison = new Date(a.Date).getTime() - new Date(b.Date).getTime();
+          } else if (SortBy === 'UserName') {
+            comparison = a.UserName.localeCompare(b.UserName);
+          } else if (SortBy === 'Subject') {
+            comparison = a.Subject.localeCompare(b.Subject);
+          }
+          return SortDirection === 'asc' ? comparison : -comparison;
+        });
+    }
     setPagedSMS(filteredAndSortedList);
-  }, [NewSmsList, dateFilter, SortBy, SortDirection]);
+  }, [NewSmsList]);
+  // }, [NewSmsList, dateFilter, SortBy, SortDirection]);
 
   const handleStartDateChange = (date: Date | null) => {
     setDateFilter(prevState => ({ ...prevState, startDate: date }));
@@ -514,40 +525,42 @@ function SmsCenter() {
   };
 
   const convertToCSV = () => {
-    // Prepare headers
-    const headers = [
-      'RowID',
-      'From',
-      'To',
-      'SMSText',
-      'SendDate',
-    ];
-
-    // Prepare rows
-    const rows = UsExportSentItems.map(item => {
-      const row = [
-        item.RowID,
-        item.From,
-        item.To,
-        item.SMSText,
-        item.SendDate,
-
-
-
+    let csvContent = ""
+    if (UsExportSentItems.length > 0) {
+      // Prepare headers
+      const headers = [
+        'RowID',
+        'From',
+        'To',
+        'SMSText',
+        'SendDate',
       ];
 
-      return row;
-    });
+      // Prepare rows
+      const rows = UsExportSentItems.map(item => {
+        const row = [
+          item.RowID,
+          item.From,
+          item.To,
+          item.SMSText,
+          item.SendDate,
 
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(row =>
-        row.map(cell =>
-          `"${String(cell || '').replace(/"/g, '""')}"`
-        ).join(',')
-      ),
-    ].join('\n');
 
+
+        ];
+
+        return row;
+      });
+
+      csvContent = [
+        headers.join(','),
+        ...rows.map(row =>
+          row.map(cell =>
+            `"${String(cell || '').replace(/"/g, '""')}"`
+          ).join(',')
+        ),
+      ].join('\n');
+    }
     return csvContent;
   };
 
@@ -598,7 +611,7 @@ function SmsCenter() {
 
   useEffect(() => {
     dispatch(CDAGetSentItems(GetSentItemsBody));
-  }, [startIndexNew, endIndexNew, sortExpression, activeTab, sortExpression1, isPrincipal]);
+  }, [rowsPerPageNew, sortExpression, activeTab, sortExpression]);
 
 
 
