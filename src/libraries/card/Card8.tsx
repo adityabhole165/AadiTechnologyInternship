@@ -26,13 +26,13 @@ function Card8({ ViewDetail, From, To, Body, Text, Attachments }) {
   const theme = useTheme();
   const navigate = useNavigate();
   const file_path =
-    localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/' +  encodeURL(Attachments);
+    localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/' + encodeURL(Attachments);
 
   const redirect = () => {
-    navigate('/RITeSchool/Student/Inbox');
+    navigate('/RITeSchool/Student/Inbox', { state: { fromInternal: true } });
   };
   const Compredirect = () => {
-    navigate('/RITeSchool/Student/Compose');
+    navigate('/RITeSchool/Student/Compose', { state: { fromInternal: true } });
   };
 
   const classes = Styles();

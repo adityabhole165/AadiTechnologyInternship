@@ -62,7 +62,7 @@ const AddUnpublish1 = ({ open, setOpen, ClickCloseDialogbox, clickPublishUnpubli
     dispatch(GetPublishUnpublishHomework(AllPublishUnpublishAddHomeworkBody));
   };
   const ClickBack = () => {
-    navigate('/RITeSchool/Teacher/AddHomework');
+    navigate('/RITeSchool/Teacher/AddHomework', { state: { fromInternal: true } });
   };
   const ClickOk = () => {
     if (Details != '') clickPublishUnpublish(0);

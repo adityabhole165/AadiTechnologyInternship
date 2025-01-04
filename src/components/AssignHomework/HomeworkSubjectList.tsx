@@ -243,7 +243,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
 
 
   const clickView = (Id) => {
-    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + encodeURL(Id));
+    navigate('/RITeSchool/Teacher/HomeworkDocuments/' + encodeURL(Id), { state: { fromInternal: true } });
   };
 
   const clickFileName = (value) => {
@@ -256,7 +256,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
     }
   };
   const clickTitle = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewHomework/' + encodeURL(Id));
+    navigate('/RITeSchool/Teacher/ViewHomework/' + encodeURL(Id), { state: { fromInternal: true } });
   };
 
   const filteredSubjects = Subjectlistsforteacher.filter(subject => subject.id === selectedSubjectId);

@@ -128,6 +128,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
             userId: value,
             asYear: SelectYear,
             status: radioBtn,
+            fromInternal: true
         };
         // Data is Passed to the next page using navigate's state property  | state: dataToPass (can pass an entire Object)
         navigate('/RITeSchool/Teacher/PerformanceEvaluation', { state: dataToPass })

@@ -328,7 +328,7 @@ const AllNoticeList = () => {
               <Box>
                 <Tooltip title={'Add New Notice'}>
                   <IconButton
-                    onClick={() => navigate('/RITeSchool/Teacher/AddSchoolNotice')}
+                    onClick={() => navigate('/RITeSchool/Teacher/AddSchoolNotice', { state: { fromInternal: true } })}
                     sx={{
                       color: 'white',
                       backgroundColor: green[500],

@@ -283,10 +283,10 @@ const PhotoVideoGalleryBaseScreen = () => {
 
 
     const AddNewPhoto = (value) => {
-        navigate('/RITeSchool/Teacher/AddNewPhoto');
+        navigate('/RITeSchool/Teacher/AddNewPhoto', { state: { fromInternal: true } });
     };
     const AddNewVideo = (value) => {
-        navigate('/RITeSchool/Teacher/AddNewVideo');
+        navigate('/RITeSchool/Teacher/AddNewVideo', { state: { fromInternal: true } });
     };
     const handleSearchGalleryName = (Value) => {
         setSearchPhotoGallery(Value);
@@ -327,7 +327,7 @@ const PhotoVideoGalleryBaseScreen = () => {
                             >
                                 <TextField
 
-                                    sx={{  width: { xs: '60vw', sm: '15vw' }}}
+                                    sx={{ width: { xs: '60vw', sm: '15vw' } }}
                                     fullWidth
                                     label="Photo/Video Gallery"
                                     value={SearchPhotoGallery}
@@ -353,7 +353,7 @@ const PhotoVideoGalleryBaseScreen = () => {
                                 justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                             >
                                 <TextField
-                                    sx={{  width: { xs: '60vw', sm: '15vw' } }}
+                                    sx={{ width: { xs: '60vw', sm: '15vw' } }}
                                     fullWidth
                                     label="Photo/Video Gallery"
                                     value={SearchVideoGallery}

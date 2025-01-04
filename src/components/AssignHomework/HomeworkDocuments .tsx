@@ -118,7 +118,7 @@ const HomeworkDocuments = () => {
   }, [DeleteHomeworkDocument]);
 
   const click = () => {
-    navigate('/RITeSchool/Teacher/AddHomework');
+    navigate('/RITeSchool/Teacher/AddHomework', { state: { fromInternal: true } });
   };
   const clickFileName = (value) => {
     if (value !== '') {

@@ -25,7 +25,7 @@ function Card5({ Content, FileName, Name }) {
   const navigate = useNavigate();
 
   const redirect = () => {
-    navigate('/RITeSchool/Common/SchoolNotice');
+    navigate('/RITeSchool/Common/SchoolNotice', { state: { fromInternal: true } });
   };
 
   const download = (e) => {

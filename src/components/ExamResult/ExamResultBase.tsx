@@ -520,12 +520,12 @@ const ExamResultBase = () => {
       encodeURL('true') + '/' +
       encodeURL(((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false")) + '/' +
       encodeURL(getStandardId())
-
+      , { state: { fromInternal: true } }
     );
   };
 
   const TransferOptionalSubjectMarks = (value) => {
-    navigate('/RITeSchool/Teacher/TransferOptionalSubjectMarks');
+    navigate('/RITeSchool/Teacher/TransferOptionalSubjectMarks', { state: { fromInternal: true } });
   };
 
   const ClickLink = (value) => {
@@ -547,7 +547,7 @@ const ExamResultBase = () => {
   };
 
   const TermwiseHighwight = (value) => {
-    navigate('/RITeSchool/Teacher/TermwiseHeightWeight/' + encodeURL(StandardDivisionId));
+    navigate('/RITeSchool/Teacher/TermwiseHeightWeight/' + encodeURL(StandardDivisionId), { state: { fromInternal: true } });
   };
 
   // const getClassTeacherName = () => {
@@ -565,10 +565,10 @@ const ExamResultBase = () => {
 
 
   const ProgressRemark = (value) => {
-    navigate('/RITeSchool/Teacher/ProgressRemarks/' + encodeURL(TestId) + '/' + encodeURL(getTeacherId()));
+    navigate('/RITeSchool/Teacher/ProgressRemarks/' + encodeURL(TestId) + '/' + encodeURL(getTeacherId()), { state: { fromInternal: true } });
   }
   const ViewProgressRemark = (value) => {
-    navigate('/RITeSchool/Teacher/ViewProgressReport/' + encodeURL(TestId) + '/' + encodeURL(StandardDivisionId));
+    navigate('/RITeSchool/Teacher/ViewProgressReport/' + encodeURL(TestId) + '/' + encodeURL(StandardDivisionId), { state: { fromInternal: true } });
   };
 
 
@@ -607,14 +607,14 @@ const ExamResultBase = () => {
     );
   };
   const Toppers = (value) => {
-    navigate('/RITeSchool/Teacher/Toppers/' + encodeURL(getTeacherId()) + '/' + encodeURL(StandardDivisionId) + '/' + encodeURL(TestId) + '/' + encodeURL(standardId) + '/' + encodeURL(false));
+    navigate('/RITeSchool/Teacher/Toppers/' + encodeURL(getTeacherId()) + '/' + encodeURL(StandardDivisionId) + '/' + encodeURL(TestId) + '/' + encodeURL(standardId) + '/' + encodeURL(false), { state: { fromInternal: true } });
   };
   // const Toppers = (value) => {
   //   navigate('/RITeSchool/Teacher/ExamResultToppers/' + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + true);
   // };
 
   const ClickSubject = (Id) => {
-    navigate('/RITeSchool/Teacher/SubjectMarkList/' + encodeURL(Id));
+    navigate('/RITeSchool/Teacher/SubjectMarkList/' + encodeURL(Id), { state: { fromInternal: true } });
   };
   // send message to students f()
   const sendMessageTostudent = () => {
@@ -815,7 +815,7 @@ const ExamResultBase = () => {
               justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
             >
               <SearchableDropdown1
-                sx={{  width: { xs: '70vw', sm: '20vw' } }}
+                sx={{ width: { xs: '70vw', sm: '20vw' } }}
                 ItemList={ClasswiseExams}
                 onChange={clickExam}
                 label={'Select Exam'}
@@ -873,7 +873,7 @@ const ExamResultBase = () => {
                 UserDetail.CanPublishUnpublishExam == true && (
                   <>
                     <Tooltip title={"Publish All"} >
-                     <span>
+                      <span>
                         <IconButton sx={{
                           color: 'white',
                           backgroundColor: blue[500],
@@ -889,11 +889,11 @@ const ExamResultBase = () => {
                           {/* PUBLISH ALL */}
                           <CheckCircle />
                         </IconButton>
-                        </span>
+                      </span>
                     </Tooltip>
 
                     <Tooltip title={"Unpublish All"}>
-                    <span>
+                      <span>
                         <IconButton
                           sx={{
                             color: 'white',
@@ -919,7 +919,7 @@ const ExamResultBase = () => {
                         >
                           <Unpublished />
                         </IconButton>
-                        </span>
+                      </span>
                     </Tooltip>
 
 

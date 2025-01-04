@@ -306,7 +306,7 @@ const AssignExamMark = () => {
       encodeURL(!(value.IsSubmitted == "N")) + '/' +
       encodeURL(false) + '/' +
       encodeURL('true') + '/' +
-      encodeURL(getStandardId())
+      encodeURL(getStandardId()), { state: { fromInternal: true } }
     )
       ;
   };

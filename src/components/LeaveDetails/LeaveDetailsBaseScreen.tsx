@@ -215,7 +215,7 @@ const LeaveDetailsBaseScreen = () => {
                 },
                 renderCell: (row) => (
                     <VisibilityIcon onClick={() => {
-                        navigate("../AddLeaveDetails" + "/" + encodeURL(row.Id))
+                        navigate("../AddLeaveDetails" + "/" + encodeURL(row.Id), { state: { fromInternal: true } })
                     }} />
                 )
             },
@@ -267,7 +267,7 @@ const LeaveDetailsBaseScreen = () => {
     }, [selectCategory]);
 
     const AddLeave = () => {
-        navigate("../AddLeaveDetails");
+        navigate("../AddLeaveDetails", { state: { fromInternal: true } });
     };
     const PageChange = (pageNumber) => {
         setPage(pageNumber);
@@ -279,7 +279,7 @@ const LeaveDetailsBaseScreen = () => {
     const ViewLeave = (Id, value) => {
         //console.log(Id, "value");
 
-        navigate("../ViewLeaveDetails" + "/" + encodeURL(Id) + "/" + encodeURL(asUserId) + "/" + encodeURL(selectCategory) + "/" + encodeURL(value))
+        navigate("../ViewLeaveDetails" + "/" + encodeURL(Id) + "/" + encodeURL(asUserId) + "/" + encodeURL(selectCategory) + "/" + encodeURL(value), { state: { fromInternal: true } })
     };
     const clickAcademicYearDropdown = (value) => {
         setAcademicYear(value);

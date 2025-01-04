@@ -222,11 +222,11 @@ const Holidays = (props: Props) => {
     }, [deleteHolidaydetailsMsg])
 
     const editRow = (Holiday_Id) => {
-        navigate("../AddHoliday/" + encodeURL(Holiday_Id));
+        navigate("../AddHoliday/" + encodeURL(Holiday_Id), { state: { fromInternal: true } });
     };
 
     const AddHoliday = () => {
-        navigate("../AddHoliday");
+        navigate("../AddHoliday", { state: { fromInternal: true } });
     };
     const PageChange = (pageNumber) => {
         setPage(pageNumber);

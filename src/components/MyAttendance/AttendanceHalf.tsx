@@ -23,7 +23,7 @@ function AttandaceHalf({ ItemList, ClickItemList }) {
 
   const navigate = useNavigate();
   const ClickNavigate = () => {
-    navigate('/RITeSchool/Teacher/SchooAttendanceOverview');
+    navigate('/RITeSchool/Teacher/SchooAttendanceOverview', { state: { fromInternal: true } });
   };
 
   return (

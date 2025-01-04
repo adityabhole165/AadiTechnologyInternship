@@ -275,7 +275,7 @@ function SelectSchool() {
     localStorage.setItem('RoleName', result.RoleName);
 
     const url = localStorage.getItem('url');
-    navigate('/RITeSchool/landing/landing');
+    navigate('/RITeSchool/landing/landing', { state: { fromInternal: true } });
     // if (url != null && url !== '/') {
     //   // navigate(url);
     // } else if (
@@ -335,11 +335,11 @@ function SelectSchool() {
   };
 
   const forgotPassword = () => {
-    navigate('/forgotPassword');
+    navigate('/forgotPassword', { state: { fromInternal: true } });
   };
 
   const schoolNotice = () => {
-    navigate('/schoolNotice');
+    navigate('/schoolNotice', { state: { fromInternal: true } });
   };
 
   const handleClickShowPassword = () => {
@@ -378,7 +378,7 @@ function SelectSchool() {
           sessionStorage.setItem('Id', result.Id);
           sessionStorage.setItem('RoleId', result.RoleId);
           sessionStorage.setItem('Userlogin', result.UserLogin);
-          navigate('/TermAndCondition');
+          navigate('/TermAndCondition', { state: { fromInternal: true } });
         } else {
           localStorage.setItem('auth', JSON.stringify(response));
           setSession(response);

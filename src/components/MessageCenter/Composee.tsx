@@ -370,7 +370,7 @@ function Form13() {
   };
 
   const RediretToSentPage = () => {
-    navigate('/RITeSchool/MessageCenter/msgCenter/Inbox');
+    navigate('/RITeSchool/MessageCenter/msgCenter/Inbox', { state: { fromInternal: true } });
   };
 
   const sendMessage = () => {

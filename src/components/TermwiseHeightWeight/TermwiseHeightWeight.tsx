@@ -248,7 +248,7 @@ const TermwiseHeightWeight = () => {
   }, [UpdateStudentDetails])
 
   const onClickBack = () => {
-    navigate('/RITeSchool/Teacher/ExamResultBase');
+    navigate('/RITeSchool/Teacher/ExamResultBase', { state: { fromInternal: true } });
   };
 
   return (

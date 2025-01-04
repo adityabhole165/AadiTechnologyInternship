@@ -145,7 +145,7 @@ function Card7({
 
 
   const navigateToInBox = () => {
-    navigate('/RITeSchool/MessageCenter/msgCenter/Inbox');
+    navigate('/RITeSchool/MessageCenter/msgCenter/Inbox', { state: { fromInternal: true } });
   };
   function replaceTableStyles(htmlString) {
     // Regular expression to match td tags with or without existing style

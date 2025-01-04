@@ -107,7 +107,7 @@ function Card6() {
   const newdate = DOB === undefined || DOB === '' ? '' : getDateFormate(DOB);
 
   const EditProfile = () => {
-    navigate('EditProfile');
+    navigate('EditProfile', { state: { fromInternal: true } });
   };
 
   return (

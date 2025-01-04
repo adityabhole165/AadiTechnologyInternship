@@ -1,8 +1,7 @@
-import ChevronRightTwoTone from "@mui/icons-material/ChevronRightTwoTone";
-import HomeTwoTone from "@mui/icons-material/HomeTwoTone";
+import { ChevronRightTwoTone, HomeTwoTone } from "@mui/icons-material";
 import { Box, Breadcrumbs, Grid, IconButton, Stack, Typography } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type Props = {
     navLinks: {
@@ -12,8 +11,14 @@ type Props = {
     rightActions?: React.ReactNode;
 };
 
-
 const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
+    const navigate = useNavigate();  // Hook to use navigate
+
+    // Function to handle internal navigation
+    const handleNavigation = (path: string) => {
+        navigate(path, { state: { fromInternal: true } }); // Passing the state
+    };
+
     return (
         <Box sx={{ pt: 4, pb: 2 }}>
             <Grid container spacing={2} alignItems="center">
@@ -44,33 +49,27 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                             </IconButton>
                         </Link>
                         {navLinks.slice(0, navLinks.length - 1).map((navLink, index) => (
-                            <Link
+                            <Typography
                                 key={index}
-                                to={navLink.path}
-
-                                style={{
-                                    textDecoration: 'none',
+                                variant={'h3'}
+                                fontSize={{
+                                    xs: '12px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    lg: '18px',
                                 }}
+                                fontWeight={'normal'}
+                                color={'text.primary'}
+                                sx={{
+                                    cursor: 'pointer',
+                                    '&:hover': {
+                                        fontWeight: 'bold',
+                                    },
+                                }}
+                                onClick={() => handleNavigation(navLink.path)}  // Handle navigation on click
                             >
-                                <Typography
-                                    variant={'h3'}
-                                    fontSize={{
-                                        xs: '12px',
-                                        sm: '14px',
-                                        md: '16px',
-                                        lg: '18px',
-                                    }}
-                                    fontWeight={'normal'}
-                                    color={'text.primary'}
-                                    sx={{
-                                        '&:hover': {
-                                            fontWeight: 'bold',
-                                        },
-                                    }}
-                                >
-                                    {navLink.title}
-                                </Typography>
-                            </Link>
+                                {navLink.title}
+                            </Typography>
                         ))}
                         {navLinks[navLinks.length - 1] && (
                             <Typography

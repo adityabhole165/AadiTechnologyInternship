@@ -30,22 +30,22 @@ const Notification = () => {
   const navigate = useNavigate();
   const onClick = (value) => {
     if (value == 'MessageInbox.htm') {
-      navigate('/RITeSchool/MessageCenter/msgCenter');
+      navigate('/RITeSchool/MessageCenter/msgCenter', { state: { fromInternal: true } });
     }
     if (value == 'SchoolNotices.htm') {
-      navigate('/RITeSchool/Common/ActiveSchoolNotice');
+      navigate('/RITeSchool/Common/ActiveSchoolNotice', { state: { fromInternal: true } });
     }
     if (value == 'ProgressReport.htm') {
-      navigate('/RITeSchool/Student/Progressreport');
+      navigate('/RITeSchool/Student/Progressreport', { state: { fromInternal: true } });
     }
     if (value == 'StudentFees.htm') {
-      navigate('/RITeSchool/Student/Fees');
+      navigate('/RITeSchool/Student/Fees', { state: { fromInternal: true } });
     }
     if (value == 'Homework.htm') {
-      navigate('/RITeSchool/Student/Homework');
+      navigate('/RITeSchool/Student/Homework', { state: { fromInternal: true } });
     }
     if (value == 'Home.htm') {
-      navigate('/RITeSchool/landing/landing');
+      navigate('/RITeSchool/landing/landing', { state: { fromInternal: true } });
     }
   };
   return (

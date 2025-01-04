@@ -496,7 +496,7 @@ const ExamResultToppers = () => {
         setSelectedExamName('');
     };
     const onClickClose = () => {
-        navigate('/RITeSchool/Teacher/ExamResultBase');
+        navigate('/RITeSchool/Teacher/ExamResultBase', { state: { fromInternal: true } });
     };
     const clickHighlightStudent = (value) => {
         if (

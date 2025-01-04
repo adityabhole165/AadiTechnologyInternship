@@ -9,7 +9,6 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Legend from 'src/libraries/Legend/Legend';
 import { RExamSchedule } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
-import { encodeURL } from '../Common/Util';
 import CommonPageHeader from "../CommonPageHeader";
 import ExamScheduleTable from './ExamScheduleTable';
 const ExamScheduleBasescreen = () => {
@@ -39,9 +38,9 @@ const ExamScheduleBasescreen = () => {
         //console.log(Value, "ClickSchedule");
 
         if (Value.IsConfigured == true) {
-            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + encodeURL(Value.StandardId) + '/' + encodeURL(Value.TestId) + '/' + encodeURL(Value.SchoolwiseStandardExamScheduleId) + '/' + encodeURL(Value.StandardTestId) + '/' + encodeURL('true'), { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
+            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardExamScheduleId + '/' + Value.StandardTestId + '/' + 'true', { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId, fromInternal: true } });
         } else {
-            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + encodeURL(Value.StandardId) + '/' + encodeURL(Value.TestId) + '/' + encodeURL(Value.SchoolwiseStandardTestId) + '/' + encodeURL('false'), { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId } });
+            navigate('/RITeSchool/Teacher/StandardwiseExamSchedule/' + Value.StandardId + '/' + Value.TestId + '/' + Value.SchoolwiseStandardTestId + '/' + 'false', { state: { examScheduleId: Value.SchoolwiseStandardExamScheduleId, fromInternal: true } });
         }
     };
     const LegendArray = [
@@ -151,7 +150,7 @@ const ExamScheduleBasescreen = () => {
                                     }}
                                     onClick={() => {
                                         // pass data via state > mobileNumbers
-                                        navigate('/RITeSchool/teacher/ViewExamSchedule')
+                                        navigate('/RITeSchool/teacher/ViewExamSchedule', { state: { fromInternal: true } })
                                     }}
                                 >
                                     <CalendarViewMonthIcon />

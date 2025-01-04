@@ -2,46 +2,52 @@ import { FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-interface ScreenAccess {
-    Screen_Id: string;
+interface MenuItem {
+    id: string;
+    title?: string;
+    link: string;
+    screenId: number;
 }
 
+const menuList: MenuItem[] = JSON.parse(sessionStorage.getItem('sideList') || '[]');
+
 interface ProtectedRouteProps {
-    screenId: string;
     component: FC;
     fallbackPath?: string;
 }
 
-
-
-// Helper to check screen access
-export const hasScreenAccess = (screenId: string): boolean => {
-    // following are some special conditions for some screens
+// Helper to check URL path access
+const hasPathAccess = (path: string): boolean => {
     try {
-        // is ScreenId passed is `0` then it means they are common screens and should be accessible to all
-        if (screenId === '0') return true;
-        if (screenId !== '0') return true;
-        // if (screenId === `TimeTable`) return false;
-        const allowedScreens = sessionStorage.getItem('AllowedScreens');
-        if (!allowedScreens) return false;
-        const parsedScreens: ScreenAccess[] = JSON.parse(allowedScreens);
-        return Array.isArray(parsedScreens) &&
-            parsedScreens.some(screen => screen.Screen_Id === screenId);
+        return menuList.some(menu => menu.link === path);
     } catch (error) {
-        console.error('Error checking screen access:', error);
+        console.error('Error checking path access:', error);
         return false;
     }
 };
+
 // Protected Route Component
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({
-    screenId,
     component: Component,
     fallbackPath = '/RITeSchool/landing/landing'
 }) => {
     const location = useLocation();
-    if (!hasScreenAccess(screenId)) {
-        toast.error('Access Restricted. Your account does not have the required permissions to access this page.');
-        return <Navigate to={fallbackPath} state={{ from: location }} replace />;
+    const currentPath = location.pathname; // Get the current path
+    const fromInternal = location.state?.fromInternal; // Check if navigation is internal
+    console.log('currentPath', currentPath);
+    console.log('fromInternal', fromInternal);
+
+    // Check if the current path is allowed based on access control
+    if (!hasPathAccess(currentPath)) {
+        // If it's an internal navigation (through button or link), allow access
+        if (fromInternal) {
+            return <Component />;
+        } else {
+            // Show restricted access message for external navigation (URL typed manually)
+            toast.error('Access Restricted. Please use the proper navigation links.');
+            return <Navigate to={fallbackPath} state={{ from: location }} replace />;
+        }
     }
+
     return <Component />;
 };

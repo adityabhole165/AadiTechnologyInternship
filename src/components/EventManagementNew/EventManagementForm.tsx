@@ -150,7 +150,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             dispatch(resetMessage());
             resetForm();
             // navigate('/RITeSchool/Common/AnnualPlanner');
-            navigate('/RITeSchool/Common/AnnualPlanner/' + encodeURL(SelectedDate) + '/' + encodeURL(StandardId) + '/' + encodeURL(DivisionId));
+            navigate('/RITeSchool/Common/AnnualPlanner/' + encodeURL(SelectedDate) + '/' + encodeURL(StandardId) + '/' + encodeURL(DivisionId), { state: { fromInternal: true } });
 
         }
     }, [SaveUpdateEventt]);

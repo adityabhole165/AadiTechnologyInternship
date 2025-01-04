@@ -1451,7 +1451,7 @@ const StudentRegistrationForm = () => {
       setTimeout(() => { dispatch(ResetUpdateStudentMsg()); }, 50);
       //navigate('/RITeSchool/Teacher/Students');
       // Delay navigation by 2 seconds (2000 milliseconds) 
-      setTimeout(() => { navigate('/RITeSchool/Teacher/Students'); }, 2000);
+      setTimeout(() => { navigate('/RITeSchool/Teacher/Students', { state: { fromInternal: true } }); }, 2000);
     }
   }, [TrackingId]);
 
@@ -1887,7 +1887,7 @@ const StudentRegistrationForm = () => {
   // };
   //Navigation to Add Sibling Page.
   const handleNavigation = () => {
-    navigate('/RITeSchool/Teacher/EnterStudentSiblingDetails');
+    navigate('/RITeSchool/Teacher/EnterStudentSiblingDetails', { state: { fromInternal: true } });
   };
   // First, create a function to check if a tab has invalid fields
   const hasInvalidFields = (tabName: string) => {

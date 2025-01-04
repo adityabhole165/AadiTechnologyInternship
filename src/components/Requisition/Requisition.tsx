@@ -214,7 +214,7 @@ const StatusRequisition = () => {
   };
 
   const clickView = (ViewId) => {
-    navigate('/RITeSchool/Teacher/RequistionView/' + encodeURL(ViewId));
+    navigate('/RITeSchool/Teacher/RequistionView/' + encodeURL(ViewId), { state: { fromInternal: true } });
   };
 
   // const clickEdit = (Value) => {
@@ -225,7 +225,7 @@ const StatusRequisition = () => {
 
 
   const clickEdit = (asRequisitionId) => {
-    navigate('/RITeSchool/Teacher/AddRequisition/' + encodeURL(asRequisitionId));
+    navigate('/RITeSchool/Teacher/AddRequisition/' + encodeURL(asRequisitionId), { state: { fromInternal: true } });
   };
 
   const clickReset = () => {
@@ -258,7 +258,7 @@ const StatusRequisition = () => {
   };
 
   const AddRequisition = (value) => {
-    navigate('/RITeSchool/Teacher/AddRequisition');
+    navigate('/RITeSchool/Teacher/AddRequisition', { state: { fromInternal: true } });
   };
 
   useEffect(() => {

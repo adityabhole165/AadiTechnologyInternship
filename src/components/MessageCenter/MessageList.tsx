@@ -610,7 +610,7 @@ const MessageList = () => {
   let navigate = useNavigate();
 
   const clickSetting = () => {
-    navigate('/RITeSchool/MessageCenter/EmailSetting');
+    navigate('/RITeSchool/MessageCenter/EmailSetting', { state: { fromInternal: true } });
   };
   const handleClickOpen = () => {
     setOpen(true);

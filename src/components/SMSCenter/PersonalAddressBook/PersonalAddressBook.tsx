@@ -435,12 +435,12 @@ const PersonalAddressBook = () => {
                 cancelButtonText: 'Cancel',
                 onConfirm: () => {
                     closeAlert();
-                    navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList } });
+                    navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList, fromInternal: true } });
                 },
                 onCancel: closeAlert
             });
         } else {
-            navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList } });
+            navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList, fromInternal: true } });
         }
     }
     function getActiveGroupIds(groups) {
@@ -470,7 +470,7 @@ const PersonalAddressBook = () => {
             const activeNoList = GetDetailsOfGroups?.map(({ Mobile_No }) => Mobile_No).join(',');
 
             if (!isLoading) {
-                navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList } });
+                navigate('/RITeSchool/Teacher/ComposeSMS', { state: { activeNoList, fromInternal: true } });
             }
 
             //console.log(activeNoList);
@@ -491,7 +491,7 @@ const PersonalAddressBook = () => {
                 cancelButtonText: 'Cancel',
                 onConfirm: () => {
                     closeAlert();
-                    navigate('/RITeSchool/Teacher/ComposeSMS');
+                    navigate('/RITeSchool/Teacher/ComposeSMS', { state: { fromInternal: true } });
                 },
                 onCancel: closeAlert
             });

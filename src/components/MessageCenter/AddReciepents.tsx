@@ -479,7 +479,7 @@ const AddReciepents = ({
     setOpenDialog(false);
   };
   const handleClick = () => {
-    navigate('/extended-sidebar/SMSCenter/ContactGroup'); // Replace with your desired route path
+    navigate('/extended-sidebar/SMSCenter/ContactGroup', { state: { fromInternal: true } }); // Replace with your desired route path
   };
 
   const handleOpenDialog = (isRecipients) => {

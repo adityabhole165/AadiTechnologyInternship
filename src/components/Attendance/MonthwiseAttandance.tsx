@@ -106,7 +106,7 @@ const MonthwiseAttandance = () => {
   }, [MonthWiseAttendance]);
 
   const click = () => {
-    navigate('/RITeSchool/Teacher/TAttendance/' + encodeURL(selectClasstecahernew));
+    navigate('/RITeSchool/Teacher/TAttendance/' + encodeURL(selectClasstecahernew), { state: { fromInternal: true } });
   };
   return (
     <>

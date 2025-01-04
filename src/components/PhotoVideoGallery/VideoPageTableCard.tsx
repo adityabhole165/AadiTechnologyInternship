@@ -50,10 +50,10 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onDelete,
 
 
     const ViewVideoGalleryPage = (value: string) => {
-        navigate('/RITeSchool/Teacher/ViewVideoGallery');
+        navigate('/RITeSchool/Teacher/ViewVideoGallery', { state: { fromInternal: true } });
     };
     const handleEdit1 = (action: string, item: any) => {
-        navigate('/RITeSchool/Teacher/AddNewVideo/' + (item.RowID))
+        navigate('/RITeSchool/Teacher/AddNewVideo/' + (item.RowID), { state: { fromInternal: true } })
     }
 
     return (

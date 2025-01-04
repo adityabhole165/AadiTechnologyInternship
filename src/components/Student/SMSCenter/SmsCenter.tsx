@@ -202,7 +202,7 @@ function SmsCenter() {
 
   const handleTabClick = (tabName: string) => {
     if (tabName === 'Compose SMS') {
-      navigate('/RiteSchool/Teacher/ComposeSMS');
+      navigate('/RiteSchool/Teacher/ComposeSMS', { state: { fromInternal: true } });
     }
     setActiveTab(tabName);
   };
@@ -500,7 +500,7 @@ function SmsCenter() {
     dispatch(CDAResendSMS(ResendSMSBody));
 
     if (SMS_Text && Display_Text && RoleIdNew && UserIdNew) {
-      let state1 = { SMS_Text, Display_Text, RoleId, UserId };
+      let state1 = { SMS_Text, Display_Text, RoleId, UserId, fromInternal: true, };
       navigate('/RITeSchool/Teacher/ComposeSMS', { state: state1 });
     }
 
@@ -508,7 +508,7 @@ function SmsCenter() {
 
 
   const NewSms = (ViewId) => {
-    navigate('/RITeSchool/Teacher/ComposeSMS');
+    navigate('/RITeSchool/Teacher/ComposeSMS', { state: { fromInternal: true } });
   };
 
 
@@ -520,7 +520,7 @@ function SmsCenter() {
   };
 
   const clickTitle1 = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewSmsNew/' + encodeURL(Id)
+    navigate('/RITeSchool/Teacher/ViewSmsNew/' + encodeURL(Id), { state: { fromInternal: true } }
     );
   };
 
@@ -752,7 +752,8 @@ function SmsCenter() {
 
 
   const clickTitleScheduleSMS = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewSmsNew/' + encodeURL(Id)
+    navigate('/RITeSchool/Teacher/ViewSmsNew/' + encodeURL(Id), { state: { fromInternal: true } }
+
     );
   };
 

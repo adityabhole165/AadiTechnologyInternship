@@ -19,8 +19,8 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimaryLab } from 'src/libraries/styled/ButtonStyle';
 import { getBookDetailslist } from 'src/requests/Library/Library';
 import { RootState } from 'src/store';
-import BooksDetails from './BooksDetails';
 import { encodeURL } from '../Common/Util';
+import BooksDetails from './BooksDetails';
 
 function Library() {
   const dispatch = useDispatch();
@@ -75,7 +75,7 @@ function Library() {
   ]);
 
   const clickNav = (path) => {
-    navigate('/RITeSchool/Student/Library/' +  encodeURL(path));
+    navigate('/RITeSchool/Student/Library/' + encodeURL(path), { state: { fromInternal: true } });
   };
 
   const clickFilter = ({

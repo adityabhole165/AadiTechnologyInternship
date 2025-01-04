@@ -405,8 +405,8 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(GetAllStudentsProgressSheet(GetAllStudentsProgressSheetBody));
-  }, [ StandardDivisionId(),asAcademicYearId,asSchoolId]);  
-  
+  }, [StandardDivisionId(), asAcademicYearId, asSchoolId]);
+
   const StudentProgressReportBody: IStudentProgressReportBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmeicYearId: Number(AcademicYear),
@@ -613,7 +613,7 @@ const ProgressReportNew = () => {
   const ClickShow = (value) => {
 
     if (USIsXseedApplicable) {
-      let state1 = { GetOldStudentDetails, AcademicYear, USIsXseedApplicable, Acadamicyearname, StudentId, selectTeacher };
+      let state1 = { GetOldStudentDetails, AcademicYear, USIsXseedApplicable, Acadamicyearname, StudentId, selectTeacher, fromInternal: true, };
       navigate('/RITeSchool/Teacher/PreprimaryProgressReport1', { state: state1 });
       return
     }
@@ -896,7 +896,7 @@ const ProgressReportNew = () => {
 
   const Toppers = (value) => {
     const progressreporttppper = true
-    navigate('/RITeSchool/Teacher/Toppers/' + encodeURL(selectTeacher) + '/' + encodeURL(GetOldStudentDetails.StandardDivisionId) + '/' + encodeURL(GetOldStudentDetails.StandardId) + '/' + encodeURL(AcademicYear) + '/' + encodeURL(LatestExamId) + '/' + encodeURL(progressreporttppper) + '/' + encodeURL(StudentId) + '/' + encodeURL(true));
+    navigate('/RITeSchool/Teacher/Toppers/' + encodeURL(selectTeacher) + '/' + encodeURL(GetOldStudentDetails.StandardDivisionId) + '/' + encodeURL(GetOldStudentDetails.StandardId) + '/' + encodeURL(AcademicYear) + '/' + encodeURL(LatestExamId) + '/' + encodeURL(progressreporttppper) + '/' + encodeURL(StudentId) + '/' + encodeURL(true), { state: { fromInternal: true } });
   };
 
   const shouldShowToppersButton = !IsPrePrimary && AcademicYear !== asAcademicYearId && !USIsGradingStandard && ShowTopppers;
@@ -1180,8 +1180,8 @@ const ProgressReportNew = () => {
 
               </ Box>
 
-            ) : 
-            <div>
+            ) :
+              <div>
                 {StudentId != "0" && <> (<Typography
                   variant="body1"
                   sx={{

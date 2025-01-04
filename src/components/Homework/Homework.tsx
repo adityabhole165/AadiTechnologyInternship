@@ -132,7 +132,7 @@ function Homework() {
   };
 
   const onNavigateDailyLog = () => {
-    navigate('DailyLogs');
+    navigate('DailyLogs', { state: { fromInternal: true } });
   };
   return (
     <div>

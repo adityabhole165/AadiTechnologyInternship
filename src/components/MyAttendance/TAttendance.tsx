@@ -828,7 +828,7 @@ const TAttendance = () => {
                         '/RITeSchool/Teacher/IndidualAttendance/' +
                         encodeURL(selectClasstecahernew) +
                         '/' +
-                        encodeURL(getDateFormattedDash(assignedDate))
+                        encodeURL(getDateFormattedDash(assignedDate)), { state: { fromInternal: true } }
                       )
                     }
                     sx={{
@@ -850,7 +850,7 @@ const TAttendance = () => {
                         '/RITeSchool/Teacher/MonthwiseAttendance/' +
                         encodeURL(selectClasstecahernew) +
                         '/' +
-                        encodeURL(getDateFormattedDash(assignedDate))
+                        encodeURL(getDateFormattedDash(assignedDate)), { state: { fromInternal: true } }
                       )
                     }
                     sx={{
@@ -899,14 +899,16 @@ const TAttendance = () => {
           </Stack>
         }
       />
-      {SummaryCountforAttendance?.GetSummaryCountList.length > 0 && (
-        <AttendanceSummary
-          assignedDate={assignedDate}
-          SummaryCountforAttendance={
-            SummaryCountforAttendance.GetSummaryCountList
-          }
-        />
-      )}
+      {
+        SummaryCountforAttendance?.GetSummaryCountList.length > 0 && (
+          <AttendanceSummary
+            assignedDate={assignedDate}
+            SummaryCountforAttendance={
+              SummaryCountforAttendance.GetSummaryCountList
+            }
+          />
+        )
+      }
       <Grid container spacing={1} mt={0}>
         <Grid item xs={12} md={6}>
           <Box sx={{ backgroundColor: 'white', pt: 2 }}>
@@ -1088,7 +1090,7 @@ const TAttendance = () => {
           />
         )}
       </Box>
-    </Box>
+    </Box >
   );
 };
 //

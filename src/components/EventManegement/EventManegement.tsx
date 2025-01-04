@@ -311,7 +311,7 @@ const EventsManagement = () => {
   };
 
   const clickItem = (value) => {
-    Navigate('/RITeSchool/Common/EventOverview');
+    Navigate('/RITeSchool/Common/EventOverview', { state: { fromInternal: true } });
   };
 
   const clickList = (value) => {
@@ -319,7 +319,7 @@ const EventsManagement = () => {
   };
 
   const clickEventEdit = (Id) => {
-    Navigate('/RITeSchool/Teacher/EventManegement/' + '/' + encodeURL(Id));
+    Navigate('/RITeSchool/Teacher/EventManegement/' + '/' + encodeURL(Id), { state: { fromInternal: true } });
   };
 
   // const clickeventDelete = (Id) => {

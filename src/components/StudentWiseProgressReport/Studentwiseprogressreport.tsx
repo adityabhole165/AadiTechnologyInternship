@@ -421,7 +421,7 @@ const Studentwiseprogressreport = () => {
     navigate('/RITeSchool/Teacher/StudentwiseprogressreportEdit/' +
       encodeURL(Assessment) + '/' +
       encodeURL(YearwiseStudentId) + '/' +
-      encodeURL(StandardId)
+      encodeURL(StandardId), { state: { fromInternal: true } }
 
     );
   };

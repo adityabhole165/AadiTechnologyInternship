@@ -269,7 +269,7 @@ const SubjectExamMarks = () => {
     dispatch(resetGetSubjectExamMarkslist());
   }, []);
   const onClickBack = () => {
-    navigate('/RITeSchool/Teacher/AssignExamMark');
+    navigate('/RITeSchool/Teacher/AssignExamMark', { state: { fromInternal: true } });
   };
   const getIsMarkAssigned = (StudentId) => {
     let bIsReturn = false
@@ -404,9 +404,9 @@ const SubjectExamMarks = () => {
       toast.success('Subject exam marks saved successfully.', { toastId: 'success1' })
       dispatch(resetManageStudentsTestMark())
       if (examResultProp === "true") {
-        navigate("/RITeSchool/Teacher/ExamResultBase/" + encodeURL(StandardDivisionId) + "/" + encodeURL(TestId));
+        navigate("/RITeSchool/Teacher/ExamResultBase/" + encodeURL(StandardDivisionId) + "/" + encodeURL(TestId), { state: { fromInternal: true } });
       } else {
-        navigate("/RITeSchool/Teacher/AssignExamMark/" + encodeURL(ClassTecher) + "/" + encodeURL(ClassId) + "/" + encodeURL(TestId));
+        navigate("/RITeSchool/Teacher/AssignExamMark/" + encodeURL(ClassTecher) + "/" + encodeURL(ClassId) + "/" + encodeURL(TestId), { state: { fromInternal: true } });
       }
     }
     //   navigate("/RITeSchool/Teacher/AssignExamMark/" +
@@ -555,7 +555,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '8vw', md: '8vw' ,lg:'10vw'} }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '8vw', md: '8vw', lg: '10vw' } }}
 
                   InputProps={{
                     readOnly: true,
@@ -602,7 +602,7 @@ const SubjectExamMarks = () => {
                   fullWidth
                   label={"Subject Name"}
                   value={SubjectName || ''}
-                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '10vw',lg:'13vw' } }}
+                  sx={{ bgcolor: '#F0F0F0', width: { xs: '45vw', sm: '10vw', md: '10vw', lg: '13vw' } }}
                   InputProps={{
                     readOnly: true,
                   }}

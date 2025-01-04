@@ -33,7 +33,7 @@ const AddUnpublish = () => {
   //console.log(PublishUnpublishHomework, 'ddddd....');
 
   const ClickBack = () => {
-    navigate('/RITeSchool/Teacher/AddHomework');
+    navigate('/RITeSchool/Teacher/AddHomework', { state: { fromInternal: true } });
   };
   const Unpublish = () => {
     const newAsIsPublish = !PublishUnpublishHomework;

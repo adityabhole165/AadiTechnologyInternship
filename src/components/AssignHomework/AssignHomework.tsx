@@ -28,7 +28,6 @@ import {
   ReqschoolSettings,
   SubjectDetails,
   TeacherNameList,
-  resetClassName,
   resetSubjectDetails
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
@@ -36,12 +35,12 @@ import { GetScreenPermission, decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 const AssignHomework = () => {
 
-  let {ClassTecherId , ClassId } = useParams();
+  let { ClassTecherId, ClassId } = useParams();
   ClassTecherId = decodeURL(ClassTecherId);
   ClassId = decodeURL(ClassId);
 
-  console.log(ClassTecherId,"ClassTecherId");
-  
+  console.log(ClassTecherId, "ClassTecherId");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -61,10 +60,10 @@ const AssignHomework = () => {
   );
   const AssignHomeworkPermission = GetScreenPermission('Assign Homework');
 
-  const [SelectClass, setSelectClass] = useState( ClassTecherId ? ClassTecherId : "0");
+  const [SelectClass, setSelectClass] = useState(ClassTecherId ? ClassTecherId : "0");
 
-  console.log(ClassTecherId,"ClassTecherId", SelectClass);
- 
+  console.log(ClassTecherId, "ClassTecherId", SelectClass);
+
   const [SelectTeacher, setSelectTeacher] = useState(
     AssignHomeworkPermission !== 'Y' ? TeacherId : ClassId ? ClassId : "0"
   );
@@ -109,7 +108,7 @@ const AssignHomework = () => {
     dispatch(FullTeacherName(fullClassTeacherBody));
   }, []);
 
- 
+
 
   const GetClassD: IClassDropDownBody = {
     asSchoolId: asSchoolId,
@@ -117,13 +116,13 @@ const AssignHomework = () => {
     aTeacherId: Number(SelectTeacher)
   };
   useEffect(() => {
-     dispatch(ClassName(GetClassD));
+    dispatch(ClassName(GetClassD));
   }, [SelectTeacher]);
 
 
-  
 
- 
+
+
 
   //subjectList
   useEffect(() => {
@@ -132,7 +131,7 @@ const AssignHomework = () => {
     } else {
       const TeacherSubject: IGetTeacherSubjectDetailsBody = {
         asSchoolId: asSchoolId,
-        aTeacherId:Number(SelectTeacher),
+        aTeacherId: Number(SelectTeacher),
         asAcademicYearId: asAcademicYearId,
         asStandardDivisionId: Number(SelectClass)
       };
@@ -180,7 +179,7 @@ const AssignHomework = () => {
       '/' +
       encodeURL(MySubject) +
       '/' +
-      encodeURL(SelectClass)
+      encodeURL(SelectClass), { state: { fromInternal: true } }
     );
   };
   const onClick = () => {
@@ -190,7 +189,7 @@ const AssignHomework = () => {
       '/' +
       encodeURL(getClassName()) +
       '/' +
-      encodeURL(SelectTeacher)
+      encodeURL(SelectTeacher), { state: { fromInternal: true } }
     );
   };
 

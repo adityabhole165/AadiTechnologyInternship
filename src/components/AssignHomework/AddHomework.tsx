@@ -293,13 +293,13 @@ const AddHomework = () => {
   };
 
   const Back = () => {
-    navigate('/RITeSchool/Teacher/AssignHomework');
+    navigate('/RITeSchool/Teacher/AssignHomework', { state: { fromInternal: true } });
   };
   const clickTitle1 = (Id) => {
-    navigate('/RITeSchool/Teacher/ViewHomework/' + encodeURL(Id));
+    navigate('/RITeSchool/Teacher/ViewHomework/' + encodeURL(Id), { state: { fromInternal: true } });
   };
   const Back1 = () => {
-    navigate('/RITeSchool/Teacher/AddUnpublish1/' + encodeURL(Id));
+    navigate('/RITeSchool/Teacher/AddUnpublish1/' + encodeURL(Id), { state: { fromInternal: true } });
   };
   const Changevalue = (value) => {
     // setitemPublish(value);

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { SessionTimeout } from "src/components/Common/Util";
 
 const isAuthenticated = () => {
     return Boolean(localStorage.getItem("auth"));
@@ -20,7 +19,7 @@ const PrivateRoute = () => {
                 localStorage.removeItem("auth");
                 sessionStorage.clear();
                 setAuthStatus(false);
-            }, SessionTimeout * 1000); // Timeout after 5 minutes of inactivity
+            }, 60 * 60 * 1000); // Timeout after 5 minutes of inactivity
         };
 
         const activityEvents = ["mousemove", "keydown", "click"];
