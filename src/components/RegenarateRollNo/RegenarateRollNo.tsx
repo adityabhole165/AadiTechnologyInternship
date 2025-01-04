@@ -4,10 +4,10 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import SaveIcon from '@mui/icons-material/Save';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, FormControl, FormControlLabel, Grid, IconButton, MenuItem, Radio, RadioGroup, Select, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, yellow } from "@mui/material/colors";
-import SaveIcon from '@mui/icons-material/Save';
 import { useEffect, useState } from 'react';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -498,6 +498,14 @@ const RegenarateRollNo = () => {
                                     onChange={(e) => handleSelectChange(e, item.Id)} // Handle change for each dropdown
                                     size="medium"
                                     sx={{ flexGrow: 1, marginRight: 1, width: { xs: '65%', sm: '30vw', md: '30vw', lg: '75%', color: 'black', } }}
+                                    MenuProps={{
+                                        PaperProps: {
+                                            sx: {
+                                                maxHeight: 150, // Set max height for the dropdown
+                                                overflowY: 'auto', // Enable vertical scrolling
+                                            },
+                                        },
+                                    }}
                                 >
                                     {item.options.map((option) => (
                                         <MenuItem key={option.value} value={option.value} sx={{ color: 'black !important' }}>
