@@ -1320,12 +1320,12 @@ function SmsCenter() {
 
 
 
-          <Grid item xs={12} sm={3} md={2}>
+          <Grid item xs={12} sm={3} md={2} lg={1.5}>
             <VerticalButtons ItemList={ItemList} DefaultValue={DefaultValue} clickItem={clickItem} />
           </Grid>
 
           {/* <Grid item sx={{ minWidth: '90%', maxWidth: activeTab === 'AllSendItem' ? '90%' : 'auto', p: 2, background: 'white', borderRadius: '10px' }}> */}
-          <Grid item xs={12} sm={9} md={10}>
+          <Grid item xs={12} sm={9} md={10} lg={10.5}>
             {activeTab == 'AllSendItem' && (
 
               <Box mb={1} sx={{ background: 'white', p: 2 }}>
