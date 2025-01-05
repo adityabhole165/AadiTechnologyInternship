@@ -71,7 +71,7 @@ import {
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
 import { IGetAllowedPagesForUserBody, IGetScreensAccessPermissions } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
-import { getSchoolSettingsValue } from 'src/requests/Authentication/SchoolList';
+import { getSchoolSettingsValue, UpdateMenuList } from 'src/requests/Authentication/SchoolList';
 import { getPrePrimaryExamConfiguration } from 'src/requests/ExamResult/RequestExamResult';
 import {
   MissingAttenNameAleart
@@ -1177,18 +1177,15 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     try {
       sessionStorage.removeItem('sideList');
       const filteredList = filt().map(item => ({
-        id: item.id,
-        title: item.title,
-        link: item.link,
-        icon: item.icon ? item.icon.type.name : null
+        link: item.link // Only keep the `link` property
       }));
-      const serializedList = JSON.stringify(filteredList, removeCircularReferences());
-      sessionStorage.setItem('sideList', serializedList);
-      console.log('sideList saved to sessionStorage');
+      const serializedList = filteredList;
+      dispatch(UpdateMenuList(serializedList));
     } catch (error) {
-      console.error('Error saving sideList to sessionStorage:', error);
+      console.error('Error saving MenuList:', error);
     }
   }
+
   const list = (anchor: Anchor) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 260 }}

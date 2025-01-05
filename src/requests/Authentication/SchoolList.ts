@@ -8,7 +8,8 @@ const SchoolListslice = createSlice({
   name: 'SchoolList',
   initialState: {
     SchoolList: [],
-    SchoolSettings: {}
+    SchoolSettings: {},
+    MenuList: [],
   },
   reducers: {
     getSchoolList(state, action) {
@@ -16,6 +17,9 @@ const SchoolListslice = createSlice({
     },
     getSchoolSettingsValue(state, action) {
       state.SchoolSettings = action.payload.GetSchoolSettingsResult;
+    },
+    getMenuList(state, action) {
+      state.MenuList = action.payload;
     }
   }
 });
@@ -25,6 +29,12 @@ export const getSchoolList =
     async (dispatch) => {
       const response = await SchoolListApi.SchoolList(data);
       dispatch(SchoolListslice.actions.getSchoolList(response.data));
+    };
+
+export const UpdateMenuList =
+  (data: any): AppThunk =>
+    async (dispatch) => {
+      dispatch(SchoolListslice.actions.getMenuList(data));
     };
 
 export const getSchoolSettingsValue =

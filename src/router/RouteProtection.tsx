@@ -1,25 +1,25 @@
 import { FC } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { RootState, useSelector } from 'src/store';
 
 interface MenuItem {
-    id: string;
-    title?: string;
     link: string;
-    screenId: number;
 }
-
-const menuList: MenuItem[] = JSON.parse(sessionStorage.getItem('sideList') || '[]');
-
+// Helper to check if the user has access to the current path
 interface ProtectedRouteProps {
     component: FC;
     fallbackPath?: string;
 }
 
-// Helper to check URL path access
+// Helper to normalize and check URL path access
 const hasPathAccess = (path: string): boolean => {
     try {
-        return menuList.some(menu => menu.link === path);
+        let menuArray: MenuItem[] = useSelector((state: RootState) => state.SchoolList.MenuList);
+        const accessGranted = menuArray.some(menu => menu.link === path);
+        return accessGranted;
     } catch (error) {
-        console.error('Error checking path access:', error);
+        console.error('Error while checking path access:', error);
         return false;
     }
 };
@@ -27,25 +27,20 @@ const hasPathAccess = (path: string): boolean => {
 // Protected Route Component
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({
     component: Component,
-    fallbackPath = '/RITeSchool/landing/landing'
+    fallbackPath = '/RITeSchool/landing/landing',
 }) => {
-    // const location = useLocation();
-    // const currentPath = location.pathname; // Get the current path
-    // const fromInternal = location.state?.fromInternal; // Check if navigation is internal
-    // console.log('currentPath', currentPath);
-    // console.log('fromInternal', fromInternal);
+    const location = useLocation();
+    const currentPath = location.pathname;
+    const fromInternal = location.state?.fromInternal;
 
-    // // Check if the current path is allowed based on access control
-    // if (!hasPathAccess(currentPath)) {
-    //     // If it's an internal navigation (through button or link), allow access
-    //     if (fromInternal) {
-    //         return <Component />;
-    //     } else {
-    //         // Show restricted access message for external navigation (URL typed manually)
-    //         toast.error('Access Restricted. Please use the proper navigation links.');
-    //         return <Navigate to={fallbackPath} state={{ from: location }} replace />;
-    //     }
-    // }
+    if (!hasPathAccess(currentPath)) {
+        if (fromInternal) {
+            return <Component />;
+        } else {
+            toast.error('Access Restricted. Please use the proper navigation links.');
+            return <Navigate to={fallbackPath} state={{ from: location }} replace />;
+        }
+    }
 
     return <Component />;
 };
