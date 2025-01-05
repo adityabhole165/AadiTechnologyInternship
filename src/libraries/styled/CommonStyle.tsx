@@ -43,9 +43,9 @@ export const ListHeight = {
 };
 
 export const TabListHeight = {
-  height: '60px',
+  height: '85px',
   '@media (min-width: 600px)': {
-    height: '80px'
+    height: '85px'
   }
 };
 

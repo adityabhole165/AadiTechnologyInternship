@@ -7,6 +7,7 @@ import { IWeeklyAttendanceBody } from 'src/interfaces/Student/dashboard';
 import { CDAgetWeeklyAttendance } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
 import Header from './Header';
+import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 
 const PieChart = () => {
     const dispatch = useDispatch();
@@ -85,7 +86,7 @@ const PieChart = () => {
                 id: "bar-chart",
             },
             xaxis: {
-                categories: statusDescriptions.map((item) => item.DayName),
+                categories: statusDescriptions.map((item) => item.DayName.split('')[0]),
                 labels: {
                     style: {
                         colors: colors,
@@ -128,7 +129,7 @@ const PieChart = () => {
 
 
     useEffect(() => {
-        const updatedCategories = statusDescriptions.map((item) => item.DayName);
+        const updatedCategories = statusDescriptions.map((item) =>  `${item.DayName}-${getDateMonthYearFormatted(item.Attendance_Date)}` );
         const updatedAbsentData = filteredAttendance.map(item => parseFloat(item.TotalAbsent ?? 0));
         const updatedPresentData = filteredAttendance.map(item => parseFloat(item.TotalPresent ?? 0));
 

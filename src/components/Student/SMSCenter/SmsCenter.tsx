@@ -1320,15 +1320,15 @@ function SmsCenter() {
 
 
 
-          <Grid item xs={12} sm={3} md={2}>
+          <Grid item xs={12} sm={3} md={2} lg={1.5}>
             <VerticalButtons ItemList={ItemList} DefaultValue={DefaultValue} clickItem={clickItem} />
           </Grid>
 
           {/* <Grid item sx={{ minWidth: '90%', maxWidth: activeTab === 'AllSendItem' ? '90%' : 'auto', p: 2, background: 'white', borderRadius: '10px' }}> */}
-          <Grid item xs={12} sm={9} md={10}>
+          <Grid item xs={12} sm={9} md={10} lg={10.5}>
             {activeTab == 'AllSendItem' && (
 
-              <Box mb={1} sx={{ background: 'white' , p:2 }}>
+              <Box mb={1} sx={{ background: 'white', p: 2 }}>
                 {(Loading) && <SuspenseLoader />}
                 {SmsListNew.length > 0 && <Box mb={0} sx={{ background: 'white' }}>
                   {
@@ -1401,10 +1401,10 @@ function SmsCenter() {
             )}
 
             {activeTab == 'Received SMS' && (
-              <Box mb={1} sx={{ background: 'white' , p:2 }}>
+              <Box mb={1} sx={{ background: 'white', p: 2 }}>
 
-                <Grid container spacing={2} pb={2}>
-                  <Grid item xs={12} sm={3}>
+                <Grid container item spacing={2}  >
+                  <Grid item xs={12} sm={6} md={3} >
                     <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                       <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
                       <Box>
@@ -1415,7 +1415,7 @@ function SmsCenter() {
                       </Box>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                       <SmsIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
                       <Box>
@@ -1426,7 +1426,7 @@ function SmsCenter() {
                       </Box>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={6} md={3} >
                     <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                       <SmsFailedIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
                       <Box>
@@ -1437,9 +1437,9 @@ function SmsCenter() {
                       </Box>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={6} md={3} >
                     <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                      <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 2 }} />
+                      <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 1 }} />
                       <Box>
                         <Typography variant="h6" color="red">
                           Exceeded SMS
@@ -1450,12 +1450,12 @@ function SmsCenter() {
                   </Grid>
                 </Grid>
 
-                <Box mb={1} sx={{ p:1  , textAlign: 'center' }}>
-                <Typography variant="h6" >
-                <strong> Mobile Number : {MobileNumber}</strong>  
-                        </Typography>
-                    
-                   </Box>
+                <Box mb={1} sx={{ p: 1, textAlign: 'center' }}>
+                  <Typography variant="h6" >
+                    <strong> Mobile Number : {MobileNumber}</strong>
+                  </Typography>
+
+                </Box>
 
                 {loading ? (
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -1529,7 +1529,7 @@ function SmsCenter() {
 
 
             {activeTab == 'Send Item' && (
-              <Box mb={1} sx={{ background: 'white' , p:2 }}>
+              <Box mb={1} sx={{ background: 'white', p: 2 }}>
                 {(Loading) && <SuspenseLoader />}
 
 
@@ -1633,7 +1633,7 @@ function SmsCenter() {
 
 
 
-              <Box mb={1} sx={{ background: 'white' , p:2 }}>
+              <Box mb={1} sx={{ background: 'white', p: 2 }}>
 
 
 
