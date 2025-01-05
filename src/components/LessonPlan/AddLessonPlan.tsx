@@ -296,7 +296,7 @@ const AddLessonPlan = () => {
   };
 
   const onClickBack = () => {
-    navigate('/RITeSchool/Teacher/LessonPlanBaseScreen');
+    navigate('/RITeSchool/Teacher/LessonPlanBaseScreen', { state: { fromInternal: true } });
   };
 
   const onTextChange = (value) => {

@@ -195,8 +195,6 @@ const TAttendance = () => {
       });
     return perm;
   };
-
-  console.log(assignedDate, "assignedDate🤞🤞")
   const [SaveIsActive, setSaveIsActive] = useState(true);
 
   const GetStudentDetails: IStudentsDetails = {
@@ -641,13 +639,13 @@ const TAttendance = () => {
   const clickNav = (value) => {
     navigate(
       `/${location.pathname.split('/')[1]}/Teacher/TAttendance/` +
-      encodeURL(value)
+      encodeURL(value), { state: { fromInternal: true } }
     );
   };
   const clickNavigateSchoolAttendanceOverview = () => {
     navigate(
       '/RITeSchool/Teacher/SchoolAttendanceOverview/' +
-      encodeURL(getDateFormattedDash(assignedDate))
+      encodeURL(getDateFormattedDash(assignedDate)), { state: { fromInternal: true } }
     );
   };
   const ClickItemList = (value) => {

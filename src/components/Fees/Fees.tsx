@@ -377,7 +377,7 @@ function Fees() {
       };
       openCapacitorSite(paymentPageLink);
       navigate(
-        '/RITeSchool/Student/PayOnline/' + encodeURL(currentYear) + '/' + encodeURL(showCaution)
+        '/RITeSchool/Student/PayOnline/' + encodeURL(currentYear) + '/' + encodeURL(showCaution), { state: { fromInternal: true } }
       );
       dispatch(resetPaymentUrl());
     }

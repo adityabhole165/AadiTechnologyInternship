@@ -476,7 +476,7 @@ const AddHomeworkNew = () => {
       '/' +
       encodeURL(MySubject) +
       '/' +
-      encodeURL(SelectClass)
+      encodeURL(SelectClass), { state: { fromInternal: true } }
     );
   };
   const clickView = (Id) => {
@@ -496,7 +496,7 @@ const AddHomeworkNew = () => {
       '/' +
       encodeURL(MySubject) +
       '/' +
-      encodeURL(SelectClass)
+      encodeURL(SelectClass), { state: { fromInternal: true } }
     );
   };
 
