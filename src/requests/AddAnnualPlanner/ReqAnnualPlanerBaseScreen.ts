@@ -253,7 +253,7 @@ export const CDAGetEventsDataList =
         let legend = 7; // A default high value to ensure any valid Sort_Order is lower
         response.data
           .filter((Item) => (
-            getDateMonthYearFormattedDash(Item.Event_Date) === value
+            Item.Event_Date === value
             && data.asEventType.includes(Item.Sort_Order)
           ))
           .forEach((Item) => {
@@ -268,9 +268,10 @@ export const CDAGetEventsDataList =
 
       response.data.forEach((item, i) => {
         if (!arrDays.includes(item.Day)) {
-          const value = getDateMonthYearFormattedDash(item.Event_Date);
+          const value = item.Event_Date;
+          // const value = getDateMonthYearFormattedDash(item.Event_Date);
           const eventsForDay = response.data.filter(
-            (Item) => getDateMonthYearFormattedDash(Item.Event_Date) === value &&
+            (Item) => Item.Event_Date === value &&
               data.asEventType.includes(Item.Sort_Order)
           );
 
