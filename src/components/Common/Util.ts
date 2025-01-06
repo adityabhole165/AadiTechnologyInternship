@@ -129,7 +129,7 @@ export const getDateMonthYearDayDash = (date) => {
   let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
   let Weekday = new Date(dateFormatted).getDay()
 
-  return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]} (${WeekdaysFull[Weekday]})`;
+  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]} (${WeekdaysFull[Weekday]})`;
 };
 
 export const getDateMonthYear = (date) => {
