@@ -2,6 +2,7 @@
 import { Suspense, lazy } from 'react';
 import PageHeader from 'src/components/CommonPageHead/PageHeader';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { ProtectedRoute } from './RouteProtection';
 
 const Loader = (Component) => (props) =>
 (
@@ -21,15 +22,15 @@ const adminRoutes = [
     },
     {
         path: 'SchoolConfiguration/Holidays',
-        element: <Holidays />
+        element: <ProtectedRoute component={Holidays} />  // <Holidays />
     },
     {
         path: 'SchoolConfiguration/AddHoliday',
-        element: <AddHoliday />
+        element: <ProtectedRoute component={AddHoliday} />  // <AddHoliday />
     },
     {
         path: 'SchoolConfiguration/AddHoliday/:Holiday_Id',
-        element: <AddHoliday />
+        element: <ProtectedRoute component={AddHoliday} />  // <AddHoliday />
     },
     {
         path: 'SchoolConfiguration/PageHeader',
