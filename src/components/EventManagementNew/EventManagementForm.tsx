@@ -361,7 +361,12 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                         rows={1}
                         value={EventTitle}
                         onChange={(e) => {
-                            setEventTitle(e.target.value);
+                            const value = e.target.value;
+                            if (value === '') {
+                                setEventTitle('');
+                            } else if (value.trim() !== '') {
+                                setEventTitle(value);
+                            }
                         }}
                         // error={errorEventTitle !== ''}
                         // helperText={errorEventTitle}
@@ -385,7 +390,12 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                         rows={1}
                         value={EventDescription}
                         onChange={(e) => {
-                            setEventDescription(e.target.value);
+                            const value = e.target.value;
+                            if (value === '') {
+                                setEventDescription('');
+                            } else if (value.trim() !== '') {
+                                setEventDescription(value);
+                            }
                         }}
                         // error={ErrorEventDescription !== ''}
                         // helperText={ErrorEventDescription}
