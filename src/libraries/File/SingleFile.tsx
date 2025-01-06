@@ -138,6 +138,7 @@ const SingleFile = ({
         {FilePath != '' && (
           <Stack direction="row" spacing={-1}>
             {deleteIcon &&
+             <Tooltip title={'Delete'}>
               <IconButton
                 // sx={{ marginRight: 1 }}
                 // color={'error'}
@@ -152,13 +153,19 @@ const SingleFile = ({
               >
                 <DeleteForeverIcon style={{ fontSize: 30 }} />
               </IconButton>
-            }
-            {viewIcon && <IconButton
+              </Tooltip>
+            } 
+           &nbsp;&nbsp;&nbsp;
+            {viewIcon &&
+             <Tooltip title={'View'}>
+             <IconButton
               color={'primary'}
               onClick={clickFileName}
             >
               <Visibility style={{ fontSize: 30 }} />
             </IconButton>
+            </Tooltip>
+
             }
           </Stack>
         )}
