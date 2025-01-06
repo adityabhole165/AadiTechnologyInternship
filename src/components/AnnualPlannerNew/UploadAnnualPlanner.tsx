@@ -27,6 +27,7 @@ const UploadAnnualPlanner = ({
   const [fileName, setFileName] = useState('');
   const [base64URL, setbase64URL] = useState('');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const FolderName = localStorage.getItem('FolderName');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
@@ -49,7 +50,7 @@ const UploadAnnualPlanner = ({
           asAcademicYearId: Number(asAcademicYearId),
           asSaveFeature: 'Event Planner',
           asFileName: fileName,
-          asFolderName: 'PPSN Website',
+          asFolderName: `RITSchoolMobile/${FolderName}`,
           asBase64String: base64URL,
           asUpdatedById: Number(UserId)
         };
@@ -125,9 +126,8 @@ const UploadAnnualPlanner = ({
   };
   const clickFileName = () => {
     if (FileDetails !== '') {
-      window.open(
-        localStorage.getItem('SiteURL') +
-        '/RITeSchool/DOWNLOADS/Event%20Planner/' +
+      window.open(localStorage.getItem('SiteURL') +FolderName+
+        '/RITESCHOOL/DOWNLOADS/Event%20Planner/' +
         FileDetails[0].LinkUrl
       );
       //localStorage.getItemItem("SiteURL", window.location.pathname)
