@@ -42,31 +42,21 @@ const UploadAnnualPlanner = ({
 
   const DeleteFileDetails = useSelector((state: RootState) => state.AddPlanner.deletefile);
 
-  const clickSubmit =  () => {
-    if (fileName.length !== 0 && base64URL.length !== 0) {
-       {
-        const AnnualplannerBody: IAddAnnualPlannerBody = {
-          asSchoolId: Number(asSchoolId),
-          asAcademicYearId: Number(asAcademicYearId),
-          asSaveFeature: 'Event Planner',
-          asFileName: fileName,
-          asFolderName: `RITSchoolMobile/${FolderName}`,
-          asBase64String: base64URL,
-          asUpdatedById: Number(UserId)
-        };
-
-        dispatch(addanual(AnnualplannerBody));
-        if (AddAnnualPlanner != '') {
-          toast.success(AddAnnualPlanner);
-          dispatch(addanualReset());
-          dispatch(GetFile(GetFileDetailsBody));;
-        }
-        setFileName('')
-        setbase64URL('')
-      } 
+  const clickSubmit = () => {
+    if (fileName && base64URL) {
+      const AnnualplannerBody: IAddAnnualPlannerBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asSaveFeature: 'Event Planner',
+        asFileName: fileName,
+        asFolderName: `RITSchoolMobile/${FolderName}`,
+        asBase64String: base64URL,
+        asUpdatedById: Number(UserId)
+      };
+  
+      dispatch(addanual(AnnualplannerBody));
     }
   };
-
 
 
 
@@ -131,40 +121,40 @@ const UploadAnnualPlanner = ({
   // };
 
 
-  const clickDelete = (value) => {
-
-    const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
-      asSchoolId: Number(asSchoolId),
-      asAcademicYearId: Number(asAcademicYearId),
-      asUserId: Number(UserId)
-    };
-
-    showAlert({
-      title: 'Please Confirm',
-      message:
-        'Are you sure you want to delete the current annual planner file?  ',
-      variant: 'warning',
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
-      onCancel: () => {
-        closeAlert();
-      },
-      onConfirm: () => {
-        dispatch(DeleteFile(DeleteFileDetailsBody))
-        if (DeleteFileDetails != '') {
-          toast.success(DeleteFileDetails);
-          dispatch(DeleteFileReset());
-          dispatch(GetFile(GetFileDetailsBody));;
-        }
-        closeAlert();
-      }
-    });
+  const clickDelete = () => {
+  showAlert({
+    title: 'Please Confirm',
+    message: 'Are you sure you want to delete the current annual planner file?',
+    variant: 'warning',
+    confirmButtonText: 'Confirm',
+    cancelButtonText: 'Cancel',
+    onCancel: closeAlert,
+    onConfirm: () => {
+      dispatch(DeleteFile(DeleteFileDetailsBody));
+      closeAlert();
+    }
+  });
+};
 
 
 
-
-  };
-
+  useEffect(() => {
+    if (AddAnnualPlanner !='') {
+      toast.success(AddAnnualPlanner);
+      dispatch(GetFile(GetFileDetailsBody));
+      dispatch(addanualReset()); // Reset the state after successful addition
+      setFileName('');
+      setbase64URL('');
+    }
+  }, [AddAnnualPlanner]);
+  
+  useEffect(() => {
+    if (DeleteFileDetails !='') {
+      toast.success(DeleteFileDetails);
+      dispatch(GetFile(GetFileDetailsBody));
+      dispatch(DeleteFileReset()); // Reset the state after successful deletion
+    }
+  }, [DeleteFileDetails]);
 
 
 
