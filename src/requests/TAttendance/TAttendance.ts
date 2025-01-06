@@ -3,8 +3,7 @@ import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
 import {
   getDateFromatDateTime,
   getDateMonthSpace,
-  getDateMonthYearDayDash,
-  getDateMonthYearFormatted
+  getDateMonthYearDayDash
 } from 'src/components/Common/Util';
 import StandardAttendance, {
   IStudentsDetails
@@ -288,7 +287,8 @@ export const CDASummaryCountforAttendanceBody =
           return {
             Id: i,
             Name: getDateFromatDateTime(item.Att_date),
-            Value: getDateMonthYearFormatted(item.Att_date),
+            // Value: getDateMonthYearFormatted(item.Att_date),
+            Value: item.Att_date,
             IsActive: false,
             Text1: item.Status,
             Text3: item.Status_Desc,
