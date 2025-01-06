@@ -350,7 +350,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     return (
         <>
             <Grid container spacing={2}>
-                <Grid xs={6} md={6} item>
+                <Grid xs={12} md={6} item>
                     <TextField
                         label={
                             <span>
@@ -373,7 +373,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                     />
                     {errorEventTitle && <ErrorMessage1 Error={errorEventTitle} />}
                 </Grid>
-                <Grid xs={6} md={6} item>
+                <Grid xs={12} md={6} item>
                     <TextField
                         label={
                             <span>
@@ -395,7 +395,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                     />
                     {ErrorEventDescription && <ErrorMessage1 Error={ErrorEventDescription} />}
                 </Grid>
-                <Grid item xs={6} md={6}>
+                <Grid item xs={12} md={6}>
                     {/* <TextField
                         label={
                             <span>
@@ -425,7 +425,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                     <ErrorMessage1 Error={ErrorEventStartDate}></ErrorMessage1>
                     {/* <ErrorMessage1 Error={ErrorEventStartDate}></ErrorMessage1> */}
                 </Grid>
-                <Grid item xs={6} md={6}>
+                <Grid item xs={12} md={6}>
                     <Datepicker
                         DateValue={EventEndDate}
                         onDateChange={setEventEndDate}
@@ -480,7 +480,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                 </Grid> */}
                 <Grid container xs={6} md={6}>
                     <Typography fontSize={'10px'} pt={1} pr={3} ml={2}>Select Photo:</Typography>
-                    <Grid item >
+                    <Grid item sx={{pl:{xs:2, md:0}}}>
                         <SingleFile
                             ValidFileTypes={ValidFileTypes}
                             MaxfileSize={MaxfileSize}
