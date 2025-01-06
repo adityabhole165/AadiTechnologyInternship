@@ -42,9 +42,9 @@ const UploadAnnualPlanner = ({
 
   const DeleteFileDetails = useSelector((state: RootState) => state.AddPlanner.deletefile);
 
-  const clickSubmit = async () => {
+  const clickSubmit =  () => {
     if (fileName.length !== 0 && base64URL.length !== 0) {
-      try {
+       {
         const AnnualplannerBody: IAddAnnualPlannerBody = {
           asSchoolId: Number(asSchoolId),
           asAcademicYearId: Number(asAcademicYearId),
@@ -55,7 +55,7 @@ const UploadAnnualPlanner = ({
           asUpdatedById: Number(UserId)
         };
 
-        await dispatch(addanual(AnnualplannerBody));
+        dispatch(addanual(AnnualplannerBody));
         if (AddAnnualPlanner != '') {
           toast.success(AddAnnualPlanner);
           dispatch(addanualReset());
@@ -63,12 +63,13 @@ const UploadAnnualPlanner = ({
         }
         setFileName('')
         setbase64URL('')
-      } catch (error) {
-        console.error('Error uploading file:', error);
-        toast.error('Error uploading file', { toastId: 'error1' });
-      }
+      } 
     }
   };
+
+
+
+
 
   const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
     asSchoolId: Number(asSchoolId),
@@ -98,36 +99,74 @@ const UploadAnnualPlanner = ({
   //   }
   // };
 
-  const clickDelete = () => {
+  // const clickDelete = () => {
+  //   showAlert({
+  //     title: 'Please Confirm',
+  //     message: 'Are you sure you want to delete the current annual planner file?',
+  //     variant: 'warning',
+  //     confirmButtonText: 'Confirm',
+  //     cancelButtonText: 'Cancel',
+  //     onCancel: () => {
+  //       closeAlert();
+  //     },
+  //     onConfirm: async () => {
+  //       try {
+  //         await dispatch(DeleteFile(DeleteFileDetailsBody));
+
+  //         if (DeleteFileDetails != '') {
+  //           toast.success(DeleteFileDetails);
+  //           dispatch(DeleteFileReset());
+  //           dispatch(GetFile(GetFileDetailsBody));;
+  //         }
+
+
+  //       } catch (error) {
+  //         console.error('Error deleting file:', error);
+  //         toast.error('Error deleting file', { toastId: 'error1' });
+  //       } finally {
+  //         closeAlert();
+  //       }
+  //     }
+  //   });
+  // };
+
+
+  const clickDelete = (value) => {
+
+    const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      asUserId: Number(UserId)
+    };
+
     showAlert({
       title: 'Please Confirm',
-      message: 'Are you sure you want to delete the current annual planner file?',
+      message:
+        'Are you sure you want to delete the current annual planner file?  ',
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
       onCancel: () => {
         closeAlert();
       },
-      onConfirm: async () => {
-        try {
-          await dispatch(DeleteFile(DeleteFileDetailsBody));
-
-          if (DeleteFileDetails != '') {
-            toast.success(DeleteFileDetails);
-            dispatch(DeleteFileReset());
-            dispatch(GetFile(GetFileDetailsBody));;
-          }
-
-
-        } catch (error) {
-          console.error('Error deleting file:', error);
-          toast.error('Error deleting file', { toastId: 'error1' });
-        } finally {
-          closeAlert();
+      onConfirm: () => {
+        dispatch(DeleteFile(DeleteFileDetailsBody))
+        if (DeleteFileDetails != '') {
+          toast.success(DeleteFileDetails);
+          dispatch(DeleteFileReset());
+          dispatch(GetFile(GetFileDetailsBody));;
         }
+        closeAlert();
       }
     });
+
+
+
+
   };
+
+
+
 
   const ChangeFile = (value) => {
     setFileName(value.Name);
