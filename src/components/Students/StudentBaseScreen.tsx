@@ -225,7 +225,8 @@ const StudentBaseScreen = () => {
                 Enrolment_Number: item.Text3,
                 NewMode: 'N',
                 Joining_Date: item.Text15,
-                User_Id: item.Text16
+                User_Id: item.Text16,
+                fromInternal: true
             }
         });
     };
