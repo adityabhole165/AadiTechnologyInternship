@@ -23,7 +23,13 @@ const AddAnnualPlannerSlice = createSlice({
     },
     DeleteFile(state, action) {
       state.deletefile = action.payload;
-    }
+    },
+    RDeleteFileReset(state) {
+      state.deletefile = '';
+    },
+    RaddanualReset(state) {
+      state.AddAnnual = '';
+    },
   }
 });
 export const addanual =
@@ -44,6 +50,15 @@ export const DeleteFile =
   async (dispatch) => {
     const response = await AddAnnualPlannerApi.DeleteAnnualPlanner(data);
     dispatch(AddAnnualPlannerSlice.actions.DeleteFile(response.data));
+  };
+
+
+  export const DeleteFileReset = (): AppThunk => async (dispatch) => {
+    dispatch(AddAnnualPlannerSlice.actions.RDeleteFileReset());
+  };
+
+  export const addanualReset = (): AppThunk => async (dispatch) => {
+    dispatch(AddAnnualPlannerSlice.actions.RaddanualReset());
   };
 
 export default AddAnnualPlannerSlice.reducer;

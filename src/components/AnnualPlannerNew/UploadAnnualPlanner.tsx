@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IAddAnnualPlannerBody, IDeleteFileDetailsBody, IGetFileDetailsBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { DeleteFile, GetFile, addanual } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
+import { DeleteFile, DeleteFileReset, GetFile, addanual, addanualReset } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import { RootState } from 'src/store';
 
 
@@ -56,8 +56,11 @@ const UploadAnnualPlanner = ({
         };
 
         await dispatch(addanual(AnnualplannerBody));
-        toast.success(AddAnnualPlanner)
-        dispatch(GetFile(GetFileDetailsBody));
+        if (AddAnnualPlanner != '') {
+          toast.success(AddAnnualPlanner);
+          dispatch(addanualReset());
+          dispatch(GetFile(GetFileDetailsBody));;
+        }
         setFileName('')
         setbase64URL('')
       } catch (error) {
@@ -108,8 +111,14 @@ const UploadAnnualPlanner = ({
       onConfirm: async () => {
         try {
           await dispatch(DeleteFile(DeleteFileDetailsBody));
-          dispatch(GetFile(GetFileDetailsBody));
-          toast.success(DeleteFileDetails);
+
+          if (DeleteFileDetails != '') {
+            toast.success(DeleteFileDetails);
+            dispatch(DeleteFileReset());
+            dispatch(GetFile(GetFileDetailsBody));;
+          }
+
+
         } catch (error) {
           console.error('Error deleting file:', error);
           toast.error('Error deleting file', { toastId: 'error1' });
@@ -126,7 +135,7 @@ const UploadAnnualPlanner = ({
   };
   const clickFileName = () => {
     if (FileDetails !== '') {
-      window.open(localStorage.getItem('SiteURL') +FolderName+
+      window.open(localStorage.getItem('SiteURL') + FolderName +
         '/RITESCHOOL/DOWNLOADS/Event%20Planner/' +
         FileDetails[0].LinkUrl
       );
