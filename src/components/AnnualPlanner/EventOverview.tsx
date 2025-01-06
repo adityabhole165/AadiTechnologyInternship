@@ -266,13 +266,13 @@ const EventOverview = (props: Props) => {
                   {USGetAllEvents
                     .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
                     .map((obj, index) => (
-                      <Grid item xs={6} sm={3} key={index} sx={{ p: 1, height: '100%' }}>
+                      <Grid item xs={6} sm={4} md={3} lg={3} key={index} sx={{ p: 1, height: '100%' }}>
                         <Box sx={{ border: `1px solid ${grey[400]}`, borderRadius: (theme) => theme.general.borderRadius }}>
                           <Typography variant={'h4'} sx={{ p: 1, background: (theme) => theme.palette.secondary.main, color: 'white' }}>{obj.DisplayDate}</Typography>
                           <Box sx={{ p: 1 }}>
                             <React.Fragment>
                               {/* <Typography variant={'h4'}>Event Title: </Typography> */}
-                              <Typography variant={'h5'}>
+                              <Typography variant={'h5'} sx={{wordBreak: 'break-word'}}>
                                 {obj.EventDescription}
                               </Typography>
                               {/* <Typography>Standards: </Typography> */}
