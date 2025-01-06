@@ -5,7 +5,7 @@ import { red } from '@mui/material/colors';
 
 function TabulerCard({ item, clickEdit, clickDelete }) {
   return (
-    <div>
+    <>
       <Box
         sx={{
           mb: 1,
@@ -18,7 +18,7 @@ function TabulerCard({ item, clickEdit, clickDelete }) {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Typography>{item.Text1}</Typography>
+          <Typography sx={{wordBreak:'break-word'}}>{item.Text1}</Typography>
           <Grid item xs={2} md={2}></Grid>
 
           <Stack direction="row" gap={1}>
@@ -54,7 +54,7 @@ function TabulerCard({ item, clickEdit, clickDelete }) {
           </Stack>
         </Stack>
       </Box>
-    </div>
+    </>
   );
 }
 
