@@ -198,12 +198,12 @@ const AnnualPlannerBase = () => {
     });
   };
 
-  //  useEffect(() => {
-  //   if (USStandardList.length > 0) {
-  //     setValue(standardId == undefined ? USStandardList[0].Value : standardId, 'Standard');
-  //     callGetDivisionList(USStandardList[0].Value);
-  //   }
-  // }, [USStandardList]);
+   useEffect(() => {
+    if (USStandardList.length > 0) {
+      setValue(standardId == undefined ? USStandardList[0].Value : standardId, 'Standard');
+      callGetDivisionList(USStandardList[0].Value);
+    }
+  }, [USStandardList]);
 
   useEffect(() => {
     if (USStandardDivision.length > 0) {
