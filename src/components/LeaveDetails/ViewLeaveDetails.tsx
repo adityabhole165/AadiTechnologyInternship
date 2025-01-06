@@ -182,7 +182,7 @@ const ViewLeaveDetails = () => {
             toast.success(USApproveorRejectLeaveDetails)
             dispatch(resetapproveorreject())
             // dispatch(getLeaveDetailList());
-            navigate('/RITeSchool/Teacher/LeaveDetails');
+            navigate('/RITeSchool/Teacher/LeaveDetails', { state: { fromInternal: true } });
         }
     }, [USApproveorRejectLeaveDetails])
 
