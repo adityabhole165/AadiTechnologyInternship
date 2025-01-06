@@ -11,6 +11,21 @@ import {
   CheckFileValidationAdhar
 } from 'src/components/Common/Util';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
+const CheckValidation = (fileData, ValidFileTypes, MaxfileSize) => {
+  const fileExtension = fileData?.name?.split('.').at(-1);
+  const allowedFileTypes = ValidFileTypes.map((type) => type.toLowerCase());
+
+  if (!fileExtension || !allowedFileTypes.includes(fileExtension.toLowerCase())) {
+    return 'Invalid file format.' ;
+  }
+
+  if (fileData?.size > MaxfileSize) {
+    return `File size should be less than ${MaxfileSize / 1e6} MB.`;
+  }
+
+  return null;
+};
+
 const SingleFile = ({
   ValidFileTypes,
   MaxfileSize,
@@ -23,62 +38,69 @@ const SingleFile = ({
   width = '300px',
   viewIcon = false,
   deleteIcon = false,
-  FileLabel = "",
+  FileLabel = '',
   isMandatory = true,
-  height = 'auto'
+  height = 'auto',
 }) => {
-
   const classes = Styles();
   const aRef = useRef(null);
   const [FileError, setFileError] = useState('');
-  // useEffect(() => {
-  //   setFileError(errorMessage);
-  // }, [errorMessage]);
+
   useEffect(() => {
-    if (FileName == '') aRef.current.value = null;
+    if (FileName === '') aRef.current.value = null;
   }, [FileName]);
+
   const clickFile = async (e) => {
     const multipleFiles = e.target.files;
-    let base64URL: any = '';
+
     for (let i = 0; i < multipleFiles.length; i++) {
-      const isValid = CheckFileValidationAdhar(
+      const validationError = CheckValidation(
         multipleFiles[i],
         ValidFileTypes,
         MaxfileSize
       );
-      if (isValid == null) {
-        base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
+
+      if (!validationError) {
+        const base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
         setFileError('');
-        errorMessage = ''
         ChangeFile({
           Name: multipleFiles[i].name,
           Value: base64URL.slice(base64URL.indexOf(',') + 1),
           FileExtension: multipleFiles[i].name.split('.').at(-1),
-          ErrorMsg: ""
+          ErrorMsg: '',
         });
       } else {
-        //console.log(isValid, "isValid");
-
-        setFileError(isValid);
-        errorMessage = ''
+        setFileError(validationError);
         ChangeFile({
-          Name: "",
-          Value: "",
-          FileExtension: "",
-          ErrorMsg: isValid
+          Name: '',
+          Value: '',
+          FileExtension: '',
+          ErrorMsg: validationError,
         });
         aRef.current.value = null;
       }
     }
   };
+
   return (
     <Grid container>
-      <Grid item xs={12} sx={{ display: 'flex', alignItems: FileError ? 'flex-start' : 'center', justifyContent: 'center', height: 'auto' }}>
+      <Grid
+        item
+        xs={12}
+        sx={{
+          display: 'flex',
+          alignItems: FileError ? 'flex-start' : 'center',
+          justifyContent: 'center',
+          height: 'auto',
+        }}
+      >
         <Tooltip
           title={
             'Supports only ' +
             ValidFileTypes.join(', ') +
-            ' files types up to ' + (MaxfileSize / 1000000).toString() + ' MB.'
+            ' file types up to ' +
+            (MaxfileSize / 1e6).toFixed(1) +
+            ' MB.'
           }
         >
           <Button
@@ -86,27 +108,33 @@ const SingleFile = ({
               width: width,
               height: height,
               border: (theme) =>
-                `1px dashed ${FileName ? theme.colors.primary.main : theme.colors.primary.main
+                `1px dashed ${
+                  FileName ? theme.colors.primary.main : theme.colors.primary.main
                 }`,
               gap: 1,
               position: 'relative',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
             }}
             color={FileName ? 'primary' : 'primary'}
           >
             <Stack
-              direction={'row'}
-              alignItems={'center'}
+              direction="row"
+              alignItems="center"
               gap={1}
               sx={{
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-              }}>
+              }}
+            >
               {FileName ? <CheckCircle /> : <CloudUploadIcon />}
-              {FileName == '' ? FileLabel ? FileLabel : ' No file selected' : FileName}
+              {FileName === ''
+                ? FileLabel
+                  ? FileLabel
+                  : ' No file selected'
+                : FileName}
               {isMandatory && <span style={{ color: 'red' }}>*</span>}
               <Box sx={{ textAlign: 'center' }}>
                 <input
@@ -120,62 +148,54 @@ const SingleFile = ({
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    cursor: 'pointer'
+                    cursor: 'pointer',
                   }}
                 />
               </Box>
             </Stack>
-            <Stack
-              direction={'row'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              gap={1}
-            >
-
-            </Stack>
           </Button>
         </Tooltip>
-        {FilePath != '' && (
+        {FilePath !== '' && (
           <Stack direction="row" spacing={-1}>
-            {deleteIcon &&
-             <Tooltip title={'Delete'}>
-              <IconButton
-                // sx={{ marginRight: 1 }}
-                // color={'error'}
-                sx={{
-                  marginLeft: 1,
-                  '&:hover': {
-                    color: 'red',
-                    backgroundColor: red[100]
-                  }
-                }}
-                onClick={clickDelete}
-              >
-                <DeleteForeverIcon style={{ fontSize: 30 }} />
-              </IconButton>
+            {deleteIcon && (
+              <Tooltip title={'Delete'}>
+                <IconButton
+                  sx={{
+                    marginLeft: 1,
+                    '&:hover': {
+                      color: 'red',
+                      backgroundColor: red[100],
+                    },
+                  }}
+                  onClick={clickDelete}
+                >
+                  <DeleteForeverIcon style={{ fontSize: 30 }} />
+                </IconButton>
               </Tooltip>
-            } 
-           &nbsp;&nbsp;&nbsp;
-            {viewIcon &&
-             <Tooltip title={'View'}>
-             <IconButton
-              color={'primary'}
-              onClick={clickFileName}
-            >
-              <Visibility style={{ fontSize: 30 }} />
-            </IconButton>
-            </Tooltip>
-
-            }
+            )}
+            &nbsp;&nbsp;&nbsp;
+            {viewIcon && (
+              <Tooltip title={'View'}>
+                <IconButton color={'primary'} onClick={clickFileName}>
+                  <Visibility style={{ fontSize: 30 }} />
+                </IconButton>
+              </Tooltip>
+            )}
           </Stack>
         )}
       </Grid>
-      {errorMessage && (
-        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left', pt: 2 }}>
-
-          <Typography >
-            {errorMessage && <Errormessage Error={errorMessage} />}
-          </Typography>
+      {FileError && (
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
+            pt: 2,
+          }}
+        >
+          <Typography>{<Errormessage Error={FileError} />}</Typography>
         </Grid>
       )}
     </Grid>
@@ -183,3 +203,4 @@ const SingleFile = ({
 };
 
 export default SingleFile;
+
