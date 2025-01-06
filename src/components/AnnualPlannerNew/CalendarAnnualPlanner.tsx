@@ -7,18 +7,21 @@ import SearchAnnualPlanner from './SearchAnnualPlanner';
 
 const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterList,
     ClickFilterItem, SelectedDate, SelectedFilter, EventType, ClickEventType, AnnualPlannerViewAccess }) => {
+
+    // Helper function to check if a date is in the past or in the future 
     const allowCalendarNavigator = (selectedYear, selectedMonth, isForward) => {
         let initialYear = FilterList.YearList[0]?.Value;
         let endYear = FilterList.YearList[FilterList.YearList.length - 1]?.Value;
-        let initial
+        let initialMonth = Number(FilterList.MonthList[0]?.Value);
+        let endMonth = Number(FilterList.MonthList[FilterList.MonthList.length - 1]?.Value);
         if (!isForward) { // Check for backward arrow
             // Disable backward arrow if it's the first year and January
-            if (selectedYear.toString() === initialYear && selectedMonth === 0) {
+            if (selectedYear.toString() === initialYear && selectedMonth + 1 === initialMonth) {
                 return true;
             }
         } else { // Check for forward arrow
             // Disable forward arrow if it's the last year and December
-            if (selectedYear.toString() === endYear && selectedMonth === 11) {
+            if (selectedYear.toString() === endYear && selectedMonth + 1 === endMonth) {
                 return true;
             }
         }
