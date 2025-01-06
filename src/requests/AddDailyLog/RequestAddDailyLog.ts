@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import DailyLogApi from 'src/api/AddDailyLog/ApiAddDailyLog';
-import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 import {
   IDeleteHomeworkDailyLogBody,
   IGetAllHomeworkDailyLogsBody,
@@ -73,10 +72,10 @@ export const getalldailylog =
       let responseData = response.data.map((item) => {
         return {
           Id: item.Id,
-          Text1: getDateMonthYearFormatted(item.Date),
+          Text1: item.Date,
           Text2: item.AttchmentName,
           Text3: item.IsPublished,
-          TotalRows:item.TotalRows
+          TotalRows: item.TotalRows
         };
       });
 
