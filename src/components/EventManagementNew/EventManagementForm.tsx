@@ -366,6 +366,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                         // error={errorEventTitle !== ''}
                         // helperText={errorEventTitle}
                         fullWidth
+                        inputProps={{ maxLength: 100 }}
                         sx={{
                             resize: 'both'
                         }}
@@ -480,7 +481,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                 </Grid> */}
                 <Grid container xs={6} md={6}>
                     <Typography fontSize={'10px'} pt={1} pr={3} ml={2}>Select Photo:</Typography>
-                    <Grid item sx={{pl:{xs:2, md:0}}}>
+                    <Grid item sx={{ pl: { xs: 2, md: 0 } }}>
                         <SingleFile
                             ValidFileTypes={ValidFileTypes}
                             MaxfileSize={MaxfileSize}
