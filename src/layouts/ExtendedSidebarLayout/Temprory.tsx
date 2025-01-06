@@ -1166,7 +1166,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         //console.log(link);
         window.open(link, '_blank');
       } else {
-        navigate(link);
+        navigate(link, { state: { fromInternal: true } });
       }
       // navigate(link);
       toggleDrawer(anchor, false);
