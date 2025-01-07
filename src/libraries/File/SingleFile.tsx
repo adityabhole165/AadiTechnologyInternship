@@ -123,10 +123,12 @@ const SingleFile = ({
               direction="row"
               alignItems="center"
               gap={1}
+           
               sx={{
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+               
               }}
             >
               {FileName ? <CheckCircle /> : <CloudUploadIcon />}
@@ -156,12 +158,19 @@ const SingleFile = ({
           </Button>
         </Tooltip>
         {FilePath !== '' && (
-          <Stack direction="row" spacing={-1}>
+          <Stack direction="row" spacing={0.5} ml={1}>       
+            {viewIcon && (
+              <Tooltip title={'View'}>
+                <IconButton color={'primary'} onClick={clickFileName} >
+                  <Visibility style={{ fontSize: 30 }} />
+                </IconButton>
+              </Tooltip>
+            )}
             {deleteIcon && (
               <Tooltip title={'Delete'}>
                 <IconButton
                   sx={{
-                    marginLeft: 1,
+                    // marginLeft: 1,
                     '&:hover': {
                       color: 'red',
                       backgroundColor: red[100],
@@ -170,14 +179,6 @@ const SingleFile = ({
                   onClick={clickDelete}
                 >
                   <DeleteForeverIcon style={{ fontSize: 30 }} />
-                </IconButton>
-              </Tooltip>
-            )}
-            &nbsp;&nbsp;&nbsp;
-            {viewIcon && (
-              <Tooltip title={'View'}>
-                <IconButton color={'primary'} onClick={clickFileName}>
-                  <Visibility style={{ fontSize: 30 }} />
                 </IconButton>
               </Tooltip>
             )}
