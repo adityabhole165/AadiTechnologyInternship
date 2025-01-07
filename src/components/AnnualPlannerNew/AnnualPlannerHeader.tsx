@@ -16,7 +16,7 @@ const AnnualPlannerHeader = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
-
+    const FolderName = localStorage.getItem('FolderName');
     const FileName: any = useSelector(
         (state: RootState) => state.AnnualPlanner.FilePath
     );
@@ -105,7 +105,8 @@ const AnnualPlannerHeader = () => {
         if (value == 'AddAnnualPlanner') {
             if (AnnualPlannerViewAccess == "N") {
                 if (FileName !== '') {
-                    window.open(localStorage.getItem('SiteURL') + FileName);
+             window.open(localStorage.getItem('SiteURL') + FolderName +'/' +FileName)
+
                 }
 
             }
