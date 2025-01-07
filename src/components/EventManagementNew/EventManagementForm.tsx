@@ -154,13 +154,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
 
         }
     }, [SaveUpdateEventt]);
-    useEffect(() => {
-        if (DeleteeEventImage != "") {
-            toast.success(DeleteeEventImage)
-            dispatch(resetDeleteEventImagee())
-            dispatch(GetEventdetail(EDetails));
-        }
-    }, [DeleteeEventImage])
+    
     const isOutsideAcademicYear = (date) => {
         // Assuming EventStartDate and EventEndDate are Date objects
         if (!date) return false; // Handle case where date is null or undefined
@@ -321,21 +315,42 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     const debouncedFetch = useCallback(debounce((body) => {
         dispatch(GetupdateEvent(body));
     }, 500), [dispatch]);
-    const clickDelete = () => {
-        if (confirm('Are you sure you want to delete image?')) {
-            const DeleteEventImageBody: DeleteEventImageBody = {
-                asSchoolId: asSchoolId,
-                asAcademicYearId: asAcademicYearId,
-                asEventId: Number(EventId),
-                asUserId: Number(TeacherId)
-            };
-            dispatch(GetDeleteEventImagee(DeleteEventImageBody));
-        }
-    }
 
-
-   
+    const DeleteEventImageBody: DeleteEventImageBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asEventId: Number(EventId),
+        asUserId: Number(TeacherId)
+    };
     
+
+
+     const clickDelete = () => {
+     showAlert({
+       title: 'Please Confirm',
+       message: 'Are you sure you want to delete image?',
+       variant: 'warning',
+       confirmButtonText: 'Confirm',
+       cancelButtonText: 'Cancel',
+       onCancel: closeAlert,
+       onConfirm: () => {
+        dispatch(GetDeleteEventImagee(DeleteEventImageBody));
+
+         closeAlert();
+       }
+     });
+   };
+    
+
+
+   useEffect(() => {
+    if (DeleteeEventImage != "") {
+        toast.success(DeleteeEventImage)
+        dispatch(resetDeleteEventImagee())
+        dispatch(GetEventdetail(EDetails));
+    }
+}, [DeleteeEventImage])
+
 
     const clickFileName = () => {
         window.open(
