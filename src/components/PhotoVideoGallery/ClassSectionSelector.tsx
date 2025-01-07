@@ -7,6 +7,7 @@ type ClassSectionSelectorProps = {
 };
 
 const ClassSectionSelector: React.FC<ClassSectionSelectorProps> = ({ classes, getSectionsForClass }) => {
+
     const [classList, setClassList] = useState(
         classes.map((className) => ({
             Name: className,
@@ -65,8 +66,8 @@ const ClassSectionSelector: React.FC<ClassSectionSelectorProps> = ({ classes, ge
                     checked={getIsParentCheckedAll()}
                     onChange={(e) => handleParentAllCheckbox(e.target.checked)}
                 />
-                 <strong>Applicable to all staff members and selected Classes </strong>
-            
+                <strong>Applicable to selected Class(es) :</strong>
+
 
             </Box>
             <Stack direction="row" gap={0.7} flexWrap="wrap">
@@ -82,7 +83,7 @@ const ClassSectionSelector: React.FC<ClassSectionSelectorProps> = ({ classes, ge
                         {sectionList
                             .filter((section) => section.ParentId === classItem.Id)
                             .map((section) => (
-                                <Box key={section.Id} sx={{ paddingLeft: 0}}>
+                                <Box key={section.Id} sx={{ paddingLeft: 0 }}>
                                     <Checkbox
                                         checked={section.IsActive}
                                         onChange={() => handleChildCheckbox(section.Id)}

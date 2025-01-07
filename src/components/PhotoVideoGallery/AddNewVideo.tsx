@@ -1,132 +1,91 @@
 import { QuestionMark } from '@mui/icons-material'
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, Stack, TextField, Tooltip, Typography, useMediaQuery } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import { green, grey, red } from '@mui/material/colors'
 
 import SaveIcon from '@mui/icons-material/Save'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { IAllClassesAndDivisionsBody } from 'src/interfaces/Common/Holidays'
+import { IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup'
+import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy'
+import { CDAGetUserRole } from 'src/requests/ContactGroup/ReqContactGroup'
+import { GetAllClassAndDivision } from 'src/requests/Holiday/Holiday'
+import { RootState } from 'src/store'
 import CommonPageHeader from '../CommonPageHeader'
-import ClassSectionSelector from './ClassSectionSelector'
 import VideoUrlComponent from './VideoUrlComponent'
 
 
 
 const AddNewVideo = () => {
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
-  const [selectedClasses, setSelectedClasses] = useState({});
+  const dispatch = useDispatch();
   const [selectAll, setSelectAll] = useState(false);
+  const [checkedValues, setCheckedValues] = useState([]);
+  const [ItemList, setItemList] = useState([]);
   const [editId, setEditId] = useState<number | null>(null);
 
-  // Define sections dynamically based on class
-  const getSectionsForClass = (className: string) => {
-    if (["1", "2", "3"].includes(className)) {
-      return ["A", "B", "C", "D", "E"]; // No F, G
-    } else if (["4", "5", "6", "7", "8", "9"].includes(className)) {
-      return ["A", "B", "C", "D"]; // No E, F, G
-    } else if (className === "10") {
-      return ["A", "B", "C", "D", "G"]; // No E, F
-    }
-    return ["A", "B", "C", "D", "E", "F", "G"]; // Default sections
+  const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
+  const ClassesAndDivisionss = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss);
+  const ClassesAndDivisionss1 = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss1);
+
+  console.log(selectAll, "selectAll✌✌");
+  console.log(checkedValues, "checkedValues👌👌🤞");
+  // console.log(ClassSelected, "ItemList🤞🤞")
+
+
+  const UserRole: IGetUserRoleBody = {
+    asSchoolId: 18,
   };
+  useEffect(() => {
+    dispatch(CDAGetUserRole(UserRole));
+  }, []);
 
-  const classes = [
-    "Nursery",
-    "Junior KG",
-    "Senior KG",
-    ...Array.from({ length: 10 }, (_, i) => (i + 1).toString()),
-  ];
-
-  const [roles, setRoles] = useState({
-    selectAll: false,
-    admin: false,
-    teacher: false,
-    student: false,
-    adminStaff: false,
-    otherStaff: false,
-  });
-  // const handleCheckboxChange = (event) => {
-  //   const { name, checked } = event.target;
-
-  //   if (name === "selectAll") {
-  //     // If "Select All" is checked/unchecked, update all other roles
-  //     const updatedRoles = Object.keys(roles).reduce((acc, key) => {
-  //       acc[key] = checked;
-  //       return acc;
-  //     }, {});
-  //     setRoles(updatedRoles);
-  //   } else {
-  //     // Update individual checkboxes
-  //     setRoles((prev) => ({
-  //       ...prev,
-  //       [name]: checked,
-  //       selectAll: false, // Reset "Select All" if individual roles are unchecked
-  //     }));
-  //   }
-  // };
+  const StandardDivisionName: IAllClassesAndDivisionsBody = {
+    asSchoolId: 18, //asSchoolId,
+    asAcademicYearId: 55, // asAcademicYearId,
+    associatedStandard: "",
+  }
+  useEffect(() => {
+    dispatch(GetAllClassAndDivision(StandardDivisionName))
+  }, []);
 
   const handleSelectAll = (event) => {
     const isChecked = event.target.checked;
     setSelectAll(isChecked);
-
-    // Update all classes and sections based on Select All state
-    const updatedClasses = {};
-    classes.forEach((className) => {
-      const sections = getSectionsForClass(className);
-      updatedClasses[className] = isChecked
-        ? sections.reduce((acc, section) => {
-          acc[section] = true;
-          return acc;
-        }, {})
-        : {};
-    });
-    setSelectedClasses(updatedClasses);
+    if (isChecked) {
+      // Select all checkboxes
+      setCheckedValues(USGetUserRole.map((role) => role.Value));
+    } else {
+      // Deselect all checkboxes
+      setCheckedValues([]);
+    }
   };
 
-  const handleClassChange = (className, isChecked) => {
-    setSelectedClasses((prevState) => {
-      const updatedState = { ...prevState };
-      const sections = getSectionsForClass(className);
-      if (isChecked) {
-        // Select all sections for the class
-        updatedState[className] = sections.reduce((acc, section) => {
-          acc[section] = true;
-          return acc;
-        }, {});
-      } else {
-        // Deselect all sections for the class
-        updatedState[className] = {};
-      }
-
-      // Check if all classes and sections are selected for "Select All"
-      const allClassesSelected = classes.every((c) =>
-        getSectionsForClass(c).every((s) => updatedState[c]?.[s])
-      );
-      setSelectAll(allClassesSelected);
-
-      return updatedState;
-    });
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setCheckedValues((prev) =>
+      prev.includes(value)
+        ? prev.filter((item) => item !== value) // Uncheck
+        : [...prev, value] // Check
+    );
   };
 
-  const handleSectionChange = (className, section, isChecked) => {
-    setSelectedClasses((prevState) => {
-      const updatedClass = { ...prevState[className], [section]: isChecked };
-      const allChecked = getSectionsForClass(className).every(
-        (s) => updatedClass[s]
-      );
+  const isClassSelected = () => {
+    let arr = []
+    ItemList.map(item => {
+      if (item.IsActive)
+        arr.push(item.Id)
+    })
+    return arr.toString()
+  }
+  const ClassSelected = String(isClassSelected());
+  useEffect(() => {
+    setItemList(ClassesAndDivisionss);
+  }, [ClassesAndDivisionss]);
 
-      const updatedState = {
-        ...prevState,
-        [className]: updatedClass,
-      };
-
-      // Check if all classes and sections are selected for "Select All"
-      const allClassesSelected = classes.every((c) =>
-        getSectionsForClass(c).every((s) => updatedState[c]?.[s])
-      );
-      setSelectAll(allClassesSelected);
-
-      return updatedState;
-    });
+  //console.log(ClassSelected, "ItemList🤞🤞")
+  const ClickChild = (value) => {
+    setItemList(value);
   };
 
   return (
@@ -170,8 +129,7 @@ const AddNewVideo = () => {
                         backgroundColor: green[600],
                       },
                     }}
-                  // onClick={handleUpdate}
-                  // disabled={!formData.url || !formData.title}
+
                   >
                     <SaveIcon />
                   </IconButton>
@@ -222,9 +180,7 @@ const AddNewVideo = () => {
         </Accordion>
       </Box>
       <Box padding={2} sx={{ backgroundColor: "white" }}>
-        {/* <Typography variant="h5" gutterBottom sx={{pb:2}}>
-          Video Gallery Details :
-        </Typography>0.00 */}
+
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
             <TextField fullWidth variant="outlined"
@@ -256,80 +212,64 @@ const AddNewVideo = () => {
         <Box>
           <VideoUrlComponent />
         </Box>
-        <Box pt={2}>
+        <Box sx={{ backgroundColor: "lightgrey", paddingLeft: 1, mt: 1 }}>
+          <FormControlLabel
+            sx={{ mr: 0 }}
+            control={
+              <Checkbox
+                checked={selectAll}
+                onChange={handleSelectAll}
+              />}
+            label={''}
+          />
+          <strong> Associated User Roles  </strong>
+        </Box>
+        <Grid container spacing={2} alignItems="center" pl={1}>
+          <Grid item xs={12}>
+            <FormGroup row>
+              <FormControl component="fieldset">
+                <Grid container direction="row" alignItems="center" spacing={2}>
+                  {USGetUserRole.map(
+                    (item, index) => (
+                      <Grid item key={index}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.Value}
+                              checked={checkedValues.includes(item.Value)}
+                              onChange={handleChange}
+                            />
+                          }
+                          label={item.Name}
+                        />
+                      </Grid>
+                    )
+                  )}
+                </Grid>
+              </FormControl>
+            </FormGroup>
+          </Grid>
+        </Grid>
+        {/* <Grid container pl={2} > */}
+        {checkedValues.includes('3') && (
+          <Grid item xs={12} md={12} mt={1}>
+            {/* <Typography variant="h4" py={1}>
+                Associated Classes  <span style={{ color: 'red' }}>*</span>
+              </Typography> */}
+            <SelectListHierarchy
+              ItemList={ItemList}
+              ParentList={ClassesAndDivisionss1}
+              ClickChild={ClickChild}
+            />
+            {/* <ErrorMessage1 Error={ClassSelectedError}></ErrorMessage1> */}
+          </Grid>
+        )}
+        {/* </Grid> */}
+        {/* <Box pt={2}>
           <Box>
             <ClassSectionSelector classes={classes} getSectionsForClass={getSectionsForClass} />
           </Box>
-
-          <Box sx={{ backgroundColor: "lightgrey", paddingLeft: 1, mt: 1 }}>
-            <FormControlLabel
-              sx={{ mr: 0 }}
-              control={<Checkbox
-                name="selectAll"
-                checked={roles.selectAll} />} label={''}
-            />
-            <strong> Associated User Roles  </strong>
-
-
-          </Box>
-
-          <Grid container spacing={2} alignItems="center" pl={1}>
-            <Grid item xs={12}>
-              <FormGroup row>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="admin"
-                      checked={roles.admin}
-                    // onChange={handleCheckboxChange}
-                    />
-                  }
-                  label="Admin"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="teacher"
-                      checked={roles.teacher}
-                    // onChange={handleCheckboxChange}
-                    />
-                  }
-                  label="Teacher"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="student"
-                      checked={roles.student}
-                    // onChange={handleCheckboxChange}
-                    />
-                  }
-                  label="Student"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="adminStaff"
-                      checked={roles.adminStaff}
-                    // onChange={handleCheckboxChange}
-                    />
-                  }
-                  label="Admin Staff"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="otherStaff"
-                      checked={roles.otherStaff}
-                    // onChange={handleCheckboxChange}
-                    />
-                  }
-                  label="Other Staff"
-                />
-              </FormGroup>
-            </Grid>
-          </Grid>
-        </Box>
+        </Box> */}
         <Grid item xs={12} md={12} mt={2}>
           <Stack direction={"row"} gap={2} alignItems={"center"}>
             <Button
