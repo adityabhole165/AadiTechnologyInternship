@@ -244,10 +244,10 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             SetErrorEventTitle('Title should not be blank.');
             isError = true;
         } else SetErrorEventTitle('')
-        if (EventDescription == '') {
-            setErrorEventDescription('Description should not be blank.');
-            isError = true;
-        } else setErrorEventDescription('')
+        // if (EventDescription == '') {
+        //     setErrorEventDescription('Description should not be blank.');
+        //     isError = true;
+        // } else setErrorEventDescription('')
         //console.log('EventStartDate:', EventStartDate);
         if (EventStartDate === '' || EventStartDate === null) {
             setErrorEventStartDate('Start date should not be blank.');
@@ -398,34 +398,8 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                     />
                     {errorEventTitle && <ErrorMessage1 Error={errorEventTitle} />}
                 </Grid>
-                <Grid xs={12} md={6} item>
-                    <TextField
-                        label={
-                            <span>
-                                Description <span style={{ color: 'red' }}>*</span>
-                            </span>
-                        }
-                        multiline
-                        rows={1}
-                        value={EventDescription}
-                        onChange={(e) => {
-                            const value = e.target.value;
-                            if (value === '') {
-                                setEventDescription('');
-                            } else if (value.trim() !== '') {
-                                setEventDescription(value);
-                            }
-                        }}
-                        // error={ErrorEventDescription !== ''}
-                        // helperText={ErrorEventDescription}
-                        fullWidth
-                        sx={{
-                            resize: 'both'
-                        }}
-                    />
-                    {ErrorEventDescription && <ErrorMessage1 Error={ErrorEventDescription} />}
-                </Grid>
-                <Grid item xs={12} md={6}>
+               
+                <Grid item xs={12} md={3}>
                     {/* <TextField
                         label={
                             <span>
@@ -455,7 +429,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                     <ErrorMessage1 Error={ErrorEventStartDate}></ErrorMessage1>
                     {/* <ErrorMessage1 Error={ErrorEventStartDate}></ErrorMessage1> */}
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={3}>
                     <Datepicker
                         DateValue={EventEndDate}
                         onDateChange={setEventEndDate}
@@ -484,6 +458,33 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                         helperText={ErrorEventEndDate}
                         fullWidth
                     /> */}
+                </Grid>
+                <Grid xs={12} md={12} item>
+                    <TextField
+                        label={
+                            <span>
+                                Description <span style={{ color: 'red' }}></span>
+                            </span>
+                        }
+                        multiline
+                        rows={3}
+                        value={EventDescription}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === '') {
+                                setEventDescription('');
+                            } else if (value.trim() !== '') {
+                                setEventDescription(value);
+                            }
+                        }}
+                        // error={ErrorEventDescription !== ''}
+                        // helperText={ErrorEventDescription}
+                        fullWidth
+                        sx={{
+                            resize: 'both'
+                        }}
+                    />
+                    {/* {ErrorEventDescription && <ErrorMessage1 Error={ErrorEventDescription} />} */}
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <SelectListHierarchy
