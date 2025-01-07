@@ -215,7 +215,7 @@ const LibraryBaseScreen = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1);
     };
-    // Calculate total page count
+
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
