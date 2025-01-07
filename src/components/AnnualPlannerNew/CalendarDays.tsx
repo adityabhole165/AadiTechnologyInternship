@@ -56,7 +56,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
       const isOutsideAcademicYear = Item && Item?.Text1.some(obj => obj.Name.includes('Outside Academic Year'));
       const backgroundColor = isOutsideAcademicYear ? 'rgba(200, 0, 200, 0.1)' : (Item ? bg[Item.Legend] : 'transparent');
       //const cursorStyle = isOutsideAcademicYear ? 'default' : 'pointer';
-      const cursorStyle = (AnnualPlannerViewAccess  || isOutsideAcademicYear) ? 'pointer' : 'default';
+      const cursorStyle = (AnnualPlannerViewAccess === 'N' || isOutsideAcademicYear) ? 'default' : 'pointer';
       gridItems.push(
         <Grid
           item

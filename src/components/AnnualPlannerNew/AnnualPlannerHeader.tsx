@@ -1,3 +1,4 @@
+
 import AddIcon from '@mui/icons-material/Add';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
@@ -12,7 +13,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import HeaderIcons from './HeaderIcons';
 import UploadAnnualPlanner from './UploadAnnualPlanner';
-import { getSchoolConfigurations } from '../Common/Util';
 const AnnualPlannerHeader = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -25,16 +25,10 @@ const AnnualPlannerHeader = () => {
     const ScreensAccessPermission = JSON.parse(
         sessionStorage.getItem('ScreensAccessPermission')
     );
-
-    
     let AnnualPlannerViewAccess = "N"
-
-    let AnnualPlannerAccess = getSchoolConfigurations(62)
-
     ScreensAccessPermission?.map((item) => {
         if (item.ScreenName === 'Annual Planner') AnnualPlannerViewAccess = item.IsFullAccess;
     });
-
     const Note: string =
         'These events may change due to unavoidable reasons without prior notice.';
     const Note1: string =
@@ -81,7 +75,8 @@ const AnnualPlannerHeader = () => {
                 }
             }
         },
-        ...(AnnualPlannerAccess ? [{
+        ...(AnnualPlannerViewAccess === 'Y'
+            ? [{
                 Id: 5, Icon: <AddIcon />, Title: 'Add Annual Planner', Action: 'AddAnnualPlanner', sx: {
                     color: 'white',
                     backgroundColor: green[500],
@@ -91,7 +86,8 @@ const AnnualPlannerHeader = () => {
                 }
             }]
             : []),
-        ...(FileName !== '' && !AnnualPlannerAccess  ? [{
+        ...(FileName !== '' && AnnualPlannerViewAccess === 'N'
+            ? [{
                 Id: 4, Icon: <Visibility />, Title: 'Annual Planner', Action: 'AddAnnualPlanner', sx: {
                     color: 'white',
                     backgroundColor: blue[500],
@@ -108,7 +104,7 @@ const AnnualPlannerHeader = () => {
             navigate('/RITeSchool/Common/EventOverview', { state: { fromInternal: true } });
         }
         if (value == 'AddAnnualPlanner') {
-            if (!AnnualPlannerAccess) {
+            if (AnnualPlannerViewAccess == "N") {
                 if (FileName !== '') {
              window.open(localStorage.getItem('SiteURL') + FolderName +'/' +FileName)
 
