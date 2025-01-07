@@ -317,7 +317,7 @@ export const RExamSchedule =
             } else {
               Array.push({
                 Id,
-                Name: `${getDateMonthYear(ConfigExam[0].Exam_Start_Date)} - ${getDateMonthYear(ConfigExam[0].Exam_End_Date)}`,
+                Name: `${(ConfigExam[0].Exam_Start_Date)} - ${(ConfigExam[0].Exam_End_Date)}`,
                 Background: "#A5D6A7",
                 textColor: "#000000",
                 IsLink: true,

@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiRequisition from 'src/api/Requisition/APIRequisition';
-import { getDateMonthYearFormatted, logoURL } from 'src/components/Common/Util';
 import {
+  IGetCancelRequisitionBody,
   IGetDeleteRequisitionBody,
   IGetPagedRequisitionBody,
-  IGetRequisitionStatusBody,
-  IGetCancelRequisitionBody
+  IGetRequisitionStatusBody
 } from 'src/interfaces/Requisition/IRequisition';
 import { AppThunk } from 'src/store';
 
@@ -14,9 +13,9 @@ const SliceRequisition = createSlice({
   initialState: {
     Requisition: [],
     RequisitionList: [],
-    RequisitionListCount:[],
-    ISDeleteRequisition:"",
-    ISCancelRequisition:""
+    RequisitionListCount: [],
+    ISDeleteRequisition: "",
+    ISCancelRequisition: ""
 
 
   },
@@ -28,7 +27,7 @@ const SliceRequisition = createSlice({
       state.RequisitionList = action.payload;
     },
 
-     CountRequisitionList(state, action) {
+    CountRequisitionList(state, action) {
       state.RequisitionListCount = action.payload;
     },
 
@@ -38,7 +37,7 @@ const SliceRequisition = createSlice({
     RCancelRequisition(state, action) {
       state.ISCancelRequisition = action.payload;
     },
-  
+
     RresetMessageDeleteRequisitionn(state) {
       state.ISDeleteRequisition = "";
     },
@@ -47,76 +46,76 @@ const SliceRequisition = createSlice({
       state.ISCancelRequisition = "";
     },
 
-    
+
   }
 });
 
 export const RequisitionStatus =
   (data: IGetRequisitionStatusBody): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiRequisition.RequisitionApi(data);
-    let abc = response.data.map((item, i) => {
-      return {
-        Id: item.Insert_Date,
-        Name: item.StatusName,
-        Value: item.StatusID,
-      };
-    });
-    dispatch(SliceRequisition.actions.Requisition(abc));
-  };
-  export const RequisitionListt =
+    async (dispatch) => {
+      const response = await ApiRequisition.RequisitionApi(data);
+      let abc = response.data.map((item, i) => {
+        return {
+          Id: item.Insert_Date,
+          Name: item.StatusName,
+          Value: item.StatusID,
+        };
+      });
+      dispatch(SliceRequisition.actions.Requisition(abc));
+    };
+export const RequisitionListt =
   (data: IGetPagedRequisitionBody): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiRequisition.RequisitionListApi(data);
-  
-    let abc = response.data.GetPagedRequisitionList.map((item, i) => {
-      return {
-        Id: item.RequisitionID,
-        RequisitionCode: item.RequisitionCode,
-        RequisitionName: item.RequisitionName,
-        StatusName: item.StatusName,
-        CreaterName: item.CreaterName,
-        Created_Date: getDateMonthYearFormatted(item.Created_Date),
-        ExpiryDate: item.ExpiryDate ? getDateMonthYearFormatted(item.ExpiryDate) : "-",
-        Editble: item.Editble,
-        IsDelete: item.IsDelete,
-        IsFinalApproval: item.IsFinalApproval,
-        Value: item.CreatedId,
-        StatusID: item.StatusID,
-        CreatedId: item.CreatedId,
-      };
-    });
+    async (dispatch) => {
+      const response = await ApiRequisition.RequisitionListApi(data);
 
-    dispatch(SliceRequisition.actions.RequisitionList(abc));
+      let abc = response.data.GetPagedRequisitionList.map((item, i) => {
+        return {
+          Id: item.RequisitionID,
+          RequisitionCode: item.RequisitionCode,
+          RequisitionName: item.RequisitionName,
+          StatusName: item.StatusName,
+          CreaterName: item.CreaterName,
+          Created_Date: (item.Created_Date),
+          ExpiryDate: item.ExpiryDate ? (item.ExpiryDate) : "-",
+          Editble: item.Editble,
+          IsDelete: item.IsDelete,
+          IsFinalApproval: item.IsFinalApproval,
+          Value: item.CreatedId,
+          StatusID: item.StatusID,
+          CreatedId: item.CreatedId,
+        };
+      });
 
-    dispatch(SliceRequisition.actions.CountRequisitionList(response.data.TotalCountRequisitionDetails));
-  };
+      dispatch(SliceRequisition.actions.RequisitionList(abc));
+
+      dispatch(SliceRequisition.actions.CountRequisitionList(response.data.TotalCountRequisitionDetails));
+    };
 
 
-  export const CDADeleteRequisitionn =
+export const CDADeleteRequisitionn =
   (data: IGetDeleteRequisitionBody): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiRequisition.DeleteRequisition(data);
-    dispatch(SliceRequisition.actions.RDeleteRequisition(response.data));
-  };
+    async (dispatch) => {
+      const response = await ApiRequisition.DeleteRequisition(data);
+      dispatch(SliceRequisition.actions.RDeleteRequisition(response.data));
+    };
 
-  export const CDACancelRequisition =
+export const CDACancelRequisition =
   (data: IGetCancelRequisitionBody): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiRequisition.CancelRequisition(data);
-    dispatch(SliceRequisition.actions.RCancelRequisition(response.data));
-  };
+    async (dispatch) => {
+      const response = await ApiRequisition.CancelRequisition(data);
+      dispatch(SliceRequisition.actions.RCancelRequisition(response.data));
+    };
 
 
-  export const resetMessageDeleteRequisitionn = (): AppThunk => async (dispatch) => {
-    dispatch(SliceRequisition.actions.RresetMessageDeleteRequisitionn());
-  };
-  export const resetMessageCancelRequisition= (): AppThunk => async (dispatch) => {
-    dispatch(SliceRequisition.actions.RresetMessageCancelRequisition());
-  };
+export const resetMessageDeleteRequisitionn = (): AppThunk => async (dispatch) => {
+  dispatch(SliceRequisition.actions.RresetMessageDeleteRequisitionn());
+};
+export const resetMessageCancelRequisition = (): AppThunk => async (dispatch) => {
+  dispatch(SliceRequisition.actions.RresetMessageCancelRequisition());
+};
 
 
-  
+
 
 
 export default SliceRequisition.reducer;
