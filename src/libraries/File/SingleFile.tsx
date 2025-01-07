@@ -98,9 +98,7 @@ const SingleFile = ({
           title={
             'Supports only ' +
             ValidFileTypes.join(', ') +
-            ' file types up to ' +
-            (MaxfileSize / 1e6).toFixed(1) +
-            ' MB.'
+            ' file types up to 3 MB.'
           }
         >
           <Button
