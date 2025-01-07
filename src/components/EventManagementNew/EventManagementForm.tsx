@@ -21,8 +21,8 @@ import {
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { decodeURL, encodeURL, getCalendarDateFormatDateNew, getDateMonthYearFormattedDash, isGreaterThanDate } from '../Common/Util';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import { decodeURL, encodeURL, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     let {
@@ -124,8 +124,8 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
         if (EventDetaill !== null) {
             setEventTitle(EventDetaill.Event_Name);
             setEventDescription(EventDetaill.Event_Description);
-            setEventStartDate(getDateMonthYearFormattedDash(EventDetaill.Event_Start_Date));
-            setEventEndDate(getDateMonthYearFormattedDash(EventDetaill.Event_End_Date));
+            setEventStartDate(getCalendarDateFormatDate(EventDetaill.Event_Start_Date));
+            setEventEndDate(getCalendarDateFormatDate(EventDetaill.Event_End_Date));
             setShowRiseAndShine(EventDetaill.Display_On_Homepage == "True" ? true : false);
         }
         else {
@@ -155,7 +155,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
 
         }
     }, [SaveUpdateEventt]);
-    
+
     const isOutsideAcademicYear = (date) => {
         // Assuming EventStartDate and EventEndDate are Date objects
         if (!date) return false; // Handle case where date is null or undefined
@@ -282,7 +282,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                 asUpdatedById: UserId,
                 asStandardDivisions: getEventString(),
                 asSaveFeature: 'Event Planner',
-                asFolderName:  `RITSchoolMobile/${asFolderName}`,
+                asFolderName: `RITSchoolMobile/${asFolderName}`,
                 asBase64String: base64URL
             };
             debouncedFetch(UpdateEventBody);
@@ -323,39 +323,39 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
         asEventId: Number(EventId),
         asUserId: Number(TeacherId)
     };
-    
 
 
-     const clickDelete = () => {
-     showAlert({
-       title: 'Please Confirm',
-       message: 'Are you sure you want to delete image?',
-       variant: 'warning',
-       confirmButtonText: 'Confirm',
-       cancelButtonText: 'Cancel',
-       onCancel: closeAlert,
-       onConfirm: () => {
-        dispatch(GetDeleteEventImagee(DeleteEventImageBody));
 
-         closeAlert();
-       }
-     });
-   };
-    
+    const clickDelete = () => {
+        showAlert({
+            title: 'Please Confirm',
+            message: 'Are you sure you want to delete image?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: closeAlert,
+            onConfirm: () => {
+                dispatch(GetDeleteEventImagee(DeleteEventImageBody));
+
+                closeAlert();
+            }
+        });
+    };
 
 
-   useEffect(() => {
-    if (DeleteeEventImage != "") {
-        toast.success(DeleteeEventImage)
-        dispatch(resetDeleteEventImagee())
-        dispatch(GetEventdetail(EDetails));
-    }
-}, [DeleteeEventImage])
+
+    useEffect(() => {
+        if (DeleteeEventImage != "") {
+            toast.success(DeleteeEventImage)
+            dispatch(resetDeleteEventImagee())
+            dispatch(GetEventdetail(EDetails));
+        }
+    }, [DeleteeEventImage])
 
 
     const clickFileName = () => {
         window.open(
-            localStorage.getItem('SiteURL') +asFolderName +
+            localStorage.getItem('SiteURL') + asFolderName +
             '/RITeSchool/DOWNLOADS/Event Planner/' +
             EventDetaill.Event_Image);
     }
@@ -399,7 +399,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                     />
                     {errorEventTitle && <ErrorMessage1 Error={errorEventTitle} />}
                 </Grid>
-               
+
                 <Grid item xs={12} md={3}>
                     {/* <TextField
                         label={

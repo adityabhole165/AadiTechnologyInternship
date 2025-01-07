@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import ApiAnnualPlanerBaseScreen from 'src/api/AddAnnualPlanner/ApiAnnualPlanerBaseScreen';
 import {
   getDateMonthYearFormattedDash,
-  getMonthYearSplitFormatted1,
+  getMonthYearSplitFormatted,
   stripHtml
 } from 'src/components/Common/Util';
 import {
@@ -360,8 +360,8 @@ export const CDAGetAllEvents =
       let parentList = []
       if (response.data.length > 0) {
         response.data.map((Item) => {
-          if (!parentList.includes(getMonthYearSplitFormatted1(Item.StartDateAndTime))) {
-            parentList.push(getMonthYearSplitFormatted1(Item.StartDateAndTime));
+          if (!parentList.includes(getMonthYearSplitFormatted(Item.StartDateAndTime))) {
+            parentList.push(getMonthYearSplitFormatted(Item.StartDateAndTime));
           }
         })
       }
