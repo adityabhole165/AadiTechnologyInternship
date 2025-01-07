@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiRequisition from 'src/api/Requisition/APIRequisition';
+import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 import {
   IGetCancelRequisitionBody,
   IGetDeleteRequisitionBody,
@@ -76,7 +77,7 @@ export const RequisitionListt =
           StatusName: item.StatusName,
           CreaterName: item.CreaterName,
           Created_Date: item.Created_Date,
-          ExpiryDate: item.ExpiryDate ? item.ExpiryDate : "-",
+          ExpiryDate: item.ExpiryDate ? getDateMonthYearFormatted(item.ExpiryDate) : "-",
           Editble: item.Editble,
           IsDelete: item.IsDelete,
           IsFinalApproval: item.IsFinalApproval,
