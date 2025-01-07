@@ -62,8 +62,8 @@ const SettingsDropdown = () => {
         const selectedYearData = AcademicYear.find(year => year.Value === academicYear);
         if (selectedYearData) {
             sessionStorage.setItem('AcademicYearId', selectedYearData.Value);
-            sessionStorage.setItem('StartDate', getYearFirstDateFormatted(selectedYearData.Text2));
-            sessionStorage.setItem('EndDate', getYearFirstDateFormatted(selectedYearData.Text3));
+            // sessionStorage.setItem('StartDate', getYearFirstDateFormatted(selectedYearData.Text2));
+            // sessionStorage.setItem('EndDate', getYearFirstDateFormatted(selectedYearData.Text3));
             localStorage.setItem('SchoolId', selectedYearData.Text1);
             sessionStorage.setItem('SchoolName', selectedYearData.Text4);
             setAcademicYearName(selectedYearData.Name);
