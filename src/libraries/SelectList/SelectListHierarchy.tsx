@@ -52,7 +52,8 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
 
   return (
     <>
-      <Box sx={{ backgroundColor: 'lightgrey', pl: 1 }}>
+    <Box sx={{display:'flex', flexDirection:'row', gap: 0.7, flexWrap:'wrap'}}>
+      <Box sx={{ backgroundColor: 'lightgrey', pl: 1 , width: {xs:'95%',sm:'98%', md:'99%', lg:'99%', xl:'99%'}}}>
         <Checkbox
           checked={getIsParentCheckedAll()}
           onChange={(e) => {
@@ -60,6 +61,8 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
           }}
         />
         Associated Class(es)
+      </Box>
+      <Box ><span style={{ color: 'red' }}>*</span></Box>
       </Box>
       <Stack direction={'row'} gap={0.7} flexWrap={'wrap'}>
         {ParentList.map((ParentItem, index) => {
