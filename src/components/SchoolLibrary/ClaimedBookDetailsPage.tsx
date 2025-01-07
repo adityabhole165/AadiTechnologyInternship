@@ -1,5 +1,5 @@
 import { Close, QuestionMark, SearchTwoTone } from '@mui/icons-material';
-import { Box, Checkbox, FormControlLabel, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -177,38 +177,71 @@ const ClaimedBookDetailsPage = () => {
                     { title: 'Claimed Book Details', path: '/RITeSchool/Teacher/LibraryBaseScreen/ClaimedBookDetailsPage' },
                 ]}
                 rightActions={
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                        <TextField
-                            fullWidth
-                            label="User Name"
-                            variant={'outlined'}
-                            size={"small"}
-                            onChange={(e) => {
-                                ClickValue(e.target.value);
-                            }}
-                            value={UserName}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === 'Tab') {
-                                    clickSearchNew1();
-                                }
-                            }}
-                        />
-                        <TextField
-                            fullWidth
-                            label="Book Title"
-                            variant={'outlined'}
-                            size={'small'}
-                            onChange={(e) => {
-                                ClickValue1(e.target.value);
-                            }}
-                            value={BookTitle}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === 'Tab') {
-                                    clickSearchNew1();
-                                }
-                            }}
-                        />
-                        <Box>
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        // justifyContent="space-between"
+                        alignItems="right"
+
+                        spacing={2}
+                        sx={{
+
+                            mt: { xs: 0, sm: 0 },
+                            flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                        }}
+                    >
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            <TextField
+                                fullWidth
+                                label="User Name"
+                                variant={'outlined'}
+                                size={"small"}
+                                sx={{ width: { xs: '50vw', sm: '10vw' } }}
+                                onChange={(e) => {
+                                    ClickValue(e.target.value);
+                                }}
+                                value={UserName}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === 'Tab') {
+                                        clickSearchNew1();
+                                    }
+                                }}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                        >
+                            <TextField
+                                fullWidth
+                                label="Book Title"
+                                variant={'outlined'}
+                                size={'small'}
+                                sx={{ width: { xs: '50vw', sm: '13vw' } }}
+                                onChange={(e) => {
+                                    ClickValue1(e.target.value);
+                                }}
+                                value={BookTitle}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === 'Tab') {
+                                        clickSearchNew1();
+                                    }
+                                }}
+                            /></Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            gap={1}
+                            display="flex"
+                            justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                        >
                             <Tooltip title={"Search"}>
                                 <IconButton
                                     onClick={clickSearchNew1}
@@ -222,8 +255,7 @@ const ClaimedBookDetailsPage = () => {
                                     <SearchTwoTone />
                                 </IconButton>
                             </Tooltip>
-                        </Box>
-                        <Box>
+
                             <Tooltip title={`Clear`}>
                                 <IconButton
                                     sx={{
@@ -237,8 +269,7 @@ const ClaimedBookDetailsPage = () => {
                                     <Close />
                                 </IconButton>
                             </Tooltip>
-                        </Box>
-                        <Box>
+
                             <Tooltip title={"Displays the books claimed by user and user can cancel the book claim."}>
                                 <IconButton
                                     sx={{
@@ -252,8 +283,9 @@ const ClaimedBookDetailsPage = () => {
                                     <QuestionMark />
                                 </IconButton>
                             </Tooltip>
-                        </Box>
-                    </Box>
+                        </Grid>
+
+                    </Stack>
                 }
             />
             <Box sx={{ backgroundColor: 'white', p: 2 }}>
