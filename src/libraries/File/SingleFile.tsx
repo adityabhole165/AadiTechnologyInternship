@@ -99,10 +99,13 @@ const SingleFile = ({
         }}
       >
         <Tooltip
-          title={
+           title={
             'Supports only ' +
             ValidFileTypes.join(', ') +
-            ' file types up to 3 MB.'
+            ' file types up to ' +
+            (MaxfileSize / 1e6) +
+            ' MB .'
+            
           }
         >
           <Button
