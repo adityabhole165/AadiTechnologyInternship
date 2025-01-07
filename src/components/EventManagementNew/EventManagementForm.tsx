@@ -539,7 +539,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                                 color: 'red',
                                 ':hover': { backgroundColor: red[100] }
                             }}>
-                            Cancel
+                            Clear
                         </Button>
                         <Button
                             //  variant={'contained'} 
