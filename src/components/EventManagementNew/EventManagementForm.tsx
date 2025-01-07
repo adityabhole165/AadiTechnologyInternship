@@ -22,6 +22,7 @@ import {
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
 import { decodeURL, encodeURL, getCalendarDateFormatDateNew, getDateMonthYearFormattedDash, isGreaterThanDate } from '../Common/Util';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 
 const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     let {
@@ -460,7 +461,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                     /> */}
                 </Grid>
                 <Grid xs={12} md={12} item>
-                    <TextField
+                    <ResizableTextField
                         label={
                             <span>
                                 Description <span style={{ color: 'red' }}></span>
