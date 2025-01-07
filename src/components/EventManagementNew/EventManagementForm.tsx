@@ -196,7 +196,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             }
 
             if (isOutsideAcademicYear(EventEndDate)) {
-                setErrorEventEndDate('Event End date must be within current academic year ' +
+                setErrorEventEndDate('Event end date must be within current academic year ' +
                     '(i.e between ' + sessionStorage.getItem("StartDate") +
                     ' and ' + sessionStorage.getItem("EndDate") + ')');
             } else {
