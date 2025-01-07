@@ -3,7 +3,7 @@ import {
   Icomments,
   IVideoList
 } from 'src/interfaces/Common/VideoGallery';
-import { ICountVideoBody, IdeleteVideoBody, IGetVideoGalleryBody, IGetVideoGalleryResponse } from 'src/interfaces/VideoGalleryInterface/IVideoGallery';
+import { ICountVideoBody, IdeleteVideoBody, IDeleteVideogallaryDetails, IGetSaveUpdateVideoBody, IGetSaveUpdateVideoResult, IGetVideoGalleryBody, IGetVideoGalleryResponse, IGetViewVideoListBody, IGetViewVideoListResponse } from 'src/interfaces/VideoGalleryInterface/IVideoGallery';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetVideosGallary = (data: IVideoList) => {
@@ -25,11 +25,25 @@ const Deletevideo = (data: IdeleteVideoBody) => {
 const GetCountVideo = (data: ICountVideoBody) => {
   return http.post('Teacher/CountFromVideoList', data);
 }
+
+const GetViewVideo = (data: IGetViewVideoListBody) => {
+  return http.post<IGetViewVideoListResponse[]>('Teacher/GetVideoGallery', data);
+}
+
+const GetSaveUpdateVideo = (data: IGetSaveUpdateVideoBody) => {
+  return http.post<IGetSaveUpdateVideoResult>('Teacher/SaveUpdateVideo', data);
+}
+const DeleteVideoGallary = (data: IDeleteVideogallaryDetails) => {
+  return http.post<IGetSaveUpdateVideoResult>('Teacher/SaveUpdateVideo', data);
+}
 const VideoGalleryApi = {
   GetVideosGallary,
   GetComments,
   GetVideoDetails,
   Deletevideo,
-  GetCountVideo
+  GetCountVideo,
+  GetViewVideo,
+  GetSaveUpdateVideo,
+  DeleteVideoGallary
 };
 export default VideoGalleryApi;

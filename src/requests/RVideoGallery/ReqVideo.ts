@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import VideoGalleryApi from "src/api/VideoGallery/ApiVideoGallery";
-import { ICountVideoBody, IdeleteVideoBody, IGetVideoGalleryBody } from "src/interfaces/VideoGalleryInterface/IVideoGallery";
+import { ICountVideoBody, IdeleteVideoBody, IGetSaveUpdateVideoBody, IGetVideoGalleryBody, IGetViewVideoListBody } from "src/interfaces/VideoGalleryInterface/IVideoGallery";
 import { AppThunk } from "src/store";
 
 
@@ -10,6 +10,9 @@ const VideoSlice = createSlice({
         ISGetVideoDetails: [],
         ISDeleteVideo: "",
         ISCuntVideo: [],
+        ISGetViewVideoDetails: [],
+        DeleteVideoGallary: '',
+        SaveUpdateVideo: '',
         Loading: true
     },
     reducers: {
@@ -18,15 +21,34 @@ const VideoSlice = createSlice({
             state.Loading = false;
             state.ISGetVideoDetails = action.payload;
         },
+
         RDeleteVideo(state, action) {
             state.ISDeleteVideo = action.payload;
 
+        },
+        DeleteVideoGallary(state, action) {
+            state.DeleteVideoGallary = action.payload;
+
+        },
+        resetDeleteVideoGallary(state) {
+            state.DeleteVideoGallary = "";
+        },
+        getSaveUpdateVideo(state, action) {
+            state.Loading = false;
+            state.SaveUpdateVideo = action.payload;
+        },
+        resetSaveUpdateVideo(state) {
+            state.SaveUpdateVideo = '';
         },
         RresetDeleteVideo(state) {
             state.ISDeleteVideo = "";
         },
         RCountVideoList(state, action) {
             state.ISCuntVideo = action.payload;
+        },
+        RGetViewVideoDetails(state, action) {
+            state.Loading = false;
+            state.ISGetViewVideoDetails = action.payload;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -77,3 +99,43 @@ export const CDAGetCountVideo =
             dispatch(VideoSlice.actions.RCountVideoList(count));
 
         }
+
+export const getViewVideoDetails = (data: IGetViewVideoListBody): AppThunk => async (dispatch) => {
+    dispatch(VideoSlice.actions.getLoading(true));
+    const response = await VideoGalleryApi.GetViewVideo(data);
+
+    const responseData = response.data.map((Item, i) => {
+        return {
+            Id: Item.VideoId,
+            VideoName: Item.VideoName,
+            URL: Item.URL,
+            Description: Item.Description,
+            VideoDetailsId: Item.VideoDetailsId
+        };
+    });
+    dispatch(VideoSlice.actions.RGetViewVideoDetails(responseData));
+};
+
+export const getSubmitLeave =
+    (data: IGetSaveUpdateVideoBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(VideoSlice.actions.getLoading(true));
+            const response = await VideoGalleryApi.GetSaveUpdateVideo(data);
+            dispatch(VideoSlice.actions.getSaveUpdateVideo(response.data))
+        }
+export const resetSaveUpdateVideo =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(VideoSlice.actions.resetSaveUpdateVideo())
+        }
+
+export const DeletevideoGallary =
+    (data: IdeleteVideoBody): AppThunk =>
+        async (dispatch) => {
+            const response = await VideoGalleryApi.Deletevideo(data);
+            dispatch(VideoSlice.actions.DeleteVideoGallary(response.data))
+        };
+
+export const resetDeleteVideoGallary = (): AppThunk => async (dispatch) => {
+    dispatch(VideoSlice.actions.resetDeleteVideoGallary());
+};

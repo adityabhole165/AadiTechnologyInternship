@@ -35,3 +35,43 @@ export interface ICountVideoBody {
 export interface ICountVideoResponse {
     TotalCount: number
 }
+
+export interface IGetViewVideoListBody {
+    asSchoolId: string,
+    asVideoId: string,
+    asSubjectId: string,
+
+}
+export interface IGetViewVideoListResponse {
+    VideoId: string,
+    VideoDetailsId: string,
+    VideoName: string,
+    URL: string,
+    Description: string,
+}
+
+export interface IGetSaveUpdateVideoBody {
+    asVideoId: number;
+    asVideoDetailId: number;
+    asVideoName: string;
+    asVideoIdDescription: string;
+    asVideoURL: string;
+    asSchoolId: number;
+    asInsertedById: number;
+    asSubjectId: number;
+}
+export interface IGetSaveUpdateVideoResult {
+    string
+}
+
+export interface IDeleteVideogallaryDetails {
+    asSchoolId: number;
+    asIsDeleted: number;
+    asUpdateDate: string;
+    asUpdatedById: number;
+    asVideoId: number;
+    asId: number;
+}
+export interface IDeleteVideogallaryResult {
+    string
+}
