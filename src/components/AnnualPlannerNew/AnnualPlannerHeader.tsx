@@ -13,6 +13,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import HeaderIcons from './HeaderIcons';
 import UploadAnnualPlanner from './UploadAnnualPlanner';
+import { getSchoolConfigurations } from '../Common/Util';
 const AnnualPlannerHeader = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -25,7 +26,16 @@ const AnnualPlannerHeader = () => {
     const ScreensAccessPermission = JSON.parse(
         sessionStorage.getItem('ScreensAccessPermission')
     );
+
+    
     let AnnualPlannerViewAccess = "N"
+
+      let AnnualPlannerAccess = getSchoolConfigurations(62)
+
+      console.log(AnnualPlannerAccess,"AnnualPlannerAccess");
+
+
+
     ScreensAccessPermission?.map((item) => {
         if (item.ScreenName === 'Annual Planner') AnnualPlannerViewAccess = item.IsFullAccess;
     });
@@ -75,7 +85,7 @@ const AnnualPlannerHeader = () => {
                 }
             }
         },
-        ...(AnnualPlannerViewAccess === 'Y'
+        ...(AnnualPlannerAccess === 'Y'
             ? [{
                 Id: 5, Icon: <AddIcon />, Title: 'Add Annual Planner', Action: 'AddAnnualPlanner', sx: {
                     color: 'white',
@@ -86,7 +96,7 @@ const AnnualPlannerHeader = () => {
                 }
             }]
             : []),
-        ...(FileName !== '' && AnnualPlannerViewAccess === 'N'
+        ...(FileName !== '' && AnnualPlannerAccess === 'N'
             ? [{
                 Id: 4, Icon: <Visibility />, Title: 'Annual Planner', Action: 'AddAnnualPlanner', sx: {
                     color: 'white',
@@ -104,7 +114,7 @@ const AnnualPlannerHeader = () => {
             navigate('/RITeSchool/Common/EventOverview', { state: { fromInternal: true } });
         }
         if (value == 'AddAnnualPlanner') {
-            if (AnnualPlannerViewAccess == "N") {
+            if (AnnualPlannerAccess == "N") {
                 if (FileName !== '') {
              window.open(localStorage.getItem('SiteURL') + FolderName +'/' +FileName)
 

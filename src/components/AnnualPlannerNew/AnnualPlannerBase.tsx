@@ -21,7 +21,7 @@ import {
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { resetEventList } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { decodeURL, encodeURL, getDateDDMMMDash } from '../Common/Util';
+import { decodeURL, encodeURL, getDateDDMMMDash, getSchoolConfigurations } from '../Common/Util';
 import AnnualPlannerHeader from './AnnualPlannerHeader';
 import CalendarAnnualPlanner from './CalendarAnnualPlanner';
 const AnnualPlannerBase = () => {
@@ -68,6 +68,9 @@ const AnnualPlannerBase = () => {
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
+
+   let AnnualPlannerAccess = getSchoolConfigurations(62)
+
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission && ScreensAccessPermission.map((item) => {
@@ -75,6 +78,9 @@ const AnnualPlannerBase = () => {
     });
     return perm;
   };
+
+
+
   // let AnnualPlannerViewAccess = "N"
   // ScreensAccessPermission?.map((item) => {
   //   if (item.ScreenName === 'Annual Planner') AnnualPlannerViewAccess = item.IsFullAccess;
@@ -118,7 +124,7 @@ const AnnualPlannerBase = () => {
     const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(asAcademicYearId),
-      asUserId: GetScreenPermission() === 'Y'
+      asUserId: AnnualPlannerAccess === 'Y'
         ? 0
         : Number(UserId)
     };
@@ -263,7 +269,7 @@ const AnnualPlannerBase = () => {
     setValue(value, 'MonthYear');
   };
   const ClickDate = (value) => {
-    if (GetScreenPermission() == "Y") {
+    if (AnnualPlannerAccess == "Y") {
       setSelectedDate(value);
       setValue(value, 'MonthYear');
       dispatch(resetEventList())
@@ -300,7 +306,7 @@ const AnnualPlannerBase = () => {
           SelectedFilter={DefaultValue}
           EventType={EventType}
           ClickEventType={ClickEventType}
-          AnnualPlannerViewAccess={GetScreenPermission()}
+          AnnualPlannerViewAccess={AnnualPlannerAccess}
         />
       </Box>
     </Box>
