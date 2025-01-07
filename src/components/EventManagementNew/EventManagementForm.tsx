@@ -510,7 +510,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                         />
                     </Typography>
                 </Grid> */}
-                <Grid container xs={6} md={6}>
+                <Grid container xs={6} md={6} item>
                     <Typography fontSize={'10px'} pt={1} pr={3} ml={2}>Select Photo:</Typography>
                     <Grid item sx={{ pl: { xs: 2, md: 0 } }}>
                         <SingleFile
