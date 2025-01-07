@@ -22,7 +22,7 @@ import {
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import { decodeURL, encodeURL, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
+import { decodeURL, encodeURL, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     let {
@@ -124,8 +124,8 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
         if (EventDetaill !== null) {
             setEventTitle(EventDetaill.Event_Name);
             setEventDescription(EventDetaill.Event_Description);
-            setEventStartDate(getCalendarDateFormatDate(EventDetaill.Event_Start_Date));
-            setEventEndDate(getCalendarDateFormatDate(EventDetaill.Event_End_Date));
+            setEventStartDate(getCalendarDateFormatDateNew(EventDetaill.Event_Start_Date));
+            setEventEndDate(getCalendarDateFormatDateNew(EventDetaill.Event_End_Date));
             setShowRiseAndShine(EventDetaill.Display_On_Homepage == "True" ? true : false);
         }
         else {
@@ -355,7 +355,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
 
     const clickFileName = () => {
         window.open(
-            localStorage.getItem('SiteURL') + 
+            localStorage.getItem('SiteURL') +
             '/RITeSchool/DOWNLOADS/Event Planner/' +
             EventDetaill.Event_Image);
     }
