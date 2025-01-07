@@ -183,9 +183,9 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             if (isGreaterThanDate(EventStartDate, EventEndDate)) {
                 setErrorEventStartDate('Start date should not be greater than end date');
             } else if (isOutsideAcademicYear(EventStartDate)) {
-                setErrorEventStartDate('Event Start date must be within current academic year ' +
+                setErrorEventStartDate('Event start date must be within current academic year ' +
                     '(i.e between ' + sessionStorage.getItem("StartDate") +
-                    ' and ' + sessionStorage.getItem("EndDate") + ')');
+                    ' and ' + sessionStorage.getItem("EndDate") + ').');
             } else {
                 setErrorEventStartDate('');
             }
@@ -193,7 +193,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             if (isOutsideAcademicYear(EventEndDate)) {
                 setErrorEventEndDate('Event end date must be within current academic year ' +
                     '(i.e between ' + sessionStorage.getItem("StartDate") +
-                    ' and ' + sessionStorage.getItem("EndDate") + ')');
+                    ' and ' + sessionStorage.getItem("EndDate") + ').');
             } else {
                 setErrorEventEndDate('');
             }
