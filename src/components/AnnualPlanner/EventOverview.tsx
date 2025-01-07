@@ -30,7 +30,7 @@ import {
   CDAStdList
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { RootState } from 'src/store';
-import { getMonthYearSplitFormatted } from '../Common/Util';
+import { getMonthYearSplitFormatted1 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 type Props = {};
 
@@ -257,14 +257,14 @@ const EventOverview = (props: Props) => {
                     {event}
                   </Typography>
                   <Badge color={"primary"} badgeContent={USGetAllEvents
-                    .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event).length}></Badge>
+                    .filter(item => getMonthYearSplitFormatted1(item.StartDateAndTime) == event).length}></Badge>
                 </Box>
               </AccordionSummary>
               <Divider />
               <AccordionDetails>
                 <Grid container>
                   {USGetAllEvents
-                    .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
+                    .filter(item => getMonthYearSplitFormatted1(item.StartDateAndTime) == event)
                     .map((obj, index) => (
                       <Grid item xs={6} sm={4} md={3} lg={3} key={index} sx={{ p: 1, height: '100%' }}>
                         <Box sx={{ border: `1px solid ${grey[400]}`, borderRadius: (theme) => theme.general.borderRadius }}>
@@ -272,7 +272,7 @@ const EventOverview = (props: Props) => {
                           <Box sx={{ p: 1 }}>
                             <React.Fragment>
                               {/* <Typography variant={'h4'}>Event Title: </Typography> */}
-                              <Typography variant={'h5'} sx={{wordBreak: 'break-word'}}>
+                              <Typography variant={'h5'} sx={{ wordBreak: 'break-word' }}>
                                 {obj.EventDescription}
                               </Typography>
                               {/* <Typography>Standards: </Typography> */}

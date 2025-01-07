@@ -473,6 +473,20 @@ export const getMonthYearSplitFormatted = (date) => {
 
   return `${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
 };
+
+// Function to format date as MM/DD/YYYY
+export const getMonthYearSplitFormatted1 = (date) => {
+  let separator = date.indexOf('/') > 0 ? '/' : '-';
+  let arrDate = date.split(' ')[0].split(separator); // Split the first part of the date
+  const monthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+
+  // MM/DD/YYYY format: Month is arrDate[0], Year is arrDate[2]
+  return `${monthNames[parseInt(arrDate[0]) - 1]} ${arrDate[2]}`;
+};
+
 export const getMonthYearFormatted = (date) => {
   date = date || new Date();
   const Day = new Date(date).getDate();
