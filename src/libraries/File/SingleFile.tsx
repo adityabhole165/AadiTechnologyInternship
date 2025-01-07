@@ -89,11 +89,12 @@ const SingleFile = ({
         xs={9}
         sm={12}
         md={12}
-        
+        lg={12}
+
         sx={{
           display: 'flex',
           alignItems: FileError ? 'flex-start' : 'center',
-          justifyContent: 'center',
+          justifyContent: 'left',
           height: 'auto',
         }}
       >
@@ -197,7 +198,7 @@ const SingleFile = ({
             pt: 2,
           }}
         >
-          <Typography>{<Errormessage Error={FileError} />}</Typography>
+          <Typography sx={{ml:0}}>{<Errormessage Error={FileError} />}</Typography>
         </Grid>
       )}
     </Grid>
