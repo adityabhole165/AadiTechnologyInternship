@@ -86,7 +86,10 @@ const SingleFile = ({
     <Grid container>
       <Grid
         item
-        xs={12}
+        xs={9}
+        sm={12}
+        md={12}
+        
         sx={{
           display: 'flex',
           alignItems: FileError ? 'flex-start' : 'center',
@@ -156,7 +159,7 @@ const SingleFile = ({
           </Button>
         </Tooltip>
         {FilePath !== '' && (
-          <Stack direction="row" spacing={0.5} ml={1}>       
+          <Grid item xs={3} sm={3} md={3} sx={{ display: 'flex', ml: 1 }}>
             {viewIcon && (
               <Tooltip title={'View'}>
                 <IconButton color={'primary'} onClick={clickFileName} >
@@ -180,7 +183,7 @@ const SingleFile = ({
                 </IconButton>
               </Tooltip>
             )}
-          </Stack>
+         </Grid>
         )}
       </Grid>
       {FileError && (
