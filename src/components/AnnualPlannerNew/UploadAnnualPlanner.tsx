@@ -49,7 +49,7 @@ const UploadAnnualPlanner = ({
         asAcademicYearId: Number(asAcademicYearId),
         asSaveFeature: 'Event Planner',
         asFileName: fileName,
-        asFolderName: `RITSchoolMobile/${FolderName}`,
+        asFolderName: FolderName,
         asBase64String: base64URL,
         asUpdatedById: Number(UserId)
       };
@@ -164,8 +164,8 @@ const UploadAnnualPlanner = ({
   };
   const clickFileName = () => {
     if (FileDetails !== '') {
-      window.open(localStorage.getItem('SiteURL') + FolderName +
-        '/RITESCHOOL/DOWNLOADS/Event%20Planner/' +
+      window.open(localStorage.getItem('SiteURL') + 
+        'RITESCHOOL/DOWNLOADS/Event%20Planner/' +
         FileDetails[0].LinkUrl
       );
       //localStorage.getItemItem("SiteURL", window.location.pathname)

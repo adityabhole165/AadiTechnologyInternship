@@ -282,7 +282,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                 asUpdatedById: UserId,
                 asStandardDivisions: getEventString(),
                 asSaveFeature: 'Event Planner',
-                asFolderName: `RITSchoolMobile/${asFolderName}`,
+                asFolderName: asFolderName,
                 asBase64String: base64URL
             };
             debouncedFetch(UpdateEventBody);
@@ -355,7 +355,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
 
     const clickFileName = () => {
         window.open(
-            localStorage.getItem('SiteURL') + asFolderName +
+            localStorage.getItem('SiteURL') + 
             '/RITeSchool/DOWNLOADS/Event Planner/' +
             EventDetaill.Event_Image);
     }
