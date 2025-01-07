@@ -287,7 +287,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                 asUpdatedById: UserId,
                 asStandardDivisions: getEventString(),
                 asSaveFeature: 'Event Planner',
-                asFolderName: asFolderName,
+                asFolderName:  `RITSchoolMobile/${asFolderName}`,
                 asBase64String: base64URL
             };
             debouncedFetch(UpdateEventBody);
@@ -332,11 +332,15 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             dispatch(GetDeleteEventImagee(DeleteEventImageBody));
         }
     }
+
+
+   
+    
+
     const clickFileName = () => {
         window.open(
-            localStorage.getItem('SiteURL') +
-            '/RITeSchool/' +
-            '/DOWNLOADS/Event Planner/' +
+            localStorage.getItem('SiteURL') +asFolderName +
+            '/RITeSchool/DOWNLOADS/Event Planner/' +
             EventDetaill.Event_Image);
     }
     // const onSelectStartDate = (value) => {
