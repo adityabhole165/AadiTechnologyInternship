@@ -61,7 +61,7 @@ const SingleFile = ({
       );
 
       if (!validationError) {
-        const base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
+        const base64URL:any = await ChangeFileIntoBase64(multipleFiles[i]);
         setFileError('');
         ChangeFile({
           Name: multipleFiles[i].name,
