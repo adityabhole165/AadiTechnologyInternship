@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import PhotoGallaryApi from "src/api/PhotoGallery/PhotoGallary";
-import { getDateMonthYearFormatted } from "src/components/Common/Util";
 import { IDeletePhotoBody, IGetCountBody, IGetPhotoDetailsBody } from "src/interfaces/Common/PhotoGallery";
 import { AppThunk } from "src/store";
 
@@ -48,7 +47,7 @@ export const CDAGetPhotoDetails =
                     galleryName: item.Gallery_Name,
                     className: item.Classes ? item.Classes : "-",
                     // className: item.Classes,
-                    lastUpdated: getDateMonthYearFormatted(item.Update_Date)
+                    lastUpdated: (item.Update_Date)
 
 
                 }

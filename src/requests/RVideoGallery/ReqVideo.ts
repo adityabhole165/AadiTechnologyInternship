@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import VideoGalleryApi from "src/api/VideoGallery/ApiVideoGallery";
-import { getDateMonthYearFormatted } from "src/components/Common/Util";
 import { ICountVideoBody, IdeleteVideoBody, IGetVideoGalleryBody } from "src/interfaces/VideoGalleryInterface/IVideoGallery";
 import { AppThunk } from "src/store";
 
@@ -46,7 +45,7 @@ export const CDAVideoDetails =
                     TotalRows: row.TotalRows,
                     Video_Id: row.Video_Id,
                     videoName: row.Video_Name,
-                    lastUpdated: getDateMonthYearFormatted(row.Update_Date)
+                    lastUpdated: (row.Update_Date)
                 }
             });
             dispatch(VideoSlice.actions.RGetVideoDetails(VideoDetails));
