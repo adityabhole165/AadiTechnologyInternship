@@ -54,7 +54,7 @@ export interface IGetSaveUpdateVideoBody {
     asVideoId: number;
     asVideoDetailId: number;
     asVideoName: string;
-    asVideoIdDescription: string;
+    asDescription: string;
     asVideoURL: string;
     asSchoolId: number;
     asInsertedById: number;

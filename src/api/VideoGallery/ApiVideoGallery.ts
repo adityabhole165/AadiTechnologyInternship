@@ -33,8 +33,8 @@ const GetViewVideo = (data: IGetViewVideoListBody) => {
 const GetSaveUpdateVideo = (data: IGetSaveUpdateVideoBody) => {
   return http.post<IGetSaveUpdateVideoResult>('Teacher/SaveUpdateVideo', data);
 }
-const DeleteVideoGallary = (data: IDeleteVideogallaryDetails) => {
-  return http.post<IGetSaveUpdateVideoResult>('Teacher/SaveUpdateVideo', data);
+const DeleteViewVideoGallary = (data: IDeleteVideogallaryDetails) => {
+  return http.post<IGetSaveUpdateVideoResult>('Teacher/DeleteVideo', data);
 }
 const VideoGalleryApi = {
   GetVideosGallary,
@@ -44,6 +44,6 @@ const VideoGalleryApi = {
   GetCountVideo,
   GetViewVideo,
   GetSaveUpdateVideo,
-  DeleteVideoGallary
+  DeleteViewVideoGallary
 };
 export default VideoGalleryApi;

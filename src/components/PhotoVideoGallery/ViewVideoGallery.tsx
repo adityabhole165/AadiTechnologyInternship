@@ -25,11 +25,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { ClearIcon } from '@mui/x-date-pickers';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { IGetViewVideoListBody } from 'src/interfaces/VideoGalleryInterface/IVideoGallery';
-import { getViewVideoDetails } from 'src/requests/RVideoGallery/ReqVideo';
+import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
+import { IDeleteVideogallaryDetails, IGetSaveUpdateVideoBody, IGetViewVideoListBody } from 'src/interfaces/VideoGalleryInterface/IVideoGallery';
+import { DeleteViewVideoGallary, getSaveVideo, getViewVideoDetails, resetDeleteViewVideoGallary, resetSaveUpdateVideo } from 'src/requests/RVideoGallery/ReqVideo';
 import { RootState } from 'src/store';
 import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -70,11 +72,23 @@ const ViewVideoGallery = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [dialogVideo, setDialogVideo] = useState<string>('');
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const [title, setTitle] = useState('');
+  const [url, setUrl] = useState('');
+  const [videoDetailsId, setVideoDetailsId] = useState('');
+  const { showAlert, closeAlert } = useContext(AlertContext);
 
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asUserId = Number(localStorage.getItem('UserId'));
   const ViewVideoDetails = useSelector(
     (state: RootState) => state.VideoNew.ISGetViewVideoDetails
   );
+  const SaveUpdateVideoDetails = useSelector(
+    (state: RootState) => state.VideoNew.SaveUpdateVideo
+  );
+  const deleteVideodetailsMsg = useSelector(
+    (state: RootState) => state.VideoNew.DeleteVideoGallary
+  );
+
 
   const ViewVideoListBody: IGetViewVideoListBody = {
     asSchoolId: Number(asSchoolId),
@@ -86,14 +100,80 @@ const ViewVideoGallery = () => {
     dispatch(getViewVideoDetails(ViewVideoListBody));
   }, []);
 
+  useEffect(() => {
+    if (ViewVideoDetails && ViewVideoDetails.length > 0) {
+      setVideoDetailsId(ViewVideoDetails[0].VideoDetailsId);
+    }
+  }, [ViewVideoDetails]);
+
+  const deleteRow = (id) => {
+    const DeleteLeaveBody: IDeleteVideogallaryDetails = {
+      asSchoolId: Number(asSchoolId),
+      asVideoId: Number(Video_Id),
+      asIsDeleted: 1,
+      asUpdateDate: new Date().toISOString().split('T')[0],
+      asId: Number(id),
+      asUpdatedById: Number(asUserId), // userId for delete 
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete this video?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(DeleteViewVideoGallary(DeleteLeaveBody));
+        closeAlert();
+      }
+    });
+  };
+  useEffect(() => {
+    if (deleteVideodetailsMsg != '') {
+      toast.success(deleteVideodetailsMsg)
+      dispatch(resetDeleteViewVideoGallary());
+      dispatch(getViewVideoDetails(ViewVideoListBody));
+    }
+  }, [deleteVideodetailsMsg])
+
+  const SaveVideoListBody: IGetSaveUpdateVideoBody = {
+    asVideoId: Number(Video_Id),
+    asVideoDetailId: Number(0),
+    asVideoName: videoName,
+    asDescription: title,
+    asVideoURL: url,
+    asSchoolId: Number(asSchoolId),
+    asInsertedById: Number(asUserId),
+    asSubjectId: 0
+  };
+
+  const UpdateVideoListBody: IGetSaveUpdateVideoBody = {
+    asVideoId: Number(Video_Id),
+    asVideoDetailId: Number(videoDetailsId),
+    asVideoName: videoName,
+    asDescription: title,
+    asVideoURL: url,
+    asSchoolId: Number(asSchoolId),
+    asInsertedById: Number(asUserId),
+    asSubjectId: 0
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  useEffect(() => {
+    if (formData) {
+      setUrl(formData.url);
+      setTitle(formData.title);
+    }
+  }, [formData]);
   // Handle edit
   const handleEdit = (id: number) => {
-    const selectedData = data.find((item) => item.id === id);
+    const selectedData = ViewVideoDetails.find((item) => item.VideoDetailsId === id);
     if (selectedData) {
       setFormData({ url: selectedData.url, title: selectedData.title });
       setEditId(id); // Switch to edit mode
@@ -111,14 +191,24 @@ const ViewVideoGallery = () => {
       setFormData({ url: '', title: '' });
       setEditId(null); // Switch back to add mode
     }
+    dispatch(getSaveVideo(UpdateVideoListBody));
+
   };
 
   // Handle add
   const handleAdd = () => {
-    const newId = data.length ? Math.max(...data.map((item) => item.id)) + 1 : 1;
-    setData([...data, { id: newId, url: formData.url, title: formData.title }]);
+    const newId = ViewVideoDetails.length ? Math.max(...ViewVideoDetails.map((item) => item.id)) + 1 : 1;
+    setData([...ViewVideoDetails, { id: newId, url: formData.url, title: formData.title }]);
     setFormData({ url: '', title: '' });
+    dispatch(getSaveVideo(SaveVideoListBody));
   };
+  useEffect(() => {
+    if (SaveUpdateVideoDetails != "") {
+      toast.success(SaveUpdateVideoDetails);
+      dispatch(resetSaveUpdateVideo());
+      dispatch(getViewVideoDetails(ViewVideoListBody));
+    }
+  }, [SaveUpdateVideoDetails])
 
   // Handle delete
   const handleDelete = (id: number) => {
@@ -186,7 +276,6 @@ const ViewVideoGallery = () => {
                       },
                     }}
                     onClick={handleUpdate}
-                    disabled={!formData.url || !formData.title}
                   >
                     <SaveAsIcon />
                   </IconButton>
@@ -203,7 +292,6 @@ const ViewVideoGallery = () => {
                     },
                   }}
                   onClick={handleAdd}
-                // disabled={!formData.url || !formData.title}
                 >
                   <SaveIcon />
                 </IconButton>
@@ -298,7 +386,7 @@ const ViewVideoGallery = () => {
                     <Tooltip title={"Edit"}>
                       <IconButton
                         color="primary"
-                        onClick={() => handleEdit(item.id)}
+                        onClick={() => handleEdit(item.VideoDetailsId)}
                       >
                         <EditIcon />
                       </IconButton>
@@ -314,7 +402,7 @@ const ViewVideoGallery = () => {
                             backgroundColor: red[100],
                           },
                         }}
-                        onClick={() => handleDelete(item.id)}
+                        onClick={() => deleteRow(item.VideoDetailsId)}
                       >
                         <DeleteForeverIcon />
                       </IconButton>
@@ -386,5 +474,4 @@ const ViewVideoGallery = () => {
     </Box>
   );
 };
-
 export default ViewVideoGallery;

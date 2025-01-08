@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import VideoGalleryApi from "src/api/VideoGallery/ApiVideoGallery";
-import { ICountVideoBody, IdeleteVideoBody, IGetSaveUpdateVideoBody, IGetVideoGalleryBody, IGetViewVideoListBody } from "src/interfaces/VideoGalleryInterface/IVideoGallery";
+import { ICountVideoBody, IdeleteVideoBody, IDeleteVideogallaryDetails, IGetSaveUpdateVideoBody, IGetVideoGalleryBody, IGetViewVideoListBody } from "src/interfaces/VideoGalleryInterface/IVideoGallery";
 import { AppThunk } from "src/store";
 
 
@@ -26,11 +26,11 @@ const VideoSlice = createSlice({
             state.ISDeleteVideo = action.payload;
 
         },
-        DeleteVideoGallary(state, action) {
+        DeleteViewVideoGallary(state, action) {
             state.DeleteVideoGallary = action.payload;
 
         },
-        resetDeleteVideoGallary(state) {
+        resetDeleteViewVideoGallary(state) {
             state.DeleteVideoGallary = "";
         },
         getSaveUpdateVideo(state, action) {
@@ -117,7 +117,7 @@ export const getViewVideoDetails = (data: IGetViewVideoListBody): AppThunk => as
     dispatch(VideoSlice.actions.RGetViewVideoDetails(responseData));
 };
 
-export const getSubmitLeave =
+export const getSaveVideo =
     (data: IGetSaveUpdateVideoBody): AppThunk =>
         async (dispatch) => {
             dispatch(VideoSlice.actions.getLoading(true));
@@ -130,13 +130,13 @@ export const resetSaveUpdateVideo =
             dispatch(VideoSlice.actions.resetSaveUpdateVideo())
         }
 
-export const DeletevideoGallary =
-    (data: IdeleteVideoBody): AppThunk =>
+export const DeleteViewVideoGallary =
+    (data: IDeleteVideogallaryDetails): AppThunk =>
         async (dispatch) => {
-            const response = await VideoGalleryApi.Deletevideo(data);
-            dispatch(VideoSlice.actions.DeleteVideoGallary(response.data))
+            const response = await VideoGalleryApi.DeleteViewVideoGallary(data);
+            dispatch(VideoSlice.actions.DeleteViewVideoGallary(response.data))
         };
 
-export const resetDeleteVideoGallary = (): AppThunk => async (dispatch) => {
-    dispatch(VideoSlice.actions.resetDeleteVideoGallary());
+export const resetDeleteViewVideoGallary = (): AppThunk => async (dispatch) => {
+    dispatch(VideoSlice.actions.resetDeleteViewVideoGallary());
 };
