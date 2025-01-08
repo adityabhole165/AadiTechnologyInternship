@@ -22,7 +22,7 @@ import {
   INewGetAllMonthsDropDownotBody,
   INewGetAssociatedStdLstForTeacherDropDownBody
 } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAllAcademicYearsForSchool,
   CDAGetAllEvents,
@@ -184,7 +184,7 @@ const EventOverview = (props: Props) => {
                     justifyContent: { xs: 'flex-start', sm: 'flex-start' }
                   }}
                 >
-                  <Box>
+                  {/* <Box>
                     <Dropdown
                       size={"small"}
                       variant={"outlined"}
@@ -194,10 +194,20 @@ const EventOverview = (props: Props) => {
                       label={'Standard'}
                       width={'100px'}
                     />
+                  </Box> */}
+                  <Box>
+                    <SearchableDropdown
+                      sx={{ minWidth: '10vw' }}
+                      ItemList={AssociatedStandardsEV}
+                      onChange={clickStandardDropdown}
+                      defaultValue={selectStandard}
+                      label={'Standard'}
+                      size={'small'}
+                    />
                   </Box>
                 </Stack>
               </Grid>
-              <Box>
+              {/* <Box>
                 <Dropdown
                   size={"small"}
                   variant={"outlined"}
@@ -207,8 +217,18 @@ const EventOverview = (props: Props) => {
                   label={'Month(s)'}
                   width={'100px'}
                 />
-              </Box>
+              </Box> */}
               <Box>
+                <SearchableDropdown
+                  sx={{ minWidth: '10vw' }}
+                  ItemList={UsGetAllMonthsDropDown}
+                  onChange={clicMonthDropdown}
+                  defaultValue={selectMonth}
+                  label={'Month(s)'}
+                  size={'small'}
+                />
+              </Box>
+              {/* <Box>
                 <Dropdown
                   size={"small"}
                   variant={"outlined"}
@@ -217,6 +237,16 @@ const EventOverview = (props: Props) => {
                   defaultValue={selectYear}
                   label={'Academic Year'}
                   width={'140px'}
+                />
+              </Box> */}
+              <Box>
+                <SearchableDropdown
+                  sx={{ minWidth: '12vw' }}
+                  ItemList={AllAcademicYearsForSchool}
+                  onChange={clicYearDropdown}
+                  defaultValue={selectYear}
+                  label={'Academic Year'}
+                  size={'small'}
                 />
               </Box>
               <Box>
