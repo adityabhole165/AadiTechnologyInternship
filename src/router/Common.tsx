@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { ProtectedRoute } from './RouteProtection';
 
 const Loader = (Component) => (props) =>
 (
@@ -144,36 +145,36 @@ const commonRoutes = [
   // },
   {
     path: 'EventOverview',
-    element: <EventOverview />
+    element: <ProtectedRoute component={EventOverview} /> // <EventOverview />
   },
   {
     path: 'AnnualPlanner',
-    element: <AnnualPlanner />
+    element: <ProtectedRoute component={AnnualPlanner} />  // <AnnualPlanner />
   },
   {
     path: 'AnnualPlanner/:selectedDate/:standardId/:divisionId',
-    element: <AnnualPlanner />
+    element: <ProtectedRoute component={AnnualPlanner} /> // <AnnualPlanner />
   },
   {
     path: 'EventOverview/UpcomingEvent',
-    element: <UpcomingEvent />
+    element: <ProtectedRoute component={UpcomingEvent} /> // <UpcomingEvent />
   },
 
   {
     path: 'EventOverview/:DateFrommon/:DateFromyear/:Pholiday/:Pevent/:Pexam',
-    element: <UpcomingEvent />
+    element: <ProtectedRoute component={UpcomingEvent} /> // <UpcomingEvent />
   },
   {
     path: 'viewevent/:Id/:AssigMonth/:AssigYear',
-    element: <ViewEvent />
+    element: <ProtectedRoute component={ViewEvent} /> // <ViewEvent />
   },
   {
     path: 'viewevent/:Id/:DateFrommon/:DateFromyear/:holiday/:event/:exam',
-    element: <ViewEvent />
+    element: <ProtectedRoute component={ViewEvent} /> // <ViewEvent />
   },
   {
     path: 'viewevent/:Id',
-    element: <ViewEvent />
+    element: <ProtectedRoute component={ViewEvent} /> // <ViewEvent />
   },
   {
     path: 'StaffBirthday',
@@ -188,7 +189,7 @@ const commonRoutes = [
 
   {
     path: 'EventManagementForm/:SelectedDate/:StandardId/:DivisionId',
-    element: <EventManagement />
+    element: <ProtectedRoute component={EventManagement} /> //  <EventManagement />
   },
   {
     path: 'Support',
