@@ -116,7 +116,7 @@ const AnnualPlannerHeader = () => {
         if (value == 'AddAnnualPlanner') {
             if (AnnualPlannerAccess == "N") {
                 if (FileName !== '') {
-             window.open(localStorage.getItem('SiteURL') + FolderName +'/' +FileName)
+             window.open(localStorage.getItem('SiteURL') + '/' +FileName)
 
                 }
 
