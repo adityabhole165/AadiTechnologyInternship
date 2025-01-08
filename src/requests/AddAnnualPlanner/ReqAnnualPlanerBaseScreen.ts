@@ -412,7 +412,7 @@ export const CDAAllAcademicYearsForSchool =
         return {
           Id: item.Academic_Year_ID,
           Name: item.YearValue,
-          Value: item.YearValue.split('-')[0]
+          Value: item.Academic_Year_ID
         };
       });
 

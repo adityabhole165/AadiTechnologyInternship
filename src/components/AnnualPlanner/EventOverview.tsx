@@ -93,9 +93,9 @@ const EventOverview = (props: Props) => {
 
   const GetAllEventsBody: IGetAllEventsBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId),
+    asAcademicYearId: Number(selectYear),
     asMonthId: selectMonth,
-    asStandardId: selectStandard
+    asStandardId: selectStandard ? selectStandard: 0
   };
   useEffect(() => {
     if (UsGetAllMonthsDropDown.length > 0) {
