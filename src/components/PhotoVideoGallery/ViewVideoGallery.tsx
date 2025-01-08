@@ -25,7 +25,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { ClearIcon } from '@mui/x-date-pickers';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 
@@ -42,6 +44,15 @@ const ViewVideoGallery = () => {
     { id: 2, url: 'https://www.youtube.com/embed/6fc2ahfyYQ0', title: 'Saaasa' },
 
   ]);
+
+  let {
+    Video_Id,
+  } = useParams();
+
+  useEffect(() => {
+    console.log(Video_Id, "1234567")
+    Video_Id = decodeURL(Video_Id);
+  }, [Video_Id])
 
   const [formData, setFormData] = useState<Pick<Video, 'url' | 'title'>>({
     url: '',

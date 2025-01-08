@@ -973,7 +973,12 @@ const teacherRoutes = [
   {
     path: 'ViewVideoGallery',
     element: <ProtectedRoute component={ViewVideoGallery} /> // <ViewVideoGallery />
-  }, {
+  },
+  {
+    path: 'ViewVideoGallery/:Video_Id',
+    element: <ProtectedRoute component={ViewVideoGallery} /> // <ViewVideoGallery />
+  },
+  {
     path: 'BlockProgressReportBaseScreen',
     element: <ProtectedRoute component={BlockProgressReportBaseScreen} /> // <BlockProgressReportBaseScreen />
   },
