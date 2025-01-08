@@ -627,12 +627,12 @@ const TAttendance = () => {
     }
   }, [saveResponseMessage]);
 
-  useEffect(() => {
-    //console.log(ListAbsentStudents, 'ListAbsentStudents');
-    if (ListAbsentStudents.length > 0) {
-      setOpen(true);
-    }
-  }, [ListAbsentStudents]);
+  // useEffect(() => {
+  //   //console.log(ListAbsentStudents, 'ListAbsentStudents');
+  //   if (ListAbsentStudents.length > 0) {
+  //     setOpen(false);
+  //   }
+  // }, [ListAbsentStudents]);
   const ClickOpenDialogbox = () => {
     setOpen(true);
   };
