@@ -1,4 +1,6 @@
-import { Box, Dialog, DialogContent, DialogTitle, Grid, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { Box, Dialog, DialogContent, DialogTitle, Grid, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import grey from '@mui/material/colors/grey';
 import { ClearIcon } from '@mui/x-date-pickers';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -80,6 +82,23 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
 
                 }}
             >
+                <Tooltip
+                    title={'Displays absent student details.'}
+                    placement="bottom-end"
+                >
+                    <QuestionMark
+                        sx={{
+                            color: 'white',
+                            // background:'white',
+                            borderRadius: '10px',
+                            position: 'absolute',
+                            top: '4px',
+                            right: '35px',
+                            cursor: 'pointer',
+                            '&:hover': { backgroundColor: grey[600] }
+                        }}
+                    />
+                </Tooltip>
                 <ClearIcon onClick={handleClose}
                     sx={{
                         color: 'white',
@@ -122,7 +141,7 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
                         padding: '10px 18px',
                         boxShadow: 'none',
                         fontSize: '14px',
-                        mt:1
+                        mt: 1
                     }}
                 >
                     Student(s) is absent for {UsschoolSettings} or more working days.
