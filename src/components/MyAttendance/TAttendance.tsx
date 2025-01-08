@@ -89,8 +89,8 @@ const TAttendance = () => {
   // console.log("AssignedDate", AssignedDate)
   // console.log("StandardId", StandardId)
   let { SelectClasstecahernew, AssignedDate } = useParams();
- 
-  
+
+
   useEffect(() => {
     if (SelectClasstecahernew && AssignedDate) {
       SelectClasstecahernew = SelectClasstecahernew;
@@ -358,7 +358,7 @@ const TAttendance = () => {
     // }
 
 
-  
+
     getCurrentDates(new Date());
     if (AssignedDate != undefined || SelectClasstecahernew != undefined) {
       setselectClasstecahernew(selectClasstecahernew);
@@ -810,7 +810,7 @@ const TAttendance = () => {
               display="flex"
               justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
             >
-              <Tooltip title="Mark attendance of each student from your class for the selected date.">
+              <Tooltip title='Mark attendance of each student from your class for the select date .Click on "Delete" button to delete attendance of selected date.Delete facility will be available only if user have "Edit" facility.'>
                 <span>
                   <IconButton
                     sx={{
