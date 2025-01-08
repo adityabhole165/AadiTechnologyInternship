@@ -396,6 +396,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Extra Screens',
+      title: getPageName(77),
+      icon: <EventNoteOutlinedIcon />,
+      link: '/RITeSchool/Teacher/TAttendance',
+      screenId: 77
+    },
+    {
+      id: 'Extra Screens',
       title: 'Performance Grade Assignment',
       icon: <AddchartIcon />,
       link: '/RITeSchool/Teacher/PerformanceGradeAssignmentBaseScreen',
@@ -577,6 +584,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <AssuredWorkloadTwoToneIcon />,
       link: '/RITeSchool/Teacher/InvestmentDeclaration',
       screenId: 240
+    },
+    {
+      id: 'Extra Screens',
+      title: getPageName(77),
+      icon: <EventNoteOutlinedIcon />,
+      link: '/RITeSchool/Teacher/TAttendance',
+      screenId: 77
     },
     {
       id: 'Extra Screens',
