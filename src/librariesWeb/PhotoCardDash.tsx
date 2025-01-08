@@ -242,7 +242,7 @@ function PhotoCardDash() {
               largeImage={false}
               isSlideshowRunning={undefined} />
           ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', mt: 15 }}>
               <b>No record found.</b>
             </Typography>
           )}
@@ -313,7 +313,7 @@ function PhotoCardDash() {
       
     </Box>
     <Grid item xs={12} textAlign={'center'}  >
-        <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
+        <Typography variant="h4" sx={{ textAlign: 'center', mt: 15 }}> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
       </Grid>
     </Box>
   );
