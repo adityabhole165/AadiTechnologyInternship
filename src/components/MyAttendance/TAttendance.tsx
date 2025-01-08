@@ -713,7 +713,9 @@ const TAttendance = () => {
             <Grid
               item
               xs={12}
-              sm={6}
+              sm={12}
+              md={12}
+              lg={12}
               gap={1}
               display="flex"
               justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
@@ -790,7 +792,7 @@ const TAttendance = () => {
                 label={''}
                 sx={{
                   mb: { xs: '10px', sm: '0px' },
-                  minWidth: { xs: '40vh', sm: '18vw' }
+                  minWidth: { xs: '35vh', sm: '17vw' }
                 }}
                 ItemList={ClassTeacherDropdownnew}
                 onChange={clickClassTechernew}
@@ -872,9 +874,9 @@ const TAttendance = () => {
                     <IconButton
                       onClick={ClickOpenDialogbox}
                       sx={{
-                        backgroundColor: red[500],
+                        backgroundColor: blue[500],
                         color: 'white',
-                        '&:hover': { backgroundColor: red[600] }
+                        '&:hover': { backgroundColor: blue[600] }
                       }}
                     >
                       <PersonOff />
