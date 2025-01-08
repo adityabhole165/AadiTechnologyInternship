@@ -1,5 +1,5 @@
 import { QuestionMark } from '@mui/icons-material';
-import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -99,29 +99,55 @@ const ViewExamSchedule = () => {
                 ]}
                 rightActions={
                     <>
-                        <Box sx={{ width: '130px', mr: 2, marginRight: '5px' }}> {/* Adjusted margin-right */}
-                            <Dropdown
-                                Array={getstandard}
-                                handleChange={stdChange}
-                                label={'Select Standard'}
-                                size={'small'}
-                                variant="outlined"
-                                defaultValue={std}
-                            />
-                        </Box>
-                        <Tooltip title={'Examination schedule for your class.'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: grey[600]
-                                    }
-                                }}
+                        <Stack
+                            direction="row"
+                            gap={1}
+                            alignItems="right"
+                            sx={{
+                                flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                                justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+                            }}
+                        >
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
                             >
-                                <QuestionMark />
-                            </IconButton>
-                        </Tooltip>
+                                <Box sx={{ width: '200px' }}> {/* Adjusted margin-right */}
+                                    <Dropdown
+                                        Array={getstandard}
+                                        handleChange={stdChange}
+                                        label={'Select Standard'}
+                                        size={'small'}
+                                        variant="outlined"
+                                        defaultValue={std}
+                                    />
+                                </Box>
+                            </Grid>
+
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                <Tooltip title={'Examination schedule for your class.'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            '&:hover': {
+                                                backgroundColor: grey[600]
+                                            }
+                                        }}
+                                    >
+                                        <QuestionMark />
+                                    </IconButton>
+                                </Tooltip>
+                            </Grid>
+                        </Stack>
                     </>
                 }
             />
