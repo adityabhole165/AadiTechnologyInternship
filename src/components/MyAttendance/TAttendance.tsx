@@ -89,6 +89,8 @@ const TAttendance = () => {
   // console.log("AssignedDate", AssignedDate)
   // console.log("StandardId", StandardId)
   let { SelectClasstecahernew, AssignedDate } = useParams();
+ 
+  
   useEffect(() => {
     if (SelectClasstecahernew && AssignedDate) {
       SelectClasstecahernew = SelectClasstecahernew;
@@ -355,6 +357,8 @@ const TAttendance = () => {
     //   setOnlySelectedClass('');
     // }
 
+
+  
     getCurrentDates(new Date());
     if (AssignedDate != undefined || SelectClasstecahernew != undefined) {
       setselectClasstecahernew(selectClasstecahernew);
@@ -376,7 +380,7 @@ const TAttendance = () => {
     showAlert({
       title: 'Please Confirm',
       message:
-        'Are you sure you want to delete attendance of date  : ' + assignedDate,
+        'Are you sure you want to delete attendance of date  : ' + getDateFormatted(assignedDate),
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
