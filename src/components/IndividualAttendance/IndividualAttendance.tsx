@@ -419,7 +419,7 @@ const IndividualAttendance = () => {
                   }}
                 >
                   <SearchableDropdown
-                    sx={{ minWidth: '350px' }}
+                    sx={{ minWidth: {xs:'200px', sm: '250px' , md: '250px', lg: '350px', xl: '350px' } }}
                     ItemList={StudentList}
                     onChange={clickStudent}
                     defaultValue={StudentId}

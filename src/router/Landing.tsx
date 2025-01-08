@@ -10,7 +10,7 @@ const Loader = (Component) => (props) =>
 );
 
 // Dashboards
-const Landing = Loader(lazy(() => import('src/components/Dashboard/index')));
+const Landing = Loader(lazy(() => import('src/componentsWeb/DashBoard/DashBoard')));
 const NavMenuPage = Loader(
   lazy(() => import('src/components/NavMenuPages/NavMenuPage'))
 );
