@@ -49,11 +49,11 @@ const SmsCenterSlice = createSlice({
       state.DeleteScheduleSMSIS = action.payload;
     },
 
-     ResetDelete(state,) {
+    ResetDelete(state,) {
       state.DeleteScheduleSMSIS = '';
     },
 
-     
+
     getLoading(state, action) {
       state.Loading = true;
       state.SmsList = [];
@@ -101,46 +101,46 @@ export const getSmsCount =
 
 
 
-    export const CDAGetScheduleSMS =
-    (data: IGetScheduleSMSBody): AppThunk =>
-      async (dispatch) => {
-        dispatch(SmsCenterSlice.actions.getLoading(true));
-        const response = await SmsCenterApi.GetScheduleSMS(data);
-        let SentItems = response.data.map((item, i) => {
-          return {
-            RowID: item.RowID,
-            TotalRows: item.TotalRows,
-            Read_Message_Flag: item.Read_Message_Flag,
-            UserName: item.UserName,
-            Subject: item.Subject,
-            Insert_Date: item.Insert_Date, 
-            Id: item.SMS_Id,
-            SMS_Receiver_Details_Id: item.SMS_Receiver_Details_Id,
-            SenderName: item.SenderName,
-            SMSShootId: item.SMSShootId,
-            IsActive: false,
+export const CDAGetScheduleSMS =
+  (data: IGetScheduleSMSBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SmsCenterSlice.actions.getLoading(true));
+      const response = await SmsCenterApi.GetScheduleSMS(data);
+      let SentItems = response.data.map((item, i) => {
+        return {
+          RowID: item.RowID,
+          TotalRows: item.TotalRows,
+          Read_Message_Flag: item.Read_Message_Flag,
+          UserName: item.UserName,
+          Subject: item.Subject,
+          Insert_Date: getDateFormattedNew(item.Insert_Date),
+          Id: item.SMS_Id,
+          SMS_Receiver_Details_Id: item.SMS_Receiver_Details_Id,
+          SenderName: item.SenderName,
+          SMSShootId: item.SMSShootId,
+          IsActive: false,
 
 
-          };
-        });
-       
-        dispatch(SmsCenterSlice.actions.RGetScheduleSMSBody(SentItems));
-      };
-
-      export const CDADeleteScheduleSMS =
-      (data: DeleteScheduleSMSBody): AppThunk =>
-        async (dispatch) => {
-          dispatch(SmsCenterSlice.actions.getLoading(true));
-          const response = await SmsCenterApi.DeleteScheduleSMS(data);
-          //console.log(response.data, 'Data')
-          dispatch(SmsCenterSlice.actions.RDeleteScheduleSMS(response.data));
         };
+      });
 
-        export const CDAResetDeleteScheduleSMS =
-          (): AppThunk =>
-            async (dispatch) => {
-              dispatch(SmsCenterSlice.actions.ResetDelete());
-            }
-      
+      dispatch(SmsCenterSlice.actions.RGetScheduleSMSBody(SentItems));
+    };
+
+export const CDADeleteScheduleSMS =
+  (data: DeleteScheduleSMSBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SmsCenterSlice.actions.getLoading(true));
+      const response = await SmsCenterApi.DeleteScheduleSMS(data);
+      //console.log(response.data, 'Data')
+      dispatch(SmsCenterSlice.actions.RDeleteScheduleSMS(response.data));
+    };
+
+export const CDAResetDeleteScheduleSMS =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SmsCenterSlice.actions.ResetDelete());
+    }
+
 
 export default SmsCenterSlice.reducer;

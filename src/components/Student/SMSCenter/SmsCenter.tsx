@@ -1084,7 +1084,7 @@ function SmsCenter() {
 
 
                       <Box>
-                        <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
+                        <Tooltip title={' Displays recived sms/ send sms/ scheduled sms/all send sms list.'}>
                           <IconButton
                             sx={{
                               color: 'white',
@@ -1214,7 +1214,7 @@ function SmsCenter() {
 
 
                 <Box>
-                  <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
+                  <Tooltip title={' Displays recived sms/ send sms/ scheduled sms/all send sms list.'}>
                     <IconButton
                       sx={{
                         color: 'white',
@@ -1279,7 +1279,7 @@ function SmsCenter() {
 
 
                 <Box>
-                  <Tooltip title={' Displays Sent SMS List. Click on "New SMS" to create and send.'}>
+                  <Tooltip title={' Displays recived sms/ send sms/ scheduled sms/all send sms list.'}>
                     <IconButton
                       sx={{
                         color: 'white',
