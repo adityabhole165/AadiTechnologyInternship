@@ -47,7 +47,7 @@ function CardCal1({
           justifyContent: 'center',
           flexDirection: 'column',
           cursor: 'pointer',
-          // color: item.Value == DefaultValue ? 'yellow' : item.BackgroundColor,
+          //  color: item.Value == DefaultValue ? 'yellow' : item.BackgroundColor,
           backgroundColor:
             item.Value === assignedDate
               ? (theme) => alpha(theme.palette.primary.main, 0.2)
@@ -58,7 +58,7 @@ function CardCal1({
       >
         <Typography>{item.Name}</Typography>
         <b>
-          <Box dangerouslySetInnerHTML={{ __html: item.Text1 }}></Box>
+          <Box dangerouslySetInnerHTML={{ __html: item.Text1 }} sx={{ fontSize: { xs: '9px', sm: '14px', md: '16px' } }}></Box>
         </b>
       </Box>
     </div>

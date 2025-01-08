@@ -340,7 +340,10 @@ function CardCalender1({
                 key={i}
                 sx={{
                   textAlign: 'center',
-                  border: (theme) => `1px solid ${theme.palette.divider}`
+                  border: (theme) => `1px solid ${theme.palette.divider}`,
+                  '&:active': {
+                    backgroundColor: 'rgba(128, 128, 128, 0.2)'
+                  }
                 }}
               >
                 <CardCal1
