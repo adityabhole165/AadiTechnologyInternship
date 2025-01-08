@@ -28,9 +28,9 @@ const AddHomeworkSlice = createSlice({
     ISSubmitMarksRest: '',
     FilePath: '',
     SubjectListTeacher: [],
-    AllPublishUnpublishHomework:'',
+    AllPublishUnpublishHomework: '',
     GetAllHomeworkDocuments: [],
-   
+
   },
   reducers: {
     RHomeworklist(state, action) {
@@ -57,7 +57,7 @@ const AddHomeworkSlice = createSlice({
     resetMessage(state) {
       state.ISSubmitMarksRest = '';
     },
-    
+
     resetgethomeworkdetail(state) {
       state.GetHomeworkDetail = null;
     },
@@ -180,8 +180,8 @@ export const GetTeacherSubjectList = (data: IGetSubjectListForTeacherBody): AppT
     Text10: ++serialNumber,
     Text1: item.Subject,
     Text2: item.Title,
-    Text3: getDateMonthYearFormatted(item.AssignedDate),
-    Text4: getDateMonthYearFormatted(item.CompleteByDate),
+    Text3: item.AssignedDate,
+    Text4: item.CompleteByDate,
     // Text5: item.AttachmentPath,
     Text6: item.CompleteByDate,
     Text7: item.IsPublished,
@@ -227,7 +227,7 @@ export const PublishresetMessageNewAll = (): AppThunk => async (dispatch) => {
 export const CDAresetgethomeworkdetail = (): AppThunk => async (dispatch) => {
   dispatch(AddHomeworkSlice.actions.resetgethomeworkdetail());
 };
- 
+
 
 
 export default AddHomeworkSlice.reducer;
