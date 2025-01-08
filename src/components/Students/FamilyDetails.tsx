@@ -827,7 +827,13 @@ const FamilyDetails = ({ family, onChange, invalidFields, unacceptableFields }) 
               // helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "motherDOB") ? "Mother's Date of Birth should not be blank." : ''}
               // maxDate={new Date()}
               />
-              <ErrorMessage1 Error={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "motherDOB") ? "Mother's Date of Birth should not be blank." : ''}
+              <ErrorMessage1 Error={
+                parseInt(schoolId, 10) === 18 && invalidFields.find(field => field.field === "motherDOB")
+                  ? "Mother's Date of Birth should not be blank."
+                  : unacceptableFields.find(field => field.field === "motherDOB")
+                    ? "Mother's DOB should be less than student's DOB."
+                    : ''
+              }
               ></ErrorMessage1>
             </Grid>
 
@@ -973,7 +979,15 @@ const FamilyDetails = ({ family, onChange, invalidFields, unacceptableFields }) 
                 // helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}
                 maxDate={new Date()}
               />
-              <ErrorMessage1 Error={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}></ErrorMessage1>
+              <ErrorMessage1 Error={parseInt(schoolId, 10) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate")
+                ? "Marriage Anniversary Date should not be blank."
+                : unacceptableFields.find(field => field.field === "marriageAnniversaryDate" && field.code === "F")
+                  ? "Marriage Anniversary Date should be greater than Father's DOB."
+                  : unacceptableFields.find(field => field.field === "marriageAnniversaryDate" && field.code === "M")
+                    ? "Marriage Anniversary Date should be greater than Mother's DOB."
+                    : unacceptableFields.find(field => field.field === "marriageAnniversaryDate" && field.code === "S")
+                      ? "Marriage Anniversary Date should be less than Student's DOB."
+                      : ''}></ErrorMessage1>
             </Grid>
 
             {/* localGuardianPhoto */}

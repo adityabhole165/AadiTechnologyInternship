@@ -498,17 +498,17 @@ const StudentRegistrationForm = () => {
       }
 
       // Validate marriageAnniversaryDate < fatherDOB and motherDOB
-      // if (marriageDate) {
-      //   if (fatherDOB && marriageDate <= fatherDOB) {
-      //     specificFieldValidations.push({ tab: 'family', field: 'marriageAnniversaryDate' });
-      //   }
-      //   if (motherDOB && marriageDate <= motherDOB) {
-      //     specificFieldValidations.push({ tab: 'family', field: 'marriageAnniversaryDate' });
-      //   }
-      //   if (marriageDate && studentDOB <= marriageDate) {
-      //     specificFieldValidations.push({ tab: 'family', field: 'marriageAnniversaryDate' });
-      //   }
-      // }
+      if (marriageDate) {
+        if (fatherDOB && marriageDate <= fatherDOB) {
+          specificFieldValidations.push({ tab: 'family', field: 'marriageAnniversaryDate', code: 'F' });
+        }
+        if (motherDOB && marriageDate <= motherDOB) {
+          specificFieldValidations.push({ tab: 'family', field: 'marriageAnniversaryDate', code: 'M' });
+        }
+        if (marriageDate && marriageDate >= studentDOB) {
+          specificFieldValidations.push({ tab: 'family', field: 'marriageAnniversaryDate', code: 'S' });
+        }
+      }
     }
 
     return specificFieldValidations;
@@ -1299,10 +1299,10 @@ const StudentRegistrationForm = () => {
     // Get required field validations
     const { invalidFields } = validateFieldsAndCalculateProgress(schoolId, form);
 
-    if (invalidFields.length > 0) {          //|| specificFieldValidations.length > 0
+    if (invalidFields.length > 0 || specificFieldValidations.length > 0) {          //|| specificFieldValidations.length > 0
       //console.log('Validation errors found:', invalidFields);
       // Switch to the tab with the first invalid field
-      const firstInvalidFieldTab = invalidFields[0];   //|| specificFieldValidations[0]
+      const firstInvalidFieldTab = invalidFields[0] || specificFieldValidations[0];   //|| specificFieldValidations[0]
 
       setCurrentTab(() => {
         const tabIndexMapping = {

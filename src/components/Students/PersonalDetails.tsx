@@ -846,10 +846,9 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   variant="outlined"
                   value={personal.email}
                   onChange={handleInputChange}
-                  error={!!unacceptableFields.find(field => field.field === "email")}
-                  helperText={unacceptableFields.find(field => field.field === "email") ? 'Please select a valid email address.' : ''}
                   fullWidth
                 />
+                <ErrorMessage1 Error={unacceptableFields.find(field => field.field === "email") ? 'Please select a valid email address.' : ''}></ErrorMessage1>
               </Grid>
             )}
 
@@ -1359,9 +1358,9 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
                   const input = e.target as HTMLInputElement;
                   input.value = input.value.replace(/\D/g, '').slice(0, 12);
                 }}
-                error={!!unacceptableFields.find(field => field.field === "aadharCardNumber")}
-                helperText={unacceptableFields.find(field => field.field === "aadharCardNumber") ? 'Aadhar Card Number should have 12 digits.' : ''}
               />
+              <ErrorMessage1 Error={unacceptableFields.find(field => field.field === "aadharCardNumber") ? 'Aadhar Card Number should have 12 digits.' : ''}></ErrorMessage1>
+
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               {/* TextField for capturing name as it appears on Aadhar Card */}
