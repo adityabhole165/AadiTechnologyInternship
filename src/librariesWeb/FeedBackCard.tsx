@@ -154,7 +154,7 @@ function FeedBackCard() {
           <>
             {Feedback.length == 0 ? (
               <Grid item xs={12}>
-                <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
+                <Typography variant="body1" sx={{ textAlign: 'center', mt: 15 }}>
                   <b>No records found.</b>
                 </Typography>
               </Grid>

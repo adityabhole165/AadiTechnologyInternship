@@ -258,7 +258,7 @@ function UpcomingEvent() {
 
         {filteredEvents.length === 0 && (
           <Grid item xs={12}>
-            <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', mt: 10 }}>
               <b>No record found for the selected type.</b>
             </Typography>
           </Grid>
