@@ -5,7 +5,7 @@ import Close from '@mui/icons-material/Close';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SaveIcon from '@mui/icons-material/Save';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useContext, useEffect, useState } from 'react';
@@ -521,135 +521,173 @@ const StandardwiseExamSchedule = () => {
                 ]}
                 rightActions={
                     <>
-                        <TextField
-                            variant="outlined"
-                            label='Standard'
-                            size='small'
-                            value={getClassName() || ''}
-                            InputProps={{
-                                readOnly: true,
-                                sx: {
-                                    backgroundColor: '#F0F0F0',
-                                },
+                        <Stack
+                            direction="row"
+                            gap={1}
+                            alignItems="right"
+                            sx={{
+                                flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                                justifyContent: { xs: 'flex-start', sm: 'flex-start' },
+                                width: '100%'
                             }}
-                            sx={{ width: 150 }}
-                        />
-                        <Tooltip title={getTestName()}>
-                            <TextField
-                                variant="outlined"
-                                label='Exam Name'
-                                size='small'
-                                value={getTestName() || ''}
-                                InputProps={{
-                                    readOnly: true,
-                                    sx: {
-                                        backgroundColor: '#F0F0F0',
-                                    },
-                                }}
-                                sx={{ width: 250 }}
-                            />
-                        </Tooltip>
-                        <Tooltip title={'Define the exam timetable for each subject with multiple exam type, exam date, start time and end time. Specific information like syllabus can be given to students using the description field and user can copy exam schedule from one standard to other standards.'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: grey[600]
-                                    }
-                                }}
-                            >
-                                <QuestionMark />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Save">
-                            <span>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor:
-                                            (!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
-                                                ? green[500]
-                                                : 'gray',
-                                        '&:hover': {
-                                            backgroundColor:
-                                                (!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
-                                                    ? green[600]
-                                                    : 'gray',
-                                        },
-                                    }}
-                                    onClick={onClickSave}
-                                    disabled={
-                                        !(!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
-                                    }
-                                >
-                                    <SaveIcon />
-                                </IconButton>
-                            </span>
-                        </Tooltip>
-                        <Tooltip title={getIsSubmitedd.length > 0 && getIsSubmitedd[0]?.IsSubmitedd === "True" ? "Unsubmit" : "Submit"}>
-                            <span>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
-                                            ? red[500] // For Unsubmit action
-                                            : green[500], // For Submit action
-                                        '&:hover': {
-                                            backgroundColor: getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
-                                                ? red[600]
-                                                : green[600],
-                                        },
-                                    }}
-                                    onClick={getIsSubmitedd.length > 0 && getIsSubmitedd[0]?.IsSubmitedd === "True" ? handleUnsubmit : onClickSubmit} // Submit or Unsubmit based on status
-                                    disabled={!submitButtonEnabled} // Disable if no data
-                                >
-                                    {getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? (
-                                        <Close /> // Unsubmit Icon
-                                    ) : (
-                                        <CheckRoundedIcon /> // Submit Icon
-                                    )}
-                                </IconButton>
-                            </span>
-                        </Tooltip>
-                        {(IsConfigured1 === 'true') && (
-                            <>
-                                <Tooltip title="Copy Schedule">
-                                    <span>
-                                        <IconButton
-                                            sx={{
-                                                color: 'white',
-                                                backgroundColor: blue[500],
-                                                '&:hover': {
-                                                    backgroundColor: blue[600]
-                                                }
-                                            }}
-                                            onClick={() => handleOpenDialog(true)}
-                                        >
-                                            <ContentCopyIcon />
-                                        </IconButton>
-                                    </span>
-                                </Tooltip>
+                        >
 
-                                <Tooltip title="Add Instructions">
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                <TextField
+                                    variant="outlined"
+                                    label='Standard'
+                                    size='small'
+                                    value={getClassName() || ''}
+                                    InputProps={{
+                                        readOnly: true,
+                                        sx: {
+                                            backgroundColor: '#F0F0F0',
+                                        },
+                                    }}
+                                    sx={{ width: 150, maxWidth: 150 }}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                <Tooltip title={getTestName()}>
+                                    <TextField
+                                        variant="outlined"
+                                        label='Exam Name'
+                                        size='small'
+                                        value={getTestName() || ''}
+                                        InputProps={{
+                                            readOnly: true,
+                                            sx: {
+                                                backgroundColor: '#F0F0F0',
+                                            },
+                                        }}
+                                        sx={{ width: 250, maxWidth: 150 }}
+                                    />
+
+                                </Tooltip>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                gap={1}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                            >
+                                <Tooltip title={'Define the exam timetable for each subject with multiple exam type, exam date, start time and end time. Specific information like syllabus can be given to students using the description field and user can copy exam schedule from one standard to other standards.'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            '&:hover': {
+                                                backgroundColor: grey[600]
+                                            }
+                                        }}
+                                    >
+                                        <QuestionMark />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Save">
                                     <span>
                                         <IconButton
                                             sx={{
                                                 color: 'white',
-                                                backgroundColor: blue[500],
+                                                backgroundColor:
+                                                    (!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
+                                                        ? green[500]
+                                                        : 'gray',
                                                 '&:hover': {
-                                                    backgroundColor: blue[600]
-                                                }
+                                                    backgroundColor:
+                                                        (!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
+                                                            ? green[600]
+                                                            : 'gray',
+                                                },
                                             }}
-                                            onClick={() => handleOpenDialog1(true)}
-                                            disabled={Instructionss.length > 0 && Instructionss[0]?.Instructionss !== ""}
+                                            onClick={onClickSave}
+                                            disabled={
+                                                !(!getIsSubmitedd || getIsSubmitedd.length === 0 || getIsSubmitedd[0]?.IsSubmitedd === "False")
+                                            }
                                         >
-                                            <AddBoxRoundedIcon />
+                                            <SaveIcon />
                                         </IconButton>
                                     </span>
                                 </Tooltip>
-                            </>
-                        )}
+                                <Tooltip title={getIsSubmitedd.length > 0 && getIsSubmitedd[0]?.IsSubmitedd === "True" ? "Unsubmit" : "Submit"}>
+                                    <span>
+                                        <IconButton
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
+                                                    ? red[500] // For Unsubmit action
+                                                    : green[500], // For Submit action
+                                                '&:hover': {
+                                                    backgroundColor: getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True"
+                                                        ? red[600]
+                                                        : green[600],
+                                                },
+                                            }}
+                                            onClick={getIsSubmitedd.length > 0 && getIsSubmitedd[0]?.IsSubmitedd === "True" ? handleUnsubmit : onClickSubmit} // Submit or Unsubmit based on status
+                                            disabled={!submitButtonEnabled} // Disable if no data
+                                        >
+                                            {getIsSubmitedd && getIsSubmitedd[0]?.IsSubmitedd === "True" ? (
+                                                <Close /> // Unsubmit Icon
+                                            ) : (
+                                                <CheckRoundedIcon /> // Submit Icon
+                                            )}
+                                        </IconButton>
+                                    </span>
+                                </Tooltip>
+                                {(IsConfigured1 === 'true') && (
+                                    <>
+                                        <Tooltip title="Copy Schedule">
+                                            <span>
+                                                <IconButton
+                                                    sx={{
+                                                        color: 'white',
+                                                        backgroundColor: blue[500],
+                                                        '&:hover': {
+                                                            backgroundColor: blue[600]
+                                                        }
+                                                    }}
+                                                    onClick={() => handleOpenDialog(true)}
+                                                >
+                                                    <ContentCopyIcon />
+                                                </IconButton>
+                                            </span>
+                                        </Tooltip>
+
+                                        <Tooltip title="Add Instructions">
+                                            <span>
+                                                <IconButton
+                                                    sx={{
+                                                        color: 'white',
+                                                        backgroundColor: blue[500],
+                                                        '&:hover': {
+                                                            backgroundColor: blue[600]
+                                                        }
+                                                    }}
+                                                    onClick={() => handleOpenDialog1(true)}
+                                                    disabled={Instructionss.length > 0 && Instructionss[0]?.Instructionss !== ""}
+                                                >
+                                                    <AddBoxRoundedIcon />
+                                                </IconButton>
+                                            </span>
+                                        </Tooltip>
+                                    </>
+                                )}
+                            </Grid>
+
+                        </Stack>
 
                     </>
                 }
