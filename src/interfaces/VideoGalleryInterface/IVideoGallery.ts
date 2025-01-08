@@ -37,9 +37,9 @@ export interface ICountVideoResponse {
 }
 
 export interface IGetViewVideoListBody {
-    asSchoolId: string,
-    asVideoId: string,
-    asSubjectId: string,
+    asSchoolId: number,
+    asVideoId: number,
+    asSubjectId: number,
 
 }
 export interface IGetViewVideoListResponse {

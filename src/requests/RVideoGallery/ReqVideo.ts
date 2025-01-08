@@ -67,6 +67,7 @@ export const CDAVideoDetails =
                     TotalRows: row.TotalRows,
                     Video_Id: row.Video_Id,
                     videoName: row.Video_Name,
+                    URLSource: row.URLSource,
                     lastUpdated: (row.Update_Date)
                 }
             });
@@ -106,10 +107,10 @@ export const getViewVideoDetails = (data: IGetViewVideoListBody): AppThunk => as
 
     const responseData = response.data.map((Item, i) => {
         return {
-            Video_Id: Item.VideoId,
+            id: Item.VideoId,
             VideoName: Item.VideoName,
-            URL: Item.URL,
-            Description: Item.Description,
+            url: Item.URL,
+            title: Item.Description,
             VideoDetailsId: Item.VideoDetailsId
         };
     });

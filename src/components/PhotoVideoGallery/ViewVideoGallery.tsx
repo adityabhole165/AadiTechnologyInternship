@@ -26,7 +26,11 @@ import SaveAsIcon from '@mui/icons-material/SaveAs';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { ClearIcon } from '@mui/x-date-pickers';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { IGetViewVideoListBody } from 'src/interfaces/VideoGalleryInterface/IVideoGallery';
+import { getViewVideoDetails } from 'src/requests/RVideoGallery/ReqVideo';
+import { RootState } from 'src/store';
 import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -47,13 +51,17 @@ const ViewVideoGallery = () => {
 
   let {
     Video_Id,
+    videoName,
+    URLSource
   } = useParams();
 
-  useEffect(() => {
-    console.log(Video_Id, "1234567")
-    Video_Id = decodeURL(Video_Id);
-  }, [Video_Id])
 
+  console.log(decodeURL(Video_Id), decodeURL(videoName), decodeURL(URLSource), "1234567")
+  Video_Id = decodeURL(Video_Id);
+  videoName = decodeURL(videoName);
+  URLSource = decodeURL(URLSource);
+
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState<Pick<Video, 'url' | 'title'>>({
     url: '',
     title: '',
@@ -62,8 +70,22 @@ const ViewVideoGallery = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [dialogVideo, setDialogVideo] = useState<string>('');
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
 
-  // Handle input change
+  const ViewVideoDetails = useSelector(
+    (state: RootState) => state.VideoNew.ISGetViewVideoDetails
+  );
+
+  const ViewVideoListBody: IGetViewVideoListBody = {
+    asSchoolId: Number(asSchoolId),
+    asVideoId: Number(Video_Id),
+    asSubjectId: 0
+  };
+
+  useEffect(() => {
+    dispatch(getViewVideoDetails(ViewVideoListBody));
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -197,7 +219,7 @@ const ViewVideoGallery = () => {
             <TextField
               fullWidth
               label="Gallery Name"
-              value="Video Test111"
+              value={URLSource}
               InputProps={{ readOnly: true }}
             />
           </Grid>
@@ -205,7 +227,7 @@ const ViewVideoGallery = () => {
             <TextField
               fullWidth
               label="URL Source"
-              value="YouTube"
+              value={videoName}
               InputProps={{ readOnly: true }}
             />
           </Grid>
@@ -259,7 +281,7 @@ const ViewVideoGallery = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((item) => (
+              {ViewVideoDetails.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell sx={{ textTransform: 'capitalize', py: 1.5, }}>{item.title}</TableCell>
                   <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', }}>

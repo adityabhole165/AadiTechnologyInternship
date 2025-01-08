@@ -975,7 +975,7 @@ const teacherRoutes = [
     element: <ProtectedRoute component={ViewVideoGallery} /> // <ViewVideoGallery />
   },
   {
-    path: 'ViewVideoGallery/:Video_Id',
+    path: 'ViewVideoGallery/:Video_Id/:videoName/:URLSource',
     element: <ProtectedRoute component={ViewVideoGallery} /> // <ViewVideoGallery />
   },
   {

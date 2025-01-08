@@ -37,7 +37,7 @@ interface VideoPageTableCardProps {
         videoName: string;
         lastUpdated: string;
         Video_Id: number;
-
+        URLSource: string;
     }>;
     view: "table" | "card";
 }
@@ -50,8 +50,8 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onDelete,
 
 
 
-    const ViewVideoGalleryPage = (Video_Id: any) => {
-        navigate('/RITeSchool/Teacher/ViewVideoGallery/' + encodeURL(Video_Id), { state: { fromInternal: true } });
+    const ViewVideoGalleryPage = (Video_Id: any, videoName: string, URLSource: string) => {
+        navigate('/RITeSchool/Teacher/ViewVideoGallery/' + encodeURL(Video_Id) + '/' + encodeURL(videoName) + '/' + encodeURL(URLSource), { state: { fromInternal: true } });
     };
     const handleEdit1 = (action: string, item: any) => {
         navigate('/RITeSchool/Teacher/AddNewVideo/' + (item.RowID), { state: { fromInternal: true } })
@@ -106,7 +106,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onDelete,
                                 <TableCell sx={{ textAlign: "center", py: 0.5 }}>
                                     <Tooltip title={"View"}>
                                         <IconButton
-                                            onClick={() => ViewVideoGalleryPage(row.Video_Id)} color="primary">
+                                            onClick={() => ViewVideoGalleryPage(row.Video_Id, row.URLSource, row.videoName)} color="primary">
                                             <VisibilityIcon />
 
                                         </IconButton>
