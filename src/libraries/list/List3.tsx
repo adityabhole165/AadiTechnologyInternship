@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
+import { encodeURL } from 'src/components/Common/Util';
 import CheckboxImg from '../card/CheckboxImg';
 
 List3.propTypes = {
@@ -79,8 +80,8 @@ function List3({
                   to={
                     `/${location.pathname.split('/')[1]
                     }/MessageCenter/viewMSg/` +
-                    data.DetailsId +
-                    FromRoute
+                    encodeURL(data.DetailsId) +
+                    encodeURL(FromRoute)
                   }
                   color="primary"
                   style={{
