@@ -23,6 +23,7 @@ import {
 import { red } from "@mui/material/colors";
 import React from "react";
 import { useNavigate } from "react-router";
+import { encodeURL } from "../Common/Util";
 
 
 
@@ -49,8 +50,8 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onDelete,
 
 
 
-    const ViewVideoGalleryPage = (value: string) => {
-        navigate('/RITeSchool/Teacher/ViewVideoGallery', { state: { fromInternal: true } });
+    const ViewVideoGalleryPage = (Video_Id: any) => {
+        navigate('/RITeSchool/Teacher/ViewVideoGallery/' + encodeURL(Video_Id), { state: { fromInternal: true } });
     };
     const handleEdit1 = (action: string, item: any) => {
         navigate('/RITeSchool/Teacher/AddNewVideo/' + (item.RowID), { state: { fromInternal: true } })
@@ -105,7 +106,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onDelete,
                                 <TableCell sx={{ textAlign: "center", py: 0.5 }}>
                                     <Tooltip title={"View"}>
                                         <IconButton
-                                            onClick={() => ViewVideoGalleryPage(row.videoName)} color="primary">
+                                            onClick={() => ViewVideoGalleryPage(row.Video_Id)} color="primary">
                                             <VisibilityIcon />
 
                                         </IconButton>

@@ -106,7 +106,7 @@ export const getViewVideoDetails = (data: IGetViewVideoListBody): AppThunk => as
 
     const responseData = response.data.map((Item, i) => {
         return {
-            Id: Item.VideoId,
+            Video_Id: Item.VideoId,
             VideoName: Item.VideoName,
             URL: Item.URL,
             Description: Item.Description,
