@@ -329,7 +329,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     const clickDelete = () => {
         showAlert({
             title: 'Please Confirm',
-            message: 'Are you sure you want to delete image?',
+            message: 'Are you sure you want to delete Event Image ?',
             variant: 'warning',
             confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
