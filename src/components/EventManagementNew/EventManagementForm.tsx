@@ -181,7 +181,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     useEffect(() => {
         if (EventStartDate && EventEndDate) {
             if (isGreaterThanDate(EventStartDate, EventEndDate)) {
-                setErrorEventStartDate('Start date should not be greater than end date');
+                setErrorEventStartDate('Start date should not be greater than end date.');
             } else if (isOutsideAcademicYear(EventStartDate)) {
                 setErrorEventStartDate('Event start date must be within current academic year ' +
                     '(i.e between ' + sessionStorage.getItem("StartDate") +
