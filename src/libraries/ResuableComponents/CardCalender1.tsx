@@ -249,13 +249,14 @@ function CardCalender1({
                 visibility: 'hidden'
               }}
               type="date"
+              max={new Date().toISOString().split('T')[0]}
               value={getCalendarDateFormatDateNew(formattedDate)}
               onChange={(e) => {
                 ClickItem(getDateFormatted(e.target.value));
               }}
             />
-          </IconButton>
-          {/* <IconButton
+
+          </IconButton>          {/* <IconButton
             onClick={() => clickPrevNextMonth(1)}
             sx={{
               color: (theme) => theme.palette.primary.main,
