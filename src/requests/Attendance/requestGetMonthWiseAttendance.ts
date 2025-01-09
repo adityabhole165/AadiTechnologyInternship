@@ -24,10 +24,10 @@ export const getattendance =
     async (dispatch) => {
       const response = await GetMonthwiseAttendanceapi.MonthwiseAttendance(data);
       const getValue = (value, i) => {
-        return value.MonthwiseDays[i].Days
+        return value?.MonthwiseDays[i] != undefined ? value?.MonthwiseDays[i].Days : ''
       }
       const getHeader = (value, i) => {
-        return value.MonthwiseDays[i].MonthName
+        return value?.MonthwiseDays[i] != undefined ? value.MonthwiseDays[i].MonthName : ''
       }
       let a = response.data.StudentAttendanceDetailsList.map((item, i) => {
         return response.data.StudentAttendanceDetailsList[0].MonthwiseDays.length > 12 ? {
