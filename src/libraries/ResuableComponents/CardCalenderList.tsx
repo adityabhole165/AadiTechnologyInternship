@@ -138,10 +138,10 @@ function CardCalenderList({
               return (
                 <Grid
                   item
-                  border="1px solid lightgrey"
+                  
                   xs={1.5}
                   md={1.7}
-                  sx={{ textAlign: 'center', }}
+                  sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
                   key={i}
                 >
                   <CardCal
