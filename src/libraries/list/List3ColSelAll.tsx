@@ -29,7 +29,7 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate, setIsDirty }) => 
     setIsDirty(true);
   };
   return (
-    <Box px={2} sx={{backgroundColor:'white', pb:2}}>
+    <Box px={2} sx={{ backgroundColor: 'white', pb: 2 }}>
       <Box
         sx={{ height: '50px', backgroundColor: 'white' }}
 
@@ -47,11 +47,8 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate, setIsDirty }) => 
       {Itemlist.map((item, index) => (
         <Box
           sx={{
-            pb: 0.4,
             border: `1px solid ${grey[300]}`,
             backgroundColor: 'white',
-            
-
           }}
           key={index}
         >
