@@ -53,8 +53,10 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onDelete,
     const ViewVideoGalleryPage = (Video_Id: any, videoName: string, URLSource: string) => {
         navigate('/RITeSchool/Teacher/ViewVideoGallery/' + encodeURL(Video_Id) + '/' + encodeURL(videoName) + '/' + encodeURL(URLSource), { state: { fromInternal: true } });
     };
-    const handleEdit1 = (action: string, item: any) => {
-        navigate('/RITeSchool/Teacher/AddNewVideo/' + (item.RowID), { state: { fromInternal: true } })
+
+    const handleEdit1 = (Video_Id: any) => {
+        console.log(Video_Id)
+        navigate('/RITeSchool/Teacher/AddNewVideo/' + encodeURL(Video_Id), { state: { fromInternal: true } })
     }
 
     return (
@@ -115,7 +117,7 @@ const VideoPageTableCard: React.FC<VideoPageTableCardProps> = ({ data, onDelete,
                                 <TableCell sx={{ textAlign: "center", py: 0.5 }}>
                                     <Tooltip title={"Edit"}>
                                         <IconButton
-                                            onClick={() => handleEdit1("Edit", row)} color="primary">
+                                            onClick={() => handleEdit1(row.Video_Id)} color="primary">
                                             <EditIcon />
                                         </IconButton>
                                     </Tooltip>

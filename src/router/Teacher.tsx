@@ -963,8 +963,8 @@ const teacherRoutes = [
     element: <ProtectedRoute component={AddNewPhoto} /> // <AddNewPhoto />
   },
   {
-    path: 'AddNewPhoto/:RowID',
-    element: <ProtectedRoute component={AddNewPhoto} /> // <AddNewPhoto />
+    path: 'AddNewVideo/:Video_Id',
+    element: <ProtectedRoute component={AddNewVideo} /> // <AddNewVideo />
   },
   {
     path: 'AddNewVideo',

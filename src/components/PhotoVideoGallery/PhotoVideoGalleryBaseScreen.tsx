@@ -19,15 +19,24 @@ import VideoPageTableCard from './VideoPageTableCard';
 
 const PhotoVideoGalleryBaseScreen = () => {
     const dispatch = useDispatch();
-    let { RowID } = useParams();
+    let { RowID, Video_Id } = useParams();
 
     useEffect(() => {
         if (RowID !== undefined)
-            // galleryName = decodeURL(galleryName)
+
             console.log(RowID, "1234567")
 
 
     }, [RowID])
+
+    useEffect(() => {
+        if (Video_Id !== undefined)
+
+            console.log(Video_Id, "1234567")
+
+
+    }, [Video_Id])
+
 
 
     const [selectedOption, setSelectedOption] = useState<string>('photo');
@@ -144,7 +153,6 @@ const PhotoVideoGalleryBaseScreen = () => {
     useEffect(() => {
         dispatch(CDAVideoDetails(VideoData1))
     }, [page, rowsPerPage1, startIndexNew1, SortDirection1, SortBy1, selectedOption])
-
 
     const handleDelete1 = (Video_Id: number) => {
         const DeleteVideoGalley: IdeleteVideoBody = {

@@ -6,18 +6,24 @@ import { green, grey, red } from '@mui/material/colors'
 import SaveIcon from '@mui/icons-material/Save'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { IAllClassesAndDivisionsBody } from 'src/interfaces/Common/Holidays'
 import { IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup'
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy'
 import { CDAGetUserRole } from 'src/requests/ContactGroup/ReqContactGroup'
 import { GetAllClassAndDivision } from 'src/requests/Holiday/Holiday'
 import { RootState } from 'src/store'
+import { decodeURL } from '../Common/Util'
 import CommonPageHeader from '../CommonPageHeader'
 import VideoUrlComponent from './VideoUrlComponent'
 
 
 
 const AddNewVideo = () => {
+
+  let { Video_Id } = useParams();
+  Video_Id = decodeURL(Video_Id);
+
   const dispatch = useDispatch();
   const [selectAll, setSelectAll] = useState(false);
   const [checkedValues, setCheckedValues] = useState([]);
