@@ -341,7 +341,7 @@ function CardCalender1({
                 sx={{
                   textAlign: 'center',
                   border: (theme) => `1px solid ${theme.palette.divider}`,
-                  '&:active': {
+                  '&:hover': {
                     backgroundColor: 'rgba(128, 128, 128, 0.2)'
                   }
                 }}
