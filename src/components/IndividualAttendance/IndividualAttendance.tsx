@@ -112,7 +112,7 @@ const IndividualAttendance = () => {
   };
 
   const [month, setMonth] = useState<string | undefined>(
-    FormattedDate ? extractMonth(FormattedDate).toString() : undefined
+    FormattedDate ? extractMonth(FormattedDate)?.toString() : undefined
   );
   const StudentList = useSelector(
     (state: RootState) => state.IndividualAttendance.GetStudentName
@@ -163,7 +163,7 @@ const IndividualAttendance = () => {
 
   useEffect(() => {
     if (FormattedDate) {
-      setMonth(extractMonth(FormattedDate).toString());
+      setMonth(extractMonth(FormattedDate)?.toString());
     }
   }, [FormattedDate]);
 
@@ -419,7 +419,7 @@ const IndividualAttendance = () => {
                   }}
                 >
                   <SearchableDropdown
-                    sx={{ minWidth: {xs:'200px', sm: '250px' , md: '250px', lg: '350px', xl: '350px' } }}
+                    sx={{ minWidth: { xs: '200px', sm: '250px', md: '250px', lg: '350px', xl: '350px' } }}
                     ItemList={StudentList}
                     onChange={clickStudent}
                     defaultValue={StudentId}
