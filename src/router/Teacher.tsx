@@ -511,6 +511,10 @@ const teacherRoutes = [
     element: <ProtectedRoute component={SchoolAttendanceOverview} /> // <SchoolAttendanceOverview />
   },
   {
+    path: 'SchoolAttendanceOverview/:selectClasstecahernew/:AssignedDate',
+    element: <ProtectedRoute component={SchoolAttendanceOverview} /> // <SchoolAttendanceOverview />
+  },
+  {
     path: 'IndidualAttendance',
     element: <ProtectedRoute component={IndidualAttendance} /> // <IndidualAttendance />
   },

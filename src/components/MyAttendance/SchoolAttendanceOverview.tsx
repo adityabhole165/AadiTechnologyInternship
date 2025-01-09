@@ -22,12 +22,13 @@ import CommonPageHeader from '../CommonPageHeader';
 
 
 const SchoolAttendanceOverview = () => {
-  let {
-    AssignedDate
-  } = useParams();
+  let { selectClasstecahernew, AssignedDate } = useParams();
+  console.log('selectClasstecahernew', selectClasstecahernew);
+
 
   // Decode in-place
   AssignedDate = decodeURL(AssignedDate);
+
 
   const dispatch = useDispatch();
 
@@ -93,8 +94,10 @@ const SchoolAttendanceOverview = () => {
         navLinks={[
           {
             title: 'Attendance',
-            path: '/RITeSchool/Teacher/TAttendance'
-            //  + SelectDate
+            path: '/RITeSchool/Teacher/TAttendance/'
+              + decodeURL(selectClasstecahernew) +
+              '/' +
+              encodeURL(SelectDate)
           },
           {
             title: 'Attendance Overview',

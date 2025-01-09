@@ -648,7 +648,7 @@ const TAttendance = () => {
   };
   const clickNavigateSchoolAttendanceOverview = () => {
     navigate(
-      '/RITeSchool/Teacher/SchoolAttendanceOverview/' +
+      '/RITeSchool/Teacher/SchoolAttendanceOverview/' + encodeURL(selectClasstecahernew) + '/' +
       encodeURL(getDateFormattedDash(assignedDate)), { state: { fromInternal: true } }
     );
   };
