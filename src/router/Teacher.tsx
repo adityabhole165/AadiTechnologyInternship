@@ -364,6 +364,10 @@ const StudentDetailsExam = Loader(
 const StudentDetailsAttendance = Loader(
   lazy(() => import('src/components/StudentDetails/StudentDetailsAttendance'))
 );
+// src\components\ADemo\FeeDemo.tsx
+const FeeDemo = Loader(
+  lazy(() => import('src/components/ADemo/FeeDemo'))
+);
 const AttendanceTopperspage = Loader(
   lazy(() => import('src/components/StudentDetails/AttendanceTopperspage'))
 );
@@ -1028,6 +1032,11 @@ const teacherRoutes = [
   {
     path: 'UserManagementBasescreen',
     element: <ProtectedRoute component={UserManagementBasescreen} /> // <UserManagementBasescreen />
+  },
+  // FeeDemo
+  {
+    path: 'FeeDemo',
+    element: <FeeDemo />
   }
 ];
 
