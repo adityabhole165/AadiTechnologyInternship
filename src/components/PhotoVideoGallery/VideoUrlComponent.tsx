@@ -1,36 +1,18 @@
-import React, { useState } from "react";
 import {
   Box,
   Button,
   Grid,
-  TextField,
-  Typography,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  TextField
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 
-const VideoUrlComponent: React.FC = () => {
-  const [videoUrl, setVideoUrl] = useState("");
-  const [title, setTitle] = useState("");
-  const [videoList, setVideoList] = useState<{ url: string; title: string }[]>([]);
+const VideoUrlComponent = ({ handleAddVideo, setVideoUrl, setTitle, videoList, title, videoUrl }) => {
 
-  const handleAddVideo = () => {
-    if (!videoUrl.trim() || !title.trim()) {
-      alert("Both Video URL and Title are required.");
-      return;
-    }
-
-    // Add video URL and title to the list
-    setVideoList([...videoList, { url: videoUrl, title }]);
-
-    // Clear inputs
-    setVideoUrl("");
-    setTitle("");
-  };
 
   return (
     <Box sx={{ pt: 2 }}>
@@ -58,16 +40,17 @@ const VideoUrlComponent: React.FC = () => {
           <Button
             onClick={handleAddVideo}
             sx={{
-                mt: 1, color: '#38548A',
-                //  backgroundColor: grey[500],
-                '&:hover': {
-                    color: '#38548A',
-                    backgroundColor: blue[100]
-                }}} >
+              mt: 1, color: '#38548A',
+              //  backgroundColor: grey[500],
+              '&:hover': {
+                color: '#38548A',
+                backgroundColor: blue[100]
+              }
+            }} >
             Add Videos
           </Button>
         </Grid>
-      </Grid>   
+      </Grid>
 
       {/* Video List Table */}
       {videoList.length > 0 && (

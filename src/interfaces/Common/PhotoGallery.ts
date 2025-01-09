@@ -92,3 +92,20 @@ export interface IManagePhotoGalleryBody {
   asClassesIds: string,
   Gallery_ID: number
 }
+export interface IInsertVideoGallaryBody {
+  asSchoolId: number,
+  asVideoId: number,
+  asVideoName: string,
+  asVideoDetails: string,
+  asStartDate: string,
+  asEndDate: string,
+  asUserRoleIds: string,
+  asStandardDivIds: string,
+  asSubjectId: number,
+  asShowOnExternalWebsite: string,
+  asInsertedById: number,
+  asAddMoreSubjects: string,
+  asOldSubjectId: number,
+  asId: number,
+  asUrlSourceId: number
+}

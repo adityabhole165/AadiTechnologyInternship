@@ -323,7 +323,6 @@ const AddNewPhoto = () => {
               }
               variant="outlined"
               onChange={(e) => {
-                //ClickGalleryName(e.target.value);
                 ClickGalleryName(e.target.value.slice(0, 50));
               }}
               value={GalleryName}

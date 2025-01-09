@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import PhotoGallaryApi from 'src/api/PhotoGallery/PhotoGallary';
-import { IManagePhotoGalleryBody, IPics, IStandardDivisionNameBody, Iimg } from 'src/interfaces/Common/PhotoGallery';
+import { IInsertVideoGallaryBody, IManagePhotoGalleryBody, IPics, IStandardDivisionNameBody, Iimg } from 'src/interfaces/Common/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import { AppThunk } from 'src/store';
 
@@ -12,6 +12,7 @@ const GallerySlice = createSlice({
     YearList: [],
     IStandardDivisionName: [],
     IManagePhotoGalleryMsg: '',
+    IInsertVideoGallaryMsg: '',
     Loading: true
   },
   reducers: {
@@ -35,6 +36,14 @@ const GallerySlice = createSlice({
     resetManagePhotoGalleryMsg(state) {
       state.Loading = false;
       state.IManagePhotoGalleryMsg = '';
+    },
+    RInsertVideoGallaryMsg(state, action) {
+      state.Loading = false;
+      state.IInsertVideoGallaryMsg = action.payload;
+    },
+    resetInsertVideoGallaryMsg(state) {
+      state.Loading = false;
+      state.IInsertVideoGallaryMsg = '';
     },
 
     getLoading(state, action) {
@@ -106,5 +115,13 @@ export const CDAManagePhotoGalleryMsg = (data: IManagePhotoGalleryBody): AppThun
 
 export const resetManagePhotoGalleryMsg = (): AppThunk => async (dispatch) => {
   dispatch(GallerySlice.actions.resetManagePhotoGalleryMsg());
+};
+export const CDAInsertVideoGallaryMsg = (data: IInsertVideoGallaryBody): AppThunk => async (dispatch) => {
+  dispatch(GallerySlice.actions.getLoading(true));
+  const response = await PhotoGallaryApi.InsertVideoGallaryApi(data);
+  dispatch(GallerySlice.actions.RInsertVideoGallaryMsg(response.data));
+};
+export const resetInsertVideoGallaryMsg = (): AppThunk => async (dispatch) => {
+  dispatch(GallerySlice.actions.resetInsertVideoGallaryMsg());
 };
 export default GallerySlice.reducer;
