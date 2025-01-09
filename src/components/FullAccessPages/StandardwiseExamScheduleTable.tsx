@@ -318,12 +318,12 @@ const StandardwiseExamScheduleTable = ({ ClickSaveXML, subErrorMsg, TimeError })
                         <TableRow sx={{ background: theme => theme.palette.secondary.main, color: theme => theme.palette.common.white }}>
                             <TableCell sx={{ color: 'white' }} padding="checkbox"></TableCell>
                             <TableCell sx={{ color: 'white' }}><strong>Subject</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>Exam Type</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>Exam Date</strong></TableCell>
+                            <TableCell sx={{ color: 'white', minWidth: '150px' }}><strong>Exam Type</strong></TableCell>
+                            <TableCell sx={{ color: 'white', minWidth: '150px' }}><strong>Exam Date</strong></TableCell>
                             <TableCell sx={{ color: 'white' }}><strong>Timed?</strong></TableCell>
                             <TableCell sx={{ color: 'white' }}><strong>Start Time</strong></TableCell>
                             <TableCell sx={{ color: 'white' }}><strong>End Time</strong></TableCell>
-                            <TableCell sx={{ color: 'white' }}><strong>Description</strong></TableCell>
+                            <TableCell sx={{ color: 'white', minWidth: '150px' }}><strong>Description</strong></TableCell>
                             <TableCell sx={{ color: 'white' }}><strong>New</strong></TableCell>
                         </TableRow>
                         <TableRow sx={{ color: theme => theme.palette.common.white, backgroundColor: '#F0F0F0' }}>
