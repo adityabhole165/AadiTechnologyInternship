@@ -693,6 +693,13 @@ const TAttendance = () => {
     }
   }, [listAttendanceCalender, assignedDate]);
 
+
+  const isFutureDate = (date) => {
+    if (!date) return false; // Handle null or undefined date
+    return new Date(date) > new Date(); // Check if the date is in the future
+  };
+
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -720,29 +727,29 @@ const TAttendance = () => {
               display="flex"
               justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
             >
-              <Tooltip title="School Attendance Overview">
-                <Typography
-                  color={MarksError ? grey[500] : blue[500]}
-                  fontWeight="bold"
-                  sx={{ cursor: 'pointer', mt: { xs: '4px', sm: '7px' } }}
-                  onClick={() => {
-                    if (!MarksError) {
-                      clickNavigateSchoolAttendanceOverview();
-                    }
-                  }}
-                >
-                  Overview
-                </Typography>
-              </Tooltip>
               <Typography
-                color={MarksError ? grey[500] : blue[500]}
+                color={MarksError || isFutureDate(assignedDate) ? grey[500] : blue[500]} // Disabled color for future date or error
+                fontWeight="bold"
+                sx={{ cursor: MarksError || isFutureDate(assignedDate) ? 'not-allowed' : 'pointer', mt: { xs: '4px', sm: '7px' } }}
+                onClick={() => {
+                  if (!MarksError && !isFutureDate(assignedDate)) {
+                    clickNavigateSchoolAttendanceOverview();
+                  }
+                }}
+              >
+                Overview
+              </Typography>
+              <Typography
+                color={MarksError || isFutureDate(assignedDate) ? grey[500] : blue[500]} // Disabled color for future date or error
+
                 fontWeight="bold"
                 sx={{ alignItems: 'center', mt: { xs: '4px', sm: '7px' } }}
               >
                 -
               </Typography>
               <Typography
-                color={MarksError ? grey[500] : blue[500]}
+                color={MarksError || isFutureDate(assignedDate) ? grey[500] : blue[500]} // Disabled color for future date or error
+
                 sx={{
                   cursor: 'pointer',
                   display: 'flex',
@@ -751,7 +758,7 @@ const TAttendance = () => {
                 }}
                 fontWeight="bold"
                 onClick={() => {
-                  if (!MarksError) {
+                  if (!MarksError && !isFutureDate(assignedDate)) {
                     clickNavigateSchoolAttendanceOverview();
                   }
                 }}
@@ -762,7 +769,8 @@ const TAttendance = () => {
               </Typography>
               <Box sx={{ height: '25px', border: '1px solid grey' }} />
               <Typography
-                color={MarksError ? grey[500] : blue[500]}
+                color={MarksError || isFutureDate(assignedDate) ? grey[500] : blue[500]} // Disabled color for future date or error
+
                 sx={{
                   cursor: 'pointer',
                   display: 'flex',
@@ -771,7 +779,7 @@ const TAttendance = () => {
                 }}
                 fontWeight="bold"
                 onClick={() => {
-                  if (!MarksError) {
+                  if (!MarksError && !isFutureDate(assignedDate)) {
                     clickNavigateSchoolAttendanceOverview();
                   }
                 }}

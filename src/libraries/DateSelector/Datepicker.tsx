@@ -22,6 +22,7 @@ const Datepicker = ({ DateValue, onDateChange, label, size }) => {
                 //     {label || "Select Date"} <span style={{ color: 'red' }}>*</span>
                 // </>}
                 views={['year', 'month', 'day']}
+                maxDate={new Date()} // Disable future dates
                 slotProps={{
                     textField: {
                         variant: 'outlined',
