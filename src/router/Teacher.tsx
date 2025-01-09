@@ -496,7 +496,7 @@ const teacherRoutes = [
   },
   {
     path: 'ComposeSMS',
-    element: <ProtectedRoute component={ComposeSMS} /> // <ComposeSMS />
+    element: <ComposeSMS /> // <ProtectedRoute component={ComposeSMS} /> //
   },
   // {
   //   path: 'TAttendance/:AssignedDate/:StandardId',
