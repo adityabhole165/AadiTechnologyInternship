@@ -372,6 +372,10 @@ const IndividualAttendance = () => {
     dispatch(SaveStudentAttendance(SaveAttendance));
   };
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const isFutureDate = date > today;
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -439,7 +443,7 @@ const IndividualAttendance = () => {
                     <Help />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Present All">
+                {/* <Tooltip title="Present All">
                   <IconButton
                     onClick={handlePresent}
                     sx={{
@@ -448,6 +452,23 @@ const IndividualAttendance = () => {
                       width: '36px',
                       height: '36px !important',
                       ':hover': { backgroundColor: green[800] }
+                    }}
+                  >
+                    <h5>P</h5>
+                  </IconButton>
+                </Tooltip> */}
+
+                <Tooltip title="Present All">
+                  <IconButton
+                    onClick={handlePresent}
+                    disabled={isFutureDate} // Disable when the date is in the future
+                    sx={{
+                      color: 'white',
+                      height: '36px !important',
+                      width: '36px',
+                      backgroundColor: green[500],
+                      ':hover': { backgroundColor: green[600] },
+                      ...(isFutureDate && { backgroundColor: 'grey', ':hover': { backgroundColor: 'grey' } }),
                     }}
                   >
                     <h5>P</h5>
@@ -555,7 +576,7 @@ const IndividualAttendance = () => {
                   </DialogActions>
                 </Dialog>
 
-                <Tooltip title="Absent All">
+                {/* <Tooltip title="Absent All">
                   <IconButton
                     onClick={handleAbsent}
                     sx={{
@@ -564,6 +585,22 @@ const IndividualAttendance = () => {
                       width: '36px',
                       backgroundColor: red[500],
                       ':hover': { backgroundColor: red[600] }
+                    }}
+                  >
+                    <h5>A</h5>
+                  </IconButton>
+                </Tooltip> */}
+                <Tooltip title="Absent All">
+                  <IconButton
+                    onClick={handleAbsent}
+                    disabled={isFutureDate} // Disable when the date is in the future
+                    sx={{
+                      color: 'white',
+                      height: '36px !important',
+                      width: '36px',
+                      backgroundColor: red[500],
+                      ':hover': { backgroundColor: red[600] },
+                      ...(isFutureDate && { backgroundColor: 'grey', ':hover': { backgroundColor: 'grey' } }),
                     }}
                   >
                     <h5>A</h5>
@@ -619,7 +656,7 @@ const IndividualAttendance = () => {
                     </Button>
                   </DialogActions>
                 </Dialog>
-                <Tooltip title="Save">
+                {/* <Tooltip title="Save">
                   <IconButton
                     onClick={handleSave}
                     sx={{
@@ -631,7 +668,24 @@ const IndividualAttendance = () => {
                   >
                     <SaveAlt />
                   </IconButton>
+                </Tooltip> */}
+                <Tooltip title="Save">
+                  <IconButton
+                    onClick={handleSave}
+                    disabled={isFutureDate} // Disable when the date is in the future
+                    sx={{
+                      color: 'white',
+                      height: '36px !important',
+                      width: '36px',
+                      backgroundColor: green[500],
+                      ':hover': { backgroundColor: green[600] },
+                      ...(isFutureDate && { backgroundColor: 'grey', ':hover': { backgroundColor: 'grey' } }),
+                    }}
+                  >
+                    <SaveAlt />
+                  </IconButton>
                 </Tooltip>
+
               </Stack>
             </Stack>
           </>
