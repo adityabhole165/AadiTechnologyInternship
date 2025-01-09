@@ -601,7 +601,7 @@ const StudentRegistrationForm = () => {
   const GetStudentStreamwiseSubjectDetails = useSelector((state: RootState) => state.StudentUI.ISGetStudentStreamwiseSubjectDetails);
   //console.log('4️⃣GetStudentStreamwiseSubjectDetails', GetStudentStreamwiseSubjectDetails);
   const IsShowStreamSection = useSelector((state: RootState) => state.StudentUI.ISStudentStreamDetails);
-  console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
+  //console.log('4️⃣1️⃣IsShowStreamSection', IsShowStreamSection);
   const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
   //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
   //console.log('⏮️ReferenceMessages', ReferenceMessages);
@@ -683,14 +683,14 @@ const StudentRegistrationForm = () => {
           joiningDate: studentData?.Joining_Date || '',
           studentRollNumber: studentData?.Roll_No || '',
           UDISENumber: studentData?.UDISENumber || '',
-          BoardRegistrationNumber: studentData?.BoardRegistrationNo || '',
-          SaralNo: studentData?.SaralNo || '',
+          boardRegistrationNumber: studentData?.BoardRegistrationNo || '',
+          saralNo: studentData?.SaralNo || '',
           PENNumber: studentData?.PENNumber || '',
           secondlanguage: studentData?.SecondLanguageSubjectId || '',
           thirdlanguage: studentData?.ThirdLanguageSubjectId || '',
           applicableRules: studentData?.Rule_Id || '0',
-          staffUserRole: studentData?.User_Role_Id || '',
-          staffName: studentData?.staffName || '',
+          staffUserRole: studentData?.ParentUserRoleId || '',
+          staffName: studentData?.ParentUserId || '',
           residenceTypes: studentData?.ResidenceTypeId || '',
           feeAreaNames: (parseInt(schoolId) === 122) ? AdditionalData?.FeeAreaName : 0,
           RFID: AdditionalData?.RFID || '',
@@ -1085,7 +1085,7 @@ const StudentRegistrationForm = () => {
     asDivision_Id: DivisionId ?? localData.DivisionId, // Missing
     asReligion: form.personal?.religion || '',
     asYearWise_Student_Id: YearWise_Student_Id ?? localData.YearWise_Student_Id,
-    asParentUserId: 0,
+    asParentUserId: Number(form.admission?.staffName) || 0,
     asStudentEmailAddress: form.personal?.email || '',
     asUserId: StudentUser_Id,
     IsDeleteFee: isDeleteFee ?? false,

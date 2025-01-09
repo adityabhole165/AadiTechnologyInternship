@@ -979,15 +979,25 @@ const FamilyDetails = ({ family, onChange, invalidFields, unacceptableFields }) 
                 // helperText={parseInt(schoolId) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate") ? "Marriage Anniversary Date should not be blank." : ''}
                 maxDate={new Date()}
               />
-              <ErrorMessage1 Error={parseInt(schoolId, 10) === 18 && invalidFields.find(field => field.field === "marriageAnniversaryDate")
+              <ErrorMessage1 Error={parseInt(schoolId, 10) === 18 && invalidFields.find((field: any) => field.field === "marriageAnniversaryDate")
                 ? "Marriage Anniversary Date should not be blank."
-                : unacceptableFields.find(field => field.field === "marriageAnniversaryDate" && field.code === "F")
-                  ? "Marriage Anniversary Date should be greater than Father's DOB."
-                  : unacceptableFields.find(field => field.field === "marriageAnniversaryDate" && field.code === "M")
-                    ? "Marriage Anniversary Date should be greater than Mother's DOB."
-                    : unacceptableFields.find(field => field.field === "marriageAnniversaryDate" && field.code === "S")
-                      ? "Marriage Anniversary Date should be less than Student's DOB."
-                      : ''}></ErrorMessage1>
+                : (() => {
+                  const field = unacceptableFields.find((field: any) => field.field === "marriageAnniversaryDate");
+                  if (field) {
+                    switch (field.code) {
+                      case "F":
+                        return "Marriage Anniversary Date should be greater than Father's DOB.";
+                      case "M":
+                        return "Marriage Anniversary Date should be greater than Mother's DOB.";
+                      case "S":
+                        return "Marriage Anniversary Date should be less than Student's DOB.";
+                      default:
+                        return '';
+                    }
+                  }
+                  return '';
+                })()}>
+              </ErrorMessage1>
             </Grid>
 
             {/* localGuardianPhoto */}
