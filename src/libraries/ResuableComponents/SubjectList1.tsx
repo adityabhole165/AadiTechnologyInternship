@@ -1,5 +1,3 @@
-import { BoltRounded, Cancel } from '@mui/icons-material';
-import CheckCircle from '@mui/icons-material/CheckCircle';
 import { Box, Link, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Table from '@mui/material/Table';
@@ -8,7 +6,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 
 function SubjectList1({
   ItemList,
@@ -63,7 +60,7 @@ function SubjectList1({
                   key={i}
                   sx={{
                     textTransform: 'capitalize',
-                    color: (theme) => theme.palette.common.white ,py: 1,
+                    color: (theme) => theme.palette.common.white, py: 1,
                     width: item?.width ? item?.width : 'auto',
                   }}
                   align={item.align ? item.align : 'left'}
@@ -76,19 +73,20 @@ function SubjectList1({
           <TableBody>
             {ItemList.map((item, i) => (
               <TableRow key={i}>
-                <TableCell 
-                sx={{textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
-              }}>
+                <TableCell
+                  sx={{
+                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
+                  }}>
                   <Checkbox
                     checked={item.IsActive}
                     onChange={() => {
                       onClick(item.Id);
-                      
+
                     }}
                   />
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'}} >
+                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} >
                   {item.Text10}
                 </TableCell>
 
@@ -107,19 +105,19 @@ function SubjectList1({
                 <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} align='center'>
                   {item.IsPublished === 'True' ?
                     //  <CheckCircle color={"success"} /> 
-                    <Typography component="span" color="green"fontWeight="bold" >
-                       Yes
+                    <Typography component="span" color="green" fontWeight="bold" >
+                      Yes
                     </Typography>
                     :
                     //  <Cancel color={"error"}
 
-                    <Typography component="span" color="error"fontWeight="bold">
+                    <Typography component="span" color="error" fontWeight="bold">
                       No
                     </Typography>
                   }
                 </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}} >
-                  {getDateMonthYearFormatted(item.Text6)}
+                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} >
+                  {item.Text6}
                 </TableCell>
               </TableRow>
             ))}
