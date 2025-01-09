@@ -259,7 +259,7 @@ export const getDateFormatted = (date) => {
   date = date || new Date();
   let Day = new Date(date).getDate();
 
-  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
   const Year = new Date(date).getFullYear();
   return `${Day < 10 ? '0' + Day.toString() : Day.toString()} ${Month} ${Year}`;
 };
