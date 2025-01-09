@@ -29,9 +29,9 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate, setIsDirty }) => 
     setIsDirty(true);
   };
   return (
-    <div>
+    <Box px={2} sx={{backgroundColor:'white', pb:2}}>
       <Box
-        sx={{ height: '50px' }}
+        sx={{ height: '50px', backgroundColor: 'white' }}
 
       >
         <ListHeaderCard3ColSel
@@ -50,6 +50,7 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate, setIsDirty }) => 
             pb: 0.4,
             border: `1px solid ${grey[300]}`,
             backgroundColor: 'white',
+            
 
           }}
           key={index}
@@ -61,7 +62,7 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate, setIsDirty }) => 
           />
         </Box>
       ))}
-    </div>
+    </Box>
   );
 };
 

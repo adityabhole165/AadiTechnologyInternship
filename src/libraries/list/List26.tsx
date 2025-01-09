@@ -82,9 +82,9 @@ function List26({
           spacing={2}
           sx={{
             backgroundColor: 'white',
-            p: 1,
+            pb: 1,
             m:0,
-            borderBottom: '1px solid gray'
+            // borderBottom: '1px solid gray'
           }}
         >
           {/* Roll Number Field */}
