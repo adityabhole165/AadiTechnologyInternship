@@ -1,6 +1,5 @@
 import { Box, Typography, alpha } from '@mui/material';
 import { useState } from 'react';
-import { stripHtml } from 'src/components/Common/Util';
 
 function CardCal1({
   item,
@@ -49,7 +48,7 @@ function CardCal1({
           cursor: 'pointer',
           //  color: item.Value == DefaultValue ? 'yellow' : item.BackgroundColor,
           backgroundColor:
-            item.Value === assignedDate
+            item.Value?.replaceAll('-', ' ') === assignedDate
               ? (theme) => alpha(theme.palette.primary.main, 0.2)
               : color,
         }}
