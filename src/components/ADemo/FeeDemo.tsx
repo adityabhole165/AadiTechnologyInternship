@@ -98,7 +98,7 @@ const FeeDemo = () => {
                     {actions.map((action, index) => (
                         <Grid item xs={12} sm={6} md={3} key={index}>
                             <Paper
-                                elevation={3}
+                                elevation={2}
                                 sx={{
                                     p: 2,
                                     textAlign: "center",
@@ -120,10 +120,10 @@ const FeeDemo = () => {
 
                 <Grid
                     container
-                    spacing={3}
+                    spacing={2}
                     justifyContent="center"
                     alignItems="center"
-                    sx={{ p: 3 }}
+                    sx={{ p: 2 }}
                 >
                     {cards.map((card, index) => (
                         <Grid item xs={12} sm={6} md={6} key={index}>
