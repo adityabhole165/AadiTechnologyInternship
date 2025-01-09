@@ -279,7 +279,7 @@ const FamilyDetails = ({ family, onChange, invalidFields, unacceptableFields }) 
 
     if (!ValidFileTypes2.includes(value.FileExtension.toUpperCase())) {
       //('Invalid file format. Supported formats are JPEG, PNG, BMP.');
-      newErrors[key] = value.ErrorMsg ? 'Please select valid file type.' : '';
+      newErrors[key] = value.ErrorMsg ? 'Invalid file format.' : '';
       setFileErrors(newErrors);
       onChange(key, value.Name); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
@@ -292,7 +292,7 @@ const FamilyDetails = ({ family, onChange, invalidFields, unacceptableFields }) 
     const fileSizeInBytes = (base64Length * 3) / 4 - padding;
 
     if (fileSizeInBytes > MaxfileSize2) {
-      newErrors[key] = 'File size exceeds 3 MB. Please upload a smaller file.';
+      newErrors[key] = 'File size should be less than 3 MB.';
       setFileErrors(newErrors);
       onChange(key, value.Name); // Clear file name
       setbase64URL2(''); // Clear Base64 URL

@@ -314,7 +314,7 @@ const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
     //console.log('value', value);
     if (!ValidFileTypes.includes(value.FileExtension.toUpperCase())) {
       //setFileNameError('Invalid file format. Supported formats are BMP, DOC, DOCX, JPG, JPEG, PDF, XLS, XLSX.');
-      setFileNameError(value.ErrorMsg ? "Please select valid file type." : '');
+      setFileNameError(value.ErrorMsg ? "Invalid file format." : '');
       setFileName(''); // Clear file name
       setbase64URL(''); // Clear Base64 URL
       return;
@@ -326,7 +326,7 @@ const AdmissionDocumentInformation = ({ admissionDocumentList, onChange }) => {
     const fileSizeInBytes = (base64Length * 3) / 4 - padding;
 
     if (fileSizeInBytes > MaxfileSize) {
-      setFileNameError('File size exceeds 5 MB. Please upload a smaller file.');
+      setFileNameError('File size should be less than 5 MB.');
       setFileName(''); // Clear file name
       setbase64URL(''); // Clear Base64 URL
       return;
