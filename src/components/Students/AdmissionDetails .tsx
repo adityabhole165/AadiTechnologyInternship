@@ -662,6 +662,16 @@ const AdmissionDetails = ({ admission, onChange, invalidFields, unacceptableFiel
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <TextField
+            name="studentNationalCode"
+            label="Student National Code"
+            variant="outlined"
+            value={''}
+            //onChange={''}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <TextField
             name="PENNumber"
             label="PEN Number"
             variant="outlined"

@@ -1680,14 +1680,14 @@ const StudentRegistrationForm = () => {
 
     //setAttachment(file.Name);
     if (file && !ValidFileTypes.includes(file.FileExtension.toUpperCase())) {
-      showAlertMsg(file.ErrorMsg ? 'Please select valid file type.' : '');
+      showAlertMsg(file.ErrorMsg ? 'Invalid file format.' : '');
       setAttachment(''); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
       return;
     }
 
     if (fileSize > MaxAchievementfileSize) {
-      showAlertMsg('File size exceeds 1 MB. Please upload a smaller file.');
+      showAlertMsg('File size should be less than 1 MB.');
       setAttachment(''); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
       return;

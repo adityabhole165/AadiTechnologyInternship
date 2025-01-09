@@ -405,13 +405,13 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
       // File type validation
       const fileExtension = file.name.split('.').pop().toUpperCase();
       if (!ValidFileTypes1.includes(fileExtension)) {
-        setErrorMessage('Please select valid file type.');
+        setErrorMessage('Invalid file format.');
         onChange('photoFilePath', '');
         return;
       }
       // File size validation
       if (file.size > MaxfileSize1) {
-        setErrorMessage('File size exceeds 1 MB. Please upload a smaller file.');
+        setErrorMessage('File size should be less than 1 MB.');
         onChange('photoFilePath', '');
         fileInputRef.current.value = '';
         return;
@@ -591,7 +591,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
 
     if (!ValidFileTypes2.includes(value.FileExtension.toUpperCase())) {
       //('Invalid file format. Supported formats are'PDF', 'JPG', 'PNG', 'BMP', 'JPEG'');
-      showAlertMsg(value.ErrorMsg ? "Please select valid file type." : '');
+      showAlertMsg(value.ErrorMsg ? "Invalid file format." : '');
       onChange('aadharCardScanCopy', ''); // Clear file name
       //onChange('aadharCardScanCopy', 'ErrorMsg'); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
@@ -599,7 +599,7 @@ const PersonalDetails = ({ personal, onChange, invalidFields, unacceptableFields
     }
 
     if (fileSizeInBytes > MaxfileSize2) {
-      showAlertMsg('File size exceeds 3 MB. Please upload a smaller file.');
+      showAlertMsg('File size should be less than 3 MB.');
       onChange('aadharCardScanCopy', value.Name); // Clear file name
       setbase64URL2(''); // Clear Base64 URL
       return;
