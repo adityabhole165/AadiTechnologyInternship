@@ -185,7 +185,7 @@ const TAttendance = () => {
   );
 
   const getAssignedDateStatus = () => {
-    let a = listAttendanceCalender.filter((item) => item.Value == assignedDate);
+    let a = listAttendanceCalender.filter((item) => item.Value.replaceAll('-', ' ') == assignedDate);
     return a.length > 0 ? a[0].Text3 : '';
   };
 
