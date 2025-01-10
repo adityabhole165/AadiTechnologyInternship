@@ -519,7 +519,7 @@ const TAttendance = () => {
 
   const SaveMsg = () => {
     // if (!SaveIsActive) return;
-    if (ListAbsentStudents.length > 2) {
+    if (ListAbsentStudents.length > 0) {
       setOpen(true);
     }
     if (!SaveIsActive || !isDirty) return;
