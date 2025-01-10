@@ -74,10 +74,11 @@ const AddNewVideo = () => {
 
     videoList.forEach((subject) => {
       sXML +=
-        `<SaveVideoDetails ` +
-        `VideoId="${0}" ` +
-        `Comment="${subject.title || ''}" ` +
-        `VideoURL="${subject.url || ''}" />`;
+        "<SaveVideoDetails>" +
+        "<VideoId>" + 0 + "</VideoId>" +
+        "<Comment>" + (subject.title) + "</Comment>" +
+        "<VideoURL>" + (subject.url) + "</VideoURL>" +
+        "</SaveVideoDetails>";
     });
 
     sXML += '</ArrayOfSaveVideoDetails>';
