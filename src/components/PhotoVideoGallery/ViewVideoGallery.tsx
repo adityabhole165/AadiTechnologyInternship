@@ -222,10 +222,17 @@ const ViewVideoGallery = () => {
   };
   // Handle dialog open
   const handleView = (url: string) => {
-    setDialogVideo(url);
+    // Extract the YouTube video ID from the URL and format it for embedding
+    const videoId = url.includes('youtube.com')
+      ? new URL(url).searchParams.get('v')
+      : url.split('/').pop(); // For other URLs, fallback to the last segment
+    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+
+    setDialogVideo(embedUrl); // Set the correctly formatted embed URL
     setOpenDialog(true);
     setIsFullscreen(false); // Reset fullscreen state
   };
+
 
   // Handle dialog close
   const handleCloseDialog = () => {
