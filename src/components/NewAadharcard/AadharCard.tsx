@@ -315,7 +315,7 @@ const AadharCard = () => {
               </Tooltip>
             </Box>
             <Box>
-              <Tooltip title="Refresh">
+              <Tooltip title="Reset">
                 <IconButton
                   sx={{
                     color: 'white',
@@ -435,7 +435,7 @@ const AadharCard = () => {
 
 
                 {ErrorNamePerAadharCard && <ErrorMessage1 Error={ErrorNamePerAadharCard} />}
-                <Tooltip title="Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.">
+                <Tooltip title="Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file types up to 3MB.">
                   <Button
                     sx={{
                       width: { xs: '100%', sm: '50%' }, height: '65px',
