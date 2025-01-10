@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import VideoGalleryApi from "src/api/VideoGallery/ApiVideoGallery";
-import { ICountVideoBody, IdeleteVideoBody, IDeleteVideogallaryDetails, IGetSaveUpdateVideoBody, IGetVideoGalleryBody, IGetViewVideoListBody } from "src/interfaces/VideoGalleryInterface/IVideoGallery";
+import { ICountVideoBody, IdeleteVideoBody, IDeleteVideogallaryDetails, IGetPhotoImageListBody, IGetSaveUpdateVideoBody, IGetVideoGalleryBody, IGetViewVideoListBody } from "src/interfaces/VideoGalleryInterface/IVideoGallery";
 import { AppThunk } from "src/store";
 
 
@@ -12,6 +12,7 @@ const VideoSlice = createSlice({
         ISCuntVideo: [],
         ISGetViewVideoDetails: [],
         DeleteVideoGallary: '',
+        ISGetPhotoImageList: [],
         SaveUpdateVideo: '',
         Loading: true
     },
@@ -49,6 +50,10 @@ const VideoSlice = createSlice({
         RGetViewVideoDetails(state, action) {
             state.Loading = false;
             state.ISGetViewVideoDetails = action.payload;
+        },
+        RGetPhotoImageList(state, action) {
+            state.Loading = false;
+            state.ISGetPhotoImageList = action.payload;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -117,6 +122,22 @@ export const getViewVideoDetails = (data: IGetViewVideoListBody): AppThunk => as
     dispatch(VideoSlice.actions.RGetViewVideoDetails(responseData));
 };
 
+export const getPhotoImageList = (data: IGetPhotoImageListBody): AppThunk => async (dispatch) => {
+    dispatch(VideoSlice.actions.getLoading(true));
+    const response = await VideoGalleryApi.GetPhotoImageList(data);
+
+    let responseData = [];
+    response.data.GalleryimgsResult.map((item, i) => {
+        responseData.push({
+            GalleryId: item.GalleryId,
+            images: item.ImagePath,
+            ImageSrNo: item.ImageSrNo,
+            Comment: item.Comment
+        });
+    });
+    dispatch(VideoSlice.actions.RGetPhotoImageList(responseData));
+    console.log(responseData,'images');
+};
 export const getSaveVideo =
     (data: IGetSaveUpdateVideoBody): AppThunk =>
         async (dispatch) => {

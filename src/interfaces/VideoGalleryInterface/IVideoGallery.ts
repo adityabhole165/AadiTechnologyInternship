@@ -75,3 +75,19 @@ export interface IDeleteVideogallaryDetails {
 export interface IDeleteVideogallaryResult {
     string
 }
+
+export interface IGetPhotoImageListBody {
+    asSchoolId: number,
+    asGalleryName: string,
+    IsDeleted: number,
+}
+export interface IGetPhotoImageListResult {
+    GalleryimgsResult: [
+        {
+            GalleryId: string;
+            ImagePath: string;
+            ImageSrNo: string;
+            Comment: string;
+        }
+    ];
+}

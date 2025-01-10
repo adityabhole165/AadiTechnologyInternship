@@ -3,7 +3,7 @@ import {
   Icomments,
   IVideoList
 } from 'src/interfaces/Common/VideoGallery';
-import { ICountVideoBody, IdeleteVideoBody, IDeleteVideogallaryDetails, IGetSaveUpdateVideoBody, IGetSaveUpdateVideoResult, IGetVideoGalleryBody, IGetVideoGalleryResponse, IGetViewVideoListBody, IGetViewVideoListResponse } from 'src/interfaces/VideoGalleryInterface/IVideoGallery';
+import { ICountVideoBody, IdeleteVideoBody, IDeleteVideogallaryDetails, IGetPhotoImageListBody, IGetPhotoImageListResult, IGetSaveUpdateVideoBody, IGetSaveUpdateVideoResult, IGetVideoGalleryBody, IGetVideoGalleryResponse, IGetViewVideoListBody, IGetViewVideoListResponse } from 'src/interfaces/VideoGalleryInterface/IVideoGallery';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetVideosGallary = (data: IVideoList) => {
@@ -36,6 +36,9 @@ const GetSaveUpdateVideo = (data: IGetSaveUpdateVideoBody) => {
 const DeleteViewVideoGallary = (data: IDeleteVideogallaryDetails) => {
   return http.post<IGetSaveUpdateVideoResult>('Teacher/DeleteVideo', data);
 }
+const GetPhotoImageList = (data: IGetPhotoImageListBody) => {
+  return http.post<IGetPhotoImageListResult>('School/GetgallaryImage', data);
+}
 const VideoGalleryApi = {
   GetVideosGallary,
   GetComments,
@@ -44,6 +47,7 @@ const VideoGalleryApi = {
   GetCountVideo,
   GetViewVideo,
   GetSaveUpdateVideo,
-  DeleteViewVideoGallary
+  DeleteViewVideoGallary,
+  GetPhotoImageList
 };
 export default VideoGalleryApi;
