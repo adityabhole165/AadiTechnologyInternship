@@ -8,7 +8,7 @@ import {
   TextField,
   Tooltip
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,6 +18,7 @@ import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttend
 import { RootState } from 'src/store';
 import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 const MonthwiseAttandance = () => {
   let {
@@ -108,6 +109,12 @@ const MonthwiseAttandance = () => {
   const click = () => {
     navigate('/RITeSchool/Teacher/TAttendance/' + encodeURL(selectClasstecahernew), { state: { fromInternal: true } });
   };
+
+  const clickReset1 =() => {
+    setSearchText('');
+    setMonthWiseAttendanceList(MonthWiseAttendance);
+    
+  }
   return (
     <>
       <Box
@@ -198,10 +205,9 @@ const MonthwiseAttandance = () => {
                     }}
 
                     onKeyDown={(e) => {
-                      // if (e.key === 'Enter' || e.key === 'Tab') {
+                       if (e.key === 'Enter' || e.key === 'Tab') {
                         changeSearchText();
-
-                      // }
+                       }
                     }}
                   /> </Grid>
                 {/* <Divider sx={{ height: 28,  }} orientation="vertical" /> */}
@@ -229,6 +235,18 @@ const MonthwiseAttandance = () => {
                     <SearchIcon />
                   </IconButton>
                 </Tooltip>
+                <Tooltip title="Reset">
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: blue[500],
+                      ':hover': { backgroundColor: blue[600] }
+                    }}
+                    onClick={clickReset1}
+                  >
+                    <RestartAltIcon />
+                  </IconButton>
+                </Tooltip>
 
                 <Tooltip title={Note}>
                   <IconButton
@@ -237,8 +255,9 @@ const MonthwiseAttandance = () => {
                       backgroundColor: grey[500],
                       ':hover': { backgroundColor: grey[600] }
                     }}
+                   
                   >
-                    <Help />
+                    < Help/>
                   </IconButton>
                 </Tooltip>
               </Stack>
