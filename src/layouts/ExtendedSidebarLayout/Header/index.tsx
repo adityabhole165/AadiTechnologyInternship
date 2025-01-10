@@ -537,8 +537,8 @@ function Header() {
               {SchoolName}{' '}
               <Typography
                 variant="body1"
-                sx={{ fontSize: { xs: 'small', sm: 'medium' } }}
-              >
+                sx={{ fontSize: { xs: 'small', sm: 'small', lg: 'large' } }}
+              > 
                 ({UsschoolSettings})
               </Typography>
             </Typography>
@@ -588,7 +588,7 @@ function Header() {
                   aria-label="add"
                 />
                 {!isMobile &&
-                <Box>
+                <Box sx={{minWidth: {sm:'18vw', md:'auto'}}}>
                   <Typography fontWeight={'bold'}>{Name}</Typography>
                   <Typography>{DesignationName}</Typography>
                 </Box>}
