@@ -1,8 +1,9 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import QuestionMark from '@mui/icons-material/QuestionMark';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import Save from '@mui/icons-material/Save';
 import { Box, Button, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -310,6 +311,23 @@ const AadharCard = () => {
                   }}
                 >
                   <QuestionMark />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title="Refresh">
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}>
+                  <RefreshIcon
+                    onClick={ResetForm}
+                    fontSize="medium"
+                  />
                 </IconButton>
               </Tooltip>
             </Box>
