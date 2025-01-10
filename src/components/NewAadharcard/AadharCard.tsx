@@ -140,7 +140,7 @@ const AadharCard = () => {
 
   useEffect(() => {
     if (UpdateTeacherAadharDetailsUS !== '') {
-      toast.success(UpdateTeacherAadharDetailsUS, { toastId: 'success1' });
+      toast.success("Aadhar card details submitted successfully.", { toastId: 'success1' });
       dispatch(resetMessage());
       dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
     }
@@ -391,10 +391,15 @@ const AadharCard = () => {
                     </span>
                   }
                   value={NamePerAadharCard}
-                  onChange={(e) => setNamePerAadharcard(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // Allow only alphabets, spaces, and certain special characters
+                    const regex = /^[A-Za-z\s]*$/;
+                    if (regex.test(value) && value.length <= 150) {
+                      setNamePerAadharcard(value);
+                    }
+                  }}
                   fullWidth
-                  // error={Boolean(ErrorNamePerAadharCard)}
-                  //  helperText={ErrorNamePerAadharCard}
                   sx={{
                     width: { xs: '100%', sm: '50%' },
                     '& .MuiInputBase-input': {
@@ -402,10 +407,15 @@ const AadharCard = () => {
                       padding: '10px',
                       bgcolor: '',
                       borderRadius: '4px',
-                      minWidth: '20vw'
+                      minWidth: '20vw',
                     },
                   }}
+                  inputProps={{
+                    maxLength: 150, // Enforce maximum character length
+                  }}
                 />
+
+
                 {ErrorNamePerAadharCard && <ErrorMessage1 Error={ErrorNamePerAadharCard} />}
                 <Tooltip title="Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.">
                   <Button
