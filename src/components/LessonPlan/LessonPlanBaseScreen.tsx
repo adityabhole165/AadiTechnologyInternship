@@ -434,13 +434,14 @@ const LessonPlanBaseScreen = () => {
     navigate('/RITeSchool/Teacher/AddLessonPlan/Edit/' +
       encodeURL(value.UserId) + '/' +
       encodeURL(value.StartDate.replaceAll(' ', '-')) + '/' +
-      encodeURL(value.EndDate.replaceAll(' ', '-')));
+      encodeURL(value.EndDate.replaceAll(' ', '-')),
+      { state: { fromInternal: true } });
   };
   const Clicknav = (value) => {
     navigate('/RITeSchool/Teacher/AddLessonPlan/View/' +
       encodeURL(value.UserId) + '/' +
       encodeURL(value.StartDate.replaceAll(' ', '-')) + '/' +
-      encodeURL(value.EndDate.replaceAll(' ', '-'))
+      encodeURL(value.EndDate.replaceAll(' ', '-')), { state: { fromInternal: true } }
     );
   };
 
@@ -451,7 +452,7 @@ const LessonPlanBaseScreen = () => {
     dispatch(GetLessonPlanreport(GetLessonPlanReportBody));
   };
   const onClickAdd = () => {
-    navigate('/RITeSchool/Teacher/AddLessonPlan/Add');
+    navigate('/RITeSchool/Teacher/AddLessonPlan/Add', { state: { fromInternal: true } });
   };
 
   const onClickaaaa1 = () => {
