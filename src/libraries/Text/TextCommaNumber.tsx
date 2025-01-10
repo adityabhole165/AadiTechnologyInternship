@@ -70,7 +70,7 @@ const TextCommaNumber = ({
           readOnly: true,
           sx: {
             height: '30px', // Set the height of the input container
-            padding: '0 14px', // Adjust padding as necessary
+            padding: '0 0px', // Adjust padding as necessary
             '& .MuiOutlinedInput-root': {
               height: '30px', // Set the height of the input container
               '& fieldset': {
