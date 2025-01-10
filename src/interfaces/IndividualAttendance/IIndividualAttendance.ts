@@ -1,14 +1,24 @@
 export interface IGetStudentNameBody {
   asSchoolId: number;
-  asAcademicYearId: number;
-  asStandardDivisionId: number;
+  asAcademicYrId: number;
+  asDivisionId: number;
 }
 
+
+
 export interface IGetStudentNameResult {
-  RollNo: String;
-  StudentName: string;
-  Student_Id: string;
+  StudentList: [
+    {
+      StudentId: string,
+      rollno:string,
+      StudentName: string
+    }
+  ]
 }
+
+
+
+
 export interface IGetCalendarForStudentBody {
   asSchoolId: number;
   aStudentId: number;
@@ -16,6 +26,9 @@ export interface IGetCalendarForStudentBody {
   aMonthId: number;
   aYear: number;
 }
+
+
+
 export interface IGetCalendarForStudentResult {
   RollNo: string;
   StudentId: string;

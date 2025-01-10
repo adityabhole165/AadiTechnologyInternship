@@ -38,6 +38,7 @@ import {
 import { RootState } from 'src/store';
 import { decodeURL, encodeURL, getAttendanceLegend } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import { log } from 'console';
 const IndividualAttendance = () => {
   let { selectClasstecahernew, AssignedDate } = useParams();
   AssignedDate = decodeURL(AssignedDate);
@@ -117,6 +118,8 @@ const IndividualAttendance = () => {
   const StudentList = useSelector(
     (state: RootState) => state.IndividualAttendance.GetStudentName
   );
+  console.log(StudentList,"StudentList");
+  
 
   const CalendarForStudent = useSelector(
     (state: RootState) => state.IndividualAttendance.GetCalendarForStudent
@@ -145,8 +148,8 @@ const IndividualAttendance = () => {
   };
   const IGetStudentNameBody: IGetStudentNameBody = {
     asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId:
+    asAcademicYrId: asAcademicYearId,
+    asDivisionId:
       selectClasstecahernew !== undefined
         ? Number(selectClasstecahernew)
         : StudentList && StudentList.length > 0

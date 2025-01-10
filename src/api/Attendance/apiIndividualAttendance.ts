@@ -9,8 +9,8 @@ import {
 import http from '../../requests/SchoolService/schoolServices';
 
 const StudentNameList = (data: IGetStudentNameBody) => {
-  return http.post<IGetStudentNameResult[]>(
-    'Teacher/GetStudentNameDropdown',
+  return http.post<IGetStudentNameResult>(
+    'School/GetStudentListForDropDownList',
     data
   );
 };

@@ -40,15 +40,17 @@ export const getstudentname =
   (data: IGetStudentNameBody): AppThunk =>
     async (dispatch) => {
       const response = await GetStudentNameapi.StudentNameList(data);
-      let a = response.data.map((item, i) => {
-        return {
-          Id: item.StudentName,
-          Name: item.StudentName,
-          Value: item.Student_Id
-        };
-      });
+      const StudentList = response.data.StudentList.map((item) => ({
+        Id: item.StudentName,
+        Name: item.StudentName,
+        Value: item.StudentId, // Use correct key
+      }));
 
-      dispatch(IndividualAttendanceSlice.actions.GetStudentname(a));
+      dispatch(IndividualAttendanceSlice.actions.GetStudentname(StudentList));
+      console.log(StudentList,"StudentList");
+      
+
+
     };
 
 export const getcalendar =
