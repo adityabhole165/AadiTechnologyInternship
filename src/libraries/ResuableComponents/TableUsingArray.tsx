@@ -60,11 +60,11 @@
 // export default TableUsingArray;
 
 import ClearIcon from '@mui/icons-material/Clear';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material';
 
 function TableUsingArray({ ItemList, HeaderArray }) {
   //console.log('ItemList', ItemList);
-
+  console.log('ItemList', ItemList);
   return (
     <Box sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer component={Paper} square>
@@ -98,8 +98,14 @@ function TableUsingArray({ ItemList, HeaderArray }) {
                       py: 1,
                       color: i === ItemList.length - 1 ? theme.palette.common.white : 'inherit',
                     })}
-                  >
-                    {obj === 'X' ? <ClearIcon sx={{ color: 'red' }} /> : obj || '-'}
+                  >{typeof obj === 'object' ?
+                    <>
+                      {obj.name === 'X' ? <ClearIcon sx={{ color: 'red' }} /> : obj.name === 'Holiday' ? <Tooltip arrow placement="top" title={obj.toolTip}><span style={{ color: 'red' }}>{obj.name}</span></Tooltip> : obj.name || '-'}                    </>
+                    :
+                    <>
+                      {obj === 'X' ? <ClearIcon sx={{ color: 'red' }} /> : obj || '-'}
+                    </>
+                    }
                   </TableCell>
                 ))}
               </TableRow>

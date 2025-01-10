@@ -71,6 +71,16 @@ export const GetStudentAttendance =
         return returnVal;
       };
 
+      function getHolidayTooltip(std, div) {
+        let holiday = '';
+        response.data.ClasswiseAttendanceStatusList?.forEach((item) => {
+          if (item.DivisionName === div && item.StandardName === std && item.PresentStudentWithTotal === 'Holiday') {
+            holiday = item.AssociatedHoliday;
+          }
+        });
+        return holiday;
+      }
+
       const StandardsPresentStudentPercentage = (StandardId) => {
         let returnVal = '';
         response.data.MDTD_PSTSList.map((item) => {
@@ -108,12 +118,14 @@ export const GetStudentAttendance =
             DivArray[i],
             StdArray[j]
           );
-          RowData.push(PresentStudentWithTotal);
+          RowData.push({ name: PresentStudentWithTotal, toolTip: getHolidayTooltip(StdArray[j], DivArray[i]) });
         }
-        RowData.push(MarkedTotalDivision(StdArrayId[j]));
-        RowData.push(PresentTotalStudent(StdArrayId[j]));
-        RowData.push(StandardsPresentStudentPercentage(StdArrayId[j]));
+        RowData.push(MarkedTotalDivision(StdArrayId[j]));   // marked for
+        RowData.push(PresentTotalStudent(StdArrayId[j]));  // total
+        RowData.push(StandardsPresentStudentPercentage(StdArrayId[j])); // %
+
         GridData.push(RowData);
+        console.log('pushed data,', RowData);
       }
       for (i = 0; i < DivArray.length; i++) {
         GridLastData.push('');

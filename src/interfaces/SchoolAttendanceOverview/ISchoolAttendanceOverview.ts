@@ -6,6 +6,7 @@ export interface IGetSchoolAttendanceOverviewBody {
 
 export interface IGetSchoolAttendanceOverviewResult {
   SchoolWiseStandardDivisionId: number;
+  AssociatedHoliday: string;
   StandardId: number;
   StandardName: string;
   DivisionId: number;
