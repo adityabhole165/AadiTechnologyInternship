@@ -46,11 +46,13 @@ function CardCal1({
           justifyContent: 'center',
           flexDirection: 'column',
           cursor: 'pointer',
-          //  color: item.Value == DefaultValue ? 'yellow' : item.BackgroundColor,
-          backgroundColor:
-            item.Value?.replaceAll('-', ' ') === assignedDate
-              ? (theme) => alpha(theme.palette.primary.main, 0.2)
-              : color,
+          backgroundColor: (theme) => {
+            if (item.Value?.replaceAll('-', ' ') === assignedDate) {
+              onClick(item.Value)
+              return alpha(theme.palette.primary.main, 0.2)
+            }
+            return color
+          }
         }}
         onClick={() => onClick(item.Value)}
         style={{ color: item.ForeColur }}
