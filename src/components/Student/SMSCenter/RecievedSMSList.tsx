@@ -96,7 +96,7 @@ function ReceivedSMSList() {
         asUserId: UserId,
         asReceiverUserRoleId: RoleId,
         asStartIndex: (page - 1) * rowsPerPage,
-        asPageSize: page * rowsPerPage,
+        asPageSize: rowsPerPage,
     };
 
     const startRecord = (page - 1) * rowsPerPage + 1;
