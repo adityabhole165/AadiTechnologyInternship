@@ -1046,7 +1046,7 @@ function Form13() {
                               key={index}
                               label={recipient?.trim()}
                               onDelete={() => handleDelete(recipient, index)} // Add delete functionality
-                              sx={{ my: 1, mx: 0.5, }}
+                              sx={{ my: 0.3, mx: 0.3, }}
                             />
                           ))}
                         </>
