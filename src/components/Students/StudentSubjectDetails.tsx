@@ -61,7 +61,7 @@ const StudentSubjectDetails = ({ streamwiseSubject, onChange }) => {
         setStreamDetail(true)
       }
     }
-  }, []);
+  }, [IsShowStreamSection]);
 
   // const RetriveStudentStreamwiseSubjectBody: IRetriveStudentStreamwiseSubjectBody = {
   //   asSchoolId: 122,

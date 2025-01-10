@@ -34,6 +34,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
+import { IGetSMSTemplateBody } from 'src/interfaces/ExamResult/IExamResult';
 import {
   IDeleteStudentAchievementDetailsBody, IGenerateTransportFeeEntriesBody, IGetStudentAchievementDetailsBody, IGetStudentNameForAchievementControlBody, IGetStudentsAllAchievementDetailsBody,
   IGetStudentsSiblingDetailBody, IOverwriteAllSiblingDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody
@@ -43,6 +44,7 @@ import {
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile from 'src/libraries/File/SingleFile';
+import { getSMSTemplate } from 'src/requests/ExamResult/RequestExamResult';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import {
   CDADeleteStudentAchievementDetailsMsg, CDAEditGetStudentAchievementDetails, CDAGenerateTransportFeeEntries, CDAGetStudentNameForAchievementControl,
@@ -61,6 +63,7 @@ import {
   CDAUpdateStudent, CDAUpdateStudentPhoto, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
+import { Constants } from 'src/utils/hooks/constants/Constants';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import CommonPageHeader from '../CommonPageHeader';
 import AdditionalDetails from './AdditionalDetails';
@@ -287,7 +290,9 @@ const StudentRegistrationForm = () => {
   const [overwriteSiblingDetails, setoverwriteSiblingDetails] = useState(1);
   const [selectedSiblings, setSelectedSiblings] = useState('');
   const [resetTrigger, setResetTrigger] = useState(false);
-
+  //StreamwiseSubject Tab Condition
+  const [streamDetail, setStreamDetail] = useState(false);
+  console.log('⚙️streamDetail:', streamDetail);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
@@ -605,6 +610,8 @@ const StudentRegistrationForm = () => {
   const ReferenceMessages = useSelector((state: RootState) => state.StudentUI.ISReferenceMessages);
   //const sMsg = ReferenceMessages[0]?.ReferenceMsg ?? '';
   //console.log('⏮️ReferenceMessages', ReferenceMessages);
+  const GetSMSTemplates: any = useSelector((state: RootState) => state.ExamResult.GetSMSTemplate);
+  //console.log('Ⓜ️GetSMSTemplates', GetSMSTemplates);
 
   //#region hiddenfields
   const oStudentDetails = USGetSingleStudentDetails[0]
@@ -671,7 +678,7 @@ const StudentRegistrationForm = () => {
         admission: {
           ...prevForm.admission,
           userName: studentData?.User_Login || '',
-          sendSMS: studentData?.Send_SMS === 'False' ? false : true,
+          //sendSMS: studentData?.Send_SMS === 'True' ? true : false,  // Not found in the response
           newAdmission: studentData?.Is_New_Student === 'False' ? false : true,
           isRTEApplicable: studentData?.Is_RTE_Student === 'False' ? false : true,
           rteCategory: studentData?.RTECategoryId || '',
@@ -936,6 +943,23 @@ const StudentRegistrationForm = () => {
     }
   }, [schoolId]);
 
+  useEffect(() => {
+    if (parseInt(schoolId) === 122) {
+      if (IsShowStreamSection[0]?.IsSecondary && !IsShowStreamSection[0]?.IsMidYear) {
+        setStreamDetail(true)
+      }
+    }
+  }, [IsShowStreamSection]);
+
+  useEffect(() => {
+    const GetSMSTemplate: IGetSMSTemplateBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asSmsTemplateId: Constants.SMS_Template.ForgotPasswordDetailSMS  // Constants Include all the SMS Templates ID`s
+    }
+    if (form.admission.sendSMS) {
+      dispatch(getSMSTemplate(GetSMSTemplate));
+    }
+  }, [form.admission.sendSMS]);
   //#endregion
 
   //#region Date Formation
@@ -1235,6 +1259,11 @@ const StudentRegistrationForm = () => {
   // useEffect(() => { CheckDependenciesForFees() },    //Safety regards
   //   [currentJoiningDate, currentJoiningDateMonth, form.admission?.applicableRules])
 
+  const SendLoginDetailSMS = () => {
+    let SMS_Template = GetSMSTemplates;
+    let SMS_MsgBody = SMS_Template?.SmsTemplateText;
+
+  };
   const executeApiCalls = async (
     updateStudentBody,
     DeleteDayBoardingFeesBody,
@@ -1270,7 +1299,7 @@ const StudentRegistrationForm = () => {
           await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
         }
       }
-
+      SendLoginDetailSMS();
       if (overwriteSiblingDetails === 0) {
         console.log('5️⃣OverwriteSiblingDetails:', overwriteSiblingDetails);
         await dispatch(CDAOverwriteSiblingDetailsMsg(overwriteSiblingDetailsBody));
@@ -1320,7 +1349,7 @@ const StudentRegistrationForm = () => {
       return; // Stop submission
     }
     if (parseInt(schoolId) === 122 && UpdateStudentStreamwiseSubjectDetailsBody) {
-      if (IsShowStreamSection[0]?.IsSecondary && !IsShowStreamSection[0]?.IsMidYear) {
+      if (streamDetail) {       //IsShowStreamSection[0]?.IsSecondary && !IsShowStreamSection[0]?.IsMidYear
         await dispatch(CDAUpdateStudentStreamwiseSubjectDetails(UpdateStudentStreamwiseSubjectDetailsBody));
       }
     }
@@ -2075,7 +2104,7 @@ const StudentRegistrationForm = () => {
             icon={<GroupAddIcon />}
             label="Additional Details"
           />
-          {schoolId && parseInt(schoolId) === 122 && (
+          {schoolId && parseInt(schoolId) === 122 && streamDetail && (
             <Tab
               sx={{ m: 2, maxWidth: 200, borderRadius: '100%' }}
               icon={<LocalLibraryIcon />}
@@ -2153,7 +2182,7 @@ const StudentRegistrationForm = () => {
             </Grid>
           </Grid>
         )}
-        {parseInt(schoolId) === 122 && currentTab === 5 && (
+        {currentTab === 5 && parseInt(schoolId) === 122 && streamDetail && (
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <StudentSubjectDetails
