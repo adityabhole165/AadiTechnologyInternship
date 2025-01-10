@@ -267,7 +267,7 @@ export const getDateFormatted = (date) => {
 export const getDateFormattedDash = (date) => {
   date = date || new Date();
   const Day = new Date(date).getDate();
-  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
   const Year = new Date(date).getFullYear();
   return `${Day}-${Month}-${Year}`;
 };
