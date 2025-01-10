@@ -521,7 +521,7 @@ const AddReciepents = ({
                         key={index}
                         label={recipient?.trim()}
                         onDelete={() => handleDelete(recipient)} // Handle chip deletion
-                        sx={{ my: 1, mx: 0.5, }}
+                        sx={{ my: 0.3, mx: 0.3, }}
                       />
                     ))}
                   </Box>
