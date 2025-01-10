@@ -493,11 +493,30 @@ const AadharCard = () => {
           <Grid item xs={12} md={4}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               {selectedFile ? (
-                <img
-                  src={URL.createObjectURL(selectedFile)}
-                  alt="Aadhar Card"
-                  style={{ width: '100%', height: 'auto', marginBottom: '10px' }}
-                />
+                selectedFile.type === 'application/pdf' ? (
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: '330px',
+                      marginBottom: '10px',
+                      border: '1px solid grey',
+                    }}
+                  >
+                    <iframe
+                      src={URL.createObjectURL(selectedFile)}
+                      width="100%"
+                      height="100%"
+                      title="PDF Preview"
+                      style={{ border: 'none' }}
+                    />
+                  </Box>
+                ) : (
+                  <img
+                    src={URL.createObjectURL(selectedFile)}
+                    alt="Preview"
+                    style={{ width: '100%', height: 'auto', marginBottom: '10px' }}
+                  />
+                )
               ) : (
                 <Box
                   sx={{
@@ -508,14 +527,11 @@ const AadharCard = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginBottom: '10px',
-                    //maxWidth: '30vw',
                   }}
                 >
                   <Typography color="textSecondary">No file selected</Typography>
                 </Box>
               )}
-
-
             </Box>
           </Grid>
         </Grid>
