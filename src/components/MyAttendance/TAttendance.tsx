@@ -518,6 +518,9 @@ const TAttendance = () => {
 
   const SaveMsg = () => {
     // if (!SaveIsActive) return;
+    if (ListAbsentStudents.length > 2) {
+      setOpen(true);
+    }
     if (!SaveIsActive || !isDirty) return;
     const lowerCaseAttendanceStatus = AttendanceStatus.toLowerCase();
     let confirmationMessage = '';
@@ -629,7 +632,7 @@ const TAttendance = () => {
 
   // useEffect(() => {
   //   //console.log(ListAbsentStudents, 'ListAbsentStudents');
-  //   if (ListAbsentStudents.length > 0) {
+  //   if (ListAbsentStudents.length > 2) {
   //     setOpen(false);
   //   }
   // }, [ListAbsentStudents]);
