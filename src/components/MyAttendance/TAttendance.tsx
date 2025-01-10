@@ -519,9 +519,7 @@ const TAttendance = () => {
 
   const SaveMsg = () => {
     // if (!SaveIsActive) return;
-    if (ListAbsentStudents.length > 0) {
-      setOpen(true);
-    }
+   
     if (!SaveIsActive || !isDirty) return;
     const lowerCaseAttendanceStatus = AttendanceStatus.toLowerCase();
     let confirmationMessage = '';
@@ -623,13 +621,16 @@ const TAttendance = () => {
 
   useEffect(() => {
     if (saveResponseMessage != '') {
+      if (ListAbsentStudents.length > 0) {
+        setOpen(true);
+      }
       dispatch(GetStudentList(GetStudentDetails));
       toast.success(saveResponseMessage, { toastId: 'success1' });
       dispatch(setSaveResponse());
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
       dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));
     }
-  }, [saveResponseMessage]);
+  }, [saveResponseMessage, ListAbsentStudents]);
 
   // useEffect(() => {
   //   //console.log(ListAbsentStudents, 'ListAbsentStudents');
