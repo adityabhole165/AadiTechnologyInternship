@@ -128,7 +128,7 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
                         <TableHead>
                             <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                 {absentStudentColumns.map((column, index) => (
-                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize', color: 'white', textAlign: 'left', whiteSpace: 'nowrap' }} >
+                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize', color: 'white', textAlign: 'left', whiteSpace: 'nowrap', py:1 }} >
                                         <b>{column.label}</b>
                                     </TableCell>
                                 ))}
@@ -139,7 +139,7 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
                                 <React.Fragment key={rowData.Id}>
                                     <TableRow>
                                         {absentStudentColumns.map((column) => (
-                                            <TableCell key={column.id} sx={{ paddingTop: '10px', paddingBottom: '10px', textAlign: column.id === 'rollNo' ? 'center' : 'left', whiteSpace: 'nowrap' }}>
+                                            <TableCell key={column.id} sx={{  py:1, textAlign: column.id === 'rollNo' ? 'center' : 'left', whiteSpace: 'nowrap' }}>
                                                 {column.renderCell(rowData)}
                                             </TableCell>
                                         ))}
