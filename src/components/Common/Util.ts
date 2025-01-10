@@ -611,19 +611,39 @@ export const CheckFileValidationAdhar = (fileData, allowedFileTypes, fileSize) =
   const fileExtension = fileData?.name?.split('.').at(-1)?.toLowerCase();
   if (fileExtension !== undefined && fileExtension !== null) {
     if (fileData?.size > fileSize) {
-      return 'File size should not be greater than ' + (fileSize / 1000000).toString() + ' MB.';
+      return 'File size should be less than ' + (fileSize / 1000000).toString() + ' MB.';
     }
     if (!allowedFileTypes.map(type => type.toLowerCase()).includes(fileExtension)) {
       const allowedFileTypesFormatted = allowedFileTypes
         .map(type => `.${type.toLowerCase()}`)
         .join(', ')
         .replace(/, ([^,]*)$/, ' and $1'); // Add 'and' before the last item
-      return 'File type should be between ' + allowedFileTypesFormatted + '.';
+      return 'Invalid file format.';
     }
     return null;
   }
   return 'No file selected or invalid file';
 };
+
+
+// export const CheckFileValidationAdhar = (fileData, allowedFileTypes, fileSize) => {
+//   const fileExtension = fileData?.name?.split('.').at(-1)?.toLowerCase();
+//   if (fileExtension !== undefined && fileExtension !== null) {
+//     if (fileData?.size > fileSize) {
+//       return 'File size should not be greater than ' + (fileSize / 1000000).toString() + ' MB.';
+//     }
+//     if (!allowedFileTypes.map(type => type.toLowerCase()).includes(fileExtension)) {
+//       const allowedFileTypesFormatted = allowedFileTypes
+//         .map(type => `.${type.toLowerCase()}`)
+//         .join(', ')
+//         .replace(/, ([^,]*)$/, ' and $1'); // Add 'and' before the last item
+//       return 'File type should be between ' + allowedFileTypesFormatted + '.';
+//     }
+//     return null;
+//   }
+//   return 'No file selected or invalid file';
+// };
+
 
 export function isBetweenDate(date, dayCount) {
   var compareDate = new Date(getDateFormatted(new Date()));
