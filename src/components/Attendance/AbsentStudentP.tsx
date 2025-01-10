@@ -123,7 +123,10 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
                             label={'Class Name'}
                             fullWidth
                             size={"small"}
-                            value={classname} />
+                            value={classname}
+                            InputProps={{
+                                readOnly: true,
+                            }} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={6}>
                         <TextField
@@ -131,7 +134,11 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
                             label={'Date'}
                             fullWidth
                             size={"small"}
-                            value={date} />
+                            value={date}
+                            
+                            InputProps={{
+                                readOnly: true,
+                            }} />
                     </Grid>
                 </Grid>
                 <Box
@@ -154,8 +161,8 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
                             <TableHead>
                                 <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                     {absentStudentColumns.map((column, index) => (
-                                        <TableCell key={column.id} sx={{ textTransform: 'capitalize', color: 'white', textAlign: 'left', whiteSpace: 'nowrap' }} >
-                                            <b>{column.label}</b>
+                                        <TableCell key={column.id} sx={{py:1, textTransform: 'capitalize', color: 'white', textAlign: 'left', whiteSpace: 'nowrap' }} >
+                                            <strong>{column.label}</strong>
                                         </TableCell>
                                     ))}
                                 </TableRow>
@@ -165,7 +172,7 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
                                     <React.Fragment key={rowData.Id}>
                                         <TableRow>
                                             {absentStudentColumns.map((column) => (
-                                                <TableCell key={column.id} sx={{ paddingTop: '10px', paddingBottom: '10px', textAlign: 'left' }}>
+                                                <TableCell key={column.id} sx={{py:1, textAlign: 'left' }}>
                                                     {column.renderCell(rowData)}
                                                 </TableCell>
                                             ))}
