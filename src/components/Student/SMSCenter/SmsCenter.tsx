@@ -37,6 +37,7 @@ import VerticalButtons from 'src/libraries/button/VerticalButtons';
 import Legend from 'src/libraries/Legend/Legend';
 import { RootState } from 'src/store';
 import SchedulesmsList from './SchedulesmsList';
+import ReceivedSMSList from './RecievedSMSList';
 const PageSize = 20;
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -1400,7 +1401,7 @@ function SmsCenter() {
               </Box>
             )}
 
-            {activeTab == 'Received SMS' && (
+            {activeTab == 'Received SMS' && ( 
               <Box mb={1} sx={{ background: 'white', p: 2 }}>
 
                 <Grid container item spacing={2}  >
@@ -1456,74 +1457,8 @@ function SmsCenter() {
                   </Typography>
 
                 </Box>
+                <ReceivedSMSList />
 
-                {loading ? (
-                  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <CircularProgress />
-                  </Box>
-                ) : PagedSMS.length > 0 ? (<TableContainer component={Box} >
-                  <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
-                    <TableHead>
-                      <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                        <TableCell sx={{ color: 'white', py: 1.5 }}>
-                          <b onClick={() => handleSortChange('UserName')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                            From {SortBy === 'UserName' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
-                          </b>
-                        </TableCell>
-                        <TableCell sx={{ color: 'white', py: 1.5 }}>
-                          <b onClick={() => handleSortChange('Subject')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                            SMS Text {SortBy === 'Subject' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
-                          </b>
-                        </TableCell>
-                        <TableCell sx={{ color: 'white', py: 1.5 }}>
-                          <b onClick={() => handleSortChange('Date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                            Received Date {SortBy === 'Date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
-                          </b>
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {PagedSMS.map((row, index) => (
-                        <TableRow key={index}>
-                          <TableCell sx={{ py: 1 }}>{row.UserName}</TableCell>
-                          <TableCell sx={{ py: 1 }}>   <Link href={url + encodeURL(row.SMS_Id)}>
-                            {row.Subject}
-                          </Link></TableCell>
-                          <TableCell sx={{ py: 1 }}>{getDateFormattedNew(new Date(row.Date))}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>) : (
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      textAlign: 'center',
-                      marginTop: 4,
-                      backgroundColor: '#324b84',
-                      padding: 1,
-                      borderRadius: 2,
-                      color: 'white',
-                    }}
-                  >
-                    <b>No record found.</b>
-                  </Typography>
-                )}
-
-                <Box mt={1}>
-                  {endRecord > 19 ? (
-                    <ButtonGroupComponent
-                      rowsPerPage={rowsPerPage}
-                      ChangeRowsPerPage={ChangeRowsPerPage}
-                      rowsPerPageOptions={rowsPerPageOptions}
-                      PageChange={PageChange}
-                      pagecount={pagecount}
-                    />
-                  ) : (
-                    <span></span>
-                  )
-                  }
-                </Box>
               </Box>
             )}
 
