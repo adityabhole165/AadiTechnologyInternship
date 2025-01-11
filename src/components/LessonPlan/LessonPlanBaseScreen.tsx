@@ -349,7 +349,7 @@ const LessonPlanBaseScreen = () => {
 
     // Check if end date is less than or equal to start date
     if (StartDate && new Date(value) <= new Date(StartDate)) {
-      setErrorMessage('End Date should be greater than Start Date');
+      setErrorMessage('End date should be greater than start date.');
     } else {
       setErrorMessage('');
     }
