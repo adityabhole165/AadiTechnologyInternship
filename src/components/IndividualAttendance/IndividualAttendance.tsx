@@ -283,6 +283,18 @@ const IndividualAttendance = () => {
   const [isOpenPresent, setOpenPresent] = useState<boolean>(false);
   const [isOpenAbsent, setOpenAbsent] = useState<boolean>(false);
   const { showAlert, closeAlert } = useContext(AlertContext);
+  interface AttendanceItem {
+    IsClickable: boolean;
+    Status: string;
+    BackgroundColor: string;
+    Text1: string;
+    [key: string]: any; // For dynamic properties
+  }
+  const [originalItemList, setOriginalItemList] = useState<AttendanceItem[]>([]);
+
+  useEffect(() => {
+    setOriginalItemList(CalendarForStudent);
+  }, [CalendarForStudent]);
 
   const handleSave = (): void => {
     showAlert({
@@ -295,7 +307,10 @@ const IndividualAttendance = () => {
         SaveFile();
         closeAlert();
       },
-      onCancel: closeAlert
+      onCancel: () => {
+        setItemList(originalItemList);
+        closeAlert();
+      }
     });
     return;
   };
