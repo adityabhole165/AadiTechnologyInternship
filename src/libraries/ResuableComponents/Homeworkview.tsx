@@ -32,7 +32,7 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
           <TableBody>
             {ItemList.map((item) => (
               <TableRow key={item.Id}>
-                <TableCell sx={{ textTransform: 'capitalize' }} onClick={() => clickopen(item.Id)}>
+                <TableCell sx={{ textTransform: 'capitalize', cursor:'pointer ' }} onClick={() => clickopen(item.Id)}>
                   {item.Text1}
                 </TableCell>
 
@@ -44,7 +44,7 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
                       onClick={() => clickDelete(item.Id)}
                       // color='error'
                       sx={{
-                        color: '#223354',
+                        color: '#38548A',
                         //  backgroundColor: grey[500],
                         '&:hover': {
                           color: 'red',
