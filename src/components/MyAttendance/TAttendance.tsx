@@ -142,6 +142,9 @@ const TAttendance = () => {
   const UsschoolSettings = useSelector(
     (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
   );
+
+  console.log(UsschoolSettings,"UsschoolSettings");
+  
   const stdlist: any = useSelector(
     (state: RootState) => state.StandardAttendance.stdlist
   );
@@ -890,7 +893,7 @@ const TAttendance = () => {
                   </IconButton>
                 </span>
               </Tooltip>
-              {UsschoolSettings !== '0' && (
+              {(UsschoolSettings !== '0'  && GetScreenPermission() == "Y")  &&(
                 <Tooltip title="Absent Student Details">
                   <span>
                     <IconButton
