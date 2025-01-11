@@ -36,7 +36,7 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
                   {item.Text1}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize',py:1 }} align='center' >
+                <TableCell sx={{ textTransform: 'capitalize',py:1 , cursor:'pointer' }} align='center' >
                   <Tooltip title={
                     'Delete'
                   }>
