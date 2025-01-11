@@ -1,7 +1,7 @@
 
 import { DatePicker } from '@mui/x-date-pickers';
 
-const Datepicker = ({ DateValue, onDateChange, label, size, isMax = false }) => {
+const Datepicker = ({ DateValue, onDateChange, label, size, isMax = false, isMin = false, dateWidth = undefined }) => {
     return (
         <>
             <DatePicker
@@ -22,6 +22,7 @@ const Datepicker = ({ DateValue, onDateChange, label, size, isMax = false }) => 
                 //     {label || "Select Date"} <span style={{ color: 'red' }}>*</span>
                 // </>}
                 views={['year', 'month', 'day']}
+                minDate={isMin && new Date()}
                 maxDate={isMax && new Date()} // Disable future dates
                 slotProps={{
                     textField: {
@@ -30,9 +31,9 @@ const Datepicker = ({ DateValue, onDateChange, label, size, isMax = false }) => 
                         size: size || 'medium'
                     }
                 }}
-            // sx={{
-            //     width: size?.small ? '12vw' : '10vw'
-            // }}
+                sx={{
+                    minWidth: dateWidth ?? 'inherit'
+                }}
             />
         </>
     )
