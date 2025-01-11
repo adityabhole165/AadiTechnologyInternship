@@ -1604,9 +1604,9 @@ const AddHomeworkNew = () => {
             />
           </DialogTitle>
 
-          <Grid container spacing={1} alignItems="center">
-            <Grid item xs={12} marginTop={1}>
+       
               <DialogContent dividers sx={{ px: 4 }}>
+              <Grid container spacing={2} alignItems="center">
                 <Typography variant={'h3'} sx={{ my: 2 }}>
                   Enter Reason For Unpublish
                 </Typography>
@@ -1618,9 +1618,8 @@ const AddHomeworkNew = () => {
                   onChange={Detailschnageall}
                   style={{ width: '545px' }}
                 />
+                </Grid>
               </DialogContent>
-            </Grid>
-          </Grid>
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button
               onClick={() => {
