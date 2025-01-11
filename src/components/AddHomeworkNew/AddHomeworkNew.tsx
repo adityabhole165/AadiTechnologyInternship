@@ -1191,10 +1191,7 @@ const AddHomeworkNew = () => {
                       }}
                       //error={ErrorTitle !== ''}
                       //helperText={ErrorTitle}
-                      sx={{ width: '100%' }}
-                      InputProps={{
-                        readOnly: true,
-                      }}
+                      sx={{ width: '100%' }}                     
                       label={
                         <span>
                           Title <span style={{ color: 'red' }}>*</span>
