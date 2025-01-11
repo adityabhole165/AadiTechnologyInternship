@@ -160,7 +160,7 @@ const IndividualAttendance = () => {
     aStudentId: Number(StudentId),
     aAcademicYearId: asAcademicYearId,
     aMonthId: Number(month),
-    aYear: new Date(FormattedDate).getFullYear()
+    aYear: year//new Date(FormattedDate).getFullYear()
   };
 
   useEffect(() => {
