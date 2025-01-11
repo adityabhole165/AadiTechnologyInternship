@@ -35,6 +35,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { AlertContext } from 'src/contexts/AlertContext';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Legend from 'src/libraries/Legend/Legend';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
@@ -44,7 +45,6 @@ import { encodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ExportLessonPlan from './ExportLessonPlan';
 import IsHighliteStaus from './LessonPlanContext';
-import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
@@ -698,6 +698,7 @@ const LessonPlanBaseScreen = () => {
                       onDateChange={onSelectStartDate}
                       label="Start Date"
                       size="small"
+                      dateWidth={'12vw'}
 
                     />
                   </Box>
@@ -714,6 +715,7 @@ const LessonPlanBaseScreen = () => {
                       onDateChange={onSelectEndDate}
                       label="End Date"
                       size="small"
+                      dateWidth={'12vw'}
                     />
                   </Box>
                 </Grid>
@@ -792,8 +794,8 @@ const LessonPlanBaseScreen = () => {
             </>
           }
         />
-         <Box py={1}>
-        <ErrorMessage1 Error={errorMessage} />
+        <Box py={1}>
+          <ErrorMessage1 Error={errorMessage} />
         </Box>
         <Box sx={{ background: 'white', p: 2, mb: 2 }}>
           <Legend LegendArray={LegendArray} />
