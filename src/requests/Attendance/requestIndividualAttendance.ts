@@ -61,7 +61,9 @@ export const getcalendar =
         return {
           Id: i,
           Name: item.Day,
-          Value: getDateMonthYearFormattedDash(item.Attendance_Date),
+          // Value: getDateMonthYearFormattedDash(item.Attendance_Date),
+          Value: item.Attendance_Date,
+          
           IsActive: false,
           Text1:
             item.Status === 'X'
