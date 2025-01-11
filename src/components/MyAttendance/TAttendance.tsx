@@ -143,7 +143,7 @@ const TAttendance = () => {
     (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
   );
 
-  console.log(UsschoolSettings,"UsschoolSettings");
+  
   
   const stdlist: any = useSelector(
     (state: RootState) => state.StandardAttendance.stdlist
@@ -201,6 +201,9 @@ const TAttendance = () => {
       });
     return perm;
   };
+
+
+  console.log(UsschoolSettings,"UsschoolSettings" , GetScreenPermission()); 
   const [SaveIsActive, setSaveIsActive] = useState(true);
 
   const GetStudentDetails: IStudentsDetails = {
@@ -734,6 +737,9 @@ const TAttendance = () => {
             gap={1}
             sx={{ flexWrap: { xs: 'nowrap', sm: 'nowrap' } }}
           >
+
+          
+            
             <Grid
               item
               xs={12}
@@ -745,18 +751,22 @@ const TAttendance = () => {
               justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
             >
               <Typography
-                color={MarksError || isFutureDate(assignedDate) ? grey[500] : blue[500]} // Disabled color for future date or error
+                color={MarksError || (isFutureDate(assignedDate) && GetScreenPermission() == 'N') ? grey[500] : blue[500]} // Disabled color for future date or error
                 fontWeight="bold"
-                sx={{ cursor: MarksError || isFutureDate(assignedDate) ? 'not-allowed' : 'pointer', mt: { xs: '4px', sm: '7px' } }}
+                sx={{ cursor: MarksError || (isFutureDate(assignedDate) && GetScreenPermission() == 'N') ? 'not-allowed' : 'pointer', mt: { xs: '4px', sm: '7px' } }}
                 onClick={() => {
-                  if (!MarksError && !isFutureDate(assignedDate)) {
+                  if ((!MarksError && (!isFutureDate(assignedDate) && GetScreenPermission() == 'Y')) ) {
                     clickNavigateSchoolAttendanceOverview();
                   }
                 }}
               >
                 Overview
               </Typography>
-              <Typography
+
+              { GetScreenPermission() === 'Y' &&  
+              <span>
+              
+                <Typography
                 color={MarksError || isFutureDate(assignedDate) ? grey[500] : blue[500]} // Disabled color for future date or error
 
                 fontWeight="bold"
@@ -764,6 +774,7 @@ const TAttendance = () => {
               >
                 -
               </Typography>
+
               <Typography
                 color={MarksError || isFutureDate(assignedDate) ? grey[500] : blue[500]} // Disabled color for future date or error
 
@@ -780,10 +791,14 @@ const TAttendance = () => {
                   }
                 }}
               >
-                <Tooltip title="Present Students / Total Students">
+               <Tooltip title="Present Students / Total Students">
                   <Box>{SummaryCountforAttendance?.TotalStudents}</Box>
                 </Tooltip>
+                
+
+
               </Typography>
+
               <Box sx={{ height: '25px', border: '1px solid grey' }} />
               <Typography
                 color={MarksError || isFutureDate(assignedDate) ? grey[500] : blue[500]} // Disabled color for future date or error
@@ -801,11 +816,21 @@ const TAttendance = () => {
                   }
                 }}
               >
-                <Tooltip title="Attendance marked Divisions / Total Divisions">
+
+                 <Tooltip title="Attendance marked Divisions / Total Divisions">
                   <Box>{SummaryCountforAttendance?.TotalDivisions}</Box>
-                </Tooltip>
+                </Tooltip> 
+               
               </Typography>
-            </Grid>
+              </span> }
+              
+
+
+            </Grid> 
+            
+            
+            
+
             <Grid
               item
               xs={12}
@@ -865,7 +890,8 @@ const TAttendance = () => {
                       backgroundColor: blue[500],
                       '&:hover': { backgroundColor: blue[600] }
                     }}
-                    disabled={MarksError ? true : false}
+                   
+                    disabled={GetScreenPermission() === 'N' ||  MarksError ? true : false}
                   >
                     <PersonIcon />
                   </IconButton>
@@ -887,7 +913,8 @@ const TAttendance = () => {
                       backgroundColor: blue[500],
                       '&:hover': { backgroundColor: blue[600] }
                     }}
-                    disabled={MarksError ? true : false}
+                    
+                    disabled={GetScreenPermission() === 'N' ||  MarksError ? true : false}
                   >
                     <CalendarMonthIcon />
                   </IconButton>
