@@ -619,6 +619,9 @@ const TAttendance = () => {
     return;
   };
 
+
+  console.log(ListAbsentStudents , "ListAbsentStudents");
+  
   useEffect(() => {
     if (saveResponseMessage != '') {
       if (ListAbsentStudents.length > 0) {
@@ -631,6 +634,12 @@ const TAttendance = () => {
       dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));
     }
   }, [saveResponseMessage, ListAbsentStudents]);
+
+
+  useEffect(() => {
+      dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));  
+  }, [assignedDate,selectClasstecahernew,UsschoolSettings]);
+
 
   // useEffect(() => {
   //   //console.log(ListAbsentStudents, 'ListAbsentStudents');
