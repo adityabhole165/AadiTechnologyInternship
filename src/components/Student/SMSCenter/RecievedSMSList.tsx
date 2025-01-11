@@ -1,6 +1,6 @@
 import ArrowCircleDown from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import { Box, CircularProgress, Grid, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Grid, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
@@ -139,11 +139,7 @@ function ReceivedSMSList() {
                     </div> : <span> </span>}
 
                     <Box>
-                        {loading ? (
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <CircularProgress />
-                            </Box>
-                        ) : displayList.length > 0 ? (
+                        {displayList.length > 0 ? (
                             <Table
                                 aria-label="simple table"
                                 sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}
