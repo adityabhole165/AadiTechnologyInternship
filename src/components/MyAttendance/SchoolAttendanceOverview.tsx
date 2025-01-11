@@ -151,6 +151,7 @@ const SchoolAttendanceOverview = () => {
                   onDateChange={onSelectDate}
                   label={'Start Date'}
                   size={"small"}
+                  isMax={true}
                 />
               </Box>
               <Tooltip title={Note}>
