@@ -877,7 +877,7 @@ const SubjectExamMarks = () => {
             />
              </div>
           }
-          <br/>
+          {/* <br/>
           {
           endRecord > 19  &&  MarksAssignment.length > 0 ? (
             <ButtonGroupComponent
@@ -892,7 +892,7 @@ const SubjectExamMarks = () => {
             <span></span>
 
           )
-        }
+        } */}
           
         </Box >
 
