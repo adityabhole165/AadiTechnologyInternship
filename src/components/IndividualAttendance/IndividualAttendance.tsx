@@ -56,6 +56,11 @@ const IndividualAttendance = () => {
   //   sessionStorage.getItem('StandardDivisionId')
   // );
   // const [StandardDivisionId, setStandardDivisionId] = useState('');
+  const parseFormattedDate = (formattedDate) => {
+    const [month, year] = formattedDate.split('/');
+    // Build an ISO-compliant date string (adding a day, e.g., '2025-01-01')
+    return `${year}-${month.padStart(2, '0')}-01`; // ISO format: 'YYYY-MM-DD'
+  };
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const studentId = sessionStorage.getItem('StudentId');
   const [asStudentsAttendance, setasStudentsAttendance] = useState();
@@ -79,9 +84,11 @@ const IndividualAttendance = () => {
   const [date, setDate] = useState(new Date(AssignedDate));
 
   const getDateFormatted = (date: Date): string => {
-    return `${date.toLocaleString('en-US', {
-      month: 'short'
-    })} ${date.getFullYear()}`;
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+      throw new Error("Invalid date provided");
+    }
+    const options: Intl.DateTimeFormatOptions = { month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   };
   const [FormattedDate, setFormattedDate] = useState<string | undefined>(
     getDateFormatted(date)
@@ -160,7 +167,7 @@ const IndividualAttendance = () => {
     aStudentId: Number(StudentId),
     aAcademicYearId: asAcademicYearId,
     aMonthId: Number(month),
-    aYear: year//new Date(FormattedDate).getFullYear()
+    aYear: new Date(parseFormattedDate(FormattedDate)).getFullYear(),
   };
 
   useEffect(() => {
@@ -382,7 +389,7 @@ const IndividualAttendance = () => {
       asInsertedById: TeacherId,
       asStudentsAttendance: AttendanceXML,
       aStudentId: Number(StudentId),
-      aYear: year,
+      aYear: new Date(parseFormattedDate(FormattedDate)).getFullYear(),
       aMonthId: Number(month)
     };
     dispatch(SaveStudentAttendance(SaveAttendance));
