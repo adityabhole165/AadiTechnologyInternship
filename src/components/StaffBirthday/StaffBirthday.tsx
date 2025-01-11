@@ -1,16 +1,18 @@
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Box, Grid, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography, useTheme } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { IstaffBirthday } from 'src/interfaces/Student/dashboard';
 import MonthSelector from 'src/libraries/buttons/MonthSelector';
-import List17 from 'src/libraries/list/list17';
-import { CardDetail7 } from 'src/libraries/styled/CardStyle';
-import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
+import Legend from 'src/libraries/Legend/Legend';
+import { DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { getstaffBirthday } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
+import { decodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 function StaffBirthday() {
@@ -69,6 +71,63 @@ function StaffBirthday() {
     year: assignedYear
   };
 
+  const [checked, setChecked] = useState(true);
+  let { assignedDate } = useParams();
+
+  // Decode in-place
+  assignedDate = decodeURL(assignedDate);
+
+  const [birthDate, SetBirthDate] = useState([]);
+
+  staffBirthdayList.map((item: any, i) => {
+    birthDate.push(item.BirthDate)
+  })
+
+  const presDate = moment(new Date()).format("DD MMM ")
+
+  const PresentDate = new Date();
+
+
+  const PresntDay = new Date(presDate);
+  const presenttt = moment(new Date(PresntDay)).format("DD ");
+  const MonthDay = new Date(PresentDate).toLocaleString('default', { month: 'short' });
+  const presentDateMonth = presenttt + MonthDay;
+
+  const PresentMonth = new Date(PresentDate).toLocaleString('default', { month: 'short' });
+  const PresentDateFormat = `${PresntDay} ${PresentMonth}`;
+
+  const presentDate = moment(new Date()).format("DD MMM")
+  const currentDayInMilli = new Date(presentDate).getTime();
+  const oneDay = 1000 * 60 * 60 * 24;
+  const nextDayInMilli = currentDayInMilli + oneDay;
+  const nextDay = new Date(nextDayInMilli);
+  const Day = moment(new Date(nextDay)).format("DD");
+  const Month = new Date(nextDay).toLocaleString('default', { month: 'short' });
+  const NewDateFormat = `${Day} ${Month}`;
+
+  const datesToBeChecked: any = birthDate
+  const dateToCheckFor = presentDate;
+
+
+  let nearestDate;
+
+  datesToBeChecked.map(date => {
+
+
+    let diff = moment(date).diff(moment(dateToCheckFor), 'days');
+
+
+    if (diff > 0) {
+      if (nearestDate) {
+        if (moment(date).diff(moment(nearestDate), 'days') < 2) {
+          nearestDate = date;
+        }
+      } else {
+        nearestDate = date;
+      }
+    }
+  });
+
   useEffect(() => {
     dispatch(getstaffBirthday(body));
   }, [assignedMonth]);
@@ -77,6 +136,32 @@ function StaffBirthday() {
     dispatch(getstaffBirthday(body));
   }, []);
   const classes = Styles();
+  const LegendArray = [
+    {
+      id: 1,
+      Name: 'Upcoming Birthday',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <DotLegendStyled1
+            className={classes.border}
+            style={{ background: '#e9a69a' }}
+          />
+        </Box>
+      )
+    },
+    {
+      id: 2,
+      Name: 'Past Birthday',
+      Value: (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <DotLegendStyled1
+            className={classes.border}
+            style={{ background: '#C0C0C0' }}
+          />
+        </Box>
+      )
+    }
+  ];
 
   return (
     <Box sx={{ px: 2 }}>
@@ -101,20 +186,11 @@ function StaffBirthday() {
         }
       />
       {assignedMonth_num == Current_Month &&
-        <DotLegend1>
-          <DotLegendStyled1
-            className={classes.border}
-            style={{ background: '#e9a69a' }}
-          />
-          <CardDetail7>Upcoming Birthday</CardDetail7>
-          <DotLegendStyled1
-            className={classes.border}
-            style={{ background: "#C0C0C0", marginLeft: '10px' }}
-          />
-          <CardDetail7>Past Birthday</CardDetail7>
-        </DotLegend1>
+        <Box sx={{ background: 'white', p: 1 ,mb:2}}>
+          <Legend LegendArray={LegendArray} />
+        </Box>
       }
-      <br />
+    
       <MonthSelector
         date={date.selectedDate}
         PrevDate={getPreviousDate}
@@ -131,30 +207,95 @@ function StaffBirthday() {
         </Box>
       ) : (
         <>
-          {/* Render the header only if there are birthdays */}
-          <Box sx={{ background: (theme) => theme.palette.secondary.main, p: 1.5, borderRadius: '7px', mb: 1 }}>
-            <Grid container>
-              <Grid item xs={3}>
-                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold', ml: 10 }} variant="subtitle2">Name</Typography>
-              </Grid>
-              <Grid item xs={1.5}>
-                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">DOB</Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Designation</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Email Address</Typography>
-              </Grid>
-              <Grid item xs={1.5}>
-                <Typography sx={{ color: (theme) => theme.palette.common.white, fontWeight: 'bold' }} variant="subtitle2">Mobile Number</Typography>
-              </Grid>
-            </Grid>
-          </Box>
+          <Box sx={{ backgroundColor: 'white', p: 2 }}>
+            {/* Render the header only if there are birthdays */}
+            <TableContainer component={Box}>
+              <Table
+                aria-label="simple table"
+                sx={{
+                  border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+                }}
+              >
+                <TableHead>
+                  <TableRow
+                    sx={{
+                      background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white,
+                    }}>
+                    <TableCell sx={{
+                      textTransform: 'capitalize',
+                      color: "white",
+                      py: 1.5
+                    }}>
+                      <strong>Name</strong>
+                    </TableCell>
+                    <TableCell sx={{
+                      textAlign: "center",
+                      textTransform: 'capitalize',
+                      color: "white",
+                      py: 1.5
+                    }}>
+                      <strong>DOB</strong>
+                    </TableCell>
+                    <TableCell sx={{
+                      textAlign: 'center',
+                      textTransform: 'capitalize',
+                      color: "white",
+                      py: 1.5
+                    }}>
+                      <strong>Designation</strong>
+                    </TableCell>
+                    <TableCell sx={{
+                      textTransform: 'capitalize',
+                      color: "white",
+                      py: 1.5
+                    }}>
+                      <strong>Email Address</strong>
+                    </TableCell>
+                    <TableCell sx={{
+                      whiteSpace: 'nowrap',
+                      textAlign: "center",
+                      textTransform: 'capitalize',
+                      color: "white",
+                      py: 1.5
+                    }}>
+                      <strong>Mobile Number</strong>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                {staffBirthdayList.map((item, i) => (
 
-          {staffBirthdayList.map((item, i) => (
-            <List17 Name={item.Name} BirthDate={item.BirthDate} Designation={item.Designation} EmailAddress={item.EmailAddress} MobileNumber={item.MobileNumber} BinaryPhotoImage={item.BinaryPhotoImage} IsHighlight={item.IsHighlight} key={i} />
-          ))}
+                  <TableBody>
+                    <TableRow
+                      sx={{
+                        background: item.IsHighlight === 1 ? "#EFDCC9" : item.IsHighlight === 2 ? "#d3d3d3" : `${theme.colors.gradients.pink1}`,
+                      }}
+                    >
+                      <TableCell sx={{ display: 'flex', alignItems: 'center', py: 0.5 }}>
+                        <Avatar
+                          alt={item.Name}
+                          src={`data:image/png;base64,${item.BinaryPhotoImage}`}
+                          sx={{
+                            backgroundColor: grey[500],
+                            width: 40,
+                            height: 40,
+                            '& img': { objectFit: 'contain' },
+                            mr: 1
+                          }}
+                        />
+                        <span style={{ whiteSpace: 'nowrap' }}>{item.Name}</span>
+                      </TableCell>
+                      <TableCell sx={{ py: 0.5, textAlign: 'center', whiteSpace: 'nowrap' }}>{item.BirthDate}</TableCell>
+                      <TableCell sx={{ py: 0.5, textAlign: 'center' }}>{item.Designation}</TableCell>
+                      <TableCell sx={{ py: 0.5 }}>{item.EmailAddress}</TableCell>
+                      <TableCell sx={{ py: 0.5, textAlign: 'center' }}>{item.MobileNumber}</TableCell>
+                    </TableRow>
+                  </TableBody>
+
+
+                ))}
+              </Table>
+            </TableContainer>
+          </Box>
         </>
       )}
     </Box>
