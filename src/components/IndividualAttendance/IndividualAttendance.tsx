@@ -38,7 +38,6 @@ import {
 import { RootState } from 'src/store';
 import { decodeURL, encodeURL, getAttendanceLegend } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { log } from 'console';
 const IndividualAttendance = () => {
   let { selectClasstecahernew, AssignedDate } = useParams();
   AssignedDate = decodeURL(AssignedDate);
@@ -80,7 +79,7 @@ const IndividualAttendance = () => {
   const [date, setDate] = useState(new Date(AssignedDate));
 
   const getDateFormatted = (date: Date): string => {
-    return `${date.toLocaleString('default', {
+    return `${date.toLocaleString('en-US', {
       month: 'short'
     })} ${date.getFullYear()}`;
   };
@@ -88,7 +87,7 @@ const IndividualAttendance = () => {
     getDateFormatted(date)
   );
   //console.log(FormattedDate, 'FormattedDate'); // State for formatted date
-  const formattedDate = ` ${date.toLocaleString('default', {
+  const formattedDate = ` ${date.toLocaleString('en-US', {
     month: 'short'
   })} ${date.getFullYear()}`;
   const Note: string = 'Mark the monthly attendance of individual students.';
@@ -118,8 +117,8 @@ const IndividualAttendance = () => {
   const StudentList = useSelector(
     (state: RootState) => state.IndividualAttendance.GetStudentName
   );
-  console.log(StudentList,"StudentList");
-  
+  console.log(StudentList, "StudentList");
+
 
   const CalendarForStudent = useSelector(
     (state: RootState) => state.IndividualAttendance.GetCalendarForStudent
@@ -244,14 +243,13 @@ const IndividualAttendance = () => {
     navigate('/RITeSchool/Teacher/TAttendance', { state: { fromInternal: true } });
   };
   const handlePrevMonth = () => {
-    const newDate = new Date(FormattedDate);
+    const newDate = new Date("01 " + FormattedDate);
     newDate.setMonth(newDate.getMonth() - 1);
 
     if (newDate.getMonth() === 11) {
       newDate.setFullYear(newDate.getFullYear());
     }
     const formattedPreviousDate = getDateFormatted(newDate);
-    //console.log('Previous Month Date:', newDate);
     //console.log('Previous Month:', newDate.getMonth() + 1);
     //console.log('Previous Year:', newDate.getFullYear());
     setDate(newDate);
@@ -261,7 +259,7 @@ const IndividualAttendance = () => {
   };
 
   const handleNextMonth = () => {
-    const newDate = new Date(FormattedDate);
+    const newDate = new Date("01 " + FormattedDate);
     newDate.setMonth(newDate.getMonth() + 1);
 
     if (newDate.getMonth() === 0) {
