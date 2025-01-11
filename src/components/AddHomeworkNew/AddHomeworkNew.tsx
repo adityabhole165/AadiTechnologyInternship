@@ -871,7 +871,7 @@ const AddHomeworkNew = () => {
       '/' +
       encodeURL(MySubject) +
       '/' +
-      encodeURL(SelectClass)
+      encodeURL(SelectClass), { state: { fromInternal: true } }
     );
   };
 

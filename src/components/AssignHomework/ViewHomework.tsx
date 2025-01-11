@@ -137,19 +137,19 @@ const ViewHomework = () => {
             {
               title: 'Add Homework',
               path: '/RITeSchool/Teacher/AddHomeworkNew/' +
-                TeacherId +
+                encodeURL(TeacherId) +
                 '/' +
-                TeacherName +
+                encodeURL(TeacherName) +
                 '/' +
-                ClassName +
+                encodeURL(ClassName) +
                 '/' +
-                SubjectName +
+                encodeURL(SubjectName) +
                 '/' +
-                SubjectId +
+                encodeURL(SubjectId) +
                 '/' +
-                MySubject +
+                encodeURL(MySubject) +
                 '/' +
-                SelectClass
+                encodeURL(SelectClass)
             },
             {
               title: 'View Homework',
