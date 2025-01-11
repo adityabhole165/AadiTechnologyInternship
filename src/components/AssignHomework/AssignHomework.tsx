@@ -33,6 +33,7 @@ import {
 import { RootState } from 'src/store';
 import { GetScreenPermission, decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const AssignHomework = () => {
 
   let { ClassTecherId, ClassId } = useParams();
@@ -192,7 +193,10 @@ const AssignHomework = () => {
       encodeURL(SelectTeacher), { state: { fromInternal: true } }
     );
   };
-
+  const Loading = useSelector(
+    (state: RootState) => state.TeacherNameList.Loading
+  );
+  
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -303,6 +307,8 @@ const AssignHomework = () => {
           </>
         }
       />
+      {Loading ?  <SuspenseLoader /> : 
+      
       <Box
         sx={{
           p: 2,
@@ -371,6 +377,7 @@ const AssignHomework = () => {
           </Box>
         )}
       </Box>
+      }
     </Box>
   );
 };
