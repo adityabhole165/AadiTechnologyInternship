@@ -753,7 +753,7 @@ const TAttendance = () => {
               <Typography
                 color={MarksError || (isFutureDate(assignedDate) && GetScreenPermission() == 'N') ? grey[500] : blue[500]} // Disabled color for future date or error
                 fontWeight="bold"
-                sx={{ cursor: MarksError || (isFutureDate(assignedDate) && GetScreenPermission() == 'N') ? 'not-allowed' : 'pointer', mt: { xs: '4px', sm: '7px' } }}
+                sx={{ cursor: MarksError || (isFutureDate(assignedDate) && GetScreenPermission() == 'N') ? 'not-allowed' : 'pointer', mt: { xs: '4px', sm: '7px' } , mr:2}}
                 onClick={() => {
                   if ((!MarksError && (!isFutureDate(assignedDate) && GetScreenPermission() == 'Y')) ) {
                     clickNavigateSchoolAttendanceOverview();
