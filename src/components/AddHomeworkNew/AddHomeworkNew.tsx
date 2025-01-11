@@ -1014,7 +1014,7 @@ const AddHomeworkNew = () => {
           navLinks={[
             {
               title: 'Assign Homework',
-              path: '/RITeSchool/Teacher/AssignHomework'
+              path: '/RITeSchool/Teacher/AssignHomework' + '/' + encodeURL(SelectClass) + '/' + encodeURL(TeacherId)
             },
             { title: 'Add Homework', path: '/RITeSchool/Teacher/AddHomework' }
           ]}
@@ -1191,7 +1191,7 @@ const AddHomeworkNew = () => {
                       }}
                       //error={ErrorTitle !== ''}
                       //helperText={ErrorTitle}
-                      sx={{ width: '100%' }}                     
+                      sx={{ width: '100%' }}
                       label={
                         <span>
                           Title <span style={{ color: 'red' }}>*</span>
@@ -1465,8 +1465,8 @@ const AddHomeworkNew = () => {
 
           <DialogContent dividers sx={{ px: 4 }}>
             <Grid container spacing={2} alignItems="center">
-              <Typography variant={'h3'} sx={{ my: 2}}>
-              Enter Reason For Unpublish 
+              <Typography variant={'h3'} sx={{ my: 2 }}>
+                Enter Reason For Unpublish
               </Typography>
               <ResizableTextField
                 multiline
@@ -1608,7 +1608,7 @@ const AddHomeworkNew = () => {
             <Grid item xs={12} marginTop={1}>
               <DialogContent dividers sx={{ px: 4 }}>
                 <Typography variant={'h3'} sx={{ my: 2 }}>
-                Enter Reason For Unpublish 
+                  Enter Reason For Unpublish
                 </Typography>
                 <ResizableTextField
                   multiline
