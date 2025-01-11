@@ -1,8 +1,6 @@
 import { AddTwoTone } from '@mui/icons-material';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ArrowCircleDown from '@mui/icons-material/ArrowCircleDown';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Download from '@mui/icons-material/Download';
 import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
@@ -11,7 +9,7 @@ import { default as QuestionMark, default as QuestionMarkIcon } from '@mui/icons
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SmsIcon from '@mui/icons-material/Sms';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
-import { Box, Card, CircularProgress, Grid, IconButton, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Card, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { useContext, useEffect, useState } from 'react';
@@ -30,14 +28,14 @@ import { DeleteScheduleSMSBody, IGetScheduleSMSBody, IMobileNumber, INewSmsList,
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { CDADeleteScheduleSMS, CDAGetScheduleSMS, CDAResetDeleteScheduleSMS, getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
 
-import { encodeURL, getDateFormattedNew } from 'src/components/Common/Util';
+import { encodeURL } from 'src/components/Common/Util';
 import SentsmsList from 'src/components/SentSms/SentsmsList';
 import SentsmsListAll from 'src/components/SentSms/SentsmsListAll';
 import VerticalButtons from 'src/libraries/button/VerticalButtons';
 import Legend from 'src/libraries/Legend/Legend';
 import { RootState } from 'src/store';
-import SchedulesmsList from './SchedulesmsList';
 import ReceivedSMSList from './RecievedSMSList';
+import SchedulesmsList from './SchedulesmsList';
 const PageSize = 20;
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -61,7 +59,6 @@ function SmsCenter() {
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
   const NewSmsList = useSelector((state: RootState) => state.SmsCenter.NewSmsList);
   const SmsCount: any = useSelector((state: RootState) => state.SmsCenter.SmsCountDetails);
-  //console.log(SmsCount, 'SmsCount');
   const loading = useSelector((state: RootState) => state.SmsCenter.Loading);
   const MobileNumber = useSelector((state: RootState) => state.SmsCenter.MobileNumber);
   const [page, setPage] = useState(1);
@@ -164,10 +161,6 @@ function SmsCenter() {
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
-  //console.log(endRecord, "endRecord");
-
-
-
   const ChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
@@ -255,13 +248,13 @@ function SmsCenter() {
   const [rowsPerPageNew, setRowsPerPageNew] = useState(20);
   const rowsPerPageOptionsNew = [20, 50, 100, 200];
   const [pageNew, setPageNew] = useState(1);
+  const [pageNewSchedule, setPageNewSchedule] = useState(1);
   const startIndexNew = (pageNew - 1) * rowsPerPageNew;
   const endIndexNew = startIndexNew + rowsPerPageNew;
   const { showAlert, closeAlert } = useContext(AlertContext);
   const [sortExpression, setSortExpression] = useState('ORDER BY Insert_Date DESC ');
   const [sortExpression1, setSortExpression1] = useState('ORDER BY Insert_Date DESC ');
   const isPrincipal = DesignationName == 'Principal' && activeTab == 'AllSendItem';
-  //console.log(isPrincipal, "isPrincipal");
   const buttonCount = DesignationName == 'Principal' ? 5 : 4;
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'To', SortOrder: null, sortKey: 'ORDER BY UserName' },
@@ -652,13 +645,9 @@ function SmsCenter() {
   };
 
   const PageChangeScheduleSMS = (pageNumber) => {
-    setPageNew(pageNumber);
+    setPageScheduleSMS(pageNumber);
   };
 
-
-
-
-  console.log(GetScheduleSMSList, "ooo", DeleteScheduleSMS);
   const [SmsListScheduleSMS, setSmsListScheduleSMS] = useState([]);
   useEffect(() => {
     setSmsListScheduleSMS(GetScheduleSMSList);
@@ -1294,17 +1283,8 @@ function SmsCenter() {
                     </IconButton>
                   </Tooltip>
                 </Box>
-
-
-
-
               </>
             )}
-
-
-
-
-
 
           </>
         }
@@ -1315,11 +1295,6 @@ function SmsCenter() {
 
         <Grid container item spacing={1}>
           {/* <Grid item sx={{ minWidth: '10%', pr: 1, pb: 2 }}> */}
-
-
-
-
-
 
           <Grid item xs={12} sm={3} md={2} lg={1.5}>
             <VerticalButtons ItemList={ItemList} DefaultValue={DefaultValue} clickItem={clickItem} />
@@ -1401,7 +1376,7 @@ function SmsCenter() {
               </Box>
             )}
 
-            {activeTab == 'Received SMS' && ( 
+            {activeTab == 'Received SMS' && (
               <Box mb={1} sx={{ background: 'white', p: 2 }}>
 
                 <Grid container item spacing={2}  >
@@ -1466,12 +1441,6 @@ function SmsCenter() {
             {activeTab == 'Send Item' && (
               <Box mb={1} sx={{ background: 'white', p: 2 }}>
                 {(Loading) && <SuspenseLoader />}
-
-
-
-
-
-
 
                 {SmsListNew.length > 0 && <Box mb={1} sx={{ background: 'white' }}>
                   {
@@ -1562,23 +1531,13 @@ function SmsCenter() {
 
             {activeTab === 'Scheduled SMS' && (
 
-
-
-
-
-
-
               <Box mb={1} sx={{ background: 'white', p: 2 }}>
-
-
-
-
 
                 <Box sx={{ background: 'white', p: 1, mb: 1 }}>
                   <Legend LegendArray={LegendArray} />
                 </Box>
 
-                {(LoadingScheduled) && <SuspenseLoader />}
+                {/* {(LoadingScheduled) && <SuspenseLoader />} */}
 
                 {SmsListScheduleSMS.length > 0 && <Box mb={1} sx={{ background: 'white' }}>
                   {
@@ -1608,14 +1567,12 @@ function SmsCenter() {
                     clickchange={ChangevalueScheduleSMS}
                     clickTitle={clickTitleScheduleSMS}
 
-
-
                   />
 
                   {
                     endRecordScheduleSMS > 19 ? (
                       <ButtonGroupComponent
-                        rowsPerPage={rowsPerPageNew}
+                        rowsPerPage={rowsPerPageScheduleSMS}
                         ChangeRowsPerPage={ChangeRowsPerPageScheduleSMS}
                         rowsPerPageOptions={rowsPerPageOptionsScheduleSMS}
                         PageChange={PageChangeScheduleSMS}
@@ -1628,8 +1585,6 @@ function SmsCenter() {
 
                     )
                   }
-
-
 
                 </Box>
 
@@ -1655,21 +1610,9 @@ function SmsCenter() {
                     )
                 }
 
-
-
-
-
-
               </Box>
 
             )}
-
-
-
-
-
-
-
 
           </Grid>
         </Grid>
