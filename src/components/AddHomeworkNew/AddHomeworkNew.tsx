@@ -1151,6 +1151,9 @@ const AddHomeworkNew = () => {
                       label={'Class'}
                       value={ClassName}
                       sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                      InputProps={{
+                        readOnly: true,
+                      }}
                       inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                     />
                   </Grid>
@@ -1160,6 +1163,9 @@ const AddHomeworkNew = () => {
                       label={'Class Teacher'}
                       value={TeacherName}
                       sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                      InputProps={{
+                        readOnly: true,
+                      }}
                       inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                     />
                   </Grid>
@@ -1186,6 +1192,9 @@ const AddHomeworkNew = () => {
                       //error={ErrorTitle !== ''}
                       //helperText={ErrorTitle}
                       sx={{ width: '100%' }}
+                      InputProps={{
+                        readOnly: true,
+                      }}
                       label={
                         <span>
                           Title <span style={{ color: 'red' }}>*</span>
@@ -1218,6 +1227,7 @@ const AddHomeworkNew = () => {
                       onDateChange={handleAssignedDateChange}
                       label={'Assigned Date'}
                       size={'medium'}
+                      isMin={true}
                     />
                     {/* <ErrorMessage1 Error={ErrorAssignedDate}></ErrorMessage1> */}
                     {ErrorAssignedDate && (
@@ -1248,6 +1258,7 @@ const AddHomeworkNew = () => {
                       onDateChange={handleCompleteByDateChange}
                       label={'Complete By Date'}
                       size={'medium'}
+                      isMin={true}
                     />
                     {/* <ErrorMessage1 Error={ErrorCompleteDate}></ErrorMessage1> */}
                     {ErrorCompleteDate && (
