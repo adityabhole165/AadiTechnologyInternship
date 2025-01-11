@@ -108,7 +108,10 @@ function CardCalenderList({
             <Grid
               item
               xs={1.7}
+              sm={1.7}
               md={1.7}
+              lg={1.7}
+              xl={1.7}
               sx={{ textAlign: 'center', }}
               key={i}
             >
@@ -128,8 +131,11 @@ function CardCalenderList({
           <Grid
             item
             // border="1px solid #ebebeb"
-            xs={1.5 * dayCount}
+            xs={1.7 * dayCount}
+            sm={1.7 * dayCount}
             md={1.7 * dayCount}
+            lg={1.7 * dayCount}
+            xl={1.7 * dayCount}
             sx={{ textAlign: 'center', pt: 0 }}
           ></Grid>
           {ItemList &&
@@ -139,8 +145,11 @@ function CardCalenderList({
                 <Grid
                   item
                   
-                  xs={1.5}
+                  xs={1.7}
+                  sm={1.7}
                   md={1.7}
+                  lg={1.7}
+                  xl={1.7}
                   sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
                   key={i}
                 >
