@@ -177,6 +177,7 @@ const ViewVideoGallery = () => {
     if (selectedData) {
       setFormData({ url: selectedData.url, title: selectedData.title });
       setEditId(id); // Switch to edit mode
+      setVideoDetailsId(id.toString())
     }
   };
 
