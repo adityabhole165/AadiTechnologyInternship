@@ -81,7 +81,7 @@ export function isPastDateTime(date) {
 }
 export function getMonthYear() {
   const date = new Date();
-  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
   const Month_num = new Date(date).getMonth();
   const Year = new Date(date).getFullYear();
   const NewDateFormat = `${Month}-${Year}`;
@@ -196,7 +196,7 @@ export function compareStringWithoutSpace(value1, value2) {
 }
 //date='02 Oct 2022'
 export function isTodaysDate(date) {
-  const todaysDate = new Date().toLocaleString('default', {
+  const todaysDate = new Date().toLocaleString('en-US', {
     day: '2-digit',
     month: 'short',
     year: 'numeric'
@@ -392,7 +392,7 @@ export function formatDate1(dateString) {
 export const getDateFormatNew = (date) => {
   date = date || new Date();
   const Day = new Date(date).getDate().toString().length === 1 ? '0' + new Date(date).getDate() : new Date(date).getDate();
-  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
   const Year = new Date(date).getFullYear();
   return `${Day}-${Month}-${Year}`;
 };
@@ -400,14 +400,14 @@ export const getDateFormatNew = (date) => {
 export const getDateFormat1 = (date) => {
   date = date || new Date();
   const Day = new Date(date).getDate();
-  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
   const Year = new Date(date).getFullYear();
   return `${Year}-${Month.substring(0, 3)}-${Day}`;
 };
 export const getHomeworkDateFormatted = (date) => {
   date = date || new Date();
   const Day = new Date(date).getDate();
-  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
   const Year = new Date(date).getFullYear();
   return `${Day}-${Month}-${Year}`;
 };
@@ -490,14 +490,14 @@ export const getMonthYearSplitFormatted1 = (date) => {
 export const getMonthYearFormatted = (date) => {
   date = date || new Date();
   const Day = new Date(date).getDate();
-  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
   const Year = new Date(date).getFullYear();
   return `${Month}-${Year}`;
 };
 export const getMonthYearSpaceFormatted = (date) => {
   date = date || new Date();
   const Day = new Date(date).getDate();
-  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
   const Year = new Date(date).getFullYear();
   return `${Month} ${Year}`;
 };
@@ -892,7 +892,7 @@ export const getDateFormattedDashNew = (dateStr) => {
   }
 
   const Day = date.getDate();
-  const Month = date.toLocaleString('default', { month: 'short' });
+  const Month = date.toLocaleString('en-US', { month: 'short' });
   const Year = date.getFullYear();
 
   const hours = date.getHours();
@@ -930,7 +930,7 @@ export const getDateFormattedNew = (dateStr) => {
   }
 
   const Day = String(date.getDate()).padStart(2, '0');
-  const Month = date.toLocaleString('default', { month: 'short' });
+  const Month = date.toLocaleString('en-US', { month: 'short' });
   const Year = date.getFullYear();
 
   const hours = date.getHours();
