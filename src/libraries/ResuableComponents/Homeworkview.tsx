@@ -21,7 +21,7 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
-                  sx={{ textTransform: 'capitalize', color: 'white' }}
+                  sx={{ textTransform: 'capitalize', color: 'white',py:2 }}
                   align={item.align ? item.align : 'left'}
                 >
                   <b>{item.Header}</b>
@@ -32,11 +32,11 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
           <TableBody>
             {ItemList.map((item) => (
               <TableRow key={item.Id}>
-                <TableCell sx={{ textTransform: 'capitalize', cursor:'pointer ' }} onClick={() => clickopen(item.Id)}>
+                <TableCell sx={{ textTransform: 'capitalize', cursor:'pointer ' ,py:1}} onClick={() => clickopen(item.Id)}>
                   {item.Text1}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align='center' >
+                <TableCell sx={{ textTransform: 'capitalize',py:1 }} align='center' >
                   <Tooltip title={
                     'Delete'
                   }>
