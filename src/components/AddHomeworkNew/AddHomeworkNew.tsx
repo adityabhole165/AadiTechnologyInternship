@@ -1466,7 +1466,7 @@ const AddHomeworkNew = () => {
           <DialogContent dividers sx={{ px: 4 }}>
             <Grid container spacing={2} alignItems="center">
               <Typography variant={'h3'} sx={{ my: 2}}>
-                Unpublish Reason
+              Enter Reason For Unpublish 
               </Typography>
               <ResizableTextField
                 multiline
@@ -1608,7 +1608,7 @@ const AddHomeworkNew = () => {
             <Grid item xs={12} marginTop={1}>
               <DialogContent dividers sx={{ px: 4 }}>
                 <Typography variant={'h3'} sx={{ my: 2 }}>
-                  Unpublish Reason
+                Enter Reason For Unpublish 
                 </Typography>
                 <ResizableTextField
                   multiline
