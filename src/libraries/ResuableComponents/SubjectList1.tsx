@@ -75,7 +75,7 @@ function SubjectList1({
               <TableRow key={i}>
                 <TableCell
                   sx={{
-                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
+                    textTransform: 'capitalize',  py: 0,
                   }}>
                   <Checkbox
                     checked={item.IsActive}
@@ -86,15 +86,15 @@ function SubjectList1({
                   />
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} >
+                <TableCell sx={{ textTransform: 'capitalize', py: 0 }} >
                   {item.Text10}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} >
+                <TableCell sx={{ textTransform: 'capitalize',  py: 0}} >
                   {item.Text1}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} >
+                <TableCell sx={{ textTransform: 'capitalize', py: 0 }} >
                   <Link href={''} onClick={() => clickTitle(item.Id)} style={{ textDecoration: 'underline' }}>
                     {item.Text2}
                   </Link>
@@ -102,7 +102,7 @@ function SubjectList1({
 
 
 
-                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} align='center'>
+                <TableCell sx={{ textTransform: 'capitalize',  py: 0 }} align='center'>
                   {item.IsPublished === 'True' ?
                     //  <CheckCircle color={"success"} /> 
                     <Typography component="span" color="green" fontWeight="bold" >
@@ -116,7 +116,7 @@ function SubjectList1({
                     </Typography>
                   }
                 </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} >
+                <TableCell sx={{ textTransform: 'capitalize',  py: 0 }} >
                   {item.Text6}
                 </TableCell>
               </TableRow>

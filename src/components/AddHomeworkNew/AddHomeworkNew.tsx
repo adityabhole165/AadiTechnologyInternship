@@ -1507,7 +1507,7 @@ const AddHomeworkNew = () => {
           </DialogActions>
         </Dialog>
 
-        <Box sx={{ background: 'white', p: 1, mt: 1 }}>
+        <Box sx={{ background: 'white', p: 2, mt: 1 }}>
           <Typography variant={'h4'} my={1}>
             Assigned homework for selected subject :
           </Typography>
@@ -1648,7 +1648,7 @@ const AddHomeworkNew = () => {
 
         {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
           <Box
-            mt={2}
+            mt={1}
             sx={{
               display: 'flex',
               alignItems: 'center',
