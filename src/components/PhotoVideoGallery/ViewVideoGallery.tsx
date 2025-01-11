@@ -180,28 +180,64 @@ const ViewVideoGallery = () => {
     }
   };
 
+  const [errors, setErrors] = useState({ url: false, title: false });
   // Handle update
   const handleUpdate = () => {
+    // Validate fields
+    const errors = {
+      url: formData.url.trim() === "",
+      title: formData.title.trim() === "",
+    };
+
+    if (errors.url || errors.title) {
+      setErrors(errors); // Assuming `setErrors` manages the error state
+      return; // Exit the function if validation fails
+    }
+
+    // Perform the update if validation passes
     if (editId !== null) {
       setData((prevData) =>
         prevData.map((item) =>
           item.id === editId ? { ...item, ...formData } : item
         )
       );
-      setFormData({ url: '', title: '' });
-      setEditId(null); // Switch back to add mode
-    }
-    dispatch(getSaveVideo(UpdateVideoListBody));
 
+      // Reset form state
+      setFormData({ url: "", title: "" });
+      setEditId(null); // Switch back to add mode
+      setErrors({ url: false, title: false }); // Clear errors
+    }
+
+    // Dispatch updated data
+    dispatch(getSaveVideo(UpdateVideoListBody));
   };
 
-  // Handle add
   const handleAdd = () => {
-    const newId = ViewVideoDetails.length ? Math.max(...ViewVideoDetails.map((item) => item.id)) + 1 : 1;
-    setData([...ViewVideoDetails, { id: newId, url: formData.url, title: formData.title }]);
-    setFormData({ url: '', title: '' });
+    const errors = {
+      url: formData.url.trim() === "",
+      title: formData.title.trim() === "",
+    };
+
+    if (errors.url || errors.title) {
+      setErrors(errors);
+      return;
+    }
+
+    const newId = ViewVideoDetails.length
+      ? Math.max(...ViewVideoDetails.map((item) => item.id)) + 1
+      : 1;
+
+    setData([
+      ...ViewVideoDetails,
+      { id: newId, url: formData.url, title: formData.title }
+    ]);
+
+    setFormData({ url: "", title: "" });
+    setErrors({ url: false, title: false });
+
     dispatch(getSaveVideo(SaveVideoListBody));
   };
+
   useEffect(() => {
     if (SaveUpdateVideoDetails != "") {
       toast.success(SaveUpdateVideoDetails);
@@ -307,6 +343,25 @@ const ViewVideoGallery = () => {
 
           </>}
       />
+
+      <>
+        {(errors.url || errors.title) && (
+          <>
+            {
+              errors.url && (
+                <Typography variant="body2" color="error" sx={{ mb: 1 }}>
+                  URL should not be blank.
+                </Typography>
+              )
+            }
+            {errors.title && (
+              <Typography variant="body2" color="error" sx={{ mb: 1 }}>
+                Title should not be blank.
+              </Typography>
+            )}
+          </>
+        )}
+      </>
       <Box sx={{ backgroundColor: 'white', p: 2 }}>
         {/* Form Section */}
         <Grid container spacing={2} alignItems="center">
@@ -336,7 +391,10 @@ const ViewVideoGallery = () => {
               }
               name="url"
               value={formData.url}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData({ ...formData, url: e.target.value });
+                setErrors({ ...errors, url: false }); // Clear error on input
+              }}
             />
           </Grid>
           <Grid item xs={6}>
@@ -349,7 +407,10 @@ const ViewVideoGallery = () => {
               }
               name="title"
               value={formData.title}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData({ ...formData, title: e.target.value });
+                setErrors({ ...errors, title: false }); // Clear error on input
+              }}
             />
           </Grid>
           <Grid item>
