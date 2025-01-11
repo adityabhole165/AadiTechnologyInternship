@@ -764,7 +764,7 @@ const TAttendance = () => {
               </Typography>
 
               { GetScreenPermission() === 'Y' &&  
-              <span>
+              <>
               
                 <Typography
                 color={MarksError || isFutureDate(assignedDate) ? grey[500] : blue[500]} // Disabled color for future date or error
@@ -822,7 +822,7 @@ const TAttendance = () => {
                 </Tooltip> 
                
               </Typography>
-              </span> }
+              </> }
               
 
 
