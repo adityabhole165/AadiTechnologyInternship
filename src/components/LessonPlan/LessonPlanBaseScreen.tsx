@@ -44,6 +44,7 @@ import { encodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ExportLessonPlan from './ExportLessonPlan';
 import IsHighliteStaus from './LessonPlanContext';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
@@ -678,11 +679,11 @@ const LessonPlanBaseScreen = () => {
                     </Box>
                   )}
                 </Grid>
-                {errorMessage && (
+                {/* {errorMessage && (
                   <Typography variant="body2" color="error">
                     {errorMessage}
                   </Typography>
-                )}
+                )} */}
 
                 <Grid
                   item
@@ -791,6 +792,9 @@ const LessonPlanBaseScreen = () => {
             </>
           }
         />
+         <Box py={1}>
+        <ErrorMessage1 Error={errorMessage} />
+        </Box>
         <Box sx={{ background: 'white', p: 2, mb: 2 }}>
           <Legend LegendArray={LegendArray} />
         </Box>
