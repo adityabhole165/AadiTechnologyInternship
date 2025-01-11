@@ -395,7 +395,7 @@ const AssignExamMark = () => {
               {
                 CanEdit == 'Y' ? <Box>
                   <SearchableDropdown
-                    sx={{ width: { xs: '40vw', sm: '25vw' } }}
+                    sx={{ width: { xs: '40vw', sm: '18vw' } }}
                     ItemList={USSubjectTeachersForAssignExamMarks}
                     onChange={clickClassTeacher}
                     label={'Select Subject Teacher'}
@@ -430,7 +430,7 @@ const AssignExamMark = () => {
               justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
             >
               <SearchableDropdown
-                sx={{ width: { xs: '70vw', sm: '25vw', md: '20vw' } }}
+                sx={{ width: { xs: '70vw', sm: '15vw', md: '20vw' } }}
                 ItemList={ClassWiseExamDropdown}
                 onChange={clickClassWiseExam}
                 label={'Select Exam'}
