@@ -519,7 +519,7 @@ const MultipleFile: React.FC<MultipleFileProps> = ({
                 </Tooltip>
             </Grid>
             {FileError && (
-                <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', justifyContent: 'left' }}>
                     <Typography mt={2}>
                         <Errormessage Error={FileError} />
                     </Typography>
