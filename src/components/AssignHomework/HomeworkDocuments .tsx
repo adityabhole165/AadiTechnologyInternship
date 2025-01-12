@@ -15,7 +15,7 @@ import {
   deleteresetMessage
 } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { RootState } from 'src/store';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const HomeworkDocuments = () => {
@@ -134,23 +134,23 @@ const HomeworkDocuments = () => {
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
-            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' },
+            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' + '/' + encodeURL(SelectClass) + '/' + encodeURL(TeacherId) },
             {
               title: 'Add Homework',
               path: '/RITeSchool/Teacher/AddHomeworkNew/' +
-                TeacherId +
+                encodeURL(TeacherId) +
                 '/' +
-                TeacherName +
+                encodeURL(TeacherName) +
                 '/' +
-                ClassName +
+                encodeURL(ClassName) +
                 '/' +
-                SubjectName +
+                encodeURL(SubjectName) +
                 '/' +
-                SubjectId +
+                encodeURL(SubjectId) +
                 '/' +
-                MySubject +
+                encodeURL(MySubject) +
                 '/' +
-                SelectClass
+                encodeURL(SelectClass)
             },
             { title: 'Documents', path: '/RITeSchool/Teacher/HomeworkDocuments' }
           ]}
