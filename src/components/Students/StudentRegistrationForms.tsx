@@ -526,7 +526,7 @@ const StudentRegistrationForm = () => {
 
 
   //#region Tabs
-  const totalTabs = parseInt(schoolId) === 122 ? 6 : 5;
+  const totalTabs = parseInt(schoolId) === 122 && streamDetail ? 6 : 5;
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(Math.min(newValue, totalTabs - 1));
   };
