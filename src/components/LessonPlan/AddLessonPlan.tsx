@@ -48,7 +48,7 @@ const AddLessonPlan = () => {
   UserIdParam = decodeURL(UserIdParam);
   StartDateParam = decodeURL(StartDateParam);
   EndDateParam = decodeURL(EndDateParam);
-  Action = decodeURL(Action);
+  // Action = decodeURL(Action);
 
   // const StartDateParam = "01-Nov-2023", EndDateParam = "30-Nov-2023", IsNewMode = false
   const dispatch = useDispatch();
