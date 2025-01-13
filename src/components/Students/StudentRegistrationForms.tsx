@@ -34,17 +34,15 @@ import { useNavigate, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetSMSTemplateBody } from 'src/interfaces/ExamResult/IExamResult';
 import {
   IDeleteStudentAchievementDetailsBody, IGenerateTransportFeeEntriesBody, IGetStudentAchievementDetailsBody, IGetStudentNameForAchievementControlBody, IGetStudentsAllAchievementDetailsBody,
   IGetStudentsSiblingDetailBody, IOverwriteAllSiblingDetailsBody, ISaveStudentAchievementDetailsBody, IUpdateStudentTrackingDetailsBody
 } from 'src/interfaces/StudentDetails/IStudentDetails';
 import {
-  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IDeleteDayBoardingFeesBody, ISaveSubmittedDocumentsBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
+  IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IDeleteDayBoardingFeesBody, ISaveSubmittedDocumentsBody, ISendLoginDetailSMSBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { getSMSTemplate } from 'src/requests/ExamResult/RequestExamResult';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import {
   CDADeleteStudentAchievementDetailsMsg, CDAEditGetStudentAchievementDetails, CDAGenerateTransportFeeEntries, CDAGetStudentNameForAchievementControl,
@@ -60,10 +58,10 @@ import {
   CDAGetStudentDocuments,
   CDARetriveStudentStreamwiseSubject,
   CDASaveSubmittedDocumentsMsg,
+  CDASendLoginDetailSMSMsg,
   CDAUpdateStudent, CDAUpdateStudentPhoto, CDAUpdateStudentStreamwiseSubjectDetails, ResetFeeDependencyErrorMsg, ResetUpdateStudentMsg
 } from 'src/requests/Students/RequestStudentUI';
 import { RootState } from 'src/store';
-import { Constants } from 'src/utils/hooks/constants/Constants';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import CommonPageHeader from '../CommonPageHeader';
 import AdditionalDetails from './AdditionalDetails';
@@ -292,7 +290,7 @@ const StudentRegistrationForm = () => {
   const [resetTrigger, setResetTrigger] = useState(false);
   //StreamwiseSubject Tab Condition
   const [streamDetail, setStreamDetail] = useState(false);
-  console.log('⚙️streamDetail:', streamDetail);
+  //console.log('⚙️streamDetail:', streamDetail);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   //console.log('⚙️UsGetSchoolSettings:', UsGetSchoolSettings);
   const IsAdditionalFieldsApplicable = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsAdditionalFieldsApplicable || false;
@@ -951,15 +949,15 @@ const StudentRegistrationForm = () => {
     }
   }, [IsShowStreamSection]);
 
-  useEffect(() => {
-    const GetSMSTemplate: IGetSMSTemplateBody = {
-      asSchoolId: Number(localStorage.getItem('localSchoolId')),
-      asSmsTemplateId: Constants.SMS_Template.ForgotPasswordDetailSMS  // Constants Include all the SMS Templates ID`s
-    }
-    if (form.admission.sendSMS) {
-      dispatch(getSMSTemplate(GetSMSTemplate));
-    }
-  }, [form.admission.sendSMS]);
+  // useEffect(() => {
+  //   const GetSMSTemplate: IGetSMSTemplateBody = {
+  //     asSchoolId: Number(localStorage.getItem('localSchoolId')),
+  //     asSmsTemplateId: Constants.SMS_Template.ForgotPasswordDetailSMS  // Constants Include all the SMS Templates ID`s
+  //   }
+  //   if (form.admission.sendSMS) {
+  //     dispatch(getSMSTemplate(GetSMSTemplate));
+  //   }
+  // }, [form.admission.sendSMS]);
   //#endregion
 
   //#region Date Formation
@@ -1212,6 +1210,18 @@ const StudentRegistrationForm = () => {
     asUpdatedById: Number(teacherId)
   };
 
+  const SendLoginDetailSMSBody: ISendLoginDetailSMSBody = {
+    asSchoolId: Number(schoolId),
+    asAcademicYearId: Number(academicYearId),
+    asUserId: StudentUser_Id,
+    asYearwiseStudentId: YearWise_Student_Id ?? localData.YearWise_Student_Id,
+    asMobile_Number: form.personal?.mobileNumber1 || '',
+    asMobile_Number2: form.personal?.mobileNumber2 || '',
+    SenderUserId: sessionStorage.getItem('Id'),
+    SenderUserRoleId: sessionStorage.getItem('RoleId'),
+    asInsertedById: sessionStorage.getItem('Id'),
+  };
+
   const OverwriteSiblingDetailsBody: IOverwriteAllSiblingDetailsBody = {
     asSchoolId: Number(schoolId),
     asAcademicYearId: Number(academicYearId),
@@ -1259,17 +1269,15 @@ const StudentRegistrationForm = () => {
   // useEffect(() => { CheckDependenciesForFees() },    //Safety regards
   //   [currentJoiningDate, currentJoiningDateMonth, form.admission?.applicableRules])
 
-  const SendLoginDetailSMS = () => {
-    let SMS_Template = GetSMSTemplates;
-    let SMS_MsgBody = SMS_Template?.SmsTemplateText;
 
-  };
+
   const executeApiCalls = async (
     updateStudentBody,
     DeleteDayBoardingFeesBody,
     additionalDetailsBody,
     streamwiseSubjectDetailsBody,
     transportFeeBody,
+    SendLoginDetailSMSBody,
     overwriteSiblingDetailsBody,
     UpdateStudentPhotoBody
   ) => {
@@ -1299,7 +1307,12 @@ const StudentRegistrationForm = () => {
           await dispatch(CDAGenerateTransportFeeEntries(transportFeeBody));
         }
       }
-      SendLoginDetailSMS();
+
+      if (form.admission?.sendSMS) {
+        console.log('Ⓜ️ SendLoginDetailSMS:', SendLoginDetailSMSBody);
+        await dispatch(CDASendLoginDetailSMSMsg(SendLoginDetailSMSBody));
+      }
+
       if (overwriteSiblingDetails === 0) {
         console.log('5️⃣OverwriteSiblingDetails:', overwriteSiblingDetails);
         await dispatch(CDAOverwriteSiblingDetailsMsg(overwriteSiblingDetailsBody));
@@ -1382,6 +1395,7 @@ const StudentRegistrationForm = () => {
         AddStudentAdditionalDetailsBody,
         UpdateStudentStreamwiseSubjectDetailsBody,
         transportFeeBody,
+        SendLoginDetailSMSBody,
         OverwriteSiblingDetailsBody,
         UpdateStudentPhotoBody
       );
@@ -1416,6 +1430,7 @@ const StudentRegistrationForm = () => {
         AddStudentAdditionalDetailsBody,
         UpdateStudentStreamwiseSubjectDetailsBody,
         transportFeeBody,
+        SendLoginDetailSMSBody,
         OverwriteSiblingDetailsBody, // Include sibling details in this flow
         UpdateStudentPhotoBody
       );

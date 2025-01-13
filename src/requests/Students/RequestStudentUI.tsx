@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentUIAPI from 'src/api/Students/ApiStudentUI';
-import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckIfAttendanceMarkedBody, IDeleteAadharCardPhotoCopyBody, IDeleteDayBoardingFeesBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, ISaveSubmittedDocumentsBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
+import { IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, ICheckIfAttendanceMarkedBody, IDeleteAadharCardPhotoCopyBody, IDeleteDayBoardingFeesBody, IDeletePhotosBody, IGetAllGroupsOfStreamBody, IGetAllStreamsBody, IGetAllUserRolesBody, IGetFeeAreaNamesBody, IGetSingleStudentDetailsBody, IGetStreamwiseSubjectDetailsBody, IGetStudentAdditionalDetailsBody, IIsAnyExamPublishedBody, IIsOnLeaveBody, IMasterDatastudentBody, IRemoveStudentPhotoBody, IRetriveStudentStreamwiseSubjectBody, ISaveSubmittedDocumentsBody, ISendLoginDetailSMSBody, IStaffNameBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody } from 'src/interfaces/Students/IStudentUI';
 import { AppThunk } from 'src/store';
 const StudentUISlice = createSlice({
     name: 'StudentUI',
@@ -56,6 +56,8 @@ const StudentUISlice = createSlice({
         ISReferenceMessages: [],
         //Day Boarding Fees
         IsDeleteDayBoardingFeesMsg: '',
+        //Send SMS
+        IsSendLoginDetailSMSMsg: '',
         Loading: true
     },
     reducers: {
@@ -245,6 +247,10 @@ const StudentUISlice = createSlice({
         },
         RDeleteDayBoardingFeesMsg(state, action) {
             state.IsDeleteDayBoardingFeesMsg = action.payload;
+            state.Loading = false;
+        },
+        RSendLoginDetailSMSMsg(state, action) {
+            state.IsSendLoginDetailSMSMsg = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -787,6 +793,24 @@ export const CDADeleteDayBoardingFeesMsg =
                 // The API call was successful
                 //console.log('-Day Boarding Fees deleted successfully');
                 //console.log('Response data:', response.data);
+            }
+            else {
+                // Handle non-200 status codes
+                console.error('❌API call failed with status:', response.status);
+                console.error('Error response:', response.data);
+            }
+        };
+
+export const CDASendLoginDetailSMSMsg =
+    (data: ISendLoginDetailSMSBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(StudentUISlice.actions.getLoading(true));
+            const response = await GetStudentUIAPI.SendLoginDetailSMSApi(data);
+            dispatch(StudentUISlice.actions.RSendLoginDetailSMSMsg(response.data));
+            if (response.status === 200) {
+                // The API call was successful
+                console.log('🔔SMS sent successfully');
+                console.log('Response data:', response.data);
             }
             else {
                 // Handle non-200 status codes

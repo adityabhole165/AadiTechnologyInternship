@@ -628,6 +628,20 @@ export interface IDeleteDayBoardingFeesBody {
     asSchoolWise_Student_Id: number
     asUpdatedById: number
 }
+//Send SMS
+export interface ISendLoginDetailSMSBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asUserId: number
+    asYearwiseStudentId: number
+    asMobile_Number: string
+    asMobile_Number2: string
+    SenderUserId: string
+    SenderUserRoleId: string
+    asInsertedById: string
+}
+
+
 
 
 
