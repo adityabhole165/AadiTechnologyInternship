@@ -137,7 +137,7 @@ const AddDailyLog = () => {
   }, 500), [dispatch]);
   const asdate = dateState ? formatDateAsDDMMMYYYY(new Date(dateState)) : "";
   //PaylodBody
- 
+
   const SaveDailylogBody: ISaveDailyLogBody = {
     aHomeWorkLogId: LogId,
     asStdDivId: Number(Id),
@@ -716,7 +716,7 @@ const AddDailyLog = () => {
                   />
 
                 </Box>
-                <Box>
+                {/* <Box>
 
 
                   <IconButton onClick={onClickSearch} sx={{
@@ -726,6 +726,24 @@ const AddDailyLog = () => {
                   }}>
                     <SearchTwoTone />
                   </IconButton>
+                </Box> */}
+                <Box>
+                  <Tooltip title={'Search'}>
+                    <IconButton
+                      onClick={onClickSearch}
+
+                      sx={{
+                        background: (theme) => theme.palette.primary.main,
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: (theme) => theme.palette.primary.dark
+                        }
+                      }}
+
+                    >
+                      <SearchTwoTone />
+                    </IconButton>
+                  </Tooltip>
                 </Box>
               </Box>
             </Grid>

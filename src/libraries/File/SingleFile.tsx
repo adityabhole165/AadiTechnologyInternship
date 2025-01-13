@@ -7,8 +7,7 @@ import { red } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
 import {
-  ChangeFileIntoBase64,
-  CheckFileValidationAdhar
+  ChangeFileIntoBase64
 } from 'src/components/Common/Util';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 const CheckValidation = (fileData, ValidFileTypes, MaxfileSize) => {
@@ -16,7 +15,7 @@ const CheckValidation = (fileData, ValidFileTypes, MaxfileSize) => {
   const allowedFileTypes = ValidFileTypes.map((type) => type.toLowerCase());
 
   if (!fileExtension || !allowedFileTypes.includes(fileExtension.toLowerCase())) {
-    return 'Invalid file format.' ;
+    return 'Invalid file format.';
   }
 
   if (fileData?.size > MaxfileSize) {
@@ -61,7 +60,7 @@ const SingleFile = ({
       );
 
       if (!validationError) {
-        const base64URL:any = await ChangeFileIntoBase64(multipleFiles[i]);
+        const base64URL: any = await ChangeFileIntoBase64(multipleFiles[i]);
         setFileError('');
         ChangeFile({
           Name: multipleFiles[i].name,
@@ -99,13 +98,13 @@ const SingleFile = ({
         }}
       >
         <Tooltip
-           title={
+          title={
             'Supports only ' +
             ValidFileTypes.join(', ') +
             ' file types up to ' +
             (MaxfileSize / 1e6) +
             ' MB .'
-            
+
           }
         >
           <Button
@@ -113,8 +112,7 @@ const SingleFile = ({
               width: width,
               height: height,
               border: (theme) =>
-                `1px dashed ${
-                  FileName ? theme.colors.primary.main : theme.colors.primary.main
+                `1px dashed ${FileName ? theme.colors.primary.main : theme.colors.primary.main
                 }`,
               gap: 1,
               position: 'relative',
@@ -128,19 +126,19 @@ const SingleFile = ({
               direction="row"
               alignItems="center"
               gap={1}
-           
+
               sx={{
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-               
+
               }}
             >
               {FileName ? <CheckCircle /> : <CloudUploadIcon />}
               {FileName === ''
                 ? FileLabel
                   ? FileLabel
-                  : ' No file selected'
+                  : 'Attachment'
                 : FileName}
               {isMandatory && <span style={{ color: 'red' }}>*</span>}
               <Box sx={{ textAlign: 'center' }}>
@@ -187,7 +185,7 @@ const SingleFile = ({
                 </IconButton>
               </Tooltip>
             )}
-         </Grid>
+          </Grid>
         )}
       </Grid>
       {FileError && (
@@ -201,7 +199,7 @@ const SingleFile = ({
             pt: 2,
           }}
         >
-          <Typography sx={{ml:0}}>{<Errormessage Error={FileError} />}</Typography>
+          <Typography sx={{ ml: 0 }}>{<Errormessage Error={FileError} />}</Typography>
         </Grid>
       )}
     </Grid>
