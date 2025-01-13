@@ -185,7 +185,7 @@ const rootReducer = combineReducers({
   getuser1: GetuserSlice1,
   VeiwResult: VeiwResultSlice,
   getGetAdminAndprincipalUsers: GetuserSlice,
-  getAComposeSMS: AComposeSMSSlice,
+  AComposeSMSTemplate: AComposeSMSSlice,
   getSchoolSettings: schoolSettingSlice,
   getASendSMS: AComposeSMSSlice,
   getModulesPermissionsResult: schoolSettingSlice,
