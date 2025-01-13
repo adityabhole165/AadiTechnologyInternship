@@ -51,7 +51,7 @@ const LessonPlanActivity = ({
                     </Grid>
                     <Grid
                         item
-                        xs={2}
+                        xs={3}
                         sx={{
                             border: (theme) => `1px solid ${theme.palette.primary.light}`,
                             p: 1,
@@ -64,7 +64,7 @@ const LessonPlanActivity = ({
                     </Grid>
                     <Grid
                         item
-                        xs={4}
+                        xs={3}
                         sx={{
                             border: (theme) => `1px solid ${theme.palette.primary.light}`,
                             p: 1,
