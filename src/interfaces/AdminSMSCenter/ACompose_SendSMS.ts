@@ -23,15 +23,15 @@ export default interface ACompose_SendSMS {
 }
 
 export interface MessageTemplateSMSCenter {
-  asSchoolId: string;
-  sortDirection: string;
+  asSchoolId: number;
   asShowSystemDefined: string;
+  asSortDirection: string;
 }
 
 export interface GetSMSTemplates {
-  Template_Id: number;
-  registration_Number: number;
-  Template_Name: string;
+  TemplateId: string;
+  RegNo: string;
+  Name: string;
   Template: string;
-  IsSystemDefined: number;
+  IsSystemDefined:string;
 }
