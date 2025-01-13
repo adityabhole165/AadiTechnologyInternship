@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import SubjectExamMarksApi from 'src/api/SubjectExamMarks/ApiSubjectExamMarks';
-import { getDateMonthYearFormattedDash, getYearFirstDateDashFormatted, isGreaterThanDate } from 'src/components/Common/Util';
+import { isGreaterThanDate } from 'src/components/Common/Util';
 import {
     IGetAllGradesForSubjectMarkListBody,
     IGetAllStudentsForMarksAssignmentsBody,
@@ -211,14 +211,14 @@ export const getSubjectExamMarkslist =
                     asTestDate: response2.data.listStudentTestMarkDetails[0].Test_Date
                 }
             }
-            TestDate = TestDate == undefined ? getYearFirstDateDashFormatted(data.asTestDate) : getYearFirstDateDashFormatted(TestDate)
+            TestDate = TestDate == undefined ? (data.asTestDate) : (TestDate)
 
 
             const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
             let reponseData1 = [];
             const getMarksForStudentBlank = (StudentIdParam, JoiningDate) => {
                 let arr = [];
-                let IsLateJoinee = isGreaterThanDate(getDateMonthYearFormattedDash(JoiningDate), TestDate)
+                let IsLateJoinee = isGreaterThanDate((JoiningDate), TestDate)
                 let StudentId = "0"
                 response2.data.listTestDetailss.map((Item, i) => {
 
@@ -320,8 +320,8 @@ export const getSubjectExamMarkslist =
             dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(reponseData1));
             dispatch(SubjectExamMarksslice.actions.GetStudentCount(response1.data?.listGetCount?.TotalStudentCount));
 
-            console.log(response1.data.listGetCount.TotalStudentCount,"response1.data.listGetCount");
-            
+            console.log(response1.data.listGetCount.TotalStudentCount, "response1.data.listGetCount");
+
 
             let responseData2 = [];
             const ExamMarkHeader = {
