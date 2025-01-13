@@ -1,6 +1,6 @@
 import ArrowCircleDown from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import { Box, Grid, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Grid, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
@@ -120,104 +120,105 @@ function ReceivedSMSList() {
     let url = '/RITeSchool/Student/viewsms/';
 
     return (
+        <TableContainer component={Paper}>
+            <Box>
+                <Grid container>
+                    <Grid item sx={{ minWidth: '100%', background: 'white' }}>
 
-        <Box>
-            <Grid container>
-                <Grid item sx={{ minWidth: '100%', background: 'white' }}>
-
-                    {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
-                        <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                            <Box component="span" fontWeight="fontWeightBold">
-                                {startRecord} to {endRecord}
-                            </Box>
-                            {' '}out of{' '}
-                            <Box component="span" fontWeight="fontWeightBold">
-                                {singleTotalCount}
-                            </Box>{' '}
-                            {singleTotalCount === 1 ? 'record' : 'records'}
-                        </Typography>
-                    </div> : <span> </span>}
-
-                    <Box>
-                        {displayList.length > 0 ? (
-                            <Table
-                                aria-label="simple table"
-                                sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}
-                            >
-                                <TableHead>
-                                    <TableRow
-                                        sx={{
-                                            background: (theme) => theme.palette.secondary.main,
-                                            color: (theme) => theme.palette.common.white,
-                                        }}
-                                    >
-                                        <TableCell sx={{ color: 'white', py: 1.5 }}>
-                                            <b onClick={() => handleSortChange('UserName')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                                                From {SortBy === 'UserName' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
-                                            </b>
-                                        </TableCell>
-                                        <TableCell sx={{ color: 'white', py: 1.5 }}>
-                                            <b onClick={() => handleSortChange('Subject')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                                                SMS Text {SortBy === 'Subject' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
-                                            </b>
-                                        </TableCell>
-                                        <TableCell sx={{ color: 'white', py: 1.5 }}>
-                                            <b onClick={() => handleSortChange('Date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                                                Received Date {SortBy === 'Date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
-                                            </b>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {displayList.map((row, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell sx={{
-                                                py: 1
-                                            }}>{row.UserName}</TableCell>
-                                            <TableCell sx={{
-                                                py: 1
-                                            }}>
-                                                <Link href={url + encodeURL(row.SMS_Id)}>{row.Subject}</Link>
-                                            </TableCell>
-                                            <TableCell sx={{
-                                                py: 1
-                                            }}>{getDateFormattedNew(new Date(row.Date))}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        ) : (
-                            <Typography
-                                variant="body1"
-                                sx={{
-                                    textAlign: 'center',
-                                    marginTop: 4,
-                                    backgroundColor: '#324b84',
-                                    padding: 1,
-                                    borderRadius: 2,
-                                    color: 'white',
-                                }}
-                            >
-                                <b>No record found.</b>
+                        {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+                            <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                                <Box component="span" fontWeight="fontWeightBold">
+                                    {startRecord} to {endRecord}
+                                </Box>
+                                {' '}out of{' '}
+                                <Box component="span" fontWeight="fontWeightBold">
+                                    {singleTotalCount}
+                                </Box>{' '}
+                                {singleTotalCount === 1 ? 'record' : 'records'}
                             </Typography>
-                        )}
-                    </Box>
-                    <Box mt={1}>
-                        {endRecord > 19 ? (
-                            <ButtonGroupComponent
-                                rowsPerPage={rowsPerPage}
-                                ChangeRowsPerPage={ChangeRowsPerPage}
-                                rowsPerPageOptions={rowsPerPageOptions}
-                                PageChange={PageChange}
-                                pagecount={pagecount}
-                            />
-                        ) : (
-                            <span></span>
-                        )}
-                    </Box>
+                        </div> : <span> </span>}
+
+                        <Box>
+                            {displayList.length > 0 ? (
+                                <Table
+                                    aria-label="simple table"
+                                    sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}
+                                >
+                                    <TableHead>
+                                        <TableRow
+                                            sx={{
+                                                background: (theme) => theme.palette.secondary.main,
+                                                color: (theme) => theme.palette.common.white,
+                                            }}
+                                        >
+                                            <TableCell sx={{ color: 'white', py: 1.5 }}>
+                                                <b onClick={() => handleSortChange('UserName')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                                                    From {SortBy === 'UserName' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                                                </b>
+                                            </TableCell>
+                                            <TableCell sx={{ color: 'white', py: 1.5 }}>
+                                                <b onClick={() => handleSortChange('Subject')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                                                    SMS Text {SortBy === 'Subject' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                                                </b>
+                                            </TableCell>
+                                            <TableCell sx={{ color: 'white', py: 1.5 }}>
+                                                <b onClick={() => handleSortChange('Date')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                                                    Received Date {SortBy === 'Date' && (SortDirection === 'asc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />)}
+                                                </b>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {displayList.map((row, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell sx={{
+                                                    py: 1
+                                                }}>{row.UserName}</TableCell>
+                                                <TableCell sx={{
+                                                    py: 1
+                                                }}>
+                                                    <Link href={url + encodeURL(row.SMS_Id)}>{row.Subject}</Link>
+                                                </TableCell>
+                                                <TableCell sx={{
+                                                    py: 1
+                                                }}>{getDateFormattedNew(new Date(row.Date))}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            ) : (
+                                <Typography
+                                    variant="body1"
+                                    sx={{
+                                        textAlign: 'center',
+                                        marginTop: 4,
+                                        backgroundColor: '#324b84',
+                                        padding: 1,
+                                        borderRadius: 2,
+                                        color: 'white',
+                                    }}
+                                >
+                                    <b>No record found.</b>
+                                </Typography>
+                            )}
+                        </Box>
+                        <Box mt={1}>
+                            {endRecord > 19 ? (
+                                <ButtonGroupComponent
+                                    rowsPerPage={rowsPerPage}
+                                    ChangeRowsPerPage={ChangeRowsPerPage}
+                                    rowsPerPageOptions={rowsPerPageOptions}
+                                    PageChange={PageChange}
+                                    pagecount={pagecount}
+                                />
+                            ) : (
+                                <span></span>
+                            )}
+                        </Box>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Box>
+            </Box>
+        </TableContainer>
     );
 }
 
