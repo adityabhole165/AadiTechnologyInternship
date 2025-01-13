@@ -113,6 +113,8 @@ const TAttendance = () => {
   const [MarksError, setMarksError] = useState('');
   const [assignedDate, setAssignedDate] = useState<string>(AssignedDate);
   const [Open, setOpen] = useState(false);
+  const [OpenStudentpopup, setOpenStudentpopup] = useState(false);
+  
   const [onlySelectedClass, setOnlySelectedClass] = useState('none');
   const [singleStdName, setSingleStdName] = useState('');
 
@@ -631,13 +633,14 @@ const TAttendance = () => {
   useEffect(() => {
     if (saveResponseMessage != '') {
       if (ListAbsentStudents.length > 0) {
-        setOpen(true);
+        setOpenStudentpopup(true);
       }
       dispatch(GetStudentList(GetStudentDetails));
       toast.success(saveResponseMessage, { toastId: 'success1' });
       dispatch(setSaveResponse());
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
       dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));
+      
     }
   }, [saveResponseMessage, ListAbsentStudents]);
 
@@ -646,18 +649,19 @@ const TAttendance = () => {
       dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));  
   }, [assignedDate,selectClasstecahernew,UsschoolSettings]);
 
-
+  
   // useEffect(() => {
   //   //console.log(ListAbsentStudents, 'ListAbsentStudents');
-  //   if (ListAbsentStudents.length > 2) {
-  //     setOpen(false);
+  //   if (ListAbsentStudents.length > 0) {
+  //     setOpenStudentpopup(false);
   //   }
   // }, [ListAbsentStudents]);
+
   const ClickOpenDialogbox = () => {
-    setOpen(true);
+    setOpenStudentpopup(true);
   };
   const ClickCloseDialogbox = () => {
-    setOpen(false);
+    setOpenStudentpopup(false);
   };
 
   const clickNav = (value) => {
@@ -1135,10 +1139,10 @@ const TAttendance = () => {
         )}
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
-        {Open && (
+        {OpenStudentpopup && (
           <AbsentStudentP
-            open={Open}
-            setOpen={setOpen}
+            open={OpenStudentpopup}
+            setOpen={setOpenStudentpopup}
             ClickCloseDialogbox={ClickCloseDialogbox}
             Classname={setStandardDivName()}
             Date={assignedDate}
