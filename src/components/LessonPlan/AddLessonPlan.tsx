@@ -22,6 +22,7 @@ import { GetScreenPermission, decodeURL, getCalendarDateFormatDateNew, getDateFo
 import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanActivity from './LessonPlanActivity';
 import LessonPlanList from './LessonPlanList';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(1),
@@ -978,19 +979,18 @@ const AddLessonPlan = () => {
           </Typography>
 
         )}
-        <Grid item xs={12} mb={1}>
-          <Typography variant={"h5"} sx={{ color: 'red' }}>
-            {errorexampleLessonDetails}<br></br>
-            {errorMessage}<br></br>
-            {errorComment}
-            {errorStartDate} {errorOverlapDate}
-          </Typography>
+        <Grid item xs={12} >
+          <ErrorMessage1 Error={errorexampleLessonDetails} />
+          <ErrorMessage1 Error={errorMessage} />
+          <ErrorMessage1 Error={errorComment} />
+          <ErrorMessage1 Error={errorStartDate} />
+          <ErrorMessage1 Error={errorOverlapDate} />
         </Grid>
         {/* )} */}
         </Box>
         <Box sx={{ p: 2, background: 'white' }}>
         {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
-          <Typography variant={"h5"} mb={1} mt={-4}>
+          <Typography variant={"h5"} mb={1} >
             Plan Details
           </Typography>
 
