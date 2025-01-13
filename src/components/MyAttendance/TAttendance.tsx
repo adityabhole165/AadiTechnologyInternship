@@ -636,7 +636,7 @@ const TAttendance = () => {
   
   useEffect(() => {
     if (saveResponseMessage != '') {
-      if (ListAbsentStudents.length > Number(UsschoolSettings) ) {
+      if (ListAbsentStudents.length > 0 ) {
         setOpenStudentpopup(true);
       
       }
