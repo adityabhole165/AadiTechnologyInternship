@@ -208,7 +208,8 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                         <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
                                             {index + 1}
                                         </StyledCell>
-                                        <StyledCell >
+                                        {/* <StyledCell > */}
+                                        <TableCell>
                                             {(Action == 'View' || !IsEditingAllowed) ?
                                                 <><Typography><b>{plan.label}</b></Typography>
                                                     <Typography>{plan.value}</Typography></>
@@ -228,10 +229,12 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                                 plan.subPlanDetails.map((subPlan, subIndex) => (
                                                     <Table key={subIndex}>
                                                         <TableRow >
-                                                            <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top',  }}>
+                                                            <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top', border: 1 }}>
                                                                 {index + 1}.{subIndex + 1}
                                                             </StyledCell>
-                                                            <StyledCell>
+                                                            {/* <StyledCell> */}
+
+                                                            <TableCell>
                                                                 {(Action == 'View' || !IsEditingAllowed) ?
                                                                     <><Typography ><b>{subPlan.label}</b></Typography>
                                                                         <Typography>{subPlan.value}</Typography></>
@@ -253,11 +256,13 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                                                             )
                                                                         }}
                                                                     />}
-                                                            </StyledCell>
+                                                            </TableCell>
+                                                            {/* </StyledCell> */}
                                                         </TableRow>
                                                     </Table>
                                                 ))}
-                                        </StyledCell>
+                                        </TableCell>
+                                        {/* </StyledCell> */}
                                     </TableRow>
                                 ))}
                             </TableBody>
