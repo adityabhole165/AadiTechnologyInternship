@@ -81,6 +81,7 @@ const AddDailyLog = () => {
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
+  const FolderName = localStorage.getItem('FolderName');
   const SiteURL = localStorage.getItem('SiteURL');
   let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
   const [isPublish, setIsPublish] = useState(true);
@@ -136,7 +137,7 @@ const AddDailyLog = () => {
   }, 500), [dispatch]);
   const asdate = dateState ? formatDateAsDDMMMYYYY(new Date(dateState)) : "";
   //PaylodBody
-  const folderName = localStorage.getItem('FolderName');
+ 
   const SaveDailylogBody: ISaveDailyLogBody = {
     aHomeWorkLogId: LogId,
     asStdDivId: Number(Id),
@@ -146,7 +147,7 @@ const AddDailyLog = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asInsertedById: TeacherId,
     asSaveFeature: 'Homework\\DailyLog',
-    asFolderName: folderName,
+    asFolderName: FolderName,
     asBase64String: base64URL == '' ? null : base64URL
   };
   const formattedDate = dateSearch ? formatDateAsDDMMMYYYY(new Date(dateSearch)) : "";
