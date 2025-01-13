@@ -19,6 +19,7 @@ import {
   ISchoolsettingBody,
   ITeacherDropdownBody
 } from 'src/interfaces/AssignHomework/IAssignHomework';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
@@ -33,7 +34,6 @@ import {
 import { RootState } from 'src/store';
 import { GetScreenPermission, decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const AssignHomework = () => {
 
   let { ClassTecherId, ClassId } = useParams();
@@ -60,6 +60,8 @@ const AssignHomework = () => {
     sessionStorage.getItem('StandardDivisionId')
   );
   const AssignHomeworkPermission = GetScreenPermission('Assign Homework');
+  console.log(AssignHomeworkPermission, "AssignHomeworkPermission");
+
 
   const [SelectClass, setSelectClass] = useState(ClassTecherId ? ClassTecherId : "0");
 
@@ -84,6 +86,8 @@ const AssignHomework = () => {
   const UsschoolSettings = useSelector(
     (state: RootState) => state.TeacherNameList.IsGetSchoolSettings
   );
+  console.log(UsschoolSettings, "UsschoolSettings");
+
   const schoolSettingsForSubjectlist = useSelector(
     (state: RootState) => state.TeacherNameList.ISGetSchoolSettingsSubjectL
   );
@@ -196,7 +200,7 @@ const AssignHomework = () => {
   const Loading = useSelector(
     (state: RootState) => state.TeacherNameList.Loading
   );
-  
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -283,7 +287,8 @@ const AssignHomework = () => {
                 </Tooltip>
                 {SelectClass &&
                   ((asStandardDivisionId === Number(SelectClass) &&
-                    AssignHomeworkPermission === 'Y') ||
+                    AssignHomeworkPermission === 'Y' &&
+                    UsschoolSettings === 'true') ||
                     (SubjectDetailLists.some((item) => item.Text5 === 'Y') &&
                       UsschoolSettings === 'true')) && (
                     <Box>
@@ -301,63 +306,34 @@ const AssignHomework = () => {
                       </Tooltip>
                     </Box>
                   )}
+
               </Grid>
 
             </Stack>
           </>
         }
       />
-      {Loading ?  <SuspenseLoader /> : 
-      
-      <Box
-        sx={{
-          p: 2,
-          background: 'white',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
-        <Box>
-          <Typography variant={'h4'} mb={1}>
-            {' '}
-            My Subjects{' '}
-          </Typography>
-          {SubjectDetailLists.length > 0 ? (
-            <Assignhomeworklist
-              ItemList={SubjectDetailLists}
-              clickAssign={clickItem1}
-              HeaderArray={HeaderOfTable}
-              MySubject={true}
-            />
-          ) : (
-            <Typography
-              variant="body1"
-              sx={{
-                textAlign: 'center',
-                marginTop: 1,
-                backgroundColor: '#324b84',
-                padding: 1,
-                borderRadius: 2,
-                color: 'white'
-              }}
-            >
-              <b>No record found.</b>
-            </Typography>
-          )}
-        </Box>
+      {Loading ? <SuspenseLoader /> :
 
-        {schoolSettingsForSubjectlist == 'True' && (
-          <Box mt={2}>
+        <Box
+          sx={{
+            p: 2,
+            background: 'white',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <Box>
             <Typography variant={'h4'} mb={1}>
               {' '}
-              My Class Subjects{' '}
+              My Subjects{' '}
             </Typography>
-            {SubjectDetailLists1.length > 0 ? (
+            {SubjectDetailLists.length > 0 ? (
               <Assignhomeworklist
-                ItemList={SubjectDetailLists1}
+                ItemList={SubjectDetailLists}
                 clickAssign={clickItem1}
                 HeaderArray={HeaderOfTable}
-                MySubject={false}
+                MySubject={true}
               />
             ) : (
               <Typography
@@ -375,8 +351,38 @@ const AssignHomework = () => {
               </Typography>
             )}
           </Box>
-        )}
-      </Box>
+
+          {schoolSettingsForSubjectlist == 'True' && (
+            <Box mt={2}>
+              <Typography variant={'h4'} mb={1}>
+                {' '}
+                My Class Subjects{' '}
+              </Typography>
+              {SubjectDetailLists1.length > 0 ? (
+                <Assignhomeworklist
+                  ItemList={SubjectDetailLists1}
+                  clickAssign={clickItem1}
+                  HeaderArray={HeaderOfTable}
+                  MySubject={false}
+                />
+              ) : (
+                <Typography
+                  variant="body1"
+                  sx={{
+                    textAlign: 'center',
+                    marginTop: 1,
+                    backgroundColor: '#324b84',
+                    padding: 1,
+                    borderRadius: 2,
+                    color: 'white'
+                  }}
+                >
+                  <b>No record found.</b>
+                </Typography>
+              )}
+            </Box>
+          )}
+        </Box>
       }
     </Box>
   );
