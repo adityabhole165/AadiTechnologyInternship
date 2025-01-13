@@ -844,7 +844,7 @@ const AddLessonPlan = () => {
       {/* <FileLink filePath="http://web.aaditechnology.info/RITESchool/DOWNLOADS/Lesson Plan/InputToolsSetup.exe" fileName="Translation Tool" />
       <FileLink filePath="http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf" fileName="Translation Guide" /> */}
 
-      <Box sx={{ p: 2, background: 'white' }}>
+   
         <Box sx={{ backgroundColor: 'white' }} p={2}>
           <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
             <Grid container spacing={2} alignItems="center">
@@ -968,7 +968,7 @@ const AddLessonPlan = () => {
 
             </Grid>
           </Stack>
-        </Box>
+       
 
 
         {/* {errorexampleLessonDetails || errorMessage && ( */}
@@ -978,7 +978,7 @@ const AddLessonPlan = () => {
           </Typography>
 
         )}
-        <Grid item xs={12}>
+        <Grid item xs={12} mb={1}>
           <Typography variant={"h5"} sx={{ color: 'red' }}>
             {errorexampleLessonDetails}<br></br>
             {errorMessage}<br></br>
@@ -987,6 +987,8 @@ const AddLessonPlan = () => {
           </Typography>
         </Grid>
         {/* )} */}
+        </Box>
+        <Box sx={{ p: 2, background: 'white' }}>
         {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
           <Typography variant={"h5"} mb={1} mt={-4}>
             Plan Details
