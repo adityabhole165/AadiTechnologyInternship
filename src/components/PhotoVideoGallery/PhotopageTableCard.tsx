@@ -64,11 +64,14 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
         // navigate('/RITeSchool/Teacher/AddNewPhoto/' + (item.galleryName));
         navigate('/RITeSchool/Teacher/AddNewPhoto/' + (item.RowID), { state: { fromInternal: true } });
     }
-
+    const [currentGallery, setCurrentGallery] = useState<string | null>(null);
 
     const handleAction = (action: string, item: any) => {
-        setSlideShow(true)
-        setIsFullscreen(false);
+        if (action === "Slide Show") {
+            setCurrentGallery(item.galleryName); // Set the current gallery name
+            setSlideShow(true);
+            setIsFullscreen(false);
+        }
     };
     const handleClose = () => {
         setSlideShow(false);
@@ -296,7 +299,7 @@ const PhotopageTableCard: React.FC<PhotopageTableCardProps> = ({ data, handleDel
                     Slide Show Photo
                 </Typography>
                 <DialogContent onDoubleClick={handleDoubleClick}>
-                    <SlideshowPhotoGallery />
+                    <SlideshowPhotoGallery galleryName={currentGallery} />
                 </DialogContent>
                 {/* <DialogActions sx={{ py: 2, px: 3 }}>
                     <Button color={'error'} onClick={handleClose}>

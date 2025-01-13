@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import {
   Box,
   Card,
@@ -8,7 +7,12 @@ import {
   RadioGroup,
   Typography
 } from '@mui/material';
-import { styled, keyframes } from '@mui/material/styles';
+import { keyframes, styled } from '@mui/material/styles';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IGetPhotoImageListBody } from 'src/interfaces/VideoGalleryInterface/IVideoGallery';
+import { getPhotoImageList } from 'src/requests/RVideoGallery/ReqVideo';
+import { RootState } from 'src/store';
 
 // Animation Keyframes
 const slideInFromRight = keyframes`
@@ -67,30 +71,57 @@ const NavigationButton = styled('button')(({ theme }) => ({
   },
 }));
 
-const SlideshowPhotoGallery: React.FC = () => {
+const SlideshowPhotoGallery: React.FC<{ galleryName?: string }> = ({ galleryName }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [prevImage, setPrevImage] = useState(0);
   const [speed, setSpeed] = useState<'slow' | 'medium' | 'fast'>('medium');
   const [isPlaying, setIsPlaying] = useState(true);
-
-  const images = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRZvPlqrc213DME__ZhOquq7K9TtxV13k9fg&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
-  ];
+  const dispatch = useDispatch();
+  // const images = [
+  //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRZvPlqrc213DME__ZhOquq7K9TtxV13k9fg&s',
+  //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
+  //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
+  //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
+  //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
+  //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsuAKOQEFZMDsJBBEwULSPzr1z1HjLmqy5Ig&s',
+  // ];
 
   const speedValues = {
     slow: 5000,
     medium: 3000,
     fast: 1000,
   };
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const GetPhotoImageList = useSelector(
+    (state: RootState) => state.VideoNew.ISGetPhotoImageList
+  );
+
+  const GetPhotoImageListBody: IGetPhotoImageListBody = {
+    asSchoolId: Number(asSchoolId),
+    asGalleryName: galleryName,
+    IsDeleted: 0
+  };
+
+  useEffect(() => {
+    dispatch(getPhotoImageList(GetPhotoImageListBody));
+  }, []);
+  const images = GetPhotoImageList?.map((item, index) => {
+    const imageUrl = item.images
+      ? `${localStorage.getItem('SiteURL')}RITeSchool/${item.images}`
+      : '/images/defaultUser.jpg';
+    console.log(`Image ${index + 1} constructed URL:`, imageUrl);
+
+    return {
+      id: item.ImageSrNo,
+      src: imageUrl,
+      comment: item.Comment,
+    };
+  }) || [];
+
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-    if (isPlaying) {
+    if (isPlaying && images.length > 0) {
       intervalId = setInterval(() => {
         setPrevImage(currentImage);
         setCurrentImage((prev) => (prev + 1) % images.length);
@@ -111,14 +142,14 @@ const SlideshowPhotoGallery: React.FC = () => {
   return (
     <GalleryContainer>
       <Typography variant="h5" align="center" gutterBottom>
-        Gallery Name: JanmashtamiiAug24
+        Gallery Name: {galleryName || "Unknown"}
       </Typography>
 
       <AnimatedCard>
         <CardContent sx={{ padding: 0, height: '100%' }}>
           <AnimatedImage
             key={`prev-${prevImage}`}
-            src={images[prevImage]}
+            src={images[prevImage]?.src}
             alt={`Slide ${prevImage + 1}`}
             sx={{
               animation: `${slideOutToLeft} 0.5s forwards`,
@@ -126,7 +157,7 @@ const SlideshowPhotoGallery: React.FC = () => {
           />
           <AnimatedImage
             key={`current-${currentImage}`}
-            src={images[currentImage]}
+            src={images[currentImage]?.src}
             alt={`Slide ${currentImage + 1}`}
             sx={{
               animation: `${slideInFromRight} 0.5s forwards`,
@@ -136,7 +167,11 @@ const SlideshowPhotoGallery: React.FC = () => {
       </AnimatedCard>
 
       <Box sx={{ mt: 1 }}>
-        <CardContent>Comment</CardContent>
+        <CardContent>
+          {images.length > 0
+            ? images[currentImage]?.comment
+            : 'No images available'}
+        </CardContent>
       </Box>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
