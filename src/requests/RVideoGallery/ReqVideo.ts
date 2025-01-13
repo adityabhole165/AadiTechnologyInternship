@@ -127,16 +127,17 @@ export const getPhotoImageList = (data: IGetPhotoImageListBody): AppThunk => asy
     const response = await VideoGalleryApi.GetPhotoImageList(data);
 
     let responseData = [];
-    response.data.GalleryimgsResult.map((item, i) => {
+    response.data.GalleryimgsResult.forEach((item, index) => {
         responseData.push({
+            id: index,
             GalleryId: item.GalleryId,
-            images: item.ImagePath,
+            images:  item.ImagePath,
             ImageSrNo: item.ImageSrNo,
             Comment: item.Comment
         });
     });
     dispatch(VideoSlice.actions.RGetPhotoImageList(responseData));
-    console.log(responseData,'images');
+    console.log(responseData, 'images');
 };
 export const getSaveVideo =
     (data: IGetSaveUpdateVideoBody): AppThunk =>
