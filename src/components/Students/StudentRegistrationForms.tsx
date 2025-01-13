@@ -42,6 +42,7 @@ import {
   IAddStudentAdditionalDetailsBody, ICheckDependenciesForFeesBody, IDeleteDayBoardingFeesBody, ISaveSubmittedDocumentsBody, ISendLoginDetailSMSBody, IStandrdwiseStudentsDocumentBody, IUpdateStudentBody, IUpdateStudentPhotoBody, IUpdateStudentStreamwiseSubjectDetailsBody
 } from 'src/interfaces/Students/IStudentUI';
 import Datepicker1 from 'src/libraries/DateSelector/Datepicker1';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import {
@@ -278,6 +279,7 @@ const StudentRegistrationForm = () => {
   });
 
   const [feeDependencyError, setFeeDependencyError] = useState('');
+  const [validateStaffName, setValidateStaffName] = useState('');
   const [isDeleteFee, setIsDeleteFee] = useState(false);
   const [hidOldIsForDayBoarding, setHidOldIsForDayBoarding] = useState('');
   //const [hidOldFeeAreaId, setHidOldFeeAreaId] = useState('');
@@ -1378,6 +1380,13 @@ const StudentRegistrationForm = () => {
       return;
     }
 
+    if (Number(form.admission?.staffName) !== 0) {
+      if (Number(form.admission?.staffUserRole) === 0 || form.admission?.isStaffKid === false) {
+        setValidateStaffName('if you select Staff Name, Staff User Role and Is Staff Kid option should be selected.')
+        return;
+      }
+    }
+
     // Check if popup needs to open
     const shouldOpenPopup = !!StudentSiblingName; // Popup opens if sibling name exists
     if (shouldOpenPopup) {
@@ -1440,6 +1449,12 @@ const StudentRegistrationForm = () => {
       console.error('🚨 Error during form submission or API calls:', error);
     }
   };
+
+  useEffect(() => {
+    if (form.admission?.staffUserRole !== '0' && form.admission?.isStaffKid !== false) {
+      setValidateStaffName('');
+    }
+  }, [form.admission?.staffUserRole, form.admission?.isStaffKid]);
   //#endregion
 
   useEffect(() => {
@@ -2022,6 +2037,9 @@ const StudentRegistrationForm = () => {
           <Typography variant="h5" style={{ color: 'red' }}>
             {feeDependencyError ? feeDependencyError : ''}
           </Typography>
+          {validateStaffName &&
+            <ErrorMessage1 Error={validateStaffName}></ErrorMessage1>
+          }
           {/* ))} */}
         </Box>
         {/* )} */}
