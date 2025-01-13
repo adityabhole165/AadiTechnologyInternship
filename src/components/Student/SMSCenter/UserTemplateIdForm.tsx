@@ -28,9 +28,11 @@ interface TemplateRow {
 
 interface UserTemplateIdFormProps {
     rows: TemplateRow[];
+    IsConfirm;
+    onTemplateSelect: (id: string) => void;
 }
 
-const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows }) => {
+const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows, onTemplateSelect, IsConfirm }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -47,7 +49,8 @@ const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows }) => {
 
     // Sort rows based on the current sort direction
     const handleRadioChange = (id) => {
-        setSelectedRow(id); // Set the selected row ID
+        setSelectedRow(id);
+        onTemplateSelect(id);
     };
 
 
@@ -88,6 +91,7 @@ const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows }) => {
                                         <Radio
                                             color="primary"
                                             checked={selectedRow === row.Id}
+                                            value={row.Id}
                                             onChange={() => handleRadioChange(row.Id)}
                                         />
                                     </TableCell>

@@ -45,6 +45,7 @@ const ComposeSMSform = () => {
     const [requestSchedule, setRequestSchedule] = useState(false);
     const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
     const [IsConfirm, setIsConfirm] = useState('');
+    const [IsConfirmUseTemp, setIsConfirmUseTemp] = useState('');
 
     const [RecipientsObject, setRecipientsObject] = useState<any>({
         RecipientName: [],
@@ -87,6 +88,7 @@ const ComposeSMSform = () => {
     let confirmationDone;
     const [contentError, setcontentError] = useState<any>(); // For content Error
     const [initialMessage, setinitialMessage] = useState(0);
+    const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
     const [initialCount, setCharacterCount] = useState(0);
     let {
         AssignedDate
@@ -177,6 +179,10 @@ const ComposeSMSform = () => {
     const handleCloseDialog1 = () => {
         setOpenDialog1(false);
     };
+    const handleConfirmDialog1 = () => {
+        setOpenDialog1(false);
+        setIsConfirmUseTemp('true');
+    };
 
 
     const ContentFieldBlur = (e) => {
@@ -228,6 +234,7 @@ const ComposeSMSform = () => {
         setOpenDialog(true);
     };
     const handleOpenDialog1 = (p0: boolean) => {
+        setIsConfirmUseTemp('');
         setOpenDialog1(true);
     };
 
@@ -471,6 +478,10 @@ const ComposeSMSform = () => {
     const clickConfirm = () => {
         handleConfirmDialog()
     }
+
+    const clickConfirm1 = () => {
+        handleConfirmDialog1()
+    }
     const clickConfirmFunc = (e) => {
         if (sessionStorage.getItem('GroupSelectionId') === '9' && e.ContactGroup.length === 0 &&
             e.RecipientName.length === 0) {
@@ -517,6 +528,13 @@ const ComposeSMSform = () => {
             RecipientName: prev.RecipientName.filter((recipient, i) => i !== index),
             RecipientId: prev.RecipientId.filter((recipient, i) => i !== index),
         }));
+    };
+
+    const handleTemplateIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        if (/^\d*$/.test(value)) { // Ensure only numeric input
+            setSelectedTemplateId(value);
+        }
     };
     return (
         <>
@@ -822,6 +840,8 @@ const ComposeSMSform = () => {
                                     name="TemplateId"
                                     label="Template Id"
                                     variant="outlined"
+                                    value={selectedTemplateId}
+                                    onChange={handleTemplateIdChange}
                                     fullWidth
                                 />
                             </Grid>
@@ -866,12 +886,12 @@ const ComposeSMSform = () => {
                                                 style={{ borderRadius: '2px solid black' }}
                                             >
                                                 <option value=''>Select SMS Template Name</option>
-                                                {TemplateList == undefined || TemplateList.length == 0
+                                                {rows == undefined || rows.length == 0
                                                     ? null
-                                                    : TemplateList?.map((items: GetSMSTemplates, i) => {
+                                                    : rows?.map((items: GetSMSTemplates, i) => {
                                                         return (
-                                                            <option value={items.registration_Number + "," + items.Template} key={i}>
-                                                                {items.Template_Name}
+                                                            <option value={items.RegNo + "," + items.Template} key={i}>
+                                                                {items.Name}
                                                             </option>
                                                         );
                                                     })}
@@ -1087,15 +1107,15 @@ const ComposeSMSform = () => {
 
                     <DialogContent>
                         <Box>
-                            <UserTemplateIdForm rows={rows} />
+                            <UserTemplateIdForm rows={rows} IsConfirm={IsConfirmUseTemp} onTemplateSelect={(id) => setSelectedTemplateId(id)} />
                         </Box>
                     </DialogContent>
                     <DialogActions sx={{ py: 2, px: 3 }}>
-                        <Button color={'error'} onClick={undefined}>
+                        <Button color={'error'} onClick={handleCloseDialog1}>
                             Cancel
                         </Button>
                         <Button
-                            onClick={() => { undefined }}
+                            onClick={() => { clickConfirm1() }}
                             sx={{
                                 color: 'green',
                                 '&:hover': {
