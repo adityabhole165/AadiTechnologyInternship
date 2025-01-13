@@ -74,7 +74,7 @@ const AddDailyLog = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const rowsPerPageOptions = [20, 50, 100, 200];
-  const MaxfileSize = 5000000;
+  const MaxfileSize = 3000000;
   const startIndex = (page - 1) * 20;
   const endIndex = startIndex + 20;
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
