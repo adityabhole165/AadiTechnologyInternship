@@ -1159,6 +1159,7 @@ const AddHomeworkNew = () => {
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Tooltip title={TeacherName}>
                     <TextField
                       fullWidth
                       label={'Class Teacher'}
@@ -1169,6 +1170,7 @@ const AddHomeworkNew = () => {
                       }}
                       inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                     />
+                    </Tooltip>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3}>
                     <SearchableDropdown
