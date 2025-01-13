@@ -86,6 +86,7 @@ const SelectedsubjectList = ({
                     {item.Text9 == 0 ? null : (
 
                       // style={{ color: '#223354', cursor: 'pointer' }}
+                      <Tooltip title={"View"}>
                       <IconButton
                         sx={{
                           color: '#223354',
@@ -100,6 +101,7 @@ const SelectedsubjectList = ({
 
                           onClick={() => clickVisibilityIcon(item.Id)} />
                       </IconButton>
+                      </Tooltip>
                     )}
                   </TableCell>
 
