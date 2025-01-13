@@ -463,6 +463,7 @@ const AddDailyLog = () => {
         toast.success(SaveDailyLog);
       dispatch(resetMessage());
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
+      handleClose();
     }
   }, [SaveDailyLog]);
 
@@ -509,7 +510,7 @@ const AddDailyLog = () => {
   const ClickAppropriate = (value) => {
     setOpen(true)
   }
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false)
     setFileName('')
     setDateState('')
@@ -663,6 +664,12 @@ const AddDailyLog = () => {
             </Box>
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
+            <Button
+              color={'error'}
+              onClick={ResetForm}
+            >
+              Clear
+            </Button>
             <Button
               color={'error'}
               onClick={handleClose}
