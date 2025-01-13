@@ -182,6 +182,7 @@ const AddHomeworkNew = () => {
 
   const dispatch = useDispatch();
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const FolderName = localStorage.getItem('FolderName');
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const StandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
@@ -265,7 +266,7 @@ const AddHomeworkNew = () => {
     asAcademicYearId: asAcademicYearId,
     asInsertedById: Number(asTeacherId),
     asSaveFeature: 'Homework',
-    asFolderName: 'PPSN Website',
+    asFolderName: FolderName,
     asBase64String: base64URL,
     additionalAttachmentFile: MultipleFiles
   };

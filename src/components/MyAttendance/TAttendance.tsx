@@ -35,7 +35,7 @@ import {
 } from 'src/interfaces/Teacher/TAttendanceList';
 import CardCalender1 from 'src/libraries/ResuableComponents/CardCalender1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { AbsentStudentsandHalfday } from 'src/requests/AbsentStudentDetails/RequestAbsentStudent';
+import { AbsentStudentsandHalfday, ResetgetlistAbsentStudentDetails } from 'src/requests/AbsentStudentDetails/RequestAbsentStudent';
 import { GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import {
   CDADeleteAttendance,
@@ -634,15 +634,18 @@ const TAttendance = () => {
     if (saveResponseMessage != '') {
       if (ListAbsentStudents.length > 0) {
         setOpenStudentpopup(true);
+      
       }
       dispatch(GetStudentList(GetStudentDetails));
+      dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));  
       toast.success(saveResponseMessage, { toastId: 'success1' });
+      dispatch(ResetgetlistAbsentStudentDetails());
       dispatch(setSaveResponse());
+     
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
-      dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));
       
     }
-  }, [saveResponseMessage, ListAbsentStudents]);
+  }, [saveResponseMessage, assignedDate]);
 
 
   useEffect(() => {

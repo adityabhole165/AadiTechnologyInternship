@@ -13,6 +13,11 @@ const AbsentStudentDetailsslice = createSlice({
         listAbsentStudentDetails(state, action) {
             state.getlistAbsentStudentDetails = action.payload;
         },
+        RgetlistAbsentStudentDetails(state) {
+            state.getlistAbsentStudentDetails = [];
+        },
+
+        
 
         listHalfdayStudentDetails(state, action) {
             state.getlistHalfdayStudentDetails = action.payload;
@@ -39,10 +44,24 @@ export const AbsentStudentsandHalfday = (data: IGetAbsentStudentDetailsBody): Ap
 
         }
     })
+
+    let Mobile_Number = response.data.listAbsentStudentDetails.map((item, i) => {
+
+        return {
+            Id: item.User_Id,
+            Text1: item.Mobile_Number,
+        };
+
+    });
     dispatch(AbsentStudentDetailsslice.actions.listAbsentStudentDetails(AbsentStudentDetails));
     dispatch(AbsentStudentDetailsslice.actions.listHalfdayStudentDetails(HalfdayStudentDetails));
 
 
+};
+
+
+export const ResetgetlistAbsentStudentDetails = (): AppThunk => async (dispatch) => {
+  dispatch(AbsentStudentDetailsslice.actions.RgetlistAbsentStudentDetails());
 };
 
 export default AbsentStudentDetailsslice.reducer;
