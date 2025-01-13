@@ -257,7 +257,7 @@ const AddLessonPlan = () => {
     if (UpdateLessonPlanDate !== '') {
       toast.success(UpdateLessonPlanDate)
       if (UpdateLessonPlanDate === "Lesson plan date not updated...!") {
-        seterrorOverlapDate("Date range of this Lesson plan should not overlap on another lesson plan.");
+        seterrorOverlapDate("Date range of this lesson plan should not overlap on another lesson plan.");
       } else {
         seterrorOverlapDate("");
         setOldStartDate(StartDate)
@@ -347,7 +347,7 @@ const AddLessonPlan = () => {
     });
 
     if (!IsPlan) {
-      seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.");
+      seterrorexampleLessonDetails("Lesson plan should be set for at least one parameter.");
       returnVal = false;
     } else {
       seterrorexampleLessonDetails("");
@@ -926,7 +926,7 @@ const AddLessonPlan = () => {
 
               {LessonPlanPhrasesList.length !== 0 && (
                 <>
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <TextField
                       sx={{ width: '22.7vw' }}
                       fullWidth
@@ -938,8 +938,8 @@ const AddLessonPlan = () => {
                     />
                   </Grid>
 
-                  {/* <Grid container spacing={2}> */}
-                  <Grid item xs={6}>
+                   <Grid container spacing={2} mt={1} pl={2}> 
+                  <Grid item xs={12} sm={6}>
                     <ResizableTextField
                       label="Words"
                       multiline
@@ -951,7 +951,7 @@ const AddLessonPlan = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <ResizableTextField
                       label="Sentences"
                       multiline
@@ -963,7 +963,7 @@ const AddLessonPlan = () => {
                       }}
                     />
                   </Grid>
-                  {/* </Grid> */}
+                  </Grid> 
                 </>
               )}
 
