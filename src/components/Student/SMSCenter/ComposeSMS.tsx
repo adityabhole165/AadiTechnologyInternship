@@ -80,7 +80,7 @@ const ComposeSMSform = () => {
         'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
 
     const rows: any = useSelector((state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList);
-    console.log(rows,'Hello');
+    console.log(rows, 'Hello');
     const TemplateList = rows.GetSMSTemplates;
     const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
     const [TemplateRegistrationId, setTemplateRegistrationId] = useState();
@@ -1090,7 +1090,23 @@ const ComposeSMSform = () => {
                             <UserTemplateIdForm rows={rows} />
                         </Box>
                     </DialogContent>
-
+                    <DialogActions sx={{ py: 2, px: 3 }}>
+                        <Button color={'error'} onClick={undefined}>
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() => { undefined }}
+                            sx={{
+                                color: 'green',
+                                '&:hover': {
+                                    color: 'green',
+                                    backgroundColor: green[100]
+                                }
+                            }}
+                        >
+                            Select
+                        </Button>
+                    </DialogActions>
                 </Dialog>
 
 
