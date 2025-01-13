@@ -136,6 +136,7 @@ const AddDailyLog = () => {
   }, 500), [dispatch]);
   const asdate = dateState ? formatDateAsDDMMMYYYY(new Date(dateState)) : "";
   //PaylodBody
+  const folderName = localStorage.getItem('FolderName');
   const SaveDailylogBody: ISaveDailyLogBody = {
     aHomeWorkLogId: LogId,
     asStdDivId: Number(Id),
@@ -144,8 +145,8 @@ const AddDailyLog = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: Number(asAcademicYearId),
     asInsertedById: TeacherId,
-    asSaveFeature: 'Assign Homework',
-    asFolderName: 'PPSN Website',
+    asSaveFeature: 'Homework\\DailyLog',
+    asFolderName: folderName,
     asBase64String: base64URL == '' ? null : base64URL
   };
   const formattedDate = dateSearch ? formatDateAsDDMMMYYYY(new Date(dateSearch)) : "";
@@ -632,10 +633,9 @@ const AddDailyLog = () => {
               >
                 <Grid container spacing={2} mt={.5} >
                   <Grid item xs={12} sm={4}>
-                    <TextField fullWidth label={'Class'} sx={{ bgcolor: '  #F0F0F0', width: '100%' }} value={ClassName} />
-                  </Grid>
-                  <Grid item xs={12} sm={4} >
-                    <Datepicker DateValue={dateState} onDateChange={handleDateChange} label={'Date'} size={"medium"} />
+                    <TextField fullWidth label={'Class'} sx={{ bgcolor: '  #F0F0F0', width: '100%' }} value={ClassName} inputProps={{ readOnly: true }} />
+                  </Grid>                  <Grid item xs={12} sm={4} >
+                    <Datepicker DateValue={dateState} onDateChange={handleDateChange} isMax={true} label={'Date'} size={"medium"} />
                     {dateError && (
                       <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
                         <ErrorMessage1 Error={dateError}></ErrorMessage1>
