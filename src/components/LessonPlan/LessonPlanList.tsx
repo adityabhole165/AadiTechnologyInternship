@@ -229,7 +229,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                                 plan.subPlanDetails.map((subPlan, subIndex) => (
                                                     <Table key={subIndex}>
                                                         <TableRow >
-                                                            <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top', border: 1 }}>
+                                                            <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top', }}>
                                                                 {index + 1}.{subIndex + 1}
                                                             </StyledCell>
                                                             {/* <StyledCell> */}
