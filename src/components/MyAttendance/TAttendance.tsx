@@ -206,6 +206,7 @@ const TAttendance = () => {
 
 
   console.log(UsschoolSettings,"UsschoolSettings" , GetScreenPermission()); 
+
   const [SaveIsActive, setSaveIsActive] = useState(true);
 
   const GetStudentDetails: IStudentsDetails = {
@@ -628,11 +629,14 @@ const TAttendance = () => {
   };
 
 
+  
+  
+
   console.log(ListAbsentStudents , "ListAbsentStudents");
   
   useEffect(() => {
     if (saveResponseMessage != '') {
-      if (ListAbsentStudents.length > 0) {
+      if (ListAbsentStudents.length > Number(UsschoolSettings) ) {
         setOpenStudentpopup(true);
       
       }
@@ -1142,7 +1146,7 @@ const TAttendance = () => {
         )}
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
-        {OpenStudentpopup && (
+        {(OpenStudentpopup && ListAbsentStudents.length > 0) && (
           <AbsentStudentP
             open={OpenStudentpopup}
             setOpen={setOpenStudentpopup}
@@ -1150,6 +1154,7 @@ const TAttendance = () => {
             Classname={setStandardDivName()}
             Date={assignedDate}
             ClassId={selectClasstecahernew}
+            saveResponseMessage={saveResponseMessage}
           />
         )}
       </Box>

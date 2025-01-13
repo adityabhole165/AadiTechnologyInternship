@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { IGetAbsentStudentDetailsBody } from 'src/interfaces/AbsentStudentDetails/IAbsentStudentPopup';
 import { ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
-import { AbsentStudentsandHalfday } from 'src/requests/AbsentStudentDetails/RequestAbsentStudent';
+import { AbsentStudentsandHalfday, ResetgetlistAbsentStudentDetails } from 'src/requests/AbsentStudentDetails/RequestAbsentStudent';
 import { GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import { RootState } from 'src/store';
 import { getDateFormatted } from '../Common/Util';
 
-const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, ClassId }) => {
+const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, ClassId , saveResponseMessage}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -31,6 +31,9 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
     const UsschoolSettings = useSelector(
         (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
     );
+
+
+
     const AbsentStudentsBody: ISchoolIdBody = {
         asSchoolId: Number(asSchoolId),
     };
@@ -45,8 +48,14 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
     useEffect(() => {
         dispatch(GetSchoolSettings(AbsentStudentsBody));
         dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));
+       
 
     }, []);
+
+
+
+   
+
     const absentStudentColumns = [
         {
             id: 'studentName',
@@ -62,6 +71,8 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
     const handleClose = () => {
         setOpen(false);
     };
+
+
 
     return (
         <Dialog
