@@ -74,7 +74,7 @@ const AddDailyLog = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const rowsPerPageOptions = [20, 50, 100, 200];
-  const MaxfileSize = 5000000;
+  const MaxfileSize = 3000000;
   const startIndex = (page - 1) * 20;
   const endIndex = startIndex + 20;
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -137,7 +137,7 @@ const AddDailyLog = () => {
   }, 500), [dispatch]);
   const asdate = dateState ? formatDateAsDDMMMYYYY(new Date(dateState)) : "";
   //PaylodBody
- 
+
   const SaveDailylogBody: ISaveDailyLogBody = {
     aHomeWorkLogId: LogId,
     asStdDivId: Number(Id),
@@ -463,6 +463,7 @@ const AddDailyLog = () => {
         toast.success(SaveDailyLog);
       dispatch(resetMessage());
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
+      handleClose();
     }
   }, [SaveDailyLog]);
 
@@ -509,7 +510,7 @@ const AddDailyLog = () => {
   const ClickAppropriate = (value) => {
     setOpen(true)
   }
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false)
     setFileName('')
     setDateState('')
@@ -665,6 +666,12 @@ const AddDailyLog = () => {
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button
               color={'error'}
+              onClick={ResetForm}
+            >
+              Clear
+            </Button>
+            <Button
+              color={'error'}
               onClick={handleClose}
             >
               Cancel
@@ -716,7 +723,7 @@ const AddDailyLog = () => {
                   />
 
                 </Box>
-                <Box>
+                {/* <Box>
 
 
                   <IconButton onClick={onClickSearch} sx={{
@@ -726,6 +733,24 @@ const AddDailyLog = () => {
                   }}>
                     <SearchTwoTone />
                   </IconButton>
+                </Box> */}
+                <Box>
+                  <Tooltip title={'Search'}>
+                    <IconButton
+                      onClick={onClickSearch}
+
+                      sx={{
+                        background: (theme) => theme.palette.primary.main,
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: (theme) => theme.palette.primary.dark
+                        }
+                      }}
+
+                    >
+                      <SearchTwoTone />
+                    </IconButton>
+                  </Tooltip>
                 </Box>
               </Box>
             </Grid>
