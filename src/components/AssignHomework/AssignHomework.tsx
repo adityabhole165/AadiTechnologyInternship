@@ -60,15 +60,14 @@ const AssignHomework = () => {
     sessionStorage.getItem('StandardDivisionId')
   );
   const AssignHomeworkPermission = GetScreenPermission('Assign Homework');
-  console.log(AssignHomeworkPermission, "AssignHomeworkPermission");
 
-
-  const [SelectClass, setSelectClass] = useState(ClassTecherId ? ClassTecherId : "0");
+  const [SelectClass, setSelectClass] = useState(
+    AssignHomeworkPermission !== 'Y' ? asStandardDivisionId.toString() : ClassId ? ClassId : "0");
 
   console.log(ClassTecherId, "ClassTecherId", SelectClass);
 
   const [SelectTeacher, setSelectTeacher] = useState(
-    AssignHomeworkPermission !== 'Y' ? TeacherId : ClassId ? ClassId : "0"
+    AssignHomeworkPermission !== 'Y' ? TeacherId : ClassTecherId ? ClassTecherId : "0"
   );
 
   const TeacherList = useSelector(
@@ -306,7 +305,6 @@ const AssignHomework = () => {
                       </Tooltip>
                     </Box>
                   )}
-
               </Grid>
 
             </Stack>
