@@ -12,7 +12,6 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    TableSortLabel,
     Typography,
     useMediaQuery
 } from "@mui/material";
@@ -29,60 +28,34 @@ interface TemplateRow {
 
 interface UserTemplateIdFormProps {
     rows: TemplateRow[];
-
 }
 
 const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-
-
-    // // Sorting state
+    // Sorting state
     const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-    const [orderBy, setOrderBy] = useState<string | null>(null);
+    const [orderBy, setOrderBy] = useState<string | null>('Name');
+    const [selectedRow, setSelectedRow] = useState<string | null>(null);
 
-    // // Handle sorting by toggling between asc and desc
-    // const handleSortDirectionChange = (field: string) => {
-    //     setOrderBy(field);
-    //     setSortDirection((prevDirection) => (prevDirection === "asc" ? "desc" : "asc"));
-    // };
-
-    // // Sort rows based on the current sort direction
-    // const sortedRows = [...rows].sort((a, b) => {
-    //     if (orderBy === "name") {
-    //         if (a.Name < b.Name) return sortDirection === "asc" ? -1 : 1;
-    //         if (a.Name > b.Name) return sortDirection === "asc" ? 1 : -1;
-    //     }
-    //     return 0;
-    // });
-
-
-    const sortedRows = [...rows].sort((a, b) => {
-        if (!orderBy) return 0; // If no column is selected for sorting, do nothing
-
-        const fieldA = a[orderBy]?.toString().toLowerCase(); // Ensure case-insensitive sorting
-        const fieldB = b[orderBy]?.toString().toLowerCase();
-
-        if (a.Name < b.Name) return sortDirection === "asc" ? -1 : 1;
-        if (a.Name > b.Name) return sortDirection === "asc" ? 1 : -1;
-        return 0; // If equal, no change in order
-    });
-
-
+    // Handle sorting by toggling between asc and desc
     const handleSortDirectionChange = (field: string) => {
         setOrderBy(field);
         setSortDirection((prevDirection) => (prevDirection === "asc" ? "desc" : "asc"));
     };
 
-
-    const [selectedRow, setSelectedRow] = useState(null);
-
-    // Function to handle radio button selection
-    const handleRadioChange = (Id) => {
-        setSelectedRow(Id); // Set the selected row ID
+    // Sort rows based on the current sort direction
+    const handleRadioChange = (id) => {
+        setSelectedRow(id); // Set the selected row ID
     };
 
+
+    const sortedRows = [...rows]
+        .sort((a, b) => {
+            const comparison = a.Name.localeCompare(b.Name); // Sorting only by Name
+            return sortDirection === 'asc' ? comparison : -comparison; // Respecting sortDirection
+        });
 
     return (
         <Box>
@@ -107,36 +80,37 @@ const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows }) => {
             {isMobile ? (
                 // Card view for mobile
                 <Box>
-                    {sortedRows.map((rows) => (
-                        <Card key={rows.Id} sx={{ mb: 2, backgroundColor: blue[50] }}>
+                    {sortedRows.map((row) => (
+                        <Card key={row.Id} sx={{ mb: 2, backgroundColor: blue[50] }}>
                             <CardContent>
                                 <Box display="flex" alignItems="center">
                                     <TableCell>
-                                        <Radio color="primary"
-                                            checked={selectedRow === rows.Id}
-                                            onChange={() => handleRadioChange(rows.Id)} />
+                                        <Radio
+                                            color="primary"
+                                            checked={selectedRow === row.Id}
+                                            onChange={() => handleRadioChange(row.Id)}
+                                        />
                                     </TableCell>
                                     <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                                        Registration No.: {rows.Id}
+                                        Registration No.: {row.Id}
                                     </Typography>
                                 </Box>
                                 <Divider sx={{ my: 1 }} />
                                 <Typography variant="body2" sx={{ fontWeight: "bold" }}>
                                     Name:
                                 </Typography>
-                                <Typography variant="body2">{rows.Name}</Typography>
+                                <Typography variant="body2">{row.Name}</Typography>
                                 <Divider sx={{ my: 1 }} />
                                 <Typography variant="body2" sx={{ fontWeight: "bold" }}>
                                     Template:
                                 </Typography>
-                                <Typography variant="body2">{rows.Value}</Typography>
+                                <Typography variant="body2">{row.Value}</Typography>
                             </CardContent>
                         </Card>
                     ))}
                 </Box>
             ) : (
                 // Table view for desktop
-
                 <TableContainer component={Box}>
                     <Table
                         aria-label="simple table"
@@ -154,61 +128,38 @@ const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows }) => {
                             >
                                 <TableCell></TableCell>
                                 <TableCell sx={{ color: "white", textAlign: "left" }}>
-                                    Registration No.
+                                    <strong>  Registration No.   </strong>
                                 </TableCell>
-                                <TableCell sx={{ color: "white", textAlign: "left" }}>
-                                    <TableSortLabel
-                                        active={orderBy === "name"}
-                                        direction={sortDirection}
-                                        onClick={() => handleSortDirectionChange("name")}
-                                        IconComponent={
-                                            sortDirection === "asc"
-                                                ? ArrowCircleUpIcon
-                                                : ArrowCircleDownIcon
-                                        }
-                                        sx={{
-                                            color: "white !important", // Text color
-                                            "& .MuiTableSortLabel-icon": {
-                                                color: "white !important", // Arrow icon color
-                                            },
-                                        }}
+                                <TableCell sx={{ color: "white" }}>
+                                    <b
+                                        onClick={() => handleSortDirectionChange("Name")}
+                                        style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
                                     >
-                                        Name
-                                    </TableSortLabel>
+                                        Name {orderBy === "Name" && (sortDirection === "asc" ? <ArrowCircleUpIcon /> : <ArrowCircleDownIcon />)}
+                                    </b>
                                 </TableCell>
                                 <TableCell sx={{ color: "white", textAlign: "left" }}>
-                                    Template
+                                    <strong>  Template</strong>
                                 </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sortedRows.map((rows, index) => (
+                            {sortedRows.map((row, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
-                                        <Radio color="primary" />
-                                    </TableCell>
-
-                                    {/* <TableBody>
-                            {rows.map((row) => (
-                                <TableRow
-                                    key={row.Id}
-                                    onClick={() => setSelectedTemplate(row)}
-                                    selected={selectedTemplate?.Id === row.Id}
-                                >
-                                    <TableCell>
                                         <Radio
-                                            checked={selectedTemplate?.Id === row.Id}
-                                            onChange={() => setSelectedTemplate(row)}
+                                            color="primary"
+                                            checked={selectedRow === row.Id}
+                                            onChange={() => handleRadioChange(row.Id)}
                                         />
-                                    </TableCell> */}
-                                    <TableCell>{rows.Id}</TableCell>
-                                    <TableCell>{rows.Name}</TableCell>
-                                    <TableCell>{rows.Value}</TableCell>
+                                    </TableCell>
+                                    <TableCell>{row.Id}</TableCell>
+                                    <TableCell>{row.Name}</TableCell>
+                                    <TableCell>{row.Value}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-
                 </TableContainer>
             )}
         </Box>
@@ -216,8 +167,3 @@ const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows }) => {
 };
 
 export default UserTemplateIdForm;
-
-
-
-
-
