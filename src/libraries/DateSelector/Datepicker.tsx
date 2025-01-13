@@ -1,4 +1,3 @@
-
 import { DatePicker } from '@mui/x-date-pickers';
 
 const Datepicker = ({ DateValue, onDateChange, label, size, isMax = false, isMin = false, dateWidth = undefined }) => {
@@ -29,6 +28,12 @@ const Datepicker = ({ DateValue, onDateChange, label, size, isMax = false, isMin
                         variant: 'outlined',
                         fullWidth: true,
                         size: size || 'medium'
+                    },
+                    actionBar: {
+                        actions: ['clear', 'today'],
+                        sx: {
+                            marginTop: -5
+                        }
                     }
                 }}
                 sx={{
