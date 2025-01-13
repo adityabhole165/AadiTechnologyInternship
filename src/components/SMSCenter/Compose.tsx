@@ -149,8 +149,8 @@ const Compose = () => {
   const senderUserName = SchoolSettingsValue.SMSSenderUserName;
 
   const getTemplateAPIBody: MessageTemplateSMSCenter = {
-    asSchoolId: asSchoolId,
-    sortDirection: 'asc',
+    asSchoolId: Number(asSchoolId),
+    asSortDirection: 'asc',
     asShowSystemDefined: 'Y'
   };
 
@@ -325,13 +325,13 @@ const Compose = () => {
                             return (
                               <option
                                 value={
-                                  items.registration_Number +
+                                  items.RegNo +
                                   ',' +
                                   items.Template
                                 }
                                 key={i}
                               >
-                                {items.Template_Name}
+                                {items.Name}
                               </option>
                             );
                           })}

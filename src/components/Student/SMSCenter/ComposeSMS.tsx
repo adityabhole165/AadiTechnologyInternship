@@ -79,8 +79,9 @@ const ComposeSMSform = () => {
     const Note1: string =
         'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
 
-    const getAComposeSMSTemplate: any = useSelector((state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList);
-    const TemplateList = getAComposeSMSTemplate.GetSMSTemplates;
+    const rows: any = useSelector((state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList);
+    console.log(rows,'Hello');
+    const TemplateList = rows.GetSMSTemplates;
     const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
     const [TemplateRegistrationId, setTemplateRegistrationId] = useState();
     let confirmationDone;
@@ -262,32 +263,6 @@ const ComposeSMSform = () => {
             setError('');
         }
     };
-    const rows = [
-        {
-            registrationNo: "1007006514077798929",
-            name: "AdmissionLotterySMS",
-            template:
-                "Congratulations!!! Your child has been selected in admission lottery of Pawar Public School. Please pay the fees by %DATE% to confirm the admission.",
-        },
-        {
-            registrationNo: "1007271844150293720",
-            name: "ChequePaymentSMS",
-            template:
-                "We have successfully received your fee payment of Rs. %Amount% through %PaymentMode%. Regards, PPS Pune. *Subject To Cheque Realization.",
-        },
-        {
-            registrationNo: "1007328126928263539",
-            name: "Holiday SMS",
-            template:
-                "Dear Parents, The school will remain closed on {#var#} on account of {#var#}. Regards, PPS Hadapsar",
-        },
-        {
-            registrationNo: "1007743695402120671",
-            name: "QuarterlyPendingFeeSMS",
-            template:
-                "Fees for {#var#} is due on {#var#}. Pay using online facility thru RTE login. Cheque box available in school. Kindly Ignore, if paid. – PPS, Accounts Dept",
-        },
-    ];
 
     // Api body of Admin SMS Template
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -301,8 +276,8 @@ const ComposeSMSform = () => {
     const senderUserName = SchoolSettingsValue?.SMSSenderUserName;
 
     const getTemplateAPIBody: MessageTemplateSMSCenter = {
-        asSchoolId: asSchoolId,
-        sortDirection: 'asc',
+        asSchoolId: Number(asSchoolId),
+        asSortDirection: 'asc',
         asShowSystemDefined: 'Y'
     };
 

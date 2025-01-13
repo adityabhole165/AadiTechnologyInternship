@@ -182,8 +182,8 @@ const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sortedRows.map((rows) => (
-                                <TableRow key={rows.Id}>
+                            {sortedRows.map((rows, index) => (
+                                <TableRow key={index}>
                                     <TableCell>
                                         <Radio color="primary" />
                                     </TableCell>
