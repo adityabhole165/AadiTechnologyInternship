@@ -67,6 +67,9 @@ const AssignHomeworkSlice = createSlice({
 export const TeacherNameList =
   (data: ITeacherDropdownBody): AppThunk =>
     async (dispatch) => {
+      dispatch(resetClassName());
+      dispatch(AssignHomeworkSlice.actions.SubjectDetails([]));
+      dispatch(AssignHomeworkSlice.actions.SubjectDetails1([]));
       dispatch(AssignHomeworkSlice.actions.getLoading(true));
       const response = await TeacherDropdownApi.TeacherDropdown(data);
       let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
