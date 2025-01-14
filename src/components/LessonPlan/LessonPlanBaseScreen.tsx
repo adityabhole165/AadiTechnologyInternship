@@ -50,6 +50,7 @@ const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openViewRemarkDialog, setOpenViewRemarkDialog] = useState(false);
+  const [showAddLessonPlanBtn, setShowAddLessonPlanBtn] = useState(false);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -128,6 +129,37 @@ const LessonPlanBaseScreen = () => {
   const uniqueTotalCount = [...new Set(TotalCount)];
   const singleTotalCount = uniqueTotalCount[0];
 
+  /**
+  //  #region  Add Btn Visibility
+   * 
+   * This section controls the visibility of the Add Lesson Plan button based on user permissions
+   */
+
+  /**
+   * Determines if the current user has permission to add lesson plans
+   * @returns {boolean} True if user has permission, false otherwise
+   */
+  const showAddLessonPlan = () => {
+    let flag = false;
+    if (USGetAllTeachersOfLessonPlan?.length > 0) {
+      const evnUserId = localStorage.getItem('UserId');
+      // Filter teachers array to find if current user is a teacher
+      let filterArr = USGetAllTeachersOfLessonPlan?.filter(item => item.Id === evnUserId);
+      // Show button only if user is a teacher and they are viewing their own lessons
+      if (filterArr.length > 0 && selectClasstecahernew === evnUserId) {
+        flag = true;
+      }
+    }
+    return flag;
+  }
+
+  /**
+   * Effect hook to update Add Lesson Plan button visibility when dependencies change
+   */
+  useEffect(() => {
+    setShowAddLessonPlanBtn(showAddLessonPlan());
+  }, [USGetAllTeachersOfLessonPlan, selectClasstecahernew]);
+  // #endregion
 
   const HeaderList1 = [
     { Id: 1, Header: 'Start Date' },
@@ -771,7 +803,7 @@ const LessonPlanBaseScreen = () => {
                       )}
                     </Box>
                     <Box>
-                      {String(asUserId) === String(selectClasstecahernew) ? (
+                      {showAddLessonPlanBtn ? (
                         <Tooltip title="Add Lesson Plan">
                           <IconButton
                             sx={{
