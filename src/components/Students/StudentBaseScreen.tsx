@@ -363,7 +363,7 @@ const StudentBaseScreen = () => {
                                                         {item.Text1}
                                                     </TableCell>
                                                     <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
-                                                        {formatDate1(item.Text4.split(' ')[0])}
+                                                        {item.Text4}
                                                     </TableCell>
                                                     <TableCell align="center" sx={{ pt: '5px', pb: '5px' }}>
                                                         {item.Text7 !== '' ? <span
