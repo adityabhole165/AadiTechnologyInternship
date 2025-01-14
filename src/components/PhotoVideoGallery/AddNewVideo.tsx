@@ -142,6 +142,16 @@ const AddNewVideo = () => {
       asUrlSourceId: 1
     }
     dispatch(CDAInsertVideoGallaryMsg(SaveVedioGallery))
+    setCheckedValues([]);
+    setUrlSource('YouTube');
+    setVedioName('');
+    setVideoNameError('');
+    setUrlSourceError('');
+    setClassesAndDivisionssError('');
+    setUserRolesError('');
+    setShowOnExternalWebsite(0);
+    setVideoUrl('');
+    setTitle('');
   }
   useEffect(() => {
     if (USInsertVideoGallary !== "") {
@@ -201,7 +211,7 @@ const AddNewVideo = () => {
 
   const ClickCancel = () => {
     setCheckedValues([]);
-    setUrlSource('');
+    setUrlSource('YouTube');
     setVedioName('');
     setVideoNameError('');
     setUrlSourceError('');
@@ -212,6 +222,11 @@ const AddNewVideo = () => {
     setTitle('');
 
   };
+  const handleDelete = (index: number) => {
+    const updatedFileList = videoList.filter((_, fileIndex) => fileIndex !== index);
+    setVideoList(updatedFileList); // Update the state
+  };
+
   return (
     <Box px={2}>
       <CommonPageHeader
@@ -226,7 +241,7 @@ const AddNewVideo = () => {
           <>
             <Tooltip
               title={
-                "Create new photo galleries or add photos to existing gallery. You can also view all gallery photos by clicking on SlideShow.You can also add or view videos into gallery."
+                "Create new video galleries or add videos to existing gallery. You can also view all gallery videos by clicking on view."
               }
             >
               <IconButton
@@ -330,6 +345,35 @@ const AddNewVideo = () => {
               }
               //variant="outlined"
               onChange={(e) => {
+                <Grid item xs={12} sm={4}>
+                  <TextField fullWidth variant="outlined"
+                    label={
+                      <span>
+                        Url Source <span style={{ color: 'red' }}> *</span>
+                      </span>
+                    }
+                    //variant="outlined"
+                    onChange={(e) => {
+                      <Grid item xs={12} sm={4}>
+                        <TextField fullWidth variant="outlined"
+                          label={
+                            <span>
+                              Url Source <span style={{ color: 'red' }}> *</span>
+                            </span>
+                          }
+                          //variant="outlined"
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            ClickUrlSource(e.target.value.slice(0, 50));
+                          }}
+                          value={UrlSource}
+                        />
+                      </Grid>
+                      ClickUrlSource(e.target.value.slice(0, 50));
+                    }}
+                    value={UrlSource}
+                  />
+                </Grid>
                 ClickUrlSource(e.target.value.slice(0, 50));
               }}
               value={UrlSource}
@@ -355,7 +399,7 @@ const AddNewVideo = () => {
             title={title}
             videoUrl={videoUrl}
             UrlSourceError={UrlSourceError}
-          />
+            handleDelete={handleDelete} />
           {/* <ErrorMessage1 Error={VideoNameError}></ErrorMessage1> */}
         </Box>
         <Box sx={{ backgroundColor: "lightgrey", paddingLeft: 1, mt: 1 }}>
