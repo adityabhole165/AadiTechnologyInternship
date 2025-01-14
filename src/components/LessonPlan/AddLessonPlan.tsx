@@ -753,7 +753,7 @@ const AddLessonPlan = () => {
                 </Box>
               </Grid>
 
-              {(Action == "Add" || Action == "Edit") &&
+              {((Action == "Add" || Action == "Edit") && GetEnableButtonList.length > 0) &&
 
                 <Box>
                   <Tooltip title={'Submit'}>

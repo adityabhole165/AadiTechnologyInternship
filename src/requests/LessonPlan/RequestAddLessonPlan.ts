@@ -116,6 +116,7 @@ export const classnamelist =
 export const GetAddOrEditLessonPlanDetails =
   (data: IAddOrEditLessonPlanDetailsBody): AppThunk =>
     async (dispatch) => {
+      dispatch(AddLessonPlanSlice.actions.getEnableButtonList([]));
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.AddOrEditLessonPlanDetails(data);
       let reponseData = []
