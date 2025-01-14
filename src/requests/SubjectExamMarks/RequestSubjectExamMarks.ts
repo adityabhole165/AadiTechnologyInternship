@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import SubjectExamMarksApi from 'src/api/SubjectExamMarks/ApiSubjectExamMarks';
-import { isGreaterThanDate } from 'src/components/Common/Util';
+import { getDateMonthYearFormattedDash, getYearFirstDateDashFormatted, isGreaterThanDate } from 'src/components/Common/Util';
 import {
     IGetAllGradesForSubjectMarkListBody,
     IGetAllStudentsForMarksAssignmentsBody,
@@ -194,12 +194,12 @@ export const getSubjectExamMarkslist =
             const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
 
             let body1: IGetAllStudentsForMarksAssignmentsBody = {
-                asAcademicYearID: data.asAcademicYrId,
+                asAcademicYearId: data.asAcademicYrId,
                 asSchoolId: data.asSchoolId,
-                asSubject_Id: data.asSubjectId,
-                asStandardDivision_Id: data.asStandardDivision_Id,
-                asStartIndex: data.asStartIndex,
-                asEndIndex: data.asEndIndex,
+                asSubjectId: data.asSubjectId,
+                asStandard_Division_Id: data.asStandardDivision_Id,
+                // asStartIndex: data.asStartIndex,
+                // asEndIndex: data.asEndIndex,
                 asTestDate: data.asTestDate
             }
             // console.log(body1, "body1", response2.data);
@@ -211,14 +211,16 @@ export const getSubjectExamMarkslist =
                     asTestDate: response2.data.listStudentTestMarkDetails[0].Test_Date
                 }
             }
-            TestDate = TestDate == undefined ? (data.asTestDate) : (TestDate)
+            TestDate = TestDate == undefined ? getYearFirstDateDashFormatted(data.asTestDate) : getYearFirstDateDashFormatted(TestDate)
 
-
-            const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
+            const initialResponse = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
+            const response1 = {
+                GetAllStudentsForMarksAssignmentsdetails: initialResponse.data
+            }
             let reponseData1 = [];
             const getMarksForStudentBlank = (StudentIdParam, JoiningDate) => {
                 let arr = [];
-                let IsLateJoinee = isGreaterThanDate((JoiningDate), TestDate)
+                let IsLateJoinee = isGreaterThanDate(getDateMonthYearFormattedDash(JoiningDate), TestDate)
                 let StudentId = "0"
                 response2.data.listTestDetailss.map((Item, i) => {
 
@@ -305,7 +307,7 @@ export const getSubjectExamMarkslist =
 
                 return TotalMarks
             }
-            response1.data.GetAllStudentsForMarksAssignmentsdetails.map((Item, i) => {
+            response1.GetAllStudentsForMarksAssignmentsdetails.map((Item, i) => {
                 reponseData1.push({
                     Id: Item.Student_Id,
                     Text1: Item.Roll_No,
@@ -318,10 +320,7 @@ export const getSubjectExamMarkslist =
 
 
             dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(reponseData1));
-            dispatch(SubjectExamMarksslice.actions.GetStudentCount(response1.data?.listGetCount?.TotalStudentCount));
-
-            console.log(response1.data.listGetCount.TotalStudentCount, "response1.data.listGetCount");
-
+            // dispatch(SubjectExamMarksslice.actions.GetStudentCount(response1.listGetCount?.TotalStudentCount));
 
             let responseData2 = [];
             const ExamMarkHeader = {

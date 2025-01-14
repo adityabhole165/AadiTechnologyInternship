@@ -33,7 +33,6 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import CommonPageHeader from '../CommonPageHeader';
 import DatepickermaxDate from './DatepickermaxDate';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
-import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,20 +56,20 @@ const SubjectExamMarks = () => {
   } = useParams();
 
   // Decode in-place
-  
-     ClassTecher = decodeURL(ClassTecher);
-    ClassId = decodeURL(ClassId);
-    TeacherId = decodeURL(TeacherId);
-     StandardId = decodeURL(StandardId);
-    IsMonthConfig = decodeURL(IsMonthConfig);
-     IsReadOnly = decodeURL(IsReadOnly);
-    StandardDivisionId = decodeURL(StandardDivisionId);
-     SubjectId = decodeURL(SubjectId);
-     TestId = decodeURL(TestId);
-     examResultProp = decodeURL(examResultProp);
-     publish = decodeURL(publish);
-     getStandardId = decodeURL(getStandardId);
- 
+
+  ClassTecher = decodeURL(ClassTecher);
+  ClassId = decodeURL(ClassId);
+  TeacherId = decodeURL(TeacherId);
+  StandardId = decodeURL(StandardId);
+  IsMonthConfig = decodeURL(IsMonthConfig);
+  IsReadOnly = decodeURL(IsReadOnly);
+  StandardDivisionId = decodeURL(StandardDivisionId);
+  SubjectId = decodeURL(SubjectId);
+  TestId = decodeURL(TestId);
+  examResultProp = decodeURL(examResultProp);
+  publish = decodeURL(publish);
+  getStandardId = decodeURL(getStandardId);
+
 
   // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
@@ -164,8 +163,8 @@ const SubjectExamMarks = () => {
     setPage(pageNumber);
   };
 
-  console.log(StudentCountTotal,"StudentCountTotal");
-  
+  console.log(StudentCountTotal, "StudentCountTotal");
+
   const [ExamGrade, setExamGrade] = useState([])
   const clickTestDate = (value) => {
     setTestDate(
@@ -205,7 +204,7 @@ const SubjectExamMarks = () => {
 
     dispatch(getSubjectExamMarkslist(GetSubjectExamMarkslists));
 
-  }, [startIndex,endIndex]);
+  }, [startIndex, endIndex]);
   //for Passing Total marks
   useEffect(() => {
 
@@ -533,7 +532,7 @@ const SubjectExamMarks = () => {
   };
 
 
-  
+
 
 
   return (
@@ -837,8 +836,8 @@ const SubjectExamMarks = () => {
           {/* Table */}
           {
             (MarksAssignment.length > 0 && HeaderDetails != null) &&
-<div>
-             {
+            <div>
+              {/* {
           MarksAssignment.length > 0 ? (
             <div style={{ flex: 1, textAlign: 'center' }}>
               <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
@@ -857,25 +856,25 @@ const SubjectExamMarks = () => {
             <span></span>
 
           )
-        }
-         
+        } */}
 
 
-            <SubjectExamMarkTable
-              ExamMarksHeader={HeaderDetails}
-              onChangeExamHeader={onClickExamHeader}
-              ExamStatus={ExamStatus}
-              StudentsForMarksAssignment={MarksAssignment}
-              onChangeExamStatus={onChangeExamStatus}
-              GradesForSubjectMarkList={GradesForSubjectMarkList}
-              onChangeExamGrade={onClickExamGrade}
-              IsReadOnly={IsReadOnly}
-              examResultProp={examResultProp}
-              publish={publish}
-              IsMark={TestName?.Grade_Or_Marks == "M"}
-              AllowDecimal={TestName?.AllowDecimal == "True"}
-            />
-             </div>
+
+              <SubjectExamMarkTable
+                ExamMarksHeader={HeaderDetails}
+                onChangeExamHeader={onClickExamHeader}
+                ExamStatus={ExamStatus}
+                StudentsForMarksAssignment={MarksAssignment}
+                onChangeExamStatus={onChangeExamStatus}
+                GradesForSubjectMarkList={GradesForSubjectMarkList}
+                onChangeExamGrade={onClickExamGrade}
+                IsReadOnly={IsReadOnly}
+                examResultProp={examResultProp}
+                publish={publish}
+                IsMark={TestName?.Grade_Or_Marks == "M"}
+                AllowDecimal={TestName?.AllowDecimal == "True"}
+              />
+            </div>
           }
           {/* <br/>
           {
@@ -893,11 +892,11 @@ const SubjectExamMarks = () => {
 
           )
         } */}
-          
+
         </Box >
 
-        
-        }
+
+      }
 
     </Box >
   );

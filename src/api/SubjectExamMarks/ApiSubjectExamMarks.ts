@@ -1,7 +1,6 @@
 import {
     IGetAllGradesForSubjectMarkListBody, IGetAllGradesForSubjectMarkListResult,
     IGetAllStudentsForMarksAssignmentsBody,
-    IGetAllStudentsForMarksAssignmentsResult,
     IGetClassExamSubjectNameDetailesBody, IGetClassExamSubjectNameDetailesResult,
     IGetExamScheduleBody, IGetExamScheduleResult,
     IGetSubjectExamMarkslistsBody, IGetSubjectExamMarkslistsResult,
@@ -14,7 +13,7 @@ const GetClassExamSubjectNameDetailes = (data: IGetClassExamSubjectNameDetailesB
 };
 
 const GetAllStudentsForMarksAssignments = (data: IGetAllStudentsForMarksAssignmentsBody) => {
-    return http.post<IGetAllStudentsForMarksAssignmentsResult>('Teacher/GetAllStudentsForMarksAssignments', data);
+    return http.post<any>('Teacher/GetAllStudentsForMarksAssignment', data);
 };
 
 const GetAllGradesForSubjectMarkList = (data: IGetAllGradesForSubjectMarkListBody) => {

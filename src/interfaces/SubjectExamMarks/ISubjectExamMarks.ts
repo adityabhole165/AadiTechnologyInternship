@@ -31,12 +31,12 @@ export interface IGetClassExamSubjectNameDetailesResult {
 
 
 export interface IGetAllStudentsForMarksAssignmentsBody {
-    asAcademicYearID: number,
+    asAcademicYearId: number,
     asSchoolId: number,
-    asSubject_Id: number,
-    asStandardDivision_Id: number,
-    asStartIndex: number,
-    asEndIndex: number,
+    asSubjectId: number,
+    asStandard_Division_Id: number,
+    // asStartIndex: number,
+    // asEndIndex: number,
     asTestDate: string
 }
 export interface IGetAllStudentsForMarksAssignmentsResult {
