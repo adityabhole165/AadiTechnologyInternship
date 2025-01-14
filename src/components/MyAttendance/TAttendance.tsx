@@ -636,12 +636,10 @@ const TAttendance = () => {
   
   useEffect(() => {
     if (saveResponseMessage != '') {
-      if (ListAbsentStudents.length > 0 ) {
-        setOpenStudentpopup(true);
-      
-      }
+     
       dispatch(GetStudentList(GetStudentDetails));
       dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));  
+     
       toast.success(saveResponseMessage, { toastId: 'success1' });
       dispatch(ResetgetlistAbsentStudentDetails());
       dispatch(setSaveResponse());
@@ -649,13 +647,20 @@ const TAttendance = () => {
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
       
     }
-  }, [saveResponseMessage, assignedDate]);
+  }, [saveResponseMessage, assignedDate ]);
 
 
   useEffect(() => {
       dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));  
   }, [assignedDate,selectClasstecahernew,UsschoolSettings]);
 
+
+  useEffect(()=>{
+    if (ListAbsentStudents.length > 0 ) {
+      setOpenStudentpopup(true);
+    
+    }
+  }, [ListAbsentStudents])
   
   // useEffect(() => {
   //   //console.log(ListAbsentStudents, 'ListAbsentStudents');
@@ -1146,7 +1151,7 @@ const TAttendance = () => {
         )}
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
-        {(OpenStudentpopup && ListAbsentStudents.length > 0) && (
+        {OpenStudentpopup && (
           <AbsentStudentP
             open={OpenStudentpopup}
             setOpen={setOpenStudentpopup}
