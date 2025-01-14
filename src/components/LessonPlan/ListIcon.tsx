@@ -30,7 +30,7 @@ function ListIcon({
 
 }) {
     const cellStyle = {
-        padding: '0.1px 0.1px', // Adjust these values to reduce the height
+        py:0.5, // Adjust these values to reduce the height
     };
     const getStatusIcon = (status) => {
         let icon;
@@ -99,7 +99,7 @@ function ListIcon({
                                 !(item.Header == "Edit" && !ShowEdit
                                     || item.Header == "View" && ShowEdit
                                 ) &&
-                                < TableCell key={i} align={item.align ? item.align : 'left'} sx={{ backgroundColor: '#19bed4', color: 'white' }}>
+                                < TableCell key={i} align={item.align ? item.align : 'left'} sx={{ backgroundColor: '#19bed4', color: 'white', py:1.5 }}>
                                     <b>{item.Header}</b>
                                 </TableCell>)
                             )}
@@ -108,9 +108,9 @@ function ListIcon({
                     <TableBody>
                         {ItemList.map((item, i) => (
                             <TableRow key={i}>
-                                <TableCell sx={{ ...cellStyle, color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit', padding: '8px' }}>{item.StartDate}</TableCell>
+                                <TableCell sx={{ ...cellStyle, color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit',  }}>{item.StartDate}</TableCell>
 
-                                <TableCell sx={{ ...cellStyle, color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit', padding: '8px' }}>{item.EndDate}</TableCell>
+                                <TableCell sx={{ ...cellStyle, color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit',  }}>{item.EndDate}</TableCell>
 
                                 {/* <TableCell align="center">
                                     {getIsRemarkView(item.UserId, item.StartDate, item.EndDate) ?
@@ -157,7 +157,7 @@ function ListIcon({
                                 {ShowEdit && (
                                     <TableCell align="center" sx={{ ...cellStyle }}>
                                         <Tooltip title={"Edit"}>
-                                            <Box sx={{ padding: '8px' }}>
+                                            <Box sx={{}}>
                                                 <IconButton
                                                     onClick={() => clickEdit({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })}
                                                     sx={{
@@ -185,7 +185,7 @@ function ListIcon({
                                 <TableCell align="center" sx={{ ...cellStyle }}>
                                     {item.SubmitedByReportingUser === "0" && (
                                         <Tooltip title={"Delete"}>
-                                            <Box sx={{ padding: '8px' }}>
+                                            <Box sx={{ }}>
                                                 <IconButton
                                                     onClick={() => clickDelete(item.StartDate, item.EndDate)}
                                                     sx={{
