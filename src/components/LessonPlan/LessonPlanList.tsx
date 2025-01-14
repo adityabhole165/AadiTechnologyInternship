@@ -120,7 +120,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
     const ClickCopy = (value) => {
         showAlert({
             title: 'Please Confirm',
-            message: 'This action will set a new value for all students. Do you want to continue?',
+            message: 'This action will copy details of this subject section and paste / overwrite it on subject section of other classes of same standard present on this screen. Do you want to continue?',
             variant: 'warning',
             confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
