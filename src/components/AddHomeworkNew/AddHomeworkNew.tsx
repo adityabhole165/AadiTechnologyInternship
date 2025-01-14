@@ -1049,7 +1049,7 @@ const AddHomeworkNew = () => {
           navLinks={[
             {
               title: 'Assign Homework',
-              path: '/RITeSchool/Teacher/AssignHomework' + '/' + encodeURL(SelectClass) + '/' + encodeURL(TeacherId)
+              path: '/RITeSchool/Teacher/AssignHomework' + '/' + encodeURL(TeacherId) + '/' + encodeURL(SelectClass)
             },
             { title: 'Add Homework', path: '/RITeSchool/Teacher/AddHomework' }
           ]}

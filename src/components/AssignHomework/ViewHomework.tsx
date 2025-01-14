@@ -132,7 +132,7 @@ const ViewHomework = () => {
           navLinks={[
             {
               title: 'Assign Homework',
-              path: '/RITeSchool/Teacher/AssignHomework'
+              path: '/RITeSchool/Teacher/AssignHomework' + '/' + encodeURL(TeacherId) + '/' + encodeURL(SelectClass)
             },
             {
               title: 'Add Homework',

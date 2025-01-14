@@ -28,19 +28,21 @@ import {
   GetschoolSettings,
   ReqschoolSettings,
   SubjectDetails,
-  TeacherNameList,
-  resetSubjectDetails
+  TeacherNameList
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
 import { GetScreenPermission, decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 const AssignHomework = () => {
 
+  // ClassTecherId
   let { ClassTecherId, ClassId } = useParams();
   ClassTecherId = decodeURL(ClassTecherId);
   ClassId = decodeURL(ClassId);
-
-  console.log(ClassTecherId, "ClassTecherId");
+  useEffect(() => {
+    console.log(ClassTecherId, "ClassTecherId");
+    console.log(ClassId, "ClassId");
+  }, [ClassTecherId, ClassId]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,14 +63,9 @@ const AssignHomework = () => {
   );
   const AssignHomeworkPermission = GetScreenPermission('Assign Homework');
 
-  const [SelectClass, setSelectClass] = useState(
-    AssignHomeworkPermission !== 'Y' ? asStandardDivisionId.toString() : ClassId ? ClassId : "0");
+  const [SelectClass, setSelectClass] = useState("0");
 
-  console.log(ClassTecherId, "ClassTecherId", SelectClass);
-
-  const [SelectTeacher, setSelectTeacher] = useState(
-    AssignHomeworkPermission !== 'Y' ? TeacherId : ClassTecherId ? ClassTecherId : "0"
-  );
+  const [SelectTeacher, setSelectTeacher] = useState("0");
 
   const TeacherList = useSelector(
     (state: RootState) => state.TeacherNameList.TeacherList
@@ -112,6 +109,44 @@ const AssignHomework = () => {
     dispatch(FullTeacherName(fullClassTeacherBody));
   }, []);
 
+  // TeacherList
+  // const [SelectTeacher, setSelectTeacher] = useState(
+  // AssignHomeworkPermission !== 'Y' ? TeacherId : ClassTecherId ? ClassTecherId : "0");  
+  useEffect(() => {
+    console.log('TeacherList Length:', TeacherList.length);
+    console.log('ClassTecherId:', ClassTecherId);
+    console.log('AssignHomeworkPermission:', AssignHomeworkPermission);
+    console.log('TeacherId:', TeacherId);
+
+    if (TeacherList.length > 0) {
+      if (ClassTecherId !== undefined) {
+        console.log('Setting SelectTeacher to ClassTecherId:', ClassTecherId);
+        setSelectTeacher(ClassTecherId);
+      } else if (AssignHomeworkPermission !== 'Y') {
+        console.log('Setting SelectTeacher to TeacherId:', TeacherId.toString());
+        setSelectTeacher(TeacherId.toString());
+      }
+    }
+  }, [TeacherList]);
+  // ClassList
+  // const [SelectClass, setSelectClass] = useState(
+  // AssignHomeworkPermission !== 'Y' ? asStandardDivisionId.toString() : ClassId ? ClassId : "0");
+  useEffect(() => {
+    console.log('ClassList Length:', ClassList.length);
+    console.log('ClassId:', ClassId);
+    console.log('AssignHomeworkPermission:', AssignHomeworkPermission);
+    console.log('asStandardDivisionId:', asStandardDivisionId);
+
+    if (ClassList.length > 0) {
+      if (ClassId !== undefined) {
+        console.log('Setting SelectClass to ClassId:', ClassId);
+        setSelectClass(ClassId);
+      } else if (AssignHomeworkPermission !== 'Y') {
+        console.log('Setting SelectClass to asStandardDivisionId:', asStandardDivisionId.toString());
+        setSelectClass(asStandardDivisionId.toString());
+      }
+    }
+  }, [ClassList]);
 
 
   const GetClassD: IClassDropDownBody = {
@@ -120,7 +155,9 @@ const AssignHomework = () => {
     aTeacherId: Number(SelectTeacher)
   };
   useEffect(() => {
-    dispatch(ClassName(GetClassD));
+    if (SelectTeacher !== '0') {
+      dispatch(ClassName(GetClassD));
+    }
   }, [SelectTeacher]);
 
 
@@ -130,9 +167,7 @@ const AssignHomework = () => {
 
   //subjectList
   useEffect(() => {
-    if (SelectClass == null || SelectTeacher == null) {
-      dispatch(resetSubjectDetails());
-    } else {
+    if (SelectClass !== '0' && SelectTeacher !== '0') {
       const TeacherSubject: IGetTeacherSubjectDetailsBody = {
         asSchoolId: asSchoolId,
         aTeacherId: Number(SelectTeacher),
