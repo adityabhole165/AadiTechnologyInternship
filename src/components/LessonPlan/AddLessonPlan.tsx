@@ -319,7 +319,7 @@ const AddLessonPlan = () => {
 
         seterrorMessage('Date(s) must be within current academic year' +
           '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
-          ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
+          ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ').')
         returnVal = false
 
       } else
@@ -327,7 +327,7 @@ const AddLessonPlan = () => {
 
           seterrorMessage('Date(s) must be within current academic year' +
             '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
-            ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
+            ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ').')
           returnVal = false
 
         } else seterrorMessage('')
