@@ -169,7 +169,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                         <TableHead>
                             <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                 {missingAttendanceColumns.map((column, index) => (
-                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize', color: 'white' }} >
+                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize', color: 'white' ,py:1}} >
                                         <b>{column.label}</b>
                                     </TableCell>
                                 ))}
@@ -180,7 +180,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                                 <React.Fragment key={rowData.Id}>
                                     <TableRow>
                                         {missingAttendanceColumns.map((column) => (
-                                            <TableCell key={column.id} sx={{ paddingTop: '0.5px', paddingBottom: '0.5px' }}>
+                                            <TableCell key={column.id} sx={{ py:0}}>
                                                 {column.renderCell(rowData)}
                                             </TableCell>
                                         ))}
@@ -190,10 +190,10 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                                             <TableCell colSpan={missingAttendanceColumns.length}>
                                                 <Accordion expanded>
                                                     <AccordionDetails>
-                                                        <Table aria-label="inner table" sx={{ width: '45%', textAlign: 'center', margin: '0 auto' }}>
+                                                        <Table aria-label="inner table" sx={{ width: '60%', textAlign: 'center', margin: '0 auto', border: (theme) => `1px solid ${theme.palette.divider}`, }}>
                                                             <TableHead>
                                                                 <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                                                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+                                                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', color: 'white', py:1 }}>
                                                                         <b>Missing Attendance Dates</b>
                                                                     </TableCell>
                                                                 </TableRow>
@@ -201,7 +201,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                                                             <TableBody>
                                                                 {MissingDate.map((dateItem, index) => (
                                                                     <TableRow key={index}>
-                                                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+                                                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', py:1 }}>
                                                                             {dateItem.Name}
                                                                         </TableCell>
                                                                     </TableRow>
