@@ -794,10 +794,10 @@ const LessonPlanBaseScreen = () => {
             </>
           }
         />
-        <Box py={1}>
+        <Box py={0}>
           <ErrorMessage1 Error={errorMessage} />
         </Box>
-        <Box sx={{ background: 'white', p: 2, mb: 2 }}>
+        <Box sx={{ background: 'white', p: 2, mb: 1 }}>
           <Legend LegendArray={LegendArray} />
         </Box>
         <Box sx={{ background: 'white', pt: 1, pl: 2, pr: 2, pb: 2 }}>
