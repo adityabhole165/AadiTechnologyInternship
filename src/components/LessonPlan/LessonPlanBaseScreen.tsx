@@ -421,7 +421,7 @@ const LessonPlanBaseScreen = () => {
         asEndDate: sEndDate
       };
       dispatch(CDAUpdateReadSuggestion(UpdateReadSuggestionBody));
-      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+      // dispatch(CDAlessonplanlist(GetLessonPlanListBody));
 
     }
   };
@@ -832,11 +832,11 @@ const LessonPlanBaseScreen = () => {
         <Box sx={{ background: 'white', p: 2, mb: 1 }}>
           <Legend LegendArray={LegendArray} />
         </Box>
-        <Box sx={{ background: 'white', pt: 1, pl: 2, pr: 2, pb: 2 }}>
+        <Box sx={{ background: 'white', pt: 2, pl: 2, pr: 2, pb: 2 }}>
           {LessonPlanList.length > 0 ? (
             <>
               <Box sx={{ background: 'white', }}>
-                {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+                {PagedLessonPlanList.length >= 20 && singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                   <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                     <Box component="span" fontWeight="fontWeightBold">
                       {startRecord} to {endRecord}
@@ -865,7 +865,7 @@ const LessonPlanBaseScreen = () => {
                   ShowEdit={localStorage.getItem("UserId") === selectClasstecahernew}
                 />
               </IsHighliteStaus.Provider>
-              {endRecord > 19 && (
+              {endRecord > 19 && PagedLessonPlanList.length >= 20 && (
                 <ButtonGroupComponent
                   rowsPerPage={rowsPerPage}
                   ChangeRowsPerPage={ChangeRowsPerPage}

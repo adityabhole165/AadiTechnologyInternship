@@ -74,8 +74,9 @@ const LessonPlanBaseScreenSlice = createSlice({
 export const CDAlessonplanlist =
   (data: IGetLessonPlanListBody): AppThunk =>
     async (dispatch) => {
+      dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist([]));
+      dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist1([]));
       const response = await LessonPlanApi.LessonPlanList(data);
-
 
       // let listResult1st = response.data.listResult1st.map((item, i) => ({
       //   StartDate: getDateMonthYearFormatted(item.StartDate),
