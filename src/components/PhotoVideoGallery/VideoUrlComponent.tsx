@@ -10,8 +10,9 @@ import {
   TextField
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
+import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 
-const VideoUrlComponent = ({ handleAddVideo, setVideoUrl, setTitle, videoList, title, videoUrl }) => {
+const VideoUrlComponent = ({ UrlSourceError, handleAddVideo, setVideoUrl, setTitle, videoList, title, videoUrl }) => {
 
 
   return (
@@ -26,6 +27,9 @@ const VideoUrlComponent = ({ handleAddVideo, setVideoUrl, setTitle, videoList, t
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
           />
+          <Box>
+            <ErrorMessage1 Error={UrlSourceError}></ErrorMessage1>
+          </Box>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <TextField
@@ -35,6 +39,7 @@ const VideoUrlComponent = ({ handleAddVideo, setVideoUrl, setTitle, videoList, t
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+
         </Grid>
         <Grid item xs={12} sm={6} md={2}>
           <Button

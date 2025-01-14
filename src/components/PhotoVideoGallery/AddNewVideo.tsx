@@ -6,13 +6,17 @@ import { green, grey, red } from '@mui/material/colors'
 import SaveIcon from '@mui/icons-material/Save'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import { IAllClassesAndDivisionsBody } from 'src/interfaces/Common/Holidays'
 import { IInsertVideoGallaryBody } from 'src/interfaces/Common/PhotoGallery'
 import { IGetUserRoleBody } from 'src/interfaces/ContactGroup/IContactGroup'
+import { IGetVideoGalleryBody } from 'src/interfaces/VideoGalleryInterface/IVideoGallery'
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1'
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy'
 import { CDAGetUserRole } from 'src/requests/ContactGroup/ReqContactGroup'
 import { GetAllClassAndDivision } from 'src/requests/Holiday/Holiday'
-import { CDAInsertVideoGallaryMsg } from 'src/requests/PhotoGallery/PhotoGallery'
+import { CDAInsertVideoGallaryMsg, resetInsertVideoGallaryMsg } from 'src/requests/PhotoGallery/PhotoGallery'
+import { CDAVideoDetails } from 'src/requests/RVideoGallery/ReqVideo'
 import { RootState } from 'src/store'
 import CommonPageHeader from '../CommonPageHeader'
 import VideoUrlComponent from './VideoUrlComponent'
@@ -25,35 +29,50 @@ const AddNewVideo = () => {
   const [checkedValues, setCheckedValues] = useState([]);
   const [ItemList, setItemList] = useState([]);
   const [editId, setEditId] = useState<number | null>(null);
-  const [UrlSource, setUelSource] = useState('YouTube');
-  const [VedioName, setVedioName] = useState('Arun');
-
+  const [UrlSource, setUrlSource] = useState('YouTube');
+  const [VedioName, setVedioName] = useState('');
+  const [VideoNameError, setVideoNameError] = useState('');
+  const [UrlSourceError, setUrlSourceError] = useState('');
+  const [UserRolesError, setUserRolesError] = useState('');
+  const [ClassesAndDivisionssError, setClassesAndDivisionssError] = useState('');
+  const [ShowOnExternalWebsite, setShowOnExternalWebsite] = useState<number>(0);
   const [videoUrl, setVideoUrl] = useState("");
   const [title, setTitle] = useState("");
   const [videoList, setVideoList] = useState<{ url: string; title: string }[]>([]);
 
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asUserId = Number(localStorage.getItem('UserId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
   const USGetUserRole: any = useSelector((state: RootState) => state.ContactGroup.IGetUserRole);
   const ClassesAndDivisionss = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss);
   const ClassesAndDivisionss1 = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss1);
-  const InsertVideoGallary = useSelector((state: RootState) => state.PhotoGalllary.IInsertVideoGallaryMsg);
-  console.log(InsertVideoGallary, "InsertVideoGallary🤞🤞");
+  const USInsertVideoGallary = useSelector((state: RootState) => state.PhotoGalllary.IInsertVideoGallaryMsg);
 
   const UserRole: IGetUserRoleBody = {
-    asSchoolId: 18,
+    asSchoolId: asSchoolId,
   };
   useEffect(() => {
     dispatch(CDAGetUserRole(UserRole));
   }, []);
 
   const StandardDivisionName: IAllClassesAndDivisionsBody = {
-    asSchoolId: 18, //asSchoolId,
-    asAcademicYearId: 55, // asAcademicYearId,
+    asSchoolId: asSchoolId, //asSchoolId,
+    asAcademicYearId: asAcademicYearId, // asAcademicYearId,
     associatedStandard: "",
   }
   useEffect(() => {
     dispatch(GetAllClassAndDivision(StandardDivisionName))
   }, []);
+  const VideoData1: IGetVideoGalleryBody = {
+    asSchoolId: asSchoolId,
+    asSortExp: "ORDER BY Update_Date desc",
+    asStartIndex: 0,
+    asPageSize: 20,
+    asIsFromExternalWebsite: 0,
+    asVideoNameFilter: ""
+
+  }
 
   const isClassSelected = () => {
     let arr = []
@@ -86,18 +105,37 @@ const AddNewVideo = () => {
   };
 
   const ClickSave = async () => {
+    let isValid = true;
+    if (!VedioName.trim()) {
+      setVideoNameError('Video name should not be blank.');
+      isValid = false;
+    }
+    if (!checkedValues.length || checkedValues.every(item => item === '')) {
+      setUserRolesError('At least one user role should be selected for video gallery.');
+      isValid = false;
+    }
+    if (!videoUrl.trim()) {
+      setUrlSourceError('At least one video URL should be set.');
+      isValid = false;
+    }
+
+    if (!ClassSelected.trim()) {
+      setClassesAndDivisionssError('At least one class should be selected for video gallery.');
+      isValid = false;
+    }
+    if (!isValid) return;
     const SaveVedioGallery: IInsertVideoGallaryBody = {
-      asSchoolId: 18,
+      asSchoolId: asSchoolId,
       asVideoId: 0,
-      asVideoName: 'newRITE',
+      asVideoName: VedioName,
       asVideoDetails: getXML(),
       asStartDate: "1900-01-01 00:00:00",
       asEndDate: "1900-01-01 00:00:00",
       asUserRoleIds: checkedValues.toString(), // "1,2,3,6,7",
       asStandardDivIds: ClassSelected,// "1177,1178,1179,1180,1181,1182,1201,1230,1250,1270",
       asSubjectId: 0,
-      asShowOnExternalWebsite: "1",
-      asInsertedById: 1071,
+      asShowOnExternalWebsite: ShowOnExternalWebsite.toString(),
+      asInsertedById: asUserId,
       asAddMoreSubjects: "0",
       asOldSubjectId: 0,
       asId: 0,
@@ -106,7 +144,12 @@ const AddNewVideo = () => {
     dispatch(CDAInsertVideoGallaryMsg(SaveVedioGallery))
   }
   useEffect(() => {
-
+    if (USInsertVideoGallary !== "") {
+      toast.success(USInsertVideoGallary);
+      dispatch(resetInsertVideoGallaryMsg());
+      // dispatch(CDAInsertVideoGallaryMsg(PhotoDetailsBody));
+      dispatch(CDAVideoDetails(VideoData1))
+    }
   }, [checkedValues, ClassSelected]);
 
 
@@ -128,34 +171,47 @@ const AddNewVideo = () => {
         : [...prev, value] // Check
     );
   };
-
-
-
-  //console.log(ClassSelected, "ItemList🤞🤞")
   const ClickChild = (value) => {
     setItemList(value);
   };
   const ClickUrlSource = (value) => {
-    setUelSource(value)
+    setUrlSource(value)
   }
   const ClickVideoName = (value) => {
     setVedioName(value)
   }
 
   const handleAddVideo = () => {
-    if (!videoUrl.trim() || !title.trim()) {
-      alert("Both Video URL and Title are required.");
+    if (!videoUrl.trim()) {
+      // alert("Both Video URL and Title are required.");
+      setUrlSourceError('At least one video URL should be set.');
       return;
     }
+    if (!title.trim()) {
 
-    // Add video URL and title to the list
+    }
     setVideoList([...videoList, { url: videoUrl, title }]);
-
-    // Clear inputs
     setVideoUrl("");
     setTitle("");
   };
+  const AddMoreWebsite = (event) => {
+    const { checked } = event.target;
+    setShowOnExternalWebsite(checked ? 1 : 0);
+  }
 
+  const ClickCancel = () => {
+    setCheckedValues([]);
+    setUrlSource('');
+    setVedioName('');
+    setVideoNameError('');
+    setUrlSourceError('');
+    setClassesAndDivisionssError('');
+    setUserRolesError('');
+    setShowOnExternalWebsite(0);
+    setVideoUrl('');
+    setTitle('');
+
+  };
   return (
     <Box px={2}>
       <CommonPageHeader
@@ -213,8 +269,7 @@ const AddNewVideo = () => {
                       backgroundColor: green[600],
                     },
                   }}
-                // onClick={handleAdd}
-                // disabled={!formData.url || !formData.title}
+                  onClick={ClickSave}
                 >
                   <SaveIcon />
                 </IconButton>
@@ -260,7 +315,9 @@ const AddNewVideo = () => {
               onChange={(e) => {
                 ClickVideoName(e.target.value.slice(0, 50));
               }}
-              value={VedioName} />
+              value={VedioName} /> <Box>
+              <ErrorMessage1 Error={VideoNameError}></ErrorMessage1>
+            </Box>
           </Grid>
 
           {/* For devloper add searchable Dropdown for Url Source  */}
@@ -270,7 +327,6 @@ const AddNewVideo = () => {
                 <span>
                   Url Source <span style={{ color: 'red' }}> *</span>
                 </span>
-
               }
               //variant="outlined"
               onChange={(e) => {
@@ -278,16 +334,18 @@ const AddNewVideo = () => {
               }}
               value={UrlSource}
             />
-
-
           </Grid>
+          <Grid item xs={12} sm={4} >
+            <FormControlLabel
+              onChange={AddMoreWebsite}
+              control={<Checkbox />}
+              label="Show On External Website? " />
+          </Grid>
+          {/* <Grid item xs={12} sm={4}>
 
-
-          <Grid item xs={12} sm={4}>
             <FormControlLabel control={<Checkbox />} label="Show On External Website? " />
-          </Grid>
+          </Grid> */}
         </Grid>
-
         <Box>
           <VideoUrlComponent
             handleAddVideo={handleAddVideo}
@@ -296,10 +354,9 @@ const AddNewVideo = () => {
             videoList={videoList}
             title={title}
             videoUrl={videoUrl}
-
-
+            UrlSourceError={UrlSourceError}
           />
-
+          {/* <ErrorMessage1 Error={VideoNameError}></ErrorMessage1> */}
         </Box>
         <Box sx={{ backgroundColor: "lightgrey", paddingLeft: 1, mt: 1 }}>
           <FormControlLabel
@@ -331,12 +388,15 @@ const AddNewVideo = () => {
                           }
                           label={item.Name}
                         />
+
                       </Grid>
+
                     )
                   )}
                 </Grid>
               </FormControl>
             </FormGroup>
+            <ErrorMessage1 Error={UserRolesError}></ErrorMessage1>
           </Grid>
         </Grid>
         {/* <Grid container pl={2} > */}
@@ -350,7 +410,7 @@ const AddNewVideo = () => {
               ParentList={ClassesAndDivisionss1}
               ClickChild={ClickChild}
             />
-            {/* <ErrorMessage1 Error={ClassSelectedError}></ErrorMessage1> */}
+            <ErrorMessage1 Error={ClassesAndDivisionssError}></ErrorMessage1>
           </Grid>
         )}
         {/* </Grid> */}
@@ -362,6 +422,7 @@ const AddNewVideo = () => {
         <Grid item xs={12} md={12} mt={2}>
           <Stack direction={"row"} gap={2} alignItems={"center"}>
             <Button
+              onClick={ClickCancel}
               // onClick={resetForm}
               sx={{
                 // backgroundColor: green[100],
