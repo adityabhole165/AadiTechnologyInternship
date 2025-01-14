@@ -248,7 +248,7 @@ const ExamResultBase = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: StandardDivisionId,
     // asStdDivId: ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId.toString(),
-    aiTestId: TestId.toString()
+    aiTestId: TestId?.toString()
   };
 
   const GetPrePrimaryProgressSheetStatusBody: IGetPrePrimaryProgressSheetStatusBody = {
