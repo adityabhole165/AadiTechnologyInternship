@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from "src/interfaces/Teacher/ITeacherTimeTable"
 import { IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
+import { getSchoolSettingsValue } from "src/requests/Authentication/SchoolList"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers, GetTeacherTimeTableResult } from "src/requests/Teacher/TMtimetable"
 import { CDAGetLectureNoWeekday, CDAGetTeacherSubjectMaxLecDetailsForWeekDays } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
@@ -77,6 +78,17 @@ const TeacherTimetable = () => {
   const [stayback, setStayback] = useState<boolean>(false);
   const [weeklytest, setWeekly] = useState<boolean>(false);
   const [trackTeacherTimetable, setTrackTeacherTimetable] = useState({});
+  const [IsWeeklyTestApplicable, setIsWeeklyTestApplicable] =
+    useState<boolean>(true);
+  const [IsAssemblyApplicable, setIsAssemblyApplicable] =
+    useState<boolean>(true);
+  const [IsMPTApplicable, setIsMPTApplicable] = useState<boolean>(true);
+  const [IsStaybackApplicable, setIsStaybackApplicable] =
+    useState<boolean>(true);
+  const [assemblyName, setAssemblyName] = useState('Assembly');
+  const [mptName, setMPTName] = useState('M.P.T');
+  const [staybackName, setStaybackName] = useState('StayBack');
+  const [weeklytestName, setWeeklytestName] = useState('Weekly Test');
 
   // Following f() is for Calculating the total Lec. count for each WeekDay
   const [MonCount, setMonCount] = useState<Number>();
@@ -106,7 +118,85 @@ const TeacherTimetable = () => {
     dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
     dispatch(CDAGetTeacherSubjectMaxLecDetailsForWeekDays(IGetTeacherSubjectMaxLecForWeekDay))
     //console.log(TimeTableList)
-  }, [])
+  }, []);
+
+  // #region Seeting Key
+  // useEffect() to call the SchoolSettings API | Purpose : To get the External Lecture Updated Names.
+  useEffect(() => {
+    dispatch(
+      getSchoolSettingsValue({ asSchoolId: localStorage.getItem('SchoolId') })
+    );
+  }, [dispatch]);
+
+  const schoolSettingList: any = useSelector(
+    (state: RootState) => state.SchoolSettings.SchoolSettings
+  );
+  useEffect(() => {
+    //console.log(` >>> ??`, schoolSettingList);
+    if (Object.keys(schoolSettingList).length > 0) {
+      //console.log(` 234 >>> ??`, schoolSettingList);
+
+      if (
+        schoolSettingList?.AssemblyName !== null &&
+        schoolSettingList?.AssemblyName !== undefined
+      ) {
+        setAssemblyName(schoolSettingList?.AssemblyName);
+      }
+      if (
+        schoolSettingList?.MPTName !== null &&
+        schoolSettingList?.MPTName !== undefined
+      ) {
+        setMPTName(schoolSettingList?.MPTName);
+      }
+      if (
+        schoolSettingList?.StaybackName !== null &&
+        schoolSettingList?.StaybackName !== undefined
+      ) {
+        setStaybackName(schoolSettingList?.StaybackName);
+      }
+      if (
+        schoolSettingList?.WeeklyTestName !== null &&
+        schoolSettingList?.WeeklyTestName !== undefined
+      ) {
+        setWeeklytestName(schoolSettingList?.WeeklyTestName);
+      }
+      if (
+        schoolSettingList?.IsWeeklyTestApplicable !== null &&
+        schoolSettingList?.IsWeeklyTestApplicable !== undefined
+      ) {
+        if (schoolSettingList?.IsWeeklyTestApplicable === 'N') {
+          setIsWeeklyTestApplicable(false);
+        }
+      }
+      if (
+        schoolSettingList?.IsStaybackApplicable !== null &&
+        schoolSettingList?.IsStaybackApplicable !== undefined
+      ) {
+        if (schoolSettingList?.IsStaybackApplicable === 'N') {
+          setIsStaybackApplicable(false);
+        }
+      }
+      // IsAssemblyApplicable
+      if (
+        schoolSettingList?.IsAssemblyApplicable !== null &&
+        schoolSettingList?.IsAssemblyApplicable !== undefined
+      ) {
+        if (schoolSettingList?.IsAssemblyApplicable === 'N') {
+          setIsAssemblyApplicable(false);
+        }
+      }
+      // IsMPTApplicable
+      if (
+        schoolSettingList?.IsMPTApplicable !== null &&
+        schoolSettingList?.IsMPTApplicable !== undefined
+      ) {
+        if (schoolSettingList?.IsMPTApplicable === 'N') {
+          setIsMPTApplicable(false);
+        }
+      }
+    }
+  }, [schoolSettingList]);
+  // #endregion
 
   // Following Functions are to Check whether the current ` TEACHER ` Time-Table Cell has any External Lec. (i.e, MPT, Assembly, Stayback, Weekly Test)
   function isMPTLecture(weekDay, lectureNo) {
@@ -195,7 +285,7 @@ const TeacherTimetable = () => {
     }
 
 
-  }, [ApplicablesData])
+  }, [ApplicablesData]);
 
 
   useEffect(() => {
@@ -281,14 +371,14 @@ const TeacherTimetable = () => {
 
   function hadExternalLecLabel(dayName, lecNumber) {
     let lecNo = lecNumber.split(' ')[1];
-    if (isMPTLecture(dayName, lecNo)) {
-      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">M.P.T</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
-    } else if (isAssemblyLecture(dayName, lecNo)) {
-      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Assembly</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
-    } else if (isStaybackLecture(dayName, lecNo)) {
-      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Stayback</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
-    } else if (isWeeklyTestLecture(dayName, lecNo)) {
-      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Weekly Test</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
+    if (isMPTLecture(dayName, lecNo) && mpt && IsMPTApplicable) {
+      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">${mptName}</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
+    } else if (isAssemblyLecture(dayName, lecNo) && assembly && IsAssemblyApplicable) {
+      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">${assemblyName}</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
+    } else if (isStaybackLecture(dayName, lecNo) && stayback && IsStaybackApplicable) {
+      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">${staybackName}</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
+    } else if (isWeeklyTestLecture(dayName, lecNo) && weeklytest && IsWeeklyTestApplicable) {
+      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">${weeklytestName}</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
     } else {
       return ''
     }
