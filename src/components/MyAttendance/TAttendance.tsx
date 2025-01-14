@@ -638,8 +638,7 @@ const TAttendance = () => {
     if (saveResponseMessage != '') {
      
       dispatch(GetStudentList(GetStudentDetails));
-      dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));  
-     
+      dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody)); 
       toast.success(saveResponseMessage, { toastId: 'success1' });
       dispatch(ResetgetlistAbsentStudentDetails());
       dispatch(setSaveResponse());
@@ -647,12 +646,12 @@ const TAttendance = () => {
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
       
     }
-  }, [saveResponseMessage, assignedDate ]);
+  }, [saveResponseMessage ]);
 
 
-  useEffect(() => {
-      dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));  
-  }, [assignedDate,selectClasstecahernew,UsschoolSettings]);
+  // useEffect(() => {
+  //     dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));  
+  // }, [assignedDate,selectClasstecahernew,UsschoolSettings]);
 
 
   useEffect(()=>{
@@ -671,9 +670,12 @@ const TAttendance = () => {
 
   const ClickOpenDialogbox = () => {
     setOpenStudentpopup(true);
+    dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));  
   };
   const ClickCloseDialogbox = () => {
     setOpenStudentpopup(false);
+    dispatch(ResetgetlistAbsentStudentDetails());
+
   };
 
   const clickNav = (value) => {
