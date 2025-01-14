@@ -67,6 +67,7 @@ const AddDailyLog = () => {
   const [dateSearch, setDateSearch] = useState('');
   const [dateSearchError, setDateSearchError] = useState('');
   const [dateError, setDateError] = useState('');
+  const [open, setOpen] = useState(false);
   const [fileName, setFileName] = useState('');
   const [fileNameError, setFileNameError] = useState('');
   const [base64URL, setbase64URL] = useState('');
@@ -481,7 +482,7 @@ const AddDailyLog = () => {
     };
 
     getCurrentDateTime();
-  }, []);
+  }, [open]);
 
 
   const isFutureDate = (selectedDate) => {
@@ -505,7 +506,6 @@ const AddDailyLog = () => {
   const ClickHeader = (value) => {
     setHeaderPublish(value)
   }
-  const [open, setOpen] = useState(false);
 
   const ClickAppropriate = (value) => {
     setOpen(true)
