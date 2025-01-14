@@ -134,7 +134,7 @@ const HomeworkDocuments = () => {
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
-            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' + '/' + encodeURL(SelectClass) + '/' + encodeURL(TeacherId) },
+            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework' + '/' + encodeURL(TeacherId) + '/' + encodeURL(SelectClass) },
             {
               title: 'Add Homework',
               path: '/RITeSchool/Teacher/AddHomeworkNew/' +
