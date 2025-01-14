@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import SchoolNoticeFormApi from 'src/api/AddSchoolNotic/APISchoolNoticeForm';
-import { getDateMonthYearTimeDayDash } from 'src/components/Common/Util';
-import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, IGetSchoolNoticeIdByNameBody, IGetSchoolNoticeIdByNameResult, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
+import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, IGetSchoolNoticeIdByNameBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
 import { AppThunk } from 'src/store';
 
 const SchoolNoticeFormslice = createSlice({
@@ -14,7 +13,7 @@ const SchoolNoticeFormslice = createSlice({
         AllClassesAndDivisionss: [],
         AllClassesAndDivisionss1: [],
         SelectedStandardAndDivisionCheckBoxx: [],
-        getSchoolNoticeIdByName:'',
+        getSchoolNoticeIdByName: '',
         Loading: true
     },
 
@@ -59,7 +58,7 @@ const SchoolNoticeFormslice = createSlice({
         },
         getSchoolNoticeIdByName(state, action) {
             state.getSchoolNoticeIdByName = action.payload;
-          },
+        },
         getLoading(state, action) {
             state.Loading = true;
         }
@@ -73,8 +72,8 @@ export const getEditSchoolNoticeDetails = (data: IGetEditUserRolesandStdDivForSe
         return {
             Id: Item.NoticeId,
             Text1: Item.NoticeName,
-            Text2: getDateMonthYearTimeDayDash(Item.StartDate),
-            Text3: getDateMonthYearTimeDayDash(Item.EndDate),
+            Text2: Item.StartDate,
+            Text3: Item.EndDate,
             Text4: Item.DisplayLocation,
             Text5: Item.dbSortOrder,
             Text6: Item.FileName,
