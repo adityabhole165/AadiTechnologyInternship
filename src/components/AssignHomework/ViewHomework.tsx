@@ -216,8 +216,7 @@ const ViewHomework = () => {
             <Grid item xs={6}>
               <Typography   > Attachments:&nbsp;
                 {
-                  AllHomeworkDocuments.length > 0 ? <a href='#' onClick={() => ClickAttachments()} style={{ textDecoration: 'none' }} > Attachments </a> :
-                    <span></span>
+                  AllHomeworkDocuments.length > 0 ? <span onClick={() => ClickAttachments()} style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }} > Attachments </span> : <span></span>
                 }
               </Typography>
             </Grid>
