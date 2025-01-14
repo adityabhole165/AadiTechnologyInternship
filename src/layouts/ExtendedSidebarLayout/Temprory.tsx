@@ -899,7 +899,17 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: null,
       screenId: 0
     });
+    SideLisrForSubTeacher.push({
+      id: 'Daily Activities',
+      title: 'Missing Attendance',
+      icon: <EventBusyTwoToneIcon />,
+      link: null,
+      screenId: 0,
+      visible: true
+    });
+
   }
+
   if (LinkVisible == 'True' && Number(UsschoolSettings) > 0) {
     sideList.push({
       id: 'Daily Activities',
