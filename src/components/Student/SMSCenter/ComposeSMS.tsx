@@ -46,6 +46,8 @@ const ComposeSMSform = () => {
     const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
     const [IsConfirm, setIsConfirm] = useState('');
     const [IsConfirmUseTemp, setIsConfirmUseTemp] = useState('');
+    const [templateIdError, setTemplateIdError] = React.useState('');
+
 
     const [RecipientsObject, setRecipientsObject] = useState<any>({
         RecipientName: [],
@@ -83,12 +85,15 @@ const ComposeSMSform = () => {
     const rows: any = useSelector((state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList);
     console.log(rows, 'Hello');
     const TemplateList = rows.GetSMSTemplates;
-    const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
+    const [ContentTemplateDependent, setContentTemplateDependent] = useState('');
     const [TemplateRegistrationId, setTemplateRegistrationId] = useState();
     let confirmationDone;
     const [contentError, setcontentError] = useState<any>(); // For content Error
     const [initialMessage, setinitialMessage] = useState(0);
     const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
+    const [selectedTemplateName, setSelectedTemplateName] = React.useState('');
+    const [letterCount, setLetterCount] = React.useState(0);
+
     const [initialCount, setCharacterCount] = useState(0);
     let {
         AssignedDate
@@ -530,12 +535,41 @@ const ComposeSMSform = () => {
         }));
     };
 
+    // const handleTemplateIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const value = event.target.value;
+    //     if (/^\d*$/.test(value)) { // Ensure only numeric input
+    //         setSelectedTemplateId(value);
+    //     }
+    // };
+
     const handleTemplateIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
+
         if (/^\d*$/.test(value)) { // Ensure only numeric input
             setSelectedTemplateId(value);
+
+            // Find the corresponding template by ID
+            const selectedTemplate = rows.find(row => row.id === value);
+            setContentTemplateDependent(selectedTemplate?.name || ''); // Update TextField with the name
+        }
+
+        if (value.trim() === '') {
+            setTemplateIdError('Template Id should not be blank.');
+        } else {
+            setTemplateIdError('');
         }
     };
+
+    const handleContentChange = (value: string) => {
+        setContentTemplateDependent(value); // Allow manual editing of TextField
+        setLetterCount(value.trim().length);
+    };
+    const handleTemplateSelect = (id, name) => {
+        setSelectedTemplateId(id); // Set the selected ID
+        setContentTemplateDependent(name);  // Set the selected Name
+        setLetterCount(name.length);
+    };
+
     return (
         <>
 
@@ -838,11 +872,18 @@ const ComposeSMSform = () => {
                             <Grid item xs={12} sm={6} md={4} lg={1.5} >
                                 <TextField
                                     name="TemplateId"
-                                    label="Template Id"
+                                    label={<span>
+                                        Template Id <span style={{ color: 'red' }}>*</span>
+                                    </span>}
                                     variant="outlined"
                                     value={selectedTemplateId}
                                     onChange={handleTemplateIdChange}
                                     fullWidth
+                                    InputLabelProps={{
+                                        shrink: !!selectedTemplateId || undefined, // Ensure label shrinks when there's data
+                                    }}
+                                    error={!!templateIdError} // Display error state if there's an error
+                                    helperText={templateIdError} // Display error message
                                 />
                             </Grid>
                             <Grid xs={2} mt={2} sm={2} md={1.7} >
@@ -910,7 +951,8 @@ const ComposeSMSform = () => {
                                 }}
                             >
                                 {' '}
-                                Letters = {initialCount} Message = {initialMessage}{' '}
+                                {/* Letters = {letterCount}  Message = {ContentTemplateDependent || '0'}{' '} */}
+                                Letters = {letterCount}  Message = {'0'}{' '}
                             </CardDetail2>
 
                             <TextField
@@ -920,11 +962,12 @@ const ComposeSMSform = () => {
                                 margin="normal"
                                 name="Content"
                                 type="text"
-                                value={ContentTemplateDependent}
-                                onBlur={ContentFieldBlur}
+                                value={ContentTemplateDependent} // Reflect name dynamically
+                                onBlur={() => console.log('Blurred')} // Example blur handler
                                 sx={{ marginTop: '1px' }}
                                 id="content"
-                                onChange={(e) => onContentChange(e.target.value)}
+                                onChange={(e) => handleContentChange(e.target.value)} // Allow manual edits
+                                inputProps={{ maxLength: 306 }}
                             />
                             <Box style={{ marginTop: '8px' }}>
                                 <Errormessage Error={formik.errors.Content} />
@@ -1107,7 +1150,7 @@ const ComposeSMSform = () => {
 
                     <DialogContent>
                         <Box>
-                            <UserTemplateIdForm rows={rows} IsConfirm={IsConfirmUseTemp} onTemplateSelect={(id) => setSelectedTemplateId(id)} />
+                            <UserTemplateIdForm rows={rows} IsConfirm={IsConfirmUseTemp} onTemplateSelect={handleTemplateSelect} />
                         </Box>
                     </DialogContent>
                     <DialogActions sx={{ py: 2, px: 3 }}>

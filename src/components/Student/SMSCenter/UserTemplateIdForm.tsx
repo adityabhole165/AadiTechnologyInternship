@@ -29,7 +29,7 @@ interface TemplateRow {
 interface UserTemplateIdFormProps {
     rows: TemplateRow[];
     IsConfirm;
-    onTemplateSelect: (id: string) => void;
+    onTemplateSelect: (id: string, name: string) => void;
 }
 
 const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows, onTemplateSelect, IsConfirm }) => {
@@ -48,9 +48,9 @@ const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows, onTemplat
     };
 
     // Sort rows based on the current sort direction
-    const handleRadioChange = (id) => {
+    const handleRadioChange = (id, name) => {
         setSelectedRow(id);
-        onTemplateSelect(id);
+        onTemplateSelect(id, name);
     };
 
 
@@ -92,7 +92,7 @@ const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows, onTemplat
                                             color="primary"
                                             checked={selectedRow === row.Id}
                                             value={row.Id}
-                                            onChange={() => handleRadioChange(row.Id)}
+                                            onChange={() => handleRadioChange(row.Id, row.Value)}
                                         />
                                     </TableCell>
                                     <Typography variant="body2" sx={{ fontWeight: "bold" }}>
@@ -154,7 +154,7 @@ const UserTemplateIdForm: React.FC<UserTemplateIdFormProps> = ({ rows, onTemplat
                                         <Radio
                                             color="primary"
                                             checked={selectedRow === row.Id}
-                                            onChange={() => handleRadioChange(row.Id)}
+                                            onChange={() => handleRadioChange(row.Id, row.Value)}
                                         />
                                     </TableCell>
                                     <TableCell>{row.Id}</TableCell>
