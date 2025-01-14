@@ -14,6 +14,7 @@ import { AlertContext } from 'src/contexts/AlertContext';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans, resetupdatelessonplandate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
@@ -22,7 +23,6 @@ import { GetScreenPermission, decodeURL, getCalendarDateFormatDateNew, getDateFo
 import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanActivity from './LessonPlanActivity';
 import LessonPlanList from './LessonPlanList';
-import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(1),
@@ -773,6 +773,48 @@ const AddLessonPlan = () => {
                     </IconButton>
                   </Tooltip>
                 </Box>}
+
+
+              {(IsApprover() && !getIsApproved()) &&
+
+                < Box > <Tooltip title={'Approve'}>
+                  <IconButton
+                    sx={{
+                      backgroundColor: green[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: green[600]
+                      }
+                    }}
+                    onClick={onClickApprover}
+                  >
+                    <HowToReg />
+                  </IconButton>
+
+                </Tooltip>
+                </Box>
+              }
+
+              {Action == "View" && getIsUpdateVisible() && (
+                <Box>
+                  <Tooltip title={'Update Date'}>
+                    <IconButton
+                      sx={{
+                        backgroundColor: green[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
+                      }}
+                      onClick={onClickUpdateDate}
+
+                    >
+                      <EventAvailable />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              )}
+
               {(UserIdParam == sessionStorage.getItem("Id") ||
                 (GetEnableButtonList.length > 0 && GetEnableButtonList[0].EnableSaveButton == "True") ||
                 (IsApprover() && !getIsApproved()) ||
@@ -796,44 +838,6 @@ const AddLessonPlan = () => {
                 </Box>
               }
 
-              {(IsApprover() && !getIsApproved()) &&
-
-                < Box > <Tooltip title={'Approve'}>
-                  <IconButton
-                    sx={{
-                      backgroundColor: green[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: green[600]
-                      }
-                    }}
-                    onClick={onClickApprover}
-                  >
-                    <HowToReg />
-                  </IconButton>
-
-                </Tooltip>
-                </Box>}
-
-              {Action == "View" && getIsUpdateVisible() && (
-                <Box>
-                  <Tooltip title={'Update Date'}>
-                    <IconButton
-                      sx={{
-                        backgroundColor: green[500],
-                        color: 'white',
-                        '&:hover': {
-                          backgroundColor: green[600]
-                        }
-                      }}
-                      onClick={onClickUpdateDate}
-
-                    >
-                      <EventAvailable />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              )}
             </Stack>
           </>
 
@@ -845,29 +849,29 @@ const AddLessonPlan = () => {
       {/* <FileLink filePath="http://web.aaditechnology.info/RITESchool/DOWNLOADS/Lesson Plan/InputToolsSetup.exe" fileName="Translation Tool" />
       <FileLink filePath="http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf" fileName="Translation Guide" /> */}
 
-   
-        <Box sx={{ backgroundColor: 'white' }} p={2}>
-          <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} sm={6} md={3}>
 
-                <TextField
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  label={<>
-                    Teacher <span style={{ color: 'red' }}>*</span>
-                  </>}
-                  sx={{ bgcolor: '#F0F0F0' }}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  value={TeacherName?.TeacherName}
-                />
+      <Box sx={{ backgroundColor: 'white' }} p={2}>
+        <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={6} md={3}>
 
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                label={<>
+                  Teacher <span style={{ color: 'red' }}>*</span>
+                </>}
+                sx={{ bgcolor: '#F0F0F0' }}
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={TeacherName?.TeacherName}
+              />
 
-                {/* <TextField
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+
+              {/* <TextField
               type='date'
               label={'Start Date'}
               fullWidth
@@ -882,17 +886,17 @@ const AddLessonPlan = () => {
             // error={errorStartDate !== ''}
             // helperText={errorStartDate}
             /> */}
-                <Datepicker
-                  DateValue={StartDate}
-                  onDateChange={onSelectStartDate}
-                  label={'Start Date'}
-                  size={"medium"}
-                />
+              <Datepicker
+                DateValue={StartDate}
+                onDateChange={onSelectStartDate}
+                label={'Start Date'}
+                size={"medium"}
+              />
 
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
 
-                {/* <TextField
+              {/* <TextField
               type='date'
               label={'End Date'}
               fullWidth
@@ -908,37 +912,37 @@ const AddLessonPlan = () => {
             // helperText={errorEndDate}
 
             /> */}
-                <Datepicker DateValue={EndDate} onDateChange={onSelectEndDate} label={'End Date'} size={"medium"} />
+              <Datepicker DateValue={EndDate} onDateChange={onSelectEndDate} label={'End Date'} size={"medium"} />
 
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
 
-                <SearchableDropdown
-                  ItemList={ClassListDropdown}
-                  defaultValue={SelectClass}
-                  label='Class'
-                  mandatory
-                  sx={{ minWidth: '100%' }}
-                  onChange={onClickClass}
-                />
+              <SearchableDropdown
+                ItemList={ClassListDropdown}
+                defaultValue={SelectClass}
+                label='Class'
+                mandatory
+                sx={{ minWidth: '100%' }}
+                onChange={onClickClass}
+              />
 
-              </Grid>
+            </Grid>
 
-              {LessonPlanPhrasesList.length !== 0 && (
-                <>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <TextField
-                      sx={{ width: '22.7vw' }}
-                      fullWidth
-                      label="Search Word / Sentence"
-                      value={wordsentence}
-                      variant="outlined"
-                      size="small"
-                      onChange={(e) => setwordsentence(e.target.value)}
-                    />
-                  </Grid>
+            {LessonPlanPhrasesList.length !== 0 && (
+              <>
+                <Grid item xs={12} sm={6} md={3}>
+                  <TextField
+                    sx={{ width: '22.7vw' }}
+                    fullWidth
+                    label="Search Word / Sentence"
+                    value={wordsentence}
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) => setwordsentence(e.target.value)}
+                  />
+                </Grid>
 
-                   <Grid container spacing={2} mt={1} pl={2}> 
+                <Grid container spacing={2} mt={1} pl={2}>
                   <Grid item xs={12} sm={6}>
                     <ResizableTextField
                       label="Words"
@@ -963,13 +967,13 @@ const AddLessonPlan = () => {
                       }}
                     />
                   </Grid>
-                  </Grid> 
-                </>
-              )}
+                </Grid>
+              </>
+            )}
 
-            </Grid>
-          </Stack>
-       
+          </Grid>
+        </Stack>
+
 
 
         {/* {errorexampleLessonDetails || errorMessage && ( */}
@@ -987,8 +991,8 @@ const AddLessonPlan = () => {
           <ErrorMessage1 Error={errorOverlapDate} />
         </Grid>
         {/* )} */}
-        </Box>
-        <Box sx={{ p: 2, background: 'white' }}>
+      </Box>
+      <Box sx={{ p: 2, background: 'white' }}>
         {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
           <Typography variant={"h5"} mb={1} >
             Plan Details
