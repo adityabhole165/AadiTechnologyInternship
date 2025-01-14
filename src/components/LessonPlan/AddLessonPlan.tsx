@@ -312,12 +312,12 @@ const AddLessonPlan = () => {
 
     if (isGreaterThanDate(StartDate, EndDate)) {
 
-      seterrorMessage('End Date should not be less than Start Date.')
+      seterrorMessage('End date should not be less than start date.')
       returnVal = false
     } else {
       if (isOutsideAcademicYear(StartDate)) {
 
-        seterrorMessage('Date(s) should not be out of academic year' +
+        seterrorMessage('Date(s) must be within current academic year' +
           '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
           ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
         returnVal = false
@@ -325,7 +325,7 @@ const AddLessonPlan = () => {
       } else
         if (isOutsideAcademicYear(EndDate)) {
 
-          seterrorMessage('Date(s) should not be out of academic year.' +
+          seterrorMessage('Date(s) must be within current academic year' +
             '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
             ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
           returnVal = false
