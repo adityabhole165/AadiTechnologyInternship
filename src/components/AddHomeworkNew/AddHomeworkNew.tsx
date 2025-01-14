@@ -766,10 +766,20 @@ const AddHomeworkNew = () => {
     }
     let publishList = getPublishErrorList();
     if (publishList.length > 0) {
-      const publishListString = publishList;
-      toast.error(
-        `Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`
-      );
+      const publishListString = publishList // Convert to a string if it's an array
+      showAlert({
+        title: 'Please Confirm',
+        message: `Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`,
+        variant: 'warning',
+        confirmButtonText: 'Ok',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          closeAlert();
+        },
+      });
       return;
     }
 
@@ -970,9 +980,22 @@ const AddHomeworkNew = () => {
     let UnpublishList = getUnpublishErrorList();
     if (UnpublishList.length > 0) {
       const UnpublishListString = UnpublishList;
-      toast.error(
-        `Homework is not in published state for Sr. No. : ${UnpublishListString}. Please remove selection.`
-      );
+      // toast.error(
+      //   `Homework is not in published state for Sr. No. : ${UnpublishListString}. Please remove selection.`
+      // );
+      showAlert({
+        title: 'Please Confirm',
+        message: `Homework is not in published state for Sr. No. : ${UnpublishListString}. Please remove selection.`,
+        variant: 'warning',
+        confirmButtonText: 'Ok',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          closeAlert();
+        },
+      });
       return;
     }
     const selectedHomeworkIds = getSelectHomeworkId();
@@ -1160,16 +1183,16 @@ const AddHomeworkNew = () => {
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3}>
                     <Tooltip title={TeacherName}>
-                    <TextField
-                      fullWidth
-                      label={'Class Teacher'}
-                      value={TeacherName}
-                      sx={{ bgcolor: '#F0F0F0', width: '100%' }}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
-                    />
+                      <TextField
+                        fullWidth
+                        label={'Class Teacher'}
+                        value={TeacherName}
+                        sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                      />
                     </Tooltip>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -1607,22 +1630,22 @@ const AddHomeworkNew = () => {
             />
           </DialogTitle>
 
-       
-              <DialogContent dividers sx={{ px: 4 }}>
-              <Grid container spacing={2} alignItems="center">
-                <Typography variant={'h3'} sx={{ my: 2 }}>
-                  Enter Reason For Unpublish
-                </Typography>
-                <ResizableTextField
-                  multiline
-                  // rows={5}
-                  type="text"
-                  value={textall}
-                  onChange={Detailschnageall}
-                  style={{ width: '545px' }}
-                />
-                </Grid>
-              </DialogContent>
+
+          <DialogContent dividers sx={{ px: 4 }}>
+            <Grid container spacing={2} alignItems="center">
+              <Typography variant={'h3'} sx={{ my: 2 }}>
+                Enter Reason For Unpublish
+              </Typography>
+              <ResizableTextField
+                multiline
+                // rows={5}
+                type="text"
+                value={textall}
+                onChange={Detailschnageall}
+                style={{ width: '545px' }}
+              />
+            </Grid>
+          </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button
               onClick={() => {
