@@ -124,8 +124,19 @@ const AddHomeworkNew = () => {
   const [ErrorTitle, setErrorTitle] = useState('');
   //const [CompleteDate, setCompleteDate]: any = useState(null);
   const [CompleteDate, setCompleteDate] = useState<string | null>(null);
-  const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
-  const MaxfileSize = 3000000;
+  const ValidFileTypes = [
+    'BMP',
+    'DOC',
+    'DOCX',
+    'JPG',
+    'JPEG',
+    'PNG',
+    'BMP',
+    'PDF',
+    'XLS',
+    'XLSX'
+  ];
+  const MaxfileSize = 5000000;
   const [fileName, setFileName] = useState('');
   const [base64URL, setbase64URL] = useState('');
   const [openUploadMultipleDialog, setOpenUploadMultipleDialog] =
