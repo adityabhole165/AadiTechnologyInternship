@@ -914,24 +914,24 @@ const LessonPlanBaseScreen = () => {
         </DialogTitle>
         <DialogContent dividers>
           <Stack gap={1}>
-            <Typography variant="h3" color="primary">View Remarks:</Typography>
+            <Typography variant="h3" color="primary">View Remarks</Typography>
             <Divider />
             <Stack gap={1}>
               {ViewRemarks && (
-                <Typography variant="body1" sx={{ marginBottom: '10px' }}>
+                <>
                   {ViewRemarks.map((item, index) => (
-                    <div key={index}>
-                      <span style={{ fontWeight: 'bold', color: 'primary', fontSize: '1.2rem' }}>{item.name}</span>&nbsp;
-                      <span style={{ fontWeight: '', color: 'primary', fontSize: '1.2rem' }}>{item.description}</span>
+                    <span key={index}>
+                      <span style={{ fontWeight: 'bold', color: 'primary', fontSize: '1rem' }}>{item.name.split('-')[0]}</span>&nbsp;&nbsp;
+                      <span style={{ fontWeight: '', color: 'primary', fontSize: '1rem' }}>{item.description}</span>
                       {index < ViewRemarks.length - 1 && <br />} {/* Add line break if not the last item */}
-                    </div>
+                    </span>
                   ))}
-                </Typography>
+                </>
               )}
             </Stack>
           </Stack>
         </DialogContent>
-        <DialogActions sx={{ py: 2, px: 3 }}>
+        <DialogActions sx={{ py: 1, px: 3 }}>
           <Button
             sx={{ color: 'red', ':hover': { backgroundColor: red[100] } }}
             onClick={() => setOpenViewRemarkDialog(false)}
