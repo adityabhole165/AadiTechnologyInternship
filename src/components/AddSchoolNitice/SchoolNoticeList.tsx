@@ -10,7 +10,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import moment from 'moment';
 
 function SchoolNoticeList({
     ItemList,
@@ -53,7 +52,7 @@ function SchoolNoticeList({
         }
     })
     return (
-        <Box sx={{ }}>
+        <Box sx={{}}>
             {ItemList.length === 0 ? (
                 <Box sx={{ backgroundColor: '#D2FDFC' }}>
 
@@ -120,7 +119,8 @@ function SchoolNoticeList({
                                                 }}
                                                 align="left"
                                             >
-                                                {moment(item.Text2).format('DD MMM YYYY   h:mm A')}
+                                                {item.Text2}
+
                                             </TableCell>
                                             <TableCell
                                                 sx={{
@@ -128,7 +128,8 @@ function SchoolNoticeList({
                                                 }}
                                                 align="left"
                                             >
-                                                {moment(item.Text3).format('DD MMM YYYY   h:mm A')}
+                                                {item.Text3}
+
                                             </TableCell>
                                             <TableCell
                                                 sx={{

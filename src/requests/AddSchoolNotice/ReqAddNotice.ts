@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import AddSchoolNoticApi from 'src/api/AddSchoolNotic/ApiAddSchoolNotice';
-import { getDateMonthYearDayDash, getDateMonthYearTimeDayDash } from 'src/components/Common/Util';
 import { IDeleteSchooNoticeBody, IGetAllNoticeListBody, IUpdateSelectSchoolNoticeBody } from 'src/interfaces/AddSchoolNotic/IAddSchoolNotic';
 import { AppThunk } from 'src/store';
 
@@ -46,8 +45,8 @@ export const getSchoolNoticeList = (data: IGetAllNoticeListBody): AppThunk => as
         return {
             Id: Item.NoticeId,
             Text1: Item.NoticeName,
-            Text2: getDateMonthYearTimeDayDash(Item.StartDate),
-            Text3: getDateMonthYearTimeDayDash(Item.EndDate),
+            Text2: Item.StartDate,
+            Text3: Item.EndDate,
             Text4: Item.DisplayLocation,
             Text5: Item.dbSortOrder,
             Text6: Item.FileName,
