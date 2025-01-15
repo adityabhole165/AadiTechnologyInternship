@@ -808,8 +808,7 @@ const SubjectExamMarks = () => {
             <Typography sx={{ color: 'red' }}>{MarksError}</Typography>
 
           </Box>
-          <br>
-          </br>
+          
           {
             IsReadOnly === 'true' && (
               // <Typography variant="body2" color="textSecondary" style={{ backgroundColor: '#d3d3d3', color: '#000000' }}>
