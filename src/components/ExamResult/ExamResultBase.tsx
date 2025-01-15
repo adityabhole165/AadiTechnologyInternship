@@ -399,7 +399,7 @@ const ExamResultBase = () => {
 
   useEffect(() => {
     // Set the help note
-    setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks / grades scored by each student in the subject. Exam result can be published by clicking on publish button and unpublished by clicking on unpublish button.');
+    setHelpNote('View the summarised results of year class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be published by clicking publish button and unpublish by clicking unpublish button.');
 
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
       // Case 1: Results are published
