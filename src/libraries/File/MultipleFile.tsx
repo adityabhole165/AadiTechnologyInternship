@@ -440,7 +440,7 @@ const MultipleFile: React.FC<MultipleFileProps> = ({
                     title={
                         'Supports only ' +
                         ValidFileTypes.join(', ') +
-                        ' files types up to ' + (MaxfileSize / 1000000).toString() + ' MB'
+                        ' files types up to ' + (MaxfileSize / 1000000).toString() + ' MB.'
                     }
                 >
                     <Button

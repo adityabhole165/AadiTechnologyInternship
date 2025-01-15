@@ -1217,7 +1217,8 @@ export const PurpleFlowTheme = createTheme({
     borderRadius: 0
   },
   typography: {
-    fontFamily: 'Nunito Sans Variable',
+    fontFamily: 'Roboto',
+    // fontFamily: 'Nunito Sans Variable',
 
     h1: {
       fontWeight: 700,

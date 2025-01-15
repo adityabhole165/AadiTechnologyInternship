@@ -103,7 +103,7 @@ const SingleFile = ({
             ValidFileTypes.join(', ') +
             ' file types up to ' +
             (MaxfileSize / 1e6) +
-            ' MB .'
+            ' MB.'
 
           }
         >

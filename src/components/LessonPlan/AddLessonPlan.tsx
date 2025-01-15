@@ -211,7 +211,7 @@ const AddLessonPlan = () => {
     if (SaveLessonPlans !== '') {
       toast.success(SaveLessonPlans);
       setIsDarty(false);
-      if (SaveLessonPlans === "Lesson Plan not saved...!") {
+      if (SaveLessonPlans === "Lesson plan date range should not overlap on another lesson plan.") {
         seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
       } else {
         seterrorOverlapDate("");

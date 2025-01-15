@@ -887,7 +887,7 @@ const LessonPlanBaseScreen = () => {
       <Dialog
         open={openViewRemarkDialog}
         onClose={() => setOpenViewRemarkDialog(false)}
-        maxWidth="xs"
+        maxWidth="sm"
         fullWidth
         PaperProps={{
           sx: {
@@ -912,19 +912,22 @@ const LessonPlanBaseScreen = () => {
               }
             }} />
         </DialogTitle>
-        <DialogContent dividers>
-          <Stack gap={1}>
-            <Typography variant="h3" color="primary">View Remarks</Typography>
-            <Divider />
-            <Stack gap={1}>
+        <Typography variant="h3" color="primary" sx={{pt:2, pl:2}}>View Remarks</Typography>
+        <DialogContent >
+          <Stack gap={0}>
+          
+            
+            <Stack gap={2}>
               {ViewRemarks && (
                 <>
                   {ViewRemarks.map((item, index) => (
-                    <span key={index}>
-                      <span style={{ fontWeight: 'bold', color: 'primary', fontSize: '1rem' }}>{item.name.split('-')[0]}</span><br />
-                      <span style={{ fontWeight: '', color: 'primary', fontSize: '1rem' }}>{item.description}</span>
-                      {index < ViewRemarks.length - 1 && <br />} {/* Add line break if not the last item */}
-                    </span>
+                    <Box key={index}>
+                      <Typography variant="h5"  sx={{}}>{item.name.split('-')[0]}</Typography>
+                      <Typography variant="body2"  sx={{wordBreak:'break-word'}}>{item.description}</Typography>
+                      {/* <span style={{ fontWeight: 'bold', color: 'primary', fontSize: '1rem' }}></span><br /> */}
+                      {/* <span style={{ fontWeight: '', color: 'primary', fontSize: '1rem' }}></span> */}
+                      {/* {index < ViewRemarks.length - 1 && <br />} Add line break if not the last item */}
+                    </Box>
                   ))}
                 </>
               )}
