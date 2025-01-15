@@ -14,17 +14,24 @@ SearchableDropdown1.propTypes = {
     size: PropTypes.string,
     DisableClearable: PropTypes.bool,
     disabled: PropTypes.bool,
+    allowNumbers: PropTypes.bool,
 };
 
 function SearchableDropdown1({ ItemList, onChange, label, defaultValue = '',
-    mandatory = false, sx = null, size = "medium", DisableClearable = false, disabled = false, InputProps = null }) {
+    mandatory = false, sx = null, size = "medium", DisableClearable = false, disabled = false, InputProps = null, allowNumbers = false }) {
     const location = useLocation();
     const pathname = location.pathname;
     const pageName = pathname.replace('/RITeSchool/Student/', '');
 
     const handleKeyDown = (event) => {
-        if (/[&@*%#!0-9-^_$()+=]/.test(event.key)) {
-            event.preventDefault();
+        if (allowNumbers) {
+            if (/[&@*%#!^_$()+=]/.test(event.key)) {
+                event.preventDefault();
+            }
+        } else {
+            if (/[&@*%#!0-9-^_$()+=]/.test(event.key)) {
+                event.preventDefault();
+            }
         }
     };
 
@@ -58,7 +65,3 @@ function SearchableDropdown1({ ItemList, onChange, label, defaultValue = '',
 }
 
 export default SearchableDropdown1;
-
-
-
-

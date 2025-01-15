@@ -790,6 +790,7 @@ const ExamResultBase = () => {
               justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
             >
               <SearchableDropdown1
+                allowNumbers={true}
                 sx={{
                   width: { xs: '70vw', sm: '24vw', md: '20vw' }
                   , bgcolor: CanEdit == 'N' && ClassTeachers.length == 2 ? '#F0F0F0' : 'inherit'
