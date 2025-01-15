@@ -136,11 +136,11 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
                 }}
                 sx={{ width: '100%' }}
                 // error={ReasonError !== ''}
-                  helperText={ReasonError}
+                  // helperText={ReasonError}
               />
             </Grid>
           </Grid>
-          <ErrorMessage1 Error={ReasonError !== ''} />
+          <ErrorMessage1 Error={ReasonError}  />
         </Box>
       </DialogContent>
       <DialogActions sx={{ py: 1, px: 3 }}>
