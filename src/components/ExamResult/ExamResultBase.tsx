@@ -791,7 +791,7 @@ const ExamResultBase = () => {
             >
               <SearchableDropdown1
                 sx={{
-                  width: { xs: '70vw', sm: '20vw' }
+                  width: { xs: '70vw', sm: '24vw', md:'20vw' }
                   , bgcolor: CanEdit == 'N' && ClassTeachers.length == 2 ? '#F0F0F0' : 'inherit'
                 }}
                 ItemList={asSchoolId == '18'
