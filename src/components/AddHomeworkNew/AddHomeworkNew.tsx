@@ -1463,15 +1463,17 @@ const AddHomeworkNew = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={1} lg="auto">
               <IconButton
-                onClick={handleSearchClick}
+                onClick={() => SearchText && handleSearchClick()}
                 sx={{
                   background: (theme) => theme.palette.primary.main,
-                  color: 'white'
+                  color: 'white',
+                  '&:hover': {
+                    background: (theme) => theme.palette.primary.main
+                  }
                 }}
               >
                 <SearchTwoTone />
-              </IconButton>
-            </Grid>
+              </IconButton>            </Grid>
           </Grid>
         </Box>
 
