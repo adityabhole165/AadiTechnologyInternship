@@ -542,7 +542,7 @@ function Dashboard() {
         />
       )}
 
-      {(AbsentStudentDialog && Number(UsschoolSettings) > 0) && (
+      {(AbsentStudentDialog && Number(UsschoolSettings) > 0 && ListAbsentStudent.length > 0) && (
         <AbsentStudentDetailsPopup
           open={AbsentStudentDialog}
           setOpen={handleAbsentStudentDialogClose}
