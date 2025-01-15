@@ -921,7 +921,7 @@ const LessonPlanBaseScreen = () => {
                 <>
                   {ViewRemarks.map((item, index) => (
                     <span key={index}>
-                      <span style={{ fontWeight: 'bold', color: 'primary', fontSize: '1rem' }}>{item.name.split('-')[0]}</span>&nbsp;&nbsp;
+                      <span style={{ fontWeight: 'bold', color: 'primary', fontSize: '1rem' }}>{item.name.split('-')[0]}</span><br />
                       <span style={{ fontWeight: '', color: 'primary', fontSize: '1rem' }}>{item.description}</span>
                       {index < ViewRemarks.length - 1 && <br />} {/* Add line break if not the last item */}
                     </span>

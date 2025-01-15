@@ -1028,9 +1028,6 @@ const AddHomeworkNew = () => {
     setOpen(true);
     dispatch(CDAresetgethomeworkdetail());
   };
-  const handleClose = (value) => {
-    setOpen(false);
-  };
   const handleClose1 = (value) => {
     setHomeworkId(0);
     setDetails('');
@@ -1039,9 +1036,24 @@ const AddHomeworkNew = () => {
     setAssignedDate(new Date().toISOString().split('T')[0]);
     setMultipleFiles([]);
     setFileName('');
+    setErrorDetails('');
+    setErrorCompleteDate('');
+    setErrorAssignedDate('');
+    setErrorTitle('');
     dispatch(CDAresetgethomeworkdetail());
   };
-
+  const resetDialogBox = () => {
+    ResetForm1();
+    handleClose1('');
+    setErrorDetails('');
+    setErrorCompleteDate('');
+    setErrorAssignedDate('');
+    setErrorTitle('');
+  }
+  const handleClose = (value) => {
+    resetDialogBox();
+    setOpen(false);
+  };
   return (
     <>
       <Box sx={{ px: 2 }}>
