@@ -4,7 +4,7 @@ import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, IconButton, Link, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -56,56 +56,54 @@ const SelectedsubjectList = ({
               return (
                 <TableRow key={i}>
                   <TableCell sx={{
-                    textTransform: 'capitalize',   py: 1,
+                    textTransform: 'capitalize', py: 1,
 
                   }}>
                     {item.Text1}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize',   py: 0,}}>
-                    <Link href={''} onClick={() => clickView(item.Id)} style={{ textDecoration: 'underline' }}>
-                      {item.Text2}
-                    </Link>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0, textDecoration: 'underline', cursor: 'pointer' }} onClick={() => clickView(item.Id)} >
+                    {item.Text2}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize',   py: 0}}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
                     {item.Text3}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize',   py: 0}}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
                     {item.Text4}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize',   py: 0 }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
                     {item.Text5}
                     {/* <Link href={''} onClick={() => clickAttachment(item.Text5)} >
             
             </Link> */}
                   </TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize',  py: 0}}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
                     {item.Text9 == 0 ? null : (
 
                       // style={{ color: '#223354', cursor: 'pointer' }}
                       <Tooltip title={"View"}>
-                      <IconButton
-                        sx={{
-                          color: '#223354',
-                          //  backgroundColor: grey[500],
-                          '&:hover': {
+                        <IconButton
+                          sx={{
                             color: '#223354',
-                            // backgroundColor: [100],
-                            cursor: 'pointer'
-                          }
-                        }}>
-                        <VisibilityIcon
+                            //  backgroundColor: grey[500],
+                            '&:hover': {
+                              color: '#223354',
+                              // backgroundColor: [100],
+                              cursor: 'pointer'
+                            }
+                          }}>
+                          <VisibilityIcon
 
-                          onClick={() => clickVisibilityIcon(item.Id)} />
-                      </IconButton>
+                            onClick={() => clickVisibilityIcon(item.Id)} />
+                        </IconButton>
                       </Tooltip>
                     )}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize',   py: 0 }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
 
                     <ButtonPrimary
                       style={{ backgroundColor: item.IsPublished === 'False' ? green[500] : red[500] }}
@@ -125,7 +123,7 @@ const SelectedsubjectList = ({
                     </ButtonPrimary>
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize',   py: 0 }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
                     {item.Text7 == 'False' ? (
                       <Tooltip title="Edit">
                         <IconButton>
@@ -157,7 +155,7 @@ const SelectedsubjectList = ({
               ) : null}
             </TableCell> */}
                   <TableCell
-                    sx={{ textTransform: 'capitalize',   py: 0 }}
+                    sx={{ textTransform: 'capitalize', py: 0 }}
                   >
                     {item.Text7 == 'False' ? (
                       <Tooltip title="Delete">
