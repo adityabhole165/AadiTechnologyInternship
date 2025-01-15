@@ -403,11 +403,11 @@ const ExamResultBase = () => {
 
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
       // Case 1: Results are published
-      setDisplayNote('Results for this exam have been published.');
+      setDisplayNote('Results for this exam has been published.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
     } else if (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) {
       // Case 2: Not all results submitted and not published
-      setDisplayNote('Not all results for this exam have been submitted.');
+      setDisplayNote('Not all results for this exam has been submitted.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
     } else if (ClassPassFailDetailsForButton && getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) {
       // Case 3: All results submitted but not published
@@ -963,54 +963,47 @@ const ExamResultBase = () => {
         <SuspenseLoader />
       ) : (
         <Box mb={1} sx={{ p: 2, background: 'white' }}>
-         
+          <Box>
             <Stack direction={'row'} gap={2}>
               <Typography variant={'h4'} mb={1}>
 
               </Typography>
             </Stack>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm="auto">
+            <Stack direction={{ xs: 'column', sm: 'row' }} mb={1} justifyContent='space-between' spacing={2}>
+
+              <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
                 <Button variant="contained" color="primary" onClick={ProgressRemark}>
                   Progress Remarks
                 </Button>
-              </Grid>
 
-              {CanEdit === 'Y' && (
-                <Grid item xs={12} sm="auto">
+                {CanEdit == 'Y' ? (
                   <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
                     Transfer Optional Subject Marks
                   </Button>
-                </Grid>
-              )}
+                ) : null}
 
-              <Grid item xs={12} sm="auto">
                 <Button variant="contained" color="primary" onClick={TermwiseHighwight}>
                   Termwise Height-Weight
                 </Button>
-              </Grid>
 
-              {ClassPassFailDetailsForButton &&
-                (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) && (
-                  <Grid item xs={12}  sm="auto">
-                    <Grid container spacing={1} >
-                      {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length > 0 && (
-                        <Grid item>
+                {ClassPassFailDetailsForButton &&
+                  (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) && (
+                    <Box display="flex" justifyContent="flex-end" mb={1}>
+                      <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
+                        {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length > 0 && (
                           <FormControlLabel
-                            control={
-                              <Checkbox
-                                checked={sendmeassagestudent}
-                                onChange={(e) => handleCheckboxChange(e.target.checked)}
-                              />
-                            }
-                            label="Send Message and Mobile Notification"
-                          />
-                        </Grid>
-                      )}
-                    </Grid>
-                  </Grid>
-                )}
-            </Grid>
+                            control={<Checkbox
+                              checked={sendmeassagestudent}
+                              onChange={(e) => {
+                                handleCheckboxChange(e.target.checked);
+                              }} />}
+                            label="Send Message and Mobile Notification" />
+                        )}
+                      </Stack>
+                    </Box>
+                  )}
+              </Stack>
+            </Stack>
             {ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                 <b>No record found.</b>
@@ -1034,7 +1027,7 @@ const ExamResultBase = () => {
               </>
             )}
 
-          
+          </Box>
         </Box>
 
       )

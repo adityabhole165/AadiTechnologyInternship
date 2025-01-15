@@ -234,6 +234,10 @@ const WeeklyTimetable = (props: Props) => {
   const loading = useSelector(
     (state: RootState) => state.WeeklyTimetable.Loading
   );
+
+  const loadingAdditionalLecPop = useSelector(
+    (state: RootState) => state.WeeklyTimetable.LoadingAdditionalLecPop
+  );
   const DeleteAddLecMsg = useSelector(
     (state: RootState) => state.WeeklyTimetable.ISGetDeleteAdditionalLectureMsg
   );
@@ -2374,34 +2378,34 @@ const WeeklyTimetable = (props: Props) => {
                                         <StyledCell
                                           sx={{
                                             backgroundColor: `${mpt &&
-                                                isMPTLecture('Monday', item.Text1)
+                                              isMPTLecture('Monday', item.Text1)
+                                              ? '#f3f4f6'
+                                              : assembly &&
+                                                isAssemblyLecture(
+                                                  'Monday',
+                                                  item.Text1
+                                                )
                                                 ? '#f3f4f6'
-                                                : assembly &&
-                                                  isAssemblyLecture(
+                                                : stayback &&
+                                                  isStaybackLecture(
                                                     'Monday',
                                                     item.Text1
                                                   )
                                                   ? '#f3f4f6'
-                                                  : stayback &&
-                                                    isStaybackLecture(
+                                                  : weeklytest === true &&
+                                                    isWeeklyTestLecture(
                                                       'Monday',
                                                       item.Text1
                                                     )
                                                     ? '#f3f4f6'
-                                                    : weeklytest === true &&
-                                                      isWeeklyTestLecture(
-                                                        'Monday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#f3f4f6'
-                                                      : filterMaxDayLec(
-                                                        MondayColumnList,
-                                                        item.Text1
-                                                      ).length === 1
-                                                        ? '#9ca3af'
-                                                        : item.Text2 !== '0'
-                                                          ? '#f3f4f6'
-                                                          : ''
+                                                    : filterMaxDayLec(
+                                                      MondayColumnList,
+                                                      item.Text1
+                                                    ).length === 1
+                                                      ? '#9ca3af'
+                                                      : item.Text2 !== '0'
+                                                        ? '#f3f4f6'
+                                                        : ''
                                               }`
                                           }}
                                         >
@@ -2491,14 +2495,14 @@ const WeeklyTimetable = (props: Props) => {
                                               sx={{
                                                 minWidth: 200,
                                                 backgroundColor: `${item.Text2 !== '0' &&
-                                                    hasAddLect(
-                                                      'Monday',
-                                                      item.Text1
-                                                    )
-                                                    ? '#e5e7eb'
-                                                    : item.Text2 !== '0'
-                                                      ? '#f3f4f6'
-                                                      : ''
+                                                  hasAddLect(
+                                                    'Monday',
+                                                    item.Text1
+                                                  )
+                                                  ? '#e5e7eb'
+                                                  : item.Text2 !== '0'
+                                                    ? '#f3f4f6'
+                                                    : ''
                                                   }`,
                                                 '& .Mui-disabled': {
                                                   color: 'inherit', // or any color you want
@@ -2530,37 +2534,37 @@ const WeeklyTimetable = (props: Props) => {
                                         <StyledCell
                                           sx={{
                                             backgroundColor: `${mpt &&
-                                                isMPTLecture(
+                                              isMPTLecture(
+                                                'Tuesday',
+                                                item.Text1
+                                              )
+                                              ? '#f3f4f6'
+                                              : assembly &&
+                                                isAssemblyLecture(
                                                   'Tuesday',
                                                   item.Text1
                                                 )
                                                 ? '#f3f4f6'
-                                                : assembly &&
-                                                  isAssemblyLecture(
+                                                : stayback &&
+                                                  isStaybackLecture(
                                                     'Tuesday',
                                                     item.Text1
                                                   )
                                                   ? '#f3f4f6'
-                                                  : stayback &&
-                                                    isStaybackLecture(
+                                                  : weeklytest === true &&
+                                                    isWeeklyTestLecture(
                                                       'Tuesday',
                                                       item.Text1
                                                     )
                                                     ? '#f3f4f6'
-                                                    : weeklytest === true &&
-                                                      isWeeklyTestLecture(
-                                                        'Tuesday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#f3f4f6'
-                                                      : filterMaxDayLec(
-                                                        TuesdayColumnList,
-                                                        item.Text1
-                                                      ).length === 1
-                                                        ? '#9ca3af'
-                                                        : item.Text3 !== '0'
-                                                          ? '#f3f4f6'
-                                                          : ''
+                                                    : filterMaxDayLec(
+                                                      TuesdayColumnList,
+                                                      item.Text1
+                                                    ).length === 1
+                                                      ? '#9ca3af'
+                                                      : item.Text3 !== '0'
+                                                        ? '#f3f4f6'
+                                                        : ''
                                               }`
                                           }}
                                         >
@@ -2653,14 +2657,14 @@ const WeeklyTimetable = (props: Props) => {
                                               sx={{
                                                 minWidth: 200,
                                                 backgroundColor: `${item.Text3 !== '0' &&
-                                                    hasAddLect(
-                                                      'Tuesday',
-                                                      item.Text1
-                                                    )
-                                                    ? '#e5e7eb'
-                                                    : item.Text3 !== '0'
-                                                      ? '#f3f4f6'
-                                                      : ''
+                                                  hasAddLect(
+                                                    'Tuesday',
+                                                    item.Text1
+                                                  )
+                                                  ? '#e5e7eb'
+                                                  : item.Text3 !== '0'
+                                                    ? '#f3f4f6'
+                                                    : ''
                                                   }`,
                                                 '& .Mui-disabled': {
                                                   color: 'inherit', // or any color you want
@@ -2695,37 +2699,37 @@ const WeeklyTimetable = (props: Props) => {
                                         <StyledCell
                                           sx={{
                                             backgroundColor: `${mpt &&
-                                                isMPTLecture(
+                                              isMPTLecture(
+                                                'Wednesday',
+                                                item.Text1
+                                              )
+                                              ? '#f3f4f6'
+                                              : assembly &&
+                                                isAssemblyLecture(
                                                   'Wednesday',
                                                   item.Text1
                                                 )
                                                 ? '#f3f4f6'
-                                                : assembly &&
-                                                  isAssemblyLecture(
+                                                : stayback &&
+                                                  isStaybackLecture(
                                                     'Wednesday',
                                                     item.Text1
                                                   )
                                                   ? '#f3f4f6'
-                                                  : stayback &&
-                                                    isStaybackLecture(
+                                                  : weeklytest === true &&
+                                                    isWeeklyTestLecture(
                                                       'Wednesday',
                                                       item.Text1
                                                     )
                                                     ? '#f3f4f6'
-                                                    : weeklytest === true &&
-                                                      isWeeklyTestLecture(
-                                                        'Wednesday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#f3f4f6'
-                                                      : filterMaxDayLec(
-                                                        WednesdayColumnList,
-                                                        item.Text1
-                                                      ).length === 1
-                                                        ? '#9ca3af'
-                                                        : item.Text4 !== '0'
-                                                          ? '#f3f4f6'
-                                                          : ''
+                                                    : filterMaxDayLec(
+                                                      WednesdayColumnList,
+                                                      item.Text1
+                                                    ).length === 1
+                                                      ? '#9ca3af'
+                                                      : item.Text4 !== '0'
+                                                        ? '#f3f4f6'
+                                                        : ''
                                               }`
                                           }}
                                         >
@@ -2818,14 +2822,14 @@ const WeeklyTimetable = (props: Props) => {
                                               sx={{
                                                 minWidth: 200,
                                                 backgroundColor: `${item.Text4 !== '0' &&
-                                                    hasAddLect(
-                                                      'Wednesday',
-                                                      item.Text1
-                                                    )
-                                                    ? '#e5e7eb'
-                                                    : item.Text4 !== '0'
-                                                      ? '#f3f4f6'
-                                                      : ''
+                                                  hasAddLect(
+                                                    'Wednesday',
+                                                    item.Text1
+                                                  )
+                                                  ? '#e5e7eb'
+                                                  : item.Text4 !== '0'
+                                                    ? '#f3f4f6'
+                                                    : ''
                                                   }`,
                                                 '& .Mui-disabled': {
                                                   color: 'inherit', // or any color you want
@@ -2860,37 +2864,37 @@ const WeeklyTimetable = (props: Props) => {
                                         <StyledCell
                                           sx={{
                                             backgroundColor: `${mpt &&
-                                                isMPTLecture(
+                                              isMPTLecture(
+                                                'Thursday',
+                                                item.Text1
+                                              )
+                                              ? '#f3f4f6'
+                                              : assembly &&
+                                                isAssemblyLecture(
                                                   'Thursday',
                                                   item.Text1
                                                 )
                                                 ? '#f3f4f6'
-                                                : assembly &&
-                                                  isAssemblyLecture(
+                                                : stayback &&
+                                                  isStaybackLecture(
                                                     'Thursday',
                                                     item.Text1
                                                   )
                                                   ? '#f3f4f6'
-                                                  : stayback &&
-                                                    isStaybackLecture(
+                                                  : weeklytest === true &&
+                                                    isWeeklyTestLecture(
                                                       'Thursday',
                                                       item.Text1
                                                     )
                                                     ? '#f3f4f6'
-                                                    : weeklytest === true &&
-                                                      isWeeklyTestLecture(
-                                                        'Thursday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#f3f4f6'
-                                                      : filterMaxDayLec(
-                                                        ThursdayColumnList,
-                                                        item.Text1
-                                                      ).length === 1
-                                                        ? '#9ca3af'
-                                                        : item.Text5 !== '0'
-                                                          ? '#f3f4f6'
-                                                          : ''
+                                                    : filterMaxDayLec(
+                                                      ThursdayColumnList,
+                                                      item.Text1
+                                                    ).length === 1
+                                                      ? '#9ca3af'
+                                                      : item.Text5 !== '0'
+                                                        ? '#f3f4f6'
+                                                        : ''
                                               }`
                                           }}
                                         >
@@ -2983,14 +2987,14 @@ const WeeklyTimetable = (props: Props) => {
                                               sx={{
                                                 minWidth: 200,
                                                 backgroundColor: `${item.Text5 !== '0' &&
-                                                    hasAddLect(
-                                                      'Thursday',
-                                                      item.Text1
-                                                    )
-                                                    ? '#e5e7eb'
-                                                    : item.Text5 !== '0'
-                                                      ? '#f3f4f6'
-                                                      : ''
+                                                  hasAddLect(
+                                                    'Thursday',
+                                                    item.Text1
+                                                  )
+                                                  ? '#e5e7eb'
+                                                  : item.Text5 !== '0'
+                                                    ? '#f3f4f6'
+                                                    : ''
                                                   }`,
                                                 '& .Mui-disabled': {
                                                   color: 'inherit', // or any color you want
@@ -3025,34 +3029,34 @@ const WeeklyTimetable = (props: Props) => {
                                         <StyledCell
                                           sx={{
                                             backgroundColor: `${mpt &&
-                                                isMPTLecture('Friday', item.Text1)
+                                              isMPTLecture('Friday', item.Text1)
+                                              ? '#f3f4f6'
+                                              : assembly &&
+                                                isAssemblyLecture(
+                                                  'Friday',
+                                                  item.Text1
+                                                )
                                                 ? '#f3f4f6'
-                                                : assembly &&
-                                                  isAssemblyLecture(
+                                                : stayback &&
+                                                  isStaybackLecture(
                                                     'Friday',
                                                     item.Text1
                                                   )
                                                   ? '#f3f4f6'
-                                                  : stayback &&
-                                                    isStaybackLecture(
+                                                  : weeklytest === true &&
+                                                    isWeeklyTestLecture(
                                                       'Friday',
                                                       item.Text1
                                                     )
                                                     ? '#f3f4f6'
-                                                    : weeklytest === true &&
-                                                      isWeeklyTestLecture(
-                                                        'Friday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#f3f4f6'
-                                                      : filterMaxDayLec(
-                                                        FridayColumnList,
-                                                        item.Text1
-                                                      ).length === 1
-                                                        ? '#9ca3af'
-                                                        : item.Text6 !== '0'
-                                                          ? '#f3f4f6'
-                                                          : ''
+                                                    : filterMaxDayLec(
+                                                      FridayColumnList,
+                                                      item.Text1
+                                                    ).length === 1
+                                                      ? '#9ca3af'
+                                                      : item.Text6 !== '0'
+                                                        ? '#f3f4f6'
+                                                        : ''
                                               }`
                                           }}
                                         >
@@ -3142,14 +3146,14 @@ const WeeklyTimetable = (props: Props) => {
                                               sx={{
                                                 minWidth: 200,
                                                 backgroundColor: `${item.Text6 !== '0' &&
-                                                    hasAddLect(
-                                                      'Friday',
-                                                      item.Text1
-                                                    )
-                                                    ? '#e5e7eb'
-                                                    : item.Text6 !== '0'
-                                                      ? '#f3f4f6'
-                                                      : ''
+                                                  hasAddLect(
+                                                    'Friday',
+                                                    item.Text1
+                                                  )
+                                                  ? '#e5e7eb'
+                                                  : item.Text6 !== '0'
+                                                    ? '#f3f4f6'
+                                                    : ''
                                                   }`,
                                                 '& .Mui-disabled': {
                                                   color: 'inherit', // or any color you want
@@ -3263,30 +3267,30 @@ const WeeklyTimetable = (props: Props) => {
                                                 'Monday',
                                                 item.Text1
                                               )
+                                                ? '#f3f4f6'
+                                                : isAssemblyLectureClass(
+                                                  'Monday',
+                                                  item.Text1
+                                                )
                                                   ? '#f3f4f6'
-                                                  : isAssemblyLectureClass(
+                                                  : isStaybackLectureClass(
                                                     'Monday',
                                                     item.Text1
                                                   )
                                                     ? '#f3f4f6'
-                                                    : isStaybackLectureClass(
+                                                    : isWeeklytestLectureClass(
                                                       'Monday',
                                                       item.Text1
                                                     )
                                                       ? '#f3f4f6'
-                                                      : isWeeklytestLectureClass(
-                                                        'Monday',
+                                                      : filterMaxDayLec(
+                                                        MondayColumnList,
                                                         item.Text1
-                                                      )
-                                                        ? '#f3f4f6'
-                                                        : filterMaxDayLec(
-                                                          MondayColumnList,
-                                                          item.Text1
-                                                        ).length === 1
-                                                          ? '#9ca3af'
-                                                          : item.Text2 !== '0'
-                                                            ? '#f3f4f6'
-                                                            : ''
+                                                      ).length === 1
+                                                        ? '#9ca3af'
+                                                        : item.Text2 !== '0'
+                                                          ? '#f3f4f6'
+                                                          : ''
                                                 }`
                                             }}
                                           >
@@ -3375,14 +3379,14 @@ const WeeklyTimetable = (props: Props) => {
                                                 sx={{
                                                   minWidth: 200,
                                                   backgroundColor: `${item.Text2 !== '0' &&
-                                                      hasAddLectOnClass(
-                                                        'Monday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#e5e7eb'
-                                                      : item.Text2 !== '0'
-                                                        ? '#f3f4f6'
-                                                        : ''
+                                                    hasAddLectOnClass(
+                                                      'Monday',
+                                                      item.Text1
+                                                    )
+                                                    ? '#e5e7eb'
+                                                    : item.Text2 !== '0'
+                                                      ? '#f3f4f6'
+                                                      : ''
                                                     }`,
                                                   '& .Mui-disabled': {
                                                     color: 'inherit', // or any color you want
@@ -3420,30 +3424,30 @@ const WeeklyTimetable = (props: Props) => {
                                                 'Tuesday',
                                                 item.Text1
                                               )
+                                                ? '#f3f4f6'
+                                                : isAssemblyLectureClass(
+                                                  'Tuesday',
+                                                  item.Text1
+                                                )
                                                   ? '#f3f4f6'
-                                                  : isAssemblyLectureClass(
+                                                  : isStaybackLectureClass(
                                                     'Tuesday',
                                                     item.Text1
                                                   )
                                                     ? '#f3f4f6'
-                                                    : isStaybackLectureClass(
+                                                    : isWeeklytestLectureClass(
                                                       'Tuesday',
                                                       item.Text1
                                                     )
                                                       ? '#f3f4f6'
-                                                      : isWeeklytestLectureClass(
-                                                        'Tuesday',
+                                                      : filterMaxDayLec(
+                                                        TuesdayColumnList,
                                                         item.Text1
-                                                      )
-                                                        ? '#f3f4f6'
-                                                        : filterMaxDayLec(
-                                                          TuesdayColumnList,
-                                                          item.Text1
-                                                        ).length === 1
-                                                          ? '#9ca3af'
-                                                          : item.Text3 !== '0'
-                                                            ? '#f3f4f6'
-                                                            : ''
+                                                      ).length === 1
+                                                        ? '#9ca3af'
+                                                        : item.Text3 !== '0'
+                                                          ? '#f3f4f6'
+                                                          : ''
                                                 }`
                                             }}
                                           >
@@ -3532,14 +3536,14 @@ const WeeklyTimetable = (props: Props) => {
                                                 sx={{
                                                   minWidth: 200,
                                                   backgroundColor: `${item.Text3 !== '0' &&
-                                                      hasAddLectOnClass(
-                                                        'Tuesday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#e5e7eb'
-                                                      : item.Text3 !== '0'
-                                                        ? '#f3f4f6'
-                                                        : ''
+                                                    hasAddLectOnClass(
+                                                      'Tuesday',
+                                                      item.Text1
+                                                    )
+                                                    ? '#e5e7eb'
+                                                    : item.Text3 !== '0'
+                                                      ? '#f3f4f6'
+                                                      : ''
                                                     }`,
                                                   '& .Mui-disabled': {
                                                     color: 'inherit', // or any color you want
@@ -3577,30 +3581,30 @@ const WeeklyTimetable = (props: Props) => {
                                                 'Wednesday',
                                                 item.Text1
                                               )
+                                                ? '#f3f4f6'
+                                                : isAssemblyLectureClass(
+                                                  'Wednesday',
+                                                  item.Text1
+                                                )
                                                   ? '#f3f4f6'
-                                                  : isAssemblyLectureClass(
+                                                  : isStaybackLectureClass(
                                                     'Wednesday',
                                                     item.Text1
                                                   )
                                                     ? '#f3f4f6'
-                                                    : isStaybackLectureClass(
+                                                    : isWeeklytestLectureClass(
                                                       'Wednesday',
                                                       item.Text1
                                                     )
                                                       ? '#f3f4f6'
-                                                      : isWeeklytestLectureClass(
-                                                        'Wednesday',
+                                                      : filterMaxDayLec(
+                                                        WednesdayColumnList,
                                                         item.Text1
-                                                      )
-                                                        ? '#f3f4f6'
-                                                        : filterMaxDayLec(
-                                                          WednesdayColumnList,
-                                                          item.Text1
-                                                        ).length === 1
-                                                          ? '#9ca3af'
-                                                          : item.Text4 !== '0'
-                                                            ? '#f3f4f6'
-                                                            : ''
+                                                      ).length === 1
+                                                        ? '#9ca3af'
+                                                        : item.Text4 !== '0'
+                                                          ? '#f3f4f6'
+                                                          : ''
                                                 }`
                                             }}
                                           >
@@ -3689,14 +3693,14 @@ const WeeklyTimetable = (props: Props) => {
                                                 sx={{
                                                   minWidth: 200,
                                                   backgroundColor: `${item.Text4 !== '0' &&
-                                                      hasAddLectOnClass(
-                                                        'Wednesday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#e5e7eb'
-                                                      : item.Text4 !== '0'
-                                                        ? '#f3f4f6'
-                                                        : ''
+                                                    hasAddLectOnClass(
+                                                      'Wednesday',
+                                                      item.Text1
+                                                    )
+                                                    ? '#e5e7eb'
+                                                    : item.Text4 !== '0'
+                                                      ? '#f3f4f6'
+                                                      : ''
                                                     }`,
                                                   '& .Mui-disabled': {
                                                     color: 'inherit', // or any color you want
@@ -3734,30 +3738,30 @@ const WeeklyTimetable = (props: Props) => {
                                                 'Thursday',
                                                 item.Text1
                                               )
+                                                ? '#f3f4f6'
+                                                : isAssemblyLectureClass(
+                                                  'Thursday',
+                                                  item.Text1
+                                                )
                                                   ? '#f3f4f6'
-                                                  : isAssemblyLectureClass(
+                                                  : isWeeklytestLectureClass(
                                                     'Thursday',
                                                     item.Text1
                                                   )
                                                     ? '#f3f4f6'
-                                                    : isWeeklytestLectureClass(
+                                                    : isStaybackLectureClass(
                                                       'Thursday',
                                                       item.Text1
                                                     )
                                                       ? '#f3f4f6'
-                                                      : isStaybackLectureClass(
-                                                        'Thursday',
+                                                      : filterMaxDayLec(
+                                                        ThursdayColumnList,
                                                         item.Text1
-                                                      )
-                                                        ? '#f3f4f6'
-                                                        : filterMaxDayLec(
-                                                          ThursdayColumnList,
-                                                          item.Text1
-                                                        ).length === 1
-                                                          ? '#9ca3af'
-                                                          : item.Text5 !== '0'
-                                                            ? '#f3f4f6'
-                                                            : ''
+                                                      ).length === 1
+                                                        ? '#9ca3af'
+                                                        : item.Text5 !== '0'
+                                                          ? '#f3f4f6'
+                                                          : ''
                                                 }`
                                             }}
                                           >
@@ -3846,14 +3850,14 @@ const WeeklyTimetable = (props: Props) => {
                                                 sx={{
                                                   minWidth: 200,
                                                   backgroundColor: `${item.Text5 !== '0' &&
-                                                      hasAddLectOnClass(
-                                                        'Thursday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#e5e7eb'
-                                                      : item.Text5 !== '0'
-                                                        ? '#f3f4f6'
-                                                        : ''
+                                                    hasAddLectOnClass(
+                                                      'Thursday',
+                                                      item.Text1
+                                                    )
+                                                    ? '#e5e7eb'
+                                                    : item.Text5 !== '0'
+                                                      ? '#f3f4f6'
+                                                      : ''
                                                     }`,
                                                   '& .Mui-disabled': {
                                                     color: 'inherit', // or any color you want
@@ -3891,30 +3895,30 @@ const WeeklyTimetable = (props: Props) => {
                                                 'Friday',
                                                 item.Text1
                                               )
+                                                ? '#f3f4f6'
+                                                : isAssemblyLectureClass(
+                                                  'Friday',
+                                                  item.Text1
+                                                )
                                                   ? '#f3f4f6'
-                                                  : isAssemblyLectureClass(
+                                                  : isWeeklytestLectureClass(
                                                     'Friday',
                                                     item.Text1
                                                   )
                                                     ? '#f3f4f6'
-                                                    : isWeeklytestLectureClass(
+                                                    : isStaybackLectureClass(
                                                       'Friday',
                                                       item.Text1
                                                     )
                                                       ? '#f3f4f6'
-                                                      : isStaybackLectureClass(
-                                                        'Friday',
+                                                      : filterMaxDayLec(
+                                                        FridayColumnList,
                                                         item.Text1
-                                                      )
-                                                        ? '#f3f4f6'
-                                                        : filterMaxDayLec(
-                                                          FridayColumnList,
-                                                          item.Text1
-                                                        ).length === 1
-                                                          ? '#9ca3af'
-                                                          : item.Text6 !== '0'
-                                                            ? '#f3f4f6'
-                                                            : ''
+                                                      ).length === 1
+                                                        ? '#9ca3af'
+                                                        : item.Text6 !== '0'
+                                                          ? '#f3f4f6'
+                                                          : ''
                                                 }`
                                             }}
                                           >
@@ -4003,14 +4007,14 @@ const WeeklyTimetable = (props: Props) => {
                                                 sx={{
                                                   minWidth: 200,
                                                   backgroundColor: `${item.Text6 !== '0' &&
-                                                      hasAddLectOnClass(
-                                                        'Friday',
-                                                        item.Text1
-                                                      )
-                                                      ? '#e5e7eb'
-                                                      : item.Text6 !== '0'
-                                                        ? '#f3f4f6'
-                                                        : ''
+                                                    hasAddLectOnClass(
+                                                      'Friday',
+                                                      item.Text1
+                                                    )
+                                                    ? '#e5e7eb'
+                                                    : item.Text6 !== '0'
+                                                      ? '#f3f4f6'
+                                                      : ''
                                                     }`,
                                                   '& .Mui-disabled': {
                                                     color: 'inherit', // or any color you want
@@ -4090,7 +4094,7 @@ const WeeklyTimetable = (props: Props) => {
             {filterBy === 'Class' &&
               division !== '0' &&
               division !== undefined &&
-              !loading &&
+              !loadingAdditionalLecPop &&
               Object.keys(trackClassTimetable).length > 0 && (
                 <>
                   <Box sx={{ flex: 1 }}>
