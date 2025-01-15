@@ -13,6 +13,7 @@ export function getWithoutHTML(value) {
 };
 const NavContent = () => {
     const GetNavbarmenu: any = useSelector((state: RootState) => state.NavbarMenu.GetNavbarMenuDetails);
+    console.log('GetNavbarmenu', GetNavbarmenu)
     const MenuDescription: any = useSelector((state: RootState) => state.NavbarMenu.MenuDescription);
     const ChildMenuId: any = useSelector((state: RootState) => state.NavbarMenu.ChildMenuId);
     const [MenuContent, setMenuContent] = useState('')
@@ -53,6 +54,7 @@ const NavContent = () => {
             })
         return returnVal
     }
+
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -113,7 +115,7 @@ const NavContent = () => {
                     </Grid>
                 } */}
                 {IsFile() &&
-                    <Table>
+                    <Table sx={{ mb: '10px' }}>
                         <TableHead sx={{ background: (theme) => theme.palette.secondary.main, }}>
                             <TableRow>
                                 <TableCell sx={{
@@ -129,7 +131,7 @@ const NavContent = () => {
                         <TableBody>
                             {
                                 GetNavbarmenu
-                                    .filter((item) => { return item.MenuId == ChildMenuId })
+                                    .filter((item) => { return item.MenuId == ChildMenuId && !item.IsURL})
                                     .map((item, index) => {
                                         return (
                                             <TableRow sx={{ backgroundColor: 'white' }}>
@@ -144,17 +146,52 @@ const NavContent = () => {
                                                                 <Link href={sitePath + item.FilePath} target="_blank">{item.LinkName}</Link><br />{item.IsURL}
                                                             </>)
                                                         }
-                                                        {
-                                                            (item.FilePath != "" && item.IsURL) &&
 
-                                                            (<>
-                                                                {/* {IsURL() &&
+                                                    </>
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                    })
+                            }
+                        </TableBody>
+                    </Table>
+                }
+
+                {IsURL() &&
+                    <Table>
+                        <TableHead sx={{ background: (theme) => theme.palette.secondary.main, }}>
+                            <TableRow>
+                                <TableCell sx={{
+                                    // textTransform: 'capitalize',
+                                    color: (theme) => theme.palette.common.white,
+                                }} >
+                                    <Typography variant='h4'>
+                                        {MenuDescription[0]?.MenuName} - URL(s)
+                                    </Typography>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                GetNavbarmenu
+                                    .filter((item) => { return item.MenuId == ChildMenuId && item.FilePath !== "" && item.IsURL })
+                                    .map((item, index) => {
+                                        return (
+                                            <TableRow sx={{ backgroundColor: 'white' }} key={index}>
+                                                <TableCell sx={{ paddingTop: '10px', paddingBottom: '10px' }} >
+
+
+                                                    {
+                                                        (item.FilePath != "" && item.IsURL) &&
+
+                                                        (<>
+                                                            {/* {IsURL() &&
                                                                 <Typography variant='h6' style={{ fontWeight: 'bold' }}>URLs:</Typography>
                                                             } */}
-                                                                <Link href={item.FilePath} target="_blank">{item.LinkName}</Link><br />{item.IsURL}
-                                                            </>)
-                                                        }
-                                                    </>
+                                                            <Link href={item.FilePath} target="_blank">{item.LinkName}</Link><br />{item.IsURL}
+                                                        </>)
+                                                    }
+
                                                 </TableCell>
                                             </TableRow>
                                         )
