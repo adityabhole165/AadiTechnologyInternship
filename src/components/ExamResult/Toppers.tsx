@@ -27,7 +27,7 @@ import { RootState, useDispatch } from 'src/store';
 import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
 import GoldMedal from '../../assets/img/medals/gold-medal.png';
 import SilverMedal from '../../assets/img/medals/silver-medal.png';
-import { decodeURL, getSchoolConfigurations } from '../Common/Util';
+import { decodeURL, encodeURL, getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { StyledTableCell, StyledTableRow } from '../DataTable';
 
@@ -462,7 +462,7 @@ const ExamResultToppers = () => {
     const getNavLinks = (): any => {
         if (LatestExamId1) {
             return [
-                { title: 'Progress Report', path: '/RITeSchool/Teacher/ProgressReportNew/' + AcademicYear + '/' + Studentid + '/' + TeacherId },
+                { title: 'Progress Report', path: '/RITeSchool/Teacher/ProgressReportNew/' + encodeURL(AcademicYear) + '/' + encodeURL(Studentid) + '/' + encodeURL(TeacherId) },
                 { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}` },
 
             ];

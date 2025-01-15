@@ -20,7 +20,7 @@ import { RootState, useSelector } from 'src/store';
 import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
 import GoldMedal from '../../assets/img/medals/gold-medal.png';
 import SilverMedal from '../../assets/img/medals/silver-medal.png';
-import { decodeURL } from '../Common/Util';
+import { decodeURL, encodeURL } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const SubjectMarkList = () => {
@@ -269,7 +269,7 @@ const SubjectMarkList = () => {
           navLinks={[
             {
               title: 'Exam Result',
-              path: '/RITeSchool/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
+              path: '/RITeSchool/Teacher/ExamResultBase/' + encodeURL(StandardDivisionId) + "/" + encodeURL(TestId)
             },
             {
               title: 'Subject Mark List',

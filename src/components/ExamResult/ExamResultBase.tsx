@@ -539,7 +539,7 @@ const ExamResultBase = () => {
       '/' +
       encodeURL(getTeacherName()) +
       '/' +
-      encodeURL(value.Id.SubjectName) + '/' + encodeURL(value.Id.SubjectId)
+      encodeURL(value.Id.SubjectName) + '/' + encodeURL(value.Id.SubjectId), { state: { fromInternal: true } }
     );
   }
   const handleCheckboxChange = (value) => {
@@ -791,7 +791,7 @@ const ExamResultBase = () => {
             >
               <SearchableDropdown1
                 sx={{
-                  width: { xs: '70vw', sm: '24vw', md:'20vw' }
+                  width: { xs: '70vw', sm: '24vw', md: '20vw' }
                   , bgcolor: CanEdit == 'N' && ClassTeachers.length == 2 ? '#F0F0F0' : 'inherit'
                 }}
                 ItemList={asSchoolId == '18'
@@ -971,7 +971,7 @@ const ExamResultBase = () => {
             </Stack>
             <Stack direction={{ xs: 'column', sm: 'row' }} mb={1} justifyContent='space-between' spacing={2}>
 
-              <Stack direction={{xs: 'column', sm: 'row'}} gap={1}>
+              <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
                 <Button variant="contained" color="primary" onClick={ProgressRemark}>
                   Progress Remarks
                 </Button>
@@ -989,7 +989,7 @@ const ExamResultBase = () => {
                 {ClassPassFailDetailsForButton &&
                   (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) && (
                     <Box display="flex" justifyContent="flex-end" mb={1}>
-                      <Stack direction={{xs: 'column', sm: 'row'}} gap={1}>
+                      <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
                         {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length > 0 && (
                           <FormControlLabel
                             control={<Checkbox
