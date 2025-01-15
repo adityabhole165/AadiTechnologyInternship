@@ -1,8 +1,13 @@
 import {
   GetImagesResult,
   IDeletePhotoBody,
+  IDeletePhotosBody,
+  IGetAllImagesBody,
+  IGetAllImagesResult,
   IGetCountBody,
   IGetCountResult,
+  IGetPhotoCountBody,
+  IGetPhotoCountResult,
   IGetPhotoDetailsBody,
   IGetPhotoDetailsResult,
   IInsertVideoGallaryBody,
@@ -10,6 +15,7 @@ import {
   IPics,
   IStandardDivisionNameBody,
   IStandardDivisionNameResult,
+  IUpdateCommentBody,
   Iimg
 } from 'src/interfaces/Common/PhotoGallery';
 import {
@@ -53,6 +59,18 @@ const ManagePhotoGalleryApi = (data: IManagePhotoGalleryBody) => {
 const InsertVideoGallaryApi = (data: IInsertVideoGallaryBody) => {
   return http.post<string>('Teacher/InsertVideoGallary', data);
 };
+const GetAllImagesAPI = (data: IGetAllImagesBody) => {
+  return http.post<IGetAllImagesResult[]>('Teacher/GetAllImages', data);
+}
+const GetPhotoCountAPI = (data: IGetPhotoCountBody) => {
+  return http.post<IGetPhotoCountResult[]>('Teacher/GetPhotoCount', data);
+}
+const DeletePhotoAPI = (data: IDeletePhotosBody) => {
+  return http.post<string>('Teacher/DeletePhoto', data);
+};
+const UpdateCommentAPI = (data: IUpdateCommentBody) => {
+  return http.post<string>('Teacher/UpdateComment', data);
+};
 const PhotoGallaryApi = {
   GetAllAcademicYearsForSchool,
   GetPICSList,
@@ -63,6 +81,10 @@ const PhotoGallaryApi = {
   StandardDivisionNameAPI,
   ManagePhotoGalleryApi,
   InsertVideoGallaryApi,
+  GetAllImagesAPI,
+  GetPhotoCountAPI,
+  DeletePhotoAPI,
+  UpdateCommentAPI,
 };
 
 export default PhotoGallaryApi;

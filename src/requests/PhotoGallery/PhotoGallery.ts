@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import PhotoGallaryApi from 'src/api/PhotoGallery/PhotoGallary';
-import { IInsertVideoGallaryBody, IManagePhotoGalleryBody, IPics, IStandardDivisionNameBody, Iimg } from 'src/interfaces/Common/PhotoGallery';
+import { IDeletePhotosBody, IGetAllImagesBody, IGetPhotoCountBody, IInsertVideoGallaryBody, IManagePhotoGalleryBody, IPics, IStandardDivisionNameBody, IUpdateCommentBody, Iimg } from 'src/interfaces/Common/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import { AppThunk } from 'src/store';
 
@@ -13,6 +13,10 @@ const GallerySlice = createSlice({
     IStandardDivisionName: [],
     IManagePhotoGalleryMsg: '',
     IInsertVideoGallaryMsg: '',
+    IGetPhotoCount: [],
+    IGetAllImages: [],
+    IDeletePhotoMsg: '',
+    IUpdateCommentMsg: '',
     Loading: true
   },
   reducers: {
@@ -45,7 +49,30 @@ const GallerySlice = createSlice({
       state.Loading = false;
       state.IInsertVideoGallaryMsg = '';
     },
-
+    RGetAllImages(state, action) {
+      state.Loading = false;
+      state.IGetAllImages = action.payload;
+    },
+    RGetPhotoCount(state, action) {
+      state.Loading = false;
+      state.IGetPhotoCount = action.payload;
+    },
+    RDeletePhotoMsg(state, action) {
+      state.Loading = false;
+      state.IDeletePhotoMsg = action.payload;
+    },
+    resetDeletePhotoMsg(state) {
+      state.Loading = false;
+      state.IDeletePhotoMsg = '';
+    },
+    RUpdateCommentMsg(state, action) {
+      state.Loading = false;
+      state.IUpdateCommentMsg = action.payload;
+    },
+    resetUpdateCommentMsg(state) {
+      state.Loading = false;
+      state.IUpdateCommentMsg = '';
+    },
     getLoading(state, action) {
       state.Loading = true;
     }
@@ -124,4 +151,48 @@ export const CDAInsertVideoGallaryMsg = (data: IInsertVideoGallaryBody): AppThun
 export const resetInsertVideoGallaryMsg = (): AppThunk => async (dispatch) => {
   dispatch(GallerySlice.actions.resetInsertVideoGallaryMsg());
 };
+
+export const CDAGetAllImages =
+  (data: IGetAllImagesBody): AppThunk =>
+    async (dispatch) => {
+      const response = await PhotoGallaryApi.GetAllImagesAPI(data);
+      let AllImages = response.data.map((item, i) => {
+        return {
+          Gallery_Id: item.Gallery_Id,
+          Image_Path: item.Image_Path,
+          Image_SrNo: item.Image_SrNo,
+          Comment: item.Comment
+        }
+      });
+      dispatch(GallerySlice.actions.RGetAllImages(AllImages));
+    };
+export const CDAGetPhotoCount =
+  (data: IGetPhotoCountBody): AppThunk =>
+    async (dispatch) => {
+      const response = await PhotoGallaryApi.GetPhotoCountAPI(data);
+      let Count = response.data.map((item, i) => {
+        return {
+          Cnt: item.Cnt
+        }
+      });
+      dispatch(GallerySlice.actions.RGetPhotoCount(Count));
+    };
+export const CDADeletePhotoMsg = (data: IDeletePhotosBody): AppThunk => async (dispatch) => {
+  dispatch(GallerySlice.actions.getLoading(true));
+  const response = await PhotoGallaryApi.DeletePhotoAPI(data);
+  dispatch(GallerySlice.actions.RDeletePhotoMsg(response.data));
+};
+export const resetDeletePhotoMsg = (): AppThunk => async (dispatch) => {
+  dispatch(GallerySlice.actions.resetDeletePhotoMsg());
+};
+export const CDAUpdateCommentMsg = (data: IUpdateCommentBody): AppThunk => async (dispatch) => {
+  dispatch(GallerySlice.actions.getLoading(true));
+  const response = await PhotoGallaryApi.UpdateCommentAPI(data);
+  dispatch(GallerySlice.actions.RUpdateCommentMsg(response.data));
+};
+export const resetUpdateCommentMsg = (): AppThunk => async (dispatch) => {
+  dispatch(GallerySlice.actions.resetUpdateCommentMsg());
+};
+
+
 export default GallerySlice.reducer;

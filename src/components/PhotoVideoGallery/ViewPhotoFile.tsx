@@ -5,61 +5,123 @@ import SaveAsIcon from '@mui/icons-material/SaveAs'
 import SwitchAccountIcon from '@mui/icons-material/SwitchAccount'
 import { Box, Card, CardContent, CardMedia, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { blue, green, grey, red } from '@mui/material/colors'
-import { useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { AlertContext } from 'src/contexts/AlertContext'
+import { IDeletePhotosBody, IGetAllImagesBody, IGetPhotoCountBody, IUpdateCommentBody } from 'src/interfaces/Common/PhotoGallery'
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent'
+import { CDADeletePhotoMsg, CDAGetAllImages, CDAGetPhotoCount, CDAUpdateCommentMsg, resetDeletePhotoMsg, resetUpdateCommentMsg } from 'src/requests/PhotoGallery/PhotoGallery'
+import { RootState } from 'src/store'
 import CommonPageHeader from '../CommonPageHeader'
 
 const ViewPhotoFile = () => {
-    const [photos, setPhotos] = useState([
-        { id: 1, url: "https://via.placeholder.com/100", title: "Pic 1", comment: "" },
-        { id: 2, url: "https://via.placeholder.com/100", title: "Pic 2", comment: "" },
-        { id: 3, url: "https://via.placeholder.com/100", title: "Pic 1", comment: "" },
-        { id: 4, url: "https://via.placeholder.com/100", title: "Pic 2", comment: "" },
-    ]);
+    const dispatch = useDispatch();
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const [newPhotoUrl, setNewPhotoUrl] = useState("");
     const [galleryName, setGalleryName] = useState("JanmashtamiAug24");
     const [comment, setComment] = useState("");
+    const [Gallery_Ids, setGalleryIds] = useState("");
     const [selectedPhotoId, setSelectedPhotoId] = useState(null);
     const [isUpdateDisabled, setIsUpdateDisabled] = useState(true);
-    const [isTableView, setIsTableView] = useState(false);  // Added state to toggle between table and card view
-
-    // Detect screen size using Material-UI's useMediaQuery hook
+    const [isTableView, setIsTableView] = useState(false);
+    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const [page, setPage] = useState<number>(1);
+    const rowsPerPageOptions = [20, 50, 100, 200];
     const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // Detect small screens (mobile/tablet)
-
-    const handleAddPhoto = () => {
-        if (newPhotoUrl) {
-            const newPhoto = {
-                id: photos.length + 1,
-                url: newPhotoUrl,
-                title: `Pic ${photos.length + 1}`,
-                comment: "",
-            };
-            setPhotos([...photos, newPhoto]);
-            setNewPhotoUrl("");
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const USGetAllImages = useSelector((state: RootState) => state.PhotoGalllary.IGetAllImages);
+    const USGetPhotoCount = useSelector((state: RootState) => state.PhotoGalllary.IGetPhotoCount);
+    const USUpdateCommentMsg = useSelector((state: RootState) => state.PhotoGalllary.IUpdateCommentMsg);
+    const USDeletePhotoMsg = useSelector((state: RootState) => state.PhotoGalllary.IDeletePhotoMsg);
+    const GetAllImages: IGetAllImagesBody = {
+        asSchool_Id: asSchoolId,
+        asGallery_Name: 'new2021015'
+    };
+    useEffect(() => {
+        dispatch(CDAGetAllImages(GetAllImages));
+    }, []);
+    const GetPhotoCount: IGetPhotoCountBody = {
+        asSchool_Id: asSchoolId,
+        asGallery_Name: 'new2021015'
+    };
+    useEffect(() => {
+        dispatch(CDAGetPhotoCount(GetPhotoCount));
+    }, []);
+    const handleUpdatePhoto = () => {
+        const UpdateComment: IUpdateCommentBody = {
+            asSchool_Id: asSchoolId,
+            asGallery_Id: Number(Gallery_Ids),
+            ascomment: comment
         }
+        dispatch(CDAUpdateCommentMsg(UpdateComment));
+        setIsUpdateDisabled(true);
+        setComment('')
     };
-
-    const handleDeletePhoto = (id) => {
-        setPhotos(photos.filter((photo) => photo.id !== id));
+    useEffect(() => {
+        if (USUpdateCommentMsg !== "") {
+            toast.success(USUpdateCommentMsg);
+            dispatch(resetUpdateCommentMsg());
+            dispatch(CDAGetAllImages(GetAllImages));
+        }
+    }, [USUpdateCommentMsg, USGetAllImages]);
+    const handleDeletePhoto = (Gallery_Id: number) => {
+        if (!Gallery_Id) return;
+        const DeletePhotos: IDeletePhotosBody = {
+            asSchool_Id: asSchoolId,
+            asGallery_Id: Gallery_Id
+        };
+        showAlert({
+            title: 'Please Confirm',
+            message: 'Are you sure you want to delete this photo?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(CDADeletePhotoMsg(DeletePhotos));
+                closeAlert();
+            },
+        });
     };
-
-    const handleEditPhoto = (photo) => {
-        setComment(photo.comment);
-        setSelectedPhotoId(photo.id);
+    useEffect(() => {
+        if (USDeletePhotoMsg !== "") {
+            toast.success(USDeletePhotoMsg);
+            dispatch(resetDeletePhotoMsg());
+            dispatch(CDAGetAllImages(GetAllImages));
+            dispatch(CDAGetPhotoCount(GetPhotoCount));
+        }
+    }, [USDeletePhotoMsg, USGetAllImages, USGetPhotoCount]);
+    const handleEditPhoto = (Comment, Gallery_Id) => {
+        setComment(Comment);
+        setGalleryIds(Gallery_Id)
         setIsUpdateDisabled(false);
     };
-
-    const handleUpdatePhoto = () => {
-        setPhotos((prevPhotos) =>
-            prevPhotos.map((photo) =>
-                photo.id === selectedPhotoId ? { ...photo, comment } : photo
-            )
-        );
-        setComment("");
-        setSelectedPhotoId(null);
-        setIsUpdateDisabled(true);
+    const singleTotalCount: number = useMemo(() => {
+        if (!Array.isArray(USGetPhotoCount)) {
+            return 0;
+        }
+        return USGetPhotoCount.reduce((acc: number, item: any) => {
+            const count = Number(item.Cnt);
+            if (isNaN(count)) {
+                return acc;
+            }
+            return acc + count;
+        }, 0);
+    }, [USGetPhotoCount]);
+    const PageChange = (pageNumber) => {
+        setPage(pageNumber);
     };
-
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1);
+    };
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+    const pageCount = Math.ceil(singleTotalCount / rowsPerPage);
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -95,7 +157,7 @@ const ViewPhotoFile = () => {
                     alignItems="center"
                     justifyContent="space-between"
                 >
-                    {/* Gallery Name Section */}
+
                     <Grid item xs={12} sm={6} md={4}>
                         <TextField
                             value={galleryName}
@@ -107,8 +169,6 @@ const ViewPhotoFile = () => {
                         />
                     </Grid>
 
-                    {/* Comment Section */}
-
                     <Grid item xs={8}>
                         <TextField
                             label="Comment"
@@ -119,17 +179,30 @@ const ViewPhotoFile = () => {
                             disabled={isUpdateDisabled}
                         />
                     </Grid>
-
-
                 </Grid>
-
-
-
+                {singleTotalCount > 0 ? (
+                    <Box style={{ flex: 1, textAlign: 'center' }}>
+                        <Typography
+                            variant='subtitle1'
+                            sx={{ margin: '16px 0', textAlign: 'center' }}
+                        >
+                            <Box component='span' fontWeight='fontWeightBold'>
+                                {startRecord} to {endRecord}
+                            </Box>{' '}
+                            out of{' '}
+                            <Box component='span' fontWeight='fontWeightBold'>
+                                {singleTotalCount}
+                            </Box>{' '}
+                            {singleTotalCount === 1 ? 'record' : 'records'}
+                        </Typography>
+                    </Box>
+                ) : (
+                    <span> </span>
+                )}
                 {isSmallScreen || !isTableView ? (
-                    // Mobile/Tablet View (Card View)
                     <Grid container spacing={2} mt={1}>
-                        {photos.map((photo) => (
-                            <Grid item xs={12} sm={4} key={photo.id}>
+                        {USGetAllImages.map((photo) => (
+                            <Grid item xs={12} sm={4} key={photo.Image_Path}>
                                 <Card>
                                     <CardMedia
                                         component="img"
@@ -138,10 +211,10 @@ const ViewPhotoFile = () => {
                                         alt={photo.title}
                                     />
                                     <CardContent>
-                                        <Typography variant="body2" color="text.secondary">{photo.comment}</Typography>
+                                        <Typography variant="body2" color="text.secondary">{photo.Comment}</Typography>
                                         <Box display="flex" justifyContent="space-between" mt={1}>
                                             <Tooltip title={'Edit'}>
-                                                <IconButton color="primary" onClick={() => handleEditPhoto(photo)}>
+                                                <IconButton color="primary" onClick={() => handleEditPhoto(photo.Comment, photo.Gallery_Id)}>
                                                     <EditIcon />
                                                 </IconButton>
                                             </Tooltip>
@@ -151,7 +224,7 @@ const ViewPhotoFile = () => {
                                                         color: 'primary',
                                                         '&:hover': { color: 'red', backgroundColor: red[100] },
                                                     }}
-                                                    onClick={() => handleDeletePhoto(photo.id)}
+                                                    onClick={() => handleDeletePhoto(photo.Gallery_Id)}
                                                 >
                                                     <DeleteForeverIcon />
                                                 </IconButton>
@@ -175,15 +248,15 @@ const ViewPhotoFile = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {photos.map((photo) => (
+                                {USGetAllImages.map((photo) => (
                                     <TableRow key={photo.id}>
                                         <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>
-                                            <img src={photo.url} alt={photo.title} style={{ width: 50, height: 50 }} />
+                                            <img src={photo.Image_Path} alt={photo.title} style={{ width: 50, height: 50 }} />
                                         </TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>{photo.comment}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>{photo.Comment}</TableCell>
                                         <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'center' }}>
                                             <Tooltip title={'Edit'}>
-                                                <IconButton color="primary" onClick={() => handleEditPhoto(photo)}>
+                                                <IconButton color="primary" onClick={() => handleEditPhoto(photo.Comment, photo.Gallery_Id)}>
                                                     <EditIcon />
                                                 </IconButton>
                                             </Tooltip>
@@ -195,7 +268,7 @@ const ViewPhotoFile = () => {
                                                         color: 'primary',
                                                         '&:hover': { color: 'red', backgroundColor: red[100] },
                                                     }}
-                                                    onClick={() => handleDeletePhoto(photo.id)}
+                                                    onClick={() => handleDeletePhoto(photo.Gallery_Id)}
                                                 >
                                                     <DeleteForeverIcon />
                                                 </IconButton>
@@ -206,7 +279,15 @@ const ViewPhotoFile = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+
                 )}
+                <ButtonGroupComponent
+                    rowsPerPage={rowsPerPage}
+                    ChangeRowsPerPage={ChangeRowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions} // Set your options
+                    PageChange={PageChange}
+                    pagecount={pageCount}  // Use the calculated pageCount
+                />
             </Box>
         </Box>
     );

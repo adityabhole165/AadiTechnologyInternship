@@ -30,7 +30,6 @@ export interface IGetCountResult {
   TotalRecordCount: number
 }
 export interface IDeletePhotoBody {
-
   asGalleryName: string,
   asSchoolId: number
 
@@ -108,4 +107,30 @@ export interface IInsertVideoGallaryBody {
   asOldSubjectId: number,
   asId: number,
   asUrlSourceId: number
+}
+export interface IGetAllImagesBody {
+  asSchool_Id: number,
+  asGallery_Name: string
+}
+export interface IGetAllImagesResult {
+  Gallery_Id: string,
+  Image_Path: string,
+  Image_SrNo: string,
+  Comment: string
+}
+export interface IGetPhotoCountBody {
+  asSchool_Id: number,
+  asGallery_Name: string
+}
+export interface IGetPhotoCountResult {
+  Cnt: string
+}
+export interface IDeletePhotosBody {
+  asSchool_Id: number,
+  asGallery_Id: number
+}
+export interface IUpdateCommentBody {
+  asSchool_Id: number,
+  asGallery_Id: number,
+  ascomment: string
 }
