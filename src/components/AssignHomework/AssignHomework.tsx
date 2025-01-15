@@ -138,12 +138,14 @@ const AssignHomework = () => {
     console.log('asStandardDivisionId:', asStandardDivisionId);
 
     if (ClassList.length > 0) {
+      console.log('ClassId:', ClassId);
       if (ClassId !== undefined) {
         console.log('Setting SelectClass to ClassId:', ClassId);
         setSelectClass(ClassId);
-      } else if (AssignHomeworkPermission !== 'Y') {
+      } else if (AssignHomeworkPermission !== 'Y' && ClassList.length > 1) {
+        let classId = ClassList[1]?.Id;
         console.log('Setting SelectClass to asStandardDivisionId:', asStandardDivisionId.toString());
-        setSelectClass(asStandardDivisionId.toString());
+        setSelectClass(classId.toString());
       }
     }
   }, [ClassList]);
