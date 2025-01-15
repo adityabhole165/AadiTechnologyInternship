@@ -200,7 +200,7 @@ const AddHomeworkNew = () => {
   );
   const asUpdatedById = localStorage.getItem('Id');
   const asTeacherId = sessionStorage.getItem('TeacherId');
-
+  const asUserId = Number(sessionStorage.getItem('Id'));
   const [SubjectList, setSubjectList] = useState([]);
 
   const SiteURL = localStorage.getItem('SiteURL');
@@ -575,7 +575,7 @@ const AddHomeworkNew = () => {
       asAcademicYearId: asAcademicYearId,
       asHomeworkId: Id,
       asReason: text,
-      asUpdatedById: asTeacherId,
+      asUpdatedById: String(asUserId),
       asIsPublish: IsPublish,
       asIsSMSSent: true
     };
@@ -820,7 +820,7 @@ const AddHomeworkNew = () => {
               asAcademicYearId: String(asAcademicYearId),
               asHomeWorkLogId: selectedHomeworkIds,
               asUnpublishReason: textall,
-              asUpdatedById: asTeacherId,
+              asUpdatedById: String(asUserId),
               IsPublished: 1,
               IsSMSSent: 1
             };
