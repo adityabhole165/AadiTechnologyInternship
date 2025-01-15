@@ -54,11 +54,15 @@ const WeeklyTimeTableSlice = createSlice({
         ISGetValidateAdditionalDataForTeacher: undefined,
         ISClassSubjectBaseLecList: [],
         ISGetGroupwiseOptSub: [],
+        LoadingAdditionalLecPop: true,
         Loading: true
     },
     reducers: {
         getLoading(state, action) {
             state.Loading = true;
+        },
+        getLoadingAdditionalLecPop(state, action) {
+            state.LoadingAdditionalLecPop = true;
         },
         RClassSubjectBaseLecList(state, action) {
             state.ISClassSubjectBaseLecList = action.payload;
@@ -362,7 +366,7 @@ export const CDAGetStandardNameList =
 export const CDAClassSubjectBaseLecList =
     (data: IGetOptionalSubjectLecturesBody): AppThunk =>
         async (dispatch) => {
-            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.getLoadingAdditionalLecPop(true));
             const response = await WeeklyTimeTableApi.GetOptionalSubjectLecturesApi(data);
             let responseData = response.data.ClassSubjectDatails.map((item) => {
                 return (
@@ -484,7 +488,7 @@ export const CDAClearValidateClassData =
 export const CDAGetDataForAdditionalClasses =
     (data: IGetDataForAdditionalClassesBody): AppThunk =>
         async (dispatch) => {
-            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.getLoadingAdditionalLecPop(true));
             const response = await WeeklyTimeTableApi.GetDataForAdditionalClassesApi(data);
             let WeekDayList = response.data.listWeekDayName.map((item) => {
                 return (
@@ -1093,7 +1097,7 @@ export const CDAClassLecNoWeekday =
 export const CDAGetDataForAddClassPopUp =
     (data: IGetDataForAddClassesPopUpBody): AppThunk =>
         async (dispatch) => {
-            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.getLoadingAdditionalLecPop(true));
             const response = await WeeklyTimeTableApi.GetIGetDataForAddClassesPopUpApi(data);
             const WeekDayList = response.data.listWeekDayNameDetiles.map((item, i) => {
                 return (
