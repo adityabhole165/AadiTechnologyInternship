@@ -403,7 +403,7 @@ const ExamResultBase = () => {
 
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
       // Case 1: Results are published
-      setDisplayNote('Results for this exam have been published.');
+      setDisplayNote('Results for this exam has been published.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
     } else if (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) {
       // Case 2: Not all results submitted and not published
