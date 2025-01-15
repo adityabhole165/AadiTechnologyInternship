@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { decodeURL } from '../Common/Util';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
   let {
@@ -134,11 +135,12 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
                   setReason(e.target.value);
                 }}
                 sx={{ width: '100%' }}
-                error={ReasonError !== ''}
-                helperText={ReasonError}
+                // error={ReasonError !== ''}
+                  helperText={ReasonError}
               />
             </Grid>
           </Grid>
+          <ErrorMessage1 Error={ReasonError !== ''} />
         </Box>
       </DialogContent>
       <DialogActions sx={{ py: 1, px: 3 }}>
@@ -158,6 +160,5 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
       </DialogActions>
     </Dialog>
   );
-};
-export default ExamResultUnpublish;
+};export default ExamResultUnpublish;
 
