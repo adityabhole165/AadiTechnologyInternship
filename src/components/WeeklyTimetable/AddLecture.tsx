@@ -40,7 +40,7 @@ function AddLecture({ Value1, ValErrorMsgList = [], ValError, Open, OnClose, onS
             <Dialog
                 open={Open}
                 onClose={OnClose}
-                maxWidth={'xs'}
+                maxWidth={'sm'}
                 fullWidth
                 PaperProps={{ sx: { borderRadius: '15px' } }}
             >
@@ -93,7 +93,7 @@ function AddLecture({ Value1, ValErrorMsgList = [], ValError, Open, OnClose, onS
                                 ))}
                             </Stack>
                         }
-                        <Typography variant={"h4"}>{Heading}</Typography>
+                        <Typography variant={"h3"}>{Heading}</Typography>
                         {loading && <SuspenseLoader />}
                         <Stack gap={2} mt={2}>
                             <Box sx={{ width: '100%' }}>
