@@ -104,8 +104,12 @@ const DynamicList = ({
                     return (
                       <TableCell align="center" key={i} style={cellStyle}>
                         {i === 0 ? (
-                          <a
-                            href="#"
+                          <span
+                            style={{
+                              cursor: 'pointer',
+                              color: 'blue',
+                              textDecoration: 'underline'
+                            }}
                             onClick={(event) => {
                               if (Data[index] && Data[index].IsGrey) {
                                 event.preventDefault(); // Prevents the default action of the link
@@ -114,9 +118,8 @@ const DynamicList = ({
                               }
                             }}
                           >
-
                             {obj}
-                          </a>
+                          </span>
                         ) : (
                           (Data[index] != undefined && Data[index].IsGrey) ? "-" : obj
                         )}
