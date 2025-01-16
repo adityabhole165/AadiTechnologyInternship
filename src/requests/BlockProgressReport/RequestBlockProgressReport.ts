@@ -6,24 +6,27 @@ import { AppThunk } from "src/store";
 const BlockUnBlockStudents = createSlice({
     name: 'BlockUnblock',
     initialState: {
-
-        IsStudentsName: [],
-        IsStudentsName1: [],
-        IsStudentsCount: [],
         IsClassTeachers: [],
+        ISStudentList: [],
+        ISBlockedStudentsList: [],
+        ISUnblockedStudentsList: [],
+        IsStudentsCount: [],
         IsBlockUnblockUpdatebtn: '',
 
-        Loading: true
+        Loading: true,
     },
 
     reducers: {
-
-        RlistStudentsName(state, action) {
-            state.IsStudentsName = action.payload;
+        RStudentsList(state, action) {
+            state.ISStudentList = action.payload;
             state.Loading = false;
         },
-        RlistStudentsName1(state, action) {
-            state.IsStudentsName1 = action.payload;
+        RBlockedStudentsList(state, action) {
+            state.ISBlockedStudentsList = action.payload;
+            state.Loading = false;
+        },
+        RUnblockedStudentsList(state, action) {
+            state.ISUnblockedStudentsList = action.payload;
             state.Loading = false;
         },
         RlistStudentsCount(state, action) {
@@ -47,8 +50,8 @@ const BlockUnBlockStudents = createSlice({
     }
 })
 
-export const CDABlockUnblocklist =
-    (data: IBlockUnBlockStudentsBody, radioValue): AppThunk =>
+export const CDABlockUnblockStudentslist =
+    (data: IBlockUnBlockStudentsBody, radioValue, selectedTeacher): AppThunk =>
         async (dispatch) => {
             const response = await ApiBlockProgressReport.BlockUnBlockStudents(data);
             let getStudentName = response.data.listStudentsName.map((item, i) => {
@@ -62,15 +65,38 @@ export const CDABlockUnblocklist =
                     Value: item.YearwiseStudentId
                 }
             });
+            // Create student list with "All" option
+            // Default "All" option
+            const allOption = {
+                RegNo: "",
+                Id: "0",
+                RollNo: "",
+                Name: "--All--",
+                Reason: "",
+                RowNo: 0,
+                Value: "0"
+            };
+
+            //student list based on selectedTeacher condition
+            let studentListWithAll = selectedTeacher
+                ? [allOption, ...getStudentName]
+                : [allOption];
+
             let getStudentCount = response.data.listStudentsCount.map((item, i) => {
                 return {
                     Count: item.Count
                 }
             });
-            if (radioValue === '1') {
-                dispatch(BlockUnBlockStudents.actions.RlistStudentsName(getStudentName));
-            } else if (radioValue === '0') {
-                dispatch(BlockUnBlockStudents.actions.RlistStudentsName1(getStudentName)); // Need to Rename
+
+            //console.log("studentListWithAll", studentListWithAll);
+
+            dispatch(BlockUnBlockStudents.actions.RStudentsList(studentListWithAll));
+            if (radioValue === 'showBlocked') {
+                console.log("radioValue", radioValue);
+                dispatch(BlockUnBlockStudents.actions.RBlockedStudentsList(getStudentName));
+            } else if (radioValue === 'showUnblocked') {
+                console.log("radioValue", radioValue);
+                dispatch(BlockUnBlockStudents.actions.RUnblockedStudentsList(getStudentName)); // Need to Rename
             }
             dispatch(BlockUnBlockStudents.actions.RlistStudentsCount(getStudentCount));
         };
@@ -90,7 +116,7 @@ export const CDAClassTeachers =
                     // Division_Name: item.Division_Name,
                     // Original_Standard_Id: item.Original_Standard_Id,
                     // Original_Division_Id: item.Original_Division_Id,
-                    // SchoolWise_Standard_Division_Id: item.SchoolWise_Standard_Division_Id
+                    SchoolWise_Standard_Division_Id: item.SchoolWise_Standard_Division_Id
                 }
             })
             dispatch(BlockUnBlockStudents.actions.RAllClassTeachers(responseData));

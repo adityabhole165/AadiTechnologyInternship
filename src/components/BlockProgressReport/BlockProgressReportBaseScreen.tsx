@@ -5,7 +5,7 @@ import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IAllClassTeachersBody, IBlockUnBlockStudentsBody } from 'src/interfaces/BlockProgressReport/IBlockProgressReport';
-import { CDABlockUnblocklist, CDAClassTeachers } from 'src/requests/BlockProgressReport/RequestBlockProgressReport';
+import { CDABlockUnblockStudentslist, CDAClassTeachers } from 'src/requests/BlockProgressReport/RequestBlockProgressReport';
 import { RootState, useDispatch } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import AddNewPhoto from '../PhotoVideoGallery/AddNewPhoto';
@@ -17,12 +17,14 @@ import ShowUnblockedStudentsTable from './ShowUnblockedStudentsTable';
 
 const BlockProgressReportBaseScreen = () => {
     const dispatch = useDispatch();
+    const [selectedTeacher, setSelectedTeacher] = useState('');
+    const [standardDivId, setStandardDivId] = useState(0);
+    const [selectStudents, setSelectStudents] = useState<string>('0');
     const [selectedOption, setSelectedOption] = useState<string>('Blocked');
-    const [selectStudents, setSelectStudents] = useState<string>('');
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState(1);
 
-    const [selectedValue, setSelectedValue] = useState('1');
+    const [studentStatus, setStudentStatus] = useState('showUnblocked');
 
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -34,16 +36,24 @@ const BlockProgressReportBaseScreen = () => {
         (state: RootState) => state.SliceRequisition.RequisitionListCount
 
     );
-    const GetBlockUnblockList = useSelector((state: RootState) => state.BlockUnBlocklist.IsStudentsName);
-    const GetBlockUnblockList1 = useSelector((state: RootState) => state.BlockUnBlocklist.IsStudentsName1);
-    console.log(GetBlockUnblockList, 'GetBlockUnblockList');
-    const GetBlockUnblockCount = useSelector((state: RootState) => state.BlockUnBlocklist.IsStudentsCount);
     const GetClassTeacherList = useSelector((state: RootState) => state.BlockUnBlocklist.IsClassTeachers);
-    console.log(GetClassTeacherList, 'GetClassTeacherList');
+    //console.log('GetClassTeacherList', GetClassTeacherList);
+
+    const StudentsList = useSelector((state: RootState) => state.BlockUnBlocklist.ISStudentList);
+    const BlockedStudentsList = useSelector((state: RootState) => state.BlockUnBlocklist.ISBlockedStudentsList);
+    const UnblockedStudentsList = useSelector((state: RootState) => state.BlockUnBlocklist.ISUnblockedStudentsList);
+    //console.log('0️⃣StudentsList', StudentsList);
+    //console.log('1️⃣BlockedStudentsList', BlockedStudentsList);
+    //console.log('2️⃣UnblockedStudentsList', UnblockedStudentsList);
+
+    const GetBlockUnblockCount = useSelector((state: RootState) => state.BlockUnBlocklist.IsStudentsCount);
+
     // print in coonsole on effect GetBlockUnblockList
     useEffect(() => {
-        console.log(GetBlockUnblockList, 'GetBlockUnblockList')
-    }, [GetBlockUnblockList])
+        console.log('studentStatus', studentStatus)
+        console.log('selectedTeacher', typeof selectedTeacher)
+
+    }, [selectedTeacher])
 
 
 
@@ -54,27 +64,6 @@ const BlockProgressReportBaseScreen = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1);
     };
-    const BlockUnblockList: IBlockUnBlockStudentsBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asStandardDivId: Number(asStandardDivId),
-        asShowblocked: selectedValue === "1" ? false : true,
-        asStudentId: Number(0),
-        asSearch: "",
-        asSortExp: "ORDER BY RollNo",
-        asStartIndex: Number(0),
-        asEndIndex: Number(20)
-    };
-
-
-    useEffect(() => {
-        dispatch(CDABlockUnblocklist(BlockUnblockList, selectedValue));
-    }, []);
-    useEffect(() => {
-
-        dispatch(CDABlockUnblocklist(BlockUnblockList, selectedValue));
-
-    }, [selectedValue, selectedOption]);
 
     const TeacherList: IAllClassTeachersBody = {
         asSchoolId: Number(asSchoolId),
@@ -83,23 +72,66 @@ const BlockProgressReportBaseScreen = () => {
     useEffect(() => {
         dispatch(CDAClassTeachers(TeacherList));
     }, []);
-    const handleChange = (value) => {
-        setSelectedValue(value);
+
+
+    const BlockUnblockStudentsBody: IBlockUnBlockStudentsBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asStandardDivId: standardDivId ? standardDivId : 0,//Number(asStandardDivId),
+        asShowblocked: studentStatus === "showBlocked" ? true : false,
+        asStudentId: selectStudents ? Number(selectStudents) : Number(0),
+        asSearch: "",
+        asSortExp: "ORDER BY RollNo",
+        asStartIndex: Number(0),
+        asEndIndex: Number(20)
     };
-    console.log(selectedValue, "checkedValues");
+
+    useEffect(() => {
+        dispatch(CDABlockUnblockStudentslist(BlockUnblockStudentsBody, studentStatus, selectedTeacher));
+    }, []);
+
+    useEffect(() => {
+        //console.log('Second on selection')
+        dispatch(CDABlockUnblockStudentslist(BlockUnblockStudentsBody, studentStatus, selectedTeacher));
+    }, [selectedTeacher, standardDivId, studentStatus]);
+
+
+
+    //console.log(selectedValue, "checkedValues");
     function clickSearch() {
         throw new Error('Function not implemented.');
     }
 
-    const handleDropdownChange = (Value) => {
-        setSelectedOption(Value);
+    const handleDropdownChange = (value: string) => {
+        //setSelectedOption(value);
+        setSelectedTeacher(value);
+        // Find the selected teacher object
+        const selectedTeacher = GetClassTeacherList.find(teacher => teacher.Value === value);
+        //console.log('selectedTeacher', selectedTeacher)
+        if (selectedTeacher != null) {
+            // Set the standardDivId from selected teacher
+            setStandardDivId(selectedTeacher.SchoolWise_Standard_Division_Id);
+
+            // Reset student selection when teacher changes
+            setSelectStudents('0');
+
+            // Dispatch action to fetch students based on standardDivId
+            //dispatch(CDABlockUnblockStudentslist(BlockUnblockStudentsBody, studentStatus));
+        } else {
+            setStandardDivId(0);
+        }
     };
 
     const handleStudentsChange = (Value) => {
+        console.log('handleStudentsChange', Value);
         setSelectStudents(Value);
     };
 
-    console.log(GetBlockUnblockList, 'GetBlockUnblockList')
+    const handleStatusChange = (value) => {
+        //console.log('handleStatusChange', value);
+        setStudentStatus(value);
+    };
+    //console.log(GetBlockUnblockList, 'GetBlockUnblockList')
 
     return (
         <Box px={2}>
@@ -112,7 +144,7 @@ const BlockProgressReportBaseScreen = () => {
                         ItemList={GetClassTeacherList}
                         onChange={handleDropdownChange}
                         label="Class Teacher"
-                        defaultValue={selectedOption} //"1" // Default selected value
+                        defaultValue={selectedTeacher} //"1" // Default selected value
                         mandatory={true} // Mark field as mandatory (optional)
                         sx={{ width: '15vw' }} // Custom styling
                         size="small" // Dropdown size
@@ -120,7 +152,7 @@ const BlockProgressReportBaseScreen = () => {
                         disabled={false} // Dropdown enabled
                     />
                     <SearchableDropdown2
-                        ItemList={GetBlockUnblockList}
+                        ItemList={StudentsList}
                         onChange={handleStudentsChange}
                         label="Student Name"
                         defaultValue={selectStudents}//"1" // Default selected value
@@ -173,8 +205,8 @@ const BlockProgressReportBaseScreen = () => {
                         </IconButton>
                     </Tooltip>
 
-                    {selectedOption === 'Unblocked' && (
-                        <Tooltip title="Unblocked">
+                    {studentStatus === 'showBlocked' && (
+                        <Tooltip title="Unblock">
                             <IconButton
                                 sx={{
                                     color: 'white',
@@ -189,8 +221,8 @@ const BlockProgressReportBaseScreen = () => {
                             </IconButton>
                         </Tooltip>
                     )}
-                    {selectedOption === 'Blocked' && (
-                        <Tooltip title="Blocked">
+                    {studentStatus === 'showUnblocked' && (
+                        <Tooltip title="Block">
                             <IconButton
                                 sx={{
                                     color: 'white',
@@ -212,20 +244,20 @@ const BlockProgressReportBaseScreen = () => {
             <Box sx={{ backgroundColor: 'white', px: 2, mb: 1, py: 1 }}>
                 <RadioGroup
                     row
-                    value={selectedValue}
-                    onChange={(e) => handleChange(e.target.value)}
+                    value={studentStatus}
+                    onChange={(e) => handleStatusChange(e.target.value)}
                     sx={{ mb: 4 }}
 
                 >
-                    <FormControlLabel value="0" control={<Radio />} label="Show Blocked Students" />
-                    <FormControlLabel value="1" control={<Radio />} label="Show Unblocked Students" />
+                    <FormControlLabel value="showBlocked" control={<Radio />} label="Show Blocked Students" />
+                    <FormControlLabel value="showUnblocked" control={<Radio />} label="Show Unblocked Students" />
                 </RadioGroup>
             </Box>
 
             <Box sx={{ backgroundColor: 'white' }}>
                 {/* Display Page Content */}
                 {/* {selectedOption === 'Unblocked' ? ( */}
-                {selectedValue === '0' && GetBlockUnblockList1.length > 0 &&
+                {studentStatus === 'showBlocked' && BlockedStudentsList.length > 0 &&
                     <>
                         <Box sx={{
                             display: 'flex', gap: '20px', alignItems: 'center',
@@ -271,10 +303,10 @@ const BlockProgressReportBaseScreen = () => {
                                     <b>No record found.</b>
                                 </Typography>
                             )} */}
-                            <ShowBlockedStudentsTable rowsData={GetBlockUnblockList1} />
+                            <ShowBlockedStudentsTable rowsData={BlockedStudentsList} />
                         </Box>
                     </>}
-                {selectedValue === '1' && GetBlockUnblockList.length > 0 &&
+                {studentStatus === 'showUnblocked' && UnblockedStudentsList.length > 0 &&
                     <Box sx={{ px: 2, py: 1 }}>
                         <Box sx={{
                             display: 'flex', gap: '20px', alignItems: 'center',
@@ -319,7 +351,7 @@ const BlockProgressReportBaseScreen = () => {
                                 <b>No record found.</b>
                             </Typography>
                         )} */}
-                        <ShowUnblockedStudentsTable rowsData={GetBlockUnblockList} />
+                        <ShowUnblockedStudentsTable rowsData={UnblockedStudentsList} />
                     </Box>
                 }
 

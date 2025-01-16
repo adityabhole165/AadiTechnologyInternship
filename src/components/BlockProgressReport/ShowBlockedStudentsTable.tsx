@@ -90,7 +90,7 @@ const ShowBlockedStudentsTable = ({ rowsData }) => {
             prevRows.map((r) => (r.rollNo === item.RollNo ? { ...r, reason: value } : r))
         );
     };
-    console.log(rowsData, 'rowsData')
+    //console.log(rowsData, 'rowsData')
 
     return (
         <div>

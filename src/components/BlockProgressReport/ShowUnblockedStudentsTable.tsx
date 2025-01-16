@@ -16,7 +16,7 @@ const ShowUnblockedStudentsTable = ({ rowsData }) => {
     const [rows, setRows] = useState(rowsData);
     const [selectedRows, setSelectedRows] = useState([]);
     const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
-    console.log('first rendered value ✨✨✨✨', rowsData)
+    //console.log('first rendered value ✨✨✨✨', rowsData)
     // Handle checkbox for individual rows
     const handleCheckboxClick = (row) => {
         setSelectedRows((prev) =>
