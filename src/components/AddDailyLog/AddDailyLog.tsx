@@ -536,7 +536,7 @@ const AddDailyLog = () => {
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
-            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework/' + encodeURL(Id) + "/" + encodeURL(SelectTeacher) },
+            { title: 'Assign Homework', path: '/RITeSchool/Teacher/AssignHomework/' + encodeURL(TeacherId) + '/' + encodeURL(Id) },
             { title: 'Manage Daily Log', path: '' }
           ]}
           rightActions={<>

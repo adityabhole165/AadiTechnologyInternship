@@ -81,7 +81,7 @@ const SelectedsubjectList = ({
             </Link> */}
                   </TableCell>
                   <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
-                    {item.Text9 == 0 ? null : (
+                    {item.Text9.toString() === '0' ? null : (
 
                       // style={{ color: '#223354', cursor: 'pointer' }}
                       <Tooltip title={"View"}>

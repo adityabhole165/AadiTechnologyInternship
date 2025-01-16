@@ -935,7 +935,20 @@ const AddHomeworkNew = () => {
   //   )
 
   // }, [Subjectlistsforteacher])
-
+  function emptyFunction() {
+    const filteredTittle = Subjectlistsforteacher.filter(
+      (item) => item.SubjectId === Subject
+    );
+    setSearchTittle(filteredTittle);
+    //
+    const filteredTittle1 = Subjectlistsforteacher.filter(
+      (item) => item.SubjectId !== Subject
+    ).map((item, index) => ({
+      ...item,
+      Text10: index + 1
+    }));
+    setSearchTittle1(filteredTittle1);
+  }
   useEffect(() => {
     const filteredTittle = Subjectlistsforteacher.filter(
       (item) => item.SubjectId === Subject
@@ -1451,19 +1464,22 @@ const AddHomeworkNew = () => {
                 fullWidth
                 label="Title"
                 value={SearchText}
+                onChange={(e) => {
+                  SearchNameChange(e.target.value);
+                  if (e.target.value === '') {
+                    emptyFunction();
+                  }
+                }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === 'Tab') {
                     handleSearchClick();
                   }
                 }}
-                onChange={(e) => {
-                  SearchNameChange(e.target.value);
-                }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={1} lg="auto">
               <IconButton
-                onClick={() => SearchText && handleSearchClick()}
+                onClick={handleSearchClick}
                 sx={{
                   background: (theme) => theme.palette.primary.main,
                   color: 'white',
@@ -1473,9 +1489,7 @@ const AddHomeworkNew = () => {
                 }}
               >
                 <SearchTwoTone />
-              </IconButton>            </Grid>
-          </Grid>
-        </Box>
+              </IconButton>            </Grid>          </Grid>        </Box>
 
         <Dialog
           open={openPublishDialog}
