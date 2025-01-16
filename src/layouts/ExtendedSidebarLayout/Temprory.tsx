@@ -644,10 +644,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Extra Screens',
-      title: 'Exam Schedule Full Access',
+      title: 'Exam Schedule',
       icon: <Dataset />,
       link: '/RITeSchool/Teacher/ExamScheduleBaseScreen',
-      screenId: 0
+      screenId: 19
     },
     {
       id: 'Extra Screens',
