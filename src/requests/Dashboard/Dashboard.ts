@@ -216,7 +216,7 @@ export const getSaveUserLoginDetail =
   (data: ISaveUserLoginDetailsBody): AppThunk =>
     async (dispatch) => {
       const response = await DashboardApi.GetSaveUserLoginDetailsResult(data);
-      dispatch(Dashboardlice.actions.getUserLoginDetails(response.data));
+      dispatch(Dashboardlice.actions.getUserLoginDetails(response.data.LastLoginDetails));
     };
 
 
