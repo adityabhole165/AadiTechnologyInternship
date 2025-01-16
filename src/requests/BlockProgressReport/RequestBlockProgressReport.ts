@@ -7,7 +7,7 @@ const BlockUnBlockStudents = createSlice({
     name: 'BlockUnblock',
     initialState: {
         IsClassTeachers: [],
-        ISStudentList: [],
+        ISStudentDropdown: [],
         ISBlockedStudentsList: [],
         ISUnblockedStudentsList: [],
         IsStudentsCount: [],
@@ -17,8 +17,8 @@ const BlockUnBlockStudents = createSlice({
     },
 
     reducers: {
-        RStudentsList(state, action) {
-            state.ISStudentList = action.payload;
+        RStudentsDropdown(state, action) {
+            state.ISStudentDropdown = action.payload;
             state.Loading = false;
         },
         RBlockedStudentsList(state, action) {
@@ -50,8 +50,8 @@ const BlockUnBlockStudents = createSlice({
     }
 })
 
-export const CDABlockUnblockStudentslist =
-    (data: IBlockUnBlockStudentsBody, radioValue, selectedTeacher): AppThunk =>
+export const CDABlockUnblockStudentsDropdown =
+    (data: IBlockUnBlockStudentsBody, selectedTeacher): AppThunk =>
         async (dispatch) => {
             const response = await ApiBlockProgressReport.BlockUnBlockStudents(data);
             let getStudentName = response.data.listStudentsName.map((item, i) => {
@@ -90,7 +90,42 @@ export const CDABlockUnblockStudentslist =
 
             //console.log("studentListWithAll", studentListWithAll);
 
-            dispatch(BlockUnBlockStudents.actions.RStudentsList(studentListWithAll));
+            dispatch(BlockUnBlockStudents.actions.RStudentsDropdown(studentListWithAll));
+            // if (radioValue === 'showBlocked') {
+            //     console.log("radioValue", radioValue);
+            //     dispatch(BlockUnBlockStudents.actions.RBlockedStudentsList(getStudentName));
+            // } else if (radioValue === 'showUnblocked') {
+            //     console.log("radioValue", radioValue);
+            //     dispatch(BlockUnBlockStudents.actions.RUnblockedStudentsList(getStudentName)); // Need to Rename
+            // }
+            dispatch(BlockUnBlockStudents.actions.RlistStudentsCount(getStudentCount));
+        };
+
+export const CDABlockUnblockStudentsList =
+    (data: IBlockUnBlockStudentsBody, radioValue): AppThunk =>
+        async (dispatch) => {
+            const response = await ApiBlockProgressReport.BlockUnBlockStudents(data);
+            let getStudentName = response.data.listStudentsName.map((item, i) => {
+                return {
+                    RegNo: item.RegNo,
+                    Id: item.YearwiseStudentId,
+                    RollNo: item.RollNo,
+                    Name: item.StudentName,
+                    Reason: item.Reason,
+                    RowNo: item.RowNo,
+                    Value: item.YearwiseStudentId
+                }
+            });
+
+            let getStudentCount = response.data.listStudentsCount.map((item, i) => {
+                return {
+                    Count: item.Count
+                }
+            });
+
+            //console.log("studentListWithAll", studentListWithAll);
+
+            //dispatch(BlockUnBlockStudents.actions.RStudentsDropdown(getStudentName));
             if (radioValue === 'showBlocked') {
                 console.log("radioValue", radioValue);
                 dispatch(BlockUnBlockStudents.actions.RBlockedStudentsList(getStudentName));

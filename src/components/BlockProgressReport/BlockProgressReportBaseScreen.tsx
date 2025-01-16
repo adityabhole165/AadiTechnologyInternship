@@ -5,7 +5,7 @@ import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IAllClassTeachersBody, IBlockUnBlockStudentsBody } from 'src/interfaces/BlockProgressReport/IBlockProgressReport';
-import { CDABlockUnblockStudentslist, CDAClassTeachers } from 'src/requests/BlockProgressReport/RequestBlockProgressReport';
+import { CDABlockUnblockStudentsDropdown, CDABlockUnblockStudentsList, CDAClassTeachers } from 'src/requests/BlockProgressReport/RequestBlockProgressReport';
 import { RootState, useDispatch } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import AddNewPhoto from '../PhotoVideoGallery/AddNewPhoto';
@@ -39,10 +39,10 @@ const BlockProgressReportBaseScreen = () => {
     const GetClassTeacherList = useSelector((state: RootState) => state.BlockUnBlocklist.IsClassTeachers);
     //console.log('GetClassTeacherList', GetClassTeacherList);
 
-    const StudentsList = useSelector((state: RootState) => state.BlockUnBlocklist.ISStudentList);
+    const StudentsDropdown = useSelector((state: RootState) => state.BlockUnBlocklist.ISStudentDropdown);
     const BlockedStudentsList = useSelector((state: RootState) => state.BlockUnBlocklist.ISBlockedStudentsList);
     const UnblockedStudentsList = useSelector((state: RootState) => state.BlockUnBlocklist.ISUnblockedStudentsList);
-    //console.log('0️⃣StudentsList', StudentsList);
+    console.log('0️⃣StudentsDropdown', StudentsDropdown);
     //console.log('1️⃣BlockedStudentsList', BlockedStudentsList);
     //console.log('2️⃣UnblockedStudentsList', UnblockedStudentsList);
 
@@ -51,7 +51,7 @@ const BlockProgressReportBaseScreen = () => {
     // print in coonsole on effect GetBlockUnblockList
     useEffect(() => {
         console.log('studentStatus', studentStatus)
-        console.log('selectedTeacher', typeof selectedTeacher)
+        console.log('selectedTeacher', typeof selectedTeacher, selectedTeacher)
 
     }, [selectedTeacher])
 
@@ -74,7 +74,28 @@ const BlockProgressReportBaseScreen = () => {
     }, []);
 
 
-    const BlockUnblockStudentsBody: IBlockUnBlockStudentsBody = {
+    const BlockUnblockStudentsDropBody: IBlockUnBlockStudentsBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asStandardDivId: standardDivId ? standardDivId : 0,//Number(asStandardDivId),
+        asShowblocked: studentStatus === "showBlocked" ? true : false,
+        asStudentId: Number(0),
+        asSearch: "",
+        asSortExp: "ORDER BY RollNo",
+        asStartIndex: Number(0),
+        asEndIndex: Number(20)
+    };
+
+    useEffect(() => {
+        dispatch(CDABlockUnblockStudentsDropdown(BlockUnblockStudentsDropBody, selectedTeacher));
+    }, []);
+
+    useEffect(() => {
+        //console.log('Second on selection')
+        dispatch(CDABlockUnblockStudentsDropdown(BlockUnblockStudentsDropBody, selectedTeacher));
+    }, [selectedTeacher, standardDivId, studentStatus]);
+
+    const BlockUnblockStudentsListBody: IBlockUnBlockStudentsBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
         asStandardDivId: standardDivId ? standardDivId : 0,//Number(asStandardDivId),
@@ -87,15 +108,8 @@ const BlockProgressReportBaseScreen = () => {
     };
 
     useEffect(() => {
-        dispatch(CDABlockUnblockStudentslist(BlockUnblockStudentsBody, studentStatus, selectedTeacher));
-    }, []);
-
-    useEffect(() => {
-        //console.log('Second on selection')
-        dispatch(CDABlockUnblockStudentslist(BlockUnblockStudentsBody, studentStatus, selectedTeacher));
-    }, [selectedTeacher, standardDivId, studentStatus]);
-
-
+        dispatch(CDABlockUnblockStudentsList(BlockUnblockStudentsListBody, studentStatus));
+    }, [selectedTeacher, standardDivId, studentStatus, selectStudents]);
 
     //console.log(selectedValue, "checkedValues");
     function clickSearch() {
@@ -130,6 +144,7 @@ const BlockProgressReportBaseScreen = () => {
     const handleStatusChange = (value) => {
         //console.log('handleStatusChange', value);
         setStudentStatus(value);
+        setSelectStudents('0');
     };
     //console.log(GetBlockUnblockList, 'GetBlockUnblockList')
 
@@ -152,7 +167,7 @@ const BlockProgressReportBaseScreen = () => {
                         disabled={false} // Dropdown enabled
                     />
                     <SearchableDropdown2
-                        ItemList={StudentsList}
+                        ItemList={StudentsDropdown}
                         onChange={handleStudentsChange}
                         label="Student Name"
                         defaultValue={selectStudents}//"1" // Default selected value
