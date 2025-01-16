@@ -187,7 +187,8 @@ export const GetTeacherSubjectList = (data: IGetSubjectListForTeacherBody): AppT
     Text7: item.IsPublished,
     Text9: item.flag,
     IsPublished: item.IsPublished,
-    IsActive: false
+    IsActive: false,
+    Text11: item.AttachmentPath
   }));
   dispatch(AddHomeworkSlice.actions.getSubjectList(transformedData));
 };

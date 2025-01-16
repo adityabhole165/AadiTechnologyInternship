@@ -269,7 +269,7 @@ const AddHomeworkNew = () => {
     asTitle: Title,
     asSubjectId: Number(Subject),
     asStandardDivisionId: Number(SelectClass),
-    asAttachmentPath: fileName,
+    asAttachmentPath: MultipleFiles?.length === 1 ? MultipleFiles[0]?.FileName : '',
     asDetails: Details,
     asAssignDate: AssignedDate,
     asCompleteByDate: adjustToLocalTimezone(CompleteDate).toISOString(),
@@ -278,8 +278,8 @@ const AddHomeworkNew = () => {
     asInsertedById: Number(asTeacherId),
     asSaveFeature: 'Homework',
     asFolderName: FolderName,
-    asBase64String: base64URL,
-    additionalAttachmentFile: MultipleFiles
+    asBase64String: MultipleFiles?.length === 1 ? MultipleFiles[0]?.Base64URL : '',
+    additionalAttachmentFile: MultipleFiles?.length > 1 ? MultipleFiles : []
   };
 
   const ResetForm = () => {

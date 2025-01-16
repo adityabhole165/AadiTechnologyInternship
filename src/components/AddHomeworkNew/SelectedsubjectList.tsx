@@ -24,6 +24,15 @@ const SelectedsubjectList = ({
   clickpublish,
   clickView
 }) => {
+  const clickFileName = (value) => {
+    if (value !== '') {
+      window.open(
+        localStorage.getItem('SiteURL') +
+        '/RITeSchool/DOWNLOADS/Homework/' +
+        value
+      );
+    }
+  };
   return (
     <div>
 
@@ -81,8 +90,7 @@ const SelectedsubjectList = ({
             </Link> */}
                   </TableCell>
                   <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
-                    {item.Text9.toString() === '0' ? null : (
-
+                    {item.Text9.toString() !== '0' && item.Text11 === '' ? (
                       // style={{ color: '#223354', cursor: 'pointer' }}
                       <Tooltip title={"View"}>
                         <IconButton
@@ -100,7 +108,48 @@ const SelectedsubjectList = ({
                             onClick={() => clickVisibilityIcon(item.Id)} />
                         </IconButton>
                       </Tooltip>
-                    )}
+                    ) : null}
+                    {item.Text11 !== '' && item.Text9.toString() === '0' ? (
+                      // style={{ color: '#223354', cursor: 'pointer' }}
+                      <Tooltip title={"View"}>
+                        <IconButton
+                          sx={{
+                            color: '#223354',
+                            //  backgroundColor: grey[500],
+                            '&:hover': {
+                              color: '#223354',
+                              // backgroundColor: [100],
+                              cursor: 'pointer'
+                            }
+                          }}>
+                          <VisibilityIcon
+
+                            onClick={() => clickFileName(item.Text11)} />
+                        </IconButton>
+                      </Tooltip>
+                    ) : null}
+                    {item.Text11 !== '' && item.Text9.toString() !== '0' ? (
+                      // style={{ color: '#223354', cursor: 'pointer' }}
+                      <Tooltip title={"View"}>
+                        <IconButton
+                          sx={{
+                            color: '#223354',
+                            //  backgroundColor: grey[500],
+                            '&:hover': {
+                              color: '#223354',
+                              // backgroundColor: [100],
+                              cursor: 'pointer'
+                            }
+                          }}>
+                          <VisibilityIcon
+                            onClick={() => {
+                              clickFileName(item.Text11)
+                              clickVisibilityIcon(item.Id)
+                            }} />
+                        </IconButton>
+                      </Tooltip>
+                    ) : null}
+
                   </TableCell>
 
                   <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
