@@ -55,14 +55,6 @@ Past Password- Aamerah@30
 2. ChatGPT    🔗 https://chatgpt.com/
 ---
 
-### VS Code Extensions for Faster Development and Context Aware Auto - Code Completions
- Codeium 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=Codeium.codeium" target="_blank">Click to Open</a>
----
-### For UI Design Inspiration and Mock Up Generation LLM
-1. V0 by Vercel 🔗 https://v0.dev/
----
-### Tailwind CSS Color Pallete 🟥🟩🟨🟧
-Link 🔗 https://uicolors.app/browse/tailwind-colors
 
 ## Usage
 - Ensure API keys are set up properly for API binding.
