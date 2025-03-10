@@ -1,4 +1,40 @@
-#### Common Password
+
+# Project Name
+
+## Overview
+This project is designed to showcase the use of **API Binding** and **SQL Database** integration. It is a fully functional application that retrieves, processes, and stores data efficiently using Git for version control.
+
+## Technologies Used
+- **Git**: For version control and collaboration.
+- **API Binding**: To interact with external APIs and fetch data dynamically.
+- **SQL Database**: To store, retrieve, and manage data efficiently.
+
+## Features
+- Seamless integration with APIs.
+- Secure and optimized SQL database operations.
+- Efficient version control with Git.
+
+## Installation
+1. Clone the repository:
+   ```sh
+   git clone [https://github.com/adityabhole165/AadiTechnologyInternship.git](https://github.com/adityabhole165/AadiTechnologyInternship.git)
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd project-directory
+   ```
+3. Install dependencies:
+   ```sh
+   npm install  # If using Node.js
+   pip install -r requirements.txt  # If using Python
+   ```
+4. Configure the database connection in the environment file or settings.
+5. Run the application:
+   ```sh
+   npm start  # If using Node.js
+  
+   ```
+   #### Common Password
 ```
 Test@123
 ```
@@ -13,22 +49,14 @@ User name- afreen.shaikh
 Past Password- Aamerah@30
 ```
 ---
-### Internal Tools for Development
-1. API Interface and Function Generator
-   - Link 🔗 https://type-gen.vercel.app/
----
+
 ### LLM's for problem solving and brainstorming
 1. Claude AI  🔗 https://claude.ai/
 2. ChatGPT    🔗 https://chatgpt.com/
-3. Gemini     🔗 https://gemini.google.com/
 ---
-### LLM's for Large Coding Problems - `Google's Gemini 1.5 pro`
-Pro's - Have a [Token Window](https://blog.mlq.ai/tokens-context-window-llms/#:~:text=Tokens%20are%20the%20basic%20building,broken%20down%20(i.e.%20tokenized)) of rougly 2 million ~ 200,000 lines of code
-##### Link to Access 🔗 https://aistudio.google.com/prompts/new_chat
----
+
 ### VS Code Extensions for Faster Development and Context Aware Auto - Code Completions
-1. Cody AI 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=sourcegraph.cody-ai" target="_blank">Click to Open</a>
-2. Codeium 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=Codeium.codeium" target="_blank">Click to Open</a>
+ Codeium 🔗 <a href="https://marketplace.visualstudio.com/items?itemName=Codeium.codeium" target="_blank">Click to Open</a>
 ---
 ### For UI Design Inspiration and Mock Up Generation LLM
 1. V0 by Vercel 🔗 https://v0.dev/
@@ -36,3 +64,7 @@ Pro's - Have a [Token Window](https://blog.mlq.ai/tokens-context-window-llms/#:~
 ### Tailwind CSS Color Pallete 🟥🟩🟨🟧
 Link 🔗 https://uicolors.app/browse/tailwind-colors
 
+## Usage
+- Ensure API keys are set up properly for API binding.
+- Run database migrations if required.
+- Start the application and interact with API-bound features.
