@@ -1,5 +1,5 @@
 
-# Project Name
+# Project Name - RIT School Website 
 
 ## Overview
 This project is designed to showcase the use of **API Binding** and **SQL Database** integration. It is a fully functional application that retrieves, processes, and stores data efficiently using Git for version control.
