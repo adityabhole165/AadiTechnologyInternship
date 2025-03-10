@@ -39,7 +39,7 @@
     "@mui/x-date-pickers": "^7.2.0",
     "@phosphor-icons/react": "^2.1.7",
     "@react-google-maps/api": "^2.19.2",
-    "@reduxjs/toolkit": "1.6.2",
+    "@reduxjs/toolkit": "^2.5.0",
     "@types/body-parser": "^1.19.5",
     "@types/jsonwebtoken": "8.5.5",
     "@types/nprogress": "0.2.0",

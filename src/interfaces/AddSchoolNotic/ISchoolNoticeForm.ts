@@ -1,6 +1,7 @@
 export interface IGetAllClassesAndDivisionsBody {
     asSchoolId: number,
     asAcademicYearId: number,
+    associatedStandard: String
 }
 export interface IGetGetAllClassesAndDivisionsResult {
     SchoolWise_Standard_Division_Id: string;

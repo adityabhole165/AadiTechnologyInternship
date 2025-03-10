@@ -113,6 +113,9 @@ import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList'
 import ToppersSlice from '../requests/ExamResult/RequestToppers';
 import ViewProgressReportslice from '../requests/ExamResult/RequestViewProgressReport';
 import FinalResultGenerateAllSlice from '../requests/FinalResult/RequestFinalResultGenerateAll';
+
+import { default as AddHolidayNew, default as HolidaySliceNew } from '../requests/HolidayNew/RequestHolidays';
+
 import AddInvestmentDetailsDocumentSlice from '../requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import InvestmentDeclarationSlice from '../requests/InvestmentDeclaration/ReqInvestmentDeclaration';
 import LeaveDetailsslice from '../requests/LeaveDetails/RequestLeaveDetails';
@@ -137,6 +140,9 @@ import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubje
 import UpcomingEventDashslice from '../requests/UpcomingEventDash/ReqUpcomingEventDash';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
+
+
+
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Students: StudentsSlice,
@@ -277,8 +283,11 @@ const rootReducer = combineReducers({
   StudentUI: StudentUISlice,
   Photo: PhotoSlice,
   VideoNew: VideoSlice,
-  BlockUnBlocklist: BlockUnBlockStudents
+  BlockUnBlocklist: BlockUnBlockStudents,
 
+
+  HolidayNew: HolidaySliceNew,
+  AddHoliday: AddHolidayNew
 });
 
 export default rootReducer;

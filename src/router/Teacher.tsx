@@ -9,12 +9,85 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { Constants } from 'src/utils/hooks/constants/Constants';
 import { ProtectedRoute } from './RouteProtection';
 
+
+
 const Loader = (Component) => (props) =>
 (
   <Suspense fallback={<SuspenseLoader />}>
     <Component {...props} />
   </Suspense>
 );
+
+// Adityas Code
+const HolidayNew = Loader(
+  lazy(() => import('src/components/HolidayAdityas/HolidayNew'))
+);
+const Holiday = Loader(
+  lazy(() => import('src/components/HolidayAdityas/Holiday'))
+);
+
+const AddHoliday = Loader(
+  lazy(() => import('src/components/HolidayAdityas/AddHoliday'))
+);
+
+const AttendenceBaseScreen = Loader(
+  lazy(() => import('src/components/AttendenceBaseScreen/BaseScreen'))
+);
+const Monthwise = Loader(
+  lazy(() => import('src/components/AttendenceBaseScreen/Monthwise'))
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const Landing = Loader(lazy(() => import('src/components/Dashboard/index')));
 
 // const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
@@ -395,6 +468,109 @@ const StudentDetailsBaseScreen = Loader(
 );
 const ScreenID = Constants.ScreenId;
 const teacherRoutes = [
+
+  {
+    path: 'HolidayNew',
+    element: <HolidayNew />
+  },
+  {
+    path: 'Holiday',
+    element: <Holiday />
+  },
+  {
+    path: 'AddHoliday',
+    element: <AddHoliday />
+  },
+  {
+    path: 'AttendenceBaseScreen',
+    element: <AttendenceBaseScreen />
+  },
+  {
+    path: 'Monthwise',
+    element: <Monthwise />
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   {
     path: 'WebDashBoard',
     element: <DashBoard />
