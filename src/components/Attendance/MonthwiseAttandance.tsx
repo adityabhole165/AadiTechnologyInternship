@@ -205,9 +205,9 @@ const MonthwiseAttandance = () => {
                     }}
 
                     onKeyDown={(e) => {
-                       if (e.key === 'Enter' || e.key === 'Tab') {
+                      if (e.key === 'Enter' || e.key === 'Tab') {
                         changeSearchText();
-                       }
+                      }
                     }}
                   /> </Grid>
                 {/* <Divider sx={{ height: 28,  }} orientation="vertical" /> */}
@@ -255,7 +255,7 @@ const MonthwiseAttandance = () => {
                       backgroundColor: grey[500],
                       ':hover': { backgroundColor: grey[600] }
                     }}
-                   
+                  
                   >
                     < Help/>
                   </IconButton>

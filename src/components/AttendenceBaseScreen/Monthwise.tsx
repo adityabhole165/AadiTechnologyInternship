@@ -8,6 +8,7 @@ import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance'
 import { GetGetMonthwiseAttendance } from 'src/requests/HolidayNew/RequestHolidays'
 import { RootState } from 'src/store'
 import CommonPageHeader from '../CommonPageHeader'
+import Legend from 'src/libraries/Legend/Legend'
 
 
 const Monthwise = () => {
@@ -79,6 +80,25 @@ const Monthwise = () => {
         setSearchText('');
         setMonthWiseAttendanceList(MonthWiseAttendance);
     } 
+
+    //Legend
+    const LegendArray =[
+        {
+            id:1,
+            Name : 'Student below 75% Attendance',
+            Value: <Box sx={{display:'flex',gap: 1, alignItems:'center'}}>
+                <Box
+                    sx={{
+                        width: 23,
+                        height: 23,
+                        backgroundColor: 'red',
+                        border: '1px solid black',
+                    }}
+                />
+
+            </Box> 
+        },
+    ];
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -90,17 +110,41 @@ const Monthwise = () => {
                     },
                 ]}
                 rightActions={
-                                        <Stack direction="row" alignItems="center" spacing={1}>
-                                            <TextField
-                                                sx={{ width: '23vw' }}
-                                                fullWidth
-                                                label="Student Name"
-                                                variant="outlined"
-                                                size="small"
-                                                value={SearchText}
-                                                onChange={handleSearchChange}
-                                                onKeyDown={handleKeyDown}
-                                            />
+                    <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    justifyContent="space-between"
+                    alignItems="left"
+                    gap={1}
+                    sx={{
+                        mt: { xs: 0, sm: 0 },
+                        flexWrap: { xs: 'nowrap', sm: 'nowrap' }
+                    }}
+                >
+                    <Box>
+
+                        <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+                        >
+                            <TextField
+                        sx={{
+                             width: { xs: '90vw', sm: '50vw', md: '30vw', lg: '23vw' } // Adjust width based on screen size
+                            }}
+                                fullWidth
+                                label="Student Name"
+                                variant="outlined"
+                                size="small"
+                                value={SearchText}
+                                onChange={handleSearchChange}
+                                onKeyDown={handleKeyDown}
+                            />
+                        </Grid>
+                    </Box>
+                    <Stack direction="row" spacing={1} marginLeft={0.5} marginRight={1}>
+                    <Box>
+
                                             <Tooltip title="Search">
                                                 <IconButton
                                                     sx={{
@@ -115,6 +159,9 @@ const Monthwise = () => {
                                                     <Search />
                                                 </IconButton>
                                             </Tooltip>
+                    </Box>
+                    <Box>
+
                                             <Tooltip title="Reset">
                                                 <IconButton
                                                     sx={{
@@ -129,6 +176,9 @@ const Monthwise = () => {
                                                     <RestartAlt />
                                                 </IconButton>
                                             </Tooltip>
+                    </Box>
+                    <Box>
+
                                             <Tooltip title="Display list of students along with their month-wise attendance. Attendance is given in the following format: Number of days present / Total attendance days.">
 
                                                 <IconButton sx={{
@@ -142,16 +192,25 @@ const Monthwise = () => {
                                         
                                                 </IconButton>
                                     
-                                        </Tooltip>
+                            </Tooltip>
+                    </Box>
+                    </Stack>
                                             
-                                        </Stack>
-                        }
+                </Stack>
+                }
+                        
             />
+            <Box sx={{background: 'white', p:1 , mb:2}}>
+                    <Legend LegendArray={LegendArray}/>
+            </Box>
+
+
             <TableAttendace
                 ItemList={MonthWiseAttendanceList}
                 HeaderArray={HeaderArray}
-            />
+                />
         </Box>
+    
     )
 }
 

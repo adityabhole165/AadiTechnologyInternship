@@ -10,7 +10,7 @@ import Model from './Model';
 
 const nameCellStyle = {
   width: '900px',
-  fontSize: '5px',
+  fontSize: '15px',
   py: 1,
   cursor: 'pointer'
 };
