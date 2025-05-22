@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import HolidayApi from "src/api/HolidayNew/ApiHolidaynew";
 import { getDateMonthYearDayDash } from "src/components/Common/Util";
-import { IDeleteHolidayDetailsBody, IGetAllClassesAndDivisionsBody, IGetHolidayDetailsBody, IGetHolidayDetailssBody, IGetHolidayListBody, IGetHolidaynameAndStartDateEnddateValidationBody, IGetHomeworkDetailsBody, IGetMonthwiseAttendance, SaveHolidayDetailsBody } from "src/interfaces/HolidayNew/IHolidays";
+import { ISchoolSettings,IDeleteHolidayDetailsBody, IGetAllClassesAndDivisionsBody, IGetHolidayDetailsBody, IGetHolidayDetailssBody, IGetHolidayListBody, IGetHolidaynameAndStartDateEnddateValidationBody, IGetHomeworkDetailsBody, IGetMonthwiseAttendance, SaveHolidayDetailsBody } from "src/interfaces/HolidayNew/IHolidays";
 import { AppThunk } from "src/store";
 
 const HolidaySliceNew = createSlice({
@@ -24,6 +24,9 @@ const HolidaySliceNew = createSlice({
 
         GetMonthwiseAttendance: [],
         HeaderArray: [],
+
+
+        ReqGetSchoolSettings: {},
 
         Loading: true
     },
@@ -115,7 +118,11 @@ const HolidaySliceNew = createSlice({
 
         getLoading(state, _action) {
             state.Loading = true;
-        }
+        },
+        GetgetSchoolSettings(state, action) {
+            state.ReqGetSchoolSettings = action.payload;
+            state.Loading = false;
+        },
     }
 });
 export const resetSaveholidays =
@@ -331,6 +338,19 @@ export const GetGetMonthwiseAttendance =//reducer madhe je name aste te ithe
           dispatch(HolidaySliceNew.actions.getHeaderArray(HeaderArray));
     
     };
+
+    
+export const GetschoolSettings =
+(data: ISchoolSettings): AppThunk =>
+  async (dispatch) => {
+    dispatch(HolidaySliceNew.actions.getLoading(true));
+    const response = await HolidayApi.GetSchoolSettings({ ...data, asSchoolId: Number(data.asSchoolId) });
+
+    dispatch(
+        HolidaySliceNew.actions.GetgetSchoolSettings(
+        response.data.GetSchoolSettingsResult)
+    );
+  };
 
 export default HolidaySliceNew.reducer;
 

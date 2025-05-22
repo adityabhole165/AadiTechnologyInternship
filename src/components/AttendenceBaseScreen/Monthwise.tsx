@@ -1,6 +1,6 @@
 import { QuestionMark, RestartAlt, Search, SearchTwoTone } from '@mui/icons-material'
 import { Box, Grid, IconButton, Stack, TextField, Tooltip } from '@mui/material'
-import { blue } from '@mui/material/colors'
+import { blue, grey } from '@mui/material/colors'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IGetMonthwiseAttendance } from 'src/interfaces/HolidayNew/IHolidays'
@@ -121,31 +121,29 @@ const Monthwise = () => {
                     }}
                 >
                     <Box>
-
                         <Grid
-                                item
-                                xs={12}
-                                display="flex"
-                                justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
-                        >
-                            <TextField
-                        sx={{
-                             width: { xs: '90vw', sm: '50vw', md: '30vw', lg: '23vw' } // Adjust width based on screen size
-                            }}
-                                fullWidth
-                                label="Student Name"
-                                variant="outlined"
-                                size="small"
-                                value={SearchText}
-                                onChange={handleSearchChange}
-                                onKeyDown={handleKeyDown}
-                            />
-                        </Grid>
+                    item
+                    xs={12}
+                    display="flex"
+                    justifyContent={{ xs: 'flex-start', sm: 'flex-start' }}
+                >
+                    <TextField
+
+                    sx={{ width: { xs: '60vw', sm: '15vw' } }}
+                    fullWidth
+                    label="Student Name"
+                    
+
+                    variant={'outlined'}
+                    size={"small"}
+                    value={SearchText}
+                    onChange={handleSearchChange}
+                    onKeyDown={handleKeyDown}
+                    /> </Grid>
                     </Box>
                     <Stack direction="row" spacing={1} marginLeft={0.5} marginRight={1}>
                     <Box>
-
-                                            <Tooltip title="Search">
+                        <Tooltip title="Search">
                                                 <IconButton
                                                     sx={{
                                                         background: (theme) => theme.palette.primary.main,
@@ -179,13 +177,12 @@ const Monthwise = () => {
                     </Box>
                     <Box>
 
-                                            <Tooltip title="Display list of students along with their month-wise attendance. Attendance is given in the following format: Number of days present / Total attendance days.">
+                                            <Tooltip title="Display list of students along with their month wise attendance. Attendance is given in the following format. Number of days present / Total attendance days.">
 
                                                 <IconButton sx={{
-                                                bgcolor: 'grey.500',
-                                                color: 'white',
-                                                '&hover': {
-                                                    bgcolor: 'grey.600'
+                                                    color: 'white',
+                                                    backgroundColor: grey[500],
+                                                    ':hover': { backgroundColor: grey[600] 
                                                 }
                                                 }}>
                                                         <QuestionMark />
@@ -201,7 +198,7 @@ const Monthwise = () => {
                         
             />
             <Box sx={{background: 'white', p:1 , mb:2}}>
-                    <Legend LegendArray={LegendArray}/>
+                    <Legend  LegendArray={LegendArray}/>
             </Box>
 
 

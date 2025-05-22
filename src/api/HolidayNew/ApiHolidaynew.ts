@@ -1,5 +1,6 @@
 import { IDeleteHolidayDetailsBody, IDeleteHolidayDetailsResult, IGetAllClassesAndDivisionsBody, IGetAllClassesAndDivisionsResult, IGetHolidayDetailsBody, IGetHolidayDetailsResult, IGetHolidayDetailssBody, IGetHolidayDetailssResult, IGetHolidayListBody, IGetHolidayListResult, IGetHolidaynameAndStartDateEnddateValidationBody, IGetHolidaynameAndStartDateEnddateValidationResult, IGetHomeworkDetailsBody, IGetMonthwiseAttendance, IGetMonthwiseAttendanceResult, SaveHolidayDetailsBody, SaveHolidayDetailsResult } from "src/interfaces/HolidayNew/IHolidays";
 import http from '../../requests/SchoolService/schoolServices';
+import { IGetSchoolSettingsResult, ISchoolsettingBody } from "src/interfaces/AssignExamMarks/IAssignExamMarks";
 
 
 
@@ -37,6 +38,9 @@ const GetHolidayList = (data: IGetHolidayListBody) => {
 const GetMonthwiseAttendance = (data: IGetMonthwiseAttendance) => {
     return http.post<IGetMonthwiseAttendanceResult>('/Teacher/GetMonthwiseAttendance', data);
 }
+const GetSchoolSettings = (data: ISchoolsettingBody) => {
+    return http.post<IGetSchoolSettingsResult>('School/GetSchoolSettings', data);
+  };
 
 const HolidayApi = {
     SaveHolidaysNew,
@@ -48,7 +52,7 @@ const HolidayApi = {
     GetHolidayDetails,
     GetHolidayList,
     GetMonthwiseAttendance,
-    
+    GetSchoolSettings
 
 }
 

@@ -8,6 +8,7 @@ import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubject
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { Constants } from 'src/utils/hooks/constants/Constants';
 import { ProtectedRoute } from './RouteProtection';
+import StudentList from 'src/components/HolidayAdityas/StudentList';
 
 
 
@@ -36,7 +37,12 @@ const AttendenceBaseScreen = Loader(
 const Monthwise = Loader(
   lazy(() => import('src/components/AttendenceBaseScreen/Monthwise'))
 );
-
+const UserManagementBase = Loader(
+  lazy(() => import('src/components/UserManagementPage/UserManagementBase'))
+);
+const studentList = Loader(
+  lazy(() => import('src/components/HolidayAdityas/StudentList'))
+);
 
 
 
@@ -459,6 +465,9 @@ const RegenarateRollNo = Loader(
 const UserManagementBasescreen = Loader(
   lazy(() => import('src/components/UserManagment/UserManagementBasescreen'))
 );
+const LeaveDetailBS = Loader(
+  lazy(() => import('src/components/TaskComp/LeaveDetailBS'))
+);
 const StudentDetailsBaseScreen = Loader(
   lazy(() =>
     import('src/components/StudentDetails/StudentDetailsBaseScreen').then(
@@ -489,7 +498,18 @@ const teacherRoutes = [
     path: 'Monthwise',
     element: <Monthwise />
   },
-
+  {
+    path: 'LeaveDetailBS',
+    element: <LeaveDetailBS />
+  },
+  {
+    path: 'UserManagementBase',
+    element: <UserManagementBase />
+  },
+  {
+    path: 'StudentList',
+    element: <StudentList />
+  },
 
 
 

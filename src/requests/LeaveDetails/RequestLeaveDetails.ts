@@ -120,7 +120,7 @@ export const AcademicYearDropdown =
     (data: IGetAcademicYearBody): AppThunk =>
         async (dispatch) => {
             const response = await LeaveDetailsAPI.GetAcademicYearDropdown(data);
-            let abc = [{ Id: '0', Name: 'Select', Value: '0', IsCurrentYear: 'N' }];
+            let abc = [{ Id: '0', Name: 'Select', Value: '0', IsCurrentYear: 'N', isActive: false }];
             response.data
                 // .filter(item => Number(item.Academic_Year_ID) >= 53)
                 .map((item, i) => {
@@ -129,6 +129,7 @@ export const AcademicYearDropdown =
                         Name: item.YearValue,
                         Value: item.Academic_Year_ID,
                         IsCurrentYear: item.Is_Current_Year,
+                        isActive: false
                     });
                 });
             //console.log(abc,'academic year')

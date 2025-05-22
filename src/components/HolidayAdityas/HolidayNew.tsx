@@ -2,9 +2,9 @@ import { Box } from "@mui/material";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SaveHolidayDetailsBody } from 'src/interfaces/Common/Holidays';
-import { IDeleteHolidayDetailsBody, IGetAllClassesAndDivisionsBody, IGetHolidayDetailsBody, IGetHolidayDetailssBody, IGetHolidayListBody, IGetHolidaynameAndStartDateEnddateValidationBody, IGetHomeworkDetailsBody, IGetMonthwiseAttendance } from "src/interfaces/HolidayNew/IHolidays";
+import { IDeleteHolidayDetailsBody, IGetAllClassesAndDivisionsBody, IGetHolidayDetailsBody, IGetHolidayDetailssBody, IGetHolidayListBody, IGetHolidaynameAndStartDateEnddateValidationBody, IGetHomeworkDetailsBody, IGetMonthwiseAttendance, ISchoolSettings } from "src/interfaces/HolidayNew/IHolidays";
 import { getSaveHolidays } from 'src/requests/Holiday/Holiday';
-import { GetDeleteHolidayDetails, GetGetAllClassesAndDivisions, getGetHolidayDetails, GetGetHolidayDetailss, getGetHolidayList, GetGetHomeworkDetails, GetGetMonthwiseAttendance, GetNameAndStartDateEnddateValidationForSaveHoliday } from 'src/requests/HolidayNew/RequestHolidays';
+import { GetDeleteHolidayDetails, GetGetAllClassesAndDivisions, getGetHolidayDetails, GetGetHolidayDetailss, getGetHolidayList, GetGetHomeworkDetails, GetGetMonthwiseAttendance, GetNameAndStartDateEnddateValidationForSaveHoliday, GetschoolSettings } from 'src/requests/HolidayNew/RequestHolidays';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -153,6 +153,17 @@ const HolidayNew = () => {
   const MonthwiseAttendance = useSelector((state: RootState) => state.HolidayNew.GetMonthwiseAttendance) //HolidayNew from root reducer, MyHoliday from Request initial state
   console.log(MonthwiseAttendance, 'GetMonthwiseAttendance');
 
+
+  const SchoolSettings: ISchoolSettings = {
+    asSchoolId:"18"
+
+  }
+  useEffect(() => {
+    dispatch(GetschoolSettings(SchoolSettings));//request madhil get name 
+  }, []);
+
+  const SchoolSetting1 = useSelector((state: RootState) => state.HolidayNew.ReqGetSchoolSettings) //HolidayNew from root reducer, MyHoliday from Request initial state
+  console.log(SchoolSetting1, 'SchoolSettings');
 
 
   return (

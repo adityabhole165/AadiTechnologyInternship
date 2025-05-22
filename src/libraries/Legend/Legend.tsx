@@ -21,7 +21,7 @@ const Legend = ({ LegendArray }) => {
                     textAlign: { xs: 'left', sm: 'left' }, // Center align on mobile
                 }}
             >
-                Legend
+                Legend :
             </Typography>
             <Box
                 sx={{
